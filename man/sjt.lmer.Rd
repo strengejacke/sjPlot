@@ -6,20 +6,22 @@
 \usage{
 sjt.lmer(..., pred.labels = NULL, depvar.labels = NULL,
   remove.estimates = NULL, group.pred = FALSE, p.numeric = TRUE,
-  emph.p = FALSE, p.zero = FALSE, p.kr = TRUE, separate.ci.col = TRUE,
-  newline.ci = TRUE, show.est = TRUE, show.std = NULL, show.ci = TRUE,
-  show.se = FALSE, show.header = FALSE, show.col.header = TRUE,
-  show.r2 = TRUE, show.icc = TRUE, show.re.var = TRUE,
-  show.fstat = FALSE, show.aic = FALSE, show.aicc = FALSE,
-  show.dev = FALSE, string.pred = "Predictors",
-  string.dv = "Dependent Variables", string.interc = "(Intercept)",
-  string.obs = "Observations", string.est = "B", string.std = "std. Beta",
-  string.ci = "CI", string.se = "std. Error", string.p = "p",
-  ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;", digits.est = 2,
-  digits.std = 2, digits.p = 3, digits.ci = 2, digits.se = 2,
-  digits.summary = 3, cell.spacing = 0.2, cell.gpr.indent = 0.6,
-  sep.column = TRUE, CSS = NULL, encoding = NULL, file = NULL,
-  use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE)
+  emph.p = FALSE, p.zero = FALSE, p.kr = TRUE,
+  separate.ci.col = TRUE, newline.ci = TRUE, show.est = TRUE,
+  show.std = NULL, show.ci = TRUE, show.se = FALSE,
+  show.header = FALSE, show.col.header = TRUE, show.r2 = TRUE,
+  show.icc = TRUE, show.re.var = TRUE, show.fstat = FALSE,
+  show.aic = FALSE, show.aicc = FALSE, show.dev = FALSE,
+  string.pred = "Predictors", string.dv = "Dependent Variables",
+  string.interc = "(Intercept)", string.obs = "Observations",
+  string.est = "B", string.std = "std. Beta", string.ci = "CI",
+  string.se = "std. Error", string.p = "p",
+  ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;",
+  digits.est = 2, digits.std = 2, digits.p = 3, digits.ci = 2,
+  digits.se = 2, digits.summary = 3, cell.spacing = 0.2,
+  cell.gpr.indent = 0.6, sep.column = TRUE, CSS = NULL,
+  encoding = NULL, file = NULL, use.viewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more fitted linear (mixed) models.}

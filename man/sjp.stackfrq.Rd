@@ -6,12 +6,12 @@
 \usage{
 sjp.stackfrq(items, title = NULL, legend.title = NULL,
   legend.labels = NULL, axis.titles = NULL, axis.labels = NULL,
-  weight.by = NULL, sort.frq = NULL, wrap.title = 50, wrap.labels = 30,
-  wrap.legend.title = 30, wrap.legend.labels = 28, geom.size = 0.5,
-  geom.colors = "Blues", show.values = TRUE, show.n = TRUE,
-  show.prc = TRUE, show.legend = TRUE, grid.breaks = 0.2,
-  expand.grid = FALSE, digits = 1, vjust = "center", coord.flip = TRUE,
-  prnt.plot = TRUE)
+  weight.by = NULL, sort.frq = NULL, wrap.title = 50,
+  wrap.labels = 30, wrap.legend.title = 30, wrap.legend.labels = 28,
+  geom.size = 0.5, geom.colors = "Blues", show.values = TRUE,
+  show.n = TRUE, show.prc = TRUE, show.legend = TRUE,
+  grid.breaks = 0.2, expand.grid = FALSE, digits = 1,
+  vjust = "center", coord.flip = TRUE, prnt.plot = TRUE)
 }
 \arguments{
 \item{items}{Data frame, with each column representing one item.}

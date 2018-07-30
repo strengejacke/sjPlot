@@ -5,8 +5,8 @@
 \alias{sjtab}
 \title{Wrapper to create plots and tables within a pipe-workflow}
 \usage{
-sjplot(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter", "aov1",
-  "likert", "stackfrq"))
+sjplot(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter",
+  "aov1", "likert", "stackfrq"))
 
 sjtab(data, ..., fun = c("xtab", "stackfrq"))
 }

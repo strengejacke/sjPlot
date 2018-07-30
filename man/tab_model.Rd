@@ -5,20 +5,22 @@
 \title{Print regression models as HTML table}
 \usage{
 tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
-  show.ci = 0.95, show.hdi50 = TRUE, show.se = NULL, show.std = NULL,
-  show.p = TRUE, show.stat = FALSE, show.df = FALSE,
-  show.zeroinf = TRUE, show.r2 = TRUE, show.icc = TRUE,
-  show.re.var = TRUE, show.fstat = FALSE, show.aic = FALSE,
-  show.aicc = FALSE, show.dev = FALSE, show.obs = TRUE, terms = NULL,
-  rm.terms = NULL, group.terms = TRUE, order.terms = NULL, title = NULL,
+  show.ci = 0.95, show.hdi50 = TRUE, show.se = NULL,
+  show.std = NULL, show.p = TRUE, show.stat = FALSE,
+  show.df = FALSE, show.zeroinf = TRUE, show.r2 = TRUE,
+  show.icc = TRUE, show.re.var = TRUE, show.fstat = FALSE,
+  show.aic = FALSE, show.aicc = FALSE, show.dev = FALSE,
+  show.obs = TRUE, terms = NULL, rm.terms = NULL,
+  group.terms = TRUE, order.terms = NULL, title = NULL,
   pred.labels = NULL, dv.labels = NULL, wrap.labels = 25,
-  string.pred = "Predictors", string.std = "std. Beta", string.ci = "CI",
-  string.se = "std. Error", string.p = "p", string.df = "df",
-  string.stat = "Statistic", ci.hyphen = "&nbsp;&ndash;&nbsp;",
-  minus.sign = "&#45;", collapse.ci = FALSE, collapse.se = FALSE,
-  linebreak = TRUE, digits = 2, digits.p = 3, emph.p = TRUE,
-  p.val = c("wald", "kr"), case = "parsed", auto.label = TRUE,
-  bpe = "median", CSS = css_theme("regression"))
+  string.pred = "Predictors", string.std = "std. Beta",
+  string.ci = "CI", string.se = "std. Error", string.p = "p",
+  string.df = "df", string.stat = "Statistic",
+  ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;",
+  collapse.ci = FALSE, collapse.se = FALSE, linebreak = TRUE,
+  digits = 2, digits.p = 3, emph.p = TRUE, p.val = c("wald", "kr"),
+  case = "parsed", auto.label = TRUE, bpe = "median",
+  CSS = css_theme("regression"))
 }
 \arguments{
 \item{...}{One or more regression models, including glm's or mixed models.

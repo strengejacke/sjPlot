@@ -4,12 +4,13 @@
 \alias{sjt.stackfrq}
 \title{Summary of stacked frequencies as HTML table}
 \usage{
-sjt.stackfrq(items, weight.by = NULL, title = NULL, var.labels = NULL,
-  value.labels = NULL, wrap.labels = 20, sort.frq = NULL,
-  altr.row.col = FALSE, digits = 2, string.total = "N",
-  string.na = "NA", show.n = FALSE, show.total = FALSE, show.na = FALSE,
-  show.skew = FALSE, show.kurtosis = FALSE, digits.stats = 2,
-  file = NULL, encoding = NULL, CSS = NULL, use.viewer = TRUE,
+sjt.stackfrq(items, weight.by = NULL, title = NULL,
+  var.labels = NULL, value.labels = NULL, wrap.labels = 20,
+  sort.frq = NULL, altr.row.col = FALSE, digits = 2,
+  string.total = "N", string.na = "NA", show.n = FALSE,
+  show.total = FALSE, show.na = FALSE, show.skew = FALSE,
+  show.kurtosis = FALSE, digits.stats = 2, file = NULL,
+  encoding = NULL, CSS = NULL, use.viewer = TRUE,
   no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{

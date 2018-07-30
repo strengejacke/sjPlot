@@ -7,8 +7,8 @@
 sjt.pca(data, rotation = c("varimax", "oblimin"), nmbr.fctr = NULL,
   fctr.load.tlrn = 0.1, title = "Principal Component Analysis",
   var.labels = NULL, wrap.labels = 40, show.cronb = TRUE,
-  show.msa = FALSE, show.var = FALSE, altr.row.col = FALSE, digits = 2,
-  string.pov = "Proportion of Variance",
+  show.msa = FALSE, show.var = FALSE, altr.row.col = FALSE,
+  digits = 2, string.pov = "Proportion of Variance",
   string.cpov = "Cumulative Proportion", CSS = NULL, encoding = NULL,
   file = NULL, use.viewer = TRUE, no.output = FALSE,
   remove.spaces = TRUE)

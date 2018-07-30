@@ -2,8 +2,6 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 2.5.0
-Date: 2018-07-10
 Version: 2.5.0.9000
 Date: 2018-07-23
 Authors@R: c(
@@ -69,5 +67,5 @@ Suggests:
     Zelig
 URL: https://strengejacke.github.io/sjPlot/
 BugReports: https://github.com/strengejacke/sjPlot/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 VignetteBuilder: knitr

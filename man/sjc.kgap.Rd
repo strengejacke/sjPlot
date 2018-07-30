@@ -4,8 +4,8 @@
 \alias{sjc.kgap}
 \title{Compute gap statistics for k-means-cluster}
 \usage{
-sjc.kgap(x, max = 10, B = 100, SE.factor = 1, method = "Tibs2001SEmax",
-  plotResults = TRUE)
+sjc.kgap(x, max = 10, B = 100, SE.factor = 1,
+  method = "Tibs2001SEmax", plotResults = TRUE)
 }
 \arguments{
 \item{x}{matrix, where rows are observations and columns are individual dimensions,

@@ -4,7 +4,8 @@
 \alias{sjc.grpdisc}
 \title{Compute a linear discriminant analysis on classified cluster groups}
 \usage{
-sjc.grpdisc(data, groups, groupcount, clss.fit = TRUE, prnt.plot = TRUE)
+sjc.grpdisc(data, groups, groupcount, clss.fit = TRUE,
+  prnt.plot = TRUE)
 }
 \arguments{
 \item{data}{A data frame with variables that should be used for the

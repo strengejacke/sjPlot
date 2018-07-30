@@ -4,16 +4,17 @@
 \alias{sjp.likert}
 \title{Plot likert scales as centered stacked bars}
 \usage{
-sjp.likert(items, title = NULL, legend.title = NULL, legend.labels = NULL,
-  axis.titles = NULL, axis.labels = NULL, catcount = NULL,
-  cat.neutral = NULL, sort.frq = NULL, weight.by = NULL,
-  title.wtd.suffix = NULL, wrap.title = 50, wrap.labels = 30,
-  wrap.legend.title = 30, wrap.legend.labels = 28, geom.size = 0.6,
-  geom.colors = "BrBG", cat.neutral.color = "grey70",
-  intercept.line.color = "grey50", reverse.colors = FALSE,
-  values = "show", show.n = TRUE, show.legend = TRUE,
-  show.prc.sign = FALSE, grid.range = 1, grid.breaks = 0.2,
-  expand.grid = TRUE, digits = 1, coord.flip = TRUE, prnt.plot = TRUE)
+sjp.likert(items, title = NULL, legend.title = NULL,
+  legend.labels = NULL, axis.titles = NULL, axis.labels = NULL,
+  catcount = NULL, cat.neutral = NULL, sort.frq = NULL,
+  weight.by = NULL, title.wtd.suffix = NULL, wrap.title = 50,
+  wrap.labels = 30, wrap.legend.title = 30, wrap.legend.labels = 28,
+  geom.size = 0.6, geom.colors = "BrBG",
+  cat.neutral.color = "grey70", intercept.line.color = "grey50",
+  reverse.colors = FALSE, values = "show", show.n = TRUE,
+  show.legend = TRUE, show.prc.sign = FALSE, grid.range = 1,
+  grid.breaks = 0.2, expand.grid = TRUE, digits = 1,
+  coord.flip = TRUE, prnt.plot = TRUE)
 }
 \arguments{
 \item{items}{Data frame, with each column representing one item.}

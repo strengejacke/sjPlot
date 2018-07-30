@@ -4,8 +4,9 @@
 \alias{sjp.resid}
 \title{Plot predicted values and their residuals}
 \usage{
-sjp.resid(fit, geom.size = 2, remove.estimates = NULL, show.lines = TRUE,
-  show.resid = TRUE, show.pred = TRUE, show.ci = F, prnt.plot = TRUE)
+sjp.resid(fit, geom.size = 2, remove.estimates = NULL,
+  show.lines = TRUE, show.resid = TRUE, show.pred = TRUE,
+  show.ci = F, prnt.plot = TRUE)
 }
 \arguments{
 \item{fit}{Fitted linear (mixed) regression model (including objects of class

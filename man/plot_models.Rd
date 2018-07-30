@@ -4,16 +4,16 @@
 \alias{plot_models}
 \title{Forest plot of multiple regression models}
 \usage{
-plot_models(..., transform, std.est = NULL, rm.terms = NULL, title = NULL,
-  m.labels = NULL, legend.title = "Dependent Variables",
-  legend.pval.title = "p-level", axis.labels = NULL, axis.title = NULL,
-  axis.lim = NULL, wrap.title = 50, wrap.labels = 25,
-  wrap.legend.title = 20, grid.breaks = NULL, dot.size = 3,
-  spacing = 0.4, colors = "Set1", show.values = FALSE,
-  show.legend = TRUE, show.intercept = FALSE, show.p = TRUE,
-  p.shape = FALSE, ci.lvl = 0.95, vline.color = NULL, digits = 2,
-  grid = FALSE, auto.label = TRUE, prefix.labels = c("none", "varname",
-  "label"))
+plot_models(..., transform, std.est = NULL, rm.terms = NULL,
+  title = NULL, m.labels = NULL,
+  legend.title = "Dependent Variables", legend.pval.title = "p-level",
+  axis.labels = NULL, axis.title = NULL, axis.lim = NULL,
+  wrap.title = 50, wrap.labels = 25, wrap.legend.title = 20,
+  grid.breaks = NULL, dot.size = 3, spacing = 0.4, colors = "Set1",
+  show.values = FALSE, show.legend = TRUE, show.intercept = FALSE,
+  show.p = TRUE, p.shape = FALSE, ci.lvl = 0.95,
+  vline.color = NULL, digits = 2, grid = FALSE, auto.label = TRUE,
+  prefix.labels = c("none", "varname", "label"))
 }
 \arguments{
 \item{...}{One or more regression models, including glm's or mixed models.

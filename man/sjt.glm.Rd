@@ -17,10 +17,10 @@ sjt.glm(..., pred.labels = NULL, depvar.labels = NULL,
   string.obs = "Observations", string.est = NULL, string.ci = "CI",
   string.se = "std. Error", string.p = "p",
   ci.hyphen = "&nbsp;&ndash;&nbsp;", digits.est = 2, digits.p = 3,
-  digits.ci = 2, digits.se = 2, digits.summary = 3, cell.spacing = 0.2,
-  cell.gpr.indent = 0.6, sep.column = TRUE, CSS = NULL, encoding = NULL,
-  file = NULL, use.viewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  digits.ci = 2, digits.se = 2, digits.summary = 3,
+  cell.spacing = 0.2, cell.gpr.indent = 0.6, sep.column = TRUE,
+  CSS = NULL, encoding = NULL, file = NULL, use.viewer = TRUE,
+  no.output = FALSE, remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more fitted generalized linear (mixed) models.}
