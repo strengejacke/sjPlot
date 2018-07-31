@@ -105,7 +105,8 @@
 #'          office applications, it might be helpful not to add this separator column
 #'          when modifying the table layout.
 #'
-#' @inheritParams sjt.frq
+#' @inheritParams tab_model
+#' @inheritParams sjt.xtab
 #' @inheritParams sjp.lmer
 #' @inheritParams sjp.corr
 #'
@@ -1123,8 +1124,8 @@ sjt.lm <- function(...,
 #'                or saves them as file. The fitted models may have different
 #'                predictors, e.g. when comparing different stepwise fitted models.
 #'
-#' @inheritParams sjt.lm
-#' @inheritParams sjt.frq
+#' @inheritParams tab_model
+#' @inheritParams sjt.xtab
 #' @inheritParams sjp.corr
 #'
 #' @return Invisibly returns

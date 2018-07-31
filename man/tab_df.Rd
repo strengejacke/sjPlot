@@ -52,6 +52,18 @@ for variable and value labels. Default is \code{"UTF-8"}. For Windows
 Systems, \code{encoding = "Windows-1252"} might be necessary for proper
 display of special characters.}
 
+\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
+according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
+See 'Details' or \href{../doc/table_css.html}{this package-vignette}.}
+
+\item{file}{Destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and
+openend either in the IDE's viewer pane or the default web browser.}
+
+\item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
+viewer pane. If \code{FALSE} or no viewer available, the HTML table is
+opened in a web browser.}
+
 \item{...}{Currently not used.}
 }
 \value{

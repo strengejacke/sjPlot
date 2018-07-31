@@ -33,7 +33,7 @@
 #'   alternatig colors (white and light grey by default).
 #' @param ... Currently not used.
 #'
-#' @inheritParams sjt.frq
+#' @inheritParams tab_model
 #'
 #' @return A list with following items:
 #'   \itemize{

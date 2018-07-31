@@ -13,7 +13,7 @@
 #' @inheritParams sjp.fa
 #' @inheritParams sjp.pca
 #' @inheritParams sjt.pca
-#' @inheritParams sjt.frq
+#' @inheritParams tab_model
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjt.corr

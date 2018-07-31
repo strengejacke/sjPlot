@@ -43,7 +43,7 @@
 #'   bar is visible.
 #'
 #' @inheritParams tab_df
-#' @inheritParams sjt.frq
+#' @inheritParams tab_model
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.grpfrq
 #'

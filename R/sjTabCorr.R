@@ -23,7 +23,7 @@
 #'          where row and column item are identical (i.e. the "self-correlation"). By defauilt,
 #'          this argument is \code{NULL} and the diagnal cells are empty.
 #'
-#' @inheritParams sjt.frq
+#' @inheritParams tab_model
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.glmer

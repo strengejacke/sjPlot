@@ -62,17 +62,38 @@ can be truncated.}
 variable names. By default, rows (variables) are ordered according to their
 order in the data frame.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
-labels are displayed in one line and when a line break is inserted.}
+\item{wrap.labels}{Numeric, determines how many chars of the value, variable
+or axis labels are displayed in one line and when a line break is inserted.}
 
 \item{hide.progress}{logical, if \code{TRUE}, the progress bar that is displayed
 when creating the output is hidden. Default in \code{FALSE}, hence the
 bar is visible.}
 
+\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
+according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
+See 'Details' or \href{../doc/table_css.html}{this package-vignette}.}
+
 \item{encoding}{Character vector, indicating the charset encoding used
 for variable and value labels. Default is \code{"UTF-8"}. For Windows
 Systems, \code{encoding = "Windows-1252"} might be necessary for proper
 display of special characters.}
+
+\item{file}{Destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and
+openend either in the IDE's viewer pane or the default web browser.}
+
+\item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
+viewer pane. If \code{FALSE} or no viewer available, the HTML table is
+opened in a web browser.}
+
+\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
+the viewer pane and not even saved to file. This option is useful when the html output
+should be used in \code{knitr} documents. The html output can be accessed via the return
+value.}
+
+\item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 Invisibly returns

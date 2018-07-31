@@ -33,7 +33,7 @@
 #' @param string.cpov String for the table row that contains the cumulative variances. By default,
 #'          \emph{"Cumulative Proportion"} will be used.
 #'
-#' @inheritParams sjt.frq
+#' @inheritParams tab_model
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjt.corr

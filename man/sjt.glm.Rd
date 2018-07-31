@@ -27,10 +27,16 @@ sjt.glm(..., pred.labels = NULL, depvar.labels = NULL,
 
 \item{pred.labels}{Character vector with labels of predictor variables.
 If not \code{NULL}, \code{pred.labels} will be used in the first
-table column with the predictors' names. If \code{NULL}, variable
-labels are set based on label attributes (see \code{\link[sjlabelled]{get_label}}).
-If \code{pred.labels = ""}, column names (vector names) are used
-as predictor labels. See 'Examples'.}
+table column with the predictors' names. By default, if \code{auto.label = TRUE}
+and \code{\link[sjlabelled]{get_term_labels}} is called to retrieve the labels
+of the coefficients, which will be used as predictor labels.
+If \code{pred.labels = ""} or \code{auto.label = FALSE}, the raw
+variable names as used in the model formula are used as predictor
+labels. If \code{pred.labels} is a named vector, predictor labels (by
+default, the names of the model's coefficients) will be matched with the
+names of \code{pred.labels}. This ensures that labels always match the
+related predictor in the table, no matter in which way the predictors
+are sorted. See 'Examples'.}
 
 \item{depvar.labels}{Character vector with labels of dependent
 variables of all fitted models. See 'Examples'.}
@@ -74,11 +80,12 @@ Default is \code{FALSE}.}
 between estimate and CI values. If \code{FALSE}, CI values are printed in the same
 line as estimate values.}
 
-\item{show.ci}{Logical, if \code{TRUE} (default), the confidence intervall is also printed to the table. Use
-\code{FALSE} to omit the CI in the table.}
+\item{show.ci}{Either logical, and if \code{TRUE}, the confidence intervals
+is printed to the table; if \code{FALSE}, confidence intervals are
+omitted. Or numeric, between 0 and 1, indicating the range of the
+confidence intervals.}
 
-\item{show.se}{Logical, if \code{TRUE}, the standard errors are also printed.
-Default is \code{FALSE}.}
+\item{show.se}{Logical, if \code{TRUE}, the standard errors are also printed.}
 
 \item{show.header}{Logical, if \code{TRUE}, the header strings \code{string.pred}
 and \code{string.dv} are shown. By default, they're hidden.}
@@ -91,24 +98,22 @@ in the model summary. R2cs is the Cox-Snell-pseudo R-squared value, R2n is Nagel
 pseudo R-squared value and \code{D} is Tjur's Coefficient of Discrimination
 (see \code{\link[sjstats]{cod}}).}
 
-\item{show.icc}{Logical, if \code{TRUE}, the intra-class-correlation for each
-model is printed in the model summary. Only applies to mixed models.}
+\item{show.icc}{Logical, if \code{TRUE}, prints the intraclass correlation
+coefficient for mixed models. See \code{\link[sjstats]{icc}} for details.}
 
-\item{show.re.var}{Logical, if \code{TRUE}, the variance parameters for the random
-effects for each model are printed in the model summary. Only applies to mixed models.
-For details output, see 'Note' in \code{\link[sjstats]{icc}}.}
+\item{show.re.var}{Logical, if \code{TRUE}, prints the random effect variances
+for mixed models. See \code{\link[sjstats]{re_var}} for details.}
 
 \item{show.loglik}{Logical, if \code{TRUE}, the Log-Likelihood for each model is printed
 in the model summary. Default is \code{FALSE}.}
 
 \item{show.aic}{Logical, if \code{TRUE}, the AIC value for each model is printed
-in the model summary. Default is \code{FALSE}.}
+in the table summary.}
 
 \item{show.aicc}{Logical, if \code{TRUE}, the second-order AIC value for each model
-is printed in the model summary. Default is \code{FALSE}.}
+is printed in the table summary.}
 
-\item{show.dev}{Logical, if \code{TRUE}, the deviance for each model
-is printed in the model summary.}
+\item{show.dev}{Logical, if \code{TRUE}, shows the deviance of the model.}
 
 \item{show.hoslem}{Logical, if \code{TRUE}, a Hosmer-Lemeshow-Goodness-of-fit-test is
 performed. A well-fitting model shows no significant difference between
@@ -153,7 +158,7 @@ May be an HTML entity. See 'Examples'.}
 
 \item{digits.est}{Amount of decimals for table values.}
 
-\item{digits.p}{Amount of decimals for p-values.}
+\item{digits.p}{Amount of decimals for p-values}
 
 \item{digits.ci}{Amount of decimals for confidence intervals.}
 
@@ -174,6 +179,32 @@ each model column, to add margins between model columns. By default, this
 column will be added to the output; however, when copying tables to
 office applications, it might be helpful not to add this separator column
 when modifying the table layout.}
+
+\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
+according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
+See 'Details' or \href{../doc/table_css.html}{this package-vignette}.}
+
+\item{encoding}{String, indicating the charset encoding used for variable and
+value labels. Default is \code{NULL}, so encoding will be auto-detected
+depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
+Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
+
+\item{file}{Destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and
+openend either in the IDE's viewer pane or the default web browser.}
+
+\item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
+viewer pane. If \code{FALSE} or no viewer available, the HTML table is
+opened in a web browser.}
+
+\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
+the viewer pane and not even saved to file. This option is useful when the html output
+should be used in \code{knitr} documents. The html output can be accessed via the return
+value.}
+
+\item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 Invisibly returns

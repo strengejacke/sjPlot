@@ -32,7 +32,8 @@
 #'          for more details. It is recommended to inspect the model \code{\link{AIC}} (see \code{show.aic}) to get a
 #'          decision help for which model to choose.
 #'
-#' @inheritParams sjt.frq
+#' @inheritParams tab_model
+#' @inheritParams sjt.xtab
 #' @inheritParams sjt.lm
 #' @inheritParams sjp.corr
 #'
@@ -1036,7 +1037,8 @@ sjt.glm <- function(...,
 #'                e.g. when comparing different stepwise fitted models.
 #'
 #' @inheritParams sjt.glm
-#' @inheritParams sjt.frq
+#' @inheritParams tab_model
+#' @inheritParams sjt.xtab
 #' @inheritParams sjp.corr
 #'
 #' @return Invisibly returns

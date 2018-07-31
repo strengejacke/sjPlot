@@ -116,6 +116,12 @@
 #' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions,
 #'    according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
 #'    See 'Details' or \href{../doc/table_css.html}{this package-vignette}.
+#' @param file Destination file, if the output should be saved as file.
+#'    If \code{NULL} (default), the output will be saved as temporary file and
+#'    openend either in the IDE's viewer pane or the default web browser.
+#' @param use.viewer Logical, if \code{TRUE}, the HTML table is shown in the IDE's
+#'    viewer pane. If \code{FALSE} or no viewer available, the HTML table is
+#'    opened in a web browser.
 #'
 #' @inheritParams plot_models
 #' @inheritParams plot_model
@@ -239,7 +245,9 @@ tab_model <- function(
   case = "parsed",
   auto.label = TRUE,
   bpe = "median",
-  CSS = css_theme("regression")
+  CSS = css_theme("regression"),
+  file = NULL,
+  use.viewer = TRUE
 ) {
 
   p.val <- match.arg(p.val)
@@ -838,7 +846,9 @@ tab_model <- function(
     n.models = length(model.list),
     show.re.var = show.re.var,
     show.icc = show.icc,
-    CSS = CSS
+    CSS = CSS,
+    file = file,
+    use.viewer = use.viewer
   )
 }
 

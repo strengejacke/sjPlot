@@ -35,8 +35,22 @@
 #'          \code{"kendall"} or \code{"pearson"}. See 'Details'.
 #' @param ... Other arguments, currently passed down to the test statistics functions
 #'        \code{chisq.test()} or \code{fisher.test()}.
+#' @param encoding String, indicating the charset encoding used for variable and
+#'          value labels. Default is \code{NULL}, so encoding will be auto-detected
+#'          depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
+#'          Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).
+#' @param no.output Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
+#'          the viewer pane and not even saved to file. This option is useful when the html output
+#'          should be used in \code{knitr} documents. The html output can be accessed via the return
+#'          value.
+#' @param remove.spaces Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+#'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+#'          may look less pretty, but it may help when exporting html-tables to office tools.
+#' @param value.labels Character vector (or \code{list} of character vectors)
+#'          with value labels of the supplied variables, which will be used
+#'          to label variable values in the output.
 #'
-#' @inheritParams sjt.frq
+#' @inheritParams tab_model
 #' @inheritParams sjp.glmer
 #' @inheritParams sjp.grpfrq
 #'

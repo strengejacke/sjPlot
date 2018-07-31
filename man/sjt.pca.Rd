@@ -30,16 +30,13 @@ on 3 possible factors can not be clearly assigned to just one factor and thus wo
 from the principal component analysis. By default, the minimum difference of loading values
 between the highest and 2nd highest factor should be 0.1}
 
-\item{title}{character vector, used as plot title. Depending on plot type and function,
-will be set automatically. If \code{title = ""}, no title is printed.
-For effect-plots, may also be a character vector of length > 1,
-to define titles for each sub-plot or facet.}
+\item{title}{String, will be used as table caption.}
 
 \item{var.labels}{Character vector with variable names, which will be used
 to label variables in the output.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
-labels are displayed in one line and when a line break is inserted.}
+\item{wrap.labels}{Numeric, determines how many chars of the value, variable
+or axis labels are displayed in one line and when a line break is inserted.}
 
 \item{show.cronb}{Logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
 i.e. all variables with the highest loading for a factor are taken for the
@@ -52,11 +49,39 @@ dor each component.}
 \item{show.var}{Logical, if \code{TRUE}, the proportions of variances for each component as well as cumulative
 variance are shown in the table footer.}
 
+\item{digits}{Amount of decimals for estimates}
+
 \item{string.pov}{String for the table row that contains the proportions of variances. By default,
 \emph{"Proportion of Variance"} will be used.}
 
 \item{string.cpov}{String for the table row that contains the cumulative variances. By default,
 \emph{"Cumulative Proportion"} will be used.}
+
+\item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
+according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
+See 'Details' or \href{../doc/table_css.html}{this package-vignette}.}
+
+\item{encoding}{String, indicating the charset encoding used for variable and
+value labels. Default is \code{NULL}, so encoding will be auto-detected
+depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
+Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
+
+\item{file}{Destination file, if the output should be saved as file.
+If \code{NULL} (default), the output will be saved as temporary file and
+openend either in the IDE's viewer pane or the default web browser.}
+
+\item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
+viewer pane. If \code{FALSE} or no viewer available, the HTML table is
+opened in a web browser.}
+
+\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
+the viewer pane and not even saved to file. This option is useful when the html output
+should be used in \code{knitr} documents. The html output can be accessed via the return
+value.}
+
+\item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
+that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+may look less pretty, but it may help when exporting html-tables to office tools.}
 }
 \value{
 Invisibly returns

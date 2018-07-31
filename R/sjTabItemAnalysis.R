@@ -53,7 +53,8 @@
 #'          After that, each case (df's row) has a scales sum score for each component.
 #'          Finally, a correlation of these "scale sum scores" is computed.
 #'
-#' @inheritParams sjt.frq
+#' @inheritParams tab_model
+#' @inheritParams sjt.xtab
 #' @inheritParams tab_df
 #'
 #' @return Invisibly returns
