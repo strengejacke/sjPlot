@@ -103,7 +103,6 @@ view_df <- function(x,
                     encoding = NULL,
                     file = NULL,
                     use.viewer = TRUE,
-                    no.output = FALSE,
                     remove.spaces = TRUE) {
   # check encoding
   encoding <- get.encoding(encoding, x)
@@ -473,7 +472,6 @@ view_df <- function(x,
       header = NULL,
       knitr = knitr,
       file = file,
-      show = !no.output,
       viewer = use.viewer
     )
   )

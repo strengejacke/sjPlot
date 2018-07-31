@@ -1,23 +1,21 @@
 #' @importFrom utils browseURL
 #' @export
 print.sjTable <- function(x, ...) {
-  if (x$show) {
-    # check if we have filename specified
-    if (!is.null(x$file)) {
-      # write file
-      write(x$knitr, file = x$file)
+  # check if we have filename specified
+  if (!is.null(x$file)) {
+    # write file
+    write(x$knitr, file = x$file)
+  } else {
+    x$page.complete <- replace_umlauts(x$page.complete)
+    # else open in viewer pane
+    htmlFile <- tempfile(fileext = ".html")
+    write(x$page.complete, file = htmlFile)
+    # check whether we have RStudio Viewer
+    viewer <- getOption("viewer")
+    if (x$viewer && !is.null(viewer)) {
+      viewer(htmlFile)
     } else {
-      x$page.complete <- replace_umlauts(x$page.complete)
-      # else open in viewer pane
-      htmlFile <- tempfile(fileext = ".html")
-      write(x$page.complete, file = htmlFile)
-      # check whether we have RStudio Viewer
-      viewer <- getOption("viewer")
-      if (x$viewer && !is.null(viewer)) {
-        viewer(htmlFile)
-      } else {
-        utils::browseURL(htmlFile)
-      }
+      utils::browseURL(htmlFile)
     }
   }
 }

@@ -107,7 +107,6 @@ sjt.glm <- function(...,
                     encoding = NULL,
                     file = NULL,
                     use.viewer = TRUE,
-                    no.output = FALSE,
                     remove.spaces = TRUE) {
 
   if (stats::runif(1) < .35)
@@ -1023,7 +1022,6 @@ sjt.glm <- function(...,
                            knitr = knitr,
                            file = file,
                            header = NULL,
-                           show = !no.output,
                            viewer = use.viewer,
                            data = joined.df))
 }
@@ -1111,7 +1109,6 @@ sjt.glmer <- function(...,
                       encoding = NULL,
                       file = NULL,
                       use.viewer = TRUE,
-                      no.output = FALSE,
                       remove.spaces = TRUE) {
 
   if (stats::runif(1) < .35)
@@ -1136,5 +1133,5 @@ sjt.glmer <- function(...,
                  show.re.var = show.re.var, show.loglik = show.loglik, show.aic = show.aic, show.aicc = show.aicc, show.dev = show.dev,
                  show.chi2 = FALSE, show.hoslem = show.hoslem, show.family = show.family, remove.estimates = remove.estimates,
                  cell.spacing = cell.spacing, cell.gpr.indent = cell.gpr.indent, sep.column = sep.column,
-                 encoding = encoding, CSS = CSS, use.viewer = use.viewer, no.output = no.output, remove.spaces = remove.spaces))
+                 encoding = encoding, CSS = CSS, use.viewer = use.viewer, remove.spaces = remove.spaces))
 }

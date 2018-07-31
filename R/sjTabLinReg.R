@@ -175,7 +175,6 @@ sjt.lm <- function(...,
                    encoding = NULL,
                    file = NULL,
                    use.viewer = TRUE,
-                   no.output = FALSE,
                    remove.spaces = TRUE) {
   if (stats::runif(1) < .35)
     message("`sjt.lm()` will become deprecated in the future. Please use `tab_model()` instead.")
@@ -1108,7 +1107,6 @@ sjt.lm <- function(...,
       knitr = knitr,
       header = NULL,
       file = file,
-      show = !no.output,
       viewer = use.viewer,
       data = joined.df
     )
@@ -1220,7 +1218,6 @@ sjt.lmer <- function(...,
                      encoding = NULL,
                      file = NULL,
                      use.viewer = TRUE,
-                     no.output = FALSE,
                      remove.spaces = TRUE) {
   input_list <- tibble::lst(...)
   # -------------------------------------
@@ -1251,5 +1248,5 @@ sjt.lmer <- function(...,
                 show.re.var = show.re.var, show.fstat = FALSE, show.aic = show.aic, show.aicc = show.aicc, show.dev = show.dev,
                 remove.estimates = remove.estimates, cell.spacing = cell.spacing, cell.gpr.indent = cell.gpr.indent,
                 sep.column = sep.column, encoding = encoding,
-                CSS = CSS, use.viewer = use.viewer, no.output = no.output, remove.spaces = remove.spaces))
+                CSS = CSS, use.viewer = use.viewer, remove.spaces = remove.spaces))
 }

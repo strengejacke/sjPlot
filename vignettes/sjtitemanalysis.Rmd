@@ -67,7 +67,7 @@ The items of the COPE index used for our example do not represent a single facto
 ```{r}
 # Compute PCA on Cope-Index, and retrieve 
 # factor indices for each COPE index variable
-factor.groups <- sjt.pca(mydf, no.output = TRUE)$factor.index
+factor.groups <- sjt.pca(mydf)$factor.index
 ```
 
 The PCA extracted two components. Now `sjt.itemanalysis()` ...

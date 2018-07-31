@@ -115,7 +115,6 @@ sjt.stackfrq <- function(items,
                          encoding = NULL,
                          CSS = NULL,
                          use.viewer = TRUE,
-                         no.output = FALSE,
                          remove.spaces = TRUE) {
   # --------------------------------------------------------
   # check sorting
@@ -457,6 +456,5 @@ sjt.stackfrq <- function(items,
                            header = table.header,
                            knitr = knitr,
                            file = file,
-                           show = !no.output,
                            viewer = use.viewer))
 }

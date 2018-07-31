@@ -104,7 +104,6 @@ sjt.corr <- function(data,
                      encoding = NULL,
                      file = NULL,
                      use.viewer = TRUE,
-                     no.output = FALSE,
                      remove.spaces = TRUE) {
   # --------------------------------------------------------
   # check p-value-style option
@@ -471,7 +470,6 @@ sjt.corr <- function(data,
       header = table.header,
       knitr = knitr,
       file = file,
-      show = !no.output,
       viewer = use.viewer
     )
   )

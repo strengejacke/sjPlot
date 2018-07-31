@@ -15,7 +15,7 @@ sjt.xtab(var.row, var.col, weight.by = NULL, title = NULL,
   tdcol.row = "#333399", tdcol.col = "#339933", emph.total = FALSE,
   emph.color = "#f8f8f8", prc.sign = "&nbsp;&#37;",
   hundret = "100.0", CSS = NULL, encoding = NULL, file = NULL,
-  use.viewer = TRUE, no.output = FALSE, remove.spaces = TRUE, ...)
+  use.viewer = TRUE, remove.spaces = TRUE, ...)
 }
 \arguments{
 \item{var.row}{Variable that should be displayed in the table rows.}
@@ -105,11 +105,6 @@ openend either in the IDE's viewer pane or the default web browser.}
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 viewer pane. If \code{FALSE} or no viewer available, the HTML table is
 opened in a web browser.}
-
-\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in \code{knitr} documents. The html output can be accessed via the return
-value.}
 
 \item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source

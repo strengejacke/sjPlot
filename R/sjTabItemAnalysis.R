@@ -115,7 +115,7 @@
 #'
 #' # Compute PCA on Cope-Index, and perform a
 #' # item analysis for each extracted factor.
-#' factor.groups <- sjt.pca(mydf, no.output = TRUE)$factor.index
+#' factor.groups <- sjt.pca(mydf)$factor.index
 #' sjt.itemanalysis(mydf, factor.groups)}
 #'
 #' @importFrom psych describe
@@ -137,7 +137,6 @@ sjt.itemanalysis <- function(df,
                              encoding = NULL,
                              file = NULL,
                              use.viewer = TRUE,
-                             no.output = FALSE,
                              remove.spaces = TRUE) {
   # check encoding
   encoding <- get.encoding(encoding, df)
@@ -315,8 +314,7 @@ sjt.itemanalysis <- function(df,
         p.numeric = TRUE,
         triangle = "lower",
         string.diag = sprintf("&alpha;=%.3f", unlist(cronbach.total)),
-        encoding = encoding,
-        no.output = TRUE
+        encoding = encoding
       )
 
     }

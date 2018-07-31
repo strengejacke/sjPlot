@@ -70,7 +70,6 @@ sjt.fa <- function(data,
                     encoding = NULL,
                     file = NULL,
                     use.viewer = TRUE,
-                    no.output = FALSE,
                     remove.spaces = TRUE) {
   # -------------------------------------
   # check encoding
@@ -460,7 +459,6 @@ sjt.fa <- function(data,
       factor.index = factorindex,
       removed.items = removableItems,
       file = file,
-      show = !no.output,
       viewer = use.viewer
     )
   )

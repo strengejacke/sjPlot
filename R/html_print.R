@@ -151,7 +151,6 @@ tab_df <- function(x,
       page.complete = page.complete,
       knitr = knitr,
       file = file,
-      show = TRUE,
       viewer = use.viewer
     )
   )
@@ -240,7 +239,6 @@ tab_dfs <- function(x,
       page.complete = page.complete,
       knitr = knitr,
       file = file,
-      show = TRUE,
       viewer = use.viewer
     )
   )
@@ -693,7 +691,6 @@ tab_model_df <- function(x,
       page.complete = page.complete,
       knitr = knitr,
       file = file,
-      show = TRUE,
       viewer = use.viewer
     )
   )

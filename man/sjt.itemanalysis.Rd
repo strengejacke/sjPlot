@@ -9,8 +9,7 @@ sjt.itemanalysis(df, factor.groups = NULL,
   min.valid.rowmean = 2, altr.row.col = TRUE, sort.column = NULL,
   show.shapiro = FALSE, show.kurtosis = FALSE,
   show.corr.matrix = TRUE, CSS = NULL, encoding = NULL,
-  file = NULL, use.viewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  file = NULL, use.viewer = TRUE, remove.spaces = TRUE)
 }
 \arguments{
 \item{df}{A data frame with items.}
@@ -70,11 +69,6 @@ openend either in the IDE's viewer pane or the default web browser.}
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 viewer pane. If \code{FALSE} or no viewer available, the HTML table is
 opened in a web browser.}
-
-\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in \code{knitr} documents. The html output can be accessed via the return
-value.}
 
 \item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
@@ -159,7 +153,7 @@ sjt.itemanalysis(efc[, start:end])
 
 # Compute PCA on Cope-Index, and perform a
 # item analysis for each extracted factor.
-factor.groups <- sjt.pca(mydf, no.output = TRUE)$factor.index
+factor.groups <- sjt.pca(mydf)$factor.index
 sjt.itemanalysis(mydf, factor.groups)}
 
 }

@@ -9,8 +9,7 @@ sjt.fa(data, rotation = c("promax", "varimax"), method = c("ml",
   fctr.load.tlrn = 0.1, title = "Factor Analysis", var.labels = NULL,
   wrap.labels = 40, show.cronb = TRUE, show.comm = FALSE,
   altr.row.col = FALSE, digits = 2, CSS = NULL, encoding = NULL,
-  file = NULL, use.viewer = TRUE, no.output = FALSE,
-  remove.spaces = TRUE)
+  file = NULL, use.viewer = TRUE, remove.spaces = TRUE)
 }
 \arguments{
 \item{data}{A data frame that should be used to compute a FA, or a \code{\link[psych]{fa}} object.}
@@ -74,11 +73,6 @@ openend either in the IDE's viewer pane or the default web browser.}
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 viewer pane. If \code{FALSE} or no viewer available, the HTML table is
 opened in a web browser.}
-
-\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in \code{knitr} documents. The html output can be accessed via the return
-value.}
 
 \item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source

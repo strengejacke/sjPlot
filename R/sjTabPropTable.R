@@ -39,10 +39,6 @@
 #'          value labels. Default is \code{NULL}, so encoding will be auto-detected
 #'          depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
 #'          Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).
-#' @param no.output Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
-#'          the viewer pane and not even saved to file. This option is useful when the html output
-#'          should be used in \code{knitr} documents. The html output can be accessed via the return
-#'          value.
 #' @param remove.spaces Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 #'          that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
 #'          may look less pretty, but it may help when exporting html-tables to office tools.
@@ -148,7 +144,6 @@ sjt.xtab <- function(var.row,
                      encoding = NULL,
                      file = NULL,
                      use.viewer = TRUE,
-                     no.output = FALSE,
                      remove.spaces = TRUE,
                      ...) {
   # --------------------------------------------------------
@@ -574,6 +569,5 @@ sjt.xtab <- function(var.row,
                            knitr = knitr,
                            header = table.header,
                            file = file,
-                           show = !no.output,
                            viewer = use.viewer))
 }

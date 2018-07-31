@@ -88,7 +88,6 @@ sjt.pca <- function(data,
                     encoding = NULL,
                     file = NULL,
                     use.viewer = TRUE,
-                    no.output = FALSE,
                     remove.spaces = TRUE) {
   # -------------------------------------
   # check encoding
@@ -533,6 +532,5 @@ sjt.pca <- function(data,
                            removed.items = removableItems,
                            file = file,
                            header = table.header,
-                           show = !no.output,
                            viewer = use.viewer))
 }

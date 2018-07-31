@@ -10,7 +10,7 @@ sjt.corr(data, na.deletion = c("listwise", "pairwise"),
   p.numeric = FALSE, fade.ns = TRUE, val.rm = NULL, digits = 3,
   triangle = "both", string.diag = NULL, CSS = NULL,
   encoding = NULL, file = NULL, use.viewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{data}{Matrix with correlation coefficients as returned by the
@@ -77,11 +77,6 @@ openend either in the IDE's viewer pane or the default web browser.}
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 viewer pane. If \code{FALSE} or no viewer available, the HTML table is
 opened in a web browser.}
-
-\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in \code{knitr} documents. The html output can be accessed via the return
-value.}
 
 \item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source

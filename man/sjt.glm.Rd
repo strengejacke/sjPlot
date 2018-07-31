@@ -20,7 +20,7 @@ sjt.glm(..., pred.labels = NULL, depvar.labels = NULL,
   digits.ci = 2, digits.se = 2, digits.summary = 3,
   cell.spacing = 0.2, cell.gpr.indent = 0.6, sep.column = TRUE,
   CSS = NULL, encoding = NULL, file = NULL, use.viewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{...}{One or more fitted generalized linear (mixed) models.}
@@ -196,11 +196,6 @@ openend either in the IDE's viewer pane or the default web browser.}
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 viewer pane. If \code{FALSE} or no viewer available, the HTML table is
 opened in a web browser.}
-
-\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in \code{knitr} documents. The html output can be accessed via the return
-value.}
 
 \item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source

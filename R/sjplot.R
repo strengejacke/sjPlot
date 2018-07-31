@@ -223,7 +223,6 @@ sjtab <- function(data, ..., fun = c("xtab", "stackfrq")) {
         page.complete = final.table,
         knitr = final.knitr,
         file = eval(args[["file"]]),
-        show = if (is.null(args[["no.output"]])) TRUE else !eval(args[["no.output"]]),
         viewer = if (is.null(args[["use.viewer"]])) TRUE else eval(args[["use.viewer"]])
       )
     ))

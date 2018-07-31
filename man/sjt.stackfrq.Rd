@@ -11,7 +11,7 @@ sjt.stackfrq(items, weight.by = NULL, title = NULL,
   show.total = FALSE, show.na = FALSE, show.skew = FALSE,
   show.kurtosis = FALSE, digits.stats = 2, file = NULL,
   encoding = NULL, CSS = NULL, use.viewer = TRUE,
-  no.output = FALSE, remove.spaces = TRUE)
+  remove.spaces = TRUE)
 }
 \arguments{
 \item{items}{Data frame, with each column representing one item.}
@@ -83,11 +83,6 @@ See 'Details' or \href{../doc/table_css.html}{this package-vignette}.}
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 viewer pane. If \code{FALSE} or no viewer available, the HTML table is
 opened in a web browser.}
-
-\item{no.output}{Logical, if \code{TRUE}, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in \code{knitr} documents. The html output can be accessed via the return
-value.}
 
 \item{remove.spaces}{Logical, if \code{TRUE}, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
