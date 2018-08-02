@@ -1,11 +1,20 @@
 # sjPlot 2.5.1
 
+## Changes to functions
+
+* Improved support for `brmsfit`-objects with categorical-family for `plot_model()` and `tab_model()`.
+
 ## Removed / Defunct
 
 Following functions are now defunct:
 
 * `sjp.lm()`, `sjp.glm()`, `sjp.lmer()`, `sjp.glmer()` and `sjp.int()`. Please use `plot_model()` instead.
 * `sjt.frq()`. Please use `sjmisc::frq(out = "v")` instead.
+
+## Bug fixes
+
+* Due to changes in the _broom_ and _lmerTest_ packages, tidiers did no longer work for `lmerModLmerTest` objects.
+
 
 # sjPlot 2.5.0
 

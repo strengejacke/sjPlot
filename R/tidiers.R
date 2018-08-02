@@ -64,7 +64,6 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
     # get estimates, as data frame
     dat <- broom::tidy(model, conf.int = FALSE, exponentiate = FALSE)
 
-
     # add conf. int.
 
     dat <- dat %>%
@@ -84,7 +83,13 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
   } else {
 
     # tidy the model
-    dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
+
+    if (inherits(model, "lmerModLmerTest")) {
+      dat <- tidy_lmerModLmerTest(model, ci.lvl)
+    } else {
+      dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
+    }
+
 
     if (is_merMod(model) && !is.null(p.val) && p.val == "kr") {
       pv <- tryCatch(
@@ -114,6 +119,24 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
         )
     }
   }
+
+  dat
+}
+
+
+#' @importFrom tibble rownames_to_column
+#' @importFrom stats qnorm
+#' @importFrom dplyr select
+tidy_lmerModLmerTest <- function(model, ci.lvl) {
+  dat <- summary(model)$coef %>%
+    as.data.frame() %>%
+    tibble::rownames_to_column(var = "term") %>%
+    dplyr::select(1, 2, 3, 5)
+
+  colnames(dat) <- c("term", "estimate", "std.error", "statistic")
+
+  dat$conf.low <- dat$estimate - stats::qnorm(ci.lvl) * dat$std.error
+  dat$conf.high <- dat$estimate + stats::qnorm(ci.lvl) * dat$std.error
 
   dat
 }
@@ -183,6 +206,8 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
   p.inner <- .5
   p.outer <- ci.lvl
 
+  # get model information
+  modfam <- sjstats::model_family(model)
 
   # additional arguments for 'effects()'-function?
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
@@ -383,9 +408,25 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
   }
 
 
+  # categorical model?
+
+  if (inherits(model, "brmsfit") && modfam$is_categorical) {
+
+    # terms of categorical models are prefixed with "mu"
+
+    if (length(tidyselect::starts_with("b_mu", vars = dat$term)) == nrow(dat)) {
+      dat$term <- substr(dat$term, 5, max(nchar(dat$term)))
+      # create "response-level" variable
+      dat <- tibble::add_column(dat, response.level = "", .before = 1)
+      dat$response.level <- gsub("(.*)\\_(.*)", "\\1", dat$term)
+      dat$term <- gsub("(.*)\\_(.*)", "\\2", dat$term)
+    }
+  }
+
+
   # multivariate-response model?
 
-  if (inherits(model, "brmsfit") && !is.null(stats::formula(model)$responses)) {
+  if (inherits(model, "brmsfit") && modfam$is_multivariate) {
 
     # get response variables
 
@@ -427,8 +468,6 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
 
   # do we have a zero-inflation model?
-
-  modfam <- sjstats::model_family(model)
 
   if (modfam$is_zeroinf || sjmisc::str_contains(dat$term, "b_zi_", ignore.case = T)) {
     dat$wrap.facet <- "Conditional Model"

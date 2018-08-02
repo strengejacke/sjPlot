@@ -121,9 +121,11 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
       !is.null(transform) && transform == "plogis" ~ "Probabilities",
       is.null(transform) && fitfam$is_bin ~ "Log-Odds",
       is.null(transform) && fitfam$is_ordinal ~ "Log-Odds",
+      is.null(transform) && fitfam$is_categorical ~ "Log-Odds",
       is.null(transform) && fitfam$is_pois ~ "Log-Mean",
       fitfam$is_pois ~ "Incidence Rate Ratios",
       fitfam$is_ordinal ~ "Odds Ratios",
+      fitfam$is_categorical ~ "Odds Ratios",
       fitfam$is_bin && !fitfam$is_logit ~ "Risk Ratios",
       fitfam$is_bin ~ "Odds Ratios",
       TRUE ~ "Estimates"

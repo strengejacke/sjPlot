@@ -583,20 +583,31 @@ tab_model <- function(
 
   if (length(model.data) == 1) {
     fi <- sjstats::model_family(models[[1]])
-    if (fi$is_multivariate) {
+    if (fi$is_multivariate || fi$is_categorical) {
+
       show.response <- FALSE
 
-      dv.labels <- sjmisc::word_wrap(
-        sjlabelled::get_dv_labels(models, multi.resp = TRUE, case = case),
-        wrap = wrap.labels,
-        linesep = "<br>"
-      )
+      if (fi$is_categorical) {
+        dv.labels <- sprintf(
+          "%s: %s",
+          sjstats::resp_var(models[[1]]),
+          unique(model.data[[1]][["response.level_1"]])
+        )
 
-      if (sjmisc::is_empty(dv.labels) || !isTRUE(auto.label))
-        dv.labels <- sjstats::resp_var(models[[1]])
+        model.data <- split(model.data[[1]], model.data[[1]]["response.level_1"])
+      } else {
+        dv.labels <- sjmisc::word_wrap(
+          sjlabelled::get_dv_labels(models, multi.resp = TRUE, case = case),
+          wrap = wrap.labels,
+          linesep = "<br>"
+        )
 
-      model.data <- split(model.data[[1]], model.data[[1]]["response.level_1"])
-      dv.labels <- dv.labels[match(names(dv.labels), names(model.data))]
+        if (sjmisc::is_empty(dv.labels) || !isTRUE(auto.label))
+          dv.labels <- sjstats::resp_var(models[[1]])
+
+        model.data <- split(model.data[[1]], model.data[[1]]["response.level_1"])
+        dv.labels <- dv.labels[match(names(dv.labels), names(model.data))]
+      }
 
       model.data <- purrr::map2(model.data, 1:length(model.data), function(x, y) {
         colnames(x) <- gsub(
