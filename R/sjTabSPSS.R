@@ -124,6 +124,16 @@ view_df <- function(x,
 
   if (!missing(weight.by)) {
     weights <- rlang::quo_name(rlang::enquo(weight.by))
+    w.string <- tryCatch(
+      {
+        eval(weight.by)
+      },
+      error = function(x) { NULL },
+      warning = function(x) { NULL },
+      finally = function(x) { NULL }
+    )
+
+    if (!is.null(w.string) && is.character(w.string)) weights <- w.string
     if (sjmisc::is_empty(weights) || weights == "NULL") weights <- NULL
   } else
     weights <- NULL
