@@ -14,7 +14,7 @@ sjp.likert(items, title = NULL, legend.title = NULL,
   reverse.colors = FALSE, values = "show", show.n = TRUE,
   show.legend = TRUE, show.prc.sign = FALSE, grid.range = 1,
   grid.breaks = 0.2, expand.grid = TRUE, digits = 1,
-  coord.flip = TRUE, prnt.plot = TRUE)
+  coord.flip = TRUE)
 }
 \arguments{
 \item{items}{Data frame, with each column representing one item.}
@@ -121,14 +121,9 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 axes and plotting region. Default is \code{FALSE}.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
-
-\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-          was used for setting up the ggplot-object (\code{df.neg} for the negative values,
-          \code{df.pos} for the positive values and \code{df.neutral} for the neutral category values).
+A ggplot-object.
 }
 \description{
 Plot likert scales as centered stacked bars.

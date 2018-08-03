@@ -1,8 +1,13 @@
 # sjPlot 2.5.1
 
+## General
+
+* `sjp.scatter()` was revised and renamed to `scatterplot()`. `scatterplot()` is pipe-friendly, and also works on grouped data frames.
+
 ## Changes to functions
 
 * Improved support for `brmsfit`-objects with categorical-family for `plot_model()` and `tab_model()`.
+* Argument `hide.progress` in `view_df()` is deprecated. Please use `verbose` now.
 
 ## Removed / Defunct
 

@@ -1,6 +1,3 @@
-# bind global variables
-utils::globalVariables(c("offset"))
-
 #' @title Plot likert scales as centered stacked bars
 #' @name sjp.likert
 #'
@@ -60,9 +57,7 @@ utils::globalVariables(c("offset"))
 #' @inheritParams sjp.stackfrq
 #' @inheritParams sjp.glmer
 #'
-#' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{df.neg} for the negative values,
-#'           \code{df.pos} for the positive values and \code{df.neutral} for the neutral category values).
+#' @return A ggplot-object.
 #'
 #' @examples
 #' library(sjmisc)
@@ -115,16 +110,16 @@ sjp.likert <- function(items,
                        grid.breaks = 0.2,
                        expand.grid = TRUE,
                        digits = 1,
-                       coord.flip = TRUE,
-                       prnt.plot = TRUE) {
-  # --------------------------------------------------------
+                       coord.flip = TRUE) {
+
   # check param. if we have a single vector instead of
   # a data frame with several items, convert vector to data frame
-  # --------------------------------------------------------
+
   if (!is.data.frame(items) && !is.matrix(items)) items <- as.data.frame(items)
-  # --------------------------------------------------------
+
+
   # copy titles
-  # --------------------------------------------------------
+
   if (is.null(axis.titles)) {
     axisTitle.x <- NULL
     axisTitle.y <- NULL
@@ -135,9 +130,10 @@ sjp.likert <- function(items,
     else
       axisTitle.y <- NULL
   }
-  # --------------------------------------------------------
+
+
   # check sorting
-  # --------------------------------------------------------
+
   if (!is.null(sort.frq)) {
     if (sort.frq == "pos.asc") {
       sort.frq  <- "pos"
@@ -158,30 +154,35 @@ sjp.likert <- function(items,
   } else {
     reverseOrder <- FALSE
   }
-  # --------------------------------------------------------
+
+
   # try to automatically set labels is not passed as argument
-  # --------------------------------------------------------
+
   if (is.null(legend.labels)) {
-    legend.labels <- sjlabelled::get_labels(items[[1]], attr.only = F,
-                                        include.values = NULL, include.non.labelled = T)
+    legend.labels <- sjlabelled::get_labels(
+      items[[1]],
+      attr.only = F,
+      include.values = NULL,
+      include.non.labelled = T
+    )
   }
+
   if (is.null(axis.labels)) {
     # retrieve variable name attribute
     axis.labels <- unname(sjlabelled::get_label(items, def.value = colnames(items)))
   }
-  # --------------------------------------------------------
+
+
   # unname labels, if necessary, so we have a simple character vector
   if (!is.null(names(axis.labels))) axis.labels <- as.vector(axis.labels)
-  # --------------------------------------------------------
-  # unlist/ unname axis labels
-  # --------------------------------------------------------
+
   if (!is.null(legend.labels)) {
-    # unname labels, if necessary, so we have a simple character vector
     if (!is.null(names(legend.labels))) legend.labels <- as.vector(legend.labels)
   }
-  # --------------------------------------------------------
+
+
   # determine catcount
-  # --------------------------------------------------------
+
   adding <- ifelse(is.null(cat.neutral), 0, 1)
 
   if (is.null(catcount)) {
@@ -239,13 +240,14 @@ sjp.likert <- function(items,
     }
   }
 
-  # --------------------------------------------------------
+
   # set legend labels, if we have none yet
-  # --------------------------------------------------------
+
   if (is.null(legend.labels)) legend.labels <- seq_len(catcount + adding)
-  # --------------------------------------------------------
+
+
   # prepare data frames
-  # --------------------------------------------------------
+
   mydat.pos <- data.frame()
   mydat.neg <- data.frame()
   mydat.dk <- data.frame()
@@ -286,42 +288,41 @@ sjp.likert <- function(items,
 
   # loop through all likert-items
   for (i in seq_len(ncol(items))) {
-    # --------------------------------------------------------
+
     # convert to numeric values
-    # --------------------------------------------------------
     if (!is.numeric(items[[i]])) {
-      # --------------------------------------------------------
-      # convert non-numeric factors to numeric values
-      # --------------------------------------------------------
       items[[i]] <- sjlabelled::as_numeric(items[[i]], keep.labels = F)
     }
-    # --------------------------------------------------------
+
     # If we don't plot neutral category, but item still contains
     # that category, replace it with NA
-    # --------------------------------------------------------
+
     if (is.null(cat.neutral) && max(items[[i]], na.rm = T) > catcount)
       items[[i]] <- sjmisc::set_na(items[[i]], na = catcount + 1, as.tag = F)
-    # --------------------------------------------------------
+
+
     # create proportional frequency table
-    # --------------------------------------------------------
+
     if (is.null(weight.by)) {
       tab <- round(prop.table(table(items[[i]])), 3)
     } else {
       tab <- round(prop.table(stats::xtabs(weight.by ~ items[[i]])), 3)
     }
-    # --------------------------------------------------------
+
+
     # retrieve category number and related frequencies
-    # --------------------------------------------------------
+
     counts <- as.numeric(tab)
     valid <- as.numeric(names(tab))
-    # --------------------------------------------------------
+
+
     # create frequency vector, so zero-categories are cared for
-    # --------------------------------------------------------
+
     freq <- rep(0, catcount + adding)
     freq[valid] <- counts
-    # --------------------------------------------------------
+
     # append to data frame
-    # --------------------------------------------------------
+
     if (ncol(freq.df) == 0)
       freq.df <- as.data.frame(freq)
     else {
@@ -334,32 +335,33 @@ sjp.likert <- function(items,
       else
         freq.df <- as.data.frame(cbind(freq.df, freq))
     }
-
   }
-  # --------------------------------------------------------
-  # Check whether N of each item should be included into
-  # axis labels
-  # --------------------------------------------------------
+
+
+  # Check whether N of each item should be included into axis labels
+
   if (show.n) {
     for (i in seq_len(length(axis.labels))) {
-      axis.labels[i] <- paste(axis.labels[i],
-                               sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))),
-                               sep = "")
+      axis.labels[i] <- paste(
+        axis.labels[i],
+        sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))),
+        sep = ""
+      )
     }
   }
-  # --------------------------------------------------------
+
   # determine split between pos and neg values
-  # --------------------------------------------------------
+
   lower.half <- rev(seq(catcount / 2))
   upper.half <- 1 + catcount - lower.half
-  # --------------------------------------------------------
+
   # sum up values to total, so we can sort items
-  # --------------------------------------------------------
+
   sums.lower <- unname(apply(freq.df[lower.half, , drop = FALSE], 2, sum))
   sums.upper <- unname(apply(freq.df[upper.half, , drop = FALSE], 2, sum))
-  # --------------------------------------------------------
+
   # sort items
-  # --------------------------------------------------------
+
   if (is.null(sort.frq))
     sort.freq <- seq_len(ncol(freq.df))
   else if (sort.frq == "pos")
@@ -368,165 +370,178 @@ sjp.likert <- function(items,
     sort.freq <- order(sums.upper)
   else
     sort.freq <- seq_len(ncol(freq.df))
-  # --------------------------------------------------------
+
   # reverse item order?
-  # --------------------------------------------------------
+
   if (!reverseOrder) sort.freq <- rev(sort.freq)
-  # --------------------------------------------------------
+
   # save summed up y-values, for label positioning and annotation
-  # --------------------------------------------------------
+
   ypos.sum.pos <- c()
   ypos.sum.neg <- c()
   ypos.sum.dk <- c()
-  # --------------------------------------------------------
+
   # iterate all frequencies of the items. we have the simple
   # data rows in this data frame and now need to "split"
   # positive and negative values
-  # --------------------------------------------------------
+
   for (i in seq_len(ncol(freq.df))) {
     # sort
     fr <- freq.df[, sort.freq[i]]
-    # --------------------------------------------------------
+
     # positive values. we need an x-position for each item,
     # a group indicator, the frequencies (as percent value),
     # and the y position for labels.
-    # --------------------------------------------------------
-    mydat.pos <- as.data.frame(rbind(mydat.pos,
-                                     cbind(x = i,
-                                           grp = lower.half,
-                                           frq = fr[lower.half],
-                                           ypos = cumsum(fr[lower.half]) - 0.5 * (fr[lower.half]),
-                                           ypos2 = sum(fr[lower.half]))))
-    # --------------------------------------------------------
-    # summed y-position for plotting the summed up frequency
-    # labels
-    # --------------------------------------------------------
+
+    mydat.pos <- as.data.frame(
+      rbind(mydat.pos,
+            cbind(x = i,
+                  grp = lower.half,
+                  frq = fr[lower.half],
+                  ypos = cumsum(fr[lower.half]) - 0.5 * (fr[lower.half]),
+                  ypos2 = sum(fr[lower.half])
+      )))
+
+
+    # summed y-position for plotting the summed up frequency labels
+
     ypos.sum.pos <- c(ypos.sum.pos, sum(fr[lower.half]))
-    # --------------------------------------------------------
+
     # same as above for negative values
-    # --------------------------------------------------------
-    mydat.neg <- as.data.frame(rbind(mydat.neg,
-                                     cbind(x = i,
-                                           grp = upper.half,
-                                           frq = -fr[upper.half],
-                                           ypos = -1 * (cumsum(fr[upper.half]) - 0.5 * (fr[upper.half])),
-                                           ypos2 = -1 * sum(fr[upper.half]))))
+
+    mydat.neg <- as.data.frame(
+      rbind(mydat.neg,
+            cbind(x = i,
+                  grp = upper.half,
+                  frq = -fr[upper.half],
+                  ypos = -1 * (cumsum(fr[upper.half]) - 0.5 * (fr[upper.half])),
+                  ypos2 = -1 * sum(fr[upper.half])
+      )))
+
     # summed up (cumulative) percs
     ypos.sum.neg <- c(ypos.sum.neg, -1 * sum(fr[upper.half]))
-    # --------------------------------------------------------
+
     # same as above for neutral category, if we have any
-    # --------------------------------------------------------
+
     if (!is.null(cat.neutral)) {
-      mydat.dk <- as.data.frame(rbind(mydat.dk,
-                                      cbind(x = i,
-                                            grp = catcount + adding,
-                                            frq = -1 + fr[catcount + adding],
-                                            ypos = -1 + (fr[catcount + adding] / 2),
-                                            ypos2 = -1 + fr[catcount + adding],
-                                            offset = -1 * grid.range)))
+      mydat.dk <- as.data.frame(
+        rbind(mydat.dk,
+              cbind(x = i,
+                    grp = catcount + adding,
+                    frq = -1 + fr[catcount + adding],
+                    ypos = -1 + (fr[catcount + adding] / 2),
+                    ypos2 = -1 + fr[catcount + adding],
+                    offset = -1 * grid.range)
+        ))
+
       # cumulative neutral cat
       ypos.sum.dk <- c(ypos.sum.dk, -1 + fr[catcount + adding])
     }
   }
-  # --------------------------------------------------------
+
+
   # x-positions for cumulative percentages
-  # --------------------------------------------------------
+
   xpos.sum.dk <- xpos.sum.neg <- xpos.sum.pos <- seq_len(length(ypos.sum.pos))
-  # --------------------------------------------------------
+
   # grp as factor
-  # --------------------------------------------------------
+
   mydat.pos$grp <- as.factor(mydat.pos$grp)
   mydat.neg$grp <- as.factor(mydat.neg$grp)
+
   # same for neutral
   if (!is.null(cat.neutral)) {
     mydat.dk$grp <- as.factor("neutral")
     mydat.dk$geom.size <- geom.size
     mydat.dk$digits <- digits
   }
-  # --------------------------------------------------------
+
   # label digits needed
-  # --------------------------------------------------------
+
   mydat.neg$digits <- digits
   mydat.pos$digits <- digits
-  # --------------------------------------------------------
+
   # Prepare and trim legend labels to appropriate size
-  # --------------------------------------------------------
-  # wrap legend text lines
+
   legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
-  # check whether we have a title for the legend
+
   if (!is.null(legend.title)) {
-    # if yes, wrap legend title line
     legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
   }
-  # check length of diagram title and split longer string at into new lines
-  # every 50 chars
+
   if (!is.null(title)) {
-    # if we have weighted values, say that in diagram's title
     if (!is.null(title.wtd.suffix)) {
       title <- paste(title, title.wtd.suffix, sep = "")
     }
     title <- sjmisc::word_wrap(title, wrap.title)
   }
-  # --------------------------------------------------------
+
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  # --------------------------------------------------------
+
   axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
-  # sort labels
   axis.labels <- axis.labels[sort.freq]
-  # --------------------------------------------------------
+
   # set diagram margins
-  # --------------------------------------------------------
+
   if (expand.grid) {
     expgrid <- ggplot2::waiver()
   } else {
     expgrid <- c(0, 0)
   }
-  # --------------------------------------------------------
+
   # Set up grid breaks
-  # --------------------------------------------------------
+
   gridbreaks <- round(seq(-grid.range, grid.range, by = grid.breaks), 2)
   gridlabs <- ifelse(abs(gridbreaks) > 1, "", paste0(abs(round(100 * gridbreaks)), "%"))
-  # --------------------------------------------------------
+
   # start plot here
-  # --------------------------------------------------------
-  gp <- ggplot() +
+
+  gp <- ggplot2::ggplot() +
     # positive value bars
-    geom_col(data = mydat.pos,
-             aes_string(x = "x", y = "frq", fill = "grp"),
-             width = geom.size) +
+    ggplot2::geom_col(
+      data = mydat.pos,
+      ggplot2::aes_string(x = "x", y = "frq", fill = "grp"),
+      width = geom.size
+    ) +
     # negative value bars
-    geom_col(data = mydat.neg,
-             aes_string(x = "x", y = "frq", fill = "grp"),
-             width = geom.size,
-             position = position_stack(reverse = T))
-  # --------------------------------------------------------
+    ggplot2::geom_col(
+      data = mydat.neg,
+      ggplot2::aes_string(x = "x", y = "frq", fill = "grp"),
+      width = geom.size,
+      position = ggplot2::position_stack(reverse = T)
+    )
+
   # print bar for neutral category. this is a "fake" bar created
   # with geom_rect. to make this work, we need to set the x-axis
   # to a continuous scale...
-  # --------------------------------------------------------
+
   if (!is.null(cat.neutral)) {
     gp <- gp +
-      geom_rect(data = mydat.dk, aes(xmin = x - (geom.size / 2),
-                                     xmax = x + (geom.size / 2),
-                                     ymin = offset,
-                                     ymax = frq + (offset + 1),
-                                     fill = "neutral"))
+      ggplot2::geom_rect(
+        data = mydat.dk,
+        ggplot2::aes(
+          xmin = .data$x - (geom.size / 2),
+          xmax = .data$x + (geom.size / 2),
+          ymin = .data$offset,
+          ymax = .data$frq + (.data$offset + 1),
+          fill = "neutral")
+      )
   }
-  # --------------------------------------------------------
+
   # if we have neutral colors, we need to add the geom-color
   # to the color values.
-  # --------------------------------------------------------
+
   if (!is.null(cat.neutral)) geom.colors <- c(geom.colors, cat.neutral.color)
-  # --------------------------------------------------------
+
   # should percentage value labels be printed?
-  # --------------------------------------------------------
+
   percsign <- mydat.pos$percsign <- mydat.neg$percsign <- ifelse(isTRUE(show.prc.sign), "%", "")
   if (nrow(mydat.dk) > 0) mydat.dk$percsign <- percsign
-  # --------------------------------------------------------
+
   # creating value labels for cumulative percentages, so
   # zero-percentages are not printed
-  # --------------------------------------------------------
+
   ypos.sum.pos.lab  <- ifelse(ypos.sum.pos > 0, sprintf("%.*f%s", digits, 100 * ypos.sum.pos, percsign), "")
   ypos.sum.neg.lab  <- ifelse(ypos.sum.neg < 0, sprintf("%.*f%s", digits, 100 * abs(ypos.sum.neg), percsign), "")
   ypos.sum.dk.lab  <- ifelse(ypos.sum.dk > -1, sprintf("%.*f%s", digits, 100 * (1 + ypos.sum.dk), percsign), "")
@@ -534,13 +549,33 @@ sjp.likert <- function(items,
   if (values == "show") {
     # show them in middle of bar
     gp <- gp +
-      geom_text(data = subset(mydat.pos, frq > 0),
-                aes(x = x, y = ypos, label = sprintf("%.*f%s", digits, 100 * frq, percsign))) +
-      geom_text(data = subset(mydat.neg, frq < 0),
-                aes(x = x, y = ypos, label = sprintf("%.*f%s", digits, 100 * abs(frq), percsign)))
+      ggplot2::geom_text(
+        data = subset(mydat.pos, frq > 0),
+        ggplot2::aes(
+          x = .data$x,
+          y = .data$ypos,
+          label = sprintf("%.*f%s", digits, 100 * .data$frq, percsign)
+        )
+      ) +
+      ggplot2::geom_text(
+        data = subset(mydat.neg, frq < 0),
+        ggplot2::aes(
+          x = .data$x,
+          y = .data$ypos,
+          label = sprintf("%.*f%s", digits, 100 * abs(.data$frq), percsign)
+        )
+      )
+
     if (!is.null(cat.neutral)) {
       gp <- gp +
-        geom_text(data = subset(mydat.dk, frq > -1), aes(x = x, y = ypos + offset + 1, label = sprintf("%.*f%s", digits, 100 * (1 + frq), percsign)))
+        ggplot2::geom_text(
+          data = subset(mydat.dk, frq > -1),
+          ggplot2::aes(
+            x = .data$x,
+            y = .data$ypos + .data$offset + 1,
+            label = sprintf("%.*f%s", digits, 100 * (1 + .data$frq), percsign)
+          )
+        )
     }
   } else if (values == "sum.inside" || values == "sum.outside") {
     # show cumulative outside bar
@@ -554,50 +589,47 @@ sjp.likert <- function(items,
       hort.neg <- -0.15
       hort.dk <- 1.15
     }
+
     gp <- gp +
-      annotate("text", x = xpos.sum.pos, y = ypos.sum.pos, hjust = hort.pos, label = ypos.sum.pos.lab) +
-      annotate("text", x = xpos.sum.neg, y = ypos.sum.neg, hjust = hort.neg, label = ypos.sum.neg.lab)
+      ggplot2::annotate("text", x = xpos.sum.pos, y = ypos.sum.pos, hjust = hort.pos, label = ypos.sum.pos.lab) +
+      ggplot2::annotate("text", x = xpos.sum.neg, y = ypos.sum.neg, hjust = hort.neg, label = ypos.sum.neg.lab)
+
     if (!is.null(cat.neutral)) {
       gp <- gp +
-        annotate("text", x = xpos.sum.dk, y = ypos.sum.dk + 1 - grid.range, hjust = hort.dk, label = ypos.sum.dk.lab)
+        ggplot2::annotate("text", x = xpos.sum.dk, y = ypos.sum.dk + 1 - grid.range, hjust = hort.dk, label = ypos.sum.dk.lab)
     }
   }
-  # ---------------------------------------------------------
+
   # continues with plot
-  # ---------------------------------------------------------
+
   gp <- gp +
-    labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
-    # ---------------------------------------------------------
+    ggplot2::labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
+
     # scale x is continuous to make plotting the bar annotation
     # for neutral category work...
-    # ---------------------------------------------------------
-    scale_x_continuous(breaks = seq_len(ncol(freq.df)), labels = axis.labels) +
-    scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range, grid.range), expand = expgrid, labels = gridlabs) +
-    geom_hline(yintercept = 0, color = intercept.line.color)
-  # ---------------------------------------------------------
+
+    ggplot2::scale_x_continuous(breaks = seq_len(ncol(freq.df)), labels = axis.labels) +
+    ggplot2::scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range, grid.range), expand = expgrid, labels = gridlabs) +
+    ggplot2::geom_hline(yintercept = 0, color = intercept.line.color)
+
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
-  # ---------------------------------------------------------
-  if (coord.flip) gp <- gp + coord_flip()
-  # ---------------------------------------------------------
+
+  if (coord.flip) gp <- gp + ggplot2::coord_flip()
+
   # set geom colors
-  # ---------------------------------------------------------
-  gp <- sj.setGeomColors(gp,
-                         geom.colors,
-                         (catcount + adding),
-                         show.legend,
-                         legend.labels,
-                         reverse.colors)
-  # ---------------------------------------------------------
-  # Check whether ggplot object should be returned or plotted
-  # ---------------------------------------------------------
-  if (prnt.plot) suppressWarnings(graphics::plot(gp))
-  # -------------------------------------
-  # return results
-  # -------------------------------------
-  invisible(structure(class = "sjplikert",
-                      list(plot = gp,
-                           df.neg = mydat.neg,
-                           df.pos = mydat.pos,
-                           df.neutral = mydat.dk)))
+
+  sj.setGeomColors(
+    gp,
+    geom.colors,
+    (catcount + adding),
+    show.legend,
+    legend.labels,
+    reverse.colors
+  )
 }
+
+
+# is factor with char levels?
+#' @importFrom sjmisc is_num_fac
+is_labelled_factor <- function(x) is.factor(x) && !sjmisc::is_num_fac(x)

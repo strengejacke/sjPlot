@@ -7,6 +7,7 @@
 \alias{sjp.lm}
 \alias{sjp.int}
 \alias{sjt.frq}
+\alias{sjp.scatter}
 \title{Deprecated functions}
 \usage{
 sjp.glmer(...)
@@ -20,6 +21,8 @@ sjp.lm(...)
 sjp.int(...)
 
 sjt.frq(...)
+
+sjp.scatter(...)
 }
 \arguments{
 \item{...}{Not used.}

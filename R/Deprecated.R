@@ -42,3 +42,9 @@ sjp.int <- function(...) {
 sjt.frq <- function(...) {
   .Defunct("frq", package = "sjmisc", msg = "`sjt.frq()` is defunct. Please use `sjmisc::frq()` instead.")
 }
+
+#' @rdname sjp.glmer
+#' @export
+sjp.scatter <- function(...) {
+  .Defunct("scatterplot", package = "sjPlot", msg = "`sjp.scatter()` is defunct. Please use `scatterplot()` instead.")
+}

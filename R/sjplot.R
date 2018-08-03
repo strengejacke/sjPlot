@@ -43,11 +43,6 @@
 #'             \item{\code{"likert"}}{calls \code{\link{sjp.likert}}. \code{data}
 #'             must be a data frame with items to plot.
 #'             }
-#'             \item{\code{"scatter"}}{calls \code{\link{sjp.scatter}}. The first
-#'             two variables in \code{data} are used (and required) to create the plot;
-#'             if \code{data} also has a third variable, this is used as grouping-
-#'             variable in \code{sjp.scatter}.
-#'             }
 #'             \item{\code{"stackfrq"}}{calls \code{\link{sjp.stackfrq}} or \code{\link{sjt.stackfrq}}.
 #'             \code{data} must be a data frame with items to create the plot or table.
 #'             }
@@ -101,7 +96,7 @@
 #' @importFrom tidyr nest
 #' @importFrom stats complete.cases
 #' @export
-sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt", "scatter",
+sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt",
                                       "aov1", "likert", "stackfrq")) {
   # check if x is a data frame
   if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
@@ -233,6 +228,22 @@ sjtab <- function(data, ..., fun = c("xtab", "stackfrq")) {
 }
 
 
+get_grouped_plottitle <- function(x, grps, i, sep = "\n") {
+  # prepare title for group
+  tp <- get_title_part(x, grps, 1, i)
+  title <- sprintf("%s: %s", tp[1], tp[2])
+
+  # do we have another groupng variable?
+  if (length(attr(x, "vars", exact = T)) > 1) {
+    # prepare title for group
+    tp <- get_title_part(x, grps, 2, i)
+    title <- sprintf("%s%s%s: %s", title, sep, tp[1], tp[2])
+  }
+
+  title
+}
+
+
 get_grouped_title <- function(x, grps, args, i, sep = "\n") {
   # prepare title for group
   tp <- get_title_part(x, grps, 1, i)
@@ -250,6 +261,7 @@ get_grouped_title <- function(x, grps, args, i, sep = "\n") {
 }
 
 
+#' @importFrom sjlabelled get_values get_label get_labels
 get_title_part <- function(x, grps, level, i) {
   # prepare title for group
   var.name <- colnames(grps)[level]
@@ -273,16 +285,20 @@ get_title_part <- function(x, grps, level, i) {
 }
 
 
+#' @importFrom rlang .data
+#' @importFrom dplyr select filter
+#' @importFrom stats complete.cases
+#'
 get_grouped_data <- function(x) {
   # nest data frame
   grps <- tidyr::nest(x)
 
   # remove NA category
   cc <- grps %>%
-    dplyr::select_("-data") %>%
+    dplyr::select(-.data$data) %>%
     stats::complete.cases()
   # select only complete cases
-  grps <- grps %>% dplyr::filter(cc)
+  grps <- grps %>% dplyr::filter(!! cc)
 
   # arrange data
   if (length(attr(x, "vars", exact = T)) == 1)
@@ -309,18 +325,13 @@ plot_sj <- function(x, fun, args) {
     } else if (fun  == "grpfrq") {
       p <- sjp.grpfrq(x[[1]], x[[2]], prnt.plot = F)$plot
     } else if (fun  == "likert") {
-      p <- sjp.likert(x, prnt.plot = F)$plot
+      p <- sjp.likert(x)
     } else if (fun  == "stackfrq") {
       p <- sjp.stackfrq(x, prnt.plot = F)$plot
     } else if (fun  == "xtab") {
       p <- sjp.xtab(x[[1]], x[[2]], prnt.plot = F)$plot
     } else if (fun  == "gpt") {
       p <- sjp.gpt(x[[1]], x[[2]], x[[3]], prnt.plot = F)$plot
-    } else if (fun  == "scatter") {
-      if (ncol(x) >= 3)
-        p <- sjp.scatter(x[[1]], x[[2]], x[[3]], prnt.plot = F)$plot
-      else
-        p <- sjp.scatter(x[[1]], x[[2]], prnt.plot = F)$plot
     } else if (fun  == "aov1") {
       p <- sjp.aov1(x[[1]], x[[2]], prnt.plot = F)$plot
     }
@@ -340,11 +351,6 @@ plot_sj <- function(x, fun, args) {
       p <- do.call(sjp.xtab, args = c(list(x = x[[1]], grp = x[[2]], prnt.plot = F), args))$plot
     } else if (fun  == "gpt") {
       p <- do.call(sjp.gpt, args = c(list(x = x[[1]], y = x[[2]], groups = x[[3]], prnt.plot = F), args))$plot
-    } else if (fun  == "scatter") {
-      if (ncol(x) >= 3)
-        p <- do.call(sjp.scatter, args = c(list(x = x[[1]], y = x[[2]], grp = x[[3]], prnt.plot = F), args))$plot
-      else
-        p <- do.call(sjp.scatter, args = c(list(x = x[[1]], y = x[[2]], prnt.plot = F), args))$plot
     } else if (fun  == "aov1") {
       p <- do.call(sjp.aov1, args = c(list(var.dep = x[[1]], var.grp = x[[2]], prnt.plot = F), args))$plot
     }

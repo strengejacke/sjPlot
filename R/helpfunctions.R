@@ -3,30 +3,6 @@ utils::globalVariables(c("Freq", "vif"))
 
 # Help-functions
 
-# is factor with char levels?
-#' @importFrom sjmisc is_num_fac
-is_labelled_factor <- function(x) is.factor(x) && !sjmisc::is_num_fac(x)
-
-
-# get additional arguments for geoms
-get_dot_args <- function(x) {
-  # ---------------------------------------
-  # get ...-argument, and check if it was "width"
-  # ---------------------------------------
-  eb.width <- x[["width"]]
-  if (is.null(eb.width)) eb.width <- 0
-  # get ...-argument, and check if it was "alpha"
-  ci.alpha <- x[["alpha"]]
-  if (is.null(ci.alpha)) ci.alpha <- .15
-  # get ...-argument, and check if it was "level"
-  ci.lvl <- x[["level"]]
-  if (is.null(ci.lvl)) ci.lvl <- .95
-
-  list(eb.width = eb.width,
-       ci.alpha = ci.alpha,
-       ci.lvl = ci.lvl)
-}
-
 # evaluates arguments
 get_dot_data <- function(data, dots) {
   # any dots?
@@ -54,16 +30,6 @@ get_dot_data <- function(data, dots) {
 
 # return names of objects passed as ellipses argument
 dot_names <- function(dots) unname(unlist(lapply(dots, as.character)))
-
-
-# function to create pretty breaks
-# for log-scales
-#' @importFrom grDevices axisTicks
-base_breaks <- function(n = 10) {
-  function(x) {
-    grDevices::axisTicks(log10(range(x, na.rm = TRUE)), log = TRUE, nint = n)
-  }
-}
 
 
 #' @importFrom sjmisc str_contains to_label to_value replace_na word_wrap
@@ -118,7 +84,7 @@ print.table.summary <- function(baseplot,
       x.x <- -Inf
     }
     baseplot <- baseplot +
-      annotate("text",
+      ggplot2::annotate("text",
                label = modsum,
                parse = TRUE,
                x = x.x,
@@ -126,17 +92,19 @@ print.table.summary <- function(baseplot,
                vjust = "top",
                hjust = t.hjust)
   }
-  return(baseplot)
+
+  baseplot
 }
 
 
 get_var_name <- function(x) {
+  if (is.null(x)) return(NULL)
   # remove "data frame name"
   dollar_pos <- regexpr("$", x, fixed = T)[1]
   if (dollar_pos != -1)
-    x <-
-    substr(x, start = dollar_pos + 1, stop = nchar(x))
-  return(x)
+    x <- substr(x, start = dollar_pos + 1, stop = nchar(x))
+
+  x
 }
 
 

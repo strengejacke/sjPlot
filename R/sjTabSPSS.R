@@ -38,9 +38,8 @@
 #' @param max.len Numeric, indicates how many values and value labels per variable
 #'   are shown. Useful for variables with many different values, where the output
 #'   can be truncated.
-#' @param hide.progress logical, if \code{TRUE}, the progress bar that is displayed
-#'   when creating the output is hidden. Default in \code{FALSE}, hence the
-#'   bar is visible.
+#' @param verbose,hide.progress Logical, if \code{TRUE}, a progress bar is displayed
+#'   while creating the output.
 #'
 #' @inheritParams tab_df
 #' @inheritParams tab_model
@@ -99,11 +98,20 @@ view_df <- function(x,
                     sort.by.name = FALSE,
                     wrap.labels = 50,
                     hide.progress = FALSE,
+                    verbose = TRUE,
                     CSS = NULL,
                     encoding = NULL,
                     file = NULL,
                     use.viewer = TRUE,
                     remove.spaces = TRUE) {
+
+  ## TODO remove hide.progress later
+
+  if (!missing(hide.progress)) {
+    message("`hide.progress` is deprecated. Please use `verbose` instead.")
+    verbose <- !hide.progress
+  }
+
   # check encoding
   encoding <- get.encoding(encoding, x)
 
@@ -198,7 +206,7 @@ view_df <- function(x,
   page.content <- paste0(page.content, "\n  </tr>\n")
 
   # create progress bar
-  if (!hide.progress) pb <- utils::txtProgressBar(min = 0, max = length(id), style = 3)
+  if (verbose) pb <- utils::txtProgressBar(min = 0, max = length(id), style = 3)
 
   # subsequent rows
   for (ccnt in 1:length(id)) {
@@ -432,11 +440,11 @@ view_df <- function(x,
     }
 
     # update progress bar
-    if (!hide.progress) utils::setTxtProgressBar(pb, ccnt)
+    if (verbose) utils::setTxtProgressBar(pb, ccnt)
     # close row tag
     page.content <- paste0(page.content, "  </tr>\n")
   }
-  if (!hide.progress) close(pb)
+  if (verbose) close(pb)
 
   # finish html page
   page.content <- paste(page.content, "</table>", sep = "\n")
