@@ -9,7 +9,7 @@ sjt.xtab(var.row, var.col, weight.by = NULL, title = NULL,
   show.obs = TRUE, show.cell.prc = FALSE, show.row.prc = FALSE,
   show.col.prc = FALSE, show.exp = FALSE, show.legend = FALSE,
   show.na = FALSE, show.summary = TRUE, statistics = c("auto",
-  "cramer", "phi", "spearman", "kendall", "pearson"),
+  "cramer", "phi", "spearman", "kendall", "pearson", "fisher"),
   string.total = "Total", digits = 1, tdcol.n = "black",
   tdcol.expected = "#339999", tdcol.cell = "#993333",
   tdcol.row = "#333399", tdcol.col = "#339933", emph.total = FALSE,
@@ -60,7 +60,8 @@ coefficient and p-value for the chi-squared statistics.}
 
 \item{statistics}{Name of measure of association that should be computed. May
 be one of \code{"auto"}, \code{"cramer"}, \code{"phi"}, \code{"spearman"},
-\code{"kendall"} or \code{"pearson"}. See 'Details'.}
+\code{"kendall"}, \code{"pearson"} or \code{"fisher"}. See
+\code{\link[sjstats]{xtab_statistics}}.}
 
 \item{string.total}{Character label for the total column / row header}
 
@@ -125,20 +126,6 @@ Invisibly returns
 }
 \description{
 Shows contingency tables as HTML file in browser or viewer pane, or saves them as file.
-}
-\details{
-The p-value for Cramer's V and the Phi coefficient are based
-         on \code{chisq.test()}. If any expected value of a table cell is
-         smaller than 5, or smaller than 10 and the df is 1, then \code{fisher.test()}
-         is used to compute the p-value. The test statistic is calculated
-         with \code{cramer()} resp. \code{phi()}.
-         \cr \cr
-         Both test statistic and p-value for Spearman's rho, Kendall's tau
-         and Pearson's r are calculated with \code{cor.test()}.
-         \cr \cr
-         When \code{statistics = "auto"}, only Cramer's V or Phi are calculated,
-         based on the dimension of the table (i.e. if the table has more than
-         two rows or columns, Cramer's V is calculated, else Phi).
 }
 \examples{
 # prepare sample data set
