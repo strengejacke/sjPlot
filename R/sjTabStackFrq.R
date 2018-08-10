@@ -40,10 +40,6 @@
 #'            }
 #'            for further use.
 #'
-#' @note See 'Notes' in \code{\link{sjt.frq}}.
-#'
-#' @details See 'Details' in \code{\link{sjt.frq}}.
-#'
 #' @examples
 #' # -------------------------------
 #' # random sample

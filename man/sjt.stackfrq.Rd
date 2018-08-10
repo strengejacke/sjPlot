@@ -104,12 +104,6 @@ Shows the results of stacked frequencies (such as likert scales) as HTML table.
                should be printed as table to compare their distributions (e.g.
                when plotting scales like SF, Barthel-Index, Quality-of-Life-scales etc.).
 }
-\details{
-See 'Details' in \code{\link{sjt.frq}}.
-}
-\note{
-See 'Notes' in \code{\link{sjt.frq}}.
-}
 \examples{
 # -------------------------------
 # random sample

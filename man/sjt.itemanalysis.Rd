@@ -114,9 +114,6 @@ This function performs an item analysis with certain statistics that are
                of the data frame that belong to a certain factor (see return value of function \code{\link{sjt.pca}}
                as example for retrieving factor groups for a scale and see examples for more details).
 }
-\details{
-See 'Details' in \code{\link{sjt.frq}}.
-}
 \note{
 \itemize{
          \item The \emph{Shapiro-Wilk Normality Test} (see column \code{W(p)}) tests if an item has a distribution that is significantly different from normal.
@@ -124,8 +121,6 @@ See 'Details' in \code{\link{sjt.frq}}.
          \item For \emph{item discrimination}, acceptable values are 0.20 or higher; the closer to 1.00 the better. See \code{\link[sjstats]{reliab_test}} for more details.
          \item In case the total \emph{Cronbach's Alpha} value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the \emph{mean inter-item-correlation} is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also \code{\link[sjstats]{mic}}.
        }
-
-See 'Notes' in \code{\link{sjt.frq}}.
 }
 \examples{
 # Data from the EUROFAMCARE sample dataset

@@ -98,9 +98,6 @@ Performes a factor analysis on a data frame or matrix
                i.e. all variables with the highest loading for a factor are taken for the
                reliability test. The result is an alpha value for each factor dimension.
 }
-\details{
-See 'Details' in \code{\link{sjt.frq}}.
-}
 \note{
 This method for factor analysis relies on the functions
       \code{\link[psych]{fa}} and \code{\link[psych]{fa.parallel}} from the psych package.

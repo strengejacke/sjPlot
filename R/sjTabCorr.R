@@ -43,10 +43,6 @@
 #'       the \code{\link{cor}}-function, p-values can't be computed.
 #'       Thus, \code{show.p}, \code{p.numeric} and \code{fade.ns}
 #'       only have an effect if \code{data} is a \code{\link{data.frame}}.
-#'       \cr \cr
-#'       Additionally, see 'Note' in \code{\link{sjt.frq}}.
-#'
-#' @details See 'Details' in \code{\link{sjt.frq}}.
 #'
 #' @examples
 #' \dontrun{

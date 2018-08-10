@@ -32,8 +32,6 @@
 #' @note This method for factor analysis relies on the functions
 #'       \code{\link[psych]{fa}} and \code{\link[psych]{fa.parallel}} from the psych package.
 #'
-#' @details See 'Details' in \code{\link{sjt.frq}}.
-#'
 #'
 #' @examples
 #' \dontrun{

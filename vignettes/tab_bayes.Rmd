@@ -82,7 +82,7 @@ tab_model(m2, show.hdi50 = FALSE)
 
 ## Mixing multivariate and univariate response models
 
-When both multivariate and univariate response models are displayed in one table, a columns _Response_ is added for the multivariate response model, to indicate the different outcomes.
+When both multivariate and univariate response models are displayed in one table, a column _Response_ is added for the multivariate response model, to indicate the different outcomes.
 
 ```{r}
 tab_model(m1, m2, show.hdi50 = F)

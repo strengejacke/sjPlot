@@ -97,12 +97,6 @@ Performes a principle component analysis on a data frame or matrix
                i.e. all variables with the highest loading for a factor are taken for the
                reliability test. The result is an alpha value for each factor dimension.
 }
-\details{
-See 'Details' in \code{\link{sjt.frq}}.
-}
-\note{
-See 'Notes' in \code{\link{sjt.frq}}.
-}
 \examples{
 \dontrun{
 # Data from the EUROFAMCARE sample dataset

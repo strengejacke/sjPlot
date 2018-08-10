@@ -311,7 +311,7 @@
 #'   (depending on the plot-type) a list of such data frames.
 #'
 #' @details
-#'   \code{get_model_data} simply calls \code{plot_model()} and returns
+#'   \code{get_model_data()} simply calls \code{plot_model()} and returns
 #'   the data from the ggplot-object. Hence, it is rather inefficient and should
 #'   be used as alternative to \pkg{brooms} \code{tidy()}-function only in
 #'   specific situations. \cr \cr Some notes on the different plot-types:
@@ -342,11 +342,6 @@
 #'     and specify a certain order in the \code{terms}-argument to indicate
 #'     which variable(s) should be used as moderator.}
 #'   }
-#'
-#' @note
-#'   \code{plot_model()} replaces the functions \code{sjp.lm},
-#'   \code{sjp.glm}, \code{sjp.lmer}, \code{sjp.glmer} and \code{sjp.int}. These
-#'   are becoming softly deprecated and will be removed in a future update.
 #'
 #' @references
 #'   Gelman A (2008) "Scaling regression inputs by dividing by two

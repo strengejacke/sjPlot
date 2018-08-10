@@ -97,16 +97,11 @@ Shows the results of a computed correlation as HTML table. Requires either
                a \code{\link{data.frame}} or a matrix with correlation coefficients
                as returned by the \code{\link{cor}}-function.
 }
-\details{
-See 'Details' in \code{\link{sjt.frq}}.
-}
 \note{
 If \code{data} is a matrix with correlation coefficients as returned by
       the \code{\link{cor}}-function, p-values can't be computed.
       Thus, \code{show.p}, \code{p.numeric} and \code{fade.ns}
       only have an effect if \code{data} is a \code{\link{data.frame}}.
-      \cr \cr
-      Additionally, see 'Note' in \code{\link{sjt.frq}}.
 }
 \examples{
 \dontrun{

@@ -49,11 +49,6 @@
 #'            }
 #'            for further use.
 #'
-#' @note See 'Notes' in \code{\link{sjt.frq}}.
-#'
-#' @details See 'Details' in \code{\link{sjt.frq}}.
-#'
-#'
 #' @examples
 #' \dontrun{
 #' # Data from the EUROFAMCARE sample dataset
