@@ -401,6 +401,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     content <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), content, fixed = TRUE, useBytes = TRUE)
 
     # replace class-attributes with inline-style-definitions
+    # gsub("\"(.*)(summary)(.*)\"", "\\1haha\\3", "test \"abc summary def\"")
     content <- gsub(tag.tdata, css.tdata, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.thead, css.thead, content, fixed = TRUE, useBytes = TRUE)
     content <- gsub(tag.arc, css.arc, content, fixed = TRUE, useBytes = TRUE)

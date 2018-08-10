@@ -351,19 +351,14 @@ tab_model <- function(
       # tidy output of standardized values ----
 
       if (!is.null(show.std) && fam.info$is_linear && !is.stan(model)) {
-        tmp.dat <- model %>%
+        dat <- model %>%
           sjstats::std_beta(type = show.std, ci.lvl = ci.lvl) %>%
           sjmisc::var_rename(
             std.error = "std.se",
             conf.low = "std.conf.low",
             conf.high = "std.conf.high"
-          )
-
-        if (sjmisc::is_empty(grep("(Intercept)", tmp.dat$term, fixed = T))) {
-          tmp.dat <- tibble::add_case(tmp.dat, .before = 1)
-        }
-
-        dat <- tmp.dat %>%
+          ) %>%
+          tibble::add_case(.before = 1) %>%
           dplyr::select(-1) %>%
           sjmisc::add_columns(dat) %>%
           dplyr::mutate(std.conf.int = sprintf(
