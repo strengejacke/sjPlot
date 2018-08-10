@@ -567,7 +567,18 @@ tidy_glmmTMB_model <- function(model, ci.lvl, show.zeroinf) {
   # get fixed effects
 
   est <- glmmTMB::fixef(model)
-  vcovs <- stats::vcov(model)
+
+  # model may have error "system is computationally singular", then
+  # no vcov can be calculated
+
+  vcovs <- tryCatch(
+    {
+      stats::vcov(model)
+    },
+    error = function(x) { c(list(matrix(NA)), list(matrix(NA))) },
+    warning = function(x) { c(list(matrix(NA)), list(matrix(NA))) },
+    finally = function(x) { c(list(matrix(NA)), list(matrix(NA))) }
+  )
 
 
   # save conditional model

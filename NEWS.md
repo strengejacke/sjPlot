@@ -20,7 +20,7 @@ Following functions are now defunct:
 ## Bug fixes
 
 * Due to changes in the _broom_ and _lmerTest_ packages, tidiers did no longer work for `lmerModLmerTest` objects.
-
+* Fix issue with standardized coefficient (argument `show.std`) in `tab_model()`.
 
 # sjPlot 2.5.0
 
