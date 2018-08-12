@@ -18,8 +18,8 @@
 #'            \item{\code{NULL}}{(default) for no sorting.}
 #'          }
 #' @param show.prc Logical, if \code{TRUE} (default), the percentage values at the x-axis are shown.
-#' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{df}).
+#'
+#' @return A ggplot-object.
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.frq
@@ -64,8 +64,7 @@ sjp.stackfrq <- function(items,
                          expand.grid = FALSE,
                          digits = 1,
                          vjust = "center",
-                         coord.flip = TRUE,
-                         prnt.plot = TRUE) {
+                         coord.flip = TRUE) {
   # --------------------------------------------------------
   # check param. if we have a single vector instead of
   # a data frame with several items, convert vector to data frame
@@ -343,19 +342,11 @@ sjp.stackfrq <- function(items,
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
-  baseplot <- sj.setGeomColors(baseplot,
-                               geom.colors,
-                               length(legend.labels),
-                               show.legend,
-                               legend.labels)
-  # ---------------------------------------------------------
-  # Check whether ggplot object should be returned or plotted
-  # ---------------------------------------------------------
-  if (prnt.plot) graphics::plot(baseplot)
-  # -------------------------------------
-  # return results
-  # -------------------------------------
-  invisible(structure(class = "sjpstackfrq",
-                      list(plot = baseplot,
-                           df = mydat)))
+  sj.setGeomColors(
+    baseplot,
+    geom.colors,
+    length(legend.labels),
+    show.legend,
+    legend.labels
+  )
 }

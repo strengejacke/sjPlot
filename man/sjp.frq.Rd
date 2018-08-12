@@ -18,8 +18,7 @@ sjp.frq(var.cnt, title = "", weight.by = NULL,
   inner.box.dotsize = 3, normal.curve = FALSE,
   normal.curve.color = "red", normal.curve.size = 0.8,
   normal.curve.alpha = 0.4, auto.group = NULL, coord.flip = FALSE,
-  vjust = "bottom", hjust = "center", y.offset = NULL,
-  prnt.plot = TRUE)
+  vjust = "bottom", hjust = "center", y.offset = NULL)
 }
 \arguments{
 \item{var.cnt}{Vector of counts, for which frequencies or means will be plotted or printed.}
@@ -171,13 +170,9 @@ away from the center of the plot respectively.}
 
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
-
-\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-          was used for setting up the ggplot-object (\code{data}).
+A ggplot-object.
 }
 \description{
 Plot frequencies of a variable as bar graph, histogram,

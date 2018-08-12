@@ -122,10 +122,8 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #'          to the top/bottom of the geom (see \code{hjust} and \code{vjust}).
 #' @param show.na logical, if \code{TRUE}, \code{\link{NA}}'s (missing values)
 #'          are added to the output.
-#' @param prnt.plot logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-#'          want to plot any graphs. In either case, the ggplot-object will be returned as value.
-#' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{df}).
+#'
+#' @return A ggplot-object.
 #'
 #' @details \code{geom.colors} may be a character vector of color values
 #'          in hex-format, valid color value names (see \code{demo("colors")} or
@@ -207,8 +205,7 @@ sjp.grpfrq <- function(var.cnt,
                        coord.flip = FALSE,
                        y.offset = NULL,
                        vjust = "bottom",
-                       hjust = "center",
-                       prnt.plot = TRUE) {
+                       hjust = "center") {
 
   # get variable names
   var.name.cnt <- get_var_name(deparse(substitute(var.cnt)))
@@ -870,13 +867,5 @@ sjp.grpfrq <- function(var.cnt,
                      legend.labels)
 
   # Plot integrated bar chart here
-  if (prnt.plot) suppressWarnings(graphics::plot(baseplot))
-
-  # return results
-  invisible(structure(
-    class = c("sjp", "sjpgrpfrq"),
-    list(plot = baseplot,
-         df = mydat,
-         df.plot = mydf)
-  ))
+  baseplot
 }

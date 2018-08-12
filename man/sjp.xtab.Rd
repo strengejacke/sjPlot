@@ -16,7 +16,7 @@ sjp.xtab(x, grp, type = c("bar", "line"), margin = c("col", "cell",
   geom.colors = "Paired", dot.size = 3, smooth.lines = FALSE,
   grid.breaks = 0.2, expand.grid = FALSE, ylim = NULL,
   vjust = "bottom", hjust = "center", y.offset = NULL,
-  coord.flip = FALSE, prnt.plot = TRUE)
+  coord.flip = FALSE)
 }
 \arguments{
 \item{x}{A vector of values (variable) describing the bars which make up the plot.}
@@ -139,13 +139,9 @@ away from the center of the plot respectively.}
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
-
-\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-          was used for setting up the ggplot-object (\code{mydf}).
+A ggplot-object.
 }
 \description{
 Plot proportional crosstables (contingency tables) of two variables as ggplot diagram.

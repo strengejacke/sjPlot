@@ -9,7 +9,7 @@ sjp.corr(data, title = NULL, axis.labels = NULL, sort.corr = TRUE,
   corr.method = c("pearson", "spearman", "kendall"),
   geom.colors = "RdBu", wrap.title = 50, wrap.labels = 20,
   show.legend = FALSE, legend.title = NULL, show.values = TRUE,
-  show.p = TRUE, p.numeric = FALSE, prnt.plot = TRUE)
+  show.p = TRUE, p.numeric = FALSE)
 }
 \arguments{
 \item{data}{Matrix with correlation coefficients as returned by the
@@ -61,9 +61,6 @@ variable labels.}
 
 \item{p.numeric}{Logical, if \code{TRUE}, the p-values are printed
 as numbers. If \code{FALSE} (default), asterisks are used.}
-
-\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
 (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that

@@ -315,18 +315,18 @@ plot_sj <- function(x, fun, args) {
     if (fun == "frq") {
       pl <- list()
       for (i in seq_len(ncol(x))) {
-        pl[[length(pl) + 1]] <- sjp.frq(x[[i]], prnt.plot = F)$plot
+        pl[[length(pl) + 1]] <- sjp.frq(x[[i]])$plot
       }
     } else if (fun  == "grpfrq") {
-      p <- sjp.grpfrq(x[[1]], x[[2]], prnt.plot = F)$plot
+      p <- sjp.grpfrq(x[[1]], x[[2]])$plot
     } else if (fun  == "likert") {
       p <- sjp.likert(x)
     } else if (fun  == "stackfrq") {
-      p <- sjp.stackfrq(x, prnt.plot = F)$plot
+      p <- sjp.stackfrq(x)$plot
     } else if (fun  == "xtab") {
-      p <- sjp.xtab(x[[1]], x[[2]], prnt.plot = F)$plot
+      p <- sjp.xtab(x[[1]], x[[2]])$plot
     } else if (fun  == "gpt") {
-      p <- sjp.gpt(x[[1]], x[[2]], x[[3]], prnt.plot = F)$plot
+      p <- sjp.gpt(x[[1]], x[[2]], x[[3]])$plot
     } else if (fun  == "aov1") {
       p <- sjp.aov1(x[[1]], x[[2]])$plot
     }
@@ -334,18 +334,18 @@ plot_sj <- function(x, fun, args) {
     if (fun == "frq") {
       pl <- list()
       for (i in seq_len(ncol(x))) {
-        pl[[length(pl) + 1]] <- do.call(sjp.frq, args = c(list(var.cnt = x[[i]], prnt.plot = F), args))$plot
+        pl[[length(pl) + 1]] <- do.call(sjp.frq, args = c(list(var.cnt = x[[i]]), args))$plot
       }
     } else if (fun  == "grpfrq") {
-      p <- do.call(sjp.grpfrq, args = c(list(var.cnt = x[[1]], var.grp = x[[2]], prnt.plot = F), args))$plot
+      p <- do.call(sjp.grpfrq, args = c(list(var.cnt = x[[1]], var.grp = x[[2]]), args))$plot
     } else if (fun  == "likert") {
-      p <- do.call(sjp.likert, args = c(list(items = x, prnt.plot = F), args))$plot
+      p <- do.call(sjp.likert, args = c(list(items = x), args))$plot
     } else if (fun  == "stackfrq") {
-      p <- do.call(sjp.stackfrq, args = c(list(items = x, prnt.plot = F), args))$plot
+      p <- do.call(sjp.stackfrq, args = c(list(items = x), args))$plot
     } else if (fun  == "xtab") {
-      p <- do.call(sjp.xtab, args = c(list(x = x[[1]], grp = x[[2]], prnt.plot = F), args))$plot
+      p <- do.call(sjp.xtab, args = c(list(x = x[[1]], grp = x[[2]]), args))$plot
     } else if (fun  == "gpt") {
-      p <- do.call(sjp.gpt, args = c(list(x = x[[1]], y = x[[2]], groups = x[[3]], prnt.plot = F), args))$plot
+      p <- do.call(sjp.gpt, args = c(list(x = x[[1]], y = x[[2]], groups = x[[3]]), args))$plot
     } else if (fun  == "aov1") {
       p <- do.call(sjp.aov1, args = c(list(var.dep = x[[1]], var.grp = x[[2]]), args))$plot
     }

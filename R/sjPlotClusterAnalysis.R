@@ -126,8 +126,7 @@ sjc.qclus <- function(data,
                       legend.title = NULL,
                       legend.labels = NULL,
                       coord.flip = FALSE,
-                      reverse.axis = FALSE,
-                      prnt.plot = TRUE) {
+                      reverse.axis = FALSE) {
   # --------------------------------------------------------
   # match arguments
   # --------------------------------------------------------
@@ -202,8 +201,7 @@ sjc.qclus <- function(data,
   # --------------------------------------------------------
   grp.accuracy <- sjc.grpdisc(data,
                               groups = grp,
-                              groupcount = groupcount,
-                              prnt.plot = show.accuracy)
+                              groupcount = groupcount)
   # ---------------------------------------------
   # Add group count to legend labels
   # ---------------------------------------------
@@ -288,7 +286,7 @@ sjc.qclus <- function(data,
   # --------------------------------------------------------
   # plot
   # --------------------------------------------------------
-  if (prnt.plot) graphics::plot(gp)
+  graphics::plot(gp)
   # --------------------------------------------------------
   # return values
   # --------------------------------------------------------
@@ -540,7 +538,7 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
 #' @importFrom MASS lda
 #' @import ggplot2
 #' @export
-sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE, prnt.plot = TRUE) {
+sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE) {
   # Prepare Data
   # listwise deletion of missing
   data <- stats::na.omit(data)
@@ -643,7 +641,7 @@ sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE, prnt.plot = T
   # --------------------------------------------------------
   # plot
   # --------------------------------------------------------
-  if (prnt.plot) graphics::plot(classplot)
+  graphics::plot(classplot)
   # --------------------------------------------------------
   # return values
   # --------------------------------------------------------

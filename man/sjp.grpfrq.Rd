@@ -18,7 +18,7 @@ sjp.grpfrq(var.cnt, var.grp, type = c("bar", "dot", "line", "boxplot",
   expand.grid = FALSE, inner.box.width = 0.15, inner.box.dotsize = 3,
   smooth.lines = FALSE, emph.dots = TRUE, summary.pos = "r",
   facet.grid = FALSE, coord.flip = FALSE, y.offset = NULL,
-  vjust = "bottom", hjust = "center", prnt.plot = TRUE)
+  vjust = "bottom", hjust = "center")
 }
 \arguments{
 \item{var.cnt}{Vector of counts, for which frequencies or means will be plotted or printed.}
@@ -177,13 +177,9 @@ labels. Allowed are same values as for \code{vjust} aesthetics from
 \code{ggplot2}: "left", "center", "right", "bottom", "middle", "top" and
 new options like "inward" and "outward", which align text towards and
 away from the center of the plot respectively.}
-
-\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-          was used for setting up the ggplot-object (\code{df}).
+A ggplot-object.
 }
 \description{
 Plot grouped or stacked frequencies of variables as bar/dot,

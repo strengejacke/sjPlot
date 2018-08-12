@@ -31,9 +31,7 @@ utils::globalVariables(c("dep", "n"))
 #' @param show.p Logical, adds significance levels to values, or value and
 #'          variable labels.
 #'
-#' @return (Insisibily) returns the ggplot-object with the complete plot
-#'           (\code{plot}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{df}).
+#' @return A ggplot-object.
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.xtab
@@ -81,8 +79,7 @@ sjp.gpt <- function(x,
                     show.total = TRUE,
                     annotate.total = TRUE,
                     show.p = TRUE,
-                    show.n = TRUE,
-                    prnt.plot = TRUE) {
+                    show.n = TRUE) {
   # get variable name
   var.name.x <- get_var_name(deparse(substitute(x)))
   var.name.y <- get_var_name(deparse(substitute(y)))
@@ -265,7 +262,5 @@ sjp.gpt <- function(x,
   if (show.total && annotate.total)
     p <- p + annotate("rect", xmin = 0.5,  xmax = 1.5, ymin = -Inf, ymax = Inf, alpha = 0.15)
 
-  # print plot
-  if (prnt.plot) graphics::plot(p)
-  invisible(structure(list(plot = p, df = newdf)))
+  p
 }

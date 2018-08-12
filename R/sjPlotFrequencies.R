@@ -57,8 +57,7 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' @inheritParams sjp.lm
 #' @inheritParams sjp.glmer
 #'
-#' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{data}).
+#' @return A ggplot-object.
 #'
 #' @examples
 #' library(sjlabelled)
@@ -140,8 +139,7 @@ sjp.frq <- function(var.cnt,
                     coord.flip = FALSE,
                     vjust = "bottom",
                     hjust = "center",
-                    y.offset = NULL,
-                    prnt.plot = TRUE) {
+                    y.offset = NULL) {
 
   # get variable name, used as default label if variable
   # has no label attributes
@@ -514,6 +512,9 @@ sjp.frq <- function(var.cnt,
   } else if (type == "density") {
     # First, plot histogram with density curve
     baseplot <- ggplot(hist.dat, aes(x = xv)) +
+
+      ## TODO use solution from new ggplot
+
       geom_histogram(aes(y = ..density..), binwidth = geom.size, fill = geom.colors) +
       # transparent density curve above bars
       geom_density(aes(y = ..density..), fill = "cornsilk", alpha = 0.3) +
@@ -625,8 +626,5 @@ sjp.frq <- function(var.cnt,
   baseplot <- baseplot + labs(title = title, x = axis.title, y = NULL)
 
   # Check whether ggplot object should be returned or plotted
-  if (prnt.plot) graphics::plot(baseplot)
-
-  # return results
-  invisible(structure(class = "sjpfrq", list(plot = baseplot, data = mydat)))
+  baseplot
 }

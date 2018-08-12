@@ -10,8 +10,7 @@
 #'
 #' @param df A data frame with (dichotomous) factor variables.
 #'
-#' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{mydf}).
+#' @return A ggplot-object.
 #'
 #' @inheritParams sjp.grpfrq
 #'
@@ -37,8 +36,7 @@ sjp.chi2 <- function(df,
                      wrap.title = 50,
                      wrap.labels = 20,
                      show.legend = FALSE,
-                     legend.title = NULL,
-                     prnt.plot = TRUE) {
+                     legend.title = NULL) {
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
@@ -103,14 +101,6 @@ sjp.chi2 <- function(df,
   # hide legend?
   # ---------------------------------------------------------
   if (!show.legend) chiPlot <- chiPlot + guides(fill = FALSE)
-  # ---------------------------------------------------------
-  # Check whether ggplot object should be returned or plotted
-  # ---------------------------------------------------------
-  if (prnt.plot) graphics::plot(chiPlot)
-  # -------------------------------------
-  # return results
-  # -------------------------------------
-  invisible(structure(class = "sjpchi2",
-                      list(plot = chiPlot,
-                           mydf = m)))
+
+  chiPlot
 }

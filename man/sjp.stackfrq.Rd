@@ -11,7 +11,7 @@ sjp.stackfrq(items, title = NULL, legend.title = NULL,
   geom.size = 0.5, geom.colors = "Blues", show.values = TRUE,
   show.n = TRUE, show.prc = TRUE, show.legend = TRUE,
   grid.breaks = 0.2, expand.grid = FALSE, digits = 1,
-  vjust = "center", coord.flip = TRUE, prnt.plot = TRUE)
+  vjust = "center", coord.flip = TRUE)
 }
 \arguments{
 \item{items}{Data frame, with each column representing one item.}
@@ -89,13 +89,9 @@ new options like "inward" and "outward", which align text towards and
 away from the center of the plot respectively.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
-
-\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-          was used for setting up the ggplot-object (\code{df}).
+A ggplot-object.
 }
 \description{
 Plot items (variables) of a scale as stacked proportional bars. This

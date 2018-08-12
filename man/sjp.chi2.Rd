@@ -6,7 +6,7 @@
 \usage{
 sjp.chi2(df, title = "Pearson's Chi2-Test of Independence",
   axis.labels = NULL, wrap.title = 50, wrap.labels = 20,
-  show.legend = FALSE, legend.title = NULL, prnt.plot = TRUE)
+  show.legend = FALSE, legend.title = NULL)
 }
 \arguments{
 \item{df}{A data frame with (dichotomous) factor variables.}
@@ -29,13 +29,9 @@ labels are displayed in one line and when a line break is inserted.}
 function, a legend is added to the plot.}
 
 \item{legend.title}{character vector, used as title for the plot legend.}
-
-\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-          was used for setting up the ggplot-object (\code{mydf}).
+A ggplot-object.
 }
 \description{
 Plot p-values of Pearson's Chi2-tests for multiple contingency tables as ellipses or tiles.

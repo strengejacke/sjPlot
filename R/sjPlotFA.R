@@ -76,8 +76,7 @@ sjp.fa <- function(data,
                     wrap.title = 50,
                     wrap.labels = 30,
                     show.values = TRUE,
-                    show.cronb = TRUE,
-                    prnt.plot = TRUE) {
+                    show.cronb = TRUE) {
   # --------------------------------------------------------
   # check arguments
   # --------------------------------------------------------
@@ -300,7 +299,7 @@ sjp.fa <- function(data,
   # --------------------------------------------------------
   # print plot
   # --------------------------------------------------------
-  if (prnt.plot) graphics::plot(heatmap)
+  graphics::plot(heatmap)
   # --------------------------------------------------------
   # if we have a data frame, all factors which do not clearly
   # load on a specific dimension (see patameter "fctr.load.tlrn")

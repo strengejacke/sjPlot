@@ -25,8 +25,7 @@ utils::globalVariables(c("prc","ges", "n", "Count", "Group", "line.break"))
 #'
 #' @inheritParams sjp.grpfrq
 #'
-#' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{mydf}).
+#' @return A ggplot-object.
 #'
 #' @examples
 #' # create 4-category-items
@@ -120,8 +119,7 @@ sjp.xtab <- function(x,
                      vjust = "bottom",
                      hjust = "center",
                      y.offset = NULL,
-                     coord.flip = FALSE,
-                     prnt.plot = TRUE) {
+                     coord.flip = FALSE) {
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
@@ -456,19 +454,11 @@ sjp.xtab <- function(x,
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------
-  baseplot <- sj.setGeomColors(baseplot,
-                               geom.colors,
-                               length(legend.labels),
-                               show.legend,
-                               legend.labels)
-  # ---------------------------------------------------------
-  # Check whether ggplot object should be returned or plotted
-  # ---------------------------------------------------------
-  if (prnt.plot) graphics::plot(baseplot)
-  # -------------------------------------
-  # return results
-  # -------------------------------------
-  invisible(structure(class = "sjpxtab",
-                      list(plot = baseplot,
-                           mydf = mydf)))
+  sj.setGeomColors(
+    baseplot,
+    geom.colors,
+    length(legend.labels),
+    show.legend,
+    legend.labels
+  )
 }
