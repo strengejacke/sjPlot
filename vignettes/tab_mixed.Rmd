@@ -87,6 +87,20 @@ m4 <- glmmTMB(
 tab_model(m1, m3, m4, show.ci = FALSE)
 ``` 
 
+## Alternative measures of random effect variances
+
+By default, the ICC for nested or cross-classified models only reports the proportion of variance explained for each grouping level. Use `show.adj.icc = TRUE` to calculate the adjusted ICC, which takes all sources of uncertainty (of all random effects) into account.
+
+If random effects are not nested and not cross-classified, the adjusted and unadjusted ICC are identical (see `m1` in table below). 
+
+```{r}
+set.seed(2)
+sleepstudy$mygrp <- sample(1:30, size = 180, replace = TRUE)
+m5 <- lmer(Reaction ~ Days + (1 | mygrp) + (1 | Subject), sleepstudy)
+
+tab_model(m1, m5, show.ci = FALSE, show.adj.icc = TRUE)
+``` 
+
 ## References
 
 Nakagawa S, Johnson P, Schielzeth H (2017) _The coefficient of determination R2 and intra-class correlation coefficient from generalized linear mixed-effects models revisted and expanded._ J. R. Soc. Interface 14. doi: 10.1098/rsif.2017.0213

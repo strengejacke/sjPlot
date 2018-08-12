@@ -52,6 +52,9 @@
 #'    for mixed models. See \code{\link[sjstats]{re_var}} for details.
 #' @param show.icc Logical, if \code{TRUE}, prints the intraclass correlation
 #'    coefficient for mixed models. See \code{\link[sjstats]{icc}} for details.
+#' @param show.adj.icc Logical, if \code{TRUE}, prints the adjusted intraclass
+#'    correlation coefficient for mixed models. See \code{\link[sjstats]{icc}}
+#'    with argument \code{adjusted = TRUE} for details.
 #' @param show.dev Logical, if \code{TRUE}, shows the deviance of the model.
 #' @param show.ci Either logical, and if \code{TRUE}, the confidence intervals
 #'    is printed to the table; if \code{FALSE}, confidence intervals are
@@ -206,6 +209,7 @@ tab_model <- function(
   show.zeroinf = TRUE,
   show.r2 = TRUE,
   show.icc = TRUE,
+  show.adj.icc = FALSE,
   show.re.var = TRUE,
   show.fstat = FALSE,
   show.aic = FALSE,
@@ -500,6 +504,15 @@ tab_model <- function(
         )
       }
 
+      icc.adjusted <- NULL
+
+      if ((show.adj.icc) && is_mixed_model(model)) {
+        icc.adjusted <- tryCatch(
+          sjstats::icc(model, adjusted = TRUE),
+          error = function(x) { NULL }
+        )
+      }
+
 
       # Add deviance and AIC statistic ----
 
@@ -526,7 +539,8 @@ tab_model <- function(
         n_obs = n_obs,
         icc = icc,
         dev = dev,
-        aic = aic
+        aic = aic,
+        icc.adj = icc.adjusted
       )
     }
   )
@@ -553,6 +567,7 @@ tab_model <- function(
   icc.data <- purrr::map(model.list, ~.x[[6]])
   dev.data <- purrr::map(model.list, ~.x[[7]])
   aic.data <- purrr::map(model.list, ~.x[[8]])
+  icc.adj.data <- purrr::map(model.list, ~.x[[9]])
   is.zeroinf <- purrr::map_lgl(model.list, ~ !is.null(.x[[3]]))
 
   zeroinf.data <- purrr::compact(zeroinf.data)
@@ -851,11 +866,13 @@ tab_model <- function(
     rsq.list = rsq.data,
     n_obs.list = n_obs.data,
     icc.list = icc.data,
+    icc.adj.list = icc.adj.data,
     dev.list = dev.data,
     aic.list = aic.data,
     n.models = length(model.list),
     show.re.var = show.re.var,
     show.icc = show.icc,
+    show.adj.icc = show.adj.icc,
     CSS = CSS,
     file = file,
     use.viewer = use.viewer

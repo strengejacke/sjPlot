@@ -257,6 +257,7 @@ tab_model_df <- function(x,
                          rsq.list,
                          n_obs.list,
                          icc.list,
+                         icc.adj.list = NULL,
                          dev.list,
                          aic.list,
                          n.models,
@@ -264,6 +265,7 @@ tab_model_df <- function(x,
                          col.header = NULL,
                          show.re.var = FALSE,
                          show.icc = FALSE,
+                         show.adj.icc = FALSE,
                          encoding = "UTF-8",
                          CSS = NULL,
                          file = NULL,
@@ -506,6 +508,26 @@ tab_model_df <- function(x,
   }
 
 
+  if (!is_empty_list(icc.adj.list) && show.adj.icc) {
+
+    # icc.len <- max(purrr::map_dbl(icc.adj.list, length))
+
+    page.content <- paste0(
+      page.content,
+      create_random_effects(
+        rv.len = 1,
+        rv = icc.adj.list,
+        rv.string = "ICC <sub>adjusted</sub>",
+        clean.rv = "icc",
+        var.names = colnames(x),
+        summary.css = summary.css,
+        n.cols = ncol(x),
+        delim = ".adjusted"
+      ))
+
+  }
+
+
   # add no of observations ----
 
   if (!is_empty_list(n_obs.list)) {
@@ -697,9 +719,9 @@ tab_model_df <- function(x,
 }
 
 
-create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, summary.css, n.cols) {
+create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, summary.css, n.cols, delim = "_") {
   page.content <- ""
-  pattern <- paste0("^", clean.rv, "_")
+  pattern <- paste0("^", clean.rv, delim)
 
   for (i in 1:rv.len) {
 
