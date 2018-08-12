@@ -55,7 +55,7 @@
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.stackfrq
-#' @inheritParams sjp.glmer
+#' @inheritParams plot_model
 #'
 #' @return A ggplot-object.
 #'

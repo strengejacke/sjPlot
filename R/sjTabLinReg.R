@@ -104,6 +104,8 @@
 #'          column will be added to the output; however, when copying tables to
 #'          office applications, it might be helpful not to add this separator column
 #'          when modifying the table layout.
+#' @param p.kr Logical, if \code{TRUE}, the computation of p-values is based on
+#'         conditional F-tests with Kenward-Roger approximation for the df.
 #'
 #' @inheritParams tab_model
 #' @inheritParams plot_model
@@ -1122,9 +1124,6 @@ sjt.lm <- function(...,
 #'                (estimates, std. beta values etc.)  as HTML table,
 #'                or saves them as file. The fitted models may have different
 #'                predictors, e.g. when comparing different stepwise fitted models.
-#'
-#' @param p.kr Logical, if \code{TRUE}, the computation of p-values is based on
-#'         conditional F-tests with Kenward-Roger approximation for the df.
 #'
 #' @inheritParams tab_model
 #' @inheritParams sjt.lm

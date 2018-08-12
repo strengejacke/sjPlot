@@ -6,7 +6,7 @@
 \usage{
 sjp.resid(fit, geom.size = 2, remove.estimates = NULL,
   show.lines = TRUE, show.resid = TRUE, show.pred = TRUE,
-  show.ci = F, prnt.plot = TRUE)
+  show.ci = FALSE)
 }
 \arguments{
 \item{fit}{Fitted linear (mixed) regression model (including objects of class
@@ -19,11 +19,14 @@ plot-building is too time consuming.}
 \item{show.resid}{Logical, if \code{TRUE}, residual values are plotted.}
 
 \item{show.pred}{Logical, if \code{TRUE}, predicted values are plotted.}
+
+\item{show.ci}{Logical, if \code{TRUE)}, adds notches to the box plot, which are
+used to compare groups; if the notches of two boxes do not overlap,
+medians are considered to be significantly different.}
 }
 \value{
-(Insisibily) returns the ggplot-object with the complete plot (\code{plot}),
-          the residual pattern (\code{pattern}) as well as the data frame that
-          was used for setting up the ggplot-object (\code{mydf}).
+One ggplot-object with the complete plot and one with
+          the residual pattern.
 }
 \description{
 This function plots observed and predicted values of the response

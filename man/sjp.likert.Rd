@@ -120,6 +120,9 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 \item{expand.grid}{logical, if \code{TRUE}, the plot grid is expanded, i.e. there is a small margin between
 axes and plotting region. Default is \code{FALSE}.}
 
+\item{digits}{Numeric, amount of digits after decimal point when rounding
+estimates or values.}
+
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 }
 \value{

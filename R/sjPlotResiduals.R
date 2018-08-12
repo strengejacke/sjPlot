@@ -14,11 +14,12 @@
 #'        plot-building is too time consuming.
 #' @param show.resid Logical, if \code{TRUE}, residual values are plotted.
 #' @param show.pred Logical, if \code{TRUE}, predicted values are plotted.
-#' @inheritParams sjp.lm
 #'
-#' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}),
-#'           the residual pattern (\code{pattern}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{mydf}).
+#' @inheritParams plot_model
+#' @inheritParams scatterplot
+#'
+#' @return One ggplot-object with the complete plot and one with
+#'           the residual pattern.
 #'
 #' @note The actual (observed) values have a coloured fill, while the predicted
 #'       values have a solid outline without filling.
@@ -40,7 +41,7 @@
 #' @importFrom rlang .data
 #' @export
 sjp.resid <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = TRUE,
-                      show.resid = TRUE, show.pred = TRUE, show.ci = F, prnt.plot = TRUE) {
+                      show.resid = TRUE, show.pred = TRUE, show.ci = FALSE) {
   # show lines only when both residual and predicted
   # values are plotted - else, lines make no sense
   if (!show.pred || !show.resid) show.lines <- FALSE
@@ -101,12 +102,5 @@ sjp.resid <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = 
     facet_grid(~grp, scales = "free") +
     labs(x = NULL, y = sjlabelled::get_label(mydat[[1]], def.value = rv))
 
-  # Check whether ggplot object should be returned or plotted
-  if (prnt.plot) graphics::plot(res.plot)
-
-  # return results
-  invisible(structure(class = "sjpresid",
-                      list(plot = res.plot,
-                           pattern = pattern.plot,
-                           mydf = mydat)))
+  list(res.plot, pattern.plot)
 }

@@ -8,7 +8,7 @@ sjp.poly(x, poly.term, poly.degree, poly.scale = FALSE, fun = NULL,
   axis.title = NULL, geom.colors = NULL, geom.size = 0.8,
   show.loess = TRUE, show.loess.ci = TRUE, show.p = TRUE,
   show.scatter = TRUE, point.alpha = 0.2, point.color = "#404040",
-  loess.color = "#808080", prnt.plot = TRUE)
+  loess.color = "#808080")
 }
 \arguments{
 \item{x}{A vector, representing the response variable of a linear (mixed) model; or
@@ -33,6 +33,14 @@ When \code{x} is not a vector, but a fitted model object, the function
 is detected automatically. If \code{x} is a vector, \code{fun} defaults
 to \code{"lm"}.}
 
+\item{axis.title}{Character vector of length one or two (depending on the
+plot function and type), used as title(s) for the x and y axis. If not
+specified, a default labelling  is chosen. \strong{Note:} Some plot types
+may not support this argument sufficiently. In such cases, use the returned
+ggplot-object and add axis titles manually with
+\code{\link[ggplot2]{labs}}. Use \code{axis.title = ""} to remove axis
+titles.}
+
 \item{show.loess}{Logical, if \code{TRUE}, an additional loess-smoothed line is plotted.}
 
 \item{show.loess.ci}{Logical, if \code{TRUE}, a confidence region for the loess-smoothed line
@@ -44,12 +52,7 @@ printed to the console.}
 \item{loess.color}{Color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.}
 }
 \value{
-(Insisibily) returns
-          \describe{
-           \item{\code{plot}}{the ggplot-object with the complete plot}
-           \item{\code{df}}{the data frame that was used for setting up the ggplot-object}
-           \item{\code{cutpoints}}{a data frame that indicates x-values and predicted y-values of each direction change in the loess curvature}
-          }
+A ggplot-object.
 }
 \description{
 This function plots a scatter plot of a term \code{poly.term}
@@ -106,8 +109,4 @@ fit <- lm(tot_sc_e ~ c12hour + e42dep + e17age + I(e17age^2) + I(e17age^3),
 # plot marginal effects of polynomial term
 plot_model(fit, type = "pred", terms = "e17age")}
 
-}
-\seealso{
-To plot marginal effects of polynomial terms, call \code{\link{sjp.lm}} with \code{type = "poly"},
-           or \code{\link{sjp.lmer}} respectively for linear mixed models.
 }

@@ -58,6 +58,9 @@ as numbers. If \code{FALSE} (default), asterisks are used.}
 period (e.g. \emph{0.002}), else p-values start with a period and
 without a zero (e.g. \emph{.002}).}
 
+\item{p.kr}{Logical, if \code{TRUE}, the computation of p-values is based on
+conditional F-tests with Kenward-Roger approximation for the df.}
+
 \item{robust}{Logical, if \code{TRUE}, robust standard errors and confidence
 intervals will be reported. Computation of robust standard errors is
 based on the \code{\link[sjstats]{robust}}-function in the

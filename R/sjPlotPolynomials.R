@@ -30,15 +30,10 @@
 #' @param show.p Logical, if \code{TRUE} (default), p-values for polynomial terms are
 #'          printed to the console.
 #' @param loess.color Color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.
-#' @return (Insisibily) returns
-#'           \describe{
-#'            \item{\code{plot}}{the ggplot-object with the complete plot}
-#'            \item{\code{df}}{the data frame that was used for setting up the ggplot-object}
-#'            \item{\code{cutpoints}}{a data frame that indicates x-values and predicted y-values of each direction change in the loess curvature}
-#'           }
+#' @return A ggplot-object.
 #'
-#' @inheritParams sjp.glmer
-#' @inheritParams sjp.lm
+#' @inheritParams plot_model
+#' @inheritParams scatterplot
 #'
 #' @details For each polynomial degree, a simple linear regression on \code{x} (resp.
 #'            the extracted response, if \code{x} is a fitted model) is performed,
@@ -55,9 +50,6 @@
 #'            line (in dark grey) can be added (with \code{show.loess = TRUE}). The polynomial curves
 #'            that comes closest to the loess-smoothed line should be the best
 #'            fit to the data.
-#'
-#' @seealso To plot marginal effects of polynomial terms, call \code{\link{sjp.lm}} with \code{type = "poly"},
-#'            or \code{\link{sjp.lmer}} respectively for linear mixed models.
 #'
 #' @examples
 #' library(sjmisc)
@@ -109,8 +101,7 @@ sjp.poly <- function(x,
                      show.scatter = TRUE,
                      point.alpha = .2,
                      point.color = "#404040",
-                     loess.color = "#808080",
-                     prnt.plot = TRUE) {
+                     loess.color = "#808080") {
   # --------------------------------------------
   # check color parameter
   # --------------------------------------------
@@ -164,7 +155,7 @@ sjp.poly <- function(x,
   # --------------------------------------------
   # get cutpoints for loess curve
   # --------------------------------------------
-  cutpoints <- get_loess_cutpoints(stats::na.omit(data.frame(x = poly.term, y = resp)))
+  # cutpoints <- get_loess_cutpoints(stats::na.omit(data.frame(x = poly.term, y = resp)))
   # --------------------------------------------
   # if user wants to plot multiple curves for
   # polynomials, create data frame for each curve here
@@ -216,17 +207,8 @@ sjp.poly <- function(x,
     geom_line(aes_string(y = "pred"), size = geom.size) +
     scale_color_manual(values = geom.colors, labels = lapply(poly.degree, function(j) bquote(x^.(j)))) +
     labs(x = axis.title, y = axisTitle.y, colour = "Polynomial\ndegrees")
-  # ---------------------------------------------------------
-  # Check whether ggplot object should be returned or plotted
-  # ---------------------------------------------------------
-  if (prnt.plot) graphics::plot(polyplot)
-  # -------------------------------------
-  # return results
-  # -------------------------------------
-  invisible(structure(class = "sjppoly",
-                      list(plot = polyplot,
-                           df = plot.df,
-                           cutpoints = cutpoints)))
+
+  polyplot
 }
 
 

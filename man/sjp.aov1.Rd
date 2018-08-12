@@ -19,7 +19,7 @@ sjp.aov1(var.dep, var.grp, meansums = FALSE, title = NULL,
 \item{var.grp}{Factor with the cross-classifying variable, where \code{var.dep}
 is grouped into the categories represented by \code{var.grp}.}
 
-\item{meansums}{Logical, if \code{TRUE}, the values reported are the true group mean values (see also \code{\link{sjt.grpmean}}).
+\item{meansums}{Logical, if \code{TRUE}, the values reported are the true group mean values.
 If \code{FALSE} (default), the values are reported in the standard way, i.e. the values indicate the difference of
 the group mean in relation to the intercept (reference group).}
 

@@ -23,7 +23,7 @@
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.frq
-#' @inheritParams sjp.glmer
+#' @inheritParams plot_model
 #'
 #' @examples
 #' # Data from the EUROFAMCARE sample dataset
