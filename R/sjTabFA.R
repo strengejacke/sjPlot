@@ -14,6 +14,7 @@
 #' @inheritParams sjp.pca
 #' @inheritParams sjt.pca
 #' @inheritParams tab_model
+#' @inheritParams tab_df
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjt.corr
@@ -57,18 +58,18 @@ sjt.fa <- function(data,
                    method = c("ml", "minres", "wls", "gls", "pa", "minchi", "minrank"),
                    nmbr.fctr = NULL,
                    fctr.load.tlrn = 0.1,
-                    title = "Factor Analysis",
-                    var.labels = NULL,
-                    wrap.labels = 40,
-                    show.cronb = TRUE,
-                    show.comm = FALSE,
-                    altr.row.col = FALSE,
-                    digits = 2,
-                    CSS = NULL,
-                    encoding = NULL,
-                    file = NULL,
-                    use.viewer = TRUE,
-                    remove.spaces = TRUE) {
+                   title = "Factor Analysis",
+                   var.labels = NULL,
+                   wrap.labels = 40,
+                   show.cronb = TRUE,
+                   show.comm = FALSE,
+                   alternate.rows = FALSE,
+                   digits = 2,
+                   CSS = NULL,
+                   encoding = NULL,
+                   file = NULL,
+                   use.viewer = TRUE,
+                   remove.spaces = TRUE) {
   # -------------------------------------
   # check encoding
   # -------------------------------------
@@ -332,7 +333,7 @@ sjt.fa <- function(data,
     # default row string for alternative row colors
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (altr.row.col) arcstring <- ifelse(sjmisc::is_even(i), " arc", "")
+    if (alternate.rows) arcstring <- ifelse(sjmisc::is_even(i), " arc", "")
     # write tr-tag with class-attributes
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell

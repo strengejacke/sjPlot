@@ -7,7 +7,7 @@
 sjt.pca(data, rotation = c("varimax", "oblimin"), nmbr.fctr = NULL,
   fctr.load.tlrn = 0.1, title = "Principal Component Analysis",
   var.labels = NULL, wrap.labels = 40, show.cronb = TRUE,
-  show.msa = FALSE, show.var = FALSE, altr.row.col = FALSE,
+  show.msa = FALSE, show.var = FALSE, alternate.rows = FALSE,
   digits = 2, string.pov = "Proportion of Variance",
   string.cpov = "Cumulative Proportion", CSS = NULL, encoding = NULL,
   file = NULL, use.viewer = TRUE, remove.spaces = TRUE)
@@ -48,6 +48,9 @@ dor each component.}
 \item{show.var}{Logical, if \code{TRUE}, the proportions of variances for each component as well as cumulative
 variance are shown in the table footer.}
 
+\item{alternate.rows}{Logical, if \code{TRUE}, rows are printed in
+alternatig colors (white and light grey by default).}
+
 \item{digits}{Amount of decimals for estimates}
 
 \item{string.pov}{String for the table row that contains the proportions of variances. By default,
@@ -60,10 +63,10 @@ variance are shown in the table footer.}
 according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
 See 'Details' or \href{../doc/table_css.html}{this package-vignette}.}
 
-\item{encoding}{String, indicating the charset encoding used for variable and
-value labels. Default is \code{NULL}, so encoding will be auto-detected
-depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
+\item{encoding}{Character vector, indicating the charset encoding used
+for variable and value labels. Default is \code{"UTF-8"}. For Windows
+Systems, \code{encoding = "Windows-1252"} might be necessary for proper
+display of special characters.}
 
 \item{file}{Destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and

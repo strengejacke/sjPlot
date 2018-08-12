@@ -4,7 +4,7 @@
 \alias{view_df}
 \title{View structure of labelled data frames}
 \usage{
-view_df(x, weight.by = NULL, altr.row.col = TRUE, show.id = TRUE,
+view_df(x, weight.by = NULL, alternate.rows = TRUE, show.id = TRUE,
   show.type = FALSE, show.values = TRUE, show.string.values = FALSE,
   show.labels = TRUE, show.frq = FALSE, show.prc = FALSE,
   show.wtd.frq = FALSE, show.wtd.prc = FALSE, show.na = FALSE,
@@ -22,6 +22,9 @@ and \code{\link[sjlabelled]{set_labels}}).}
 \item{weight.by}{Name of variable in \code{x} that indicated the vector of
 weights that will be applied to weight all  observations. Default is
 \code{NULL}, so no weights are used.}
+
+\item{alternate.rows}{Logical, if \code{TRUE}, rows are printed in
+alternatig colors (white and light grey by default).}
 
 \item{show.id}{Logical, if \code{TRUE} (default), the variable ID is shown in
 the first column.}

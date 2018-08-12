@@ -54,6 +54,7 @@
 #'          Finally, a correlation of these "scale sum scores" is computed.
 #'
 #' @inheritParams tab_model
+#' @inheritParams view_df
 #' @inheritParams sjt.xtab
 #' @inheritParams tab_df
 #'
@@ -124,7 +125,7 @@ sjt.itemanalysis <- function(df,
                              factor.groups.titles = "auto",
                              scale = FALSE,
                              min.valid.rowmean = 2,
-                             altr.row.col = TRUE,
+                             alternate.rows = TRUE,
                              sort.column = NULL,
                              show.shapiro = FALSE,
                              show.kurtosis = FALSE,
@@ -276,7 +277,7 @@ sjt.itemanalysis <- function(df,
     x = df.ia,
     titles = factor.groups.titles,
     col.header = NULL,
-    alternate.rows = altr.row.col,
+    alternate.rows = alternate.rows,
     CSS = CSS,
     sort.column = sort.column,
     show.type = FALSE,

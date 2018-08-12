@@ -6,7 +6,7 @@
 \usage{
 sjt.stackfrq(items, weight.by = NULL, title = NULL,
   var.labels = NULL, value.labels = NULL, wrap.labels = 20,
-  sort.frq = NULL, altr.row.col = FALSE, digits = 2,
+  sort.frq = NULL, alternate.rows = FALSE, digits = 2,
   string.total = "N", string.na = "NA", show.n = FALSE,
   show.total = FALSE, show.na = FALSE, show.skew = FALSE,
   show.kurtosis = FALSE, digits.stats = 2, file = NULL,
@@ -20,7 +20,10 @@ sjt.stackfrq(items, weight.by = NULL, title = NULL,
 Must be a vector of same length as the input vector. Default is
 \code{NULL}, so no weights are used.}
 
-\item{title}{String, will be used as table caption.}
+\item{title}{Character vector with table
+caption(s) resp. footnote(s). For  \code{tab_df()}, must be a character
+of length 1; for \code{tab_dfs()}, a character vector of same length as
+\code{x} (i.e. one title or footnote per data frame).}
 
 \item{var.labels}{Character vector with variable names, which will be used
 to label variables in the output.}
@@ -41,6 +44,9 @@ by highest count of first or last category of \code{items}.
   \item \code{"last.desc"} to order descending by lowest count of last category,
   \item or \code{NULL} (default) for no sorting.
 }}
+
+\item{alternate.rows}{Logical, if \code{TRUE}, rows are printed in
+alternatig colors (white and light grey by default).}
 
 \item{digits}{Amount of decimals for estimates}
 
@@ -71,10 +77,10 @@ Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal poin
 If \code{NULL} (default), the output will be saved as temporary file and
 openend either in the IDE's viewer pane or the default web browser.}
 
-\item{encoding}{String, indicating the charset encoding used for variable and
-value labels. Default is \code{NULL}, so encoding will be auto-detected
-depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
+\item{encoding}{Character vector, indicating the charset encoding used
+for variable and value labels. Default is \code{"UTF-8"}. For Windows
+Systems, \code{encoding = "Windows-1252"} might be necessary for proper
+display of special characters.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
 according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
@@ -138,15 +144,15 @@ start <- which(colnames(efc) == "c82cop1")
 # recveive first item of COPE-index scale
 end <- which(colnames(efc) == "c90cop9")
 
-sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE)
+sjt.stackfrq(efc[, c(start:end)], alternate.rows = TRUE)
 
-sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE,
+sjt.stackfrq(efc[, c(start:end)], alternate.rows = TRUE,
              show.n = TRUE, show.na = TRUE)
 
 # --------------------------------
 # User defined style sheet
 # --------------------------------
-sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE,
+sjt.stackfrq(efc[, c(start:end)], alternate.rows = TRUE,
              show.total = TRUE, show.skew = TRUE, show.kurtosis = TRUE,
              CSS = list(css.ncol = "border-left:1px dotted black;",
                         css.summary = "font-style:italic;"))}

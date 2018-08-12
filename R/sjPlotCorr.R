@@ -28,7 +28,7 @@ utils::globalVariables(c("ordx", "ordy"))
 #'          as numbers. If \code{FALSE} (default), asterisks are used.
 #'
 #' @inheritParams sjp.grpfrq
-#' @inheritParams sjp.lm
+#' @inheritParams sjp.gpt
 #'
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}) and the original correlation matrix

@@ -1,7 +1,3 @@
-# bind global variables
-utils::globalVariables(c("pv", "xv"))
-
-
 #' @title Plot One-Way-Anova tables
 #' @name sjp.aov1
 #'
@@ -9,8 +5,6 @@ utils::globalVariables(c("pv", "xv"))
 #'                against the dependent variable. The SS of the factor variable against the
 #'                dependent variable (variance within and between groups) is printed to
 #'                the model summary.
-#'
-#' @seealso \code{\link{sjt.grpmean}}
 #'
 #' @param var.dep Dependent variable. Will be used with following formula:
 #'          \code{aov(var.dep ~ var.grp)}
@@ -23,13 +17,11 @@ utils::globalVariables(c("pv", "xv"))
 #'          the value label of the grouping variable. Default is \code{"(Intercept)"}.
 #'
 #' @inheritParams sjp.grpfrq
-#' @inheritParams sjp.lm
-#' @inheritParams sjp.glmer
 #' @inheritParams sjp.xtab
 #' @inheritParams sjp.gpt
+#' @inheritParams plot_model
 #'
-#' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-#'           was used for setting up the ggplot-object (\code{df}).
+#' @return A ggplot-object.
 #'
 #' @examples
 #' data(efc)
@@ -42,6 +34,8 @@ utils::globalVariables(c("pv", "xv"))
 #' @importFrom sjmisc trim word_wrap to_value
 #' @importFrom stats confint aov summary.lm
 #' @importFrom tibble rownames_to_column
+#' @importFrom rlang .data
+#' @importFrom sjlabelled get_label get_labels
 #' @export
 sjp.aov1 <- function(var.dep,
                      var.grp,
@@ -59,10 +53,9 @@ sjp.aov1 <- function(var.dep,
                      grid.breaks = NULL,
                      show.values = TRUE,
                      digits = 2,
-                     y.offset = .1,
+                     y.offset = .15,
                      show.p = TRUE,
-                     show.summary = FALSE,
-                     prnt.plot = TRUE) {
+                     show.summary = FALSE) {
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
@@ -192,12 +185,14 @@ sjp.aov1 <- function(var.dep,
   # create new data.frame, since ggplot requires data.frame as parameter
   # The data frame contains means, CI and p-values
   # --------------------------------------------------------
-  df <- data.frame(means,     # Append coefficients
-                   means.lci, # append CI
-                   means.uci,
-                   means.p,   # append p-value
-                   ps,
-                   catorder)
+  df <- data.frame(
+    means = means,     # Append coefficients
+    lower = means.lci, # append CI
+    upper = means.uci,
+    p = means.p,   # append p-value
+    pv = ps,
+    xv = catorder
+  )
   # --------------------------------------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
@@ -205,13 +200,12 @@ sjp.aov1 <- function(var.dep,
   if (is.null(axis.labels)) axis.labels <- row.names(df)
   # order labels
   axis.labels <- axis.labels[catorder]
-  # give columns names
-  names(df) <- c("means", "lower", "upper", "p", "pv", "xv")
   df$means <- sjmisc::to_value(df$means, keep.labels = F)
   df$lower <- sjmisc::to_value(df$lower, keep.labels = F)
   df$upper <- sjmisc::to_value(df$upper, keep.labels = F)
   df$p <- sjmisc::to_value(df$p, keep.labels = F)
   df$pv <- as.character(df$pv)
+  df$xv <- as.factor(df$xv)
   # bind color values to data frame, because we cannot use several
   # different color aesthetics in ggplot
   df <- cbind(df, geocol = ifelse(df$means >= 0, geom.colors[1], geom.colors[2]))
@@ -244,49 +238,38 @@ sjp.aov1 <- function(var.dep,
   # --------------------------------------------------------
   # Set up plot padding (margins inside diagram)
   # --------------------------------------------------------
-  scaley <- scale_y_continuous(limits = c(lower_lim, upper_lim),
-                               breaks = ticks,
-                               labels = ticks)
+  scaley <- ggplot2::scale_y_continuous(
+    limits = c(lower_lim, upper_lim),
+    breaks = ticks,
+    labels = ticks
+  )
   # --------------------------------------------------------
   # Start plot here!
   # --------------------------------------------------------
-  anovaplot <- ggplot(df, aes(y = means, x = as.factor(xv))) +
+  anovaplot <- ggplot2::ggplot(df, ggplot2::aes(y = .data$means, x = .data$xv)) +
     # print point
-    geom_point(size = geom.size, colour = df$geocol) +
+    ggplot2::geom_point(size = geom.size, colour = df$geocol) +
     # and error bar
-    geom_errorbar(aes(ymin = lower, ymax = upper), colour = df$geocol, width = 0) +
+    ggplot2::geom_errorbar(ggplot2::aes(ymin = .data$lower, ymax = .data$upper), colour = df$geocol, width = 0) +
     # Print p-values. With vertical adjustment, so
     # they don't overlap with the errorbars
-    geom_text(aes(label = pv, y = means), nudge_x = y.offset, show.legend = FALSE) +
+    ggplot2::geom_text(ggplot2::aes(label = .data$pv, y = .data$means), nudge_x = y.offset, show.legend = FALSE) +
     # set y-scale-limits, breaks and tick labels
     scaley +
     # set value labels to x-axis
-    scale_x_discrete(labels = axis.labels, limits = 1:length(axis.labels)) +
+    ggplot2::scale_x_discrete(labels = axis.labels, limits = 1:length(axis.labels)) +
     # flip coordinates
-    labs(title = title, x = NULL, y = axis.title) +
-    coord_flip()
+    ggplot2::labs(title = title, x = NULL, y = axis.title) +
+    ggplot2::coord_flip()
+
   # check whether modelsummary should be printed
   if (show.summary) {
     # add annotations with model summary
     # annotations include intercept-value and model's r-square
     anovaplot <- anovaplot +
-      annotate("text", label = modsum, parse = TRUE, x = -Inf, y = Inf,
+      ggplot2::annotate("text", label = modsum, parse = TRUE, x = -Inf, y = Inf,
                hjust = "right", vjust = "bottom")
   }
-  # ---------------------------------------------------------
-  # Check whether ggplot object should be returned or plotted
-  # ---------------------------------------------------------
-  if (prnt.plot) graphics::plot(anovaplot)
-  # -------------------------------------
-  # set proper column names
-  # -------------------------------------
-  df <- tibble::rownames_to_column(df)
-  colnames(df) <- c("term", "estimate", "conf.low", "conf.high",
-                    "p.value", "p.string", "xpos", "geom.color")
-  # -------------------------------------
-  # return results
-  # -------------------------------------
-  invisible(structure(class = "sjpaov1",
-                      list(plot = anovaplot,
-                           data = df)))
+
+  anovaplot
 }

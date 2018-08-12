@@ -82,11 +82,6 @@ efc \%>\% sjplot(e42dep, c172code, fun = "grpfrq")
 efc \%>\% sjplot(e17age, c172code, fun = "grpfrq",
                type = "box", geom.colors = "Set1")
 
-# scatter plot, grouped
-efc \%>\%
-  select(e42dep, c172code, c161sex) \%>\%
-  sjplot(fun = "scatter")
-
 # frequencies, as plot grid
 efc \%>\%
   select(e42dep, c172code, e16sex, c161sex) \%>\%

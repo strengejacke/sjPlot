@@ -106,6 +106,7 @@
 #'          when modifying the table layout.
 #'
 #' @inheritParams tab_model
+#' @inheritParams plot_model
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.lmer
 #' @inheritParams sjp.corr
@@ -1122,7 +1123,11 @@ sjt.lm <- function(...,
 #'                or saves them as file. The fitted models may have different
 #'                predictors, e.g. when comparing different stepwise fitted models.
 #'
+#' @param p.kr Logical, if \code{TRUE}, the computation of p-values is based on
+#'         conditional F-tests with Kenward-Roger approximation for the df.
+#'
 #' @inheritParams tab_model
+#' @inheritParams sjt.lm
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.corr
 #'

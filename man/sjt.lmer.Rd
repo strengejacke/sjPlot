@@ -40,10 +40,40 @@ names of \code{pred.labels}. This ensures that labels always match the
 related predictor in the table, no matter in which way the predictors
 are sorted. See 'Examples'.}
 
+\item{depvar.labels}{Character vector with labels of dependent
+variables of all fitted models. See 'Examples'.}
+
+\item{remove.estimates}{Numeric vector with indices (order equals to row index of \code{coef(fit)})
+or character vector with coefficient names that indicate which estimates should be removed
+from the table output. The first estimate is the intercept, followed by the model predictors.
+\emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)}
+would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
+is \code{NULL}, i.e. all estimates are printed.}
+
+\item{group.pred}{Logical, if \code{TRUE} (default), automatically groups table rows with
+factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
+be grouped, if the factor has more than two levels. Grouping means that a separate headline
+row is inserted to the table just before the predictor values.}
+
 \item{p.numeric}{Logical, if \code{TRUE}, the p-values are printed
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
 \item{emph.p}{Logical, if \code{TRUE}, significant p-values are shown bold faced.}
+
+\item{p.zero}{logical, if \code{TRUE}, p-values have a leading 0 before the
+period (e.g. \emph{0.002}), else p-values start with a period and
+without a zero (e.g. \emph{.002}).}
+
+\item{p.kr}{Logical, if \code{TRUE}, the computation of p-values is based on
+conditional F-tests with Kenward-Roger approximation for the df.}
+
+\item{separate.ci.col}{Logical, if \code{TRUE}, the CI values are shown in a separate table column.
+Default is \code{FALSE}.}
+
+\item{newline.ci}{Logical, if \code{TRUE} and \code{separate.ci.col = FALSE}, inserts a line break
+between estimate and CI values. If \code{FALSE}, CI values are printed in the same
+line as estimate values.}
 
 \item{show.est}{Logical, if \code{TRUE}, the estimates are printed.}
 
@@ -57,6 +87,12 @@ omitted. Or numeric, between 0 and 1, indicating the range of the
 confidence intervals.}
 
 \item{show.se}{Logical, if \code{TRUE}, the standard errors are also printed.}
+
+\item{show.header}{Logical, if \code{TRUE}, the header strings \code{string.pred}
+and \code{string.dv} are shown. By default, they're hidden.}
+
+\item{show.col.header}{Logical, if \code{TRUE} (default), the table data columns have a headline with
+abbreviations for estimates, std. beta-values, confidence interval and p-values.}
 
 \item{show.r2}{Logical, if \code{TRUE}, the r-squared value is also printed.
 Depending on the model, these might be pseudo-r-squared values, or Bayesian
@@ -82,6 +118,17 @@ is printed in the table summary.}
 \item{string.pred}{Character vector,used as headline for the predictor column.
 Default is \code{"Predictors"}.}
 
+\item{string.dv}{Character vector, used as headline for the
+dependent variable columns. Default is \code{"Dependent Variables"}.}
+
+\item{string.interc}{Character vector, used as headline for the Intercept row.
+Default is \code{"Intercept"}.}
+
+\item{string.obs}{character vector, used in the summary row for the count of observation
+(cases). Default is \code{"Observations"}.}
+
+\item{string.est}{Character vector, used for the column heading of estimates.}
+
 \item{string.std}{Character vector, used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.}
 
 \item{string.ci}{Character vector, used for the column heading of confidence interval values. Default is \code{"CI"}.}
@@ -96,7 +143,31 @@ May be an HTML entity. See 'Examples'.}
 \item{minus.sign}{string, indicating the minus sign for negative numbers.
 May be an HTML entity. See 'Examples'.}
 
+\item{digits.est}{Amount of decimals for table values.}
+
+\item{digits.std}{Amount of decimals for standardized beta.}
+
 \item{digits.p}{Amount of decimals for p-values}
+
+\item{digits.ci}{Amount of decimals for confidence intervals.}
+
+\item{digits.se}{Amount of decimals for standard error.}
+
+\item{digits.summary}{Amount of decimals for values in model summary.}
+
+\item{cell.spacing}{Numeric, inner padding of table cells. By default, this value is 0.2 (unit is cm), which is
+suitable for viewing the table. Decrease this value (0.05 to 0.1) if you want to import the table
+into Office documents. This is a convenient argument for the \code{CSS} argument for changing
+cell spacing, which would be: \code{CSS = list(css.thead = "padding:0.2cm;", css.tdata = "padding:0.2cm;")}.}
+
+\item{cell.gpr.indent}{Indent for table rows with grouped factor predictors. Only applies
+if \code{group.pred = TRUE}.}
+
+\item{sep.column}{Logical, if \code{TRUE}, an empty table column is added after
+each model column, to add margins between model columns. By default, this
+column will be added to the output; however, when copying tables to
+office applications, it might be helpful not to add this separator column
+when modifying the table layout.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
 according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.

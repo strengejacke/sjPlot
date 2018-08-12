@@ -28,13 +28,14 @@ utils::globalVariables(c("dep", "n"))
 #'          \code{type = "slope"} in \code{\link{sjp.glm}}), \code{axis.lim} may
 #'          also be a list of vectors of length 2, defining axis limits for each
 #'          plot (only if non-faceted).
+#' @param show.p Logical, adds significance levels to values, or value and
+#'          variable labels.
 #'
 #' @return (Insisibily) returns the ggplot-object with the complete plot
 #'           (\code{plot}) as well as the data frame that
 #'           was used for setting up the ggplot-object (\code{df}).
 #'
 #' @inheritParams sjp.grpfrq
-#' @inheritParams sjp.lm
 #' @inheritParams sjp.xtab
 #'
 #' @details The p-values are based on \code{\link[stats]{chisq.test}} of \code{x}

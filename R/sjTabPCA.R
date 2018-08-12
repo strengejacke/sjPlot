@@ -34,6 +34,8 @@
 #'          \emph{"Cumulative Proportion"} will be used.
 #'
 #' @inheritParams tab_model
+#' @inheritParams view_df
+#' @inheritParams tab_df
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjt.corr
@@ -75,7 +77,7 @@ sjt.pca <- function(data,
                     show.cronb = TRUE,
                     show.msa = FALSE,
                     show.var = FALSE,
-                    altr.row.col = FALSE,
+                    alternate.rows = FALSE,
                     digits = 2,
                     string.pov = "Proportion of Variance",
                     string.cpov = "Cumulative Proportion",
@@ -371,7 +373,7 @@ sjt.pca <- function(data,
     # default row string for alternative row colors
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (altr.row.col) arcstring <- ifelse(sjmisc::is_even(i), " arc", "")
+    if (alternate.rows) arcstring <- ifelse(sjmisc::is_even(i), " arc", "")
     # write tr-tag with class-attributes
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell

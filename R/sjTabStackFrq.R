@@ -25,6 +25,7 @@
 #' @param digits.stats amount of digits for rounding the skewness and kurtosis valuess.
 #'          Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.
 #'
+#' @inheritParams tab_df
 #' @inheritParams sjt.itemanalysis
 #' @inheritParams sjp.glmer
 #' @inheritParams sjt.xtab
@@ -74,15 +75,15 @@
 #' # recveive first item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
 #'
-#' sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE)
+#' sjt.stackfrq(efc[, c(start:end)], alternate.rows = TRUE)
 #'
-#' sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE,
+#' sjt.stackfrq(efc[, c(start:end)], alternate.rows = TRUE,
 #'              show.n = TRUE, show.na = TRUE)
 #'
 #' # --------------------------------
 #' # User defined style sheet
 #' # --------------------------------
-#' sjt.stackfrq(efc[, c(start:end)], altr.row.col = TRUE,
+#' sjt.stackfrq(efc[, c(start:end)], alternate.rows = TRUE,
 #'              show.total = TRUE, show.skew = TRUE, show.kurtosis = TRUE,
 #'              CSS = list(css.ncol = "border-left:1px dotted black;",
 #'                         css.summary = "font-style:italic;"))}
@@ -97,7 +98,7 @@ sjt.stackfrq <- function(items,
                          value.labels = NULL,
                          wrap.labels = 20,
                          sort.frq = NULL,
-                         altr.row.col = FALSE,
+                         alternate.rows = FALSE,
                          digits = 2,
                          string.total = "N",
                          string.na = "NA",
@@ -376,7 +377,7 @@ sjt.stackfrq <- function(items,
     # default row string for alternative row colors
     arcstring <- ""
     # if we have alternating row colors, set css
-    if (altr.row.col) arcstring <- ifelse(sjmisc::is_even(i), " arc", "")
+    if (alternate.rows) arcstring <- ifelse(sjmisc::is_even(i), " arc", "")
     # write tr-tag
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell

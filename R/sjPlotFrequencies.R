@@ -46,6 +46,12 @@ utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci
 #' @param xlim Numeric vector of length two, defining lower and upper axis limits
 #'          of the x scale. By default, this argument is set to \code{NULL}, i.e. the
 #'          x-axis fits to the required range of the data.
+#' @param axis.title Character vector of length one or two (depending on
+#'          the plot function and type), used as title(s) for the x and y axis.
+#'          If not specified, a default labelling  is chosen.
+#'          \strong{Note:} Some plot types do not support this argument. In such
+#'          cases, use the return value and add axis titles manually with
+#'          \code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.lm

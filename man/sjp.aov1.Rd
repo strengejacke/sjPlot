@@ -9,8 +9,8 @@ sjp.aov1(var.dep, var.grp, meansums = FALSE, title = NULL,
   string.interc = "(Intercept)", axis.title = "", axis.lim = NULL,
   geom.colors = c("#3366a0", "#aa3333"), geom.size = 3,
   wrap.title = 50, wrap.labels = 25, grid.breaks = NULL,
-  show.values = TRUE, digits = 2, y.offset = 0.1, show.p = TRUE,
-  show.summary = FALSE, prnt.plot = TRUE)
+  show.values = TRUE, digits = 2, y.offset = 0.15, show.p = TRUE,
+  show.summary = FALSE)
 }
 \arguments{
 \item{var.dep}{Dependent variable. Will be used with following formula:
@@ -36,6 +36,14 @@ argument, since in most cases, axis labels are set automatically.}
 \item{string.interc}{Character vector that indicates the reference group (intercept), that is appended to
 the value label of the grouping variable. Default is \code{"(Intercept)"}.}
 
+\item{axis.title}{Character vector of length one or two (depending on the
+plot function and type), used as title(s) for the x and y axis. If not
+specified, a default labelling  is chosen. \strong{Note:} Some plot types
+may not support this argument sufficiently. In such cases, use the returned
+ggplot-object and add axis titles manually with
+\code{\link[ggplot2]{labs}}. Use \code{axis.title = ""} to remove axis
+titles.}
+
 \item{axis.lim}{Numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.
 For multiple plot outputs (e.g., from \code{type = "eff"} or
@@ -60,8 +68,14 @@ i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
 
 \item{show.values}{Logical, whether values should be plotted or not.}
 
+\item{digits}{Numeric, amount of digits after decimal point when rounding
+estimates or values.}
+
 \item{y.offset}{numeric, offset for text labels when their alignment is adjusted
 to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
+
+\item{show.p}{Logical, adds significance levels to values, or value and
+variable labels.}
 
 \item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared
 statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc.
@@ -69,13 +83,9 @@ is shown. If a cell contains expected values lower than five (or lower than 10
 if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is
 computed instead of chi-squared test. If the table's matrix is larger
 than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
-
-\item{prnt.plot}{logical, if \code{TRUE} (default), plots the results as graph. Use \code{FALSE} if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.}
 }
 \value{
-(Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that
-          was used for setting up the ggplot-object (\code{df}).
+A ggplot-object.
 }
 \description{
 Plot One-Way-Anova table sum of squares (SS) of each factor level (group)
@@ -90,7 +100,4 @@ data(efc)
 sjp.aov1(efc$c12hour, efc$e42dep)
 
 
-}
-\seealso{
-\code{\link{sjt.grpmean}}
 }

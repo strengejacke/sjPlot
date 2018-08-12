@@ -83,7 +83,7 @@
 #' @export
 view_df <- function(x,
                     weight.by = NULL,
-                    altr.row.col = TRUE,
+                    alternate.rows = TRUE,
                     show.id = TRUE,
                     show.type = FALSE,
                     show.values = TRUE,
@@ -226,7 +226,7 @@ view_df <- function(x,
     arcstring <- ""
 
     # if we have alternating row colors, set css
-    if (altr.row.col) arcstring <- ifelse(sjmisc::is_even(ccnt), " arc", "")
+    if (alternate.rows) arcstring <- ifelse(sjmisc::is_even(ccnt), " arc", "")
     page.content <- paste0(page.content, "  <tr>\n")
 
     # ID

@@ -56,6 +56,9 @@ function, a legend is added to the plot.}
 
 \item{show.values}{Logical, whether values should be plotted or not.}
 
+\item{show.p}{Logical, adds significance levels to values, or value and
+variable labels.}
+
 \item{p.numeric}{Logical, if \code{TRUE}, the p-values are printed
 as numbers. If \code{FALSE} (default), asterisks are used.}
 
