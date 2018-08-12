@@ -66,8 +66,8 @@ sjp.aov1 <- function(var.dep,
   # --------------------------------------------------------
   if (is.null(axis.labels)) axis.labels <- sjlabelled::get_labels(var.grp,
                                                               attr.only = F,
-                                                              include.values = NULL,
-                                                              include.non.labelled = T)
+                                                              values = NULL,
+                                                              non.labelled = T)
   if (is.null(axis.title)) axis.title <- sjlabelled::get_label(var.dep, def.value = var.dep.name)
   if (is.null(title)) {
     t1 <- sjlabelled::get_label(var.grp, def.value = var.grp.name)

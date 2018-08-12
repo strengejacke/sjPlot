@@ -328,7 +328,7 @@ plot_sj <- function(x, fun, args) {
     } else if (fun  == "gpt") {
       p <- sjp.gpt(x[[1]], x[[2]], x[[3]], prnt.plot = F)$plot
     } else if (fun  == "aov1") {
-      p <- sjp.aov1(x[[1]], x[[2]], prnt.plot = F)$plot
+      p <- sjp.aov1(x[[1]], x[[2]])$plot
     }
   } else {
     if (fun == "frq") {
@@ -347,7 +347,7 @@ plot_sj <- function(x, fun, args) {
     } else if (fun  == "gpt") {
       p <- do.call(sjp.gpt, args = c(list(x = x[[1]], y = x[[2]], groups = x[[3]], prnt.plot = F), args))$plot
     } else if (fun  == "aov1") {
-      p <- do.call(sjp.aov1, args = c(list(var.dep = x[[1]], var.grp = x[[2]], prnt.plot = F), args))$plot
+      p <- do.call(sjp.aov1, args = c(list(var.dep = x[[1]], var.grp = x[[2]]), args))$plot
     }
   }
 

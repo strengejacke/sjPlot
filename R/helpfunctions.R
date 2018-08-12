@@ -145,8 +145,8 @@ create.frq.df <- function(x,
   labels <- sjlabelled::get_labels(
     x,
     attr.only = T,
-    include.values = "n",
-    include.non.labelled = T
+    values = "n",
+    non.labelled = T
   )
   #---------------------------------------------------
   # weight variable

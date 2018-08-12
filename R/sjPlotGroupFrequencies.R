@@ -365,8 +365,8 @@ sjp.grpfrq <- function(var.cnt,
     intr.var.labels <- sjlabelled::get_labels(
       intr.var,
       attr.only = F,
-      include.values = F,
-      include.non.labelled = T
+      values = F,
+      non.labelled = T
     )
 
     # create repeating label for x-axis

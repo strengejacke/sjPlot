@@ -147,8 +147,8 @@ sjt.stackfrq <- function(items,
     value.labels <- sjlabelled::get_labels(
       items[[1]],
       attr.only = F,
-      include.values = NULL,
-      include.non.labelled = T
+      values = NULL,
+      non.labelled = T
     )
   }
 

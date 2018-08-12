@@ -105,8 +105,8 @@ sjp.gpt <- function(x,
     sjlabelled::get_labels(
       y,
       attr.only = F,
-      include.values = NULL,
-      include.non.labelled = T
+      values = NULL,
+      non.labelled = T
     )
 
   # get only value label for hightest category
@@ -116,8 +116,8 @@ sjp.gpt <- function(x,
       sjlabelled::get_labels(
         groups,
         attr.only = F,
-        include.values = NULL,
-        include.non.labelled = T
+        values = NULL,
+        non.labelled = T
       )
   }
 
@@ -143,8 +143,8 @@ sjp.gpt <- function(x,
       sjlabelled::get_labels(
         x,
         attr.only = F,
-        include.values = NULL,
-        include.non.labelled = T
+        values = NULL,
+        non.labelled = T
       )
   }
 

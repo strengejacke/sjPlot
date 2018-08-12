@@ -114,8 +114,8 @@ sjp.stackfrq <- function(items,
     legend.labels <- sjlabelled::get_labels(
       items[[1]],
       attr.only = F,
-      include.values = NULL,
-      include.non.labelled = T
+      values = NULL,
+      non.labelled = T
     )
 
   if (is.null(axis.labels)) {

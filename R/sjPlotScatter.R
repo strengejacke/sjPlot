@@ -227,8 +227,8 @@ scatter_helper <- function(
     legend.labels <- sjlabelled::get_labels(
       grp,
       attr.only = F,
-      include.values = NULL,
-      include.non.labelled = T
+      values = NULL,
+      non.labelled = T
     )
   }
 
