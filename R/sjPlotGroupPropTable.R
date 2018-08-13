@@ -1,5 +1,3 @@
-utils::globalVariables(c("dep", "n"))
-
 #' @title Plot grouped proportional tables
 #' @name sjp.gpt
 #'
@@ -178,15 +176,15 @@ sjp.gpt <- function(x,
   # groups, group the x-variable
 
   newdf <- mydf %>%
-    dplyr::group_by(grp, xpos) %>%
-    dplyr::summarise(ypos = mean(dep))
+    dplyr::group_by(.data$grp, .data$xpos) %>%
+    dplyr::summarise(ypos = mean(.data$dep))
 
   # group data by grouping variable,
   # and summarize N per group and chisq.test
   # of grp and x within each group
   pvals <- mydf %>%
-    dplyr::group_by(grp) %>%
-    dplyr::summarise(N = n(), p = suppressWarnings(stats::chisq.test(table(xpos, dep))$p.value))
+    dplyr::group_by(.data$grp) %>%
+    dplyr::summarise(N = n(), p = suppressWarnings(stats::chisq.test(table(.data$xpos, .data$dep))$p.value))
 
   # copy p values
   for (i in seq_len(length(pvals$grp))) group.p <- c(group.p, get_p_stars(pvals$p[i]))
@@ -199,12 +197,12 @@ sjp.gpt <- function(x,
   # complete data frame
   if (show.total) {
     tmp <- mydf %>%
-      dplyr::group_by(xpos) %>%
-      dplyr::summarise(ypos = mean(dep))
+      dplyr::group_by(.data$xpos) %>%
+      dplyr::summarise(ypos = mean(.data$dep))
 
     # pvalues and N
     pvals <- mydf %>%
-      dplyr::summarise(N = n(), p = suppressWarnings(stats::chisq.test(table(xpos, dep))$p.value))
+      dplyr::summarise(N = n(), p = suppressWarnings(stats::chisq.test(table(.data$xpos, .data$dep))$p.value))
 
     # bind total row to final df
     newdf <- dplyr::bind_rows(newdf, tmp)
@@ -249,7 +247,7 @@ sjp.gpt <- function(x,
   }
 
   # Set up plot
-  p <- ggplot(newdf, aes(x = rev(grp), y = ypos, colour = xpos, shape = xpos)) +
+  p <- ggplot(newdf, aes(x = rev(.data$grp), y = .data$ypos, colour = .data$xpos, shape = .data$xpos)) +
     geom_point(size = geom.size, fill = shape.fill.color) +
     scale_y_continuous(labels = scales::percent, breaks = gridbreaks, limits = axis.lim) +
     scale_x_discrete(labels = rev(axis.labels)) +

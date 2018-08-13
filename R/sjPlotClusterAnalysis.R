@@ -693,7 +693,7 @@ sjc.elbow <- function(data, steps = 15, show.diff = FALSE) {
   # define line linecolor
   lcol <- grDevices::rgb(128, 172, 200, maxColorValue = 255)
   # calculate elbow values (sum of squares)
-  wss <- (nrow(data) - 1) * sum(apply(data, 2, var))
+  wss <- (nrow(data) - 1) * sum(apply(data, 2, stats::var))
   for (i in 2:steps) wss[i] <- sum(kmeans(data, centers = i)$withinss)
   # round and print elbow values
   wssround <- round(wss, 0)

@@ -241,25 +241,25 @@ sjp.fa <- function(data,
   # start with base plot object here
   # --------------------------------------------------------
   if (type == "bar") {
-    heatmap <- ggplot(df, aes(x = rev(factor(ypos)), y = abs(value), fill = value))
+    heatmap <- ggplot2::ggplot(df, ggplot2::aes(x = rev(factor(.data$ypos)), y = abs(.data$value), fill = .data$value))
   } else {
-    heatmap <- ggplot(data = df, aes(x = xpos, y = ypos, fill = value))
+    heatmap <- ggplot2::ggplot(data = df, ggplot2::aes(x = .data$xpos, y = .data$ypos, fill = .data$value))
   }
   # --------------------------------------------------------
   # determine the geom type, either points when "type" is "circles"
   # --------------------------------------------------------
   if (type == "circle") {
-    geo <- geom_point(shape = 21, size = df$psize)
+    geo <- ggplot2::geom_point(shape = 21, size = df$psize)
   } else if (type == "tile") {
     # ----------------------------------------
     # or boxes / tiles when "type" is "tile"
     # ----------------------------------------
-    geo <- geom_tile()
+    geo <- ggplot2::geom_tile()
   } else {
     # ----------
     # or bars
     # ----------
-    geo <- geom_bar(stat = "identity", width = geom.size)
+    geo <- ggplot2::geom_bar(stat = "identity", width = geom.size)
   }
   heatmap <- heatmap + geo +
     # --------------------------------------------------------
@@ -268,30 +268,30 @@ sjp.fa <- function(data,
   # and they become lighter the closer they are to a correlation
   # coefficient of zero
   # --------------------------------------------------------
-  scale_fill_gradientn(colours = geom.colors, limits = c(-1, 1)) +
-    labs(title = title, x = NULL, y = NULL, fill = NULL) +
-    guides(fill = FALSE)
+  ggplot2::scale_fill_gradientn(colours = geom.colors, limits = c(-1, 1)) +
+    ggplot2::labs(title = title, x = NULL, y = NULL, fill = NULL) +
+    ggplot2::guides(fill = FALSE)
   # --------------------------------------------------------
   # facet bars, and flip coordinates
   # --------------------------------------------------------
   if (type == "bar") {
     heatmap <- heatmap +
-      scale_x_discrete(labels = rev(axis.labels)) +
-      scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .2)) +
-      facet_grid(~xpos) +
-      geom_text(label = valueLabels, hjust = -0.2) +
-      coord_flip()
+      ggplot2::scale_x_discrete(labels = rev(axis.labels)) +
+      ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .2)) +
+      ggplot2::facet_grid(~xpos) +
+      ggplot2::geom_text(label = valueLabels, hjust = -0.2) +
+      ggplot2::coord_flip()
   } else {
     heatmap <- heatmap +
-      geom_text(label = valueLabels) +
-      scale_y_reverse(breaks = seq(1, length(axis.labels), by = 1),
+      ggplot2::geom_text(label = valueLabels) +
+      ggplot2::scale_y_reverse(breaks = seq(1, length(axis.labels), by = 1),
                       labels = axis.labels)
     # --------------------------------------------------------
     # show cronbach's alpha value for each scale
     # --------------------------------------------------------
     if (show.cronb) {
       heatmap <- heatmap +
-        annotate("text", x = alphaValues$nr, y = Inf, parse = TRUE,
+        ggplot2::annotate("text", x = alphaValues$nr, y = Inf, parse = TRUE,
                  label = sprintf("alpha == %.*f", digits, alphaValues$alpha),
                  vjust = -0.5)
     }
