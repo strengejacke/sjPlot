@@ -25,7 +25,7 @@ plot_point_estimates <- function(model,
 
   # some defaults...
 
-  size.inner <- .1
+  size.inner <- .07
   spacing <- .4
   width <- if (is.stan(model)) .06 else 0
 

@@ -12,6 +12,18 @@ sjp.resid(fit, geom.size = 2, remove.estimates = NULL,
 \item{fit}{Fitted linear (mixed) regression model (including objects of class
 \code{\link[nlme]{gls}} or \code{plm}).}
 
+\item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
+need smaller values than dot sizes.}
+
+\item{remove.estimates}{Numeric vector with indices (order equals to row index of \code{coef(fit)})
+or character vector with coefficient names that indicate which estimates should be removed
+from the table output. The first estimate is the intercept, followed by the model predictors.
+\emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)}
+would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output.
+\code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
+is \code{NULL}, i.e. all estimates are printed.}
+
 \item{show.lines}{Logical, if \code{TRUE}, a line connecting predicted and
 residual values is plotted. Set this argument to \code{FALSE}, if
 plot-building is too time consuming.}
@@ -49,8 +61,5 @@ sjp.resid(fit)
 
 # remove some independent variables from output
 sjp.resid(fit, remove.estimates = c("e17age", "e42dep"))
-
-# show pattern
-sjp.resid(fit, remove.estimates = c("e17age", "e42dep"))$pattern
 
 }

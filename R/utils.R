@@ -113,7 +113,7 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
   if (is.null(axis.title)) {
 
     if (!is.null(multi.resp))
-      fitfam <- sjstats::model_family(fit, multi.resp = TRUE)[[multi.resp]]
+      fitfam <- sjstats::model_family(fit, mv = TRUE)[[multi.resp]]
     else
       fitfam <- sjstats::model_family(fit)
 

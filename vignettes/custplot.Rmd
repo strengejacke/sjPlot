@@ -23,6 +23,7 @@ The examples refer to `sjp.grpfrq()`, but most arguments are similar across all 
 The base function to globally change theme option for all sjp-function is `set_theme()`. Except for geom-colors and geom-sizes, all theme-options can be set via this function. This new theme will be applied to all following plots created with the **sjPlot** package.
 
 There are various arguments to change colors, sizes, angles etc. of labels. Following example show changes to colors, sizes, angles, geom-outlines and theme.
+
 ```{r}
 # load libraries
 library(sjPlot)  # for plotting
@@ -168,9 +169,10 @@ sjp.frq(efc$e42dep)
 ```
 
 
-Further customization options
------------------------------
+## Further customization options
+
 Each plotting function invisibly returns the ggplot-object. You can further add options to customize the appearance of the plot, like in the following example, where the count axis is hidden (color set to white):
+
 ```{r}
 set_theme(
   base = theme_classic(),
@@ -186,16 +188,13 @@ sjp.grpfrq(
   efc$e42dep,
   efc$e16sex,
   coord.flip = TRUE,
-  show.axis.values = FALSE,
-  prnt.plot = FALSE
-)$plot +
+  show.axis.values = FALSE
+) +
   theme(axis.line.x = element_line(color = "white"))
 ```
 
-Note that the `prnt.plot` argument is set to `FALSE` in the above example, so the function call itself does not produce a plot (otherwise, two plots would be plotted).
+## Plot legend
 
-Plot legend
------------
 The plot's legend can be customized via various `legend.`-arguments, see following examples:
 
 ```{r}

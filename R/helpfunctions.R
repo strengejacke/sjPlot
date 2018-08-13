@@ -1,6 +1,3 @@
-# bind global variables
-utils::globalVariables(c("Freq", "vif"))
-
 # Help-functions
 
 # evaluates arguments
@@ -325,7 +322,7 @@ create.xtab.df <- function(x,
   colnames(mydat)[2] <- "Var2"
 
   # spread variables back, so we have a table again
-  mydat <- tidyr::spread(mydat, Var2, Freq)
+  mydat <- tidyr::spread(mydat, .data$Var2, .data$Freq)
 
   # rename column names
   colnames(mydat)[1] <- "label"
@@ -616,7 +613,7 @@ retrieveModelLabels <- function(models, group.pred) {
       }
     }
   }
-  return(unique(fit.labels))
+  unique(fit.labels)
 }
 
 
@@ -625,28 +622,6 @@ Chisquare.glm <- function(rr, digits = 3) {
   return(with(rr, pchisq(null.deviance - deviance,
                          df.null - df.residual,
                          lower.tail = FALSE), digits = digits))
-}
-
-
-# compute model statistics for lm
-#' @importFrom stats pf AIC
-sju.modsum.lm <- function(fit) {
-  # get F-statistics
-  fstat <- summary(fit)$fstatistic
-  # Calculate p-value for F-test
-  pval <- stats::pf(fstat[1], fstat[2], fstat[3], lower.tail = FALSE)
-  # indicate significance level by stars
-  pan <- get_p_stars(pval)
-  # create mathematical term
-  modsum <- as.character(as.expression(
-    substitute(beta[0] == a * "," ~~ R^2 == r2 * "," ~~ "adj. " * R^2 == ar2 * "," ~~ "F" == f*panval * "," ~~ "AIC" == aic,
-               list(a = format(coef(fit)[1], digits = 3),
-                    r2 = format(summary(fit)$r.squared, digits = 3),
-                    ar2 = format(summary(fit)$adj.r.squared, digits = 3),
-                    f = sprintf("%.2f", fstat[1]),
-                    panval = pan,
-                    aic = sprintf("%.2f", stats::AIC(fit))))))
-  return(modsum)
 }
 
 
@@ -680,85 +655,6 @@ unlistlabels <- function(lab) {
   labels <- c()
   labels <- c(labels, as.character(dummy))
   return(labels)
-}
-
-
-#' @importFrom sjstats model_frame
-get_model_response_label <- function(fit) {
-  m_f <- sjstats::model_frame(fit)
-  unname(sjlabelled::get_label(m_f[[1]], def.value = colnames(m_f)[1]))
-}
-
-
-
-#' @importFrom stats reorder
-sjp.vif <- function(fit) {
-  # -----------------------------------
-  # check package availability
-  # -----------------------------------
-  if (!requireNamespace("car", quietly = TRUE)) {
-    stop("Package `car` needed for this function to work. Please install it.", call. = F)
-  }
-  vifval <- NULL
-  vifplot <- NULL
-  mydat <- NULL
-  # check if we have more than 1 term
-  if (length(coef(fit)) > 2) {
-    # variance inflation factor
-    # claculate VIF
-    vifval <- car::vif(fit)
-    if (is.matrix(vifval)) {
-      val <- vifval[, 1]
-    } else {
-      val <- vifval
-    }
-    # retrieve highest VIF-value to determine y-axis range
-    maxval <- val[which.max(val)]
-    # determine upper limit of y-axis
-    upperLimit <- 10
-    # check whether maxval exceeds the critical VIF-Limit
-    # of 10. If so, set upper limit to max. value
-    if (maxval >= upperLimit) upperLimit <- ceiling(maxval)
-    mydat <- data.frame(vif = round(val, 2))
-    # Neue Variable erstellen, damit die Ergebnisse sortiert werden
-    # können (siehe reorder in ggplot-Funktion)
-    mydat$vars <- row.names(mydat)
-    # die variablenlabel sollen noch mal sortiert werden, nach
-    # VIF-Werten aufsteigend. Dies ist für die X-Achsenbeschriftung
-    # nötig, da diese sonst nicht mehr mit den sortierten VIF-Werten
-    # (Balkenreihenfolge auf X-Achse) übereinstimmt
-    mydat <- cbind(mydat, mydat[order(val), 2])
-    # Spalten sollen Namen kriegen
-    names(mydat) <- c("vif", "vars", "label")
-    # grafik ausgeben, dabei die variablen der X-Achse nach aufsteigenden
-    # VIF-Werten ordnen
-    vifplot <- ggplot(mydat, aes(x = stats::reorder(vars, vif), y = vif)) +
-      # Balken zeichnen. Stat=identity heißt, dass nicht die counts, sondern
-      # die tatsächlichen Zahlenwerte (VIF-Werte) abgebildet werden sollen
-      geom_bar(stat = "identity", width = 0.7, fill = "#80acc8") +
-      # grüne Linie zeichnen, die den guten Bereich anzeigt (VIF < 5)
-      geom_hline(yintercept = 5, linetype = 2, colour = "darkgreen", alpha = 0.7) +
-      # rote  Linie zeichnen, die den tolerablen Bereich anzeigt (VIF < 10)
-      geom_hline(yintercept = 10, linetype = 2, colour = "darkred", alpha = 0.7) +
-      # grüne und rote Line beschriften
-      annotate("text", x = 1, y = 4.7, label = "good", size = 4, colour = "darkgreen") +
-      annotate("text", x = 1, y = 9.7, label = "tolerable", size = 4, colour = "darkred") +
-      # als X-Achsenbeschriftung die Variablennamen setzen
-      scale_x_discrete(labels = mydat$label) +
-      # Keine weiteren Titel an X- und Y-Achse angeben
-      labs(title = "Variance Inflation Factors (multicollinearity)",
-           x = NULL,
-           y = NULL) +
-      # maximale Obergrenze der Y-Achse setzen
-      scale_y_continuous(limits = c(0, upperLimit), expand = c(0, 0)) +
-      # Beschriftung der X-Achse (Variablenlabel) in 45-Grad-Winkel setzen
-      theme(axis.text.x = element_text(angle = 45, vjust = 0.5, size = rel(1.2)))
-    print(vifplot)
-  }
-  invisible(structure(class = "sjpvif",
-                      list(plot = vifplot,
-                           df = mydat,
-                           vifval = vifval)))
 }
 
 

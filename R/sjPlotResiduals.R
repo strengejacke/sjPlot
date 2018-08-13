@@ -17,6 +17,8 @@
 #'
 #' @inheritParams plot_model
 #' @inheritParams scatterplot
+#' @inheritParams sjp.grpfrq
+#' @inheritParams sjt.lm
 #'
 #' @return One ggplot-object with the complete plot and one with
 #'           the residual pattern.
@@ -34,9 +36,6 @@
 #'
 #' # remove some independent variables from output
 #' sjp.resid(fit, remove.estimates = c("e17age", "e42dep"))
-#'
-#' # show pattern
-#' sjp.resid(fit, remove.estimates = c("e17age", "e42dep"))$pattern
 #'
 #' @importFrom rlang .data
 #' @export

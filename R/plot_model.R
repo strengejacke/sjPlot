@@ -536,7 +536,7 @@ plot_model <- function(model,
 
   if (is.null(ci.lvl)) ci.lvl <- dplyr::if_else(is.stan(model), .89, .95)
   if (is.null(dot.size)) dot.size <- dplyr::if_else(is.stan(model), 1, 2.5)
-  if (is.null(line.size)) line.size <- dplyr::if_else(is.stan(model), .5, .5)
+  if (is.null(line.size)) line.size <- dplyr::if_else(is.stan(model), .7, .7)
   if (is.null(value.offset)) value.offset <- dplyr::if_else(is.stan(model), .25, .15)
 
 
