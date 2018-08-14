@@ -213,9 +213,7 @@ Concerning the \code{show.std} argument, \code{show.std = "std"}
            \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
            suggestion, rescaling the estimates by dividing them by two standard
            deviations instead of just one. Resulting coefficients are then
-           directly comparable for untransformed binary predictors. This type
-           of standardization uses the \code{\link[arm]{standardize}}-function
-           from the \pkg{arm}-package.
+           directly comparable for untransformed binary predictors.
            For backward compatibility reasons, \code{show.std} also may be
            a logical value; if \code{TRUE}, normal standardized estimates are
            printed (same effect as \code{show.std = "std"}). Use

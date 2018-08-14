@@ -388,8 +388,7 @@ Depending on the plot-type, \code{plot_model()} returns a
     however, standardization follows Gelman's (2008) suggestion, rescaling the
     estimates by dividing them by two standard deviations instead of just one.
     Resulting coefficients are then directly comparable for untransformed
-    binary predictors. This standardization uses the
-    \code{\link[arm]{standardize}}-function from the \pkg{arm}-package.
+    binary predictors.
   }
   \item{\code{type = "pred"}}{Plots marginal effects. Simply wraps
     \code{\link[ggeffects]{ggpredict}}.

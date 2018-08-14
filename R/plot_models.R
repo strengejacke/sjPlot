@@ -207,13 +207,6 @@ plot_models <- function(...,
   ff <- dplyr::bind_rows(fl)
 
 
-  # rename terms, if we did std2-type of standardization. pkg "arm" adds
-  # a "z." suffix to each term name
-
-  if (!is.null(std.est) && std.est == "std2")
-    ff$term <- substring(ff$term, first = 3)
-
-
   # remove further estimates
 
   rm.terms <- parse_terms(rm.terms)
