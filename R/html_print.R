@@ -686,7 +686,7 @@ tab_model_df <- function(x,
 
   # surround output with table-tag ----
 
-  page.content <- paste0("<table>\n", table.caption, page.content, "\n<table>\n")
+  page.content <- paste0("<table>\n", table.caption, page.content, "\n</table>\n")
 
   # create HTML page with header information
   page.complete <- tab_create_page(
