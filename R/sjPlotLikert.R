@@ -352,8 +352,10 @@ sjp.likert <- function(items,
 
   # determine split between pos and neg values
 
-  lower.half <- rev(seq(catcount / 2))
-  upper.half <- 1 + catcount - lower.half
+  # lower.half <- rev(seq(catcount / 2))
+  lower.half <- rev(seq(ceiling(catcount / 2)))
+  # upper.half <- 1 + catcount - lower.half
+  upper.half <- setdiff(seq.int(catcount), lower.half)
 
   # sum up values to total, so we can sort items
 
