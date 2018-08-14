@@ -1,7 +1,3 @@
-# bind global variables
-utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "stddev", "count"))
-
-
 #' @title Plot grouped or stacked frequencies
 #' @name sjp.grpfrq
 #'
@@ -159,7 +155,7 @@ utils::globalVariables(c(".", "label", "prz", "frq", "ypos", "wb", "ia", "mw", "
 #' @import ggplot2
 #' @importFrom sjstats weight2
 #' @importFrom tidyr gather
-#' @importFrom dplyr group_by mutate arrange summarise group_by_ arrange_
+#' @importFrom dplyr group_by mutate arrange summarise
 #' @importFrom stats na.omit xtabs wilcox.test sd
 #' @importFrom rlang .data
 #' @export
@@ -417,9 +413,9 @@ sjp.grpfrq <- function(var.cnt,
   # add half of Percentage values as new y-position for stacked bars
   # mydat <- ddply(mydat, "count", transform, ypos = cumsum(frq) - 0.5*frq)
   mydf <- mydf %>%
-    dplyr::group_by_("label") %>%
-    dplyr::mutate(ypos = cumsum(frq) - 0.5 * frq) %>%
-    dplyr::arrange_("label")
+    dplyr::group_by(.data$label) %>%
+    dplyr::mutate(ypos = cumsum(.data$frq) - 0.5 * .data$frq) %>%
+    dplyr::arrange(.data$label)
 
   # add percentages
   mydf$prz <- round(100 * mydf$frq / sum(mydf$frq), 2)
@@ -660,15 +656,15 @@ sjp.grpfrq <- function(var.cnt,
     if (bar.pos == "stack") {
       if (show.prc && show.n) {
         ggvaluelabels <-
-          geom_text(aes(y = ypos, label = sprintf("%i\n(%.01f%%)", frq, prz)), show.legend = FALSE)
+          geom_text(aes(y = .data$ypos, label = sprintf("%i\n(%.01f%%)", .data$frq, .data$prz)), show.legend = FALSE)
       } else if (show.n) {
         ggvaluelabels <-
-          geom_text(aes(y = ypos, label = sprintf("%i", frq)), show.legend = FALSE)
+          geom_text(aes(y = .data$ypos, label = sprintf("%i", .data$frq)), show.legend = FALSE)
       } else if (show.prc) {
         ggvaluelabels <-
-          geom_text(aes(y = ypos, label = sprintf("%.01f%%", prz)), show.legend = FALSE)
+          geom_text(aes(y = .data$ypos, label = sprintf("%.01f%%", .data$prz)), show.legend = FALSE)
       } else {
-        ggvaluelabels <- geom_text(aes(y = frq), label = "", show.legend = FALSE)
+        ggvaluelabels <- geom_text(aes(y = .data$frq), label = "", show.legend = FALSE)
       }
     } else {
       # if we have dodged bars or dots, we have to use a slightly
@@ -678,7 +674,7 @@ sjp.grpfrq <- function(var.cnt,
         if (coord.flip) {
           ggvaluelabels <-
             geom_text(
-              aes(y = frq + y_offset, label = sprintf("%i (%.01f%%)", frq, prz)),
+              aes(y = .data$frq + y_offset, label = sprintf("%i (%.01f%%)", .data$frq, .data$prz)),
               position = text.pos,
               vjust = vjust,
               hjust = hjust,
@@ -687,7 +683,7 @@ sjp.grpfrq <- function(var.cnt,
         } else {
           ggvaluelabels <-
             geom_text(
-              aes(y = frq + y_offset, label = sprintf("%i\n(%.01f%%)", frq, prz)),
+              aes(y = .data$frq + y_offset, label = sprintf("%i\n(%.01f%%)", .data$frq, .data$prz)),
               position = text.pos,
               vjust = vjust,
               hjust = hjust,
@@ -697,7 +693,7 @@ sjp.grpfrq <- function(var.cnt,
       } else if (show.n) {
         ggvaluelabels <-
           geom_text(
-            aes(y = frq + y_offset, label = sprintf("%i", frq)),
+            aes(y = .data$frq + y_offset, label = sprintf("%i", .data$frq)),
             position = text.pos,
             hjust = hjust,
             vjust = vjust,
@@ -706,18 +702,18 @@ sjp.grpfrq <- function(var.cnt,
       } else if (show.prc) {
         ggvaluelabels <-
           geom_text(
-            aes(y = frq + y_offset, label = sprintf("%.01f%%", prz)),
+            aes(y = .data$frq + y_offset, label = sprintf("%.01f%%", .data$prz)),
             position = text.pos,
             hjust = hjust,
             vjust = vjust,
             show.legend = FALSE
           )
       } else {
-        ggvaluelabels <- geom_text(aes(y = frq), label = "", show.legend = FALSE)
+        ggvaluelabels <- geom_text(aes(y = .data$frq), label = "", show.legend = FALSE)
       }
     }
   } else {
-    ggvaluelabels <- geom_text(aes(y = frq), label = "", show.legend = FALSE)
+    ggvaluelabels <- geom_text(aes(y = .data$frq), label = "", show.legend = FALSE)
   }
 
   # Set up grid breaks
@@ -757,10 +753,10 @@ sjp.grpfrq <- function(var.cnt,
     } else {
       baseplot <-
         ggplot(mydf, aes(
-          x = interaction(ia, group),
-          y = frq,
-          fill = group,
-          weight = wb
+          x = interaction(.data$ia, .data$group),
+          y = .data$frq,
+          fill = .data$group,
+          weight = .data$wb
         )) + geob
       scalex <- scale_x_discrete(labels = intr.var.labels)
     }
