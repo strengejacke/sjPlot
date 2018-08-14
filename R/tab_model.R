@@ -110,6 +110,12 @@
 #'    is printed in the table summary.
 #' @param show.obs Logical, if \code{TRUE}, the number of observations per model is
 #'    printed in the table summary.
+#' @param col.order Character vector, indicating which columns should be printed
+#'    and in which order. Column names that are excluded from \code{col.order}
+#'    are not shown in the table output. However, column names that are included,
+#'    are only shown in the table when the related argument (like \code{show.est}
+#'    for \code{"estimate"}) is set to \code{TRUE} or another valid value.
+#'    Table columns are printed in the order as they appear in \code{col.order}.
 #' @param p.val Character, for mixed models, indicates how p-values are computed.
 #'   Use \code{p.val = "wald"} for a faster, but less precise computation. For
 #'   \code{p.val = "kr"}, computation of p-values is based on conditional F-tests
@@ -241,6 +247,21 @@ tab_model <- function(
   collapse.se = FALSE,
   linebreak = TRUE,
 
+  col.order = c(
+    "est",
+    "se",
+    "std.est",
+    "std.se",
+    "ci",
+    "std.ci",
+    "hdi.inner",
+    "hdi.outer",
+    "stat",
+    "p",
+    "df",
+    "response.level"
+  ),
+
   digits = 2,
   digits.p = 3,
   emph.p = TRUE,
@@ -261,6 +282,28 @@ tab_model <- function(
 
   auto.transform <- missing(transform)
   ci.lvl <- ifelse(is.null(show.ci), .95, show.ci)
+
+  copos <- which("est" == col.order)
+  if (!sjmisc::is_empty(copos)) col.order[copos] <- "estimate"
+
+  copos <- which("se" == col.order)
+  if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.error"
+
+  copos <- which("ci" == col.order)
+  if (!sjmisc::is_empty(copos)) col.order[copos] <- "conf.int"
+
+  copos <- which("std.est" == col.order)
+  if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.estimate"
+
+  copos <- which("std.ci" == col.order)
+  if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.conf.int"
+
+  copos <- which("p" == col.order)
+  if (!sjmisc::is_empty(copos)) col.order[copos] <- "p.value"
+
+  copos <- which("stat" == col.order)
+  if (!sjmisc::is_empty(copos)) col.order[copos] <- "statistic"
+
 
   model.list <- purrr::map2(
     models,
@@ -381,7 +424,7 @@ tab_model <- function(
 
       # switch column for p-value and conf. int. ----
 
-      dat <- dat[, sort_columns(colnames(dat), is.stan(model))]
+      dat <- dat[, sort_columns(colnames(dat), is.stan(model), col.order)]
 
 
       # add suffix to column names, so we can distinguish models later
@@ -879,7 +922,7 @@ tab_model <- function(
 
 
 #' @importFrom stats na.omit
-sort_columns <- function(x, is.stan) {
+sort_columns <- function(x, is.stan, col.order) {
   ## TODO check code for multiple response models
   ## TODO allow custom sorting
 
@@ -900,8 +943,13 @@ sort_columns <- function(x, is.stan) {
     "response.level"
   )
 
-  if (is.stan) reihe <- reihe[-which(reihe == "p.value")]
-  as.vector(stats::na.omit(match(reihe, x)))
+  # fix args
+  if (sjmisc::is_empty(col.order)) col.order <- reihe
+  if (col.order[1] != "term") col.order <- c("term", col.order)
+  if (!("wrap.facet" %in% col.order)) col.order <- c(col.order, "wrap.facet")
+
+  if (is.stan) col.order <- col.order[-which(col.order == "p.value")]
+  as.vector(stats::na.omit(match(col.order, x)))
 }
 
 

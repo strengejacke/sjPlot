@@ -18,6 +18,8 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   string.df = "df", string.stat = "Statistic",
   ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;",
   collapse.ci = FALSE, collapse.se = FALSE, linebreak = TRUE,
+  col.order = c("est", "se", "std.est", "std.se", "ci", "std.ci",
+  "hdi.inner", "hdi.outer", "stat", "p", "df", "response.level"),
   digits = 2, digits.p = 3, emph.p = TRUE, p.val = c("wald", "kr"),
   case = "parsed", auto.label = TRUE, bpe = "median",
   CSS = css_theme("regression"), file = NULL, use.viewer = TRUE)
@@ -173,6 +175,13 @@ a separate table column.}
 \code{collapse.se = FALSE}, inserts a line break between estimate and
 CI resp. SE values. If \code{FALSE}, values are printed in the same line
 as estimate values.}
+
+\item{col.order}{Character vector, indicating which columns should be printed
+and in which order. Column names that are excluded from \code{col.order}
+are not shown in the table output. However, column names that are included,
+are only shown in the table when the related argument (like \code{show.est}
+for \code{"estimate"}) is set to \code{TRUE} or another valid value.
+Table columns are printed in the order as they appear in \code{col.order}.}
 
 \item{digits}{Amount of decimals for estimates}
 

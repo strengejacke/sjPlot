@@ -148,6 +148,21 @@ In the following example, default columns are removed.
 tab_model(m3, m4, show.ci = FALSE, show.p = FALSE, auto.label = FALSE)
 ``` 
 
+### Removing and sorting columns
+
+Another way to remove columns, which also allows to reorder the columns, is the `col.order`-argument. This is a character vector, where each element indicates a column in the output. The value `"est"`, for instance, indicates the estimates, while `"std.est"` is the column for standardized estimates and so on.
+
+By default, `col.order` contains all possible columns. All columns that should shown (see previous tables, for example using `show.se = TRUE` to show standard errors, or `show.st = TRUE` to show standardized estimates) are then printed by default. Colums that are _excluded_ from `col.order` are _not shown_, no matter if the `show*`-arguments are `TRUE` or `FALSE`. So if `show.se = TRUE`, but`col.order` does not contain the element `"se"`, standard errors are not shown. On the other hand, if `show.est = FALSE`, but `col.order` _does include_ the element `"est"`, the columns with estimates are not shown.
+
+In summary, `col.order` can be used to _exclude_ columns from the table and to change the order of colums.
+
+```{r}
+tab_model(
+  m1, show.se = TRUE, show.std = TRUE, show.stat = TRUE,
+  col.order = c("p", "stat", "est", "std.se", "se", "std.est")
+)
+``` 
+
 ### Collapsing columns
 
 With `collapse.ci` and `collapse.se`, the columns for confidence intervals and standard errors can be collapsed into one column together with the estimates. Sometimes this table layout is required.

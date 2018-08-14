@@ -9,6 +9,7 @@
 
 * Improved support for `brmsfit`-objects with categorical-family for `plot_model()` and `tab_model()`.
 * `tab_model()` gets a `show.adj.icc`-argument, to also show the adjusted ICC for mixed models.
+* `tab_model()` gets a `col.order`-argument, reorder the table columns.
 * Argument `hide.progress` in `view_df()` is deprecated. Please use `verbose` now.
 * The `statistics`-argument in `sjt.xtab()` gets a `"fisher"`-option, to force Fisher's Exact Test to be used.
 
