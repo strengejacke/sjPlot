@@ -44,7 +44,6 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
 
 
 #' @importFrom broom tidy
-#' @importFrom tibble has_name
 #' @importFrom sjstats p_value
 #' @importFrom stats coef qnorm
 #' @importFrom dplyr mutate
@@ -112,7 +111,7 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
     } else {
 
       # see if we have p-values. if not, add them
-      if (!tibble::has_name(dat, "p.value"))
+      if (!obj_has_name(dat, "p.value"))
         dat$p.value <- tryCatch(
           sjstats::p_value(model, p.kr = FALSE)[["p.value"]],
           error = function(x) { NA }
@@ -182,7 +181,7 @@ tidy_cox_model <- function(model, ci.lvl) {
   dat <- broom::tidy(model, conf.int = ci.lvl)
 
   # see if we have p-values. if not, add them
-  if (!tibble::has_name(dat, "p.value"))
+  if (!obj_has_name(dat, "p.value"))
     dat$p.value <- sjstats::p_value(model)[["p.value"]]
 
   dat
@@ -198,7 +197,6 @@ tidy_cox_model <- function(model, ci.lvl) {
 #' @importFrom tibble add_column tibble
 #' @importFrom purrr map_dbl
 #' @importFrom rlang .data
-#' @importFrom tidyselect starts_with ends_with
 tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, ...) {
 
   # set defaults
@@ -245,11 +243,11 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
   mod.dat <- as.data.frame(model)
 
   if (inherits(model, "brmsfit")) {
-    re.sd <- tidyselect::starts_with("sd_", vars = colnames(mod.dat))
-    re.cor <- tidyselect::starts_with("cor_", vars = colnames(mod.dat))
-    lp <- tidyselect::starts_with("lp__", vars = colnames(mod.dat))
-    resp.cor <- tidyselect::starts_with("rescor__", vars = colnames(mod.dat))
-    priors <- tidyselect::starts_with("prior_", vars = colnames(mod.dat))
+    re.sd <- string_starts_with("sd_", x = colnames(mod.dat))
+    re.cor <- string_starts_with("cor_", x = colnames(mod.dat))
+    lp <- string_starts_with("lp__", x = colnames(mod.dat))
+    resp.cor <- string_starts_with("rescor__", x = colnames(mod.dat))
+    priors <- string_starts_with("prior_", x = colnames(mod.dat))
 
     brmsfit.removers <- unique(c(re.sd, re.cor, lp, resp.cor, priors))
 
@@ -257,7 +255,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
       mod.dat <- dplyr::select(mod.dat, !! -brmsfit.removers)
 
     # also clean prepared data frame
-    resp.cor <- tidyselect::starts_with("rescor__", vars = dat$term)
+    resp.cor <- string_starts_with("rescor__", x = dat$term)
 
     if (!sjmisc::is_empty(resp.cor))
       dat <- dplyr::slice(dat, !! -resp.cor)
@@ -291,20 +289,20 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
   # remove sd_c and cor_ row
 
-  re <- tidyselect::starts_with("sd_", vars = dat$term)
+  re <- string_starts_with("sd_", x = dat$term)
   if (!sjmisc::is_empty(re)) dat <- dplyr::slice(dat, !! -re)
 
-  re <- tidyselect::starts_with("cor_", vars = dat$term)
+  re <- string_starts_with("cor_", x = dat$term)
   if (!sjmisc::is_empty(re)) dat <- dplyr::slice(dat, !! -re)
 
 
   # check if we need to keep or remove random effects
 
-  re <- tidyselect::starts_with("b[", vars = dat$term)
-  re.s <- tidyselect::starts_with("Sigma[", vars = dat$term)
+  re <- string_starts_with("b[", x = dat$term)
+  re.s <- string_starts_with("Sigma[", x = dat$term)
   re.i <- intersect(
-    tidyselect::starts_with("r_", vars = dat$term),
-    tidyselect::ends_with(".", vars = dat$term)
+    string_starts_with("r_", x = dat$term),
+    string_ends_with(".", x = dat$term)
   )
 
   # and all random effect error terms
@@ -414,7 +412,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
     # terms of categorical models are prefixed with "mu"
 
-    if (length(tidyselect::starts_with("b_mu", vars = dat$term)) == nrow(dat)) {
+    if (length(string_starts_with("b_mu", x = dat$term)) == nrow(dat)) {
       dat$term <- substr(dat$term, 5, max(nchar(dat$term)))
       # create "response-level" variable
       dat <- tibble::add_column(dat, response.level = "", .before = 1)
@@ -433,8 +431,8 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     responses <- stats::formula(model)$responses
 
     # also clean prepared data frame
-    resp.sigma1 <- tidyselect::starts_with("sigma_", vars = dat$term)
-    resp.sigma2 <- tidyselect::starts_with("b_sigma_", vars = dat$term)
+    resp.sigma1 <- string_starts_with("sigma_", x = dat$term)
+    resp.sigma2 <- string_starts_with("b_sigma_", x = dat$term)
 
     resp.sigma <- c(resp.sigma1, resp.sigma2)
 
@@ -450,7 +448,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     # and remove response name from term name
 
     for (i in responses) {
-      m <- tidyselect::contains(i, vars = dat$term)
+      m <- string_contains(i, x = dat$term)
       dat$response.level[intersect(which(dat$response.level == ""), m)] <- i
       dat$term <- gsub(sprintf("b_%s_", i), "", dat$term, fixed = TRUE)
       dat$term <- gsub(sprintf("s_%s_", i), "", dat$term, fixed = TRUE)
@@ -473,7 +471,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     dat$wrap.facet <- "Conditional Model"
 
     # zero-inflated part
-    zi <- tidyselect::starts_with("b_zi_", vars = dat$term)
+    zi <- string_starts_with("b_zi_", x = dat$term)
 
     # check if zero-inflated part should be shown or removed
     if (show.zeroinf) {
@@ -493,7 +491,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
 
   # remove facet column if not necessary
-  if (!show.zeroinf && tibble::has_name(dat, "wrap.facet"))
+  if (!show.zeroinf && obj_has_name(dat, "wrap.facet"))
     dat <- dplyr::select(dat, -.data$wrap.facet)
 
   dat
@@ -515,7 +513,7 @@ tidy_lme_model <- function(model, ci.lvl) {
   dat$conf.high <- ci$upper
 
   # see if we have p-values. if not, add them
-  if (!tibble::has_name(dat, "p.value"))
+  if (!obj_has_name(dat, "p.value"))
     dat$p.value <- sjstats::p_value(model)[["p.value"]]
 
   dat

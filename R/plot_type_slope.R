@@ -3,7 +3,6 @@
 #' @importFrom sjmisc str_contains is_empty
 #' @importFrom stats formula residuals
 #' @importFrom dplyr filter
-#' @importFrom tibble has_name
 plot_type_slope <- function(model,
                             terms,
                             rm.terms,
@@ -92,16 +91,16 @@ plot_type_slope <- function(model,
     # models, we might have some random effects which were not
     # in the model frame
 
-    if (tibble::has_name(model_data, p_v)) {
+    if (obj_has_name(model_data, p_v)) {
 
       if (useResiduals) {
-        tibble::tibble(
+        data.frame(
           x = sjlabelled::as_numeric(model_data[[p_v]]),
           y = stats::residuals(model),
           group = sjlabelled::get_label(model_data[[p_v]], def.value = p_v, case = case)
         )
       } else {
-        tibble::tibble(
+        data.frame(
           x = sjlabelled::as_numeric(model_data[[p_v]]),
           y = sjstats::resp_val(model),
           group = sjlabelled::get_label(model_data[[p_v]], def.value = p_v, case = case)

@@ -248,7 +248,6 @@ tab_dfs <- function(x,
 # this function is used from tab_model()
 #' @importFrom dplyr slice full_join
 #' @importFrom sjmisc replace_na
-#' @importFrom tidyselect ends_with
 #' @importFrom purrr map map_dbl
 tab_model_df <- function(x,
                          zeroinf,
@@ -330,7 +329,7 @@ tab_model_df <- function(x,
   dv.content <- paste0(dv.content, "    <th class=\"thead firsttablerow firsttablecol col1\">&nbsp;</th>\n")
 
   for (i in 1:length(dv.labels)) {
-    colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
+    colspan <- length(string_ends_with(sprintf("_%i", i), x = colnames(x)))
     dv.content <- paste0(
       dv.content,
       sprintf("    <th colspan=\"%i\" class=\"thead firsttablerow\">%s</th>\n", colspan, dv.labels[i])
@@ -403,7 +402,7 @@ tab_model_df <- function(x,
       if (length(icc.list) == 1)
         colspan <- ncol(x) - 1
       else
-        colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
+        colspan <- length(string_ends_with(sprintf("_%i", i), x = colnames(x)))
 
       if (is.null(icc.list[[i]])) {
 
@@ -550,7 +549,7 @@ tab_model_df <- function(x,
       if (length(n_obs.list) == 1)
         colspan <- ncol(x) - 1
       else
-        colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
+        colspan <- length(string_ends_with(sprintf("_%i", i), x = colnames(x)))
 
       if (is.null(n_obs.list[[i]])) {
 
@@ -615,7 +614,7 @@ tab_model_df <- function(x,
       if (length(rsq.list) == 1)
         colspan <- ncol(x) - 1
       else
-        colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = colnames(x)))
+        colspan <- length(string_ends_with(sprintf("_%i", i), x = colnames(x)))
 
       if (is.null(rsq.list[[i]])) {
 
@@ -745,7 +744,7 @@ create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, su
       if (length(rv) == 1)
         colspan <- n.cols - 1
       else
-        colspan <- length(tidyselect::ends_with(sprintf("_%i", j), vars = var.names))
+        colspan <- length(string_ends_with(sprintf("_%i", j), x = var.names))
 
       if (is.null(rv[[j]]) || is.na(rv[[j]][i])) {
 
@@ -782,7 +781,6 @@ create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, su
 }
 
 
-#' @importFrom tidyselect ends_with
 create_stats <- function(data.list, data.string, firstsumrow, summary.css, var.names, n.cols) {
   page.content <- ""
 
@@ -802,7 +800,7 @@ create_stats <- function(data.list, data.string, firstsumrow, summary.css, var.n
     if (length(data.list) == 1)
       colspan <- n.cols - 1
     else
-      colspan <- length(tidyselect::ends_with(sprintf("_%i", i), vars = var.names))
+      colspan <- length(string_ends_with(sprintf("_%i", i), x = var.names))
 
     if (is.null(data.list[[i]])) {
 

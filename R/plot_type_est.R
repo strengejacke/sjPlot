@@ -1,4 +1,3 @@
-#' @importFrom tibble has_name
 #' @importFrom broom tidy
 #' @importFrom sjstats robust
 plot_type_est <- function(type,
@@ -42,7 +41,7 @@ plot_type_est <- function(type,
   } else {
     dat <- model %>%
       sjstats::std_beta(type = type, ci.lvl = ci.lvl) %>%
-      tibble::add_column(p.value = sjstats::p_value(model)[["p.value"]][-1]) %>%
+      add_cols(data.frame(p.value = sjstats::p_value(model)[["p.value"]][-1])) %>%
       sjmisc::var_rename(std.estimate = "estimate")
 
     show.intercept <- FALSE
@@ -61,7 +60,7 @@ plot_type_est <- function(type,
 
     tnames <- names(title)
 
-    if (tibble::has_name(dat, "facet") && !is.null(tnames)) {
+    if (obj_has_name(dat, "facet") && !is.null(tnames)) {
       if (all(tnames %in% dat$facet)) {
         for (i in tnames) {
           dat$facet[which(dat$facet == i)] <- title[i]
@@ -70,7 +69,7 @@ plot_type_est <- function(type,
       }
     }
 
-    if (tibble::has_name(dat, "response.level") && !is.null(tnames)) {
+    if (obj_has_name(dat, "response.level") && !is.null(tnames)) {
       if (all(tnames %in% dat$response.level)) {
         for (i in tnames) {
           dat$response.level[which(dat$response.level == i)] <- title[i]

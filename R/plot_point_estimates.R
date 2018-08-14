@@ -1,4 +1,3 @@
-#' @importFrom tibble has_name
 #' @importFrom dplyr n_distinct if_else
 #' @importFrom sjmisc is_empty
 #' @importFrom sjlabelled as_numeric
@@ -70,7 +69,7 @@ plot_point_estimates <- function(model,
   layer_vertical_line <- geom_intercept_line(yintercept, axis.scaling, vline.color)
 
   # check whether we have a multinomial log. reg. model
-  multinomial <- tibble::has_name(dat, "response.level")
+  multinomial <- obj_has_name(dat, "response.level")
 
   # basis aes mapping
 
@@ -186,10 +185,10 @@ plot_point_estimates <- function(model,
 
   # facets?
 
-  if (tibble::has_name(dat, "facet") && dplyr::n_distinct(dat$facet, na.rm = TRUE) > 1)
+  if (obj_has_name(dat, "facet") && dplyr::n_distinct(dat$facet, na.rm = TRUE) > 1)
     p <- p +
       facet_grid(~facet)
-  else if (tibble::has_name(dat, "wrap.facet") && dplyr::n_distinct(dat$wrap.facet, na.rm = TRUE) > 1)
+  else if (obj_has_name(dat, "wrap.facet") && dplyr::n_distinct(dat$wrap.facet, na.rm = TRUE) > 1)
     p <- p +
       facet_wrap(~wrap.facet, ncol = 1)
 

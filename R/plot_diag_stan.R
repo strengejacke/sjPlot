@@ -1,8 +1,6 @@
 #' @importFrom stats update
 #' @importFrom dplyr bind_rows select mutate
 #' @importFrom tidyr gather
-#' @importFrom tidyselect starts_with
-#' @importFrom tibble has_name
 plot_diag_stan <- function(model, geom.colors, axis.lim, facets, ...) {
 
   # check some defaults
@@ -29,10 +27,10 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, ...) {
 
     # get samples from posterior and prior
 
-    d1 <- dplyr::select(d1, tidyselect::starts_with("b_"), -tidyselect::starts_with("b_Intercept"))
+    d1 <- dplyr::select(d1, string_starts_with("b_", colnames(d1)), -string_starts_with("b_Intercept", colnames(d1)))
 
     d2 <- brms::posterior_samples(model) %>%
-      dplyr::select(tidyselect::starts_with("b_"), -tidyselect::starts_with("b_Intercept"))
+      dplyr::select(string_starts_with("b_", colnames(.)), -string_starts_with("b_Intercept", colnames(.)))
 
   } else if (inherits(model, c("stanreg", "stanfit"))) {
 
@@ -54,22 +52,22 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, ...) {
     # remove intercept from output for ridgeline plot.
     # this would increase the range of the scale too much
 
-    if (tibble::has_name(d1, "(Intercept)"))
+    if (obj_has_name(d1, "(Intercept)"))
       d1 <- dplyr::select(d1, -.data$`(Intercept)`)
 
-    if (tibble::has_name(d2, "(Intercept)"))
+    if (obj_has_name(d2, "(Intercept)"))
       d2 <- dplyr::select(d2, -.data$`(Intercept)`)
 
-    if (tibble::has_name(d1, "sigma"))
+    if (obj_has_name(d1, "sigma"))
       d1 <- dplyr::select(d1, -.data$sigma)
 
-    if (tibble::has_name(d2, "sigma"))
+    if (obj_has_name(d2, "sigma"))
       d2 <- dplyr::select(d2, -.data$sigma)
 
-    d1 <- dplyr::select(d1, -tidyselect::starts_with("b[(Intercept)"))
-    d2 <- dplyr::select(d2, -tidyselect::starts_with("b[(Intercept)"))
-    d1 <- dplyr::select(d1, -tidyselect::starts_with("Sigma["))
-    d2 <- dplyr::select(d2, -tidyselect::starts_with("Sigma["))
+    d1 <- dplyr::select(d1, -string_starts_with("b[(Intercept)", colnames(d1)))
+    d2 <- dplyr::select(d2, -string_starts_with("b[(Intercept)", colnames(d2)))
+    d1 <- dplyr::select(d1, -string_starts_with("Sigma[", colnames(d1)))
+    d2 <- dplyr::select(d2, -string_starts_with("Sigma[", colnames(d2)))
   }
 
 

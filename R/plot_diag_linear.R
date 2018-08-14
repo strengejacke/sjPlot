@@ -30,10 +30,9 @@ plot_diag_glm <- function(model, geom.colors, dot.size, ...) {
 }
 
 
-#' @importFrom tibble tibble
 #' @importFrom stats residuals fitted
 diag_ncv <- function(model) {
-  dat <- tibble::tibble(
+  dat <- data.frame(
     res = stats::residuals(model),
     fitted = stats::fitted(model)
   )
@@ -52,10 +51,9 @@ diag_ncv <- function(model) {
 
 
 #' @importFrom rlang .data
-#' @importFrom tibble tibble
 #' @importFrom stats residuals sd
 diag_norm <- function(model, geom.colors) {
-  res_ <- tibble::tibble(res = stats::residuals(model))
+  res_ <- data.frame(res = stats::residuals(model))
 
   ggplot(res_, aes_string(x = "res")) +
     geom_density(fill = geom.colors[1], alpha = 0.2) +
@@ -110,8 +108,8 @@ diag_qq <- function(model, geom.colors, ...) {
 
 #' @importFrom lme4 ranef
 #' @importFrom purrr map map_dbl
-#' @importFrom tibble tibble
 #' @importFrom stats qnorm ppoints
+#' @importFrom tibble tibble
 diag_reqq <- function(model, dot.size) {
 
   if (!is_merMod(model) && !inherits(model, "glmmTMB")) return(NULL)
@@ -176,7 +174,6 @@ diag_reqq <- function(model, dot.size) {
 
 
 #' @importFrom stats coef
-#' @importFrom tibble rownames_to_column
 diag_vif <- function(fit) {
 
   if (is_merMod(fit) || inherits(fit, "lme"))
@@ -214,7 +211,7 @@ diag_vif <- function(fit) {
     if (maxval >= upperLimit) upperLimit <- ceiling(maxval)
 
     mydat <- data.frame(vif = round(val, 2)) %>%
-      tibble::rownames_to_column(var = "vars")
+      rownames_as_column(var = "vars")
 
 
     vifplot <- ggplot(mydat, aes_string(x = "vars", y = "vif")) +

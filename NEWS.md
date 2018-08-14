@@ -3,6 +3,7 @@
 ## General
 
 * `sjp.scatter()` was revised and renamed to `scatterplot()`. `scatterplot()` is pipe-friendly, and also works on grouped data frames.
+* Reduce package dependencies.
 
 ## Changes to functions
 

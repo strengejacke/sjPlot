@@ -45,7 +45,6 @@
 #' sjp.kfold_cv(efc, fit = fit)
 #'
 #' @import ggplot2
-#' @importFrom tibble is.tibble as_tibble
 #' @importFrom modelr crossv_kfold
 #' @importFrom dplyr mutate group_by_ ungroup summarise
 #' @importFrom purrr map map2
@@ -58,8 +57,8 @@
 #' @importFrom MASS glm.nb
 #' @export
 sjp.kfold_cv <- function(data, formula, k = 5, fit) {
-  # make sure that data is a tibble
-  if (!tibble::is.tibble(data)) data <- tibble::as_tibble(data)
+  # make sure that data is a data frame
+  if (!is.data.frame(data)) data <- as.data.frame(data)
 
   # check if a formula was passed as argument...
   if (!missing(formula)) {

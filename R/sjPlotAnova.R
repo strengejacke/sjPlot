@@ -33,7 +33,6 @@
 #' @import ggplot2
 #' @importFrom sjmisc trim word_wrap to_value
 #' @importFrom stats confint aov summary.lm
-#' @importFrom tibble rownames_to_column
 #' @importFrom rlang .data
 #' @importFrom sjlabelled get_label get_labels
 #' @export

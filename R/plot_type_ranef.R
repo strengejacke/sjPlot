@@ -1,7 +1,5 @@
 #' @importFrom lme4 ranef
-#' @importFrom tibble rownames_to_column
 #' @importFrom purrr map map_df map2
-#' @importFrom arm se.ranef
 #' @importFrom stats qnorm
 #' @importFrom forcats fct_reorder
 #' @importFrom dplyr if_else
@@ -60,7 +58,7 @@ plot_type_ranef <- function(model,
       rand.se <- NULL
     }
   } else
-    rand.se <- arm::se.ranef(model)
+    rand.se <- se_ranef(model)
 
 
   # get some initial values
@@ -107,7 +105,7 @@ plot_type_ranef <- function(model,
 
   rand.ef <- purrr::map(
     loops,
-    ~ rand.ef[[.x]] %>% tibble::rownames_to_column()
+    ~ rownames_as_column(rand.ef[[.x]])
   )
 
 
@@ -115,7 +113,7 @@ plot_type_ranef <- function(model,
 
   rand.se <- purrr::map(
     loops,
-    ~ rand.se[.x] %>% as.data.frame() %>% tibble::rownames_to_column()
+    ~ rand.se[.x] %>% as.data.frame() %>% rownames_as_column()
   )
 
 

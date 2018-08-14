@@ -19,7 +19,6 @@ check_css_param <- function(CSS) {
 # the content of a data frame into a HTML table that is returned.
 
 #' @importFrom sjmisc is_empty var_type is_even trim
-#' @importFrom tibble has_rownames has_name rownames_to_column
 tab_df_content <- function(
   mydf,
   title,
@@ -76,8 +75,8 @@ tab_df_content <- function(
   # check if rownames should be shown and data has any rownames at all
   # if so, we need to update our information on column names
 
-  if (show.rownames && tibble::has_rownames(mydf)) {
-    mydf <- tibble::rownames_to_column(mydf)
+  if (show.rownames && obj_has_rownames(mydf)) {
+    mydf <- rownames_as_column(mydf)
     colcnt <- colcnt + 1
     cnames <- c("Row", cnames)
   }

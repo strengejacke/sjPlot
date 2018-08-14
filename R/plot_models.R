@@ -74,14 +74,12 @@
 #' @import ggplot2
 #' @importFrom purrr map map_df map2
 #' @importFrom dplyr slice bind_rows filter
-#' @importFrom tidyselect ends_with
 #' @importFrom broom tidy
 #' @importFrom forcats fct_rev
 #' @importFrom sjstats std_beta p_value model_family
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom rlang .data
 #' @importFrom sjmisc word_wrap var_rename
-#' @importFrom tibble tidy_names add_column
 #' @export
 plot_models <- function(...,
                         transform,
@@ -113,7 +111,8 @@ plot_models <- function(...,
                         auto.label = TRUE,
                         prefix.labels = c("none", "varname", "label")) {
   # retrieve list of fitted models
-  input_list <- tibble::lst(...)
+  input_list <- list(...)
+  names(input_list) <- unlist(lapply(match.call(expand.dots = F)$`...`, deparse))
 
   # check length. if we have a list of fitted model, we need to "unlist" them
   if (length(input_list) == 1 && class(input_list[[1]]) == "list")
@@ -150,9 +149,9 @@ plot_models <- function(...,
     fl <- input_list %>%
       purrr::map(~ sjstats::std_beta(.x, type = std.est)) %>%
       purrr::map(~ sjmisc::var_rename(.x, std.estimate = "estimate")) %>%
-      purrr::map2(input_list, ~ tibble::add_column(
-        .x, p.value = sjstats::p_value(.y)[["p.value"]][-1])
-      )
+      purrr::map2(input_list, ~ add_cols(
+        .x, data.frame(p.value = sjstats::p_value(.y)[["p.value"]][-1])
+      ))
 
   } else {
 
@@ -178,7 +177,7 @@ plot_models <- function(...,
     # remove intercept from output
     if (!show.intercept) {
       fl <- purrr::map(fl, function(x) {
-        rm.i <- tidyselect::ends_with("(Intercept)", vars = x$term)
+        rm.i <- string_ends_with("(Intercept)", x = x$term)
         dplyr::slice(x, !! -rm.i)
       })
     }
@@ -233,7 +232,7 @@ plot_models <- function(...,
   # leading to missing groups in plot output
 
   if (anyDuplicated(m.labels) > 0)
-    m.labels <- suppressMessages(tibble::tidy_names(m.labels))
+    m.labels <- suppressMessages(tidy_label(m.labels))
 
   ff$group <- as.factor(ff$group)
   levels(ff$group) <- m.labels

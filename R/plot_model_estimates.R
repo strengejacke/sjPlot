@@ -1,6 +1,5 @@
 #' @importFrom dplyr slice filter if_else
 #' @importFrom forcats fct_reorder fct_rev
-#' @importFrom tidyselect contains
 #' @importFrom rlang .data
 #' @importFrom sjmisc remove_var
 plot_model_estimates <- function(model,
@@ -35,9 +34,9 @@ plot_model_estimates <- function(model,
   # remove intercept(s) from output
 
   if (!show.intercept) {
-    ints1 <- tidyselect::contains("(Intercept", vars = dat$term)
-    ints2 <- tidyselect::contains("b_Intercept", vars = dat$term)
-    ints3 <- tidyselect::contains("b_zi_Intercept", vars = dat$term)
+    ints1 <- string_contains("(Intercept", x = dat$term)
+    ints2 <- string_contains("b_Intercept", x = dat$term)
+    ints3 <- string_contains("b_zi_Intercept", x = dat$term)
     ints4 <- which(dat$term %in% "Intercept")
 
     ints <- c(ints1, ints2, ints3, ints4)
@@ -49,7 +48,7 @@ plot_model_estimates <- function(model,
 
   # remove non-coefficients
 
-  noncoef <- tidyselect::contains("Log(theta)", vars = dat$term)
+  noncoef <- string_contains("Log(theta)", x = dat$term)
   if (!sjmisc::is_empty(noncoef)) dat <- dplyr::slice(dat, !! -noncoef)
 
 

@@ -232,7 +232,7 @@ sjp.xtab <- function(x,
     myptab <- mydat$proptab.col
   else if (margin == "row")
     myptab <- mydat$proptab.row
-  myptab <- tibble::rownames_to_column(data.frame(myptab))
+  myptab <- rownames_as_column(data.frame(myptab))
   # -----------------------------------------------
   # tidy data
   #---------------------------------------------------

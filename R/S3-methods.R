@@ -325,7 +325,6 @@ preliab <- function(x, ...) {
 
 
 #' @importFrom purrr map_if
-#' @importFrom tibble as_tibble
 #' @importFrom sjmisc is_float
 pdescr <- function(x, ...) {
   digits <- 2
@@ -354,7 +353,7 @@ pdescr <- function(x, ...) {
 
   x <- x %>%
     purrr::map_if(sjmisc::is_float, ~ round(.x, digits)) %>%
-    tibble::as_tibble()
+    as.data.frame()
 
   tab_df(
     x = x,
@@ -381,7 +380,6 @@ pdescr <- function(x, ...) {
 
 
 #' @importFrom purrr map_if map_chr map
-#' @importFrom tibble as_tibble
 #' @importFrom sjmisc is_float
 pgdescr <- function(x, ...) {
   titles <- purrr::map_chr(x, ~ sprintf(
@@ -417,7 +415,7 @@ pgdescr <- function(x, ...) {
       .x,
       sjmisc::is_float,
       ~ round(.x, digits)
-    ) %>% tibble::as_tibble())
+    ) %>% as.data.frame())
 
   tab_dfs(
     x = x,
@@ -442,7 +440,6 @@ pgdescr <- function(x, ...) {
 
 
 #' @importFrom purrr map_if map_chr map
-#' @importFrom tibble as_tibble
 #' @importFrom dplyr n_distinct select
 pfrq <- function(x, ...) {
   uv <- attr(x, "print", exact = TRUE) == "viewer"

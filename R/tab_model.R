@@ -184,7 +184,7 @@
 #'    }
 #
 #' @importFrom dplyr full_join select if_else mutate
-#' @importFrom tibble lst add_case as_tibble
+#' @importFrom tibble add_case as_tibble
 #' @importFrom purrr reduce map2 map_if map_df compact map_lgl map_chr flatten_chr
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns
@@ -256,7 +256,9 @@ tab_model <- function(
 
   p.val <- match.arg(p.val)
 
-  models <- tibble::lst(...)
+  models <- list(...)
+  names(models) <- unlist(lapply(match.call(expand.dots = F)$`...`, deparse))
+
   auto.transform <- missing(transform)
   ci.lvl <- ifelse(is.null(show.ci), .95, show.ci)
 
@@ -398,7 +400,7 @@ tab_model <- function(
       # remove 2nd HDI if requested ----
 
       if (!show.hdi50)
-        dat <- dplyr::select(dat, -tidyselect::starts_with("hdi.inner"))
+        dat <- dplyr::select(dat, -string_starts_with("hdi.inner", colnames(dat)))
 
 
       ## TODO optionally insert linebreak for new-line-CI / SE
@@ -412,22 +414,22 @@ tab_model <- function(
         else
           lb <- " "
 
-        est.cols <- tidyselect::starts_with("estimate", vars = colnames(dat))
+        est.cols <- string_starts_with("estimate", x = colnames(dat))
         dat[[est.cols]] <- sprintf("%s%s(%s)", dat[[est.cols]], lb, dat[[est.cols + 2]])
 
         # for stan models, we also have 50% HDI
-        if (!sjmisc::is_empty(tidyselect::starts_with("hdi", vars = colnames(dat)))) {
-          dat <- dplyr::select(dat, -tidyselect::starts_with("hdi.outer"))
+        if (!sjmisc::is_empty(string_starts_with("hdi", x = colnames(dat)))) {
+          dat <- dplyr::select(dat, -string_starts_with("hdi.outer", x = colnames(dat)))
           dat[[est.cols]] <- sprintf("%s%s(%s)", dat[[est.cols]], lb, dat[[est.cols + 2]])
-          dat <- dplyr::select(dat, -tidyselect::starts_with("hdi.inner"))
+          dat <- dplyr::select(dat, -string_starts_with("hdi.inner", x = colnames(dat)))
         } else {
-          dat <- dplyr::select(dat, -tidyselect::starts_with("conf.int"))
+          dat <- dplyr::select(dat, -string_starts_with("conf.int", x = colnames(dat)))
         }
 
-        std.cols <- tidyselect::starts_with("std.estimate", vars = colnames(dat))
+        std.cols <- string_starts_with("std.estimate", x = colnames(dat))
         if (!sjmisc::is_empty(std.cols)) {
           dat[[std.cols]] <- sprintf("%s%s(%s)", dat[[std.cols]], lb, dat[[std.cols + 2]])
-          dat <- dplyr::select(dat, -tidyselect::starts_with("std.conf.int"))
+          dat <- dplyr::select(dat, -string_starts_with("std.conf.int", x = colnames(dat)))
         }
       }
 
@@ -438,14 +440,14 @@ tab_model <- function(
         else
           lb <- " "
 
-        est.cols <- tidyselect::starts_with("estimate", vars = colnames(dat))
+        est.cols <- string_starts_with("estimate", x = colnames(dat))
         dat[[est.cols]] <- sprintf("%s%s(%s)", dat[[est.cols]], lb, dat[[est.cols + 1]])
-        dat <- dplyr::select(dat, -tidyselect::starts_with("std.error"))
+        dat <- dplyr::select(dat, -string_starts_with("std.error", x = colnames(dat)))
 
-        std.cols <- tidyselect::starts_with("std.estimate", vars = colnames(dat))
+        std.cols <- string_starts_with("std.estimate", x = colnames(dat))
         if (!sjmisc::is_empty(std.cols)) {
           dat[[std.cols]] <- sprintf("%s%s(%s)", dat[[std.cols]], lb, dat[[std.cols + 1]])
-          dat <- dplyr::select(dat, -tidyselect::starts_with("std.se"))
+          dat <- dplyr::select(dat, -string_starts_with("std.se", x = colnames(dat)))
         }
       }
 
@@ -453,7 +455,7 @@ tab_model <- function(
       # handle zero-inflation part ----
 
       zidat <- NULL
-      wf <- tidyselect::starts_with("wrap.facet", vars = colnames(dat))
+      wf <- string_starts_with("wrap.facet", x = colnames(dat))
 
       if (!sjmisc::is_empty(wf)) {
         zi <- which(dat[[wf]] %in% c("Zero-Inflated Model", "Zero Inflation Model"))
@@ -581,7 +583,7 @@ tab_model <- function(
   # sort multivariate response models by response level
 
   model.data <- purrr::map(model.data, function(.x) {
-    resp.col <- tidyselect::starts_with("response.level", vars = colnames(.x))
+    resp.col <- string_starts_with("response.level", x = colnames(.x))
     if (!sjmisc::is_empty(resp.col))
       .x[order(match(.x[[resp.col]], unique(.x[[resp.col]]))), ]
     else
@@ -883,6 +885,7 @@ tab_model <- function(
 #' @importFrom stats na.omit
 sort_columns <- function(x, is.stan) {
   ## TODO check code for multiple response models
+  ## TODO allow custom sorting
 
   reihe <- c(
     "term",
@@ -906,13 +909,12 @@ sort_columns <- function(x, is.stan) {
 }
 
 
-#' @importFrom tidyselect starts_with
 #' @importFrom dplyr select slice
 remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, show.se, show.stat, show.p, show.df, show.response, terms, rm.terms) {
   if (!show.intercept) {
-    ints1 <- tidyselect::contains("(Intercept", vars = dat$term)
-    ints2 <- tidyselect::contains("b_Intercept", vars = dat$term)
-    ints3 <- tidyselect::contains("b_zi_Intercept", vars = dat$term)
+    ints1 <- string_contains("(Intercept", x = dat$term)
+    ints2 <- string_contains("b_Intercept", x = dat$term)
+    ints3 <- string_contains("b_zi_Intercept", x = dat$term)
     ints4 <- which(dat$term %in% "Intercept")
 
     ints <- c(ints1, ints2, ints3, ints4)
@@ -924,43 +926,47 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
   if (show.est == FALSE) {
     dat <- dplyr::select(
       dat,
-      -tidyselect::starts_with("estimate"),
-      -tidyselect::starts_with("conf"),
-      -tidyselect::starts_with("std.error")
+      -string_starts_with("estimate", x = colnames(dat)),
+      -string_starts_with("conf", x = colnames(dat)),
+      -string_starts_with("std.error", x = colnames(dat))
     )
   }
 
   if (is.null(show.std) || show.std == FALSE) {
-    dat <- dplyr::select(dat, -tidyselect::starts_with("std.estimate"))
+    dat <- dplyr::select(dat, -string_starts_with("std.estimate", x = colnames(dat)))
   }
 
   if (is.null(show.ci) || show.ci == FALSE) {
     dat <- dplyr::select(
       dat,
-      -tidyselect::starts_with("conf"),
-      -tidyselect::starts_with("std.conf"),
-      -tidyselect::starts_with("hdi")
+      -string_starts_with("conf", x = colnames(dat)),
+      -string_starts_with("std.conf", x = colnames(dat)),
+      -string_starts_with("hdi", x = colnames(dat))
     )
   }
 
   if (is.null(show.se) || show.se == FALSE) {
-    dat <- dplyr::select(dat, -tidyselect::starts_with("std.error"), -tidyselect::starts_with("std.se"))
+    dat <- dplyr::select(
+      dat,
+      -string_starts_with("std.error", x = colnames(dat)),
+      -string_starts_with("std.se", x = colnames(dat))
+    )
   }
 
   if (show.stat == FALSE) {
-    dat <- dplyr::select(dat, -tidyselect::starts_with("statistic"))
+    dat <- dplyr::select(dat, -string_starts_with("statistic", x = colnames(dat)))
   }
 
   if (show.response == FALSE) {
-    dat <- dplyr::select(dat, -tidyselect::starts_with("response.level"))
+    dat <- dplyr::select(dat, -string_starts_with("response.level", x = colnames(dat)))
   }
 
   if (show.p == FALSE) {
-    dat <- dplyr::select(dat, -tidyselect::starts_with("p.value"))
+    dat <- dplyr::select(dat, -string_starts_with("p.value", x = colnames(dat)))
   }
 
   if (show.df == FALSE) {
-    dat <- dplyr::select(dat, -tidyselect::starts_with("df"))
+    dat <- dplyr::select(dat, -string_starts_with("df", x = colnames(dat)))
   }
 
   if (!is.null(terms)) {
@@ -979,13 +985,12 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
 }
 
 
-#' @importFrom tidyselect starts_with
 prepare.labels <- function(x, grp) {
   x_var <- names(x[attr(x, "category.value") == FALSE])
   x_val <- names(x[attr(x, "category.value") == TRUE])
 
   for (i in x_var) {
-    pos <- tidyselect::starts_with(i, vars = x_val)
+    pos <- string_starts_with(i, x = x_val)
 
     if (!grp || (length(pos) > 0 && length(pos) < 3)) {
       match.vals <- x_val[pos]

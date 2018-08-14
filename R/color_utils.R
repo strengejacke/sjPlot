@@ -10,10 +10,6 @@ col_check2 <- function(geom.colors, collen) {
       geom.colors <- scales::brewer_pal(palette = geom.colors[1])(collen)
     } else if (is.sjplot.pal(geom.colors[1])) {
       geom.colors <- get_sjplot_colorpalette(geom.colors[1], collen)
-    } else if (is.wes.pal(geom.colors[1])) {
-      geom.colors <- get_wesanderson_colorpalette(geom.colors[1], collen)
-    } else if (geom.colors[1] %in% c("v", "viridis")) {
-      geom.colors <- get_viridis_colorpalette(collen)
       # do we have correct amount of colours?
     } else if (geom.colors[1] == "gs") {
       geom.colors <- scales::grey_pal()(collen)
@@ -55,33 +51,6 @@ is.brewer.pal <- function(pal) {
 
 is.sjplot.pal <- function(pal) {
   pal %in% names(sjplot_colors)
-}
-
-
-is.wes.pal <- function(pal) {
-  pal %in% c("GrandBudapest", "Moonrise1", "Royal1", "Moonrise2", "Cavalcanti", "Royal2",
-             "GrandBudapest2", "Moonrise3", "Chevalier", "Zissou", "FantasticFox",
-             "Darjeeling", "Rushmore", "BottleRocket", "Darjeeling2")
-}
-
-
-get_wesanderson_colorpalette <- function(pal, len) {
-  if (!requireNamespace("wesanderson", quietly = TRUE)) {
-    warning("Package `wesanderson` required for this color palette.", call. = F)
-    return(NULL)
-  }
-
-  wesanderson::wes_palette(name = pal, n = len)
-}
-
-
-get_viridis_colorpalette <- function(len) {
-  if (!requireNamespace("viridis", quietly = TRUE)) {
-    warning("Package `viridis` required for this color palette.", call. = F)
-    return(NULL)
-  }
-
-  viridis::viridis(n = len)
 }
 
 

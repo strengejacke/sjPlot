@@ -126,7 +126,7 @@
 #' @importFrom stats nobs AIC confint coef deviance runif
 #' @importFrom lme4 VarCorr
 #' @importFrom sjstats std_beta icc r2 cod chisq_gof hoslem_gof p_value robust
-#' @importFrom tibble lst add_row add_column
+#' @importFrom tibble add_row add_column
 #' @importFrom broom tidy
 #' @export
 sjt.lm <- function(...,
@@ -228,7 +228,8 @@ sjt.lm <- function(...,
   # ------------------------
   # retrieve fitted models
   # ------------------------
-  input_list <- tibble::lst(...)
+  input_list <- list(...)
+  names(input_list) <- unlist(lapply(match.call(expand.dots = F)$`...`, deparse))
   # --------------------------------------------------------
   # check length. if we have a list of fitted model,
   # we need to "unlist" them
@@ -1223,7 +1224,8 @@ sjt.lmer <- function(...,
                      file = NULL,
                      use.viewer = TRUE,
                      remove.spaces = TRUE) {
-  input_list <- tibble::lst(...)
+  input_list <- list(...)
+  names(input_list) <- unlist(lapply(match.call(expand.dots = F)$`...`, deparse))
   # -------------------------------------
   # check arguments
   # -------------------------------------

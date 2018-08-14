@@ -319,7 +319,8 @@ show_sjplot_pals <- function() {
     `us` = c("#004D80", "#376C8E", "#37848E", "#9BC2B6", "#B5D2C0", "#004D80", "#376C8E", "#37848E"),
     `deep reefs` = c("#43a9b6", "#218282", "#dbdcd1", "#44515c", "#517784", "#ffffff", "#ffffff", "#ffffff"),
     `breakfast club` = c("#b6411a", "#eec3d8", "#4182dd", "#ecf0c8", "#2d6328", "#ffffff", "#ffffff", "#ffffff"),
-    `metro ui` = c("#d11141", "#00aedb", "#00b159", "#f37735", "#8c8c8c", "#ffc425", "#cccccc", "#ffffff")
+    `metro ui` = c("#d11141", "#00aedb", "#00b159", "#f37735", "#8c8c8c", "#ffc425", "#cccccc", "#ffffff"),
+    `viridis` = c("#440154", "#46337E", "#365C8D", "#277F8E", "#1FA187", "#4AC16D", "#9FDA3A", "#FDE725")
   )
 
   x <- suppressWarnings(
@@ -364,7 +365,8 @@ sjplot_colors <- list(
   `us` = c("#004D80", "#376C8E", "#37848E", "#9BC2B6", "#B5D2C0", "#004D80", "#376C8E", "#37848E"),
   `deep reefs` = c("#43a9b6", "#218282", "#dbdcd1", "#44515c", "#517784"),
   `breakfast club` = c("#b6411a", "#eec3d8", "#4182dd", "#ecf0c8", "#2d6328"),
-  `metro ui` = c("#d11141", "#00aedb", "#00b159", "#f37735", "#8c8c8c", "#ffc425", "#cccccc")
+  `metro ui` = c("#d11141", "#00aedb", "#00b159", "#f37735", "#8c8c8c", "#ffc425", "#cccccc"),
+  `viridis` = c("#440154", "#46337E", "#365C8D", "#277F8E", "#1FA187", "#4AC16D", "#9FDA3A", "#FDE725")
 )
 
 
