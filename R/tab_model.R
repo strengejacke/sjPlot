@@ -691,13 +691,9 @@ tab_model <- function(
   # get default labels for dv and terms ----
 
   if (isTRUE(auto.label) && sjmisc::is_empty(pred.labels)) {
-    ## TODO fix in sjlabelled
-    pred.labels <- sjlabelled::get_term_labels(models, case = case)
-    pred.cat <- sjlabelled::get_term_labels(models, mark.cat = TRUE)
+    pred.labels <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE)
     no.dupes <- !duplicated(names(pred.labels))
-    pred.labels <- pred.labels[no.dupes]
-    attr(pred.labels, "category.value") <- attr(pred.cat, "category.value")[no.dupes]
-    pred.labels <- prepare.labels(pred.labels, grp = group.terms)
+    pred.labels <- prepare.labels(pred.labels[no.dupes], grp = group.terms)
   } else {
     # no automatic grouping of table rows for categorical variables
     # when user supplies own labels
