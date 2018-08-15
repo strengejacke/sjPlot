@@ -85,7 +85,7 @@ plot_type_slope <- function(model,
 
   # iterate all predictors
 
-  mydat <- purrr::map_df(predvars, function(p_v) {
+  mydat <- suppressWarnings(purrr::map_df(predvars, function(p_v) {
 
     # make sure we have the variable in our data. for mixed
     # models, we might have some random effects which were not
@@ -108,14 +108,14 @@ plot_type_slope <- function(model,
       }
 
     }
-  })
+  }))
 
 
   # facets, all in one plot
 
   if (facets) {
 
-    p <- ggplot(mydat, aes_string(x = "x", y = "y")) +
+    p <- ggplot(mydat, aes(x = .data$x, y = .data$y)) +
       stat_smooth(
         method = "lm", se = !is.na(ci.lvl), colour = lineColor,
         fill = lineColor, alpha = alpha, level = ci.lvl
@@ -150,7 +150,7 @@ plot_type_slope <- function(model,
 
       dat <- dplyr::filter(mydat, .data$group == !! p_v)
 
-      pl <- ggplot(dat, aes_string(x = "x", y = "y")) +
+      pl <- ggplot(dat, aes(x = .data$x, y = .data$y)) +
         stat_smooth(
           method = "lm", se = !is.na(ci.lvl), colour = lineColor,
           fill = lineColor, alpha = alpha, level = ci.lvl

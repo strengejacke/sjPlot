@@ -148,7 +148,7 @@ sjp.xtab <- function(x,
   # grid-expansion
   # --------------------------------------------------------
   if (expand.grid) {
-    expand.grid <- ggplot2::waiver()
+    expand.grid <- waiver()
   } else {
     expand.grid <- c(0, 0)
   }
@@ -387,7 +387,7 @@ sjp.xtab <- function(x,
   # Set up grid breaks
   # --------------------------------------------------------
   if (is.null(grid.breaks)) {
-    gridbreaks <- ggplot2::waiver()
+    gridbreaks <- waiver()
   } else {
     gridbreaks <- seq(lower_lim, upper_lim, by = grid.breaks)
   }

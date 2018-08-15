@@ -566,6 +566,9 @@ tab_model <- function(
       if (show.aic) aic <- model_aic(model)
 
 
+      ## TODO add F-Statistic
+
+
       # fix brms coefficient names
 
       if (inherits(model, "brmsfit")) {

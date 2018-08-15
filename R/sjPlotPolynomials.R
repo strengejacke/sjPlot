@@ -33,7 +33,7 @@
 #' @return A ggplot-object.
 #'
 #' @inheritParams plot_model
-#' @inheritParams scatterplot
+#' @inheritParams plot_scatter
 #' @inheritParams sjp.grpfrq
 #'
 #' @details For each polynomial degree, a simple linear regression on \code{x} (resp.

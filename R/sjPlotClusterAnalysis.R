@@ -249,23 +249,23 @@ sjc.qclus <- function(data,
   # create plot
 
   if (reverse.axis) {
-    gp <- ggplot2::ggplot(df, ggplot2::aes(x = rev(.data$x), y = .data$y, fill = .data$group))
+    gp <- ggplot(df, aes(x = rev(.data$x), y = .data$y, fill = .data$group))
     axis.labels <- rev(axis.labels)
   } else {
-    gp <- ggplot2::ggplot(df, ggplot2::aes(x = .data$x, y = .data$y, fill = .data$group))
+    gp <- ggplot(df, aes(x = .data$x, y = .data$y, fill = .data$group))
   }
   gp <- gp +
-    ggplot2::geom_bar(
+    geom_bar(
       stat = "identity",
-      position = ggplot2::position_dodge(geom.size + geom.spacing),
+      position = position_dodge(geom.size + geom.spacing),
       width = geom.size
     ) +
-    ggplot2::scale_x_discrete(
+    scale_x_discrete(
       breaks = seq_len(colnr),
       limits = seq_len(colnr),
       labels = axis.labels
     ) +
-    ggplot2::labs(
+    labs(
       title = title,
       x = "Cluster group characteristics",
       y = "Mean of z-scores",
@@ -275,11 +275,11 @@ sjc.qclus <- function(data,
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
 
-  if (coord.flip) gp <- gp + ggplot2::coord_flip()
+  if (coord.flip) gp <- gp + coord_flip()
 
   # use facets
 
-  if (facet.grid) gp <- gp + ggplot2::facet_wrap(~group)
+  if (facet.grid) gp <- gp + facet_wrap(~group)
 
   # set geom colors
 
@@ -603,39 +603,39 @@ sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE) {
   # plot bar charts, stacked proportional
   # this works, because we always have two "values" (variables)
   # for the X-axis in the $grp-columns indicating a group
-  classplot <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$grp, y = .data$prc, fill = .data$fg)) +
+  classplot <- ggplot(mydat, aes(x = .data$grp, y = .data$prc, fill = .data$fg)) +
     # use stat identity to show value, not count of $prc-variable
     # draw no legend!
-    ggplot2::geom_bar(stat = "identity", colour = "black", show.legend = FALSE) +
+    geom_bar(stat = "identity", colour = "black", show.legend = FALSE) +
     # fill bars
-    ggplot2::scale_fill_manual(values = c("#235a80", "#80acc8")) +
+    scale_fill_manual(values = c("#235a80", "#80acc8")) +
     # give chart and X-axis a title
-    ggplot2::labs(title = "Accuracy of cluster group classification (in %)",
+    labs(title = "Accuracy of cluster group classification (in %)",
          x = "cluster groups",
          y = NULL) +
     # print value labels into bar chart
-    ggplot2::geom_text(aes(label = .data$cprc, y = .data$cprc),
+    geom_text(aes(label = .data$cprc, y = .data$cprc),
               vjust = 1.2,
               colour = "white") +
     # larger font size for axes
-    ggplot2::theme(axis.line = ggplot2::element_line(colour = "gray"),
-          axis.text = ggplot2::element_text(size = ggplot2::rel(1.2)),
-          axis.title = ggplot2::element_text(size = ggplot2::rel(1.2))) +
+    theme(axis.line = element_line(colour = "gray"),
+          axis.text = element_text(size = rel(1.2)),
+          axis.title = element_text(size = rel(1.2))) +
     # set ticks
-    ggplot2::scale_y_continuous(breaks = seq(0, 100, 10)) +
+    scale_y_continuous(breaks = seq(0, 100, 10)) +
     # change range on x-axis, so the text annotation is visible and
     # beside the bars and not printed into them
-    ggplot2::coord_cartesian(ylim = c(0, 100),
+    coord_cartesian(ylim = c(0, 100),
                     xlim = c(-0.5, groupcount + 1))
   if (clss.fit) {
     classplot <- classplot +
     # set line across all bars which indicates the total percentage of
     # correct assigned cases
-      ggplot2::geom_hline(yintercept = totalcorrect,
+      geom_hline(yintercept = totalcorrect,
                linetype = 2,
                colour = "#333333") +
       # print text annotation
-      ggplot2::annotate("text",
+      annotate("text",
                x = 0,
                y = totalcorrect,
                vjust = 1.2,

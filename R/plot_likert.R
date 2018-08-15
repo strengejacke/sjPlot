@@ -1,5 +1,5 @@
 #' @title Plot likert scales as centered stacked bars
-#' @name sjp.likert
+#' @name plot_likert
 #'
 #' @description Plot likert scales as centered stacked bars.
 #'
@@ -64,9 +64,9 @@
 #' data(efc)
 #' # find all variables from COPE-Index, which all have a "cop" in their
 #' # variable name, and then plot that subset as likert-plot
-#' find_var(efc, pattern = "cop", out = "df") %>% sjp.likert()
+#' find_var(efc, pattern = "cop", out = "df") %>% plot_likert()
 #'
-#' sjp.likert(
+#' plot_likert(
 #'   find_var(efc, pattern = "cop", out = "df"),
 #'   grid.range = 1.2,
 #'   expand.grid = FALSE,
@@ -82,7 +82,7 @@
 #' @importFrom dplyr between
 #'
 #' @export
-sjp.likert <- function(items,
+plot_likert <- function(items,
                        title = NULL,
                        legend.title = NULL,
                        legend.labels = NULL,
@@ -487,7 +487,7 @@ sjp.likert <- function(items,
   # set diagram margins
 
   if (expand.grid) {
-    expgrid <- ggplot2::waiver()
+    expgrid <- waiver()
   } else {
     expgrid <- c(0, 0)
   }
@@ -499,19 +499,19 @@ sjp.likert <- function(items,
 
   # start plot here
 
-  gp <- ggplot2::ggplot() +
+  gp <- ggplot() +
     # positive value bars
-    ggplot2::geom_col(
+    geom_col(
       data = mydat.pos,
-      ggplot2::aes_string(x = "x", y = "frq", fill = "grp"),
+      aes_string(x = "x", y = "frq", fill = "grp"),
       width = geom.size
     ) +
     # negative value bars
-    ggplot2::geom_col(
+    geom_col(
       data = mydat.neg,
-      ggplot2::aes_string(x = "x", y = "frq", fill = "grp"),
+      aes_string(x = "x", y = "frq", fill = "grp"),
       width = geom.size,
-      position = ggplot2::position_stack(reverse = T)
+      position = position_stack(reverse = T)
     )
 
   # print bar for neutral category. this is a "fake" bar created
@@ -520,9 +520,9 @@ sjp.likert <- function(items,
 
   if (!is.null(cat.neutral)) {
     gp <- gp +
-      ggplot2::geom_rect(
+      geom_rect(
         data = mydat.dk,
-        ggplot2::aes(
+        aes(
           xmin = .data$x - (geom.size / 2),
           xmax = .data$x + (geom.size / 2),
           ymin = .data$offset,
@@ -551,17 +551,17 @@ sjp.likert <- function(items,
   if (values == "show") {
     # show them in middle of bar
     gp <- gp +
-      ggplot2::geom_text(
+      geom_text(
         data = subset(mydat.pos, frq > 0),
-        ggplot2::aes(
+        aes(
           x = .data$x,
           y = .data$ypos,
           label = sprintf("%.*f%s", digits, 100 * .data$frq, percsign)
         )
       ) +
-      ggplot2::geom_text(
+      geom_text(
         data = subset(mydat.neg, frq < 0),
-        ggplot2::aes(
+        aes(
           x = .data$x,
           y = .data$ypos,
           label = sprintf("%.*f%s", digits, 100 * abs(.data$frq), percsign)
@@ -570,9 +570,9 @@ sjp.likert <- function(items,
 
     if (!is.null(cat.neutral)) {
       gp <- gp +
-        ggplot2::geom_text(
+        geom_text(
           data = subset(mydat.dk, frq > -1),
-          ggplot2::aes(
+          aes(
             x = .data$x,
             y = .data$ypos + .data$offset + 1,
             label = sprintf("%.*f%s", digits, 100 * (1 + .data$frq), percsign)
@@ -593,31 +593,31 @@ sjp.likert <- function(items,
     }
 
     gp <- gp +
-      ggplot2::annotate("text", x = xpos.sum.pos, y = ypos.sum.pos, hjust = hort.pos, label = ypos.sum.pos.lab) +
-      ggplot2::annotate("text", x = xpos.sum.neg, y = ypos.sum.neg, hjust = hort.neg, label = ypos.sum.neg.lab)
+      annotate("text", x = xpos.sum.pos, y = ypos.sum.pos, hjust = hort.pos, label = ypos.sum.pos.lab) +
+      annotate("text", x = xpos.sum.neg, y = ypos.sum.neg, hjust = hort.neg, label = ypos.sum.neg.lab)
 
     if (!is.null(cat.neutral)) {
       gp <- gp +
-        ggplot2::annotate("text", x = xpos.sum.dk, y = ypos.sum.dk + 1 - grid.range, hjust = hort.dk, label = ypos.sum.dk.lab)
+        annotate("text", x = xpos.sum.dk, y = ypos.sum.dk + 1 - grid.range, hjust = hort.dk, label = ypos.sum.dk.lab)
     }
   }
 
   # continues with plot
 
   gp <- gp +
-    ggplot2::labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
+    labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
 
     # scale x is continuous to make plotting the bar annotation
     # for neutral category work...
 
-    ggplot2::scale_x_continuous(breaks = seq_len(ncol(freq.df)), labels = axis.labels) +
-    ggplot2::scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range, grid.range), expand = expgrid, labels = gridlabs) +
-    ggplot2::geom_hline(yintercept = 0, color = intercept.line.color)
+    scale_x_continuous(breaks = seq_len(ncol(freq.df)), labels = axis.labels) +
+    scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range, grid.range), expand = expgrid, labels = gridlabs) +
+    geom_hline(yintercept = 0, color = intercept.line.color)
 
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
 
-  if (coord.flip) gp <- gp + ggplot2::coord_flip()
+  if (coord.flip) gp <- gp + coord_flip()
 
   # set geom colors
 

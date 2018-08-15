@@ -2,8 +2,16 @@
 
 ## General
 
-* `sjp.scatter()` was revised and renamed to `scatterplot()`. `scatterplot()` is pipe-friendly, and also works on grouped data frames.
+* `sjp.scatter()` was revised and renamed to `plot_scatter()`. `plot_scatter()` is pipe-friendly, and also works on grouped data frames.
+* `sjp.gpt()` was revised and renamed to `plot_gpt()`. `plot_gpt()` is pipe-friendly, and also works on grouped data frames.
 * Reduce package dependencies.
+
+## Renamed functions
+
+* `sjp.scatter()` was renamed to `plot_scatter()`.
+* `sjp.likert()` was renamed to `plot_likert()`.
+* `sjp.gpt()` was renamed to `plot_gpt()`.
+* `sjp.resid()` was renamed to `plot_residuals()`.
 
 ## Changes to functions
 

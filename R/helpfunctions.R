@@ -81,13 +81,15 @@ print.table.summary <- function(baseplot,
       x.x <- -Inf
     }
     baseplot <- baseplot +
-      ggplot2::annotate("text",
-               label = modsum,
-               parse = TRUE,
-               x = x.x,
-               y = Inf,
-               vjust = "top",
-               hjust = t.hjust)
+      annotate(
+        "text",
+        label = modsum,
+        parse = TRUE,
+        x = x.x,
+        y = Inf,
+        vjust = "top",
+        hjust = t.hjust
+      )
   }
 
   baseplot

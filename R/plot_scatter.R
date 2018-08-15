@@ -1,5 +1,5 @@
 #' @title Plot (grouped) scatter plots
-#' @name scatterplot
+#' @name plot_scatter
 #'
 #' @description Display scatter plot of two variables. Adding a grouping variable to
 #'   the scatter plot is possible. Furthermore, fitted lines can be added
@@ -41,24 +41,24 @@
 #' data(efc)
 #'
 #' # simple scatter plot
-#' scatterplot(efc, e16sex, neg_c_7)
+#' plot_scatter(efc, e16sex, neg_c_7)
 #'
 #' # simple scatter plot, increased jittering
-#' scatterplot(efc, e16sex, neg_c_7, jitter = .4)
+#' plot_scatter(efc, e16sex, neg_c_7, jitter = .4)
 #'
 #' # grouped scatter plot
-#' scatterplot(efc, c160age, e17age, e42dep)
+#' plot_scatter(efc, c160age, e17age, e42dep)
 #'
 #' # grouped scatter plot with marginal rug plot
 #' # and add fitted line for complete data
-#' scatterplot(
+#' plot_scatter(
 #'   efc, c12hour, c160age, c172code,
 #'   show.rug = TRUE, fit.line = "lm"
 #' )
 #'
 #' # grouped scatter plot with marginal rug plot
 #' # and add fitted line for each group
-#' scatterplot(
+#' plot_scatter(
 #'   efc, c12hour, c160age, c172code,
 #'   show.rug = TRUE, fit.grps = "loess",
 #'   grid = TRUE
@@ -68,7 +68,7 @@
 #' @importFrom dplyr n_distinct
 #' @import ggplot2
 #' @export
-scatterplot <- function(
+plot_scatter <- function(
   data,
   x,
   y,
@@ -308,23 +308,23 @@ scatter_helper <- function(
 
   # Plot scatter plot
 
-  scp <- ggplot2::ggplot(dat, ggplot2::aes_string(x = "x", y = "y", colour = "grp"))
+  scp <- ggplot(dat, aes_string(x = "x", y = "y", colour = "grp"))
 
 
   # add marginal rug
 
   if (show.rug) {
-    scp <- scp + ggplot2::geom_rug(position = ggplot2::position_jitter(width = jitter))
+    scp <- scp + geom_rug(position = position_jitter(width = jitter))
   }
 
   # add data points
 
   if (emph.dots) {
     # indicate overlapping dots by point size
-    scp <- scp + ggplot2::geom_count(show.legend = F, position = ggplot2::position_jitter(width = jitter))
+    scp <- scp + geom_count(show.legend = F, position = position_jitter(width = jitter))
   } else {
     # else plot dots
-    scp <- scp + ggplot2::geom_jitter(size = dot.size, position = ggplot2::position_jitter(width = jitter))
+    scp <- scp + geom_jitter(size = dot.size, position = position_jitter(width = jitter))
   }
 
 
@@ -341,24 +341,24 @@ scatter_helper <- function(
 
   if (!is.null(fit.grps)) {
     scp <- scp +
-      ggplot2::stat_smooth(data = dat, ggplot2::aes_string(colour = "grp"), method = fit.grps, se = show.ci)
+      stat_smooth(data = dat, aes_string(colour = "grp"), method = fit.grps, se = show.ci)
   }
 
   if (!is.null(fit.line)) {
     scp <- scp +
-      ggplot2::stat_smooth(method = fit.line, se = show.ci, colour = "black")
+      stat_smooth(method = fit.line, se = show.ci, colour = "black")
   }
 
 
   # set font size for axes.
 
   scp <- scp +
-    ggplot2::labs(title = title, x = axisTitle.x, y = axisTitle.y, colour = legend.title)
+    labs(title = title, x = axisTitle.x, y = axisTitle.y, colour = legend.title)
 
 
   # facet plot
 
-  if (grid) scp <- scp + ggplot2::facet_wrap(~grp)
+  if (grid) scp <- scp + facet_wrap(~grp)
 
   sj.setGeomColors(
     scp,

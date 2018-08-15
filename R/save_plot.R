@@ -30,11 +30,11 @@
 #' @importFrom grDevices png jpeg tiff dev.off cm svg
 #' @export
 save_plot <- function(filename,
-                      fig = ggplot2::last_plot(),
+                      fig = last_plot(),
                       width = 12,
                       height = 9,
                       dpi = 300,
-                      theme = ggplot2::theme_get(),
+                      theme = theme_get(),
                       label.color = "black",
                       label.size = 2.4,
                       axis.textsize = .8,

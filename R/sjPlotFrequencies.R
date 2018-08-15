@@ -198,7 +198,7 @@ sjp.frq <- function(var.cnt,
 
   # default grid-expansion
   if (isTRUE(expand.grid) || (missing(expand.grid) && type == "histogram")) {
-    expand.grid <- ggplot2::waiver()
+    expand.grid <- waiver()
   } else {
     expand.grid <- c(0, 0)
   }
@@ -414,8 +414,8 @@ sjp.frq <- function(var.cnt,
   # Set up grid breaks
   maxx <- max(mydat$val) + 1
   if (is.null(grid.breaks)) {
-    gridbreaks <- ggplot2::waiver()
-    histgridbreaks <- ggplot2::waiver()
+    gridbreaks <- waiver()
+    histgridbreaks <- waiver()
   } else {
     gridbreaks <- c(seq(lower_lim, upper_lim, by = grid.breaks))
     histgridbreaks <- c(seq(lower_lim, maxx, by = grid.breaks))

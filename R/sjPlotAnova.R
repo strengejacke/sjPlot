@@ -18,7 +18,7 @@
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.xtab
-#' @inheritParams sjp.gpt
+#' @inheritParams plot_gpt
 #' @inheritParams plot_model
 #'
 #' @return A ggplot-object.
@@ -237,7 +237,7 @@ sjp.aov1 <- function(var.dep,
   # --------------------------------------------------------
   # Set up plot padding (margins inside diagram)
   # --------------------------------------------------------
-  scaley <- ggplot2::scale_y_continuous(
+  scaley <- scale_y_continuous(
     limits = c(lower_lim, upper_lim),
     breaks = ticks,
     labels = ticks
@@ -245,28 +245,28 @@ sjp.aov1 <- function(var.dep,
   # --------------------------------------------------------
   # Start plot here!
   # --------------------------------------------------------
-  anovaplot <- ggplot2::ggplot(df, ggplot2::aes(y = .data$means, x = .data$xv)) +
+  anovaplot <- ggplot(df, aes(y = .data$means, x = .data$xv)) +
     # print point
-    ggplot2::geom_point(size = geom.size, colour = df$geocol) +
+    geom_point(size = geom.size, colour = df$geocol) +
     # and error bar
-    ggplot2::geom_errorbar(ggplot2::aes(ymin = .data$lower, ymax = .data$upper), colour = df$geocol, width = 0) +
+    geom_errorbar(aes(ymin = .data$lower, ymax = .data$upper), colour = df$geocol, width = 0) +
     # Print p-values. With vertical adjustment, so
     # they don't overlap with the errorbars
-    ggplot2::geom_text(ggplot2::aes(label = .data$pv, y = .data$means), nudge_x = y.offset, show.legend = FALSE) +
+    geom_text(aes(label = .data$pv, y = .data$means), nudge_x = y.offset, show.legend = FALSE) +
     # set y-scale-limits, breaks and tick labels
     scaley +
     # set value labels to x-axis
-    ggplot2::scale_x_discrete(labels = axis.labels, limits = 1:length(axis.labels)) +
+    scale_x_discrete(labels = axis.labels, limits = 1:length(axis.labels)) +
     # flip coordinates
-    ggplot2::labs(title = title, x = NULL, y = axis.title) +
-    ggplot2::coord_flip()
+    labs(title = title, x = NULL, y = axis.title) +
+    coord_flip()
 
   # check whether modelsummary should be printed
   if (show.summary) {
     # add annotations with model summary
     # annotations include intercept-value and model's r-square
     anovaplot <- anovaplot +
-      ggplot2::annotate("text", label = modsum, parse = TRUE, x = -Inf, y = Inf,
+      annotate("text", label = modsum, parse = TRUE, x = -Inf, y = Inf,
                hjust = "right", vjust = "bottom")
   }
 

@@ -228,7 +228,7 @@ sjp.grpfrq <- function(var.cnt,
 
   # Plot margins
   if (expand.grid)
-    expand.grid <- ggplot2::waiver()
+    expand.grid <- waiver()
   else
     expand.grid <- c(0, 0)
 
@@ -278,6 +278,11 @@ sjp.grpfrq <- function(var.cnt,
   # Interaction variable defined for invalid plot type?
   if (!is.null(intr.var) && type != "boxplot" && type != "violin") {
     message("`intr.var` only applies to boxplots and violinplots (see `type`) and will be ignored.")
+  }
+
+  if (show.grpcnt && type %in% c("boxplot", "violin")) {
+    message("`show.grpcnt` does not apply to boxplots and violinplots and will be ignored.")
+    show.grpcnt <- FALSE
   }
 
   # auto-set plot title for box plots?
@@ -718,7 +723,7 @@ sjp.grpfrq <- function(var.cnt,
 
   # Set up grid breaks
   if (is.null(grid.breaks))
-    gridbreaks <- ggplot2::waiver()
+    gridbreaks <- waiver()
   else
     gridbreaks <- seq(lower_lim, upper_lim, by = grid.breaks)
 

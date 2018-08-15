@@ -46,5 +46,23 @@ sjt.frq <- function(...) {
 #' @rdname sjp.glmer
 #' @export
 sjp.scatter <- function(...) {
-  .Defunct("scatterplot", package = "sjPlot", msg = "`sjp.scatter()` is defunct. Please use `scatterplot()` instead.")
+  .Defunct("plot_scatter", package = "sjPlot", msg = "`sjp.scatter()` is defunct. Please use `plot_scatter()` instead.")
+}
+
+#' @rdname sjp.glmer
+#' @export
+sjp.resid <- function(...) {
+  .Defunct("plot_residuals", package = "sjPlot", msg = "`sjp.resid()` is defunct. Please use `plot_residuals()` instead.")
+}
+
+#' @rdname sjp.glmer
+#' @export
+sjp.likert <- function(...) {
+  .Defunct("plot_likert", package = "sjPlot", msg = "`sjp.likert()` is defunct. Please use `plot_likert()` instead.")
+}
+
+#' @rdname sjp.glmer
+#' @export
+sjp.gpt <- function(...) {
+  .Defunct("plot_gpt", package = "sjPlot", msg = "`sjp.gpt()` is defunct. Please use `plot_gpt()` instead.")
 }

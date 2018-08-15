@@ -157,16 +157,15 @@ plot_type_int <- function(model,
     # set axis and plot titles
     if (!is.null(axis.title)) {
       if (length(axis.title) > 1) {
-        p <- p + ggplot2::labs(x = axis.title[1],
-                      y = axis.title[2])
+        p <- p + labs(x = axis.title[1], y = axis.title[2])
       } else {
-        p <- p + ggplot2::labs(y = axis.title)
+        p <- p + labs(y = axis.title)
       }
     }
 
     # set axis and plot titles
     if (!is.null(title))
-      p <- p + ggplot2::ggtitle(title)
+      p <- p + ggtitle(title)
 
     # set axis and plot titles
     if (!is.null(legend.title))
@@ -175,9 +174,9 @@ plot_type_int <- function(model,
     # set axis limits
     if (!is.null(axis.lim)) {
       if (is.list(axis.lim))
-        p <- p + ggplot2::xlim(axis.lim[[1]]) + ylim(axis.lim[[2]])
+        p <- p + xlim(axis.lim[[1]]) + ylim(axis.lim[[2]])
       else
-        p <- p + ggplot2::ylim(axis.lim)
+        p <- p + ylim(axis.lim)
     }
 
 

@@ -34,13 +34,10 @@
 #'             If \code{data} has more than one variable, a plot for each
 #'             variable in \code{data} is plotted.
 #'             }
-#'             \item{\code{"gpt"}}{calls \code{\link{sjp.gpt}}. The first
-#'             three variables in \code{data} are used (and required) to create the plot.
-#'             }
 #'             \item{\code{"grpfrq"}}{calls \code{\link{sjp.grpfrq}}. The first
 #'             two variables in \code{data} are used (and required) to create the plot.
 #'             }
-#'             \item{\code{"likert"}}{calls \code{\link{sjp.likert}}. \code{data}
+#'             \item{\code{"likert"}}{calls \code{\link{plot_likert}}. \code{data}
 #'             must be a data frame with items to plot.
 #'             }
 #'             \item{\code{"stackfrq"}}{calls \code{\link{sjp.stackfrq}} or \code{\link{sjt.stackfrq}}.
@@ -91,8 +88,7 @@
 #' @importFrom tidyr nest
 #' @importFrom stats complete.cases
 #' @export
-sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "gpt",
-                                      "aov1", "likert", "stackfrq")) {
+sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "aov1", "likert", "stackfrq")) {
   # check if x is a data frame
   if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
 
@@ -320,13 +316,11 @@ plot_sj <- function(x, fun, args) {
     } else if (fun  == "grpfrq") {
       p <- sjp.grpfrq(x[[1]], x[[2]])
     } else if (fun  == "likert") {
-      p <- sjp.likert(x)
+      p <- plot_likert(x)
     } else if (fun  == "stackfrq") {
       p <- sjp.stackfrq(x)
     } else if (fun  == "xtab") {
       p <- sjp.xtab(x[[1]], x[[2]])
-    } else if (fun  == "gpt") {
-      p <- sjp.gpt(x[[1]], x[[2]], x[[3]])
     } else if (fun  == "aov1") {
       p <- sjp.aov1(x[[1]], x[[2]])
     }
@@ -339,13 +333,11 @@ plot_sj <- function(x, fun, args) {
     } else if (fun  == "grpfrq") {
       p <- do.call(sjp.grpfrq, args = c(list(var.cnt = x[[1]], var.grp = x[[2]]), args))
     } else if (fun  == "likert") {
-      p <- do.call(sjp.likert, args = c(list(items = x), args))
+      p <- do.call(plot_likert, args = c(list(items = x), args))
     } else if (fun  == "stackfrq") {
       p <- do.call(sjp.stackfrq, args = c(list(items = x), args))
     } else if (fun  == "xtab") {
       p <- do.call(sjp.xtab, args = c(list(x = x[[1]], grp = x[[2]]), args))
-    } else if (fun  == "gpt") {
-      p <- do.call(sjp.gpt, args = c(list(x = x[[1]], y = x[[2]], groups = x[[3]]), args))
     } else if (fun  == "aov1") {
       p <- do.call(sjp.aov1, args = c(list(var.dep = x[[1]], var.grp = x[[2]]), args))
     }
