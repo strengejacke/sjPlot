@@ -165,7 +165,7 @@ plot_type_ranef <- function(model,
 
     mydf <- purrr::map_df(2:ncol(mydf.ef), function(i) {
 
-      tmp <- data.frame(estimate = mydf.ef[[i]])
+      tmp <- data_frame(estimate = mydf.ef[[i]])
 
       if (isTRUE(se)) {
         tmp$conf.low = mydf.ef[[i]] - se.fit[[i]]

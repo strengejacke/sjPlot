@@ -94,13 +94,13 @@ plot_type_slope <- function(model,
     if (obj_has_name(model_data, p_v)) {
 
       if (useResiduals) {
-        data.frame(
+        data_frame(
           x = sjlabelled::as_numeric(model_data[[p_v]]),
           y = stats::residuals(model),
           group = sjlabelled::get_label(model_data[[p_v]], def.value = p_v, case = case)
         )
       } else {
-        data.frame(
+        data_frame(
           x = sjlabelled::as_numeric(model_data[[p_v]]),
           y = sjstats::resp_val(model),
           group = sjlabelled::get_label(model_data[[p_v]], def.value = p_v, case = case)

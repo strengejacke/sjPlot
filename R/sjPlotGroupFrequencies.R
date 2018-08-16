@@ -438,7 +438,7 @@ sjp.grpfrq <- function(var.cnt,
 
     # new data frame for box plots
     mydf <-
-      stats::na.omit(data.frame(cbind(
+      stats::na.omit(data_frame(cbind(
         group = var.grp,
         frq = var.cnt,
         ia = iav,

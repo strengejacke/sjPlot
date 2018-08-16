@@ -156,7 +156,7 @@ create.frq.df <- function(x,
   #---------------------------------------------------
   if (!is.null(labels)) {
     # add rownames and values as columns
-    dat <- data.frame(n = names(labels), v = as.character(labels), stringsAsFactors = FALSE)
+    dat <- data_frame(n = names(labels), v = as.character(labels))
     colnames(dat) <- c("val", "label")
     # character vectors need to be converted with to_value
     # to avoid NAs, but only if character is non-numeric

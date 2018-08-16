@@ -20,7 +20,7 @@ string_one_of <- function(pattern, x) {
 }
 
 rownames_as_column <- function(x, var = "rowname") {
-  rn <- rownames(x)
+  rn <- data.frame(rn = rownames(x), stringsAsFactors = FALSE)
   x <- cbind(rn, x)
   colnames(x)[1] <- var
   rownames(x) <- NULL
@@ -35,14 +35,22 @@ obj_has_rownames <- function(x) {
   !identical(as.character(1:nrow(x)), rownames(x))
 }
 
-#' @importFrom dplyr select bind_cols
+#' @importFrom dplyr select
 add_cols <- function(data, ..., .after = 1) {
-  c1 <- 1:.after
-  c2 <- (.after + 1):ncol(data)
+  if (is.character(.after))
+    .after <- which(colnames(data) == .after)
 
-  x1 <- dplyr::select(data, !! c1)
-  x2 <- dplyr::select(data, !! c2)
+  dat <- data.frame(..., stringsAsFactors = FALSE)
 
-  dat <- data.frame(...)
-  dplyr::bind_cols(x1, dat, x2)
+  if (.after < 1) {
+    cbind(dat, data)
+  } else {
+    c1 <- 1:.after
+    c2 <- (.after + 1):ncol(data)
+
+    x1 <- dplyr::select(data, !! c1)
+    x2 <- dplyr::select(data, !! c2)
+
+    cbind(x1, dat, x2)
+  }
 }

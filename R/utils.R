@@ -2,6 +2,11 @@
 #' @export
 magrittr::`%>%`
 
+data_frame <- function(...) {
+  x <- data.frame(..., stringsAsFactors = FALSE)
+  rownames(x) <- NULL
+  x
+}
 
 # do we have a stan-model?
 is.stan <- function(x) inherits(x, c("stanreg", "stanfit", "brmsfit"))

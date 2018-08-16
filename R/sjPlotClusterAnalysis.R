@@ -595,7 +595,7 @@ sjc.grpdisc <- function(data, groups, groupcount, clss.fit = TRUE) {
     labeldat <- rbind(labeldat, 0)
   }
   # create data frame
-  mydat <- data.frame(filldat, newdat, tmpdat, labeldat)
+  mydat <- data.frame(filldat, newdat, tmpdat, labeldat, stringsAsFactors = FALSE)
   # name columns
   names(mydat) <- c("fg", "grp", "prc", "cprc")
   # fillgroup-indicator ($fg) needs to be a factor

@@ -60,7 +60,8 @@ sjp.chi2 <- function(df,
                       Column = colnames(df)[combos[2, i]],
                       Chi.Square = round(test$statistic, 4),
                       df =  test$parameter,
-                      p.value = round(test$p.value, 4))
+                      p.value = round(test$p.value, 4),
+                      stringsAsFactors = FALSE)
     m <- suppressWarnings(dplyr::bind_rows(m, out))
   }
   # ----------------------------

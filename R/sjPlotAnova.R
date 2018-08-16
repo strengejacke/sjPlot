@@ -184,7 +184,7 @@ sjp.aov1 <- function(var.dep,
   # create new data.frame, since ggplot requires data.frame as parameter
   # The data frame contains means, CI and p-values
   # --------------------------------------------------------
-  df <- data.frame(
+  df <- data_frame(
     means = means,     # Append coefficients
     lower = means.lci, # append CI
     upper = means.uci,

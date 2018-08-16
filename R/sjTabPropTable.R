@@ -428,7 +428,7 @@ sjt.xtab <- function(var.row,
       xtsdf$weights <- weight.by
       xt_stat <- sjstats::xtab_statistics(
         data = xtsdf,
-        weight.by = "weights",
+        weights = "weights",
         statistics = statistics,
         ...
       )

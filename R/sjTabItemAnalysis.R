@@ -218,7 +218,7 @@ sjt.itemanalysis <- function(df,
     }
 
     # create dummy data frame
-    df.dummy <- data.frame(cbind(
+    df.dummy <- data_frame(cbind(
       sprintf("%.2f %%", missings.prz),
       round(dstat$mean, 2),
       round(dstat$sd, 2),
@@ -229,7 +229,7 @@ sjt.itemanalysis <- function(df,
 
     # include kurtosis statistics
     if (show.kurtosis) {
-      df.dummy <- data.frame(cbind(df.dummy, round(dstat$kurtosis, 2)))
+      df.dummy <- data_frame(cbind(df.dummy, round(dstat$kurtosis, 2)))
       df.colnames <- c(df.colnames, "Kurtosis")
     }
 
@@ -237,7 +237,7 @@ sjt.itemanalysis <- function(df,
     if (show.shapiro) {
       shaptest.w <- apply(df.sub, 2, function(x) stats::shapiro.test(x)$statistic)
       shaptest.p <- apply(df.sub, 2, function(x) stats::shapiro.test(x)$p.value)
-      df.dummy <- data.frame(cbind(df.dummy, sprintf("%.2f (%.3f)", shaptest.w, shaptest.p)))
+      df.dummy <- data_frame(cbind(df.dummy, sprintf("%.2f (%.3f)", shaptest.w, shaptest.p)))
       df.colnames <- c(df.colnames, "W(p)")
     }
 
