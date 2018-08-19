@@ -618,7 +618,6 @@ tidy_glmmTMB_model <- function(model, ci.lvl, show.zeroinf) {
 
 
 #' @importFrom stats qnorm
-#' @importFrom tibble rownames_to_column
 #' @importFrom sjmisc var_rename
 #' @importFrom dplyr mutate
 #' @importFrom purrr map2_df
@@ -641,7 +640,7 @@ tidy_hurdle_model <- function(model, ci.lvl) {
   purrr::map2_df(est, mn, function(x, y) {
     x %>%
       as.data.frame() %>%
-      tibble::rownames_to_column(var = "term") %>%
+      rownames_as_column(var = "term") %>%
       sjmisc::var_rename(
         Estimate = "estimate",
         `Std. Error` = "std.error",
