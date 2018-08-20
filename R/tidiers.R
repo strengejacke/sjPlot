@@ -3,7 +3,7 @@ tidy_model <- function(model, ci.lvl, tf, type, bpe, se, facets, show.zeroinf, p
 
   # get robust standard errors, if requestes, and replace former s.e.
   if (!is.null(se) && !is.logical(se)) {
-    std.err <- sjstats::robust(model, se)
+    std.err <- sjstats::robust(model, vcov.type = se)
     dat[["std.error"]] <- std.err[["std.error"]]
   }
 
