@@ -41,7 +41,7 @@ plot_type_est <- function(type,
   } else {
     dat <- model %>%
       sjstats::std_beta(type = type, ci.lvl = ci.lvl) %>%
-      add_cols(data.frame(p.value = sjstats::p_value(model)[["p.value"]][-1])) %>%
+      add_cols(p.value = sjstats::p_value(model)[["p.value"]][-1]) %>%
       sjmisc::var_rename(std.estimate = "estimate")
 
     show.intercept <- FALSE

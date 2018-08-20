@@ -150,7 +150,7 @@ plot_models <- function(...,
       purrr::map(~ sjstats::std_beta(.x, type = std.est)) %>%
       purrr::map(~ sjmisc::var_rename(.x, std.estimate = "estimate")) %>%
       purrr::map2(input_list, ~ add_cols(
-        .x, data.frame(p.value = sjstats::p_value(.y)[["p.value"]][-1])
+        .x, p.value = sjstats::p_value(.y)[["p.value"]][-1]
       ))
 
   } else {
