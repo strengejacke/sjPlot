@@ -122,7 +122,7 @@
 #'            }
 #'
 #'
-#' @importFrom dplyr full_join slice bind_cols select_ rename_
+#' @importFrom dplyr full_join slice bind_cols select_
 #' @importFrom stats nobs AIC confint coef deviance runif
 #' @importFrom lme4 VarCorr
 #' @importFrom sjstats std_beta icc r2 cod chisq_gof hoslem_gof p_value robust
@@ -330,9 +330,11 @@ sjt.lm <- function(...,
       fit.df,
       sbvals %>%
         dplyr::select_("-term") %>%
-        dplyr::rename_("std.conf.low" = "conf.low",
-                       "std.conf.high" = "conf.high",
-                       "std.std.error" = "std.error")
+        sjmisc::var_rename(
+          "std.conf.low" = "conf.low",
+          "std.conf.high" = "conf.high",
+          "std.std.error" = "std.error"
+        )
       )
     # -------------------------------------
     # formate values

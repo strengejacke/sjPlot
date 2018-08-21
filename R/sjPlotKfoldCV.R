@@ -46,7 +46,7 @@
 #'
 #' @import ggplot2
 #' @importFrom modelr crossv_kfold
-#' @importFrom dplyr mutate group_by_ ungroup summarise
+#' @importFrom dplyr mutate ungroup summarise
 #' @importFrom purrr map map2
 #' @importFrom broom augment
 #' @importFrom tidyr unnest

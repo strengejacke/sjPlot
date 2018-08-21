@@ -84,7 +84,7 @@
 #'
 #' @importFrom sjmisc is_empty
 #' @importFrom sjlabelled copy_labels get_label get_labels
-#' @importFrom dplyr select_ filter
+#' @importFrom dplyr filter
 #' @importFrom tidyr nest
 #' @importFrom stats complete.cases
 #' @export
