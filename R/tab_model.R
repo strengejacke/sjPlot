@@ -188,7 +188,6 @@
 #'    }
 #
 #' @importFrom dplyr full_join select if_else mutate
-#' @importFrom tibble add_case as_tibble
 #' @importFrom purrr reduce map2 map_if map_df compact map_lgl map_chr flatten_chr
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns
@@ -405,7 +404,7 @@ tab_model <- function(
             conf.low = "std.conf.low",
             conf.high = "std.conf.high"
           ) %>%
-          tibble::add_case(.before = 1) %>%
+          add_cases(.after = -1) %>%
           dplyr::select(-1) %>%
           sjmisc::add_columns(dat) %>%
           dplyr::mutate(std.conf.int = sprintf(
@@ -435,7 +434,7 @@ tab_model <- function(
 
       dat <- dat %>%
         purrr::map_if(is.numeric, ~ sprintf("%.*f", digits, .x)) %>%
-        tibble::as_tibble()
+        as.data.frame(stringsAsFactors = FALSE)
 
 
       # remove 2nd HDI if requested ----

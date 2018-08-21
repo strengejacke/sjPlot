@@ -126,7 +126,6 @@
 #' @importFrom stats nobs AIC confint coef deviance runif
 #' @importFrom lme4 VarCorr
 #' @importFrom sjstats std_beta icc r2 cod chisq_gof hoslem_gof p_value robust
-#' @importFrom tibble add_row add_column
 #' @importFrom broom tidy
 #' @export
 sjt.lm <- function(...,
@@ -313,8 +312,8 @@ sjt.lm <- function(...,
     # check for p-value colum
     # -------------------------------------
     if (!sjmisc::str_contains(colnames(fit.df), "p.value")) {
-      fit.df <- tibble::add_column(
-        .data = fit.df,
+      fit.df <- add_cols(
+        fit.df,
         p.value = sjstats::p_value(input_list[[i]], p.kr)[["p.value"]],
         .before = "conf.low"
       )
@@ -323,7 +322,7 @@ sjt.lm <- function(...,
     # get standardized values
     # -------------------------------------
     sbvals <- suppressWarnings(sjstats::std_beta(input_list[[i]], type = show.std))
-    if (!lmerob) sbvals <- tibble::add_row(.data = sbvals, term = "(Intercept)", .before = 1)
+    if (!lmerob) sbvals <- add_cases(sbvals, term = "(Intercept)", .after = -1)
     # -------------------------------------
     # bind std. values to data frame
     # -------------------------------------

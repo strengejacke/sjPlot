@@ -201,7 +201,7 @@ plot_models <- function(...,
 
 
   # add grouping index
-  for (i in 1:length(fl)) fl[[i]] <- tibble::add_column(fl[[i]], group = as.character(i))
+  for (i in 1:length(fl)) fl[[i]] <- add_cols(fl[[i]], group = as.character(i), .after = Inf)
 
   # merge models to one data frame
   ff <- dplyr::bind_rows(fl)

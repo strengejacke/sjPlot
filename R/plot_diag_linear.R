@@ -109,7 +109,6 @@ diag_qq <- function(model, geom.colors, ...) {
 #' @importFrom lme4 ranef
 #' @importFrom purrr map map_dbl
 #' @importFrom stats qnorm ppoints
-#' @importFrom tibble tibble
 diag_reqq <- function(model, dot.size) {
 
   if (!is_merMod(model) && !inherits(model, "glmmTMB")) return(NULL)
@@ -145,14 +144,17 @@ diag_reqq <- function(model, dot.size) {
   purrr::map2(re, se, function(.re, .se) {
     ord  <- unlist(lapply(.re, order)) + rep((0:(ncol(.re) - 1)) * nrow(.re), each = nrow(.re))
 
-    pDf  <- tibble::tibble(
-      y = unlist(.re)[ord],
-      ci = stats::qnorm(.975) * .se[ord],
+    df.y <- unlist(.re)[ord]
+    df.ci <- stats::qnorm(.975) * .se[ord]
+
+    pDf  <- data_frame(
+      y = df.y,
+      ci = df.ci,
       nQQ = rep(stats::qnorm(stats::ppoints(nrow(.re))), ncol(.re)),
       ID = factor(rep(rownames(.re), ncol(.re))[ord], levels = rownames(.re)[ord]),
       ind = gl(ncol(.re), nrow(.re), labels = names(.re)),
-      conf.low = .data$y - .data$ci,
-      conf.high = .data$y + .data$ci
+      conf.low = df.y - df.ci,
+      conf.high = df.y + df.ci
     )
 
     ggplot(pDf, aes_string(
