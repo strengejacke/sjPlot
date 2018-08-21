@@ -79,7 +79,7 @@ add_cases <- function(data, ..., .after = -1, .before = NULL) {
   else if (is.infinite(.after))
     o <- 1:last.row
   else
-    o <- c(1:.after, last.row, (.after + 1):(last.row) - 1)
+    o <- c(1:.after, last.row, (.after + 1):(last.row - 1))
 
   x[o, , drop = FALSE]
 }

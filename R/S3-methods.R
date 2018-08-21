@@ -441,6 +441,7 @@ pgdescr <- function(x, ...) {
 
 #' @importFrom purrr map_if map_chr map
 #' @importFrom dplyr n_distinct select
+#' @importFrom sjmisc is_empty
 pfrq <- function(x, ...) {
   uv <- attr(x, "print", exact = TRUE) == "viewer"
 
@@ -452,7 +453,13 @@ pfrq <- function(x, ...) {
     lab <- attr(i, "label", exact = T)
     vt <- attr(i, "vartype", exact = T)
 
-    if (!is.null(lab)) ret <- sprintf("%s <span style=\"font-weight: normal; font-style: italic\">&lt;%s&gt;</span>", lab, vt)
+    # fix variable type string
+    if (!sjmisc::is_empty(vt))
+      vt <- sprintf(" <span style=\"font-weight: normal; font-style: italic\">&lt;%s&gt;</span>", vt)
+    else
+      vt <- ""
+
+    if (!is.null(lab)) ret <- sprintf("%s", lab, vt)
 
     # get grouping title label
     grp <- attr(i, "group", exact = T)
