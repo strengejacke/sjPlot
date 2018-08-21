@@ -123,13 +123,12 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
 }
 
 
-#' @importFrom tibble rownames_to_column
 #' @importFrom stats qnorm
 #' @importFrom dplyr select
 tidy_lmerModLmerTest <- function(model, ci.lvl) {
   dat <- summary(model)$coef %>%
     as.data.frame() %>%
-    tibble::rownames_to_column(var = "term") %>%
+    rownames_as_column(var = "term") %>%
     dplyr::select(1, 2, 3, 5)
 
   colnames(dat) <- c("term", "estimate", "std.error", "statistic")
@@ -142,7 +141,6 @@ tidy_lmerModLmerTest <- function(model, ci.lvl) {
 
 
 #' @importFrom stats coef vcov qnorm pnorm
-#' @importFrom tibble tibble
 tidy_svynb_model <- function(model, ci.lvl) {
   if (!isNamespaceLoaded("survey"))
     requireNamespace("survey", quietly = TRUE)
@@ -162,7 +160,7 @@ tidy_svynb_model <- function(model, ci.lvl) {
   se <- sqrt(diag(stats::vcov(model, stderr = "robust")))
 
 
-  tibble::tibble(
+  data_frame(
     term = gsub("\\beta\\.", "", names(est), fixed = FALSE),
     estimate = est,
     std.error = se,
@@ -174,7 +172,6 @@ tidy_svynb_model <- function(model, ci.lvl) {
 
 
 #' @importFrom broom tidy
-#' @importFrom tibble has_name
 #' @importFrom sjstats p_value
 tidy_cox_model <- function(model, ci.lvl) {
   # tidy the model
@@ -194,7 +191,6 @@ tidy_cox_model <- function(model, ci.lvl) {
 #' @importFrom sjstats hdi typical_value model_family
 #' @importFrom sjmisc var_rename add_columns is_empty
 #' @importFrom dplyr select filter slice inner_join n_distinct
-#' @importFrom tibble add_column tibble
 #' @importFrom purrr map_dbl
 #' @importFrom rlang .data
 tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, ...) {
@@ -266,7 +262,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
   est <- purrr::map_dbl(mod.dat, ~ sjstats::typical_value(.x, fun = bpe))
 
-  dat <- tibble::tibble(
+  dat <- data_frame(
     term = names(est),
     estimate = est,
     p.value = 0,
@@ -415,7 +411,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     if (length(string_starts_with("b_mu", x = dat$term)) == nrow(dat)) {
       dat$term <- substr(dat$term, 5, max(nchar(dat$term)))
       # create "response-level" variable
-      dat <- tibble::add_column(dat, response.level = "", .before = 1)
+      dat <- add_cols(dat, response.level = "", .before = 1)
       dat$response.level <- gsub("(.*)\\_(.*)", "\\1", dat$term)
       dat$term <- gsub("(.*)\\_(.*)", "\\2", dat$term)
     }
@@ -442,7 +438,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
     # create "response-level" variable
 
-    dat <- tibble::add_column(dat, response.level = "", .before = 1)
+    dat <- add_cols(dat, response.level = "", .before = 1)
 
     # copy name of response into new character variable
     # and remove response name from term name
@@ -499,7 +495,6 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
 
 #' @importFrom broom tidy
-#' @importFrom tibble has_name
 #' @importFrom sjstats p_value
 #' @importFrom nlme intervals
 tidy_lme_model <- function(model, ci.lvl) {
@@ -523,7 +518,6 @@ tidy_lme_model <- function(model, ci.lvl) {
 #' @importFrom sjmisc var_rename
 #' @importFrom nlme intervals
 #' @importFrom dplyr select
-#' @importFrom tibble rownames_to_column
 tidy_gls_model <- function(model, ci.lvl) {
   # get tidy summary. for lme, this excludes CI,
   # so we compute them separately
@@ -542,13 +536,12 @@ tidy_gls_model <- function(model, ci.lvl) {
     `t-value` = "statistic",
     `p-value` = "p.value"
   ) %>%
-    tibble::rownames_to_column("term")
+    rownames_as_column(var = "term")
 }
 
 
 #' @importFrom glmmTMB fixef
 #' @importFrom stats vcov qnorm pnorm
-#' @importFrom tibble tibble
 #' @importFrom sjmisc is_empty
 #' @importFrom dplyr bind_rows
 #' @importFrom rlang .data
@@ -581,28 +574,33 @@ tidy_glmmTMB_model <- function(model, ci.lvl, show.zeroinf) {
 
   # save conditional model
 
-  cond <- tibble::tibble(
+  se.cond <- sqrt(diag(vcovs[[1]]))
+
+  cond <- data_frame(
     term = names(est[[1]]),
     estimate = est[[1]],
-    std.error = sqrt(diag(vcovs[[1]])),
-    statistic = .data$estimate / .data$std.error,
-    conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
-    conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
-    p.value = 2 * stats::pnorm(abs(.data$estimate / .data$std.error), lower.tail = FALSE),
+    std.error = se.cond,
+    statistic = est[[1]] / se.cond,
+    conf.low = est[[1]] - stats::qnorm(ci) * se.cond,
+    conf.high = est[[1]] + stats::qnorm(ci) * se.cond,
+    p.value = 2 * stats::pnorm(abs(est[[1]] / se.cond), lower.tail = FALSE),
     wrap.facet = "Conditional Model"
   )
 
   # save zi model
 
   if (!sjmisc::is_empty(est[[2]]) && show.zeroinf) {
-    zi <- tibble::tibble(
+
+    se.zi <- sqrt(diag(vcovs[[2]]))
+
+    zi <- data_frame(
       term = names(est[[2]]),
       estimate = est[[2]],
-      std.error = sqrt(diag(vcovs[[2]])),
-      statistic = .data$estimate / .data$std.error,
-      conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
-      conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
-      p.value = 2 * stats::pnorm(abs(.data$estimate / .data$std.error), lower.tail = FALSE),
+      std.error = se.zi,
+      statistic = est[[2]] / se.zi,
+      conf.low = est[[2]] - stats::qnorm(ci) * se.zi,
+      conf.high = est[[2]] + stats::qnorm(ci) * se.zi,
+      p.value = 2 * stats::pnorm(abs(est[[2]] / se.zi), lower.tail = FALSE),
       wrap.facet = "Zero-Inflated Model"
     )
 
@@ -657,7 +655,6 @@ tidy_hurdle_model <- function(model, ci.lvl) {
 
 
 #' @importFrom stats qnorm
-#' @importFrom tibble tibble
 #' @importFrom rlang .data
 tidy_logistf_model <- function(model, ci.lvl) {
 
@@ -675,20 +672,19 @@ tidy_logistf_model <- function(model, ci.lvl) {
   se <- sqrt(diag(model$var))
 
 
-  tibble::tibble(
+  data_frame(
     term = model$terms,
     estimate = est,
     std.error = se,
-    statistic = .data$estimate / .data$std.error,
-    conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
-    conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
+    statistic = est / se,
+    conf.low = est - stats::qnorm(ci) * se,
+    conf.high = est + stats::qnorm(ci) * se,
     p.value = model$prob
   )
 }
 
 
 #' @importFrom stats qnorm
-#' @importFrom tibble rownames_to_column
 #' @importFrom rlang .data
 #' @importFrom dplyr mutate
 tidy_clm_model <- function(model, ci.lvl) {
@@ -706,7 +702,7 @@ tidy_clm_model <- function(model, ci.lvl) {
   smry <- summary(model)
   est <- smry$coefficients %>%
     as.data.frame() %>%
-    tibble::rownames_to_column(var = "term")
+    rownames_as_column(var = "term")
 
   # proper column names
   colnames(est) <- c("term", "estimate", "std.error", "statistic", "p.value")
@@ -729,7 +725,6 @@ tidy_clm_model <- function(model, ci.lvl) {
 
 
 #' @importFrom stats qnorm pnorm
-#' @importFrom tibble rownames_to_column
 #' @importFrom rlang .data
 #' @importFrom dplyr mutate
 tidy_polr_model <- function(model, ci.lvl) {
@@ -747,7 +742,7 @@ tidy_polr_model <- function(model, ci.lvl) {
   smry <- summary(model)
   est <- smry$coefficients %>%
     as.data.frame() %>%
-    tibble::rownames_to_column(var = "term")
+    rownames_as_column(var = "term")
 
   # proper column names
   colnames(est) <- c("term", "estimate", "std.error", "statistic")
@@ -808,7 +803,6 @@ tidy_multinom_model <- function(model, ci.lvl, facets) {
 
 
 #' @importFrom stats coef qnorm pnorm
-#' @importFrom tibble tibble
 #' @importFrom rlang .data
 tidy_gam_model <- function(model, ci.lvl) {
 
@@ -826,13 +820,13 @@ tidy_gam_model <- function(model, ci.lvl) {
   se <- sqrt(diag(model$Ve))
   sm <- summary(model)
 
-  tibble::tibble(
+  data_frame(
     term = names(est),
     estimate = est,
     std.error = se,
     statistic = sm$p.t,
-    conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
-    conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
+    conf.low = est - stats::qnorm(ci) * se,
+    conf.high = est + stats::qnorm(ci) * se,
     p.value = sm$p.pv
   )
 }
@@ -858,13 +852,13 @@ tidy_zelig_model <- function(model, ci.lvl) {
   est <- Zelig::coef(model)
   se <- unlist(Zelig::get_se(model))
 
-  tibble::tibble(
+  data_frame(
     term = names(est),
     estimate = est,
     std.error = se,
-    statistic = .data$estimate / .data$std.error,
-    conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
-    conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
+    statistic = est / se,
+    conf.low = est - stats::qnorm(ci) * se,
+    conf.high = est + stats::qnorm(ci) * se,
     p.value = unname(unlist(Zelig::get_pvalue(model)))
   )
 }

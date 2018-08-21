@@ -43,6 +43,9 @@ add_cols <- function(data, ..., .after = 1, .before = NULL) {
   if (!is.null(.before) && is.character(.before))
     .after <- which(colnames(data) == .before) - 1
 
+  if (!is.null(.before) && is.numeric(.before))
+    .after <- .before - 1
+
   dat <- data.frame(..., stringsAsFactors = FALSE)
 
   if (.after < 1) {
