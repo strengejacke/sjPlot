@@ -459,7 +459,7 @@ pfrq <- function(x, ...) {
     else
       vt <- ""
 
-    if (!is.null(lab)) ret <- sprintf("%s", lab, vt)
+    if (!is.null(lab)) ret <- sprintf("%s%s", lab, vt)
 
     # get grouping title label
     grp <- attr(i, "group", exact = T)
