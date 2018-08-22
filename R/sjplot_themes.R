@@ -53,8 +53,8 @@
 #'   (e.g. \code{scale_color_sjplot()}), there are pre-defined colour palettes
 #'   in this package: \code{"aqua"}, \code{"warm"}, \code{"dust"}, \code{"blambus"},
 #'   \code{"simply"}, \code{"us"}, \code{"deep reefs"}, \code{"breakfast club"}
-#'   and \code{"metro ui"}. Use \code{show_sjplot_pals()} to show all available
-#'   colour palettes.
+#'   \code{"metro ui"}, \code{"viridis"} and \code{"ipsum"}. Use
+#'   \code{show_sjplot_pals()} to show all available colour palettes.
 #'
 #'
 #' @examples
@@ -261,6 +261,21 @@ legend_style <- function(inside, pos, justify, base.theme) {
 }
 
 
+sjplot_colors <- list(
+  `aqua` = c("#BAF5F3", "#46A9BE", "#8B7B88", "#BD7688", "#F2C29E", "#BAF5F3", "#46A9BE", "#8B7B88"),
+  `warm` = c("#F8EB85", "#F1B749", "#C45B46", "#664458", "#072835", "#F8EB85", "#F1B749", "#C45B46"),
+  `dust` = c("#AAAE9D", "#F8F7CF", "#F7B98B", "#7B5756", "#232126", "#AAAE9D", "#F8F7CF", "#F7B98B"),
+  `blambus` = c("#5D8191", "#F2DD26", "#494949", "#BD772D", "#E02E1F", "#5D8191", "#F2DD26", "#494949"),
+  `simply` = c("#CD423F", "#FCDA3B", "#0171D3", "#018F77", "#F5C6AC", "#CD423F", "#FCDA3B", "#0171D3"),
+  `us` = c("#004D80", "#376C8E", "#37848E", "#9BC2B6", "#B5D2C0", "#004D80", "#376C8E", "#37848E"),
+  `deep reefs` = c("#43a9b6", "#218282", "#dbdcd1", "#44515c", "#517784"),
+  `breakfast club` = c("#b6411a", "#eec3d8", "#4182dd", "#ecf0c8", "#2d6328"),
+  `metro ui` = c("#d11141", "#00aedb", "#00b159", "#f37735", "#8c8c8c", "#ffc425", "#cccccc"),
+  `viridis` = c("#440154", "#46337E", "#365C8D", "#277F8E", "#1FA187", "#4AC16D", "#9FDA3A", "#FDE725"),
+  `ipsum` = c("#d18975", "#8fd175", "#3f2d54", "#75b8d1", "#2d543d", "#c9d175", "#d1ab75", "#d175b8", "#758bd1")
+)
+
+
 #' @rdname sjPlot-themes
 #' @export
 scale_color_sjplot <- function(palette = "metro ui", discrete = TRUE, reverse = FALSE, ...) {
@@ -307,18 +322,14 @@ sjplot_pal <- function(palette = "metro ui", n = NULL) {
 #' @export
 show_sjplot_pals <- function() {
 
-  sjpc <- list(
-    `aqua` = c("#BAF5F3", "#46A9BE", "#8B7B88", "#BD7688", "#F2C29E", "#BAF5F3", "#46A9BE", "#8B7B88"),
-    `warm` = c("#F8EB85", "#F1B749", "#C45B46", "#664458", "#072835", "#F8EB85", "#F1B749", "#C45B46"),
-    `dust` = c("#AAAE9D", "#F8F7CF", "#F7B98B", "#7B5756", "#232126", "#AAAE9D", "#F8F7CF", "#F7B98B"),
-    `blambus` = c("#5D8191", "#F2DD26", "#494949", "#BD772D", "#E02E1F", "#5D8191", "#F2DD26", "#494949"),
-    `simply` = c("#CD423F", "#FCDA3B", "#0171D3", "#018F77", "#F5C6AC", "#CD423F", "#FCDA3B", "#0171D3"),
-    `us` = c("#004D80", "#376C8E", "#37848E", "#9BC2B6", "#B5D2C0", "#004D80", "#376C8E", "#37848E"),
-    `deep reefs` = c("#43a9b6", "#218282", "#dbdcd1", "#44515c", "#517784", "#ffffff", "#ffffff", "#ffffff"),
-    `breakfast club` = c("#b6411a", "#eec3d8", "#4182dd", "#ecf0c8", "#2d6328", "#ffffff", "#ffffff", "#ffffff"),
-    `metro ui` = c("#d11141", "#00aedb", "#00b159", "#f37735", "#8c8c8c", "#ffc425", "#cccccc", "#ffffff"),
-    `viridis` = c("#440154", "#46337E", "#365C8D", "#277F8E", "#1FA187", "#4AC16D", "#9FDA3A", "#FDE725")
-  )
+  longest.pal <- max(purrr::map_dbl(sjplot_colors, ~ length(.x)))
+
+  sjpc <- lapply(sjplot_colors, function(.x) {
+    if (length(.x) == longest.pal)
+      .x
+    else
+      c(.x, rep("#ffffff", times = longest.pal - length(.x)))
+  })
 
   x <- suppressWarnings(
     sjpc %>%
@@ -328,7 +339,7 @@ show_sjplot_pals <- function() {
       dplyr::arrange(.data$key)
   )
 
-  x$y <- rep_len(1:8, nrow(x))
+  x$y <- rep_len(1:longest.pal, nrow(x))
   x$cols = as.factor(1:nrow(x))
 
   x$key <- rev(x$key)
@@ -350,20 +361,6 @@ get_sjplot_pal <- function(palette = "metro ui", reverse = FALSE, ...) {
   if (reverse) pal <- rev(pal)
   grDevices::colorRampPalette(pal, ...)
 }
-
-
-sjplot_colors <- list(
-  `aqua` = c("#BAF5F3", "#46A9BE", "#8B7B88", "#BD7688", "#F2C29E", "#BAF5F3", "#46A9BE", "#8B7B88"),
-  `warm` = c("#F8EB85", "#F1B749", "#C45B46", "#664458", "#072835", "#F8EB85", "#F1B749", "#C45B46"),
-  `dust` = c("#AAAE9D", "#F8F7CF", "#F7B98B", "#7B5756", "#232126", "#AAAE9D", "#F8F7CF", "#F7B98B"),
-  `blambus` = c("#5D8191", "#F2DD26", "#494949", "#BD772D", "#E02E1F", "#5D8191", "#F2DD26", "#494949"),
-  `simply` = c("#CD423F", "#FCDA3B", "#0171D3", "#018F77", "#F5C6AC", "#CD423F", "#FCDA3B", "#0171D3"),
-  `us` = c("#004D80", "#376C8E", "#37848E", "#9BC2B6", "#B5D2C0", "#004D80", "#376C8E", "#37848E"),
-  `deep reefs` = c("#43a9b6", "#218282", "#dbdcd1", "#44515c", "#517784"),
-  `breakfast club` = c("#b6411a", "#eec3d8", "#4182dd", "#ecf0c8", "#2d6328"),
-  `metro ui` = c("#d11141", "#00aedb", "#00b159", "#f37735", "#8c8c8c", "#ffc425", "#cccccc"),
-  `viridis` = c("#440154", "#46337E", "#365C8D", "#277F8E", "#1FA187", "#4AC16D", "#9FDA3A", "#FDE725")
-)
 
 
 #' @rdname sjPlot-themes
