@@ -122,7 +122,7 @@ sjp.pca <- function(data,
     # plot eigenvalues as line curve
     eigenplot <-
       # indicate eigen vlaues > 1
-      ggplot(mydat, aes(x = xpos, y = eigen, colour = eigen > 1)) +
+      ggplot(mydat, aes(x = .data$xpos, y = .data$eigen, colour = .data$eigen > 1)) +
         geom_line() + geom_point() +
         geom_hline(yintercept = 1, linetype = 2, colour = "grey50") +
         # print best number of factors according to eigen value
@@ -269,9 +269,9 @@ sjp.pca <- function(data,
   # start with base plot object here
   # --------------------------------------------------------
   if (type == "bar") {
-    heatmap <- ggplot(df, aes(x = rev(factor(ypos)), y = abs(value), fill = value))
+    heatmap <- ggplot(df, aes(x = rev(factor(.data$ypos)), y = abs(.data$value), fill = .data$value))
   } else {
-    heatmap <- ggplot(data = df, aes(x = xpos, y = ypos, fill = value))
+    heatmap <- ggplot(data = df, aes(x = .data$xpos, y = .data$ypos, fill = .data$value))
   }
   # --------------------------------------------------------
   # determine the geom type, either points when "type" is "circles"

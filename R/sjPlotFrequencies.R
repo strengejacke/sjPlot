@@ -1,7 +1,3 @@
-# bind global variables
-utils::globalVariables(c("val", "frq", "grp", "label.pos", "upper.ci", "lower.ci", "..density.."))
-
-
 #' @title Plot frequencies of variables
 #' @name sjp.frq
 #'

@@ -1,6 +1,3 @@
-# bind global variables
-utils::globalVariables(c("ordx", "ordy"))
-
 #' @title Plot correlation matrix
 #' @name sjp.corr
 #'

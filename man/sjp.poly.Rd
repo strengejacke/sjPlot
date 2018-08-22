@@ -55,6 +55,8 @@ will be plotted.}
 \item{show.p}{Logical, if \code{TRUE} (default), p-values for polynomial terms are
 printed to the console.}
 
+\item{point.color}{}
+
 \item{loess.color}{Color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.}
 }
 \value{

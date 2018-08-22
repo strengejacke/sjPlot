@@ -30,7 +30,12 @@
 #' @param show.p Logical, if \code{TRUE} (default), p-values for polynomial terms are
 #'          printed to the console.
 #' @param loess.color Color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.
+#' @param show.scatter
+#' @param point.alpha
+#' @param point.color
+#'
 #' @return A ggplot-object.
+#'
 #'
 #' @inheritParams plot_model
 #' @inheritParams plot_scatter
