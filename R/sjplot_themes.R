@@ -325,12 +325,11 @@ show_sjplot_pals <- function() {
       as.data.frame() %>%
       purrr::map_df(~ .x[length(.x):1]) %>%
       tidyr::gather() %>%
-      dplyr::arrange(.data$key) %>%
-      dplyr::mutate(
-        y = rep_len(1:8, nrow(.)),
-        cols = as.factor(1:nrow(.))
-      )
-    )
+      dplyr::arrange(.data$key)
+  )
+
+  x$y <- rep_len(1:8, nrow(x))
+  x$cols = as.factor(1:nrow(x))
 
   x$key <- rev(x$key)
   ggplot(x, aes_string(x = "key", fill = "cols")) +

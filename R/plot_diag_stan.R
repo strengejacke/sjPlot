@@ -27,10 +27,20 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, ...) {
 
     # get samples from posterior and prior
 
-    d1 <- dplyr::select(d1, string_starts_with("b_", colnames(d1)), -string_starts_with("b_Intercept", colnames(d1)))
+    d1 <- dplyr::select(
+      d1,
+      string_starts_with("b_", colnames(d1)),
+      -string_starts_with("b_Intercept", colnames(d1))
+    )
 
-    d2 <- brms::posterior_samples(model) %>%
-      dplyr::select(string_starts_with("b_", colnames(.)), -string_starts_with("b_Intercept", colnames(.)))
+
+    d2 <- brms::posterior_samples(model)
+
+    d2 <- dplyr::select(
+      d2,
+      string_starts_with("b_", colnames(d2)),
+      -string_starts_with("b_Intercept", colnames(d2))
+    )
 
   } else if (inherits(model, c("stanreg", "stanfit"))) {
 

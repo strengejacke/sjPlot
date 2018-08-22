@@ -310,6 +310,10 @@ tab_model <- function(
       # get info on model family
       fam.info <- sjstats::model_family(model)
 
+      ## TODO remove once sjstats was updated to >= 0.17.1
+      if (sjmisc::is_empty(fam.info$is_linear)) fam.info$is_linear <- FALSE
+
+
       # check whether estimates should be transformed or not
 
       if (auto.transform) {

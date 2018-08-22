@@ -55,7 +55,14 @@ will be plotted.}
 \item{show.p}{Logical, if \code{TRUE} (default), p-values for polynomial terms are
 printed to the console.}
 
-\item{point.color}{}
+\item{show.scatter}{Logical, if TRUE (default), adds a scatter plot of data
+points to the plot.}
+
+\item{point.alpha}{Alpha value of point-geoms in the scatter plots. Only
+applies, if \code{show.scatter = TRUE}.}
+
+\item{point.color}{Color of of point-geoms in the scatter plots. Only applies,
+if \code{show.scatter = TRUE.}}
 
 \item{loess.color}{Color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.}
 }

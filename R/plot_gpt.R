@@ -253,6 +253,9 @@ gpt_helper <- function(
   # group data by grouping variable,
   # and summarize N per group and chisq.test
   # of grp and x within each group
+
+  ## TODO fix n() warning
+
   pvals <- mydf %>%
     dplyr::group_by(.data$grp) %>%
     dplyr::summarise(N = n(), p = suppressWarnings(stats::chisq.test(table(.data$xpos, .data$dep))$p.value))

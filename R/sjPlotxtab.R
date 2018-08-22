@@ -353,27 +353,27 @@ sjp.xtab <- function(x,
     # as well, sofor better reading
     if (bar.pos == "dodge") {
       if (show.prc && show.n) {
-        ggvaluelabels <- geom_text(aes(y = ypos + y_offset, label = sprintf("%.01f%%%s(n=%i)", 100 * prc, line.break, n)),
+        ggvaluelabels <- geom_text(aes(y = .data$ypos + y_offset, label = sprintf("%.01f%%%s(n=%i)", 100 * .data$prc, .data$line.break, .data$n)),
                                    position = position_dodge(posdodge),
                                    vjust = vjust, hjust = hjust)
       } else if (show.prc) {
-        ggvaluelabels <- geom_text(aes(y = ypos + y_offset, label = sprintf("%.01f%%", 100 * prc)),
+        ggvaluelabels <- geom_text(aes(y = .data$ypos + y_offset, label = sprintf("%.01f%%", 100 * .data$prc)),
                                    position = position_dodge(posdodge),
                                    vjust = vjust, hjust = hjust)
       } else if (show.n) {
-        ggvaluelabels <- geom_text(aes(y = ypos + y_offset, label = sprintf("n=%i", n)),
+        ggvaluelabels <- geom_text(aes(y = .data$ypos + y_offset, label = sprintf("n=%i", .data$n)),
                                    position = position_dodge(posdodge),
                                    vjust = vjust, hjust = hjust)
       }
     } else {
       if (show.prc && show.n) {
-        ggvaluelabels <- geom_text(aes(y = ypos, label = sprintf("%.01f%%%s(n=%i)", 100 * prc, line.break, n)),
+        ggvaluelabels <- geom_text(aes(y = .data$ypos, label = sprintf("%.01f%%%s(n=%i)", 100 * .data$prc, .data$line.break, .data$n)),
                                    vjust = vjust, hjust = hjust)
       } else if (show.prc) {
-        ggvaluelabels <- geom_text(aes(y = ypos, label = sprintf("%.01f%%", 100 * prc)),
+        ggvaluelabels <- geom_text(aes(y = .data$ypos, label = sprintf("%.01f%%", 100 * .data$prc)),
                                    vjust = vjust, hjust = hjust)
       } else if (show.n) {
-        ggvaluelabels <- geom_text(aes(y = ypos, label = sprintf("n=%i", n)),
+        ggvaluelabels <- geom_text(aes(y = .data$ypos, label = sprintf("n=%i", .data$n)),
                                    vjust = vjust, hjust = hjust)
       }
     }

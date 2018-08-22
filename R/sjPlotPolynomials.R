@@ -30,9 +30,12 @@
 #' @param show.p Logical, if \code{TRUE} (default), p-values for polynomial terms are
 #'          printed to the console.
 #' @param loess.color Color of the loess-smoothed line. Only applies, if \code{show.loess = TRUE}.
-#' @param show.scatter
-#' @param point.alpha
-#' @param point.color
+#' @param show.scatter Logical, if TRUE (default), adds a scatter plot of data
+#'    points to the plot.
+#' @param point.alpha Alpha value of point-geoms in the scatter plots. Only
+#'    applies, if \code{show.scatter = TRUE}.
+#' @param point.color Color of of point-geoms in the scatter plots. Only applies,
+#'    if \code{show.scatter = TRUE.}
 #'
 #' @return A ggplot-object.
 #'

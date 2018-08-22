@@ -120,6 +120,9 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
     else
       fitfam <- sjstats::model_family(fit)
 
+    ## TODO remove once sjstats was updated to >= 0.17.1
+    if (sjmisc::is_empty(fitfam$is_linear)) fitfam$is_linear <- FALSE
+
     axis.title <-  dplyr::case_when(
       !is.null(transform) && transform == "plogis" ~ "Probabilities",
       is.null(transform) && fitfam$is_bin ~ "Log-Odds",

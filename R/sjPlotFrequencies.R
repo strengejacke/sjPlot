@@ -96,6 +96,7 @@
 #' @importFrom sjmisc group_labels group_var to_value
 #' @importFrom sjlabelled set_labels
 #' @importFrom stats na.omit sd weighted.mean dnorm
+#' @importFrom rlang .data
 #' @export
 sjp.frq <- function(var.cnt,
                     title = "",
@@ -370,7 +371,7 @@ sjp.frq <- function(var.cnt,
             label = sprintf("%i (%.01f%%)", mydat$frq, mydat$valid.prc),
             hjust = hjust,
             vjust = vjust,
-            aes(y = label.pos + y_offset)
+            aes(y = .data$label.pos + y_offset)
           )
       } else {
         ggvaluelabels <-
@@ -378,7 +379,7 @@ sjp.frq <- function(var.cnt,
             label = sprintf("%i\n(%.01f%%)", mydat$frq, mydat$valid.prc),
             hjust = hjust,
             vjust = vjust,
-            aes(y = label.pos + y_offset)
+            aes(y = .data$label.pos + y_offset)
           )
       }
     } else if (show.n) {
@@ -387,7 +388,7 @@ sjp.frq <- function(var.cnt,
         label = sprintf("%i", mydat$frq),
         hjust = hjust,
         vjust = vjust,
-        aes(y = label.pos + y_offset)
+        aes(y = .data$label.pos + y_offset)
       )
     } else if (show.prc) {
       # here we have counts, without percentages
@@ -396,15 +397,15 @@ sjp.frq <- function(var.cnt,
           label = sprintf("%.01f%%", mydat$valid.prc),
           hjust = hjust,
           vjust = vjust,
-          aes(y = label.pos + y_offset)
+          aes(y = .data$label.pos + y_offset)
         )
     } else {
       # no labels
-      ggvaluelabels <-  geom_text(aes(y = frq), label = "")
+      ggvaluelabels <-  geom_text(aes(y = .data$frq), label = "")
     }
   } else {
     # no labels
-    ggvaluelabels <-  geom_text(aes(y = frq), label = "")
+    ggvaluelabels <-  geom_text(aes(y = .data$frq), label = "")
   }
 
   # Set up grid breaks
@@ -447,7 +448,7 @@ sjp.frq <- function(var.cnt,
     # mydat is a data frame that only contains one variable (var).
     # Must be declared as factor, so the bars are central aligned to
     # each x-axis-break.
-    baseplot <- ggplot(mydat, aes(x = factor(val), y = frq)) +
+    baseplot <- ggplot(mydat, aes(x = factor(.data$val), y = .data$frq)) +
       geob +
       yscale +
       # remove guide / legend
@@ -507,13 +508,13 @@ sjp.frq <- function(var.cnt,
   # Start density plot here -----
   } else if (type == "density") {
     # First, plot histogram with density curve
-    baseplot <- ggplot(hist.dat, aes(x = xv)) +
+    baseplot <- ggplot(hist.dat, aes(x = .data$xv)) +
 
       ## TODO use solution from new ggplot
 
-      geom_histogram(aes(y = ..density..), binwidth = geom.size, fill = geom.colors) +
+      geom_histogram(aes(y = stat(density)), binwidth = geom.size, fill = geom.colors) +
       # transparent density curve above bars
-      geom_density(aes(y = ..density..), fill = "cornsilk", alpha = 0.3) +
+      geom_density(aes(y = stat(density)), fill = "cornsilk", alpha = 0.3) +
       # remove margins from left and right diagram side
       scale_x_continuous(expand = expand.grid, breaks = histgridbreaks, limits = xlim)
 
@@ -540,9 +541,9 @@ sjp.frq <- function(var.cnt,
       # original data needed for normal curve
       baseplot <- ggplot(mydat) +
         # second data frame mapped to the histogram geom
-        geom_histogram(data = hist.dat, aes(x = xv), binwidth = geom.size, fill = geom.colors)
+        geom_histogram(data = hist.dat, aes(x = .data$xv), binwidth = geom.size, fill = geom.colors)
     } else {
-      baseplot <- ggplot(mydat, aes(x = val, y = frq)) +
+      baseplot <- ggplot(mydat, aes(x = .data$val, y = .data$frq)) +
         geom_area(alpha = 0.3) +
         geom_line(size = geom.size, colour = geom.colors) +
         ggvaluelabels

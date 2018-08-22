@@ -109,7 +109,7 @@ sjt.glm <- function(...,
                     remove.spaces = TRUE) {
 
   if (stats::runif(1) < .35)
-    message("`sjt.glm()` will become deprecated in the future. Please use `tab_model()` instead.")
+    message("`sjt.glm()` and `sjt.glmer()` will become deprecated in the future. Please use `tab_model()` instead.")
 
   ## TODO activate in future update
   # .Deprecated("tab_model")
@@ -122,12 +122,6 @@ sjt.glm <- function(...,
     p_zero <- ""
   else
     p_zero <- "0"
-
-  if (stats::runif(1) < .35)
-    message("`sjt.lm()` and `sjt.lmer()` will become deprecated in the future. Please use `tab_model()` instead.")
-
-  ## TODO activate in future update
-  # .Deprecated("tab_model")
 
   # check hyphen for ci-range
   if (is.null(ci.hyphen)) ci.hyphen <- "&nbsp;&ndash;&nbsp;"
@@ -1110,12 +1104,6 @@ sjt.glmer <- function(...,
                       file = NULL,
                       use.viewer = TRUE,
                       remove.spaces = TRUE) {
-
-  if (stats::runif(1) < .35)
-    message("`sjt.glmer()` will become deprecated in the future. Please use `tab_model()` instead.")
-
-  ## TODO activate in future update
-  # .Deprecated("tab_model")
 
   input_list <- list(...)
   names(input_list) <- unlist(lapply(match.call(expand.dots = F)$`...`, deparse))

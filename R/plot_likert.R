@@ -552,7 +552,7 @@ plot_likert <- function(items,
     # show them in middle of bar
     gp <- gp +
       geom_text(
-        data = subset(mydat.pos, frq > 0),
+        data = dplyr::filter(mydat.pos, .data$frq > 0),
         aes(
           x = .data$x,
           y = .data$ypos,
@@ -560,7 +560,7 @@ plot_likert <- function(items,
         )
       ) +
       geom_text(
-        data = subset(mydat.neg, frq < 0),
+        data = dplyr::filter(mydat.pos, .data$frq < 0),
         aes(
           x = .data$x,
           y = .data$ypos,
@@ -571,7 +571,7 @@ plot_likert <- function(items,
     if (!is.null(cat.neutral)) {
       gp <- gp +
         geom_text(
-          data = subset(mydat.dk, frq > -1),
+          data = dplyr::filter(mydat.dk, .data$frq > -1),
           aes(
             x = .data$x,
             y = .data$ypos + .data$offset + 1,
