@@ -81,7 +81,7 @@ If factor.groups is not NULL, the data frame df will be
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -141,12 +141,7 @@ If factor.groups is not NULL, the data frame df will be
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -160,7 +155,7 @@ If factor.groups is not NULL, the data frame df will be
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summary of item analysis of an item scale as HTML table</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjTabItemAnalysis.R'><code>R/sjTabItemAnalysis.R</code></a></small>
+    
     <div class="hidden name"><code>sjt.itemanalysis.Rd</code></div>
     </div>
 
@@ -188,11 +183,12 @@ If factor.groups is not NULL, the data frame df will be
     
     </div>
 
-    <pre class="usage"><span class='fu'>sjt.itemanalysis</span>(<span class='no'>df</span>, <span class='kw'>factor.groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>factor.groups.titles</span> <span class='kw'>=</span> <span class='st'>"auto"</span>,
-  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>min.valid.rowmean</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>altr.row.col</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>sort.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.shapiro</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.kurtosis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.corr.matrix</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>no.output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>sjt.itemanalysis</span>(<span class='no'>df</span>, <span class='kw'>factor.groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>factor.groups.titles</span> <span class='kw'>=</span> <span class='st'>"auto"</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>min.valid.rowmean</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sort.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.shapiro</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.kurtosis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.corr.matrix</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -229,9 +225,9 @@ computed for those items that have at least <code>min.valid.rowmean</code> per c
 technically, row). See <code>mean_n</code> for details.</p></td>
     </tr>
     <tr>
-      <th>altr.row.col</th>
-      <td><p>Logical, if <code>TRUE</code>, alternating rows are highlighted with a light gray
-background color.</p></td>
+      <th>alternate.rows</th>
+      <td><p>Logical, if <code>TRUE</code>, rows are printed in
+alternatig colors (white and light grey by default).</p></td>
     </tr>
     <tr>
       <th>sort.column</th>
@@ -263,17 +259,16 @@ Finally, a correlation of these "scale sum scores" is computed.</p></td>
     </tr>
     <tr>
       <th>CSS</th>
-      <td><p>A <code>list</code> with user-defined style-sheet-definitions, according to the
-<a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>. For more details,
-see <a href='../doc/table_css.html'>this package-vignette</a>, or 'Details' in
-<code><a href='sjt.frq.html'>sjt.frq</a></code>.</p></td>
+      <td><p>A <code>list</code> with user-defined style-sheet-definitions,
+according to the <a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>.
+See 'Details' or <a href='../doc/table_css.html'>this package-vignette</a>.</p></td>
     </tr>
     <tr>
       <th>encoding</th>
-      <td><p>String, indicating the charset encoding used for variable and
-value labels. Default is <code>NULL</code>, so encoding will be auto-detected
-depending on your platform (e.g., <code>"UTF-8"</code> for Unix and <code>"Windows-1252"</code> for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).</p></td>
+      <td><p>Character vector, indicating the charset encoding used
+for variable and value labels. Default is <code>"UTF-8"</code>. For Windows
+Systems, <code>encoding = "Windows-1252"</code> might be necessary for proper
+display of special characters.</p></td>
     </tr>
     <tr>
       <th>file</th>
@@ -283,15 +278,9 @@ openend either in the IDE's viewer pane or the default web browser.</p></td>
     </tr>
     <tr>
       <th>use.viewer</th>
-      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's viewer pane. If
-<code>FALSE</code> or no viewer available, the HTML table is opened in a web browser.</p></td>
-    </tr>
-    <tr>
-      <th>no.output</th>
-      <td><p>Logical, if <code>TRUE</code>, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in <code>knitr</code> documents. The html output can be accessed via the return
-value.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
+viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
+opened in a web browser.</p></td>
     </tr>
     <tr>
       <th>remove.spaces</th>
@@ -315,10 +304,6 @@ may look less pretty, but it may help when exporting html-tables to office tools
          table is printed for the complete scale indicated by <code>df</code>. If <code>factor.groups</code>
          is a vector of group-index-values, the lists contain elements for each sub-group.</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>See 'Details' in <code><a href='sjt.frq.html'>sjt.frq</a></code>.</p>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <ul>
@@ -327,7 +312,6 @@ may look less pretty, but it may help when exporting html-tables to office tools
 <li><p>For <em>item discrimination</em>, acceptable values are 0.20 or higher; the closer to 1.00 the better. See <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/reliab_test'>reliab_test</a></code> for more details.</p></li>
 <li><p>In case the total <em>Cronbach's Alpha</em> value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the <em>mean inter-item-correlation</em> is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/reliab_test'>mic</a></code>.</p></li>
 </ul>
-    <p>See 'Notes' in <code><a href='sjt.frq.html'>sjt.frq</a></code>.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -363,7 +347,7 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
 <span class='co'># Compute PCA on Cope-Index, and perform a</span>
 <span class='co'># item analysis for each extracted factor.</span>
-<span class='no'>factor.groups</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sjt.pca.html'>sjt.pca</a></span>(<span class='no'>mydf</span>, <span class='kw'>no.output</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)$<span class='no'>factor.index</span>
+<span class='no'>factor.groups</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sjt.pca.html'>sjt.pca</a></span>(<span class='no'>mydf</span>)$<span class='no'>factor.index</span>
 <span class='fu'>sjt.itemanalysis</span>(<span class='no'>mydf</span>, <span class='no'>factor.groups</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
@@ -374,8 +358,6 @@ may look less pretty, but it may help when exporting html-tables to office tools
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#note">Note</a></li>
 

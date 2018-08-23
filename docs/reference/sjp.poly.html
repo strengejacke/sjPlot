@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -127,12 +127,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -146,7 +141,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot polynomials for (generalized) linear regression</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotPolynomials.R'><code>R/sjPlotPolynomials.R</code></a></small>
+    
     <div class="hidden name"><code>sjp.poly.Rd</code></div>
     </div>
 
@@ -164,7 +159,7 @@
   <span class='kw'>axis.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
   <span class='kw'>show.loess</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.loess.ci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>show.scatter</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>point.alpha</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>point.color</span> <span class='kw'>=</span> <span class='st'>"#404040"</span>,
-  <span class='kw'>loess.color</span> <span class='kw'>=</span> <span class='st'>"#808080"</span>, <span class='kw'>prnt.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>loess.color</span> <span class='kw'>=</span> <span class='st'>"#808080"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -203,24 +198,17 @@ to <code>"lm"</code>.</p></td>
     </tr>
     <tr>
       <th>axis.title</th>
-      <td><p>Character vector of length one or two (depending on
-the plot function and type), used as title(s) for the x and y axis.
-If not specified, a default labelling  is chosen. To set multiple
-axis titles (e.g. with <code>type = "eff"</code> for many predictors),
-<code>axis.title</code> must be a character vector of same length of plots
-that are printed. In this case, each plot gets an own axis title
-(applying, for instance, to the y-axis for <code>type = "eff"</code>).
-<strong>Note:</strong> Some plot types do not support this argument. In such
-cases, use the return value and add axis titles manually with
-<code><a href='http://www.rdocumentation.org/packages/ggplot2/topics/labs'>labs</a></code>, e.g.: <code>$plot.list[[1]] + labs(x = ...)</code></p></td>
+      <td><p>Character vector of length one or two (depending on the
+plot function and type), used as title(s) for the x and y axis. If not
+specified, a default labelling  is chosen. <strong>Note:</strong> Some plot types
+may not support this argument sufficiently. In such cases, use the returned
+ggplot-object and add axis titles manually with
+<code><a href='http://www.rdocumentation.org/packages/ggplot2/topics/labs'>labs</a></code>. Use <code>axis.title = ""</code> to remove axis
+titles.</p></td>
     </tr>
     <tr>
       <th>geom.colors</th>
-      <td><p>User defined color palette for geoms. If <code>group.estimates</code>
-is <em>not</em> specified, must either be vector with two color values or a specific
-color palette code (see 'Details' in <code><a href='sjp.grpfrq.html'>sjp.grpfrq</a></code>). Else, if
-<code>group.estimates</code> is specified, <code>geom.colors</code> must be a vector
-of same length as groups. See 'Examples'.</p></td>
+      <td><p>user defined color for geoms. See 'Details' in <code><a href='sjp.grpfrq.html'>sjp.grpfrq</a></code>.</p></td>
     </tr>
     <tr>
       <th>geom.size</th>
@@ -244,40 +232,28 @@ printed to the console.</p></td>
     </tr>
     <tr>
       <th>show.scatter</th>
-      <td><p>Logical, if <code>TRUE</code> (default), adds a scatter plot of
-data points to the plot. Only applies for slope-type or predictions plots.
-For most plot types, dots are jittered to avoid overplotting, hence the
-points don't reflect exact values in the data.</p></td>
+      <td><p>Logical, if TRUE (default), adds a scatter plot of data
+points to the plot.</p></td>
     </tr>
     <tr>
       <th>point.alpha</th>
-      <td><p>Alpha value of point-geoms in the scatter plots. Only applies,
-if <code>show.scatter = TRUE</code>.</p></td>
+      <td><p>Alpha value of point-geoms in the scatter plots. Only
+applies, if <code>show.scatter = TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>point.color</th>
       <td><p>Color of of point-geoms in the scatter plots. Only applies,
-if <code>show.scatter = TRUE</code>.</p></td>
+if <code>show.scatter = TRUE.</code></p></td>
     </tr>
     <tr>
       <th>loess.color</th>
       <td><p>Color of the loess-smoothed line. Only applies, if <code>show.loess = TRUE</code>.</p></td>
     </tr>
-    <tr>
-      <th>prnt.plot</th>
-      <td><p>logical, if <code>TRUE</code> (default), plots the results as graph. Use <code>FALSE</code> if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>(Insisibily) returns</p><dl class='dl-horizontal'>
-           <dt><code>plot</code></dt><dd><p>the ggplot-object with the complete plot</p></dd>
-           <dt><code>df</code></dt><dd><p>the data frame that was used for setting up the ggplot-object</p></dd>
-           <dt><code>cutpoints</code></dt><dd><p>a data frame that indicates x-values and predicted y-values of each direction change in the loess curvature</p></dd>
-          </dl>
-
+    <p>A ggplot-object.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -296,11 +272,6 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
            line (in dark grey) can be added (with <code>show.loess = TRUE</code>). The polynomial curves
            that comes closest to the loess-smoothed line should be the best
            fit to the data.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>To plot marginal effects of polynomial terms, call <code><a href='sjp.lm.html'>sjp.lm</a></code> with <code>type = "poly"</code>,
-           or <code><a href='sjp.lmer.html'>sjp.lmer</a></code> respectively for linear mixed models.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -384,8 +355,6 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

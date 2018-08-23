@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -124,12 +124,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -143,7 +138,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compute quick cluster analysis</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotClusterAnalysis.R'><code>R/sjPlotClusterAnalysis.R</code></a></small>
+    
     <div class="hidden name"><code>sjc.qclus.Rd</code></div>
     </div>
 
@@ -154,17 +149,18 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>sjc.qclus</span>(<span class='no'>data</span>, <span class='kw'>groupcount</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"kmeans"</span>,
-  <span class='st'>"hclust"</span>), <span class='kw'>distance</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"euclidean"</span>, <span class='st'>"maximum"</span>, <span class='st'>"manhattan"</span>, <span class='st'>"canberra"</span>,
-  <span class='st'>"binary"</span>, <span class='st'>"minkowski"</span>), <span class='kw'>agglomeration</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"ward"</span>, <span class='st'>"ward.D"</span>, <span class='st'>"ward.D2"</span>,
-  <span class='st'>"single"</span>, <span class='st'>"complete"</span>, <span class='st'>"average"</span>, <span class='st'>"mcquitty"</span>, <span class='st'>"median"</span>, <span class='st'>"centroid"</span>),
-  <span class='kw'>iter.max</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>algorithm</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Hartigan-Wong"</span>, <span class='st'>"Lloyd"</span>, <span class='st'>"MacQueen"</span>),
+    <pre class="usage"><span class='fu'>sjc.qclus</span>(<span class='no'>data</span>, <span class='kw'>groupcount</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"kmeans"</span>, <span class='st'>"hclust"</span>), <span class='kw'>distance</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"euclidean"</span>, <span class='st'>"maximum"</span>,
+  <span class='st'>"manhattan"</span>, <span class='st'>"canberra"</span>, <span class='st'>"binary"</span>, <span class='st'>"minkowski"</span>),
+  <span class='kw'>agglomeration</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"ward"</span>, <span class='st'>"ward.D"</span>, <span class='st'>"ward.D2"</span>, <span class='st'>"single"</span>, <span class='st'>"complete"</span>,
+  <span class='st'>"average"</span>, <span class='st'>"mcquitty"</span>, <span class='st'>"median"</span>, <span class='st'>"centroid"</span>), <span class='kw'>iter.max</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>algorithm</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Hartigan-Wong"</span>, <span class='st'>"Lloyd"</span>, <span class='st'>"MacQueen"</span>),
   <span class='kw'>show.accuracy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>40</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>wrap.legend.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>facet.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"Paired"</span>,
-  <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>geom.spacing</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.grpcnt</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>reverse.axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>prnt.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>wrap.legend.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>facet.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"Paired"</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>geom.spacing</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.grpcnt</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>legend.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>reverse.axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -318,11 +314,6 @@ legend labels (e.g. <code>"Group 1 (n=87)"</code>).</p></td>
       <th>reverse.axis</th>
       <td><p>Logical, if <code>TRUE</code>, the values on the x-axis are reversed.</p></td>
     </tr>
-    <tr>
-      <th>prnt.plot</th>
-      <td><p>logical, if <code>TRUE</code> (default), plots the results as graph. Use <code>FALSE</code> if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -368,10 +359,10 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 <span class='co'># and saving the results. most likely, 3 cluster</span>
 <span class='co'># groups have been found (see below).</span>
 <span class='no'>airgrp</span> <span class='kw'>&lt;-</span> <span class='fu'>sjc.qclus</span>(<span class='no'>airquality</span>)</div><div class='output co'>#&gt; <span class='message'>Clustering Gap statistic ["clusGap"].</span>
-#&gt; <span class='message'>B=100 simulated reference sets, k = 1..10</span></div><div class='output co'>#&gt; <span class='message'> --&gt; Number of clusters (method 'Tibs2001SEmax', SE.factor=1): 3</span></div><div class='img'><img src='sjc.qclus-1.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; <span class='message'>B=100 simulated reference sets, k = 1..10</span></div><div class='output co'>#&gt; <span class='message'> --&gt; Number of clusters (method 'Tibs2001SEmax', SE.factor=1): 3</span></div><div class='img'><img src='sjc.qclus-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjc.qclus-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># "re-plot" cluster groups, without computing</span>
 <span class='co'># new k-means cluster analysis.</span>
-<span class='fu'>sjc.qclus</span>(<span class='no'>airquality</span>, <span class='kw'>groupcount</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>airgrp</span>$<span class='no'>classification</span>)</div><div class='img'><img src='sjc.qclus-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>sjc.qclus</span>(<span class='no'>airquality</span>, <span class='kw'>groupcount</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>airgrp</span>$<span class='no'>classification</span>)</div><div class='img'><img src='sjc.qclus-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjc.qclus-4.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

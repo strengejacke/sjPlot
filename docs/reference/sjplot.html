@@ -68,7 +68,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -128,12 +128,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -147,7 +142,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Wrapper to create plots and tables within a pipe-workflow</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjplot.R'><code>R/sjplot.R</code></a></small>
+    
     <div class="hidden name"><code>sjplot.Rd</code></div>
     </div>
 
@@ -162,8 +157,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>sjplot</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"frq"</span>, <span class='st'>"grpfrq"</span>, <span class='st'>"xtab"</span>, <span class='st'>"gpt"</span>, <span class='st'>"scatter"</span>, <span class='st'>"aov1"</span>,
-  <span class='st'>"likert"</span>, <span class='st'>"stackfrq"</span>))
+    <pre class="usage"><span class='fu'>sjplot</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"frq"</span>, <span class='st'>"grpfrq"</span>, <span class='st'>"xtab"</span>, <span class='st'>"aov1"</span>, <span class='st'>"likert"</span>,
+  <span class='st'>"stackfrq"</span>))
 
 <span class='fu'>sjtab</span>(<span class='no'>data</span>, <span class='no'>...</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"xtab"</span>, <span class='st'>"stackfrq"</span>))</pre>
     
@@ -199,16 +194,10 @@ See 'Details' and 'Examples'.</p></td>
             <dt><code>"frq"</code></dt><dd><p>calls <code><a href='sjp.frq.html'>sjp.frq</a></code>.
             If <code>data</code> has more than one variable, a plot for each
             variable in <code>data</code> is plotted.</p></dd>
-            <dt><code>"gpt"</code></dt><dd><p>calls <code><a href='sjp.gpt.html'>sjp.gpt</a></code>. The first
-            three variables in <code>data</code> are used (and required) to create the plot.</p></dd>
             <dt><code>"grpfrq"</code></dt><dd><p>calls <code><a href='sjp.grpfrq.html'>sjp.grpfrq</a></code>. The first
             two variables in <code>data</code> are used (and required) to create the plot.</p></dd>
-            <dt><code>"likert"</code></dt><dd><p>calls <code><a href='sjp.likert.html'>sjp.likert</a></code>. <code>data</code>
+            <dt><code>"likert"</code></dt><dd><p>calls <code><a href='plot_likert.html'>plot_likert</a></code>. <code>data</code>
             must be a data frame with items to plot.</p></dd>
-            <dt><code>"scatter"</code></dt><dd><p>calls <code><a href='sjp.scatter.html'>sjp.scatter</a></code>. The first
-            two variables in <code>data</code> are used (and required) to create the plot;
-            if <code>data</code> also has a third variable, this is used as grouping-
-            variable in <code>sjp.scatter</code>.</p></dd>
             <dt><code>"stackfrq"</code></dt><dd><p>calls <code><a href='sjp.stackfrq.html'>sjp.stackfrq</a></code> or <code><a href='sjt.stackfrq.html'>sjt.stackfrq</a></code>.
             <code>data</code> must be a data frame with items to create the plot or table.</p></dd>
             <dt><code>"xtab"</code></dt><dd><p>calls <code><a href='sjp.xtab.html'>sjp.xtab</a></code> or <code><a href='sjt.xtab.html'>sjt.xtab</a></code>.
@@ -229,7 +218,9 @@ See 'Details' and 'Examples'.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>library</span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: 'dplyr'</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:stats':</span>
+#&gt; <span class='message'>Attaching package: 'dplyr'</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from 'package:sjPlot':</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    data_frame</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:stats':</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:base':</span>
 #&gt; <span class='message'></span>
@@ -242,20 +233,16 @@ See 'Details' and 'Examples'.</p></td>
 <span class='co'># Grouped frequencies, as box plots</span>
 <span class='no'>efc</span> <span class='kw'>%&gt;%</span> <span class='fu'>sjplot</span>(<span class='no'>e17age</span>, <span class='no'>c172code</span>, <span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"grpfrq"</span>,
                <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"box"</span>, <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>)</div><div class='img'><img src='sjplot-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># scatter plot, grouped</span>
-<span class='no'>efc</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='http://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>e42dep</span>, <span class='no'>c172code</span>, <span class='no'>c161sex</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>sjplot</span>(<span class='kw'>fun</span> <span class='kw'>=</span> <span class='st'>"scatter"</span>)</div><div class='output co'>#&gt; <span class='message'>auto-jittering values...</span></div><div class='img'><img src='sjplot-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># frequencies, as plot grid</span>
 <span class='no'>efc</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>e42dep</span>, <span class='no'>c172code</span>, <span class='no'>e16sex</span>, <span class='no'>c161sex</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>sjplot</span>() <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='plot_grid.html'>plot_grid</a></span>()</div><div class='img'><img src='sjplot-6.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-9.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-10.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='plot_grid.html'>plot_grid</a></span>()</div><div class='img'><img src='sjplot-5.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-6.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-8.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-9.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot grouped data frame</span>
 <span class='no'>efc</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>e16sex</span>, <span class='no'>c172code</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='http://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='no'>e42dep</span>, <span class='no'>e16sex</span>, <span class='no'>c172code</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>sjplot</span>(<span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>100</span>) <span class='co'># no line break for subtitles</span></div><div class='img'><img src='sjplot-11.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-12.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-13.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-14.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-15.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-16.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'>sjplot</span>(<span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>100</span>) <span class='co'># no line break for subtitles</span></div><div class='img'><img src='sjplot-10.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-11.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-12.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-13.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-14.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjplot-15.png' alt='' width='700' height='433' /></div><div class='input'>
 </div><span class='co'># NOT RUN {</span>
 <span class='co'># table output of grouped data frame</span>
 <span class='no'>efc</span> <span class='kw'>%&gt;%</span>

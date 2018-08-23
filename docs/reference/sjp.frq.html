@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -124,12 +124,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -143,7 +138,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot frequencies of variables</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotFrequencies.R'><code>R/sjPlotFrequencies.R</code></a></small>
+    
     <div class="hidden name"><code>sjp.frq.Rd</code></div>
     </div>
 
@@ -154,20 +149,21 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>sjp.frq</span>(<span class='no'>var.cnt</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title.wtd.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>sort.frq</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"asc"</span>, <span class='st'>"desc"</span>), <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"bar"</span>, <span class='st'>"dot"</span>, <span class='st'>"histogram"</span>,
-  <span class='st'>"line"</span>, <span class='st'>"density"</span>, <span class='st'>"boxplot"</span>, <span class='st'>"violin"</span>), <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"#336699"</span>, <span class='kw'>errorbar.color</span> <span class='kw'>=</span> <span class='st'>"darkred"</span>, <span class='kw'>axis.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-  <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.prc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.axis.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.mean</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.mean.val</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.sd</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>mean.line.type</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>mean.line.size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>inner.box.width</span> <span class='kw'>=</span> <span class='fl'>0.15</span>,
-  <span class='kw'>inner.box.dotsize</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>normal.curve</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>normal.curve.color</span> <span class='kw'>=</span> <span class='st'>"red"</span>,
-  <span class='kw'>normal.curve.size</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>normal.curve.alpha</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>auto.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>,
-  <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prnt.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>sjp.frq</span>(<span class='no'>var.cnt</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>title.wtd.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort.frq</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"asc"</span>, <span class='st'>"desc"</span>),
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"bar"</span>, <span class='st'>"dot"</span>, <span class='st'>"histogram"</span>, <span class='st'>"line"</span>, <span class='st'>"density"</span>, <span class='st'>"boxplot"</span>,
+  <span class='st'>"violin"</span>), <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"#336699"</span>,
+  <span class='kw'>errorbar.color</span> <span class='kw'>=</span> <span class='st'>"darkred"</span>, <span class='kw'>axis.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>xlim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.prc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.axis.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.mean</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.mean.val</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.sd</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>mean.line.type</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>mean.line.size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>inner.box.width</span> <span class='kw'>=</span> <span class='fl'>0.15</span>,
+  <span class='kw'>inner.box.dotsize</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>normal.curve</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>normal.curve.color</span> <span class='kw'>=</span> <span class='st'>"red"</span>, <span class='kw'>normal.curve.size</span> <span class='kw'>=</span> <span class='fl'>0.8</span>,
+  <span class='kw'>normal.curve.alpha</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>auto.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>, <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -234,11 +230,7 @@ will have same colors as dots (see <code>geom.colors</code>).</p></td>
       <th>axis.title</th>
       <td><p>Character vector of length one or two (depending on
 the plot function and type), used as title(s) for the x and y axis.
-If not specified, a default labelling  is chosen. To set multiple
-axis titles (e.g. with <code>type = "eff"</code> for many predictors),
-<code>axis.title</code> must be a character vector of same length of plots
-that are printed. In this case, each plot gets an own axis title
-(applying, for instance, to the y-axis for <code>type = "eff"</code>).
+If not specified, a default labelling  is chosen.
 <strong>Note:</strong> Some plot types do not support this argument. In such
 cases, use the return value and add axis titles manually with
 <code><a href='http://www.rdocumentation.org/packages/ggplot2/topics/labs'>labs</a></code>, e.g.: <code>$plot.list[[1]] + labs(x = ...)</code></p></td>
@@ -403,17 +395,11 @@ away from the center of the plot respectively.</p></td>
       <td><p>numeric, offset for text labels when their alignment is adjusted
 to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</p></td>
     </tr>
-    <tr>
-      <th>prnt.plot</th>
-      <td><p>logical, if <code>TRUE</code> (default), plots the results as graph. Use <code>FALSE</code> if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>(Insisibily) returns the ggplot-object with the complete plot (<code>plot</code>) as well as the data frame that
-          was used for setting up the ggplot-object (<code>data</code>).</p>
+    <p>A ggplot-object.</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 

@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -124,12 +124,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -143,7 +138,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Save ggplot-figure for print publication</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/save_plot.R'><code>R/save_plot.R</code></a></small>
+    
     <div class="hidden name"><code>save_plot.Rd</code></div>
     </div>
 
@@ -154,10 +149,11 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>save_plot</span>(<span class='no'>filename</span>, <span class='kw'>fig</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/last_plot'>last_plot</a></span>(), <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>12</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>9</span>,
-  <span class='kw'>dpi</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='kw pkg'>ggplot2</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/ggplot2/topics/theme_get'>theme_get</a></span>(), <span class='kw'>label.color</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
+    <pre class="usage"><span class='fu'>save_plot</span>(<span class='no'>filename</span>, <span class='kw'>fig</span> <span class='kw'>=</span> <span class='fu'>last_plot</span>(), <span class='kw'>width</span> <span class='kw'>=</span> <span class='fl'>12</span>, <span class='kw'>height</span> <span class='kw'>=</span> <span class='fl'>9</span>,
+  <span class='kw'>dpi</span> <span class='kw'>=</span> <span class='fl'>300</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='fu'>theme_get</span>(), <span class='kw'>label.color</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
   <span class='kw'>label.size</span> <span class='kw'>=</span> <span class='fl'>2.4</span>, <span class='kw'>axis.textsize</span> <span class='kw'>=</span> <span class='fl'>0.8</span>, <span class='kw'>axis.titlesize</span> <span class='kw'>=</span> <span class='fl'>0.75</span>,
-  <span class='kw'>legend.textsize</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>legend.titlesize</span> <span class='kw'>=</span> <span class='fl'>0.65</span>, <span class='kw'>legend.itemsize</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</pre>
+  <span class='kw'>legend.textsize</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>legend.titlesize</span> <span class='kw'>=</span> <span class='fl'>0.65</span>,
+  <span class='kw'>legend.itemsize</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

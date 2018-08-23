@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -125,12 +125,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -144,7 +139,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot stacked proportional bars</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotStackFrequencies.R'><code>R/sjPlotStackFrequencies.R</code></a></small>
+    
     <div class="hidden name"><code>sjp.stackfrq.Rd</code></div>
     </div>
 
@@ -158,12 +153,12 @@
 
     <pre class="usage"><span class='fu'>sjp.stackfrq</span>(<span class='no'>items</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>legend.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.titles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort.frq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>30</span>,
-  <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>wrap.legend.labels</span> <span class='kw'>=</span> <span class='fl'>28</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>,
-  <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"Blues"</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.prc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-  <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>, <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>prnt.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort.frq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>,
+  <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>wrap.legend.labels</span> <span class='kw'>=</span> <span class='fl'>28</span>,
+  <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"Blues"</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.prc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>, <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -274,7 +269,8 @@ axes and plotting region. Default is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>digits</th>
-      <td><p>Numeric, amount of digits after decimal point when rounding estimates and values.</p></td>
+      <td><p>Numeric, amount of digits after decimal point when rounding
+estimates or values.</p></td>
     </tr>
     <tr>
       <th>vjust</th>
@@ -288,17 +284,11 @@ away from the center of the plot respectively.</p></td>
       <th>coord.flip</th>
       <td><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></td>
     </tr>
-    <tr>
-      <th>prnt.plot</th>
-      <td><p>logical, if <code>TRUE</code> (default), plots the results as graph. Use <code>FALSE</code> if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>(Insisibily) returns the ggplot-object with the complete plot (<code>plot</code>) as well as the data frame that
-          was used for setting up the ggplot-object (<code>df</code>).</p>
+    <p>A ggplot-object.</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 

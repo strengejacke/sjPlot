@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -88,14 +88,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
+<ul class="nav navbar-nav navbar-right"></ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -110,9 +103,9 @@
       <h1>Customizing HTML tables</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2018-07-10</h4>
+            <h4 class="date">2018-08-23</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/table_css.Rmd"><code>vignettes/table_css.Rmd</code></a></small>
+      
       <div class="hidden name"><code>table_css.Rmd</code></div>
 
     </div>
@@ -143,100 +136,100 @@
 <h3 class="hasAnchor">
 <a href="#retrieving-customizable-styles" class="anchor"></a>Retrieving customizable styles</h3>
 <p>The table functions invisibly return several values. The return value <code>page.style</code> contains the style information for the HTML table. You can print this style sheet to console using the <code>cat()</code>-function:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(sjPlot)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">data</span>(efc)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">m &lt;-<span class="st"> </span><span class="kw">lm</span>(barthtot <span class="op">~</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">tab &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m)</a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">cat</span>(tab<span class="op">$</span>page.style)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; &lt;style&gt;</span></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; html, body { background-color: white; }</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt; table { border-collapse:collapse; border:none; }</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt; caption { font-weight: bold; text-align:left; }</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; td {  }</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; .thead { border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; }</span></a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; .tdata { padding:0.2cm; text-align:left; vertical-align:top; }</span></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co">#&gt; .arc { background-color:#f2f2f2; }</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co">#&gt; .summary { padding-top:0.1cm; padding-bottom:0.1cm; }</span></a>
-<a class="sourceLine" id="cb2-11" data-line-number="11"><span class="co">#&gt; .summarydata { text-align:left; }</span></a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; .fixedparts { font-weight:bold; text-align:left; }</span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; .randomparts { font-weight:bold; text-align:left; padding-top:.8em; }</span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; .zeroparts { font-weight:bold; text-align:left; padding-top:.8em; }</span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; .lasttablerow { border-bottom: double; }</span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; .firsttablerow {  }</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; .firstsumrow { border-top:1px solid; }</span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; .labelcellborder { border-bottom:1px solid; }</span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; .depvarhead { text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }</span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; .leftalign { text-align:left; }</span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; .centeralign { text-align:center; }</span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; .firsttablecol { text-align:left; }</span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt; .footnote { font-style:italic; border-top:double black; text-align:right; }</span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; .subtitle { font-weight: normal; }</span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; .modelcolumn1 {  }</span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; .modelcolumn2 {  }</span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; .modelcolumn3 {  }</span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; .modelcolumn4 {  }</span></a>
-<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt; .modelcolumn5 {  }</span></a>
-<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt; .modelcolumn6 {  }</span></a>
-<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co">#&gt; .modelcolumn7 {  }</span></a>
-<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="co">#&gt; .col1 {  }</span></a>
-<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt; .col2 {  }</span></a>
-<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#&gt; .col3 {  }</span></a>
-<a class="sourceLine" id="cb2-35" data-line-number="35"><span class="co">#&gt; .col4 {  }</span></a>
-<a class="sourceLine" id="cb2-36" data-line-number="36"><span class="co">#&gt; .col5 {  }</span></a>
-<a class="sourceLine" id="cb2-37" data-line-number="37"><span class="co">#&gt; &lt;/style&gt;</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(sjPlot)
+<span class="kw">data</span>(efc)
+m &lt;-<span class="st"> </span><span class="kw">lm</span>(barthtot <span class="op">~</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)
+tab &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(tab<span class="op">$</span>page.style)
+<span class="co">#&gt; &lt;style&gt;</span>
+<span class="co">#&gt; html, body { background-color: white; }</span>
+<span class="co">#&gt; table { border-collapse:collapse; border:none; }</span>
+<span class="co">#&gt; caption { font-weight: bold; text-align:left; }</span>
+<span class="co">#&gt; td {  }</span>
+<span class="co">#&gt; .thead { border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; }</span>
+<span class="co">#&gt; .tdata { padding:0.2cm; text-align:left; vertical-align:top; }</span>
+<span class="co">#&gt; .arc { background-color:#f2f2f2; }</span>
+<span class="co">#&gt; .summary { padding-top:0.1cm; padding-bottom:0.1cm; }</span>
+<span class="co">#&gt; .summarydata { text-align:left; }</span>
+<span class="co">#&gt; .fixedparts { font-weight:bold; text-align:left; }</span>
+<span class="co">#&gt; .randomparts { font-weight:bold; text-align:left; padding-top:.8em; }</span>
+<span class="co">#&gt; .zeroparts { font-weight:bold; text-align:left; padding-top:.8em; }</span>
+<span class="co">#&gt; .lasttablerow { border-bottom: double; }</span>
+<span class="co">#&gt; .firsttablerow {  }</span>
+<span class="co">#&gt; .firstsumrow { border-top:1px solid; }</span>
+<span class="co">#&gt; .labelcellborder { border-bottom:1px solid; }</span>
+<span class="co">#&gt; .depvarhead { text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }</span>
+<span class="co">#&gt; .leftalign { text-align:left; }</span>
+<span class="co">#&gt; .centeralign { text-align:center; }</span>
+<span class="co">#&gt; .firsttablecol { text-align:left; }</span>
+<span class="co">#&gt; .footnote { font-style:italic; border-top:double black; text-align:right; }</span>
+<span class="co">#&gt; .subtitle { font-weight: normal; }</span>
+<span class="co">#&gt; .modelcolumn1 {  }</span>
+<span class="co">#&gt; .modelcolumn2 {  }</span>
+<span class="co">#&gt; .modelcolumn3 {  }</span>
+<span class="co">#&gt; .modelcolumn4 {  }</span>
+<span class="co">#&gt; .modelcolumn5 {  }</span>
+<span class="co">#&gt; .modelcolumn6 {  }</span>
+<span class="co">#&gt; .modelcolumn7 {  }</span>
+<span class="co">#&gt; .col1 {  }</span>
+<span class="co">#&gt; .col2 {  }</span>
+<span class="co">#&gt; .col3 {  }</span>
+<span class="co">#&gt; .col4 {  }</span>
+<span class="co">#&gt; .col5 {  }</span>
+<span class="co">#&gt; &lt;/style&gt;</span></code></pre></div>
 <p>The HTML code is in the <code>page.content</code> return value. The following code prints the HTML code of the table to the R console:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">cat</span>(tab<span class="op">$</span>page.content)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co">#&gt; &lt;table&gt;</span></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co">#&gt; &lt;tr&gt;</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="co">#&gt; &lt;th class="thead firsttablerow firsttablecol col1"&gt;&amp;nbsp;&lt;/th&gt;</span></a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="co">#&gt; &lt;th colspan="3" class="thead firsttablerow"&gt;Total score BARTHEL INDEX&lt;/th&gt;</span></a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co">#&gt; &lt;/tr&gt;</span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="co">#&gt; &lt;tr&gt;</span></a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; &lt;td class="depvarhead firsttablerow firsttablecol col1"&gt;Predictors&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt; &lt;td class="depvarhead firsttablerow col2"&gt;Estimates&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; &lt;td class="depvarhead firsttablerow col3"&gt;CI&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt; &lt;td class="depvarhead firsttablerow col4"&gt;p&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt; &lt;/tr&gt;</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt; &lt;tr&gt;</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;(Intercept)&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;90.06&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;77.95&amp;nbsp;&amp;ndash;&amp;nbsp;102.18&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;&lt;strong&gt;&amp;lt;0.001&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"><span class="co">#&gt; &lt;/tr&gt;</span></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co">#&gt; &lt;tr&gt;</span></a>
-<a class="sourceLine" id="cb3-20" data-line-number="20"><span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer'age&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;-0.22&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-22" data-line-number="22"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;-0.36&amp;nbsp;&amp;ndash;&amp;nbsp;-0.08&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;&lt;strong&gt;0.002&lt;/strong&gt;&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; &lt;/tr&gt;</span></a>
-<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt; &lt;tr&gt;</span></a>
-<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;average number of hours&lt;br&gt;of care per week&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;-0.28&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;-0.31&amp;nbsp;&amp;ndash;&amp;nbsp;-0.24&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;&lt;strong&gt;&amp;lt;0.001&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-30" data-line-number="30"><span class="co">#&gt; &lt;/tr&gt;</span></a>
-<a class="sourceLine" id="cb3-31" data-line-number="31"><span class="co">#&gt; &lt;tr&gt;</span></a>
-<a class="sourceLine" id="cb3-32" data-line-number="32"><span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer's gender&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-33" data-line-number="33"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;-0.26&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-34" data-line-number="34"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;-4.36&amp;nbsp;&amp;ndash;&amp;nbsp;3.83&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-35" data-line-number="35"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;0.900&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-36" data-line-number="36"><span class="co">#&gt; &lt;/tr&gt;</span></a>
-<a class="sourceLine" id="cb3-37" data-line-number="37"><span class="co">#&gt; &lt;tr&gt;</span></a>
-<a class="sourceLine" id="cb3-38" data-line-number="38"><span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer's level of&lt;br&gt;education&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-39" data-line-number="39"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;-0.76&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-40" data-line-number="40"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;-3.55&amp;nbsp;&amp;ndash;&amp;nbsp;2.02&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-41" data-line-number="41"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;0.592&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-42" data-line-number="42"><span class="co">#&gt; &lt;/tr&gt;</span></a>
-<a class="sourceLine" id="cb3-43" data-line-number="43"><span class="co">#&gt; &lt;tr&gt;</span></a>
-<a class="sourceLine" id="cb3-44" data-line-number="44"><span class="co">#&gt; &lt;td class="tdata leftalign summary firstsumrow"&gt;Observations&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-45" data-line-number="45"><span class="co">#&gt; &lt;td class="tdata summary summarydata firstsumrow" colspan="3"&gt;821&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-46" data-line-number="46"><span class="co">#&gt; &lt;/tr&gt;</span></a>
-<a class="sourceLine" id="cb3-47" data-line-number="47"><span class="co">#&gt; &lt;tr&gt;</span></a>
-<a class="sourceLine" id="cb3-48" data-line-number="48"><span class="co">#&gt; &lt;td class="tdata leftalign summary"&gt;R&lt;sup&gt;2&lt;/sup&gt; / adjusted R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-49" data-line-number="49"><span class="co">#&gt; &lt;td class="tdata summary summarydata" colspan="3"&gt;0.270 / 0.266&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-50" data-line-number="50"><span class="co">#&gt; &lt;/tr&gt;</span></a>
-<a class="sourceLine" id="cb3-51" data-line-number="51"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb3-52" data-line-number="52"><span class="co">#&gt; &lt;table&gt;</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cat</span>(tab<span class="op">$</span>page.content)
+<span class="co">#&gt; &lt;table&gt;</span>
+<span class="co">#&gt; &lt;tr&gt;</span>
+<span class="co">#&gt; &lt;th class="thead firsttablerow firsttablecol col1"&gt;&amp;nbsp;&lt;/th&gt;</span>
+<span class="co">#&gt; &lt;th colspan="3" class="thead firsttablerow"&gt;Total score BARTHEL INDEX&lt;/th&gt;</span>
+<span class="co">#&gt; &lt;/tr&gt;</span>
+<span class="co">#&gt; &lt;tr&gt;</span>
+<span class="co">#&gt; &lt;td class="depvarhead firsttablerow firsttablecol col1"&gt;Predictors&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="depvarhead firsttablerow col2"&gt;Estimates&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="depvarhead firsttablerow col3"&gt;CI&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="depvarhead firsttablerow col4"&gt;p&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;/tr&gt;</span>
+<span class="co">#&gt; &lt;tr&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;(Intercept)&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;90.06&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;77.95&amp;nbsp;&amp;ndash;&amp;nbsp;102.18&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;&lt;strong&gt;&amp;lt;0.001&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;/tr&gt;</span>
+<span class="co">#&gt; &lt;tr&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer'age&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;-0.22&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;-0.36&amp;nbsp;&amp;ndash;&amp;nbsp;-0.08&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;&lt;strong&gt;0.002&lt;/strong&gt;&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;/tr&gt;</span>
+<span class="co">#&gt; &lt;tr&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;average number of hours&lt;br&gt;of care per week&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;-0.28&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;-0.31&amp;nbsp;&amp;ndash;&amp;nbsp;-0.24&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;&lt;strong&gt;&amp;lt;0.001&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;/tr&gt;</span>
+<span class="co">#&gt; &lt;tr&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer's gender&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;-0.26&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;-4.36&amp;nbsp;&amp;ndash;&amp;nbsp;3.83&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;0.900&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;/tr&gt;</span>
+<span class="co">#&gt; &lt;tr&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer's level of&lt;br&gt;education&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;-0.76&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;-3.55&amp;nbsp;&amp;ndash;&amp;nbsp;2.02&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;0.592&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;/tr&gt;</span>
+<span class="co">#&gt; &lt;tr&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata leftalign summary firstsumrow"&gt;Observations&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata summary summarydata firstsumrow" colspan="3"&gt;821&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;/tr&gt;</span>
+<span class="co">#&gt; &lt;tr&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata leftalign summary"&gt;R&lt;sup&gt;2&lt;/sup&gt; / adjusted R&lt;sup&gt;2&lt;/sup&gt;&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;td class="tdata summary summarydata" colspan="3"&gt;0.270 / 0.266&lt;/td&gt;</span>
+<span class="co">#&gt; &lt;/tr&gt;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; &lt;/table&gt;</span></code></pre></div>
 <p>Now you can see which table elements are associated with which CSS class attributes.</p>
 </div>
 </div>
@@ -252,15 +245,15 @@
 <li>the CSS format must end with a colon (;)</li>
 </ol>
 <p>Example:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">  m,</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">  <span class="dt">CSS =</span> <span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="dt">css.depvarhead =</span> <span class="st">'color: red;'</span>,</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">    <span class="dt">css.centeralign =</span> <span class="st">'text-align: left;'</span>, </a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">    <span class="dt">css.firsttablecol =</span> <span class="st">'font-weight: bold;'</span>, </a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">    <span class="dt">css.summary =</span> <span class="st">'color: blue;'</span></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">  )</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(
+  m,
+  <span class="dt">CSS =</span> <span class="kw">list</span>(
+    <span class="dt">css.depvarhead =</span> <span class="st">'color: red;'</span>,
+    <span class="dt">css.centeralign =</span> <span class="st">'text-align: left;'</span>, 
+    <span class="dt">css.firsttablecol =</span> <span class="st">'font-weight: bold;'</span>, 
+    <span class="dt">css.summary =</span> <span class="st">'color: blue;'</span>
+  )
+)</code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black; font-weight: bold; ">
@@ -372,9 +365,9 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
 0.270 / 0.266
 </td>
 </tr>
-<table style="border-collapse:collapse; border:none;" class="table">
+</table>
 <p>In the above example, the header row lost the original style and just became red. If you want to keep the original style and just add additional style information, use the plus-sign (+) as initial character for the parameter attributes. In the following example, the header row keeps its original style and is additionally printed in red:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m, <span class="dt">CSS =</span> <span class="kw">list</span>(<span class="dt">css.depvarhead =</span> <span class="st">'+color: red;'</span>))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m, <span class="dt">CSS =</span> <span class="kw">list</span>(<span class="dt">css.depvarhead =</span> <span class="st">'+color: red;'</span>))</code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black; text-align:left; ">
@@ -486,11 +479,13 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
 0.270 / 0.266
 </td>
 </tr>
-<table style="border-collapse:collapse; border:none;" class="table"><div id="pre-defined-table-layouts" class="section level2">
+</table>
+</div>
+<div id="pre-defined-table-layouts" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pre-defined-table-layouts" class="anchor"></a>Pre-defined Table-Layouts</h2>
 <p>There are a few pre-defined CSS-themes, which can be accessed with the <code><a href="../reference/sjPlot-themes.html">css_theme()</a></code>-function. There are more pre-defined themes planned for the future.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m, <span class="dt">CSS =</span> <span class="kw"><a href="../reference/sjPlot-themes.html">css_theme</a></span>(<span class="st">"cells"</span>))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m, <span class="dt">CSS =</span> <span class="kw"><a href="../reference/sjPlot-themes.html">css_theme</a></span>(<span class="st">"cells"</span>))</code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border:1px solid black; border-bottom:1px solid black; text-align:left; ">
@@ -602,8 +597,11 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
 0.270 / 0.266
 </td>
 </tr>
-<table style="border-collapse:collapse; border:none;" class="table">
-<div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+</table>
+</div>
+  </div>
+
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -616,7 +614,7 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
 </div>
       </div>
 
-
+</div>
 
 
       <footer><div class="copyright">
@@ -628,15 +626,9 @@ R<sup>2</sup> / adjusted R<sup>2</sup>
 </div>
 
       </footer>
-</table>
-</table>
-</div></table>
-</table>
-</table>
-</table>
 </div>
-</div>
-</div>
-</div>
-</body>
+
+  
+
+  </body>
 </html>

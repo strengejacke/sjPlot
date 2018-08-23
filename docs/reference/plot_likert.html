@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot likert scales as centered stacked bars — sjp.likert • sjPlot</title>
+<title>Plot likert scales as centered stacked bars — plot_likert • sjPlot</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Plot likert scales as centered stacked bars — sjp.likert" />
+<meta property="og:title" content="Plot likert scales as centered stacked bars — plot_likert" />
 
 <meta property="og:description" content="Plot likert scales as centered stacked bars." />
 
@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -123,12 +123,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -142,8 +137,8 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot likert scales as centered stacked bars</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotLikert.R'><code>R/sjPlotLikert.R</code></a></small>
-    <div class="hidden name"><code>sjp.likert.Rd</code></div>
+    
+    <div class="hidden name"><code>plot_likert.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -152,16 +147,17 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>sjp.likert</span>(<span class='no'>items</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>axis.titles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>catcount</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>cat.neutral</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort.frq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>title.wtd.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>30</span>,
-  <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>wrap.legend.labels</span> <span class='kw'>=</span> <span class='fl'>28</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.6</span>,
-  <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"BrBG"</span>, <span class='kw'>cat.neutral.color</span> <span class='kw'>=</span> <span class='st'>"grey70"</span>,
-  <span class='kw'>intercept.line.color</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>, <span class='kw'>reverse.colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>values</span> <span class='kw'>=</span> <span class='st'>"show"</span>, <span class='kw'>show.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.prc.sign</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>grid.range</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
-  <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>prnt.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_likert</span>(<span class='no'>items</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>legend.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.titles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>catcount</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cat.neutral</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort.frq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title.wtd.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>,
+  <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>wrap.legend.labels</span> <span class='kw'>=</span> <span class='fl'>28</span>,
+  <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"BrBG"</span>,
+  <span class='kw'>cat.neutral.color</span> <span class='kw'>=</span> <span class='st'>"grey70"</span>, <span class='kw'>intercept.line.color</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>,
+  <span class='kw'>reverse.colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>values</span> <span class='kw'>=</span> <span class='st'>"show"</span>, <span class='kw'>show.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.prc.sign</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>grid.range</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -323,24 +319,18 @@ axes and plotting region. Default is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>digits</th>
-      <td><p>Numeric, amount of digits after decimal point when rounding estimates and values.</p></td>
+      <td><p>Numeric, amount of digits after decimal point when rounding
+estimates or values.</p></td>
     </tr>
     <tr>
       <th>coord.flip</th>
       <td><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></td>
     </tr>
-    <tr>
-      <th>prnt.plot</th>
-      <td><p>logical, if <code>TRUE</code> (default), plots the results as graph. Use <code>FALSE</code> if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>(Insisibily) returns the ggplot-object with the complete plot (<code>plot</code>) as well as the data frame that
-          was used for setting up the ggplot-object (<code>df.neg</code> for the negative values,
-          <code>df.pos</code> for the positive values and <code>df.neutral</code> for the neutral category values).</p>
+    <p>A ggplot-object.</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
@@ -360,14 +350,14 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 <span class='fu'>data</span>(<span class='no'>efc</span>)
 <span class='co'># find all variables from COPE-Index, which all have a "cop" in their</span>
 <span class='co'># variable name, and then plot that subset as likert-plot</span>
-<span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/find_var'>find_var</a></span>(<span class='no'>efc</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"cop"</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='st'>"df"</span>) <span class='kw'>%&gt;%</span> <span class='fu'>sjp.likert</span>()</div><div class='img'><img src='sjp.likert-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>sjp.likert</span>(
+<span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/find_var'>find_var</a></span>(<span class='no'>efc</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"cop"</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='st'>"df"</span>) <span class='kw'>%&gt;%</span> <span class='fu'>plot_likert</span>()</div><div class='img'><img src='plot_likert-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_likert</span>(
   <span class='fu'><a href='http://www.rdocumentation.org/packages/sjmisc/topics/find_var'>find_var</a></span>(<span class='no'>efc</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"cop"</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='st'>"df"</span>),
   <span class='kw'>grid.range</span> <span class='kw'>=</span> <span class='fl'>1.2</span>,
   <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>values</span> <span class='kw'>=</span> <span class='st'>"sum.outside"</span>,
   <span class='kw'>show.prc.sign</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</div><div class='img'><img src='sjp.likert-2.png' alt='' width='700' height='433' /></div><div class='input'>
+)</div><div class='img'><img src='plot_likert-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

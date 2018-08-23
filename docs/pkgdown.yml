@@ -1,6 +1,6 @@
-pandoc: 2.1.1
+pandoc: 1.19.2.1
 pkgdown: 1.1.0.9000
-pkgdown_sha: 98bfe0fdfd59b33ef1a88ef6896cd60f805f0e81
+pkgdown_sha: 8526f488456da3e10974a9def39a44d2d2b0b07d
 articles:
   blackwhitefigures: blackwhitefigures.html
   custplot: custplot.html

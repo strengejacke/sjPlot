@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -123,12 +123,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -142,7 +137,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summary of contingency tables as HTML table</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjTabPropTable.R'><code>R/sjTabPropTable.R</code></a></small>
+    
     <div class="hidden name"><code>sjt.xtab.Rd</code></div>
     </div>
 
@@ -156,13 +151,14 @@
   <span class='kw'>var.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>value.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>,
   <span class='kw'>show.obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.cell.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.row.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>show.col.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.exp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.summary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>statistics</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auto"</span>, <span class='st'>"cramer"</span>,
-  <span class='st'>"phi"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>, <span class='st'>"pearson"</span>), <span class='kw'>string.total</span> <span class='kw'>=</span> <span class='st'>"Total"</span>,
-  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>tdcol.n</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>tdcol.expected</span> <span class='kw'>=</span> <span class='st'>"#339999"</span>,
-  <span class='kw'>tdcol.cell</span> <span class='kw'>=</span> <span class='st'>"#993333"</span>, <span class='kw'>tdcol.row</span> <span class='kw'>=</span> <span class='st'>"#333399"</span>, <span class='kw'>tdcol.col</span> <span class='kw'>=</span> <span class='st'>"#339933"</span>,
-  <span class='kw'>emph.total</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>emph.color</span> <span class='kw'>=</span> <span class='st'>"#f8f8f8"</span>, <span class='kw'>prc.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;#37;"</span>,
+  <span class='kw'>show.na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.summary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>statistics</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"auto"</span>,
+  <span class='st'>"cramer"</span>, <span class='st'>"phi"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>, <span class='st'>"pearson"</span>, <span class='st'>"fisher"</span>),
+  <span class='kw'>string.total</span> <span class='kw'>=</span> <span class='st'>"Total"</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>tdcol.n</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
+  <span class='kw'>tdcol.expected</span> <span class='kw'>=</span> <span class='st'>"#339999"</span>, <span class='kw'>tdcol.cell</span> <span class='kw'>=</span> <span class='st'>"#993333"</span>,
+  <span class='kw'>tdcol.row</span> <span class='kw'>=</span> <span class='st'>"#333399"</span>, <span class='kw'>tdcol.col</span> <span class='kw'>=</span> <span class='st'>"#339933"</span>, <span class='kw'>emph.total</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>emph.color</span> <span class='kw'>=</span> <span class='st'>"#f8f8f8"</span>, <span class='kw'>prc.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;#37;"</span>,
   <span class='kw'>hundret</span> <span class='kw'>=</span> <span class='st'>"100.0"</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>no.output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -183,7 +179,7 @@ Must be a vector of same length as the input vector. Default is
     </tr>
     <tr>
       <th>title</th>
-      <td><p>Table caption, as character vector.</p></td>
+      <td><p>String, will be used as table caption.</p></td>
     </tr>
     <tr>
       <th>var.labels</th>
@@ -241,7 +237,8 @@ coefficient and p-value for the chi-squared statistics.</p></td>
       <th>statistics</th>
       <td><p>Name of measure of association that should be computed. May
 be one of <code>"auto"</code>, <code>"cramer"</code>, <code>"phi"</code>, <code>"spearman"</code>,
-<code>"kendall"</code> or <code>"pearson"</code>. See 'Details'.</p></td>
+<code>"kendall"</code>, <code>"pearson"</code> or <code>"fisher"</code>. See
+<code><a href='http://www.rdocumentation.org/packages/sjstats/topics/xtab_statistics'>xtab_statistics</a></code>.</p></td>
     </tr>
     <tr>
       <th>string.total</th>
@@ -249,7 +246,7 @@ be one of <code>"auto"</code>, <code>"cramer"</code>, <code>"phi"</code>, <code>
     </tr>
     <tr>
       <th>digits</th>
-      <td><p>Numeric, amount of digits after decimal point when rounding estimates and values.</p></td>
+      <td><p>Amount of decimals for estimates</p></td>
     </tr>
     <tr>
       <th>tdcol.n</th>
@@ -294,10 +291,9 @@ may lead to non-exact results). Default is <code>"100.0"</code>.</p></td>
     </tr>
     <tr>
       <th>CSS</th>
-      <td><p>A <code>list</code> with user-defined style-sheet-definitions, according to the
-<a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>. For more details,
-see <a href='../doc/table_css.html'>this package-vignette</a>, or 'Details' in
-<code><a href='sjt.frq.html'>sjt.frq</a></code>.</p></td>
+      <td><p>A <code>list</code> with user-defined style-sheet-definitions,
+according to the <a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>.
+See 'Details' or <a href='../doc/table_css.html'>this package-vignette</a>.</p></td>
     </tr>
     <tr>
       <th>encoding</th>
@@ -314,15 +310,9 @@ openend either in the IDE's viewer pane or the default web browser.</p></td>
     </tr>
     <tr>
       <th>use.viewer</th>
-      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's viewer pane. If
-<code>FALSE</code> or no viewer available, the HTML table is opened in a web browser.</p></td>
-    </tr>
-    <tr>
-      <th>no.output</th>
-      <td><p>Logical, if <code>TRUE</code>, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in <code>knitr</code> documents. The html output can be accessed via the return
-value.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
+viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
+opened in a web browser.</p></td>
     </tr>
     <tr>
       <th>remove.spaces</th>
@@ -345,21 +335,6 @@ may look less pretty, but it may help when exporting html-tables to office tools
 <li><p>the complete html-output (<code>page.complete</code>) and</p></li>
 <li><p>the html-table with inline-css for use with knitr (<code>knitr</code>)</p></li>
 </ul><p>for further use.</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>The p-value for Cramer's V and the Phi coefficient are based
-         on <code>chisq.test()</code>. If any expected value of a table cell is
-         smaller than 5, or smaller than 10 and the df is 1, then <code>fisher.test()</code>
-         is used to compute the p-value. The test statistic is calculated
-         with <code>cramer()</code> resp. <code>phi()</code>.
-         <br /> <br />
-         Both test statistic and p-value for Spearman's rho, Kendall's tau
-         and Pearson's r are calculated with <code>cor.test()</code>.
-         <br /> <br />
-         When <code>statistics = "auto"</code>, only Cramer's V or Phi are calculated,
-         based on the dimension of the table (i.e. if the table has more than
-         two rows or columns, Cramer's V is calculated, else Phi).</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -405,8 +380,6 @@ may look less pretty, but it may help when exporting html-tables to office tools
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

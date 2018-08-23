@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -123,12 +123,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -142,7 +137,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot correlation matrix</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotCorr.R'><code>R/sjPlotCorr.R</code></a></small>
+    
     <div class="hidden name"><code>sjp.corr.Rd</code></div>
     </div>
 
@@ -154,10 +149,10 @@
 
     <pre class="usage"><span class='fu'>sjp.corr</span>(<span class='no'>data</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort.corr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>decimals</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>na.deletion</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"listwise"</span>, <span class='st'>"pairwise"</span>),
-  <span class='kw'>corr.method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"pearson"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>), <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"RdBu"</span>,
-  <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>p.numeric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>prnt.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>corr.method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"pearson"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>),
+  <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"RdBu"</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.numeric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -242,11 +237,6 @@ variable labels.</p></td>
       <td><p>Logical, if <code>TRUE</code>, the p-values are printed
 as numbers. If <code>FALSE</code> (default), asterisks are used.</p></td>
     </tr>
-    <tr>
-      <th>prnt.plot</th>
-      <td><p>logical, if <code>TRUE</code> (default), plots the results as graph. Use <code>FALSE</code> if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -281,7 +271,7 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
                          <span class='fu'>runif</span>(<span class='fl'>10</span>), <span class='fu'>runif</span>(<span class='fl'>10</span>)))
 
 <span class='co'># plot correlation matrix</span>
-<span class='fu'>sjp.corr</span>(<span class='no'>mydf</span>)</div><div class='output co'>#&gt; <span class='message'>Computing correlation using pearson-method with listwise-deletion...</span></div><div class='img'><img src='sjp.corr-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>sjp.corr</span>(<span class='no'>mydf</span>)</div><div class='output co'>#&gt; <span class='message'>Computing correlation using pearson-method with listwise-deletion...</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 15 rows containing missing values (geom_text).</span></div><div class='img'><img src='sjp.corr-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># -------------------------------</span>
 <span class='co'># Data from the EUROFAMCARE sample dataset</span>
 <span class='co'># -------------------------------</span>
@@ -297,11 +287,11 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 <span class='fu'>colnames</span>(<span class='no'>mydf</span>) <span class='kw'>&lt;-</span> <span class='no'>varlabs</span>[<span class='no'>vars.index</span>]
 
 <span class='co'># show legend</span>
-<span class='fu'>sjp.corr</span>(<span class='no'>mydf</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Computing correlation using pearson-method with listwise-deletion...</span></div><div class='img'><img src='sjp.corr-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>sjp.corr</span>(<span class='no'>mydf</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Computing correlation using pearson-method with listwise-deletion...</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 45 rows containing missing values (geom_text).</span></div><div class='img'><img src='sjp.corr-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># -------------------------------</span>
 <span class='co'># auto-detection of labels</span>
 <span class='co'># -------------------------------</span>
-<span class='fu'>sjp.corr</span>(<span class='no'>efc</span>[, <span class='no'>vars.index</span>])</div><div class='output co'>#&gt; <span class='message'>Computing correlation using pearson-method with listwise-deletion...</span></div><div class='img'><img src='sjp.corr-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>sjp.corr</span>(<span class='no'>efc</span>[, <span class='no'>vars.index</span>])</div><div class='output co'>#&gt; <span class='message'>Computing correlation using pearson-method with listwise-deletion...</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 45 rows containing missing values (geom_text).</span></div><div class='img'><img src='sjp.corr-3.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>
   </div>

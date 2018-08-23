@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -126,12 +126,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -145,7 +140,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot Pearson's Chi2-Test of multiple contingency tables</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotPearsonsChi2Test.R'><code>R/sjPlotPearsonsChi2Test.R</code></a></small>
+    
     <div class="hidden name"><code>sjp.chi2.Rd</code></div>
     </div>
 
@@ -160,7 +155,7 @@
 
     <pre class="usage"><span class='fu'>sjp.chi2</span>(<span class='no'>df</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Pearson's Chi2-Test of Independence"</span>,
   <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>prnt.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -200,17 +195,11 @@ function, a legend is added to the plot.</p></td>
       <th>legend.title</th>
       <td><p>character vector, used as title for the plot legend.</p></td>
     </tr>
-    <tr>
-      <th>prnt.plot</th>
-      <td><p>logical, if <code>TRUE</code> (default), plots the results as graph. Use <code>FALSE</code> if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>(Insisibily) returns the ggplot-object with the complete plot (<code>plot</code>) as well as the data frame that
-          was used for setting up the ggplot-object (<code>mydf</code>).</p>
+    <p>A ggplot-object.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 

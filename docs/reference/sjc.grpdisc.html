@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -125,12 +125,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -144,7 +139,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Compute a linear discriminant analysis on classified cluster groups</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotClusterAnalysis.R'><code>R/sjPlotClusterAnalysis.R</code></a></small>
+    
     <div class="hidden name"><code>sjc.grpdisc.Rd</code></div>
     </div>
 
@@ -156,7 +151,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>sjc.grpdisc</span>(<span class='no'>data</span>, <span class='no'>groups</span>, <span class='no'>groupcount</span>, <span class='kw'>clss.fit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>prnt.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>sjc.grpdisc</span>(<span class='no'>data</span>, <span class='no'>groups</span>, <span class='no'>groupcount</span>, <span class='kw'>clss.fit</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -182,11 +177,6 @@ on the elbow-criterion.</p></td>
       <td><p>logical, if <code>TRUE</code> (default), a vertical line indicating the
 overall goodness of classification is added to the plot, so one can see
 whether a certain group is below or above the average classification goodness.</p></td>
-    </tr>
-    <tr>
-      <th>prnt.plot</th>
-      <td><p>logical, if <code>TRUE</code> (default), plots the results as graph. Use <code>FALSE</code> if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.</p></td>
     </tr>
     </table>
     

@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -127,12 +127,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -146,7 +141,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>View structure of labelled data frames</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjTabSPSS.R'><code>R/sjTabSPSS.R</code></a></small>
+    
     <div class="hidden name"><code>view_df.Rd</code></div>
     </div>
 
@@ -160,13 +155,14 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>view_df</span>(<span class='no'>x</span>, <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>altr.row.col</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.id</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>view_df</span>(<span class='no'>x</span>, <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.id</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>show.type</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.string.values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>show.labels</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.frq</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>show.wtd.frq</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.wtd.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>max.len</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>sort.by.name</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-  <span class='kw'>hide.progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>no.output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>hide.progress</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,9 +181,9 @@ weights that will be applied to weight all  observations. Default is
 <code>NULL</code>, so no weights are used.</p></td>
     </tr>
     <tr>
-      <th>altr.row.col</th>
-      <td><p>Logical, if <code>TRUE</code>, alternating rows are highlighted with a light gray
-background color.</p></td>
+      <th>alternate.rows</th>
+      <td><p>Logical, if <code>TRUE</code>, rows are printed in
+alternatig colors (white and light grey by default).</p></td>
     </tr>
     <tr>
       <th>show.id</th>
@@ -255,21 +251,19 @@ order in the data frame.</p></td>
     </tr>
     <tr>
       <th>wrap.labels</th>
-      <td><p>numeric, determines how many chars of the value, variable or axis
-labels are displayed in one line and when a line break is inserted.</p></td>
+      <td><p>Numeric, determines how many chars of the value, variable
+or axis labels are displayed in one line and when a line break is inserted.</p></td>
     </tr>
     <tr>
-      <th>hide.progress</th>
-      <td><p>logical, if <code>TRUE</code>, the progress bar that is displayed
-when creating the output is hidden. Default in <code>FALSE</code>, hence the
-bar is visible.</p></td>
+      <th>verbose, hide.progress</th>
+      <td><p>Logical, if <code>TRUE</code>, a progress bar is displayed
+while creating the output.</p></td>
     </tr>
     <tr>
       <th>CSS</th>
-      <td><p>A <code>list</code> with user-defined style-sheet-definitions, according to the
-<a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>. For more details,
-see <a href='../doc/table_css.html'>this package-vignette</a>, or 'Details' in
-<code><a href='sjt.frq.html'>sjt.frq</a></code>.</p></td>
+      <td><p>A <code>list</code> with user-defined style-sheet-definitions,
+according to the <a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>.
+See 'Details' or <a href='../doc/table_css.html'>this package-vignette</a>.</p></td>
     </tr>
     <tr>
       <th>encoding</th>
@@ -286,15 +280,9 @@ openend either in the IDE's viewer pane or the default web browser.</p></td>
     </tr>
     <tr>
       <th>use.viewer</th>
-      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's viewer pane. If
-<code>FALSE</code> or no viewer available, the HTML table is opened in a web browser.</p></td>
-    </tr>
-    <tr>
-      <th>no.output</th>
-      <td><p>Logical, if <code>TRUE</code>, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in <code>knitr</code> documents. The html output can be accessed via the return
-value.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
+viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
+opened in a web browser.</p></td>
     </tr>
     <tr>
       <th>remove.spaces</th>

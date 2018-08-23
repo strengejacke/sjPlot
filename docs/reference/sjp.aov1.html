@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -126,12 +126,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -145,7 +140,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot One-Way-Anova tables</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotAnova.R'><code>R/sjPlotAnova.R</code></a></small>
+    
     <div class="hidden name"><code>sjp.aov1.Rd</code></div>
     </div>
 
@@ -159,11 +154,12 @@
     </div>
 
     <pre class="usage"><span class='fu'>sjp.aov1</span>(<span class='no'>var.dep</span>, <span class='no'>var.grp</span>, <span class='kw'>meansums</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rev.order</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>string.interc</span> <span class='kw'>=</span> <span class='st'>"(Intercept)"</span>,
-  <span class='kw'>axis.title</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>axis.lim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"#3366a0"</span>, <span class='st'>"#aa3333"</span>),
-  <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.summary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>prnt.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rev.order</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>string.interc</span> <span class='kw'>=</span> <span class='st'>"(Intercept)"</span>, <span class='kw'>axis.title</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>axis.lim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"#3366a0"</span>, <span class='st'>"#aa3333"</span>), <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='fl'>0.15</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.summary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,7 +176,7 @@ is grouped into the categories represented by <code>var.grp</code>.</p></td>
     </tr>
     <tr>
       <th>meansums</th>
-      <td><p>Logical, if <code>TRUE</code>, the values reported are the true group mean values (see also <code><a href='sjt.grpmean.html'>sjt.grpmean</a></code>).
+      <td><p>Logical, if <code>TRUE</code>, the values reported are the true group mean values.
 If <code>FALSE</code> (default), the values are reported in the standard way, i.e. the values indicate the difference of
 the group mean in relation to the intercept (reference group).</p></td>
     </tr>
@@ -207,23 +203,20 @@ the value label of the grouping variable. Default is <code>"(Intercept)"</code>.
     </tr>
     <tr>
       <th>axis.title</th>
-      <td><p>Character vector of length one or two (depending on
-the plot function and type), used as title(s) for the x and y axis.
-If not specified, a default labelling  is chosen. To set multiple
-axis titles (e.g. with <code>type = "eff"</code> for many predictors),
-<code>axis.title</code> must be a character vector of same length of plots
-that are printed. In this case, each plot gets an own axis title
-(applying, for instance, to the y-axis for <code>type = "eff"</code>).
-<strong>Note:</strong> Some plot types do not support this argument. In such
-cases, use the return value and add axis titles manually with
-<code><a href='http://www.rdocumentation.org/packages/ggplot2/topics/labs'>labs</a></code>, e.g.: <code>$plot.list[[1]] + labs(x = ...)</code></p></td>
+      <td><p>Character vector of length one or two (depending on the
+plot function and type), used as title(s) for the x and y axis. If not
+specified, a default labelling  is chosen. <strong>Note:</strong> Some plot types
+may not support this argument sufficiently. In such cases, use the returned
+ggplot-object and add axis titles manually with
+<code><a href='http://www.rdocumentation.org/packages/ggplot2/topics/labs'>labs</a></code>. Use <code>axis.title = ""</code> to remove axis
+titles.</p></td>
     </tr>
     <tr>
       <th>axis.lim</th>
       <td><p>Numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.
 For multiple plot outputs (e.g., from <code>type = "eff"</code> or
-<code>type = "slope"</code> in <code><a href='sjp.glm.html'>sjp.glm</a></code>), <code>axis.lim</code> may
+<code>type = "slope"</code> in <code><a href='sjp.glmer.html'>sjp.glm</a></code>), <code>axis.lim</code> may
 also be a list of vectors of length 2, defining axis limits for each
 plot (only if non-faceted).</p></td>
     </tr>
@@ -258,7 +251,8 @@ i.e. at every <code>grid.breaks</code>'th position a major grid is being printed
     </tr>
     <tr>
       <th>digits</th>
-      <td><p>Numeric, amount of digits after decimal point when rounding estimates and values.</p></td>
+      <td><p>Numeric, amount of digits after decimal point when rounding
+estimates or values.</p></td>
     </tr>
     <tr>
       <th>y.offset</th>
@@ -279,21 +273,11 @@ if df is 1), the Fisher's excact test (see <code>fisher.test</code>) is
 computed instead of chi-squared test. If the table's matrix is larger
 than 2x2, Fisher's excact test with Monte Carlo simulation is computed.</p></td>
     </tr>
-    <tr>
-      <th>prnt.plot</th>
-      <td><p>logical, if <code>TRUE</code> (default), plots the results as graph. Use <code>FALSE</code> if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.</p></td>
-    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>(Insisibily) returns the ggplot-object with the complete plot (<code>plot</code>) as well as the data frame that
-          was used for setting up the ggplot-object (<code>df</code>).</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='sjt.grpmean.html'>sjt.grpmean</a></code></p></div>
+    <p>A ggplot-object.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -310,8 +294,6 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

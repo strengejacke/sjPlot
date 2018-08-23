@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -123,12 +123,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -142,7 +137,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Print regression models as HTML table</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/tab_model.R'><code>R/tab_model.R</code></a></small>
+    
     <div class="hidden name"><code>tab_model.Rd</code></div>
     </div>
 
@@ -153,20 +148,24 @@
     </div>
 
     <pre class="usage"><span class='fu'>tab_model</span>(<span class='no'>...</span>, <span class='no'>transform</span>, <span class='kw'>show.intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.est</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>show.hdi50</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.std</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.stat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.zeroinf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.r2</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.icc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.re.var</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.fstat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.aic</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.aicc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.dev</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>rm.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>group.terms</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>order.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>show.hdi50</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.std</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.stat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.zeroinf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.r2</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.icc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.adj.icc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.re.var</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.fstat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.aic</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.aicc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.dev</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rm.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>group.terms</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>order.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>pred.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dv.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>25</span>,
-  <span class='kw'>string.pred</span> <span class='kw'>=</span> <span class='st'>"Predictors"</span>, <span class='kw'>string.std</span> <span class='kw'>=</span> <span class='st'>"std. Beta"</span>, <span class='kw'>string.ci</span> <span class='kw'>=</span> <span class='st'>"CI"</span>,
-  <span class='kw'>string.se</span> <span class='kw'>=</span> <span class='st'>"std. Error"</span>, <span class='kw'>string.p</span> <span class='kw'>=</span> <span class='st'>"p"</span>, <span class='kw'>string.df</span> <span class='kw'>=</span> <span class='st'>"df"</span>,
-  <span class='kw'>string.stat</span> <span class='kw'>=</span> <span class='st'>"Statistic"</span>, <span class='kw'>ci.hyphen</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;ndash;&amp;nbsp;"</span>,
-  <span class='kw'>minus.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;#45;"</span>, <span class='kw'>collapse.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>collapse.se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>linebreak</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"wald"</span>, <span class='st'>"kr"</span>), <span class='kw'>case</span> <span class='kw'>=</span> <span class='st'>"parsed"</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'><a href='sjPlot-themes.html'>css_theme</a></span>(<span class='st'>"regression"</span>))</pre>
+  <span class='kw'>string.pred</span> <span class='kw'>=</span> <span class='st'>"Predictors"</span>, <span class='kw'>string.std</span> <span class='kw'>=</span> <span class='st'>"std. Beta"</span>,
+  <span class='kw'>string.ci</span> <span class='kw'>=</span> <span class='st'>"CI"</span>, <span class='kw'>string.se</span> <span class='kw'>=</span> <span class='st'>"std. Error"</span>, <span class='kw'>string.p</span> <span class='kw'>=</span> <span class='st'>"p"</span>,
+  <span class='kw'>string.df</span> <span class='kw'>=</span> <span class='st'>"df"</span>, <span class='kw'>string.stat</span> <span class='kw'>=</span> <span class='st'>"Statistic"</span>,
+  <span class='kw'>ci.hyphen</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;ndash;&amp;nbsp;"</span>, <span class='kw'>minus.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;#45;"</span>,
+  <span class='kw'>collapse.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>collapse.se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>linebreak</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>col.order</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"est"</span>, <span class='st'>"se"</span>, <span class='st'>"std.est"</span>, <span class='st'>"std.se"</span>, <span class='st'>"ci"</span>, <span class='st'>"std.ci"</span>,
+  <span class='st'>"hdi.inner"</span>, <span class='st'>"hdi.outer"</span>, <span class='st'>"stat"</span>, <span class='st'>"p"</span>, <span class='st'>"df"</span>, <span class='st'>"response.level"</span>),
+  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"wald"</span>, <span class='st'>"kr"</span>),
+  <span class='kw'>case</span> <span class='kw'>=</span> <span class='st'>"parsed"</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
+  <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'><a href='sjPlot-themes.html'>css_theme</a></span>(<span class='st'>"regression"</span>), <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -245,6 +244,12 @@ r-squared etc. See <code><a href='http://www.rdocumentation.org/packages/sjstats
       <th>show.icc</th>
       <td><p>Logical, if <code>TRUE</code>, prints the intraclass correlation
 coefficient for mixed models. See <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/icc'>icc</a></code> for details.</p></td>
+    </tr>
+    <tr>
+      <th>show.adj.icc</th>
+      <td><p>Logical, if <code>TRUE</code>, prints the adjusted intraclass
+correlation coefficient for mixed models. See <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/icc'>icc</a></code>
+with argument <code>adjusted = TRUE</code> for details.</p></td>
     </tr>
     <tr>
       <th>show.re.var</th>
@@ -399,6 +404,15 @@ CI resp. SE values. If <code>FALSE</code>, values are printed in the same line
 as estimate values.</p></td>
     </tr>
     <tr>
+      <th>col.order</th>
+      <td><p>Character vector, indicating which columns should be printed
+and in which order. Column names that are excluded from <code>col.order</code>
+are not shown in the table output. However, column names that are included,
+are only shown in the table when the related argument (like <code>show.est</code>
+for <code>"estimate"</code>) is set to <code>TRUE</code> or another valid value.
+Table columns are printed in the order as they appear in <code>col.order</code>.</p></td>
+    </tr>
+    <tr>
       <th>digits</th>
       <td><p>Amount of decimals for estimates</p></td>
     </tr>
@@ -454,6 +468,18 @@ calculate the mean value of the posterior distribution.</p></td>
 according to the <a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>.
 See 'Details' or <a href='../doc/table_css.html'>this package-vignette</a>.</p></td>
     </tr>
+    <tr>
+      <th>file</th>
+      <td><p>Destination file, if the output should be saved as file.
+If <code>NULL</code> (default), the output will be saved as temporary file and
+openend either in the IDE's viewer pane or the default web browser.</p></td>
+    </tr>
+    <tr>
+      <th>use.viewer</th>
+      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
+viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
+opened in a web browser.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -475,9 +501,7 @@ See 'Details' or <a href='../doc/table_css.html'>this package-vignette</a>.</p><
    <a href='http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf'>Gelman's (2008)</a>
    suggestion, rescaling the estimates by dividing them by two standard
    deviations instead of just one. Resulting coefficients are then
-   directly comparable for untransformed binary predictors. This type
-   of standardization uses the <code><a href='http://www.rdocumentation.org/packages/arm/topics/standardize'>standardize</a></code>-function
-   from the <span class="pkg">arm</span>-package.
+   directly comparable for untransformed binary predictors.
    For backward compatibility reasons, <code>show.std</code> also may be
    a logical value; if <code>TRUE</code>, normal standardized estimates are
    printed (same effect as <code>show.std = "std"</code>). Use

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Plot predicted values and their residuals — sjp.resid • sjPlot</title>
+<title>Plot predicted values and their residuals — plot_residuals • sjPlot</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Plot predicted values and their residuals — sjp.resid" />
+<meta property="og:title" content="Plot predicted values and their residuals — plot_residuals" />
 
 <meta property="og:description" content="This function plots observed and predicted values of the response
              of linear (mixed) models for each coefficient and highlights the
@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -127,12 +127,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -146,8 +141,8 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot predicted values and their residuals</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotResiduals.R'><code>R/sjPlotResiduals.R</code></a></small>
-    <div class="hidden name"><code>sjp.resid.Rd</code></div>
+    
+    <div class="hidden name"><code>plot_residuals.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -160,8 +155,9 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>sjp.resid</span>(<span class='no'>fit</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>remove.estimates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.lines</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.resid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.pred</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>prnt.plot</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_residuals</span>(<span class='no'>fit</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>remove.estimates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.lines</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.resid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.pred</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,8 +175,11 @@ need smaller values than dot sizes.</p></td>
     </tr>
     <tr>
       <th>remove.estimates</th>
-      <td><p>Character vector with coefficient names that indicate
-which estimates should be removed from the plot.
+      <td><p>Numeric vector with indices (order equals to row index of <code>coef(fit)</code>)
+or character vector with coefficient names that indicate which estimates should be removed
+from the table output. The first estimate is the intercept, followed by the model predictors.
+<em>The intercept cannot be removed from the table output!</em> <code>remove.estimates = c(2:4)</code>
+would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output.
 <code>remove.estimates = "est_name"</code> would remove the estimate <em>est_name</em>. Default
 is <code>NULL</code>, i.e. all estimates are printed.</p></td>
     </tr>
@@ -200,22 +199,15 @@ plot-building is too time consuming.</p></td>
     </tr>
     <tr>
       <th>show.ci</th>
-      <td><p>Logical, if <code>TRUE</code>, depending on <code>type</code>, a confidence
-interval or region is added to the plot. For frequency plots, the
-confidence interval for the relative frequencies are shown.</p></td>
-    </tr>
-    <tr>
-      <th>prnt.plot</th>
-      <td><p>logical, if <code>TRUE</code> (default), plots the results as graph. Use <code>FALSE</code> if you don't
-want to plot any graphs. In either case, the ggplot-object will be returned as value.</p></td>
+      <td><p>Logical, if <code>TRUE)</code>, adds notches to the box plot, which are
+used to compare groups; if the notches of two boxes do not overlap,
+medians are considered to be significantly different.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>(Insisibily) returns the ggplot-object with the complete plot (<code>plot</code>),
-          the residual pattern (<code>pattern</code>) as well as the data frame that
-          was used for setting up the ggplot-object (<code>mydf</code>).</p>
+    <p>A ggplot-object.</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
@@ -229,11 +221,9 @@ want to plot any graphs. In either case, the ggplot-object will be returned as v
 <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'>lm</span>(<span class='no'>neg_c_7</span> ~ <span class='no'>c12hour</span> + <span class='no'>e17age</span> + <span class='no'>e42dep</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 
 <span class='co'># plot residuals for all independent variables</span>
-<span class='fu'>sjp.resid</span>(<span class='no'>fit</span>)</div><div class='img'><img src='sjp.resid-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_residuals</span>(<span class='no'>fit</span>)</div><div class='img'><img src='plot_residuals-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># remove some independent variables from output</span>
-<span class='fu'>sjp.resid</span>(<span class='no'>fit</span>, <span class='kw'>remove.estimates</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"e17age"</span>, <span class='st'>"e42dep"</span>))</div><div class='img'><img src='sjp.resid-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># show pattern</span>
-<span class='fu'>sjp.resid</span>(<span class='no'>fit</span>, <span class='kw'>remove.estimates</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"e17age"</span>, <span class='st'>"e42dep"</span>))$<span class='no'>pattern</span></div><div class='img'><img src='sjp.resid-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjp.resid-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_residuals</span>(<span class='no'>fit</span>, <span class='kw'>remove.estimates</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"e17age"</span>, <span class='st'>"e42dep"</span>))</div><div class='img'><img src='plot_residuals-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

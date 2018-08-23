@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -126,12 +126,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -145,7 +140,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summary of linear mixed effects models as HTML table</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjTabLinReg.R'><code>R/sjTabLinReg.R</code></a></small>
+    
     <div class="hidden name"><code>sjt.lmer.Rd</code></div>
     </div>
 
@@ -160,36 +155,45 @@
 
     <pre class="usage"><span class='fu'>sjt.lmer</span>(<span class='no'>...</span>, <span class='kw'>pred.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>depvar.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>remove.estimates</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>group.pred</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>p.numeric</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>p.zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>p.kr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>separate.ci.col</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>newline.ci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.est</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.std</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.header</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.col.header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.r2</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.icc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.re.var</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.fstat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.aic</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.aicc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.dev</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>string.pred</span> <span class='kw'>=</span> <span class='st'>"Predictors"</span>,
-  <span class='kw'>string.dv</span> <span class='kw'>=</span> <span class='st'>"Dependent Variables"</span>, <span class='kw'>string.interc</span> <span class='kw'>=</span> <span class='st'>"(Intercept)"</span>,
-  <span class='kw'>string.obs</span> <span class='kw'>=</span> <span class='st'>"Observations"</span>, <span class='kw'>string.est</span> <span class='kw'>=</span> <span class='st'>"B"</span>, <span class='kw'>string.std</span> <span class='kw'>=</span> <span class='st'>"std. Beta"</span>,
-  <span class='kw'>string.ci</span> <span class='kw'>=</span> <span class='st'>"CI"</span>, <span class='kw'>string.se</span> <span class='kw'>=</span> <span class='st'>"std. Error"</span>, <span class='kw'>string.p</span> <span class='kw'>=</span> <span class='st'>"p"</span>,
-  <span class='kw'>ci.hyphen</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;ndash;&amp;nbsp;"</span>, <span class='kw'>minus.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;#45;"</span>, <span class='kw'>digits.est</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>digits.std</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>digits.ci</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>digits.se</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>digits.summary</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>cell.spacing</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>cell.gpr.indent</span> <span class='kw'>=</span> <span class='fl'>0.6</span>,
-  <span class='kw'>sep.column</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>no.output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>p.zero</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>p.kr</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>separate.ci.col</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>newline.ci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.est</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.std</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.header</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.col.header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.r2</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.icc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.re.var</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.fstat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.aic</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.aicc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.dev</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>string.pred</span> <span class='kw'>=</span> <span class='st'>"Predictors"</span>, <span class='kw'>string.dv</span> <span class='kw'>=</span> <span class='st'>"Dependent Variables"</span>,
+  <span class='kw'>string.interc</span> <span class='kw'>=</span> <span class='st'>"(Intercept)"</span>, <span class='kw'>string.obs</span> <span class='kw'>=</span> <span class='st'>"Observations"</span>,
+  <span class='kw'>string.est</span> <span class='kw'>=</span> <span class='st'>"B"</span>, <span class='kw'>string.std</span> <span class='kw'>=</span> <span class='st'>"std. Beta"</span>, <span class='kw'>string.ci</span> <span class='kw'>=</span> <span class='st'>"CI"</span>,
+  <span class='kw'>string.se</span> <span class='kw'>=</span> <span class='st'>"std. Error"</span>, <span class='kw'>string.p</span> <span class='kw'>=</span> <span class='st'>"p"</span>,
+  <span class='kw'>ci.hyphen</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;ndash;&amp;nbsp;"</span>, <span class='kw'>minus.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;#45;"</span>,
+  <span class='kw'>digits.est</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>digits.std</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>digits.ci</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>digits.se</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>digits.summary</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>cell.spacing</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
+  <span class='kw'>cell.gpr.indent</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>sep.column</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>One or more fitted linear (mixed) models.</p></td>
+      <td><p>One or more regression models, including glm's or mixed models.
+May also be a <code>list</code> with fitted models. See 'Examples'.</p></td>
     </tr>
     <tr>
       <th>pred.labels</th>
       <td><p>Character vector with labels of predictor variables.
 If not <code>NULL</code>, <code>pred.labels</code> will be used in the first
-table column with the predictors' names. If <code>NULL</code>, variable
-labels are set based on label attributes (see <code><a href='http://www.rdocumentation.org/packages/sjlabelled/topics/get_label'>get_label</a></code>).
-If <code>pred.labels = ""</code>, column names (vector names) are used
-as predictor labels. See 'Examples'.</p></td>
+table column with the predictors' names. By default, if <code>auto.label = TRUE</code>
+and <code><a href='http://www.rdocumentation.org/packages/sjlabelled/topics/get_term_labels'>get_term_labels</a></code> is called to retrieve the labels
+of the coefficients, which will be used as predictor labels.
+If <code>pred.labels = ""</code> or <code>auto.label = FALSE</code>, the raw
+variable names as used in the model formula are used as predictor
+labels. If <code>pred.labels</code> is a named vector, predictor labels (by
+default, the names of the model's coefficients) will be matched with the
+names of <code>pred.labels</code>. This ensures that labels always match the
+related predictor in the table, no matter in which way the predictors
+are sorted. See 'Examples'.</p></td>
     </tr>
     <tr>
       <th>depvar.labels</th>
@@ -230,9 +234,8 @@ without a zero (e.g. <em>.002</em>).</p></td>
     </tr>
     <tr>
       <th>p.kr</th>
-      <td><p>logical, if <code>TRUE</code>, p-value estimation is based on conditional
-F-tests with Kenward-Roger approximation for the df. Caution: Computation
-may take very long time for large samples!</p></td>
+      <td><p>Logical, if <code>TRUE</code>, the computation of p-values is based on
+conditional F-tests with Kenward-Roger approximation for the df.</p></td>
     </tr>
     <tr>
       <th>separate.ci.col</th>
@@ -247,7 +250,7 @@ line as estimate values.</p></td>
     </tr>
     <tr>
       <th>show.est</th>
-      <td><p>Logical, if <code>TRUE</code> (default), the estimates are printed.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, the estimates are printed.</p></td>
     </tr>
     <tr>
       <th>show.std</th>
@@ -257,13 +260,14 @@ See 'Details'.</p></td>
     </tr>
     <tr>
       <th>show.ci</th>
-      <td><p>Logical, if <code>TRUE</code> (default), the confidence intervall is also printed to the table. Use
-<code>FALSE</code> to omit the CI in the table.</p></td>
+      <td><p>Either logical, and if <code>TRUE</code>, the confidence intervals
+is printed to the table; if <code>FALSE</code>, confidence intervals are
+omitted. Or numeric, between 0 and 1, indicating the range of the
+confidence intervals.</p></td>
     </tr>
     <tr>
       <th>show.se</th>
-      <td><p>Logical, if <code>TRUE</code>, the standard errors are also printed.
-Default is <code>FALSE</code>.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, the standard errors are also printed.</p></td>
     </tr>
     <tr>
       <th>show.header</th>
@@ -277,41 +281,38 @@ abbreviations for estimates, std. beta-values, confidence interval and p-values.
     </tr>
     <tr>
       <th>show.r2</th>
-      <td><p>Logical, if <code>TRUE</code> (default), the R2 and adjusted R2 values for each model are printed
-in the model summary. For linear mixed models, the R2 and Omega-squared values are printed
-(see <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/cod'>r2</a></code> for details).</p></td>
+      <td><p>Logical, if <code>TRUE</code>, the r-squared value is also printed.
+Depending on the model, these might be pseudo-r-squared values, or Bayesian
+r-squared etc. See <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/cod'>r2</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>show.icc</th>
-      <td><p>Logical, if <code>TRUE</code>, the intra-class-correlation for each
-model is printed in the model summary. Only applies to mixed models.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, prints the intraclass correlation
+coefficient for mixed models. See <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/icc'>icc</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>show.re.var</th>
-      <td><p>Logical, if <code>TRUE</code>, the variance parameters for the random
-effects for each model are printed in the model summary. Only applies to mixed models.
-For details output, see 'Note' in <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/icc'>icc</a></code>.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, prints the random effect variances
+for mixed models. See <code><a href='http://www.rdocumentation.org/packages/sjstats/topics/re_var'>re_var</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>show.fstat</th>
-      <td><p>Logical, if <code>TRUE</code>, the F-statistics for each model is printed
-in the model summary. Default is <code>FALSE</code>. This argument does not apply to
-<code>sjt.lmer</code>.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, the F-statistics for each model is
+printed in the table summary. This option is not supported by all model types.</p></td>
     </tr>
     <tr>
       <th>show.aic</th>
       <td><p>Logical, if <code>TRUE</code>, the AIC value for each model is printed
-in the model summary. Default is <code>FALSE</code>.</p></td>
+in the table summary.</p></td>
     </tr>
     <tr>
       <th>show.aicc</th>
       <td><p>Logical, if <code>TRUE</code>, the second-order AIC value for each model
-is printed in the model summary. Default is <code>FALSE</code>.</p></td>
+is printed in the table summary.</p></td>
     </tr>
     <tr>
       <th>show.dev</th>
-      <td><p>Logical, if <code>TRUE</code>, the deviance for each model
-is printed in the model summary.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, shows the deviance of the model.</p></td>
     </tr>
     <tr>
       <th>string.pred</th>
@@ -373,7 +374,7 @@ May be an HTML entity. See 'Examples'.</p></td>
     </tr>
     <tr>
       <th>digits.p</th>
-      <td><p>Amount of decimals for p-values.</p></td>
+      <td><p>Amount of decimals for p-values</p></td>
     </tr>
     <tr>
       <th>digits.ci</th>
@@ -409,10 +410,9 @@ when modifying the table layout.</p></td>
     </tr>
     <tr>
       <th>CSS</th>
-      <td><p>A <code>list</code> with user-defined style-sheet-definitions, according to the
-<a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>. For more details,
-see <a href='../doc/table_css.html'>this package-vignette</a>, or 'Details' in
-<code><a href='sjt.frq.html'>sjt.frq</a></code>.</p></td>
+      <td><p>A <code>list</code> with user-defined style-sheet-definitions,
+according to the <a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>.
+See 'Details' or <a href='../doc/table_css.html'>this package-vignette</a>.</p></td>
     </tr>
     <tr>
       <th>encoding</th>
@@ -429,15 +429,9 @@ openend either in the IDE's viewer pane or the default web browser.</p></td>
     </tr>
     <tr>
       <th>use.viewer</th>
-      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's viewer pane. If
-<code>FALSE</code> or no viewer available, the HTML table is opened in a web browser.</p></td>
-    </tr>
-    <tr>
-      <th>no.output</th>
-      <td><p>Logical, if <code>TRUE</code>, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in <code>knitr</code> documents. The html output can be accessed via the return
-value.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
+viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
+opened in a web browser.</p></td>
     </tr>
     <tr>
       <th>remove.spaces</th>
@@ -464,9 +458,7 @@ may look less pretty, but it may help when exporting html-tables to office tools
            <a href='http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf'>Gelman's (2008)</a>
            suggestion, rescaling the estimates by dividing them by two standard
            deviations instead of just one. Resulting coefficients are then
-           directly comparable for untransformed binary predictors. This type
-           of standardization uses the <code><a href='http://www.rdocumentation.org/packages/arm/topics/standardize'>standardize</a></code>-function
-           from the <span class="pkg">arm</span>-package.
+           directly comparable for untransformed binary predictors.
            For backward compatibility reasons, <code>show.std</code> also may be
            a logical value; if <code>TRUE</code>, normal standardized estimates are
            printed (same effect as <code>show.std = "std"</code>). Use

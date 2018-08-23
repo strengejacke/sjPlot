@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -125,12 +125,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -144,7 +139,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summary of correlations as HTML table</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/sjTabCorr.R'><code>R/sjTabCorr.R</code></a></small>
+    
     <div class="hidden name"><code>sjt.corr.Rd</code></div>
     </div>
 
@@ -158,18 +153,20 @@
 
     <pre class="usage"><span class='fu'>sjt.corr</span>(<span class='no'>data</span>, <span class='kw'>na.deletion</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"listwise"</span>, <span class='st'>"pairwise"</span>),
   <span class='kw'>corr.method</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"pearson"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>), <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>var.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>40</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.numeric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>fade.ns</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>val.rm</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>triangle</span> <span class='kw'>=</span> <span class='st'>"both"</span>,
-  <span class='kw'>string.diag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>no.output</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>var.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>40</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>p.numeric</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>fade.ns</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>val.rm</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>triangle</span> <span class='kw'>=</span> <span class='st'>"both"</span>, <span class='kw'>string.diag</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A vector or a data frame, for which frequencies should be printed
-as table.</p></td>
+      <td><p>Matrix with correlation coefficients as returned by the
+<code>cor</code>-function, or a <code>data.frame</code> of variables where
+correlations between columns should be computed.</p></td>
     </tr>
     <tr>
       <th>na.deletion</th>
@@ -185,7 +182,7 @@ May be abbreviated.</p></td>
     </tr>
     <tr>
       <th>title</th>
-      <td><p>Table caption, as character vector.</p></td>
+      <td><p>String, will be used as table caption.</p></td>
     </tr>
     <tr>
       <th>var.labels</th>
@@ -194,13 +191,12 @@ to label variables in the output.</p></td>
     </tr>
     <tr>
       <th>wrap.labels</th>
-      <td><p>numeric, determines how many chars of the value, variable or axis
-labels are displayed in one line and when a line break is inserted.</p></td>
+      <td><p>Numeric, determines how many chars of the value, variable
+or axis labels are displayed in one line and when a line break is inserted.</p></td>
     </tr>
     <tr>
       <th>show.p</th>
-      <td><p>Logical, adds significance levels to values, or value and
-variable labels.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, p-values are also printed.</p></td>
     </tr>
     <tr>
       <th>p.numeric</th>
@@ -225,7 +221,7 @@ the limit specified by <code>val.rm</code>.</p></td>
     </tr>
     <tr>
       <th>digits</th>
-      <td><p>Numeric, amount of digits after decimal point when rounding estimates and values.</p></td>
+      <td><p>Amount of decimals for estimates</p></td>
     </tr>
     <tr>
       <th>triangle</th>
@@ -242,10 +238,9 @@ this argument is <code>NULL</code> and the diagnal cells are empty.</p></td>
     </tr>
     <tr>
       <th>CSS</th>
-      <td><p>A <code>list</code> with user-defined style-sheet-definitions, according to the
-<a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>. For more details,
-see <a href='../doc/table_css.html'>this package-vignette</a>, or 'Details' in
-<code><a href='sjt.frq.html'>sjt.frq</a></code>.</p></td>
+      <td><p>A <code>list</code> with user-defined style-sheet-definitions,
+according to the <a href='http://www.w3.org/Style/CSS/'>official CSS syntax</a>.
+See 'Details' or <a href='../doc/table_css.html'>this package-vignette</a>.</p></td>
     </tr>
     <tr>
       <th>encoding</th>
@@ -262,15 +257,9 @@ openend either in the IDE's viewer pane or the default web browser.</p></td>
     </tr>
     <tr>
       <th>use.viewer</th>
-      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's viewer pane. If
-<code>FALSE</code> or no viewer available, the HTML table is opened in a web browser.</p></td>
-    </tr>
-    <tr>
-      <th>no.output</th>
-      <td><p>Logical, if <code>TRUE</code>, the html-output is neither opened in a browser nor shown in
-the viewer pane and not even saved to file. This option is useful when the html output
-should be used in <code>knitr</code> documents. The html output can be accessed via the return
-value.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
+viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
+opened in a web browser.</p></td>
     </tr>
     <tr>
       <th>remove.spaces</th>
@@ -289,18 +278,12 @@ may look less pretty, but it may help when exporting html-tables to office tools
 <li><p>the html-table with inline-css for use with knitr (<code>knitr</code>)</p></li>
 </ul><p>for further use.</p>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>See 'Details' in <code><a href='sjt.frq.html'>sjt.frq</a></code>.</p>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>If <code>data</code> is a matrix with correlation coefficients as returned by
       the <code>cor</code>-function, p-values can't be computed.
       Thus, <code>show.p</code>, <code>p.numeric</code> and <code>fade.ns</code>
-      only have an effect if <code>data</code> is a <code>data.frame</code>.
-      <br /> <br />
-      Additionally, see 'Note' in <code><a href='sjt.frq.html'>sjt.frq</a></code>.</p>
+      only have an effect if <code>data</code> is a <code>data.frame</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -348,8 +331,6 @@ may look less pretty, but it may help when exporting html-tables to office tools
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
 
       <li><a href="#note">Note</a></li>
       

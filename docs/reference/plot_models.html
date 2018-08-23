@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.5.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
       </span>
     </div>
 
@@ -124,12 +124,7 @@
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://github.com/strengejacke/sjPlot">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -143,7 +138,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Forest plot of multiple regression models</h1>
-    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/plot_models.R'><code>R/plot_models.R</code></a></small>
+    
     <div class="hidden name"><code>plot_models.Rd</code></div>
     </div>
 
@@ -154,16 +149,16 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>plot_models</span>(<span class='no'>...</span>, <span class='no'>transform</span>, <span class='kw'>std.est</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rm.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>m.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='st'>"Dependent Variables"</span>,
-  <span class='kw'>legend.pval.title</span> <span class='kw'>=</span> <span class='st'>"p-level"</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>axis.lim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>25</span>,
-  <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>spacing</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.intercept</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>p.shape</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>vline.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>,
-  <span class='st'>"label"</span>))</pre>
+    <pre class="usage"><span class='fu'>plot_models</span>(<span class='no'>...</span>, <span class='no'>transform</span>, <span class='kw'>std.est</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rm.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>m.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='st'>"Dependent Variables"</span>, <span class='kw'>legend.pval.title</span> <span class='kw'>=</span> <span class='st'>"p-level"</span>,
+  <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.lim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>spacing</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>,
+  <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.intercept</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.shape</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>vline.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -299,8 +294,6 @@ color palette. Following options are valid for the <code>colors</code> argument:
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
 <li><p>If <code>"bw"</code>, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see <a href='../doc/blackwhitefigures.html'>this package-vignette</a>).</p></li>
 <li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href='http://www.rdocumentation.org/packages/RColorBrewer/topics/ColorBrewer'>display.brewer.all</a></code> to view all available palette names.</p></li>
-<li><p>If <span class="pkg">wesanderson</span> is installed, you may also specify a name of a palette from that package.</p></li>
-<li><p>If <span class="pkg">viridis</span> is installed, use <code>colors = "v"</code> to get the viridis color palette.</p></li>
 <li><p>There are some pre-defined color palettes in this package, see <code><a href='sjPlot-themes.html'>sjPlot-themes</a></code> for details.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = "#00ff00"</code> or <code>colors = c("firebrick", "blue")</code>).</p></li>
 </ul></td>
