@@ -1,3 +1,5 @@
+utils::globalVariables("density")
+
 #' @title Plot frequencies of variables
 #' @name sjp.frq
 #'
@@ -509,9 +511,6 @@ sjp.frq <- function(var.cnt,
   } else if (type == "density") {
     # First, plot histogram with density curve
     baseplot <- ggplot(hist.dat, aes(x = .data$xv)) +
-
-      ## TODO use solution from new ggplot
-
       geom_histogram(aes(y = stat(density)), binwidth = geom.size, fill = geom.colors) +
       # transparent density curve above bars
       geom_density(aes(y = stat(density)), fill = "cornsilk", alpha = 0.3) +

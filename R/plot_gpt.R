@@ -1,3 +1,5 @@
+utils::globalVariables("n")
+
 #' @title Plot grouped proportional tables
 #' @name plot_gpt
 #'
@@ -253,8 +255,6 @@ gpt_helper <- function(
   # group data by grouping variable,
   # and summarize N per group and chisq.test
   # of grp and x within each group
-
-  ## TODO fix n() warning
 
   pvals <- mydf %>%
     dplyr::group_by(.data$grp) %>%
