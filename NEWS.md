@@ -32,6 +32,7 @@ Following functions are now defunct:
 
 * Due to changes in the _broom_ and _lmerTest_ packages, tidiers did no longer work for `lmerModLmerTest` objects.
 * Fix issue with standardized coefficient (argument `show.std`) in `tab_model()`.
+* Argument `dot.size` and `line.size` in `plot_model()` now also apply to marginal effects plots.
 
 # sjPlot 2.5.0
 

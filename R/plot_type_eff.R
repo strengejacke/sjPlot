@@ -14,6 +14,8 @@ plot_type_eff <- function(type,
                           axis.lim,
                           case,
                           show.legend,
+                          dot.size,
+                          line.size,
                           ...) {
 
   if (type == "pred") {
@@ -64,7 +66,9 @@ plot_type_eff <- function(type,
     dot.alpha = dot.alpha,
     alpha = alpha,
     dodge = dodge,
-    log.y = log.y
+    log.y = log.y,
+    dot.size = dot.size,
+    line.size = line.size
   )
 
   # set axis and plot titles

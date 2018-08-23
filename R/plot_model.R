@@ -632,6 +632,8 @@ plot_model <- function(model,
       axis.lim = axis.lim,
       case = case,
       show.legend = show.legend,
+      dot.size = dot.size,
+      line.size = line.size,
       ...
     )
 
@@ -654,6 +656,8 @@ plot_model <- function(model,
       axis.lim = axis.lim,
       case = case,
       show.legend = show.legend,
+      dot.size = dot.size,
+      line.size = line.size,
       ...
     )
 
