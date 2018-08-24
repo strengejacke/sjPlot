@@ -702,6 +702,7 @@ plot_model <- function(model,
         model = model,
         geom.colors = colors,
         dot.size = dot.size,
+        line.size = line.size,
         ...
       )
 
@@ -711,6 +712,7 @@ plot_model <- function(model,
         model = model,
         geom.colors = colors,
         dot.size = dot.size,
+        line.size = line.size,
         ...
       )
 

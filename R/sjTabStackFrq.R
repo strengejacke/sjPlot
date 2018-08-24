@@ -27,7 +27,6 @@
 #'
 #' @inheritParams tab_df
 #' @inheritParams sjt.itemanalysis
-#' @inheritParams sjp.glmer
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.stackfrq

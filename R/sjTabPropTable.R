@@ -48,7 +48,6 @@
 #'          to label variable values in the output.
 #'
 #' @inheritParams tab_model
-#' @inheritParams sjp.glmer
 #' @inheritParams sjp.grpfrq
 #'
 #' @return Invisibly returns

@@ -108,11 +108,7 @@ sjt.glm <- function(...,
                     use.viewer = TRUE,
                     remove.spaces = TRUE) {
 
-  if (stats::runif(1) < .35)
-    message("`sjt.glm()` and `sjt.glmer()` will become deprecated in the future. Please use `tab_model()` instead.")
-
-  ## TODO activate in future update
-  # .Deprecated("tab_model")
+  .Deprecated("tab_model")
 
 
   # --------------------------------------------------------

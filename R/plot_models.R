@@ -26,8 +26,6 @@
 #'        is \code{FALSE}.
 #'
 #' @inheritParams plot_model
-#' @inheritParams sjp.lm
-#' @inheritParams sjp.lmer
 #' @inheritParams sjt.lm
 #' @inheritParams sjp.grpfrq
 #'

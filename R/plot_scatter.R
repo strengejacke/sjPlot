@@ -32,7 +32,6 @@
 #'
 #' @inheritParams plot_model
 #' @inheritParams sjp.grpfrq
-#' @inheritParams sjp.lm
 #'
 #' @examples
 #' # load sample date

@@ -36,7 +36,6 @@
 #' @inheritParams sjp.pca
 #' @inheritParams sjt.pca
 #' @inheritParams sjp.grpfrq
-#' @inheritParams sjp.glmer
 #'
 #' @note This method for factor analysis relies on the functions
 #'       \code{\link[psych]{fa}} and \code{\link[psych]{fa.parallel}}

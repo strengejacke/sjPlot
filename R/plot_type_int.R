@@ -153,12 +153,9 @@ plot_type_int <- function(model,
       dot.alpha = dot.alpha,
       alpha = alpha,
       dodge = dodge,
-      log.y = log.y
-
-      ## TODO activate once ggeffects-update is on  CRAN
-
-      # dot.size = dot.size,
-      # line.size = line.size
+      log.y = log.y,
+      dot.size = dot.size,
+      line.size = line.size
     )
 
     # set axis and plot titles

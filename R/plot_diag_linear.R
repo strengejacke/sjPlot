@@ -1,6 +1,7 @@
 plot_diag_linear <- function(model,
                              geom.colors,
                              dot.size,
+                             line.size,
                              ...) {
   plot.list <- list()
   geom.colors <- col_check2(geom.colors, 2)
@@ -8,7 +9,7 @@ plot_diag_linear <- function(model,
   p <- diag_vif(model)
   if (!is.null(p)) plot.list[[length(plot.list) + 1]] <- p
 
-  p <- diag_qq(model, geom.colors)
+  p <- diag_qq(model, geom.colors, dot.size, line.size)
   if (!is.null(p)) plot.list[[length(plot.list) + 1]] <- p
 
   p <- diag_reqq(model, dot.size)
@@ -17,21 +18,25 @@ plot_diag_linear <- function(model,
   p <- diag_norm(model, geom.colors)
   if (!is.null(p)) plot.list[[length(plot.list) + 1]] <- p
 
-  p <- diag_ncv(model)
+  p <- diag_ncv(model, dot.size, line.size)
   if (!is.null(p)) plot.list[[length(plot.list) + 1]] <- p
 
   plot.list
 }
 
 
-plot_diag_glm <- function(model, geom.colors, dot.size, ...) {
+plot_diag_glm <- function(model, geom.colors, dot.size, line.size, ...) {
   geom.colors <- col_check2(geom.colors, 2)
   diag_reqq(model, dot.size)
 }
 
 
 #' @importFrom stats residuals fitted
-diag_ncv <- function(model) {
+diag_ncv <- function(model, dot.size, line.size) {
+
+  if (is.null(dot.size)) dot.size <- 1
+  if (is.null(line.size)) line.size <- 1
+
   dat <- data.frame(
     res = stats::residuals(model),
     fitted = stats::fitted(model)
@@ -39,8 +44,8 @@ diag_ncv <- function(model) {
 
   ggplot(dat, aes_string(x = "fitted", y = "res")) +
     geom_intercept_line2(0, NULL) +
-    geom_point() +
-    geom_smooth(method = "loess", se = FALSE) +
+    geom_point(size = dot.size) +
+    geom_smooth(method = "loess", se = FALSE, size = line.size) +
     labs(
       x = "Fitted values",
       y = "Residuals",
@@ -76,7 +81,11 @@ diag_norm <- function(model, geom.colors) {
 
 
 #' @importFrom stats residuals rstudent fitted
-diag_qq <- function(model, geom.colors, ...) {
+diag_qq <- function(model, geom.colors, dot.size, line.size, ...) {
+
+  if (is.null(dot.size)) dot.size <- 1
+  if (is.null(line.size)) line.size <- 1
+
   # qq-plot of studentized residuals
   if (inherits(model, c("lme", "lmerMod", "glmmTMB"))) {
     res_ <- sort(stats::residuals(model), na.last = NA)
@@ -94,9 +103,9 @@ diag_qq <- function(model, geom.colors, ...) {
 
   # plot it
   ggplot(mydf, aes_string(x = "x", y = "y")) +
-    geom_point() +
+    geom_point(size = dot.size) +
     scale_colour_manual(values = geom.colors) +
-    stat_smooth(method = "lm", se = FALSE) +
+    stat_smooth(method = "lm", se = FALSE, size = line.size) +
     labs(
       title = "Non-normality of residuals and outliers",
       subtitle = "Dots should be plotted along the line",

@@ -26,8 +26,6 @@
 #' @inheritParams tab_model
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.grpfrq
-#' @inheritParams sjp.glmer
-#' @inheritParams sjp.lm
 #' @inheritParams sjp.corr
 #'
 #' @return Invisibly returns

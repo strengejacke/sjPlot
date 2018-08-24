@@ -1,3 +1,9 @@
+# sjPlot 2.6.1
+
+## Bug fixes
+
+* Argument dot.size and line.size in plot_model() now also apply to marginal effects plots.
+
 # sjPlot 2.6.0
 
 ## General

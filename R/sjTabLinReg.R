@@ -110,7 +110,6 @@
 #' @inheritParams tab_model
 #' @inheritParams plot_model
 #' @inheritParams sjt.xtab
-#' @inheritParams sjp.lmer
 #' @inheritParams sjp.corr
 #'
 #' @return Invisibly returns
@@ -186,11 +185,7 @@ sjt.lm <- function(...,
   else
     p_zero <- "0"
 
-  if (stats::runif(1) < .35)
-    message("`sjt.lm()` and `sjt.lmer()` will become deprecated in the future. Please use `tab_model()` instead.")
-
-  ## TODO activate in future update
-  # .Deprecated("tab_model")
+  .Deprecated("tab_model")
 
   # -------------------------------------
   # check arguments

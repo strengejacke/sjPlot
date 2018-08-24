@@ -25,7 +25,6 @@
 #'            }
 #'
 #' @inheritParams sjp.grpfrq
-#' @inheritParams sjp.glmer
 #' @inheritParams sjt.pca
 #'
 #' @examples
