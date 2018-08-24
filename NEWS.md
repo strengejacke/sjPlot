@@ -1,8 +1,16 @@
 # sjPlot 2.6.1
 
-## Bug fixes
+## General
 
-* Argument dot.size and line.size in plot_model() now also apply to marginal effects plots.
+* Removed defunct functions.
+
+## Deprecated
+
+* `sjt.lm()`, `sjt.glm()`, `sjt.lmer()` and `sjt.glmer()` are now deprecated. Please use `tab_model()` instead.
+
+## Changes to functions
+
+* Arguments `dot.size` and `line.size` in `plot_model()` now also apply to marginal effects and diagnostic plots.
 
 # sjPlot 2.6.0
 
