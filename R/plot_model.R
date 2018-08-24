@@ -501,7 +501,7 @@ plot_model <- function(model,
   if (type %in% c("est", "std", "std2") && isTRUE(auto.label)) {
 
     # get labels of dependent variables, and wrap them if too long
-    if (is.null(title)) title <- sjlabelled::get_dv_labels(model, case = case, multi.resp = fam.info$is_multivariate, ...)
+    if (is.null(title)) title <- sjlabelled::get_dv_labels(model, case = case, mv = fam.info$is_multivariate, ...)
     title <- sjmisc::word_wrap(title, wrap = wrap.title)
 
     # labels for axis with term names

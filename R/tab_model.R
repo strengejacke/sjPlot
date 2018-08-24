@@ -660,7 +660,7 @@ tab_model <- function(
         model.data <- split(model.data[[1]], model.data[[1]]["response.level_1"])
       } else {
         dv.labels <- sjmisc::word_wrap(
-          sjlabelled::get_dv_labels(models, multi.resp = TRUE, case = case),
+          sjlabelled::get_dv_labels(models, mv = TRUE, case = case),
           wrap = wrap.labels,
           linesep = "<br>"
         )
