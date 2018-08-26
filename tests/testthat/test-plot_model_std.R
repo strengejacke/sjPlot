@@ -1,3 +1,5 @@
+.runThisTest <- Sys.getenv("RunAllsjPlotTests") == "yes"
+
 stopifnot(require("testthat"),
           require("sjPlot"),
           require("sjmisc"),
@@ -39,3 +41,43 @@ test_that("plot_model, std", {
   p <- plot_model(m3, type = "std2")
 })
 
+
+if (.runThisTest) {
+
+  stopifnot(require("testthat"), require("rstanarm"), require("lme4"))
+
+  # fit linear model
+  data(sleepstudy)
+  sleepstudy$age <- round(runif(nrow(sleepstudy), min = 20, max = 60))
+  sleepstudy$Rdicho <- dicho(sleepstudy$Reaction)
+
+  m1 <- stan_glmer(
+    Reaction ~ Days + age + (1 | Subject),
+    data = sleepstudy, QR = TRUE,
+    # this next line is only to keep the example small in size!
+    chains = 2, cores = 1, seed = 12345, iter = 500
+  )
+
+  m2 <- stan_glmer(
+    Rdicho ~ Days + age + (1 | Subject),
+    data = sleepstudy, QR = TRUE,
+    family = binomial,
+    chains = 2, iter = 500
+  )
+
+  test_that("plot_model, rstan", {
+    p <- plot_model(m1)
+    p <- plot_model(m2)
+    p <- plot_model(m1, bpe = "mean")
+    p <- plot_model(m2, bpe = "mean")
+    p <- plot_model(m1, bpe = "mean", bpe.style = "dot")
+    p <- plot_model(m2, bpe = "mean", bpe.style = "dot")
+    p <- plot_model(m1, bpe = "mean", bpe.style = "line", bpe.color = "green")
+    p <- plot_model(m2, bpe = "mean", bpe.style = "line", bpe.color = "green")
+    p <- plot_model(m1, bpe = "mean", bpe.style = "line", bpe.color = "green", prob.inner = .4, prob.outer = .8)
+    p <- plot_model(m2, bpe = "mean", bpe.style = "line", bpe.color = "green", prob.inner = .4, prob.outer = .8)
+    p <- plot_model(m1, bpe = "mean", bpe.style = "line", bpe.color = "green", prob.inner = .4, prob.outer = .8, size.inner = .5)
+    p <- plot_model(m2, bpe = "mean", bpe.style = "line", bpe.color = "green", prob.inner = .4, prob.outer = .8, size.inner = .5)
+  })
+
+}

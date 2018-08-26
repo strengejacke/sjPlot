@@ -1,3 +1,5 @@
+.runThisTest <- Sys.getenv("RunAllsjPlotTests") == "yes"
+
 stopifnot(require("testthat"),
           require("sjPlot"),
           require("sjmisc"),
@@ -39,3 +41,38 @@ test_that("tab_model, std", {
   p <- tab_model(m1, m2, m3, show.std = "std")
   p <- tab_model(m1, m2, m3, show.std = "std2")
 })
+
+
+if (.runThisTest) {
+
+  stopifnot(require("testthat"), require("rstanarm"), require("lme4"))
+
+  # fit linear model
+  data(sleepstudy)
+  sleepstudy$age <- round(runif(nrow(sleepstudy), min = 20, max = 60))
+  sleepstudy$Rdicho <- dicho(sleepstudy$Reaction)
+
+  m1 <- stan_glmer(
+    Reaction ~ Days + age + (1 | Subject),
+    data = sleepstudy, QR = TRUE,
+    # this next line is only to keep the example small in size!
+    chains = 2, cores = 1, seed = 12345, iter = 500
+  )
+
+  m2 <- stan_glmer(
+    Rdicho ~ Days + age + (1 | Subject),
+    data = sleepstudy, QR = TRUE,
+    family = binomial,
+    chains = 2, iter = 500
+  )
+
+  test_that("tab_model, rstan", {
+    p <- tab_model(m1)
+    p <- tab_model(m2)
+    p <- tab_model(m1, m2)
+    p <- tab_model(m1, m2, show.hdi50 = FALSE)
+    p <- tab_model(m1, m2, col.order = c("hdi.outer", "hdi.inner", "est"))
+    p <- tab_model(m1, m2, bpe = "mean")
+  })
+
+}
