@@ -164,6 +164,13 @@
 <li>Arguments <code>dot.size</code> and <code>line.size</code> in <code><a href="../reference/plot_model.html">plot_model()</a></code> now also apply to marginal effects and diagnostic plots.</li>
 </ul>
 </div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li>Fixed bug from the last update that made value labels disappear for <code><a href="../reference/plot_likert.html">plot_likert()</a></code>.</li>
+</ul>
+</div>
 </div>
     <div id="sjplot-2-6-0" class="section level1">
 <h1 class="page-header">
@@ -218,9 +225,9 @@
 <code>sjt.frq()</code>. Please use <code><a href="http://www.rdocumentation.org/packages/sjmisc/topics/frq">sjmisc::frq(out = "v")</a></code> instead.</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Due to changes in the <em>broom</em> and <em>lmerTest</em> packages, tidiers did no longer work for <code>lmerModLmerTest</code> objects.</li>
 <li>Fix issue with standardized coefficient (argument <code>show.std</code>) in <code><a href="../reference/tab_model.html">tab_model()</a></code>.</li>
@@ -294,9 +301,9 @@
 <code><a href="../reference/plot_model.html">plot_model(type = "diag")</a></code> now also shows random-effects QQ-plots for <code>glmmTMB</code>-models, and also plots random-effects QQ-plots for all random effects (if model has more than one random effect term).</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/plot_model.html">plot_model(type = "re")</a></code> now supports standard errors and confidence intervals for <code>glmmTMB</code>-objects.</li>
@@ -365,9 +372,9 @@
 <code><a href="../reference/sjp.grpfrq.html">sjp.grpfrq()</a></code> gets a <code>show.ci</code>-argument to add notches to boxplots.</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/view_df.html">view_df()</a></code> did not work with double values (with decimal points) when <code>show.values = TRUE</code>.</li>
@@ -424,9 +431,9 @@
 <code><a href="../reference/sjp.pca.html">sjp.pca()</a></code> and <code><a href="../reference/sjt.pca.html">sjt.pca()</a></code> now give more informative error messages when just one component is extracted.</li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed bug with <code>rm.terms</code>-argument in <code><a href="../reference/plot_models.html">plot_models()</a></code>.</li>
 <li>In rare situations, <code><a href="../reference/view_df.html">view_df()</a></code> did not work for string variables with missing values.</li>
@@ -472,9 +479,9 @@
 <code><a href="../reference/sjp.fa.html">sjp.fa()</a></code> and <code><a href="../reference/sjt.fa.html">sjt.fa()</a></code> to plot or print as table the results of factor analyses.</li>
 </ul>
 </div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>The mean and standard deviation in the summary of <code>sjt.frq()</code> were not correctly computed, when <code>auto.group</code>-argument was specified. This bug was introduced in the last update and is not fixed again.</li>
 <li>Values of character vectors were not always correctly sorted in <code><a href="../reference/view_df.html">view_df()</a></code> (if <code>show.frq = TRUE</code>).</li>
@@ -509,9 +516,9 @@
 <li>Argument <code>emph.p</code> for printing tables of regression models now defaults to <code>FALSE</code>.</li>
 </ul>
 </div>
-<div id="bug-fixes-5" class="section level2">
+<div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed bug in <code>sjt.frq()</code> for variables with many missing values and labelled values that did not occur on that variable.</li>
 <li>Argument <code>value.labels</code> had no effect for <code>sjt.frq()</code>.</li>
@@ -555,9 +562,9 @@
 <code><a href="../reference/sjt.xtab.html">sjt.xtab()</a></code> gets a <code>statistics</code>-argument, to select one of different measures of associations for the table summary.</li>
 </ul>
 </div>
-<div id="bug-fixes-6" class="section level2">
+<div id="bug-fixes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-7" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Plotting or table output of regression models did not work with null-models (i.e. with intercept only).</li>
 </ul>
