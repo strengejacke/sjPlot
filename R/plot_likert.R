@@ -560,7 +560,7 @@ plot_likert <- function(items,
         )
       ) +
       geom_text(
-        data = dplyr::filter(mydat.pos, .data$frq < 0),
+        data = dplyr::filter(mydat.neg, .data$frq < 0),
         aes(
           x = .data$x,
           y = .data$ypos,

@@ -12,6 +12,10 @@
 
 * Arguments `dot.size` and `line.size` in `plot_model()` now also apply to marginal effects and diagnostic plots.
 
+## Bug fixes
+
+* Fixed bug from the last update that made value labels disappear for `plot_likert()`.
+
 # sjPlot 2.6.0
 
 ## General
