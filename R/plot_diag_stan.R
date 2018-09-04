@@ -1,7 +1,7 @@
 #' @importFrom stats update
 #' @importFrom dplyr bind_rows select mutate
 #' @importFrom tidyr gather
-plot_diag_stan <- function(model, geom.colors, axis.lim, facets, ...) {
+plot_diag_stan <- function(model, geom.colors, axis.lim, facets, axis.labels, ...) {
 
   # check some defaults
   if (missing(facets)) facets <- TRUE
@@ -105,10 +105,16 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, ...) {
       ggridges::geom_density_ridges2(alpha = alpha, rel_min_height = .005, scale = scale) +
       scale_fill_manual(values = col_check2(geom.colors, 2))
   } else {
+
     p <- ggplot(pp, aes_string(x = "Estimate", fill = "Sample")) +
       geom_density(alpha = alpha) +
-      facet_wrap(~Term, scales = "free") +
       scale_fill_manual(values = col_check2(geom.colors, 2))
+
+    if (!is.null(axis.labels) && !is.null(names(axis.labels))) {
+      p <- p + facet_wrap(~Term, scales = "free", labeller = labeller(.default = label_value, Term = axis.labels))
+    } else {
+      p <- p + facet_wrap(~Term, scales = "free")
+    }
   }
 
 
@@ -118,3 +124,4 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, ...) {
 
   p + xlab("Distribution")
 }
+

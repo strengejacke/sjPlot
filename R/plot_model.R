@@ -693,6 +693,7 @@ plot_model <- function(model,
         geom.colors = colors,
         axis.lim = axis.lim,
         facets = grid,
+        axis.labels = axis.labels,
         ...
       )
 
