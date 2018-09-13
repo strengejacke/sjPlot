@@ -190,7 +190,7 @@ plot_point_estimates <- function(model,
       facet_grid(~facet)
   else if (obj_has_name(dat, "wrap.facet") && dplyr::n_distinct(dat$wrap.facet, na.rm = TRUE) > 1)
     p <- p +
-      facet_wrap(~wrap.facet, ncol = 1)
+      facet_wrap(~wrap.facet, ncol = 1, scales = "free_x")
 
 
   # set axis and plot titles

@@ -11,6 +11,7 @@
 ## Changes to functions
 
 * Arguments `dot.size` and `line.size` in `plot_model()` now also apply to marginal effects and diagnostic plots.
+* `plot_model()` now uses a free x-axis scale in facets for models with zero-inflated part.
 
 ## Bug fixes
 
