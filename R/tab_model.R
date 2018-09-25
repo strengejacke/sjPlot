@@ -275,7 +275,11 @@ tab_model <- function(
   p.val <- match.arg(p.val)
 
   models <- list(...)
-  names(models) <- unlist(lapply(match.call(expand.dots = F)$`...`, deparse))
+
+  names(models) <- unlist(lapply(
+    match.call(expand.dots = F)$`...`,
+    function(.x) deparse(.x, width.cutoff = 500L))
+  )
 
   auto.transform <- missing(transform)
   ci.lvl <- ifelse(is.null(show.ci), .95, show.ci)
