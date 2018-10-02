@@ -16,6 +16,7 @@
 ## Bug fixes
 
 * Fixed bug from the last update that made value labels disappear for `plot_likert()`.
+* `tab_model()` now also accepts multiple model-objects stored in a `list` as argument, as stated in the help-file.
 
 # sjPlot 2.6.0
 

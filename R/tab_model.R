@@ -276,6 +276,9 @@ tab_model <- function(
 
   models <- list(...)
 
+  if (length(class(models[[1]]) == 1) && class(models[[1]]) == "list")
+    models <- lapply(models[[1]], function(x) x)
+
   names(models) <- unlist(lapply(
     match.call(expand.dots = F)$`...`,
     function(.x) deparse(.x, width.cutoff = 500L))
