@@ -285,7 +285,8 @@ sjt.itemanalysis <- function(df,
     use.viewer = TRUE,
     encoding = encoding,
     show.footnote = TRUE,
-    footnotes = footns
+    footnotes = footns,
+    file = file
   )
 
   html2 <- NULL
