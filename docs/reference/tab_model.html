@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.1</span>
       </span>
     </div>
 
@@ -107,7 +107,7 @@
       <a href="../articles/table_css.html">Customizing HTML tables</a>
     </li>
     <li>
-      <a href="../articles/tab_bayes.html">Summary of Baysian Models as HTML Table</a>
+      <a href="../articles/tab_bayes.html">Summary of Bayesian Models as HTML Table</a>
     </li>
     <li>
       <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
@@ -164,7 +164,8 @@
   <span class='kw'>col.order</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"est"</span>, <span class='st'>"se"</span>, <span class='st'>"std.est"</span>, <span class='st'>"std.se"</span>, <span class='st'>"ci"</span>, <span class='st'>"std.ci"</span>,
   <span class='st'>"hdi.inner"</span>, <span class='st'>"hdi.outer"</span>, <span class='st'>"stat"</span>, <span class='st'>"p"</span>, <span class='st'>"df"</span>, <span class='st'>"response.level"</span>),
   <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"wald"</span>, <span class='st'>"kr"</span>),
-  <span class='kw'>case</span> <span class='kw'>=</span> <span class='st'>"parsed"</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
+  <span class='kw'>p.style</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"numeric"</span>, <span class='st'>"asterisk"</span>), <span class='kw'>p.threshold</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>,
+  <span class='fl'>0.001</span>), <span class='kw'>case</span> <span class='kw'>=</span> <span class='st'>"parsed"</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
   <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'><a href='sjPlot-themes.html'>css_theme</a></span>(<span class='st'>"regression"</span>), <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -434,6 +435,18 @@ with Kenward-Roger approximation for the degrees of freedom, using the
 the approximated degrees of freedom for each coefficient.</p></td>
     </tr>
     <tr>
+      <th>p.style</th>
+      <td><p>Character, indicating if p-values should be printed as
+numeric value (<code>"numeric"</code>) or as asterisks (<code>"asterisk"</code>).
+May be abbreviated.</p></td>
+    </tr>
+    <tr>
+      <th>p.threshold</th>
+      <td><p>Numeric vector of length 3, indicating the treshold for
+annotating p-values with asterisks. Only applies if
+<code>p.style = "asterisk"</code>.</p></td>
+    </tr>
+    <tr>
       <th>case</th>
       <td><p>Desired target case. Labels will automatically converted into the
 specified character case. See <code><a href='http://www.rdocumentation.org/packages/snakecase/topics/to_any_case'>to_any_case</a></code> for more
@@ -533,7 +546,10 @@ opened in a web browser.</p></td>
         or opened with the default web browser. Displaying resp. opening a temporary file is the
         default behaviour (i.e. <code>file = NULL</code>).
         <br /> <br />
-        Examples are shown in <a href='../doc/tab_model_estimates.html'>this package-vignette</a>.</p>
+        Examples are shown in these three vignettes:
+        <a href='../doc/tab_model_estimates.html'>Summary of Regression Models as HTML Table</a>,
+        <a href='../doc/tab_mixed.html'>Summary of Mixed Models as HTML Table</a> and
+        <a href='../doc/tab_bayes.html'>Summary of Bayesian Models as HTML Table</a>.</p>
     
 
   </div>

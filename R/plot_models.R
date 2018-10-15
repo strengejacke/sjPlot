@@ -77,7 +77,7 @@
 #' @importFrom sjstats std_beta p_value model_family
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom rlang .data
-#' @importFrom sjmisc word_wrap var_rename
+#' @importFrom sjmisc word_wrap var_rename add_variables
 #' @export
 plot_models <- function(...,
                         transform,
@@ -102,7 +102,7 @@ plot_models <- function(...,
                         show.intercept = FALSE,
                         show.p = TRUE,
                         p.shape = FALSE,
-                        ci.lvl = .95,
+                        p.threshold = c(0.05, 0.01, 0.001),                        ci.lvl = .95,
                         vline.color = NULL,
                         digits = 2,
                         grid = FALSE,
@@ -119,10 +119,6 @@ plot_models <- function(...,
 
   # get info on model family
   fam.info <- sjstats::model_family(input_list[[1]])
-
-  ## TODO remove once sjstats was updated to >= 0.17.1
-  if (sjmisc::is_empty(fam.info$is_linear)) fam.info$is_linear <- FALSE
-
 
   # check whether estimates should be transformed or not
 
@@ -150,7 +146,7 @@ plot_models <- function(...,
     fl <- input_list %>%
       purrr::map(~ sjstats::std_beta(.x, type = std.est)) %>%
       purrr::map(~ sjmisc::var_rename(.x, std.estimate = "estimate")) %>%
-      purrr::map2(input_list, ~ add_cols(
+      purrr::map2(input_list, ~ sjmisc::add_variables(
         .x, p.value = sjstats::p_value(.y)[["p.value"]][-1]
       ))
 
@@ -202,7 +198,7 @@ plot_models <- function(...,
 
 
   # add grouping index
-  for (i in 1:length(fl)) fl[[i]] <- add_cols(fl[[i]], group = as.character(i), .after = Inf)
+  for (i in 1:length(fl)) fl[[i]] <- sjmisc::add_variables(fl[[i]], group = as.character(i), .after = Inf)
 
   # merge models to one data frame
   ff <- dplyr::bind_rows(fl)
@@ -238,7 +234,7 @@ plot_models <- function(...,
 
   # add p-asterisks to data
 
-  ff$p.stars <- get_p_stars(ff$p.value)
+  ff$p.stars <- get_p_stars(ff$p.value, p.threshold)
   ff$p.label <- sprintf("%.*f", digits, ff$estimate)
   if (show.p) ff$p.label <- sprintf("%s %s", ff$p.label, ff$p.stars)
 

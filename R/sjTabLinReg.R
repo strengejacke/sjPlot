@@ -301,7 +301,7 @@ sjt.lm <- function(...,
     # check for p-value colum
     # -------------------------------------
     if (!sjmisc::str_contains(colnames(fit.df), "p.value")) {
-      fit.df <- add_cols(
+      fit.df <- sjmisc::add_variables(
         fit.df,
         p.value = sjstats::p_value(input_list[[i]], p.kr)[["p.value"]],
         .before = "conf.low"

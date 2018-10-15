@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0.9000</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.1</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
       <a href="../articles/table_css.html">Customizing HTML tables</a>
     </li>
     <li>
-      <a href="../articles/tab_bayes.html">Summary of Baysian Models as HTML Table</a>
+      <a href="../articles/tab_bayes.html">Summary of Bayesian Models as HTML Table</a>
     </li>
     <li>
       <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
@@ -140,7 +140,7 @@
 
     <div id="sjplot-2-6-1" class="section level1">
 <h1 class="page-header">
-<a href="#sjplot-2-6-1" class="anchor"></a>sjPlot 2.6.1<small> Unreleased </small>
+<a href="#sjplot-2-6-1" class="anchor"></a>sjPlot 2.6.1<small> 2018-10-14 </small>
 </h1>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
@@ -162,6 +162,14 @@
 <a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Arguments <code>dot.size</code> and <code>line.size</code> in <code><a href="../reference/plot_model.html">plot_model()</a></code> now also apply to marginal effects and diagnostic plots.</li>
+<li>
+<code><a href="../reference/plot_model.html">plot_model()</a></code> now uses a free x-axis scale in facets for models with zero-inflated part.</li>
+<li>
+<code><a href="../reference/plot_model.html">plot_model()</a></code> now shows multiple plots for models with zero-inflated parts when <code>grids = FALSE</code>.</li>
+<li>
+<code><a href="../reference/tab_model.html">tab_model()</a></code> gets a <code>p.style</code> and <code>p.threshold</code> argument to indicate significance levels as asteriks, and to determine the threshold for which an estimate is considered as significant.</li>
+<li>
+<code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/plot_models.html">plot_models()</a></code> get a <code>p.threshold</code> argument to determine the threshold for which an estimate is considered as significant.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -169,6 +177,10 @@
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed bug from the last update that made value labels disappear for <code><a href="../reference/plot_likert.html">plot_likert()</a></code>.</li>
+<li>
+<code><a href="../reference/tab_model.html">tab_model()</a></code> now also accepts multiple model-objects stored in a <code>list</code> as argument, as stated in the help-file.</li>
+<li>The <code>file</code>-argument now works again in <code><a href="../reference/sjt.itemanalysis.html">sjt.itemanalysis()</a></code>.</li>
+<li>Argument <code>show.ci</code> in <code><a href="../reference/tab_model.html">tab_model()</a></code> did not compute confidence intervals for different levels.</li>
 </ul>
 </div>
 </div>

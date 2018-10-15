@@ -2,6 +2,7 @@
 #' @importFrom forcats fct_reorder fct_rev
 #' @importFrom rlang .data
 #' @importFrom sjmisc remove_var
+#' @importFrom purrr pmap
 plot_model_estimates <- function(model,
                                  dat,
                                  tf,
@@ -29,6 +30,7 @@ plot_model_estimates <- function(model,
                                  vline.color,
                                  value.size,
                                  facets,
+                                 p.threshold,
                                  ...) {
 
   # remove intercept(s) from output
@@ -97,7 +99,7 @@ plot_model_estimates <- function(model,
 
   # add p-asterisks to data
 
-  dat$p.stars <- get_p_stars(dat$p.value)
+  dat$p.stars <- get_p_stars(dat$p.value, p.threshold)
   dat$p.label <- sprintf("%.*f", digits, dat$estimate)
 
   if (show.p) dat$p.label <- sprintf("%s %s", dat$p.label, dat$p.stars)
@@ -228,27 +230,64 @@ plot_model_estimates <- function(model,
     )
 
   } else {
-    plot_point_estimates(
-      model = model,
-      dat = dat,
-      tf = tf,
-      title = title,
-      axis.labels = axis.labels,
-      axis.title = axis.title,
-      axis.lim = axis.lim,
-      grid.breaks = grid.breaks,
-      show.values = show.values,
-      value.offset = value.offset,
-      geom.size = geom.size,
-      line.size = line.size,
-      geom.colors = geom.colors,
-      bpe.style = bpe.style,
-      bpe.color = bpe.color,
-      vline.color = vline.color,
-      value.size = value.size,
-      facets = facets,
-      ...
-    )
+
+    if (obj_has_name(dat, "wrap.facet") && dplyr::n_distinct(dat$wrap.facet, na.rm = TRUE) > 1 && !facets) {
+
+      dat <- purrr::map(split(dat, f = dat$wrap.facet), ~ sjmisc::remove_var(.x, "wrap.facet"))
+
+      if (length(axis.title) == 1) axis.title <- c(axis.title, "Odds Ratios")
+
+      purrr::pmap(list(dat, axis.title, names(dat)), function(.x, .y, .z) {
+
+        plot_point_estimates(
+          model = model,
+          dat = .x,
+          tf = tf,
+          title = paste0(title, " (", .z, ")"),
+          axis.labels = axis.labels,
+          axis.title = .y,
+          axis.lim = NULL,
+          grid.breaks = NULL,
+          show.values = show.values,
+          value.offset = value.offset,
+          geom.size = geom.size,
+          line.size = line.size,
+          geom.colors = geom.colors,
+          bpe.style = bpe.style,
+          bpe.color = bpe.color,
+          vline.color = vline.color,
+          value.size = value.size,
+          facets = facets,
+          ...
+        )
+
+      })
+
+    } else {
+
+      plot_point_estimates(
+        model = model,
+        dat = dat,
+        tf = tf,
+        title = title,
+        axis.labels = axis.labels,
+        axis.title = axis.title,
+        axis.lim = axis.lim,
+        grid.breaks = grid.breaks,
+        show.values = show.values,
+        value.offset = value.offset,
+        geom.size = geom.size,
+        line.size = line.size,
+        geom.colors = geom.colors,
+        bpe.style = bpe.style,
+        bpe.color = bpe.color,
+        vline.color = vline.color,
+        value.size = value.size,
+        facets = facets,
+        ...
+      )
+
+    }
   }
 }
 

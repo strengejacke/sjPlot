@@ -107,7 +107,7 @@ axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, expon
 
 #' @importFrom sjstats model_family
 #' @importFrom dplyr case_when
-estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.resp = NULL) {
+estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.resp = NULL, include.zeroinf = FALSE) {
 
   # no automatic title for effect-plots
   if (type %in% c("eff", "pred", "int")) return(axis.title)
@@ -120,10 +120,7 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
     else
       fitfam <- sjstats::model_family(fit)
 
-    ## TODO remove once sjstats was updated to >= 0.17.1
-    if (sjmisc::is_empty(fitfam$is_linear)) fitfam$is_linear <- FALSE
-
-    axis.title <-  dplyr::case_when(
+    axis.title <- dplyr::case_when(
       !is.null(transform) && transform == "plogis" ~ "Probabilities",
       is.null(transform) && fitfam$is_bin ~ "Log-Odds",
       is.null(transform) && fitfam$is_ordinal ~ "Log-Odds",
@@ -136,6 +133,14 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
       fitfam$is_bin ~ "Odds Ratios",
       TRUE ~ "Estimates"
     )
+
+    if (fitfam$is_zeroinf && isTRUE(include.zeroinf)) {
+      if (is.null(transform))
+        axis.title <- c(axis.title, "Log-Odds")
+      else
+        axis.title <- c(axis.title, "Odds Ratios")
+    }
+
   }
 
   axis.title
@@ -143,12 +148,15 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
 
 
 #' @importFrom dplyr case_when
-get_p_stars <- function(pval) {
+get_p_stars <- function(pval, thresholds = NULL) {
+
+  if (is.null(thresholds)) thresholds <- c(.05, .01, .001)
+
   dplyr::case_when(
     is.na(pval) ~ "",
-    pval < 0.001 ~ "***",
-    pval < 0.01 ~ "**",
-    pval < 0.05 ~ "*",
+    pval < thresholds[3] ~ "***",
+    pval < thresholds[2] ~ "**",
+    pval < thresholds[1] ~ "*",
     TRUE ~ ""
   )
 }

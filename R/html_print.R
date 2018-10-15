@@ -261,6 +261,7 @@ tab_model_df <- function(x,
                          aic.list,
                          n.models,
                          title = NULL,
+                         footnote = NULL,
                          col.header = NULL,
                          show.re.var = FALSE,
                          show.icc = FALSE,
@@ -675,6 +676,15 @@ tab_model_df <- function(x,
 
 
   ## TODO add bottom table border
+
+  # add optional "footnote" row ----
+
+  if (!is.null(footnote)) {
+    page.content <- paste0(page.content, "  <tr>\n")
+    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"footnote\">%s</td>\n", ncol(x), footnote))
+    page.content <- paste0(page.content, "</tr>\n")
+  }
+
 
   # add table-caption ----
 

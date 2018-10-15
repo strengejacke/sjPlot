@@ -160,19 +160,33 @@ plot_point_estimates <- function(model,
 
   # we need transformed scale for exponentiated estimates
 
+  has_zeroinf <- (obj_has_name(dat, "wrap.facet") && dplyr::n_distinct(dat$wrap.facet, na.rm = TRUE) > 1)
+
   if (isTRUE(tf == "exp")) {
-    p <- p + scale_y_continuous(
-      trans = "log10",
-      limits = axis.scaling$axis.lim,
-      breaks = axis.scaling$ticks,
-      labels = prettyNum
-    )
+
+    if (has_zeroinf) {
+      p <- p + scale_y_continuous(trans = "log10")
+    } else {
+      p <- p + scale_y_continuous(
+        trans = "log10",
+        limits = axis.scaling$axis.lim,
+        breaks = axis.scaling$ticks,
+        labels = prettyNum
+      )
+    }
+
   } else {
-    p <- p + scale_y_continuous(
-      limits = axis.scaling$axis.lim,
-      breaks = axis.scaling$ticks,
-      labels = axis.scaling$ticks
-    )
+
+    if (has_zeroinf) {
+
+    } else {
+      p <- p + scale_y_continuous(
+        limits = axis.scaling$axis.lim,
+        breaks = axis.scaling$ticks,
+        labels = axis.scaling$ticks
+      )
+    }
+
   }
 
 
@@ -188,12 +202,14 @@ plot_point_estimates <- function(model,
   if (obj_has_name(dat, "facet") && dplyr::n_distinct(dat$facet, na.rm = TRUE) > 1)
     p <- p +
       facet_grid(~facet)
-  else if (obj_has_name(dat, "wrap.facet") && dplyr::n_distinct(dat$wrap.facet, na.rm = TRUE) > 1)
+  else if (has_zeroinf)
     p <- p +
       facet_wrap(~wrap.facet, ncol = 1, scales = "free_x")
 
 
   # set axis and plot titles
+
+  if (length(axis.title) > 1) axis.title <- axis.title[1]
 
   p <-
     p + labs(

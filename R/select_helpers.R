@@ -36,34 +36,6 @@ obj_has_rownames <- function(x) {
 }
 
 #' @importFrom dplyr select
-add_cols <- function(data, ..., .after = 1, .before = NULL) {
-  if (is.character(.after))
-    .after <- which(colnames(data) == .after)
-
-  if (!is.null(.before) && is.character(.before))
-    .after <- which(colnames(data) == .before) - 1
-
-  if (!is.null(.before) && is.numeric(.before))
-    .after <- .before - 1
-
-  dat <- data.frame(..., stringsAsFactors = FALSE)
-
-  if (.after < 1) {
-    cbind(dat, data)
-  } else if (is.infinite(.after)) {
-    cbind(data, dat)
-  } else {
-    c1 <- 1:.after
-    c2 <- (.after + 1):ncol(data)
-
-    x1 <- dplyr::select(data, !! c1)
-    x2 <- dplyr::select(data, !! c2)
-
-    cbind(x1, dat, x2)
-  }
-}
-
-#' @importFrom dplyr select
 add_cases <- function(data, ..., .after = -1, .before = NULL) {
 
   dat <- data.frame(..., stringsAsFactors = FALSE)

@@ -11,9 +11,9 @@ plot_models(..., transform, std.est = NULL, rm.terms = NULL,
   wrap.title = 50, wrap.labels = 25, wrap.legend.title = 20,
   grid.breaks = NULL, dot.size = 3, spacing = 0.4, colors = "Set1",
   show.values = FALSE, show.legend = TRUE, show.intercept = FALSE,
-  show.p = TRUE, p.shape = FALSE, ci.lvl = 0.95,
-  vline.color = NULL, digits = 2, grid = FALSE, auto.label = TRUE,
-  prefix.labels = c("none", "varname", "label"))
+  show.p = TRUE, p.shape = FALSE, p.threshold = c(0.05, 0.01, 0.001),
+  ci.lvl = 0.95, vline.color = NULL, digits = 2, grid = FALSE,
+  auto.label = TRUE, prefix.labels = c("none", "varname", "label"))
 }
 \arguments{
 \item{...}{One or more regression models, including glm's or mixed models.
@@ -133,6 +133,10 @@ estimates to the value labels.}
 \item{p.shape}{Logical, if \code{TRUE}, significant levels are distinguished by
 different point shapes and a related legend is plotted. Default
 is \code{FALSE}.}
+
+\item{p.threshold}{Numeric vector of length 3, indicating the treshold for
+annotating p-values with asterisks. Only applies if
+\code{p.style = "asterisk"}.}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals (error bars).
 Use \code{ci.lvl = NA} to remove error bars. For \code{stanreg}-models,

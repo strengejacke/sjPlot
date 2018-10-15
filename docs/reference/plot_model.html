@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.1</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@
       <a href="../articles/table_css.html">Customizing HTML tables</a>
     </li>
     <li>
-      <a href="../articles/tab_bayes.html">Summary of Baysian Models as HTML Table</a>
+      <a href="../articles/tab_bayes.html">Summary of Bayesian Models as HTML Table</a>
     </li>
     <li>
       <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
@@ -161,9 +161,10 @@
   <span class='kw'>show.intercept</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>show.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.zeroinf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>value.offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>value.size</span>, <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vline.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>grid</span>, <span class='no'>case</span>,
-  <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>),
-  <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>, <span class='kw'>bpe.style</span> <span class='kw'>=</span> <span class='st'>"line"</span>, <span class='kw'>bpe.color</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='no'>...</span>)
+  <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vline.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>p.threshold</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span>), <span class='no'>grid</span>, <span class='no'>case</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>), <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
+  <span class='kw'>bpe.style</span> <span class='kw'>=</span> <span class='st'>"line"</span>, <span class='kw'>bpe.color</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='no'>...</span>)
 
 <span class='fu'>get_model_data</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"est"</span>, <span class='st'>"re"</span>, <span class='st'>"eff"</span>, <span class='st'>"pred"</span>, <span class='st'>"int"</span>, <span class='st'>"std"</span>,
   <span class='st'>"std2"</span>, <span class='st'>"slope"</span>, <span class='st'>"resid"</span>, <span class='st'>"diag"</span>), <span class='no'>transform</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -496,6 +497,12 @@ estimates or values.</p></td>
 inherited from the current theme.</p></td>
     </tr>
     <tr>
+      <th>p.threshold</th>
+      <td><p>Numeric vector of length 3, indicating the treshold for
+annotating p-values with asterisks. Only applies if
+<code>p.style = "asterisk"</code>.</p></td>
+    </tr>
+    <tr>
       <th>grid</th>
       <td><p>Logical, if <code>TRUE</code>, multiple plots are plotted as grid
 layout.</p></td>
@@ -654,7 +661,7 @@ of supported arguments and their description in detail.</p><dl class='dl-horizon
 <span class='fu'>library</span>(<span class='no'>lme4</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: Matrix</span></div><div class='input'><span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/lme4/topics/lmer'>lmer</a></span>(<span class='no'>Reaction</span> ~ <span class='no'>Days</span> + (<span class='no'>Days</span> <span class='kw'>|</span> <span class='no'>Subject</span>), <span class='no'>sleepstudy</span>)
 <span class='fu'>plot_model</span>(<span class='no'>m</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"re"</span>)</div><div class='img'><img src='plot_model-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot marginal effects</span>
-<span class='fu'>plot_model</span>(<span class='no'>m</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"eff"</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"Days"</span>)</div><div class='img'><img src='plot_model-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_model</span>(<span class='no'>m</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"pred"</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='st'>"Days"</span>)</div><div class='img'><img src='plot_model-5.png' alt='' width='700' height='433' /></div><div class='input'>
 # plot interactions
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>m</span> <span class='kw'>&lt;-</span> <span class='fu'>glm</span>(

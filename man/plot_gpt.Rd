@@ -78,7 +78,7 @@ displayed in one line and when a line break is inserted.}
 \item{axis.lim}{Numeric vector of length 2, defining the range of the plot axis.
 Depending on plot type, may effect either x- or y-axis, or both.
 For multiple plot outputs (e.g., from \code{type = "eff"} or
-\code{type = "slope"} in \code{\link{plot_model()}}), \code{axis.lim} may
+\code{type = "slope"} in \code{\link{plot_model}}), \code{axis.lim} may
 also be a list of vectors of length 2, defining axis limits for each
 plot (only if non-faceted).}
 

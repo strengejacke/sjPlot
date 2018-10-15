@@ -21,7 +21,8 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   col.order = c("est", "se", "std.est", "std.se", "ci", "std.ci",
   "hdi.inner", "hdi.outer", "stat", "p", "df", "response.level"),
   digits = 2, digits.p = 3, emph.p = TRUE, p.val = c("wald", "kr"),
-  case = "parsed", auto.label = TRUE, bpe = "median",
+  p.style = c("numeric", "asterisk"), p.threshold = c(0.05, 0.01,
+  0.001), case = "parsed", auto.label = TRUE, bpe = "median",
   CSS = css_theme("regression"), file = NULL, use.viewer = TRUE)
 }
 \arguments{
@@ -196,6 +197,14 @@ with Kenward-Roger approximation for the degrees of freedom, using the
 \pkg{pbkrtest}-package. In this case, use \code{show.df = TRUE} to show
 the approximated degrees of freedom for each coefficient.}
 
+\item{p.style}{Character, indicating if p-values should be printed as
+numeric value (\code{"numeric"}) or as asterisks (\code{"asterisk"}).
+May be abbreviated.}
+
+\item{p.threshold}{Numeric vector of length 3, indicating the treshold for
+annotating p-values with asterisks. Only applies if
+\code{p.style = "asterisk"}.}
+
 \item{case}{Desired target case. Labels will automatically converted into the
 specified character case. See \code{\link[snakecase]{to_any_case}} for more
 details on this argument. By default, if \code{case} is not specified,
@@ -287,5 +296,8 @@ The HTML tables can either be saved as file and manually opened (use argument \c
         or opened with the default web browser. Displaying resp. opening a temporary file is the
         default behaviour (i.e. \code{file = NULL}).
         \cr \cr
-        Examples are shown in \href{../doc/tab_model_estimates.html}{this package-vignette}.
+        Examples are shown in these three vignettes:
+        \href{../doc/tab_model_estimates.html}{Summary of Regression Models as HTML Table},
+        \href{../doc/tab_mixed.html}{Summary of Mixed Models as HTML Table} and
+        \href{../doc/tab_bayes.html}{Summary of Bayesian Models as HTML Table}.
 }

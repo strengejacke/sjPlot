@@ -64,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.1</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@
       <a href="../articles/table_css.html">Customizing HTML tables</a>
     </li>
     <li>
-      <a href="../articles/tab_bayes.html">Summary of Baysian Models as HTML Table</a>
+      <a href="../articles/tab_bayes.html">Summary of Bayesian Models as HTML Table</a>
     </li>
     <li>
       <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
@@ -156,9 +156,9 @@
   <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>20</span>,
   <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>spacing</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>,
   <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.intercept</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.shape</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
-  <span class='kw'>vline.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>))</pre>
+  <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.shape</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>p.threshold</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span>),
+  <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>vline.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -324,6 +324,12 @@ estimates to the value labels.</p></td>
       <td><p>Logical, if <code>TRUE</code>, significant levels are distinguished by
 different point shapes and a related legend is plotted. Default
 is <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>p.threshold</th>
+      <td><p>Numeric vector of length 3, indicating the treshold for
+annotating p-values with asterisks. Only applies if
+<code>p.style = "asterisk"</code>.</p></td>
     </tr>
     <tr>
       <th>ci.lvl</th>

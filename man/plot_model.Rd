@@ -17,9 +17,10 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std",
   show.intercept = FALSE, show.values = FALSE, show.p = TRUE,
   show.data = FALSE, show.legend = TRUE, show.zeroinf = TRUE,
   value.offset = NULL, value.size, jitter = NULL, digits = 2,
-  dot.size = NULL, line.size = NULL, vline.color = NULL, grid, case,
-  auto.label = TRUE, prefix.labels = c("none", "varname", "label"),
-  bpe = "median", bpe.style = "line", bpe.color = "white", ...)
+  dot.size = NULL, line.size = NULL, vline.color = NULL,
+  p.threshold = c(0.05, 0.01, 0.001), grid, case, auto.label = TRUE,
+  prefix.labels = c("none", "varname", "label"), bpe = "median",
+  bpe.style = "line", bpe.color = "white", ...)
 
 get_model_data(model, type = c("est", "re", "eff", "pred", "int", "std",
   "std2", "slope", "resid", "diag"), transform, terms = NULL,
@@ -288,6 +289,10 @@ estimates or values.}
 \item{vline.color}{Color of the vertical "zero effect" line. Default color is
 inherited from the current theme.}
 
+\item{p.threshold}{Numeric vector of length 3, indicating the treshold for
+annotating p-values with asterisks. Only applies if
+\code{p.style = "asterisk"}.}
+
 \item{grid}{Logical, if \code{TRUE}, multiple plots are plotted as grid
 layout.}
 
@@ -439,7 +444,7 @@ m <- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
 plot_model(m, type = "re")
 
 # plot marginal effects
-plot_model(m, type = "eff", terms = "Days")
+plot_model(m, type = "pred", terms = "Days")
 
 # plot interactions
 \dontrun{

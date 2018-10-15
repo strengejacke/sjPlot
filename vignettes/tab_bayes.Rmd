@@ -1,5 +1,5 @@
 ---
-title: "Summary of Baysian Models as HTML Table"
+title: "Summary of Bayesian Models as HTML Table"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -9,7 +9,7 @@ params:
 
 <!--
 vignette: >
-  %\VignetteIndexEntry{Summary of Baysian Models as HTML Table}
+  %\VignetteIndexEntry{Summary of Bayesian Models as HTML Table}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 -->

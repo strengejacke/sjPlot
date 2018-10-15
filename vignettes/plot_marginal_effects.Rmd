@@ -3,14 +3,28 @@ title: "Plotting Marginal Effects of Regression Models"
 author: "Daniel Lüdecke"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+params:
+    EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
+---
+
+<!--
 vignette: >
   %\VignetteIndexEntry{Plotting Marginal Effects of Regression Models}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
----
+-->
 
 ```{r set-options, echo = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 3.5, message = FALSE, warning = FALSE)
+knitr::opts_chunk$set(
+  collapse = TRUE, 
+  comment = "#>", 
+  message = FALSE,
+  dev = "png", 
+  fig.width = 7, 
+  fig.height = 3.5, 
+  warning = FALSE,
+  eval = if (isTRUE(exists("params"))) params$EVAL else FALSE
+)
 options(width = 800, tibble.width = Inf)
 ```
 

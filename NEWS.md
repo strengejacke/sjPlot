@@ -12,12 +12,16 @@
 
 * Arguments `dot.size` and `line.size` in `plot_model()` now also apply to marginal effects and diagnostic plots.
 * `plot_model()` now uses a free x-axis scale in facets for models with zero-inflated part.
+* `plot_model()` now shows multiple plots for models with zero-inflated parts when `grids = FALSE`.
+* `tab_model()` gets a `p.style` and `p.threshold` argument to indicate significance levels as asteriks, and to determine the threshold for which an estimate is considered as significant.
+* `plot_model()` and `plot_models()` get a `p.threshold` argument to determine the threshold for which an estimate is considered as significant.
 
 ## Bug fixes
 
 * Fixed bug from the last update that made value labels disappear for `plot_likert()`.
 * `tab_model()` now also accepts multiple model-objects stored in a `list` as argument, as stated in the help-file.
 * The `file`-argument now works again in `sjt.itemanalysis()`.
+* Argument `show.ci` in `tab_model()` did not compute confidence intervals for different levels.
 
 # sjPlot 2.6.0
 

@@ -1,5 +1,6 @@
 #' @importFrom broom tidy
 #' @importFrom sjstats robust
+#' @importFrom sjmisc add_variables
 plot_type_est <- function(type,
                           ci.lvl,
                           se,
@@ -30,6 +31,7 @@ plot_type_est <- function(type,
                           bpe.color,
                           facets,
                           show.zeroinf,
+                          p.threshold,
                           ...) {
 
   if (missing(facets)) facets <- TRUE
@@ -41,7 +43,7 @@ plot_type_est <- function(type,
   } else {
     dat <- model %>%
       sjstats::std_beta(type = type, ci.lvl = ci.lvl) %>%
-      add_cols(p.value = sjstats::p_value(model)[["p.value"]][-1]) %>%
+      sjmisc::add_variables(p.value = sjstats::p_value(model)[["p.value"]][-1]) %>%
       sjmisc::var_rename(std.estimate = "estimate")
 
     show.intercept <- FALSE
@@ -119,6 +121,7 @@ plot_type_est <- function(type,
     vline.color = vline.color,
     value.size = value.size,
     facets = facets,
+    p.threshold = p.threshold,
     ...
   )
 }

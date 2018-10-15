@@ -49,27 +49,20 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
 #' @importFrom dplyr mutate
 tidy_generic <- function(model, ci.lvl, facets, p.val) {
 
+  # compute ci, two-ways
+
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    ci <- 1 - ((1 - ci.lvl) / 2)
+  else
+    ci <- .975
+
+
   # check for multiple reponse levels
 
   if (inherits(stats::coef(summary(model)), "listof")) {
 
-    # compute ci, two-ways
-
-    if (!is.null(ci.lvl) && !is.na(ci.lvl))
-      ci <- 1 - ((1 - ci.lvl) / 2)
-    else
-      ci <- .975
-
     # get estimates, as data frame
     dat <- broom::tidy(model, conf.int = FALSE, exponentiate = FALSE)
-
-    # add conf. int.
-
-    dat <- dat %>%
-      dplyr::mutate(
-        conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
-        conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error
-      )
 
     # check whether each category should be printed in facets, or
     # in a single graph (with dodged geoms)
@@ -86,7 +79,7 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
     if (inherits(model, "lmerModLmerTest")) {
       dat <- tidy_lmerModLmerTest(model, ci.lvl)
     } else {
-      dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
+      dat <- broom::tidy(model, conf.int = FALSE, effects = "fixed")
     }
 
 
@@ -105,9 +98,6 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
         dat$df <- round(attr(pv, "df.kr", exact = TRUE))
       }
 
-      dat$conf.low <- dat$estimate - stats::qnorm(ci.lvl) * dat$std.error
-      dat$conf.high <- dat$estimate + stats::qnorm(ci.lvl) * dat$std.error
-
     } else {
 
       # see if we have p-values. if not, add them
@@ -117,6 +107,14 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
           error = function(x) { NA }
         )
     }
+  }
+
+  if (obj_has_name(dat, "std.error")) {
+    dat$conf.low <- dat$estimate - stats::qnorm(ci) * dat$std.error
+    dat$conf.high <- dat$estimate + stats::qnorm(ci) * dat$std.error
+  } else {
+    dat$conf.low <- NA
+    dat$conf.high <- NA
   }
 
   dat
@@ -132,9 +130,6 @@ tidy_lmerModLmerTest <- function(model, ci.lvl) {
     dplyr::select(1, 2, 3, 5)
 
   colnames(dat) <- c("term", "estimate", "std.error", "statistic")
-
-  dat$conf.low <- dat$estimate - stats::qnorm(ci.lvl) * dat$std.error
-  dat$conf.high <- dat$estimate + stats::qnorm(ci.lvl) * dat$std.error
 
   dat
 }
@@ -411,7 +406,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     if (length(string_starts_with("b_mu", x = dat$term)) == nrow(dat)) {
       dat$term <- substr(dat$term, 5, max(nchar(dat$term)))
       # create "response-level" variable
-      dat <- add_cols(dat, response.level = "", .before = 1)
+      dat <- sjmisc::add_variables(dat, response.level = "", .before = 1)
       dat$response.level <- gsub("(.*)\\_(.*)", "\\1", dat$term)
       dat$term <- gsub("(.*)\\_(.*)", "\\2", dat$term)
     }
@@ -438,7 +433,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
     # create "response-level" variable
 
-    dat <- add_cols(dat, response.level = "", .before = 1)
+    dat <- sjmisc::add_variables(dat, response.level = "", .before = 1)
 
     # copy name of response into new character variable
     # and remove response name from term name
@@ -454,7 +449,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     # check whether each category should be printed in facets, or
     # in a single graph (with dodged geoms)
 
-    if (isTRUE(facets))
+    if (!missing(facets) && isTRUE(facets))
       colnames(dat)[1] <- "facet"
     else
       colnames(dat)[1] <- "response.level"

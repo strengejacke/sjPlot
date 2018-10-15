@@ -2,8 +2,8 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 2.6.0.9000
-Date: 2018-08-24
+Version: 2.6.1
+Date: 2018-10-14
 Authors@R: c(
     person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8895-3206")),
     person("Carsten", "Schwemmer", email = "carsten.schwemmer@uni-bamberg.de", role = "ctb")
@@ -28,7 +28,7 @@ Imports:
     broom (>= 0.4.5),
     dplyr (>= 0.7.5),
     forcats,
-    ggeffects (>= 0.5.0),
+    ggeffects (>= 0.6.0),
     glmmTMB,
     ggplot2 (>= 2.2.1),
     knitr,
@@ -41,9 +41,9 @@ Imports:
     purrr,
     rlang,
     scales,
-    sjlabelled (>= 1.0.13),
-    sjmisc (>= 2.7.4),
-    sjstats (>= 0.17.0),
+    sjlabelled (>= 1.0.14),
+    sjmisc (>= 2.7.5),
+    sjstats (>= 0.17.1),
     tidyr (>= 0.7.0)
 Suggests:
     AICcmodavg,

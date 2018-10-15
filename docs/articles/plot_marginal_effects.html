@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.0</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">2.6.1</span>
       </span>
     </div>
 
@@ -74,7 +74,7 @@
       <a href="../articles/table_css.html">Customizing HTML tables</a>
     </li>
     <li>
-      <a href="../articles/tab_bayes.html">Summary of Baysian Models as HTML Table</a>
+      <a href="../articles/tab_bayes.html">Summary of Bayesian Models as HTML Table</a>
     </li>
     <li>
       <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
@@ -103,7 +103,7 @@
       <h1>Plotting Marginal Effects of Regression Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2018-08-23</h4>
+            <h4 class="date">2018-10-15</h4>
       
       
       <div class="hidden name"><code>plot_marginal_effects.Rmd</code></div>
@@ -112,6 +112,12 @@
 
     
     
+<!--
+vignette: >
+  %\VignetteIndexEntry{Plotting Marginal Effects of Regression Models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+-->
 <p>This document describes how to plot marginal effects of various regression models, using the <code><a href="../reference/plot_model.html">plot_model()</a></code> function. <code><a href="../reference/plot_model.html">plot_model()</a></code> is a generic plot-function, which accepts many model-objects, like <code>lm</code>, <code>glm</code>, <code>lme</code>, <code>lmerMod</code> etc.</p>
 <p><code><a href="../reference/plot_model.html">plot_model()</a></code> allows to create various plot tyes, which can be defined via the <code>type</code>-argument. The default is <code>type = "fe"</code>, which means that fixed effects (model coefficients) are plotted. To plot marginal effects, call <code><a href="../reference/plot_model.html">plot_model()</a></code> with:</p>
 <ul>

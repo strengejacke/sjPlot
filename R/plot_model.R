@@ -216,6 +216,9 @@
 #'   }
 #' @param grid Logical, if \code{TRUE}, multiple plots are plotted as grid
 #'   layout.
+#' @param p.threshold Numeric vector of length 3, indicating the treshold for
+#'   annotating p-values with asterisks. Only applies if
+#'   \code{p.style = "asterisk"}.
 #' @param wrap.title Numeric, determines how many chars of the plot title are
 #'   displayed in one line and when a line break is inserted.
 #' @param wrap.labels Numeric, determines how many chars of the value, variable
@@ -376,7 +379,7 @@
 #' plot_model(m, type = "re")
 #'
 #' # plot marginal effects
-#' plot_model(m, type = "eff", terms = "Days")
+#' plot_model(m, type = "pred", terms = "Days")
 #'
 #' # plot interactions
 #' \dontrun{
@@ -448,6 +451,7 @@ plot_model <- function(model,
                        dot.size = NULL,
                        line.size = NULL,
                        vline.color = NULL,
+                       p.threshold = c(0.05, 0.01, 0.001),
                        grid,
                        case,
                        auto.label = TRUE,
@@ -480,9 +484,6 @@ plot_model <- function(model,
   # get info on model family
   fam.info <- sjstats::model_family(model)
 
-  ## TODO remove once sjstats was updated to >= 0.17.1
-  if (sjmisc::is_empty(fam.info$is_linear)) fam.info$is_linear <- FALSE
-
   # check whether estimates should be transformed or not
 
   if (missing(transform)) {
@@ -509,7 +510,7 @@ plot_model <- function(model,
     axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
 
     # title for axis with estimate values
-    if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(estimate_axis_title(model, axis.title, type, transform), wrap = wrap.title)
+    if (is.null(axis.title)) axis.title <- sjmisc::word_wrap(estimate_axis_title(fit = model, axis.title = axis.title, type = type, transform = transform, include.zeroinf = TRUE), wrap = wrap.title)
     axis.title <- sjmisc::word_wrap(axis.title, wrap = wrap.labels)
 
   }
@@ -581,6 +582,7 @@ plot_model <- function(model,
       bpe.color = bpe.color,
       facets = grid,
       show.zeroinf = show.zeroinf,
+      p.threshold = p.threshold,
       ...
     )
 

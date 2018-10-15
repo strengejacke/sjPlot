@@ -36,6 +36,9 @@ plot_type_eff <- function(type,
     )
   }
 
+
+  if (is.null(dat)) return(NULL)
+
   # evaluate dots-arguments
   alpha <- .15
   dodge <- .1
