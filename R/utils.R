@@ -229,7 +229,7 @@ check_se_argument <- function(se, type = NULL) {
     }
 
     # no robust s.e. for random effetcs
-    if (type == "re") {
+    if (!is.null(type) && type == "re") {
       warning("No robust standard errors for `type = \"re\"`.")
       se <- TRUE
     }

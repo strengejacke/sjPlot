@@ -48,7 +48,11 @@ confidence intervals.}
 \item{show.hdi50}{Logical, if \code{TRUE}, for Bayesian models, a second
 credible interval is added to the table output.}
 
-\item{show.se}{Logical, if \code{TRUE}, the standard errors are also printed.}
+\item{show.se}{Either logical, and if \code{TRUE}, the standard errors are
+also printed. Or a character vector with a specification of the
+covariance matrix to compute robust standard errors (see argument \code{vcov}
+of \code{\link[sjstats]{robust}} for valid values; robust standard errors
+are only supported for models that work with \code{\link[lmtest]{coeftest}}).}
 
 \item{show.std}{Indicates whether standardized beta-coefficients should
 also printed, and if yes, which type of standardization is done.

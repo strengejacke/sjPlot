@@ -64,7 +64,11 @@
 #'    also printed, and if yes, which type of standardization is done.
 #'    See 'Details'.
 #' @param show.p Logical, if \code{TRUE}, p-values are also printed.
-#' @param show.se Logical, if \code{TRUE}, the standard errors are also printed.
+#' @param show.se Either logical, and if \code{TRUE}, the standard errors are
+#'   also printed. Or a character vector with a specification of the
+#'   covariance matrix to compute robust standard errors (see argument \code{vcov}
+#'   of \code{\link[sjstats]{robust}} for valid values; robust standard errors
+#'   are only supported for models that work with \code{\link[lmtest]{coeftest}}).
 #' @param show.r2 Logical, if \code{TRUE}, the r-squared value is also printed.
 #'    Depending on the model, these might be pseudo-r-squared values, or Bayesian
 #'    r-squared etc. See \code{\link[sjstats]{r2}} for details.
@@ -196,7 +200,7 @@
 #' @importFrom dplyr full_join select if_else mutate
 #' @importFrom purrr reduce map2 map_if map_df compact map_lgl map_chr flatten_chr
 #' @importFrom sjlabelled get_dv_labels get_term_labels
-#' @importFrom sjmisc word_wrap var_rename add_columns
+#' @importFrom sjmisc word_wrap var_rename add_columns add_case
 #' @importFrom sjstats std_beta model_family r2 icc resp_var
 #' @importFrom stats nobs
 #' @importFrom rlang .data
@@ -284,6 +288,9 @@ tab_model <- function(
   p.style <- match.arg(p.style)
 
   if (p.style == "asterisk") show.p <- FALSE
+
+  # check se-argument
+  show.se <- check_se_argument(se = show.se, type = NULL)
 
 
   models <- list(...)
@@ -424,7 +431,7 @@ tab_model <- function(
             conf.low = "std.conf.low",
             conf.high = "std.conf.high"
           ) %>%
-          add_cases(.after = -1) %>%
+          sjmisc::add_case(.after = -1) %>%
           dplyr::select(-1) %>%
           sjmisc::add_columns(dat) %>%
           dplyr::mutate(std.conf.int = sprintf(
