@@ -104,7 +104,7 @@ would remove the terms \code{"t_name2"} and \code{"t_name3"} (assuming
 that the variable \code{t_name} is categorical and has at least
 the factor levels \code{2} and \code{3}). Another example for the
 \emph{iris}-dataset: \code{terms = "Species"} would not work, instead
-you would \code{terms = "Species [versicolor,virginica]"}.}
+use \code{terms = "Species [versicolor,virginica]"}.}
 
 \item{rm.terms}{Character vector with names that indicate which terms should
 be removed from the output Counterpart to \code{terms}. \code{rm.terms =

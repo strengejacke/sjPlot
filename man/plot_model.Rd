@@ -60,10 +60,10 @@ kinds of models are supported, e.g. from packages like \pkg{stats},
 \describe{
   \item{\code{type = "slope"}}{Slope of coefficients for each single
   predictor, against the response (linear relationship between each model
-  term and response).}
+  term and response). See 'Details'.}
   \item{\code{type = "resid"}}{Slope of coefficients for each single
   predictor, against the residuals (linear relationship between each model
-  term and residuals).}
+  term and residuals). See 'Details'.}
   \item{\code{type = "diag"}}{Check model assumptions.}
 }
 \strong{Note:} For mixed models, the diagnostic plots like linear relationship
@@ -108,10 +108,15 @@ non-transformed estimates.}
      Values for predictions will then be transformed, e.g.
      \code{terms = "income [exp]"}. This is useful when model predictors were
      transformed for fitting the model and should be back-transformed to the
-     original scale for predictions. Finally, using \code{pretty} for numeric
-     variables (e.g. \code{terms = "age [pretty]"}) calculates a pretty range
-     of values for the term, roughly of proportional length to the term's
-     value range. For more details, see \code{\link[ggeffects]{ggpredict}}.}
+     original scale for predictions. Finally, numeric vectors for which no
+     specific values are given, a "pretty range" is calculated, to avoid
+     memory allocation problems for vectors with many unique values. If a
+     numeric vector is specified as second or third term (i.e. if this vector
+     represents a grouping structure), representative values (see
+     \code{\link[ggeffects]{rprs_values}}) are chosen. If all values for a
+     numeric vector should be used to compute predictions, you may use
+     e.g. terms = "age [all]". For more details, see
+     \code{\link[ggeffects]{ggpredict}}.}
 }}
 
 \item{sort.est}{Determines in which way estimates are sorted in the plot:
@@ -387,19 +392,21 @@ Depending on the plot-type, \code{plot_model()} returns a
 \code{get_model_data()} simply calls \code{plot_model()} and returns
   the data from the ggplot-object. Hence, it is rather inefficient and should
   be used as alternative to \pkg{brooms} \code{tidy()}-function only in
-  specific situations. \cr \cr Some notes on the different plot-types:
+  specific situations. \cr \cr Some details on the different plot-types:
   \describe{
-    \item{\code{type = "std2"}}{Plots standardized beta values,
+  \item{\code{type = "std2"}}{Plots standardized beta values,
     however, standardization follows Gelman's (2008) suggestion, rescaling the
     estimates by dividing them by two standard deviations instead of just one.
     Resulting coefficients are then directly comparable for untransformed
     binary predictors.
   }
   \item{\code{type = "pred"}}{Plots marginal effects. Simply wraps
-    \code{\link[ggeffects]{ggpredict}}.
+    \code{\link[ggeffects]{ggpredict}}. See also
+    \href{../doc/plot_marginal_effects.html}{this package-vignette}.
   }
   \item{\code{type = "eff"}}{Plots marginal effects. Simply wraps
-    \code{\link[ggeffects]{ggeffect}}.
+    \code{\link[ggeffects]{ggeffect}}. See also
+    \href{../doc/plot_marginal_effects.html}{this package-vignette}.
   }
   \item{\code{type = "int"}}{A shortcut for marginal effects plots, where
     interaction terms are automatically detected and used as
@@ -412,7 +419,18 @@ Depending on the plot-type, \code{plot_model()} returns a
     third) variable in an interaction is used as grouping factor(s)
     (moderating variable). Use \code{type = "pred"} or \code{type = "eff"}
     and specify a certain order in the \code{terms}-argument to indicate
-    which variable(s) should be used as moderator.}
+    which variable(s) should be used as moderator. See also
+    \href{../doc/plot_interactions.html}{this package-vignette}.
+  }
+  \item{\code{type = "slope"} and \code{type = "resid"}}{Simple diagnostic-plots,
+  where a linear model for each single predictor is plotted against the
+  response variable, or the model's residuals. Additionally, a loess-smoothed
+  line is added to the plot. The main purpose of these plots is to check whether
+  the relationship between outcome (or residuals) and a predictor is roughly
+  linear or not. Since the plots are based on a simple linear regression with
+  only one model predictor at the moment, the slopes (i.e. coefficients) may
+  differ from the coefficients of the complete model.
+  }
   }
 }
 \examples{

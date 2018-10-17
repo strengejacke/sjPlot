@@ -192,6 +192,15 @@ tab_model(
 )
 ``` 
 
+## Show asterisks instead of numeric p-values
+
+You can change the style of how p-values are displayed with the argument `p.style`. With `p.style = "asterisk"`, the p-values are indicated as `*` in the table. 
+
+```{r}
+tab_model(m1, m2, p.style = "a")
+``` 
+
+
 ### Automatic matching for named vectors
 
 Another way to easily assign labels are _named vectors_. In this case, it doesn't matter if `pred.labels` has more labels than coefficients in the model(s), or in which order the labels are passed to `tab_model()`. The only requirement is that the labels' names equal the coefficients names as they appear in the `summary()`-output.

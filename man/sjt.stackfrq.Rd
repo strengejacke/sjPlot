@@ -32,8 +32,8 @@ to label variables in the output.}
 with value labels of the supplied variables, which will be used
 to label variable values in the output.}
 
-\item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
-labels are displayed in one line and when a line break is inserted.}
+\item{wrap.labels}{Numeric, determines how many chars of the value, variable
+or axis labels are displayed in one line and when a line break is inserted.}
 
 \item{sort.frq}{logical, indicates whether the \code{items} should be ordered by
 by highest count of first or last category of \code{items}.

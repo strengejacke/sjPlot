@@ -1,3 +1,20 @@
+# sjPlot 2.6.2
+
+## General
+
+* Revised some help-files and vignettes.
+
+## Removed / Defunct
+
+Following functions are now defunct:
+
+* `sjt.lm()`, `sjt.glm()`, `sjt.lmer()` and `sjt.glmer()`. Please use `tab_model()` instead.
+
+## Bug fixes
+
+* `plot_model()` does no longer automatically change the plot-type to `"slope"` for models with only one predictor that is categorical and has more than two levels.
+
+
 # sjPlot 2.6.1
 
 ## General

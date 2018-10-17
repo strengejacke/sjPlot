@@ -14,11 +14,17 @@
 #'        plot-building is too time consuming.
 #' @param show.resid Logical, if \code{TRUE}, residual values are plotted.
 #' @param show.pred Logical, if \code{TRUE}, predicted values are plotted.
+#' @param remove.estimates Numeric vector with indices (order equals to row index of \code{coef(fit)})
+#'          or character vector with coefficient names that indicate which estimates should be removed
+#'          from the table output. The first estimate is the intercept, followed by the model predictors.
+#'          \emph{The intercept cannot be removed from the table output!} \code{remove.estimates = c(2:4)}
+#'          would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output.
+#'          \code{remove.estimates = "est_name"} would remove the estimate \emph{est_name}. Default
+#'          is \code{NULL}, i.e. all estimates are printed.
 #'
 #' @inheritParams plot_model
 #' @inheritParams plot_scatter
 #' @inheritParams sjp.grpfrq
-#' @inheritParams sjt.lm
 #'
 #' @return A ggplot-object.
 #'
