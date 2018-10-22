@@ -183,6 +183,11 @@ pgrpmean <- function(x, ...) {
     attr(x, "p.value", exact = TRUE)
   )
 
+  enc <- attr(x, "encoding", exact = TRUE)
+  file <- attr(x, "file", exact = TRUE)
+
+  if (is.null(enc)) enc <- "UTF-8"
+
   tab_df(
     x = x,
     title = title,
@@ -192,12 +197,12 @@ pgrpmean <- function(x, ...) {
     show.rownames = FALSE,
     show.footnote = TRUE,
     alternate.rows = FALSE,
-    encoding = "UTF-8",
+    encoding = enc,
     CSS = list(
       css.firsttablecol = '+text-align:left;',
       css.lasttablerow = 'border-top:1px solid; border-bottom: double;'
     ),
-    file = NULL,
+    file = file,
     use.viewer = attr(x, "print", exact = TRUE) == "viewer",
     ...
   )
@@ -207,6 +212,10 @@ pgrpmean <- function(x, ...) {
 #' @importFrom purrr map_chr
 pgrpmeans <- function(x, ...) {
   uv <- attr(x, "print", exact = TRUE) == "viewer"
+  enc <- attr(x, "encoding", exact = TRUE)
+  file <- attr(x, "file", exact = TRUE)
+
+  if (is.null(enc)) enc <- "UTF-8"
 
   titles <- purrr::map_chr(x, ~ sprintf(
     "Mean for %s by %s<br><span class=\"subtitle\">grouped by %s</span>",
@@ -233,12 +242,12 @@ pgrpmeans <- function(x, ...) {
     show.rownames = FALSE,
     show.footnote = TRUE,
     alternate.rows = FALSE,
-    encoding = "UTF-8",
+    encoding = enc,
     CSS = list(
       css.firsttablecol = '+text-align:left;',
       css.lasttablerow = 'border-top:1px solid; border-bottom: double;'
     ),
-    file = NULL,
+    file = file,
     use.viewer = uv,
     ...
   )
@@ -274,6 +283,11 @@ pequi_test <- function(x, ...) {
   }
 
 
+  enc <- attr(x, "encoding", exact = TRUE)
+  file <- attr(x, "file", exact = TRUE)
+
+  if (is.null(enc)) enc <- "UTF-8"
+
   tab_df(
     x = x,
     title = "Test for Practical Equivalence of Model Parameters",
@@ -283,13 +297,13 @@ pequi_test <- function(x, ...) {
     show.rownames = FALSE,
     show.footnote = TRUE,
     alternate.rows = FALSE,
-    encoding = "UTF-8",
+    encoding = enc,
     CSS = list(
       css.firsttablecol = '+text-align:left;',
       css.lasttablerow = 'border-bottom: 1px solid;',
       css.col3 = '+text-align:right;'
     ),
-    file = NULL,
+    file = file,
     use.viewer = attr(x, "print", exact = TRUE) == "viewer",
     ...
   )
@@ -303,6 +317,11 @@ preliab <- function(x, ...) {
     "Item Discrimination"
   )
 
+  enc <- attr(x, "encoding", exact = TRUE)
+  file <- attr(x, "file", exact = TRUE)
+
+  if (is.null(enc)) enc <- "UTF-8"
+
   tab_df(
     x = x,
     title = "Reliability Test",
@@ -312,12 +331,12 @@ preliab <- function(x, ...) {
     show.rownames = FALSE,
     show.footnote = FALSE,
     alternate.rows = FALSE,
-    encoding = "UTF-8",
+    encoding = enc,
     CSS = list(
       css.firsttablecol = '+text-align:left;',
       css.lasttablerow = 'border-bottom: 1px solid;'
     ),
-    file = NULL,
+    file = file,
     use.viewer = attr(x, "print", exact = TRUE) == "viewer",
     ...
   )
@@ -334,6 +353,10 @@ pdescr <- function(x, ...) {
   if ("digits" %in% names(add.args)) digits <- eval(add.args[["digits"]])
 
   uv <- attr(x, "print", exact = TRUE) == "viewer"
+  enc <- attr(x, "encoding", exact = TRUE)
+  file <- attr(x, "file", exact = TRUE)
+
+  if (is.null(enc)) enc <- "UTF-8"
 
   chead <- c(
     "Variable",
@@ -364,7 +387,7 @@ pdescr <- function(x, ...) {
     show.rownames = FALSE,
     show.footnote = FALSE,
     alternate.rows = TRUE,
-    encoding = "UTF-8",
+    encoding = enc,
     CSS = list(
       css.firsttablecol = '+text-align:left;',
       css.lasttablerow = 'border-bottom: 1px solid;',
@@ -372,7 +395,7 @@ pdescr <- function(x, ...) {
       css.col2 = '+text-align:left;',
       css.col3 = '+text-align:left;'
     ),
-    file = NULL,
+    file = file,
     use.viewer = uv,
     ...
   )
@@ -394,6 +417,10 @@ pgdescr <- function(x, ...) {
   if ("digits" %in% names(add.args)) digits <- eval(add.args[["digits"]])
 
   uv <- attr(x, "print", exact = TRUE) == "viewer"
+  enc <- attr(x, "encoding", exact = TRUE)
+  file <- attr(x, "file", exact = TRUE)
+
+  if (is.null(enc)) enc <- "UTF-8"
 
   chead <- c(
     "Variable",
@@ -426,13 +453,13 @@ pgdescr <- function(x, ...) {
     show.rownames = FALSE,
     show.footnote = FALSE,
     alternate.rows = TRUE,
-    encoding = "UTF-8",
+    encoding = enc,
     CSS = list(
       css.firsttablecol = '+text-align:left;',
       css.lasttablerow = 'border-bottom: 1px solid;',
       css.col3 = '+text-align:left;'
     ),
-    file = NULL,
+    file = file,
     use.viewer = uv,
     ...
   )
@@ -443,7 +470,13 @@ pgdescr <- function(x, ...) {
 #' @importFrom dplyr n_distinct select
 #' @importFrom sjmisc is_empty
 pfrq <- function(x, ...) {
+
   uv <- attr(x, "print", exact = TRUE) == "viewer"
+  enc <- attr(x, "encoding", exact = TRUE)
+  file <- attr(x, "file", exact = TRUE)
+
+  if (is.null(enc)) enc <- "UTF-8"
+
 
   titles <- purrr::map_chr(x, function(i) {
 
@@ -497,7 +530,7 @@ pfrq <- function(x, ...) {
     show.rownames = FALSE,
     show.footnote = TRUE,
     alternate.rows = FALSE,
-    encoding = "UTF-8",
+    encoding = enc,
     CSS = list(
       css.firsttablecol = '+text-align:left;',
       css.lasttablerow = 'border-bottom: 1px solid;',
@@ -507,7 +540,7 @@ pfrq <- function(x, ...) {
       css.col5 = 'text-align: right;',
       css.col6 = 'text-align: right;'
     ),
-    file = NULL,
+    file = file,
     use.viewer = uv,
     ...
   )
@@ -552,6 +585,11 @@ pmwu <- function(x, ...) {
       )
   }
 
+  enc <- attr(x, "encoding", exact = TRUE)
+  file <- attr(x, "file", exact = TRUE)
+
+  if (is.null(enc)) enc <- "UTF-8"
+
 
   tab_df(
     x = x$tab.df,
@@ -562,7 +600,8 @@ pmwu <- function(x, ...) {
     show.type = FALSE,
     show.footnote = !is.null(fn),
     alternate.rows = TRUE,
-    file = NULL,
+    file = file,
+    encoding = enc,
     CSS = list(
       css.firsttablecol = '+text-align:left;',
       css.lasttablerow = 'border-bottom: 1px solid;'
