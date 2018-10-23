@@ -550,18 +550,6 @@ tab_model <- function(
       }
 
 
-      # Add r-squared statistic ----
-
-      rsq <- NULL
-
-      if (show.r2) {
-        rsq <- tryCatch(
-          suppressWarnings(sjstats::r2(model)),
-          error = function(x) { NULL }
-        )
-      }
-
-
       # Add no of observations statistic ----
 
       n_obs <- NULL
@@ -587,12 +575,37 @@ tab_model <- function(
 
       icc.adjusted <- NULL
 
+      # get adjusted ICC, which also contains r-squared.
+      # these are similar to compute, so we save computation time
+
       if ((show.adj.icc) && is_mixed_model(model)) {
         icc.adjusted <- tryCatch(
-          sjstats::icc(model, adjusted = TRUE),
+          sjstats::icc(model, adjusted = TRUE, type = "all"),
           error = function(x) { NULL }
         )
       }
+
+
+      # Add r-squared statistic ----
+
+      rsq <- NULL
+
+      if (show.r2) {
+        # if marginal and conditional r-squared already have been computed
+        # via adjusted ICC, use these results and avoid time consuming
+        # multiple computation
+        if (is_mixed_model(model) && !is.null(icc.adjusted)) {
+          rsq <- icc.adjusted[[1]]
+        } else {
+          rsq <- tryCatch(
+            suppressWarnings(sjstats::r2(model)),
+            error = function(x) { NULL }
+          )
+        }
+      }
+
+      # fix return value for type = "all"
+      if (!is.null(icc.adjusted)) icc.adjusted <- icc.adjusted[[2]]
 
 
       # Add deviance and AIC statistic ----

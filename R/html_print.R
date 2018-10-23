@@ -508,6 +508,8 @@ tab_model_df <- function(x,
   }
 
 
+  ## TODO also show conditional ICC
+
   if (!is_empty_list(icc.adj.list) && show.adj.icc) {
 
     # icc.len <- max(purrr::map_dbl(icc.adj.list, length))
