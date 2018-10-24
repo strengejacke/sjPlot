@@ -53,8 +53,20 @@ plot_type_eff <- function(type,
 
 
   # select color palette
-  if (geom.colors[1] != "bw")
-    geom.colors <- col_check2(geom.colors, dplyr::n_distinct(dat$group))
+  if (geom.colors[1] != "bw") {
+    if (is.null(terms)) {
+      if (facets) {
+        geom.colors <- "bw"
+        .ngrp <- length(sjstats::pred_vars(model))
+      } else {
+        .ngrp <- 1
+      }
+    } else {
+      .ngrp <- dplyr::n_distinct(dat$group)
+    }
+    geom.colors <- col_check2(geom.colors, .ngrp)
+  }
+
 
   p <- graphics::plot(
     dat,

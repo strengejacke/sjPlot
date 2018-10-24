@@ -13,7 +13,7 @@ Following functions are now defunct:
 ## Bug fixes
 
 * `plot_model()` does no longer automatically change the plot-type to `"slope"` for models with only one predictor that is categorical and has more than two levels.
-
+* `type = "eff"` and `type = "pred"` in `plot_model()` did not when `terms` was not specified. 
 
 # sjPlot 2.6.1
 
