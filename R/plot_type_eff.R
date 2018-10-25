@@ -18,6 +18,8 @@ plot_type_eff <- function(type,
                           line.size,
                           ...) {
 
+  if (missing(facets) || is.null(facets)) facets <- FALSE
+
   if (type == "pred") {
     dat <- ggeffects::ggpredict(
       model = model,
@@ -45,6 +47,9 @@ plot_type_eff <- function(type,
   dot.alpha <- .5
   log.y <- FALSE
 
+  # save number of terms, needed later
+  n.terms <- length(sjstats::pred_vars(model))
+
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
   if ("alpha" %in% names(add.args)) alpha <- eval(add.args[["alpha"]])
   if ("dodge" %in% names(add.args)) dodge <- eval(add.args[["dodge"]])
@@ -57,7 +62,7 @@ plot_type_eff <- function(type,
     if (is.null(terms)) {
       if (facets) {
         geom.colors <- "bw"
-        .ngrp <- length(sjstats::pred_vars(model))
+        .ngrp <- n.terms
       } else {
         .ngrp <- 1
       }
@@ -86,18 +91,27 @@ plot_type_eff <- function(type,
     line.size = line.size
   )
 
+
   # set axis and plot titles
-  if (!is.null(axis.title)) {
+  if (!is.null(axis.title) && !is.null(terms)) {
     if (length(axis.title) > 1) {
       p <- p + labs(x = axis.title[1], y = axis.title[2])
     } else {
       p <- p + labs(y = axis.title)
     }
+  } else if (!is.null(axis.title) && is.null(terms)) {
+    if (length(axis.title) > 1) {
+      p <- purrr::map(p, ~ .x + labs(x = axis.title[1], y = axis.title[2]))
+    } else {
+      p <- purrr::map(p, ~ .x + labs(y = axis.title))
+    }
   }
 
   # set axis and plot titles
-  if (!is.null(title))
+  if (!is.null(title) && !is.null(terms))
     p <- p + ggtitle(title)
+  else if (!is.null(title) && is.null(terms))
+    p <- purrr::map(p, ~ .x + ggtitle(title))
 
   # set axis and plot titles
   if (!is.null(legend.title))
