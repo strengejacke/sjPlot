@@ -2,9 +2,24 @@ tidy_model <- function(model, ci.lvl, tf, type, bpe, se, facets, show.zeroinf, p
   dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, ...)
 
   # get robust standard errors, if requestes, and replace former s.e.
-  if (!is.null(se) && !is.logical(se)) {
+
+  if (!is.null(se) && !is.logical(se) && obj_has_name(dat, "std.error")) {
     std.err <- sjstats::robust(model, vcov.type = se)
     dat[["std.error"]] <- std.err[["std.error"]]
+
+    # also fix CI and p-value after robust SE
+
+    if (!is.null(ci.lvl) && !is.na(ci.lvl))
+      ci <- 1 - ((1 - ci.lvl) / 2)
+    else
+      ci <- .975
+
+    dat$conf.low <- dat$estimate - stats::qnorm(ci) * dat$std.error
+    dat$conf.high <- dat$estimate + stats::qnorm(ci) * dat$std.error
+
+    if (obj_has_name(dat, "p.value")) {
+      dat$p.value <- 2 * stats::pnorm(abs(dat$estimate / dat$std.error), lower.tail = FALSE)
+    }
   }
 
   dat
