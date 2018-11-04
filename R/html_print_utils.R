@@ -260,6 +260,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   tag.fixedparts <- "fixedparts"
   tag.randomparts <- "randomparts"
   tag.zeroparts <- "zeroparts"
+  tag.simplexparts <- "simplexparts"
   tag.firstsumrow <- "firstsumrow"
   tag.labelcellborder <- "labelcellborder"
   tag.depvarhead <- "depvarhead"
@@ -295,6 +296,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   css.fixedparts <- "font-weight:bold; text-align:left;"
   css.randomparts <- "font-weight:bold; text-align:left; padding-top:.8em;"
   css.zeroparts <- "font-weight:bold; text-align:left; padding-top:.8em;"
+  css.simplexparts <- "font-weight:bold; text-align:left; padding-top:.8em;"
   css.firstsumrow <- "border-top:1px solid;"
   css.labelcellborder <- "border-bottom:1px solid;"
   css.depvarhead <- "text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;"
@@ -339,6 +341,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     if (!is.null(CSS[['css.fixedparts']])) css.fixedparts <- ifelse(substring(CSS[['css.fixedparts']], 1, 1) == '+', paste0(css.fixedparts, substring(CSS[['css.fixedparts']], 2)), CSS[['css.fixedparts']])
     if (!is.null(CSS[['css.randomparts']])) css.randomparts <- ifelse(substring(CSS[['css.randomparts']], 1, 1) == '+', paste0(css.randomparts, substring(CSS[['css.randomparts']], 2)), CSS[['css.randomparts']])
     if (!is.null(CSS[['css.zeroparts']])) css.zeroparts <- ifelse(substring(CSS[['css.zeroparts']], 1, 1) == '+', paste0(css.zeroparts, substring(CSS[['css.zeroparts']], 2)), CSS[['css.zeroparts']])
+    if (!is.null(CSS[['css.simplexparts']])) css.simplexparts <- ifelse(substring(CSS[['css.simplexparts']], 1, 1) == '+', paste0(css.simplexparts, substring(CSS[['css.simplexparts']], 2)), CSS[['css.simplexparts']])
     if (!is.null(CSS[['css.firstsumrow']])) css.firstsumrow <- ifelse(substring(CSS[['css.firstsumrow']], 1, 1) == '+', paste0(css.firstsumrow, substring(CSS[['css.firstsumrow']], 2)), CSS[['css.firstsumrow']])
     if (!is.null(CSS[['css.labelcellborder']])) css.labelcellborder <- ifelse(substring(CSS[['css.labelcellborder']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.labelcellborder']], 2)), CSS[['css.labelcellborder']])
     if (!is.null(CSS[['css.depvarhead']])) css.depvarhead <- ifelse(substring(CSS[['css.depvarhead']], 1, 1) == '+', paste0(css.depvarhead, substring(CSS[['css.depvarhead']], 2)), CSS[['css.depvarhead']])
@@ -356,7 +359,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
 
   if (task == 1) {
     content <- sprintf(
-      "<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
+      "<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
       tag.table, css.table,
       tag.caption, css.caption,
       tag.td, css.td,
@@ -368,6 +371,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
       tag.fixedparts, css.fixedparts,
       tag.randomparts, css.randomparts,
       tag.zeroparts, css.zeroparts,
+      tag.simplexparts, css.simplexparts,
       tag.lasttablerow, css.lasttablerow,
       tag.firsttablerow, css.firsttablerow,
       tag.firstsumrow, css.firstsumrow,

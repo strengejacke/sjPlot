@@ -10,6 +10,10 @@ Following functions are now defunct:
 
 * `sjt.lm()`, `sjt.glm()`, `sjt.lmer()` and `sjt.glmer()`. Please use `tab_model()` instead.
 
+## Changes to functions
+
+* `tab_model()` supports printing simplex parameters of monotonic effects of **brms** models.
+
 ## Bug fixes
 
 * `plot_model()` does no longer automatically change the plot-type to `"slope"` for models with only one predictor that is categorical and has more than two levels.

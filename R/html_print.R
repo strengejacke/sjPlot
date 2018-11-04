@@ -277,6 +277,15 @@ tab_model_df <- function(x,
   # get style definition
   style <- tab_df_style(CSS = CSS, ...)
 
+  # check for monotonic effects
+  sp <- string_starts_with("simo_mo", x$term)
+
+  if (!sjmisc::is_empty(sp)) {
+    x.sp <- dplyr::slice(x, !! sp)
+    x <- dplyr::slice(x, -!! sp)
+    x$term <- gsub(pattern = "^bsp_mo", replacement = "", x = x$term)
+  } else
+    x.sp <- NULL
 
   # get HTML content
   page.content <- tab_df_content(
@@ -339,6 +348,40 @@ tab_model_df <- function(x,
 
   dv.content <- paste0(dv.content, "  </tr>\n")
   page.content <- paste0(dv.content, page.content)
+
+
+  # simplex parameters here ----
+
+  if (!is.null(x.sp)) {
+
+    x.sp$term <- gsub(
+      pattern = "^simo_mo(.*)(\\.)(.*)(\\.)",
+      replacement = "\\1 \\[\\3\\]",
+      x = x.sp$term
+    )
+
+    sp.content <- tab_df_content(
+      mydf = x.sp,
+      title = NULL,
+      footnote = NULL,
+      col.header = NULL,
+      show.type = FALSE,
+      show.rownames = FALSE,
+      show.footnote = FALSE,
+      show.header = FALSE,
+      altr.row.col = FALSE,
+      sort.column = NULL,
+      include.table.tag = FALSE,
+      no.last.table.row = TRUE,
+      ...
+    )
+
+    page.content <- paste0(page.content, "  <tr>\n")
+    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"simplexparts\">Simplex Parameters</td>\n", ncol(x)))
+    page.content <- paste0(page.content, "  </tr>\n")
+
+    page.content <- paste0(page.content, sp.content)
+  }
 
 
   # zero inflation part here ----

@@ -489,10 +489,36 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
   }
 
 
+  # check model for monotonic effects
+
+  simplex.terms <- string_starts_with(pattern = "simo_mo", x = dat$term)
+  if (!sjmisc::is_empty(simplex.terms)) {
+    if (!obj_has_name(dat, "wrap.facet")) {
+      dat$wrap.facet <- ""
+      dat$wrap.facet[simplex.terms] <- "Simplex Parameters"
+    } else {
+      dat$wrap.facet[simplex.terms] <- sprintf(
+        "%s (Simplex Parameters)",
+        dat$wrap.facet[simplex.terms]
+      )
+    }
+  }
+
+
   # need to transform point estimate as well
   if (!is.null(tf)) {
     funtrans <- match.fun(tf)
-    dat$estimate <- funtrans(dat$estimate)
+    if (!sjmisc::is_empty(simplex.terms)) {
+      dat$estimate[-simplex.terms] <- funtrans(dat$estimate[-simplex.terms])
+      # back-transform HDI for simplex parameters to their original scale
+      dat$conf.low[simplex.terms] <- log(dat$conf.low[simplex.terms])
+      dat$conf.low50[simplex.terms] <- log(dat$conf.low50[simplex.terms])
+      dat$conf.high[simplex.terms] <- log(dat$conf.high[simplex.terms])
+      dat$conf.high50[simplex.terms] <- log(dat$conf.high50[simplex.terms])
+    } else {
+      dat$estimate <- funtrans(dat$estimate)
+    }
+
   }
 
 
