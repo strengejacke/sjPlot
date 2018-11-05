@@ -268,6 +268,16 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
   }
 
 
+  # need to transform point estimate as well
+  if (!is.null(tf)) {
+    funtrans <- match.fun(tf)
+    all.cols <- sjmisc::seq_col(mod.dat)
+    simp.pars <- string_starts_with("simo_mo", colnames(mod.dat))
+    if (!sjmisc::is_empty(simp.pars)) all.cols <- all.cols[-simp.pars]
+    for (i in all.cols) mod.dat[[i]] <- funtrans(mod.dat[[i]])
+  }
+
+
   # add bayesian point estimate
 
   est <- purrr::map_dbl(mod.dat, ~ sjstats::typical_value(.x, fun = bpe))
@@ -502,23 +512,6 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
         dat$wrap.facet[simplex.terms]
       )
     }
-  }
-
-
-  # need to transform point estimate as well
-  if (!is.null(tf)) {
-    funtrans <- match.fun(tf)
-    if (!sjmisc::is_empty(simplex.terms)) {
-      dat$estimate[-simplex.terms] <- funtrans(dat$estimate[-simplex.terms])
-      # back-transform HDI for simplex parameters to their original scale
-      dat$conf.low[simplex.terms] <- log(dat$conf.low[simplex.terms])
-      dat$conf.low50[simplex.terms] <- log(dat$conf.low50[simplex.terms])
-      dat$conf.high[simplex.terms] <- log(dat$conf.high[simplex.terms])
-      dat$conf.high50[simplex.terms] <- log(dat$conf.high50[simplex.terms])
-    } else {
-      dat$estimate <- funtrans(dat$estimate)
-    }
-
   }
 
 
