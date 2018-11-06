@@ -100,7 +100,9 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
 
     if (is_merMod(model) && !is.null(p.val) && p.val == "kr") {
       pv <- tryCatch(
-        suppressMessages(sjstats::p_value(model, p.kr = TRUE)),
+        {
+          suppressMessages(sjstats::p_value(model, p.kr = TRUE))
+        },
         error = function(x) { NULL }
       )
 
@@ -118,7 +120,9 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
       # see if we have p-values. if not, add them
       if (!obj_has_name(dat, "p.value"))
         dat$p.value <- tryCatch(
-          sjstats::p_value(model, p.kr = FALSE)[["p.value"]],
+          {
+            sjstats::p_value(model, p.kr = FALSE)[["p.value"]]
+          },
           error = function(x) { NA }
         )
     }

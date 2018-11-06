@@ -556,7 +556,9 @@ tab_model <- function(
 
       if (show.obs) {
         n_obs <- tryCatch(
-          stats::nobs(model),
+          {
+            stats::nobs(model)
+          },
           error = function(x) { NULL }
         )
       }
@@ -568,7 +570,9 @@ tab_model <- function(
 
       if ((show.icc || show.re.var) && is_mixed_model(model)) {
         icc <- tryCatch(
-          suppressWarnings(sjstats::icc(model)),
+          {
+            suppressWarnings(sjstats::icc(model))
+          },
           error = function(x) { NULL }
         )
       }
@@ -580,7 +584,9 @@ tab_model <- function(
 
       if ((show.adj.icc) && is_mixed_model(model)) {
         icc.adjusted <- tryCatch(
-          sjstats::icc(model, adjusted = TRUE, type = "all"),
+          {
+            sjstats::icc(model, adjusted = TRUE, type = "all")
+          },
           error = function(x) { NULL }
         )
       }
@@ -598,7 +604,9 @@ tab_model <- function(
           rsq <- icc.adjusted[[1]]
         } else {
           rsq <- tryCatch(
-            suppressWarnings(sjstats::r2(model)),
+            {
+              suppressWarnings(sjstats::r2(model))
+            },
             error = function(x) { NULL }
           )
         }

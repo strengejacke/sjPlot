@@ -794,7 +794,9 @@ get_model_data <- function(model,
 
 one_par <- function(model) {
   tryCatch(
-    length(stats::coef(model)) <= 2,
+    {
+      length(stats::coef(model)) <= 2
+    },
     error = function(x) { FALSE }
   )
 }
