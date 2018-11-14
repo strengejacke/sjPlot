@@ -11,8 +11,8 @@ Collection of plotting and table output functions for data visualization. Result
 To install the latest development snapshot (see latest changes below), type following commands into the R console:
 
 ```r
-library(devtools)
-devtools::install_github("strengejacke/sjPlot")
+library(githubinstall)
+githubinstall::githubinstall("sjPlot")
 ```
 
 Please note the package dependencies when installing from GitHub. The GitHub version of this package may depend on latest GitHub versions of my other packages, so you may need to install those first, if you encounter any problems. Here's the order for installing packages from GitHub:
