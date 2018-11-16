@@ -42,8 +42,8 @@ Imports:
     rlang,
     scales,
     sjlabelled (>= 1.0.14),
-    sjmisc (>= 2.7.5),
-    sjstats (>= 0.17.1),
+    sjmisc (>= 2.7.6),
+    sjstats (>= 0.17.2),
     tidyr (>= 0.7.0)
 Suggests:
     AICcmodavg,
@@ -62,5 +62,5 @@ Suggests:
     testthat
 URL: https://strengejacke.github.io/sjPlot/
 BugReports: https://github.com/strengejacke/sjPlot/issues
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr

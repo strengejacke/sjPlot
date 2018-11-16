@@ -135,7 +135,8 @@ plot_type_int <- function(model,
 
 
     # select color palette
-    geom.colors <- col_check2(geom.colors, dplyr::n_distinct(dat$group))
+    if (is.null(geom.colors) || geom.colors[1] != "bw")
+      geom.colors <- col_check2(geom.colors, dplyr::n_distinct(dat$group))
 
 
     # save plot of marginal effects for interaction terms
