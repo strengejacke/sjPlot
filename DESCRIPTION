@@ -28,7 +28,7 @@ Imports:
     broom (>= 0.4.5),
     dplyr (>= 0.7.5),
     forcats,
-    ggeffects (>= 0.6.0),
+    ggeffects (>= 0.7.0),
     glmmTMB,
     ggplot2 (>= 2.2.1),
     knitr,
