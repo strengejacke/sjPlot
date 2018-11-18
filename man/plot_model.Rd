@@ -64,7 +64,7 @@ kinds of models are supported, e.g. from packages like \pkg{stats},
   \item{\code{type = "resid"}}{Slope of coefficients for each single
   predictor, against the residuals (linear relationship between each model
   term and residuals). See 'Details'.}
-  \item{\code{type = "diag"}}{Check model assumptions.}
+  \item{\code{type = "diag"}}{Check model assumptions. See 'Details'.}
 }
 \strong{Note:} For mixed models, the diagnostic plots like linear relationship
 or check for Homoscedasticity, do \strong{not} take the uncertainty of
@@ -430,6 +430,13 @@ Depending on the plot-type, \code{plot_model()} returns a
   linear or not. Since the plots are based on a simple linear regression with
   only one model predictor at the moment, the slopes (i.e. coefficients) may
   differ from the coefficients of the complete model.
+  }
+  \item{\code{type = "diag"}}{For \strong{Stan-models}, plots the prior versus
+  posterior samples. For \strong{linear (mixed) models}, plots for
+  multicollinearity-check (Variance Inflation Factors), QQ-plots,
+  checks for normal distribution of residuals and homoscedasticity
+  (constant variance of residuals) are shown. For \strong{generalized
+  lineare mixed models}, returns the QQ-plot for random effects.
   }
   }
 }
