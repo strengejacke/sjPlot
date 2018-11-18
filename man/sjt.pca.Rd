@@ -4,7 +4,8 @@
 \alias{sjt.pca}
 \title{Summary of principal component analysis as HTML table}
 \usage{
-sjt.pca(data, rotation = c("varimax", "oblimin"), nmbr.fctr = NULL,
+sjt.pca(data, rotation = c("varimax", "quartimax", "promax", "oblimin",
+  "simplimax", "cluster", "none"), nmbr.fctr = NULL,
   fctr.load.tlrn = 0.1, title = "Principal Component Analysis",
   var.labels = NULL, wrap.labels = 40, show.cronb = TRUE,
   show.msa = FALSE, show.var = FALSE, alternate.rows = FALSE,

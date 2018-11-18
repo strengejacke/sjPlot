@@ -68,7 +68,7 @@
 #' @importFrom stats prcomp
 #' @export
 sjt.pca <- function(data,
-                    rotation = c("varimax", "oblimin"),
+                    rotation = c("varimax", "quartimax", "promax", "oblimin", "simplimax", "cluster", "none"),
                     nmbr.fctr = NULL,
                     fctr.load.tlrn = 0.1,
                     title = "Principal Component Analysis",
@@ -219,11 +219,13 @@ sjt.pca <- function(data,
     stop("Only one principal component extracted. Can't rotate loading matrices. You may use `nmbr.fctr` to extract more than one component.", call. = F)
   }
 
+  rotation <- match.arg(rotation)
+
   # rotate matrix
   if (rotation == "varimax")
     pcadata.rotate <- varimaxrota(pcadata, pcadata.kaiser)
-  else if (rotation == "oblimin")
-    pcadata.rotate <- psych::principal(r = data, nfactors = pcadata.kaiser, rotate = "oblimin")
+  else
+    pcadata.rotate <- psych::principal(r = data, nfactors = pcadata.kaiser, rotate = rotation)
 
   # create data frame with factor loadings
   df <- as.data.frame(pcadata.rotate$loadings[, seq_len(ncol(pcadata.rotate$loadings))])

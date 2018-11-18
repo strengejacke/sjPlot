@@ -4,7 +4,8 @@
 \alias{sjp.pca}
 \title{Plot PCA results}
 \usage{
-sjp.pca(data, rotation = c("varimax", "oblimin"), nmbr.fctr = NULL,
+sjp.pca(data, rotation = c("varimax", "quartimax", "promax", "oblimin",
+  "simplimax", "cluster", "none"), nmbr.fctr = NULL,
   fctr.load.tlrn = 0.1, plot.eigen = FALSE, digits = 2,
   title = NULL, axis.labels = NULL, type = c("bar", "circle",
   "tile"), geom.size = 0.6, geom.colors = "RdBu", wrap.title = 50,

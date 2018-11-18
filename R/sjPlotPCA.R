@@ -59,7 +59,7 @@
 #' @importFrom psych principal
 #' @export
 sjp.pca <- function(data,
-                    rotation = c("varimax", "oblimin"),
+                    rotation = c("varimax", "quartimax", "promax", "oblimin", "simplimax", "cluster", "none"),
                     nmbr.fctr = NULL,
                     fctr.load.tlrn = 0.1,
                     plot.eigen = FALSE,
@@ -150,8 +150,8 @@ sjp.pca <- function(data,
   # rotate matrix
   if (rotation == "varimax")
     pcadata.rotate <- varimaxrota(pcadata, pcadata.kaiser)
-  else if (rotation == "oblimin")
-    pcadata.rotate <- psych::principal(r = data, nfactors = pcadata.kaiser, rotate = "oblimin")
+  else
+    pcadata.rotate <- psych::principal(r = data, nfactors = pcadata.kaiser, rotate = rotation)
 
   # create data frame with factor loadings
   df <- as.data.frame(pcadata.rotate$loadings[, seq_len(ncol(pcadata.rotate$loadings))])

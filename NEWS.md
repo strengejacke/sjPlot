@@ -13,6 +13,7 @@ Following functions are now defunct:
 ## Changes to functions
 
 * `tab_model()` supports printing simplex parameters of monotonic effects of **brms** models.
+* The `rotation`-argument in `sjt.pca()` and `sjp.pca()` now supports all rotations from `psych::principal()`.
 
 ## Bug fixes
 
