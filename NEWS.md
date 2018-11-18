@@ -20,6 +20,7 @@ Following functions are now defunct:
 * `type = "eff"` and `type = "pred"` in `plot_model()` did not when `terms` was not specified. 
 * If robust standard errors are requested in `tab_model()`, the confidence intervals and p-values are now re-calculated and adjusted based on the robust standard errors.
 * `colors = "bw"` was not recognized correctly for `plot_model(..., type = "int")`.
+* Fix issue in `sjp.frq()` with correct axis labels for non-labelled character vectors.
 
 # sjPlot 2.6.1
 

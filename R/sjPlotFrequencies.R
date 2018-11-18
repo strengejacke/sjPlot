@@ -173,9 +173,9 @@ sjp.frq <- function(var.cnt,
   if (is.null(axis.labels)) {
     axis.labels <- sjlabelled::get_labels(
       var.cnt,
-      attr.only = F,
+      attr.only = is.character(var.cnt),
       values = NULL,
-      non.labelled = T
+      non.labelled = TRUE
     )
   }
 
