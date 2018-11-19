@@ -17,8 +17,8 @@ Following functions are now defunct:
 
 ## Bug fixes
 
-* `plot_model()` does no longer automatically change the plot-type to `"slope"` for models with only one predictor that is categorical and has more than two levels.
-* `type = "eff"` and `type = "pred"` in `plot_model()` did not when `terms` was not specified. 
+* `plot_model()` no longer automatically changes the plot-type to `"slope"` for models with only one predictor that is categorical and has more than two levels.
+* `type = "eff"` and `type = "pred"` in `plot_model()` did not work when `terms` was not specified. 
 * If robust standard errors are requested in `tab_model()`, the confidence intervals and p-values are now re-calculated and adjusted based on the robust standard errors.
 * `colors = "bw"` was not recognized correctly for `plot_model(..., type = "int")`.
 * Fix issue in `sjp.frq()` with correct axis labels for non-labelled character vectors.
