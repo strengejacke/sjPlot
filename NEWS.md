@@ -13,6 +13,7 @@ Following functions are now defunct:
 ## Changes to functions
 
 * `tab_model()` supports printing simplex parameters of monotonic effects of **brms** models.
+* `tab_model()` gets a `prefix.labels`-argument to add a prefix to the labels of categorical terms.
 * The `rotation`-argument in `sjt.pca()` and `sjp.pca()` now supports all rotations from `psych::principal()`.
 
 ## Bug fixes

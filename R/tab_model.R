@@ -278,6 +278,7 @@ tab_model <- function(
 
   case = "parsed",
   auto.label = TRUE,
+  prefix.labels = c("none", "varname", "label"),
   bpe = "median",
   CSS = css_theme("regression"),
   file = NULL,
@@ -286,6 +287,17 @@ tab_model <- function(
 
   p.val <- match.arg(p.val)
   p.style <- match.arg(p.style)
+  prefix.labels <- match.arg(prefix.labels)
+
+
+  # if we prefix labels, use different default for case conversion,
+  # else the separating white spaces after colon are removed.
+  if (missing(case)) {
+    if (prefix.labels == "none")
+      case <- "parsed"
+    else
+      case <- NULL
+  }
 
   if (p.style == "asterisk") show.p <- FALSE
 
@@ -794,7 +806,7 @@ tab_model <- function(
   # get default labels for dv and terms ----
 
   if (isTRUE(auto.label) && sjmisc::is_empty(pred.labels)) {
-    pred.labels <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE)
+    pred.labels <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE, prefix = prefix.labels)
     no.dupes <- !duplicated(names(pred.labels))
     pred.labels <- prepare.labels(pred.labels[no.dupes], grp = group.terms)
   } else {

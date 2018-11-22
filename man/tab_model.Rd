@@ -22,7 +22,8 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   "hdi.inner", "hdi.outer", "stat", "p", "df", "response.level"),
   digits = 2, digits.p = 3, emph.p = TRUE, p.val = c("wald", "kr"),
   p.style = c("numeric", "asterisk"), p.threshold = c(0.05, 0.01,
-  0.001), case = "parsed", auto.label = TRUE, bpe = "median",
+  0.001), case = "parsed", auto.label = TRUE,
+  prefix.labels = c("none", "varname", "label"), bpe = "median",
   CSS = css_theme("regression"), file = NULL, use.viewer = TRUE)
 }
 \arguments{
@@ -223,6 +224,11 @@ based on value and variable labels, if the data is labelled. See
 \code{\link[sjlabelled]{get_label}} and
 \code{\link[sjlabelled]{get_term_labels}} for details. If \code{FALSE},
 original variable names and value labels (factor levels) are used.}
+
+\item{prefix.labels}{Indicates whether the value labels of categorical variables
+should be prefixed, e.g. with the variable name or variable label. See
+argument \code{prefix} in \code{\link[sjlabelled]{get_term_labels}} for
+details.}
 
 \item{bpe}{For \strong{Stan}-models (fitted with the \pkg{rstanarm}- or
 \pkg{brms}-package), the Bayesian point estimate is, by default, the median
