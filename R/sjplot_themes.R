@@ -51,10 +51,8 @@
 #'   When using the \code{colors} argument in function calls (e.g.
 #'   \code{plot_model()}) or when calling one of the predefined scale-functions
 #'   (e.g. \code{scale_color_sjplot()}), there are pre-defined colour palettes
-#'   in this package: \code{"aqua"}, \code{"warm"}, \code{"dust"}, \code{"blambus"},
-#'   \code{"simply"}, \code{"us"}, \code{"deep reefs"}, \code{"breakfast club"}
-#'   \code{"metro ui"}, \code{"viridis"} and \code{"ipsum"}. Use
-#'   \code{show_sjplot_pals()} to show all available colour palettes.
+#'   in this package. Use \code{show_sjplot_pals()} to show all available
+#'   colour palettes.
 #'
 #'
 #' @examples
@@ -272,7 +270,12 @@ sjplot_colors <- list(
   `breakfast club` = c("#b6411a", "#eec3d8", "#4182dd", "#ecf0c8", "#2d6328"),
   `metro ui` = c("#d11141", "#00aedb", "#00b159", "#f37735", "#8c8c8c", "#ffc425", "#cccccc"),
   `viridis` = c("#440154", "#46337E", "#365C8D", "#277F8E", "#1FA187", "#4AC16D", "#9FDA3A", "#FDE725"),
-  `ipsum` = c("#d18975", "#8fd175", "#3f2d54", "#75b8d1", "#2d543d", "#c9d175", "#d1ab75", "#d175b8", "#758bd1")
+  `ipsum` = c("#d18975", "#8fd175", "#3f2d54", "#75b8d1", "#2d543d", "#c9d175", "#d1ab75", "#d175b8", "#758bd1"),
+  `quadro` = c("#ff0000", "#1f3c88", "#23a393", "#f79f24", "#625757"),
+  `eight` = c("#003f5c", "#2f4b7c", "#665191", "#a05195", "#d45087", "#f95d6a", "#ff7c43", "#ffa600"),
+  `circus` = c("#0664C9", "#C1241E", "#EBD90A", "#6F130D", "#111A79"),
+  `system` = c("#0F2838", "#F96207", "#0DB0F3", "#04EC04", "#FCC44C"),
+  `hero` = c("#D2292B", "#165E88", "#E0BD1C", "#D57028", "#A5CB39", "#8D8F70")
 )
 
 

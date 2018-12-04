@@ -115,10 +115,8 @@ Set default plot themes, use pre-defined color scales or modify
 When using the \code{colors} argument in function calls (e.g.
   \code{plot_model()}) or when calling one of the predefined scale-functions
   (e.g. \code{scale_color_sjplot()}), there are pre-defined colour palettes
-  in this package: \code{"aqua"}, \code{"warm"}, \code{"dust"}, \code{"blambus"},
-  \code{"simply"}, \code{"us"}, \code{"deep reefs"}, \code{"breakfast club"}
-  \code{"metro ui"}, \code{"viridis"} and \code{"ipsum"}. Use
-  \code{show_sjplot_pals()} to show all available colour palettes.
+  in this package. Use \code{show_sjplot_pals()} to show all available
+  colour palettes.
 }
 \examples{
 # prepare data
