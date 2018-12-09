@@ -25,7 +25,7 @@ Depends:
     stats,
     utils
 Imports:
-    broom (>= 0.4.5),
+    generics,
     dplyr (>= 0.7.5),
     forcats,
     ggeffects (>= 0.7.0),

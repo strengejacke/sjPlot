@@ -71,7 +71,6 @@
 #' @import ggplot2
 #' @importFrom purrr map map_df map2
 #' @importFrom dplyr slice bind_rows filter
-#' @importFrom broom tidy
 #' @importFrom forcats fct_rev
 #' @importFrom sjstats std_beta p_value model_family
 #' @importFrom sjlabelled get_dv_labels get_term_labels
