@@ -8,11 +8,7 @@ tidy_model <- function(model, ci.lvl, tf, type, bpe, se, facets, show.zeroinf, p
     dat[["std.error"]] <- std.err[["std.error"]]
 
     # also fix CI and p-value after robust SE
-
-    if (!is.null(ci.lvl) && !is.na(ci.lvl))
-      ci <- 1 - ((1 - ci.lvl) / 2)
-    else
-      ci <- .975
+    ci <- get_confint(ci.lvl)
 
     dat$conf.low <- dat$estimate - stats::qnorm(ci) * dat$std.error
     dat$conf.high <- dat$estimate + stats::qnorm(ci) * dat$std.error
@@ -65,12 +61,7 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
 tidy_generic <- function(model, ci.lvl, facets, p.val) {
 
   # compute ci, two-ways
-
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
-  else
-    ci <- .975
-
+  ci <- get_confint(ci.lvl)
 
   # check for multiple reponse levels
 
@@ -161,12 +152,7 @@ tidy_svynb_model <- function(model, ci.lvl) {
 
 
   # compute ci, two-ways
-
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
-  else
-    ci <- .975
-
+  ci <- get_confint(ci.lvl)
 
   # keep original value, not rounded
 
@@ -581,12 +567,7 @@ tidy_gls_model <- function(model, ci.lvl) {
 tidy_glmmTMB_model <- function(model, ci.lvl, show.zeroinf) {
 
   # compute ci, two-ways
-
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
-  else
-    ci <- .975
-
+  ci <- get_confint(ci.lvl)
 
   # get fixed effects
 
@@ -656,12 +637,7 @@ tidy_glmmTMB_model <- function(model, ci.lvl, show.zeroinf) {
 tidy_hurdle_model <- function(model, ci.lvl) {
 
   # compute ci, two-ways
-
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
-  else
-    ci <- .975
-
+  ci <- get_confint(ci.lvl)
 
   # get estimates
 
@@ -692,12 +668,7 @@ tidy_hurdle_model <- function(model, ci.lvl) {
 tidy_logistf_model <- function(model, ci.lvl) {
 
   # compute ci, two-ways
-
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
-  else
-    ci <- .975
-
+  ci <- get_confint(ci.lvl)
 
   # get estimates
 
@@ -723,12 +694,7 @@ tidy_logistf_model <- function(model, ci.lvl) {
 tidy_clm_model <- function(model, ci.lvl) {
 
   # compute ci, two-ways
-
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
-  else
-    ci <- .975
-
+  ci <- get_confint(ci.lvl)
 
   # get estimates, as data frame
 
@@ -763,12 +729,7 @@ tidy_clm_model <- function(model, ci.lvl) {
 tidy_polr_model <- function(model, ci.lvl) {
 
   # compute ci, two-ways
-
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
-  else
-    ci <- .975
-
+  ci <- get_confint(ci.lvl)
 
   # get estimates, as data frame
 
@@ -803,12 +764,7 @@ tidy_polr_model <- function(model, ci.lvl) {
 tidy_multinom_model <- function(model, ci.lvl, facets) {
 
   # compute ci, two-ways
-
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
-  else
-    ci <- .975
-
+  ci <- get_confint(ci.lvl)
 
   # get estimates, as data frame
   dat <- broom::tidy(model, conf.int = FALSE, exponentiate = FALSE)
@@ -840,12 +796,7 @@ tidy_multinom_model <- function(model, ci.lvl, facets) {
 tidy_gam_model <- function(model, ci.lvl) {
 
   # compute ci, two-ways
-
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
-  else
-    ci <- .975
-
+  ci <- get_confint(ci.lvl)
 
   # get estimates
 
@@ -870,12 +821,7 @@ tidy_gam_model <- function(model, ci.lvl) {
 tidy_zelig_model <- function(model, ci.lvl) {
 
   # compute ci, two-ways
-
-  if (!is.null(ci.lvl) && !is.na(ci.lvl))
-    ci <- 1 - ((1 - ci.lvl) / 2)
-  else
-    ci <- .975
-
+  ci <- get_confint(ci.lvl)
 
   if (!requireNamespace("Zelig"))
     stop("Package `Zelig` required. Please install", call. = F)
@@ -894,4 +840,12 @@ tidy_zelig_model <- function(model, ci.lvl) {
     conf.high = est + stats::qnorm(ci) * se,
     p.value = unname(unlist(Zelig::get_pvalue(model)))
   )
+}
+
+
+get_confint <- function(ci.lvl = .95) {
+  if (!is.null(ci.lvl) && !is.na(ci.lvl))
+    (1 + ci.lvl) / 2
+  else
+    .975
 }
