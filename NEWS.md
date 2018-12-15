@@ -3,7 +3,6 @@
 ## General
 
 * Revised some help-files and vignettes.
-* Replaced package dependency **broom** with **generics**.
 
 ## Removed / Defunct
 

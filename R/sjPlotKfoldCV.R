@@ -48,7 +48,7 @@
 #' @importFrom modelr crossv_kfold
 #' @importFrom dplyr mutate ungroup summarise
 #' @importFrom purrr map map2
-#' @importFrom generics augment
+#' @importFrom broom augment
 #' @importFrom tidyr unnest
 #' @importFrom graphics plot
 #' @importFrom stats as.formula formula family poisson glm lm
@@ -113,7 +113,7 @@ sjp.kfold_cv <- function(data, formula, k = 5, fit) {
     # train data
     res <- modelr::crossv_kfold(data, k = k) %>%
       dplyr::mutate(model = purrr::map(.data$train, ~ stats::lm(formula, data = .))) %>%
-      dplyr::mutate(predicted = purrr::map2(.data$model, .data$test, ~ generics::augment(.x, newdata = .y))) %>%
+      dplyr::mutate(predicted = purrr::map2(.data$model, .data$test, ~ broom::augment(.x, newdata = .y))) %>%
       tidyr::unnest(.data$predicted)
 
     # make sure that response vector has an identifiably name

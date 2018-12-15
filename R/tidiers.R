@@ -58,7 +58,7 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
 }
 
 
-#' @importFrom generics tidy
+#' @importFrom broom tidy
 #' @importFrom sjstats p_value
 #' @importFrom stats coef qnorm
 #' @importFrom dplyr mutate
@@ -77,7 +77,7 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
   if (inherits(stats::coef(summary(model)), "listof")) {
 
     # get estimates, as data frame
-    dat <- generics::tidy(model, conf.int = FALSE, exponentiate = FALSE)
+    dat <- broom::tidy(model, conf.int = FALSE, exponentiate = FALSE)
 
     # check whether each category should be printed in facets, or
     # in a single graph (with dodged geoms)
@@ -94,7 +94,7 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
     if (inherits(model, "lmerModLmerTest")) {
       dat <- tidy_lmerModLmerTest(model, ci.lvl)
     } else {
-      dat <- generics::tidy(model, conf.int = FALSE, effects = "fixed")
+      dat <- broom::tidy(model, conf.int = FALSE, effects = "fixed")
     }
 
 
@@ -185,11 +185,11 @@ tidy_svynb_model <- function(model, ci.lvl) {
 }
 
 
-#' @importFrom generics tidy
+#' @importFrom broom tidy
 #' @importFrom sjstats p_value
 tidy_cox_model <- function(model, ci.lvl) {
   # tidy the model
-  dat <- generics::tidy(model, conf.int = ci.lvl)
+  dat <- broom::tidy(model, conf.int = ci.lvl)
 
   # see if we have p-values. if not, add them
   if (!obj_has_name(dat, "p.value"))
@@ -527,14 +527,14 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 }
 
 
-#' @importFrom generics tidy
+#' @importFrom broom tidy
 #' @importFrom sjstats p_value
 #' @importFrom nlme intervals
 tidy_lme_model <- function(model, ci.lvl) {
   # get tidy summary. for lme, this excludes CI,
   # so we compute them separately
 
-  dat <- generics::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
+  dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
   ci <- as.data.frame(nlme::intervals(model, level = ci.lvl, which = "fixed")$fixed)
 
   dat$conf.low <- ci$lower
@@ -798,7 +798,7 @@ tidy_polr_model <- function(model, ci.lvl) {
 #' @importFrom stats qnorm pnorm
 #' @importFrom rlang .data
 #' @importFrom dplyr mutate
-#' @importFrom generics tidy
+#' @importFrom broom tidy
 #' @importFrom sjmisc var_rename
 tidy_multinom_model <- function(model, ci.lvl, facets) {
 
@@ -811,7 +811,7 @@ tidy_multinom_model <- function(model, ci.lvl, facets) {
 
 
   # get estimates, as data frame
-  dat <- generics::tidy(model, conf.int = FALSE, exponentiate = FALSE)
+  dat <- broom::tidy(model, conf.int = FALSE, exponentiate = FALSE)
 
 
   # add conf. int.
