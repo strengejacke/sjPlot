@@ -38,7 +38,7 @@
 #' @param max.len Numeric, indicates how many values and value labels per variable
 #'   are shown. Useful for variables with many different values, where the output
 #'   can be truncated.
-#' @param verbose,hide.progress Logical, if \code{TRUE}, a progress bar is displayed
+#' @param verbose Logical, if \code{TRUE}, a progress bar is displayed
 #'   while creating the output.
 #'
 #' @inheritParams tab_df
@@ -97,20 +97,12 @@ view_df <- function(x,
                     max.len = 15,
                     sort.by.name = FALSE,
                     wrap.labels = 50,
-                    hide.progress = FALSE,
                     verbose = TRUE,
                     CSS = NULL,
                     encoding = NULL,
                     file = NULL,
                     use.viewer = TRUE,
                     remove.spaces = TRUE) {
-
-  ## TODO remove hide.progress later
-
-  if (!missing(hide.progress)) {
-    message("`hide.progress` is deprecated. Please use `verbose` instead.")
-    verbose <- !hide.progress
-  }
 
   # check encoding
   encoding <- get.encoding(encoding, x)

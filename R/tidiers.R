@@ -257,6 +257,8 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
       dat <- dplyr::slice(dat, !! -resp.cor)
   }
 
+  # do transformation on posterior samples first,
+  # then summarize (see https://discourse.mc-stan.org/t/monotonic-effects-in-non-gaussian-models/6353/5)
 
   # need to transform point estimate as well
   if (!is.null(tf)) {

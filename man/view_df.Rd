@@ -9,9 +9,8 @@ view_df(x, weight.by = NULL, alternate.rows = TRUE, show.id = TRUE,
   show.labels = TRUE, show.frq = FALSE, show.prc = FALSE,
   show.wtd.frq = FALSE, show.wtd.prc = FALSE, show.na = FALSE,
   max.len = 15, sort.by.name = FALSE, wrap.labels = 50,
-  hide.progress = FALSE, verbose = TRUE, CSS = NULL,
-  encoding = NULL, file = NULL, use.viewer = TRUE,
-  remove.spaces = TRUE)
+  verbose = TRUE, CSS = NULL, encoding = NULL, file = NULL,
+  use.viewer = TRUE, remove.spaces = TRUE)
 }
 \arguments{
 \item{x}{A (labelled) data frame, imported by \code{\link[sjlabelled]{read_spss}},
@@ -69,7 +68,7 @@ order in the data frame.}
 \item{wrap.labels}{Numeric, determines how many chars of the value, variable
 or axis labels are displayed in one line and when a line break is inserted.}
 
-\item{verbose, hide.progress}{Logical, if \code{TRUE}, a progress bar is displayed
+\item{verbose}{Logical, if \code{TRUE}, a progress bar is displayed
 while creating the output.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,

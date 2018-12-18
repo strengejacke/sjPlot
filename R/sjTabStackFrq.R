@@ -146,7 +146,7 @@ sjt.stackfrq <- function(items,
     value.labels <- sjlabelled::get_labels(
       items[[1]],
       attr.only = F,
-      values = NULL,
+      values = "n",
       non.labelled = T
     )
   }
@@ -165,7 +165,7 @@ sjt.stackfrq <- function(items,
   # ----------------------------
   if (is.null(value.labels)) value.labels <- as.character(minval:maxval)
   # check whether missings should be shown
-  if (show.na) value.labels <- c(value.labels, string.na)
+  if (show.na) value.labels <- c(value.labels, `NA` = string.na)
   # save amolunt of values
   catcount <- length(value.labels)
   # check length of x-axis-labels and split longer strings at into new lines

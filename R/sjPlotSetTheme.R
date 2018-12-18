@@ -560,7 +560,7 @@ sj.setGeomColors <- function(plot,
   # ---------------------------------------------------------
   # check for themr options
   # ---------------------------------------------------------
-  if (!is.null(geom.colors) && geom.colors == "themr") {
+  if (!is.null(geom.colors) && geom.colors[1] == "themr") {
     return(plot)
   }
 

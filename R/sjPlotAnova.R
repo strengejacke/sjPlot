@@ -76,9 +76,9 @@ sjp.aov1 <- function(var.dep,
   # --------------------------------------------------------
   # remove titles if empty
   # --------------------------------------------------------
-  if (!is.null(axis.labels) && axis.labels == "") axis.labels <- NULL
-  if (!is.null(axis.title) && axis.title == "") axis.title <- NULL
-  if (!is.null(title) && title == "") title <- NULL
+  if (!is.null(axis.labels) && length(axis.labels) == 1 && axis.labels == "") axis.labels <- NULL
+  if (!is.null(axis.title) && length(axis.title) == 1 && axis.title == "") axis.title <- NULL
+  if (!is.null(title) && length(title) == 1 && title == "") title <- NULL
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
