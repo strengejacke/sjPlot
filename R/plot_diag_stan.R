@@ -19,27 +19,27 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, axis.labels, ..
 
     # check if prior sample are available
 
-    d1 <- brms::prior_samples(model)
+    d2 <- brms::prior_samples(model)
 
-    if (is.null(d1))
+    if (is.null(d2))
       stop("No prior-samples found. Please use option `sample_prior = TRUE` when fitting the model.", call. = FALSE)
 
 
     # get samples from posterior and prior
 
-    d1 <- dplyr::select(
-      d1,
-      string_starts_with("b_", colnames(d1)),
-      -string_starts_with("b_Intercept", colnames(d1))
-    )
-
-
-    d2 <- brms::posterior_samples(model)
-
     d2 <- dplyr::select(
       d2,
       string_starts_with("b_", colnames(d2)),
       -string_starts_with("b_Intercept", colnames(d2))
+    )
+
+
+    d1 <- brms::posterior_samples(model)
+
+    d1 <- dplyr::select(
+      d1,
+      string_starts_with("b_", colnames(d1)),
+      -string_starts_with("b_Intercept", colnames(d1))
     )
 
   } else if (inherits(model, c("stanreg", "stanfit"))) {
