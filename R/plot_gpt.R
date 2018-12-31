@@ -54,7 +54,7 @@ utils::globalVariables("n")
 #' plot_gpt(efc, c172code, e42dep, n4pstu)
 #'
 #' @import ggplot2
-#' @importFrom dplyr group_by summarise bind_rows "%>%"
+#' @importFrom dplyr group_by summarise bind_rows "%>%" n
 #' @importFrom scales percent
 #' @importFrom sjmisc to_factor rec
 #' @importFrom stats na.omit chisq.test
@@ -258,7 +258,7 @@ gpt_helper <- function(
 
   pvals <- mydf %>%
     dplyr::group_by(.data$grp) %>%
-    dplyr::summarise(N = n(), p = suppressWarnings(stats::chisq.test(table(.data$xpos, .data$dep))$p.value))
+    dplyr::summarise(N = dplyr::n(), p = suppressWarnings(stats::chisq.test(table(.data$xpos, .data$dep))$p.value))
 
   # copy p values
   for (i in seq_len(length(pvals$grp))) group.p[i] <- get_p_stars(pvals$p[i])
@@ -276,7 +276,7 @@ gpt_helper <- function(
 
     # pvalues and N
     pvals <- mydf %>%
-      dplyr::summarise(N = n(), p = suppressWarnings(stats::chisq.test(table(.data$xpos, .data$dep))$p.value))
+      dplyr::summarise(N = dplyr::n(), p = suppressWarnings(stats::chisq.test(table(.data$xpos, .data$dep))$p.value))
 
     # bind total row to final df
     newdf <- dplyr::bind_rows(newdf, tmp)

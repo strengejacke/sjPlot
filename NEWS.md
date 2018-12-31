@@ -1,5 +1,9 @@
 # sjPlot 2.6.3
 
+## General
+
+* Export `dplyr::n()`, to meet forthcoming changes in dplyr 0.8.0.
+
 ## Bug fixes
 
 * Legend labels were inverted for **brms**-models in `plot_model(..., type = "diag")`.
