@@ -36,7 +36,13 @@ plot_type_ranef <- function(model,
 
   if (inherits(model, "glmmTMB"))
     rand.ef <- glmmTMB::ranef(model)[[1]]
-  else
+  else if (inherits(model, "MixMod")) {
+    rand.ef <- lme4::ranef(model)
+    if (!is.list(rand.ef)) {
+      rand.ef <- list(rand.ef)
+      names(rand.ef) <- sjstats::re_grp_var(model)
+    }
+  } else
     rand.ef <- lme4::ranef(model)
 
 

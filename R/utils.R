@@ -369,24 +369,44 @@ tidy_label <- function(labs, sep = ".") {
 
 
 #' @importFrom lme4 ranef
+#' @importFrom purrr map_df
+#' @importFrom sjstats re_grp_var
 se_ranef <- function(object) {
-  se.bygroup <- lme4::ranef(object, condVar = TRUE)
-  n.groupings <- length(se.bygroup)
+  if (inherits(object, "MixMod")) {
+    se.bygroup <- lme4::ranef(object, post_vars = TRUE)
+    vars.m <- attr(se.bygroup, "post_vars")
 
-  for (m in 1:n.groupings) {
+    if (dim(vars.m[[1]])[1] == 1)
+      se.bygroup <- sqrt(unlist(vars.m))
+    else {
+      se.bygroup <- do.call(
+        rbind,
+        purrr::map_df(vars.m, ~ t(as.data.frame(sqrt(diag(.x)))))
+      )
 
-    vars.m <- attr(se.bygroup[[m]], "postVar")
-
-    K <- dim(vars.m)[1]
-    J <- dim(vars.m)[3]
-
-    names.full <- dimnames(se.bygroup[[m]])
-    se.bygroup[[m]] <- array(NA, c(J, K))
-
-    for (j in 1:J) {
-      se.bygroup[[m]][j, ] <- sqrt(diag(as.matrix(vars.m[, , j])))
+      dimnames(se.bygroup)[[2]] <- dimnames(vars.m[[1]])[[1]]
+      se.bygroup <- list(se.bygroup)
+      names(se.bygroup) <- sjstats::re_grp_var(object)
     }
-    dimnames(se.bygroup[[m]]) <- list(names.full[[1]], names.full[[2]])
+  } else {
+    se.bygroup <- lme4::ranef(object, condVar = TRUE)
+    n.groupings <- length(se.bygroup)
+
+    for (m in 1:n.groupings) {
+
+      vars.m <- attr(se.bygroup[[m]], "postVar")
+
+      K <- dim(vars.m)[1]
+      J <- dim(vars.m)[3]
+
+      names.full <- dimnames(se.bygroup[[m]])
+      se.bygroup[[m]] <- array(NA, c(J, K))
+
+      for (j in 1:J) {
+        se.bygroup[[m]][j, ] <- sqrt(diag(as.matrix(vars.m[, , j])))
+      }
+      dimnames(se.bygroup[[m]]) <- list(names.full[[1]], names.full[[2]])
+    }
   }
 
   se.bygroup
