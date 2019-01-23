@@ -3,6 +3,7 @@
 ## General
 
 * Export `dplyr::n()`, to meet forthcoming changes in dplyr 0.8.0.
+* `plot_model()` and `tab_model()` now support `MixMod`-objects from package **GLMMadpative**.
 
 ## Bug fixes
 

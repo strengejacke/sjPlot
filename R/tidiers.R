@@ -49,6 +49,8 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
     tidy_gam_model(model, ci.lvl)
   else if (inherits(model, "Zelig-relogit"))
     tidy_zelig_model(model, ci.lvl)
+  else if (inherits(model, "MixMod"))
+    tidy_MixMod_model(model, ci.lvl, show.zeroinf)
   else
     tidy_generic(model, ci.lvl, facets, p.val)
 }
@@ -842,6 +844,55 @@ tidy_zelig_model <- function(model, ci.lvl) {
     conf.high = est + stats::qnorm(ci) * se,
     p.value = unname(unlist(Zelig::get_pvalue(model)))
   )
+}
+
+
+#' @importFrom stats qnorm
+#' @importFrom dplyr select bind_rows
+tidy_MixMod_model <- function(model, ci.lvl, show.zeroinf) {
+
+  # compute ci, two-ways
+  ci <- get_confint(ci.lvl)
+
+  ct <- summary(model)$coef_table
+  ctzi <- summary(model)$coef_table_zi
+
+  est <- ct[, 1]
+  se <- ct[, 2]
+
+  cond <- data_frame(
+    term = names(est),
+    estimate = est,
+    std.error = se,
+    statistic = ct[, 3],
+    conf.low = est - stats::qnorm(ci) * se,
+    conf.high = est + stats::qnorm(ci) * se,
+    p.value = ct[, 4],
+    wrap.facet = "Conditional Model"
+  )
+
+  if (!is.null(ctzi)) {
+    est <- ctzi[, 1]
+    se <- ctzi[, 2]
+
+    zi <- data_frame(
+      term = names(est),
+      estimate = est,
+      std.error = se,
+      statistic = ctzi[, 3],
+      conf.low = est - stats::qnorm(ci) * se,
+      conf.high = est + stats::qnorm(ci) * se,
+      p.value = ctzi[, 4],
+      wrap.facet = "Zero-Inflated Model"
+    )
+
+    cond <- dplyr::bind_rows(cond, zi)
+  }
+
+  # remove facet column if not necessary
+  if (!show.zeroinf) cond <- dplyr::select(cond, -.data$wrap.facet)
+
+  cond
 }
 
 
