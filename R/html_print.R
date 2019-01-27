@@ -669,7 +669,7 @@ tab_model_df <- function(x,
           sprintf("    <td class=\"%s\" colspan=\"%i\">NA</td>\n", s_css, as.integer(colspan))
         )
 
-      } else {
+      } else if (length(rsq.list[[i]]) > 1) {
 
         page.content <- paste0(
           page.content,
@@ -679,6 +679,18 @@ tab_model_df <- function(x,
             as.integer(colspan),
             rsq.list[[i]][[1]],
             rsq.list[[i]][[2]]
+          )
+        )
+
+      } else {
+
+        page.content <- paste0(
+          page.content,
+          sprintf(
+            "    <td class=\"%s\" colspan=\"%i\">%.3f</td>\n",
+            s_css,
+            as.integer(colspan),
+            rsq.list[[i]][[1]]
           )
         )
 
