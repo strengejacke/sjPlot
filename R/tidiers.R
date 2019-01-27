@@ -43,6 +43,8 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
     tidy_clm_model(model, ci.lvl)
   else if (inherits(model, "polr"))
     tidy_polr_model(model, ci.lvl)
+  else if (inherits(model, c("gmnl", "mlogit")))
+    tidy_gmnl_model(model, ci.lvl)
   else if (inherits(model, "multinom"))
     tidy_multinom_model(model, ci.lvl, facets)
   else if (inherits(model, "gam"))
@@ -756,6 +758,41 @@ tidy_polr_model <- function(model, ci.lvl) {
       conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
       conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error,
       p.value = 2 * stats::pnorm(abs(.data$estimate / .data$std.error), lower.tail = FALSE)
+    )
+}
+
+
+#' @importFrom stats qnorm pnorm
+#' @importFrom rlang .data
+#' @importFrom dplyr mutate
+tidy_gmnl_model <- function(model, ci.lvl) {
+
+  # compute ci, two-ways
+  ci <- get_confint(ci.lvl)
+
+  # get estimates, as data frame
+
+  smry <- summary(model)$CoefTable
+  est <- smry %>%
+    as.data.frame() %>%
+    rownames_as_column(var = "term")
+
+  # proper column names
+  colnames(est) <- c("term", "estimate", "std.error", "statistic", "p.value")
+
+  # mark intercepts
+  intercepts <- grepl(":(intercept)", est$term, fixed = TRUE)
+  est$term[intercepts] <- sprintf(
+    "(Intercept: %s)",
+    sub(":(intercept)", replacement = "", est$term[intercepts], fixed = TRUE)
+  )
+
+  # add conf. int. and p.value
+
+  est %>%
+    dplyr::mutate(
+      conf.low = .data$estimate - stats::qnorm(ci) * .data$std.error,
+      conf.high = .data$estimate + stats::qnorm(ci) * .data$std.error
     )
 }
 

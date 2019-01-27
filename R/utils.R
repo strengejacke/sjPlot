@@ -411,3 +411,19 @@ se_ranef <- function(object) {
 
   se.bygroup
 }
+
+
+#' @importFrom stats nobs
+get_observations <- function(model) {
+  tryCatch(
+    {
+      if (inherits(model, "gmnl"))
+        model$logLik$nobs
+      else if (inherits(model, "mlogit"))
+        nrow(model$model)
+      else
+        stats::nobs(model)
+    },
+    error = function(x) { NULL }
+  )
+}

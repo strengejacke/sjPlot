@@ -567,12 +567,7 @@ tab_model <- function(
       n_obs <- NULL
 
       if (show.obs) {
-        n_obs <- tryCatch(
-          {
-            stats::nobs(model)
-          },
-          error = function(x) { NULL }
-        )
+        n_obs <- get_observations(model)
       }
 
 
