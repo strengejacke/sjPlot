@@ -79,6 +79,10 @@
 #'    These df-values are printed. See \code{\link[sjstats]{p_value}} for details.
 #' @param string.pred Character vector,used as headline for the predictor column.
 #'    Default is \code{"Predictors"}.
+#' @param string.est Character vector, used for the column heading of coefficients.
+#'    Default is based on the response scale, e.g. for logistic regression models,
+#'    \code{"Odds Ratios"} will be chosen, while for Poisson models it is
+#'    \code{"Incidence Rate Ratios"} etc. Default if not specified is \code{"Estimate"}.
 #' @param string.std Character vector, used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.
 #' @param string.ci Character vector, used for the column heading of confidence interval values. Default is \code{"CI"}.
 #' @param string.se Character vector, used for the column heading of standard error values. Default is \code{"std. Error"}.
@@ -247,6 +251,7 @@ tab_model <- function(
   wrap.labels = 25,
 
   string.pred = "Predictors",
+  string.est = "Estimate",
   string.std = "std. Beta",
   string.ci = "CI",
   string.se = "std. Error",
@@ -353,6 +358,7 @@ tab_model <- function(
   if (!sjmisc::is_empty(strings) && !is.null(names(strings))) {
     s.names <- names(strings)
     if ("pred" %in% s.names) string.pred <- strings[["pred"]]
+    if ("est" %in% s.names) string.est <- strings[["est"]]
     if ("std" %in% s.names) string.std <- strings[["std"]]
     if ("ci" %in% s.names) string.ci <- strings[["ci"]]
     if ("se" %in% s.names) string.se <- strings[["se"]]
@@ -944,7 +950,7 @@ tab_model <- function(
         )
 
       } else {
-        x <- "Estimate"
+        x <- string.est
       }
     }
 

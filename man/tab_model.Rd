@@ -13,19 +13,20 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   show.dev = FALSE, show.obs = TRUE, terms = NULL, rm.terms = NULL,
   group.terms = TRUE, order.terms = NULL, title = NULL,
   pred.labels = NULL, dv.labels = NULL, wrap.labels = 25,
-  string.pred = "Predictors", string.std = "std. Beta",
-  string.ci = "CI", string.se = "std. Error", string.p = "p",
-  string.df = "df", string.stat = "Statistic",
-  string.resp = "Response", strings = NULL,
-  ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;",
-  collapse.ci = FALSE, collapse.se = FALSE, linebreak = TRUE,
-  col.order = c("est", "se", "std.est", "std.se", "ci", "std.ci",
-  "hdi.inner", "hdi.outer", "stat", "p", "df", "response.level"),
-  digits = 2, digits.p = 3, emph.p = TRUE, p.val = c("wald", "kr"),
-  p.style = c("numeric", "asterisk"), p.threshold = c(0.05, 0.01,
-  0.001), case = "parsed", auto.label = TRUE,
-  prefix.labels = c("none", "varname", "label"), bpe = "median",
-  CSS = css_theme("regression"), file = NULL, use.viewer = TRUE)
+  string.pred = "Predictors", string.est = "Estimate",
+  string.std = "std. Beta", string.ci = "CI",
+  string.se = "std. Error", string.p = "p", string.df = "df",
+  string.stat = "Statistic", string.resp = "Response",
+  strings = NULL, ci.hyphen = "&nbsp;&ndash;&nbsp;",
+  minus.sign = "&#45;", collapse.ci = FALSE, collapse.se = FALSE,
+  linebreak = TRUE, col.order = c("est", "se", "std.est", "std.se",
+  "ci", "std.ci", "hdi.inner", "hdi.outer", "stat", "p", "df",
+  "response.level"), digits = 2, digits.p = 3, emph.p = TRUE,
+  p.val = c("wald", "kr"), p.style = c("numeric", "asterisk"),
+  p.threshold = c(0.05, 0.01, 0.001), case = "parsed",
+  auto.label = TRUE, prefix.labels = c("none", "varname", "label"),
+  bpe = "median", CSS = css_theme("regression"), file = NULL,
+  use.viewer = TRUE)
 }
 \arguments{
 \item{...}{One or more regression models, including glm's or mixed models.
@@ -153,6 +154,11 @@ or axis labels are displayed in one line and when a line break is inserted.}
 
 \item{string.pred}{Character vector,used as headline for the predictor column.
 Default is \code{"Predictors"}.}
+
+\item{string.est}{Character vector, used for the column heading of coefficients.
+Default is based on the response scale, e.g. for logistic regression models,
+\code{"Odds Ratios"} will be chosen, while for Poisson models it is
+\code{"Incidence Rate Ratios"} etc. Default if not specified is \code{"Estimate"}.}
 
 \item{string.std}{Character vector, used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.}
 
