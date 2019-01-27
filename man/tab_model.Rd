@@ -16,6 +16,7 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   string.pred = "Predictors", string.std = "std. Beta",
   string.ci = "CI", string.se = "std. Error", string.p = "p",
   string.df = "df", string.stat = "Statistic",
+  string.resp = "Response", strings = NULL,
   ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;",
   collapse.ci = FALSE, collapse.se = FALSE, linebreak = TRUE,
   col.order = c("est", "se", "std.est", "std.se", "ci", "std.ci",
@@ -164,6 +165,14 @@ Default is \code{"Predictors"}.}
 \item{string.df}{Character vector, used for the column heading of degrees of freedom. Default is \code{"df"}.}
 
 \item{string.stat}{Character vector, used for the test statistic. Default is \code{"Statistic"}.}
+
+\item{string.resp}{Character vector, used for the column heading of of the response level for multinominal or categorical models. Default is \code{"Response"}.}
+
+\item{strings}{Named character vector, as alternative to arguments like \code{string.ci}
+or \code{string.p} etc. The name (lhs) must be one of the string-indicator from
+the forementioned arguments, while the value (rhs) is the string that is used
+as column heading. E.g., \code{strings = c(ci = "Conf.Int.", se = "std. Err")}
+would be equivalent to setting \code{string.ci = "Conf.Int.", string.se = "std. Err"}.}
 
 \item{ci.hyphen}{Character vector, indicating the hyphen for confidence interval range.
 May be an HTML entity. See 'Examples'.}

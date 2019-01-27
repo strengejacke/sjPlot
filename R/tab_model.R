@@ -85,6 +85,12 @@
 #' @param string.p Character vector, used for the column heading of p values. Default is \code{"p"}.
 #' @param string.df Character vector, used for the column heading of degrees of freedom. Default is \code{"df"}.
 #' @param string.stat Character vector, used for the test statistic. Default is \code{"Statistic"}.
+#' @param string.resp Character vector, used for the column heading of of the response level for multinominal or categorical models. Default is \code{"Response"}.
+#' @param strings Named character vector, as alternative to arguments like \code{string.ci}
+#'    or \code{string.p} etc. The name (lhs) must be one of the string-indicator from
+#'    the forementioned arguments, while the value (rhs) is the string that is used
+#'    as column heading. E.g., \code{strings = c(ci = "Conf.Int.", se = "std. Err")}
+#'    would be equivalent to setting \code{string.ci = "Conf.Int.", string.se = "std. Err"}.
 #' @param ci.hyphen Character vector, indicating the hyphen for confidence interval range.
 #'    May be an HTML entity. See 'Examples'.
 #' @param minus.sign string, indicating the minus sign for negative numbers.
@@ -247,6 +253,8 @@ tab_model <- function(
   string.p = "p",
   string.df = "df",
   string.stat = "Statistic",
+  string.resp = "Response",
+  strings = NULL,
   ci.hyphen = "&nbsp;&ndash;&nbsp;",
   minus.sign = "&#45;",
 
@@ -339,6 +347,20 @@ tab_model <- function(
   copos <- which("stat" == col.order)
   if (!sjmisc::is_empty(copos)) col.order[copos] <- "statistic"
 
+
+  # match strings, to label the default strings in the table,
+  # like "Estimate", "CI" etc.
+  if (!sjmisc::is_empty(strings) && !is.null(names(strings))) {
+    s.names <- names(strings)
+    if ("pred" %in% s.names) string.pred <- strings[["pred"]]
+    if ("std" %in% s.names) string.std <- strings[["std"]]
+    if ("ci" %in% s.names) string.ci <- strings[["ci"]]
+    if ("se" %in% s.names) string.se <- strings[["se"]]
+    if ("p" %in% s.names) string.p <- strings[["p"]]
+    if ("df" %in% s.names) string.df <- strings[["df"]]
+    if ("stat" %in% s.names) string.stat <- strings[["stat"]]
+    if ("resp" %in% s.names) string.resp <- strings[["resp"]]
+  }
 
   model.list <- purrr::map2(
     models,
@@ -955,7 +977,7 @@ tab_model <- function(
     if (!sjmisc::is_empty(pos)) x <- string.stat
 
     pos <- grep("^response.level", x)
-    if (!sjmisc::is_empty(pos)) x <- "Response"
+    if (!sjmisc::is_empty(pos)) x <- string.resp
 
     pos <- grep("^hdi.inner", x)
     if (!sjmisc::is_empty(pos)) x <- "HDI (50%)"
