@@ -633,7 +633,7 @@ tab_model_df <- function(x,
     for (i in 1:length(rsq.list)) {
       if (!is.null(rsq.list[[i]])) {
         rname <- names(rsq.list[[i]][[1]])
-        if (length(rsq.list[[i]] > 1))
+        if (length(rsq.list[[i]]) > 1)
           rname <- sprintf("%s / %s", rname, names(rsq.list[[i]][[2]]))
         break
       }
