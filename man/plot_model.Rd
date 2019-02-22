@@ -13,14 +13,16 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std",
   ri.nr = NULL, title = NULL, axis.title = NULL,
   axis.labels = NULL, legend.title = NULL, wrap.title = 50,
   wrap.labels = 25, axis.lim = NULL, grid.breaks = NULL,
-  ci.lvl = NULL, se = NULL, colors = "Set1",
-  show.intercept = FALSE, show.values = FALSE, show.p = TRUE,
-  show.data = FALSE, show.legend = TRUE, show.zeroinf = TRUE,
-  value.offset = NULL, value.size, jitter = NULL, digits = 2,
-  dot.size = NULL, line.size = NULL, vline.color = NULL,
-  p.threshold = c(0.05, 0.01, 0.001), grid, case, auto.label = TRUE,
-  prefix.labels = c("none", "varname", "label"), bpe = "median",
-  bpe.style = "line", bpe.color = "white", ...)
+  ci.lvl = NULL, se = NULL, vcov.fun = NULL, vcov.type = c("HC3",
+  "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
+  vcov.args = NULL, colors = "Set1", show.intercept = FALSE,
+  show.values = FALSE, show.p = TRUE, show.data = FALSE,
+  show.legend = TRUE, show.zeroinf = TRUE, value.offset = NULL,
+  value.size, jitter = NULL, digits = 2, dot.size = NULL,
+  line.size = NULL, vline.color = NULL, p.threshold = c(0.05, 0.01,
+  0.001), grid, case, auto.label = TRUE, prefix.labels = c("none",
+  "varname", "label"), bpe = "median", bpe.style = "line",
+  bpe.color = "white", ...)
 
 get_model_data(model, type = c("est", "re", "eff", "pred", "int", "std",
   "std2", "slope", "resid", "diag"), transform, terms = NULL,
@@ -232,14 +234,24 @@ defaults to the 89\%-HDI. \code{ci.lvl} affects only the outer interval in
 such cases. See \code{prob.inner} and \code{prob.outer} under the
 \code{...}-argument for more details.}
 
-\item{se}{Either a logical, and if \code{TRUE}, error bars indicate standard
-errors, not confidence intervals. Or a character vector with a specification
-of the covariance matrix to compute robust standard errors (see argument
-\code{vcov} of \code{\link[sjstats]{robust}} for valid values; robust standard
-errors are only supported for models that work with \code{\link[lmtest]{coeftest}}).
-\code{se} overrides \code{ci.lvl}: if not \code{NULL}, arguments \code{ci.lvl}
+\item{se}{Logical, if \code{TRUE}, the standard errors are
+also printed. If robust standard errors are required, use arguments
+\code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
+\code{\link[sjstats]{robust}} for details). \code{se} overrides
+\code{ci.lvl}: if not \code{NULL}, arguments \code{ci.lvl}
 and \code{transform} will be ignored. Currently, \code{se} only applies
 to \emph{Coefficients} plots.}
+
+\item{vcov.fun}{Character vector, indicating the name of the \code{vcov*()}-function
+from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust
+standard errors are required.}
+
+\item{vcov.type}{Character vector, specifying the estimation type for the
+robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
+for details).}
+
+\item{vcov.args}{List of named vectors, used as additional arguments that
+are passed down to \code{vcov.fun}.}
 
 \item{colors}{May be a character vector of color values in hex-format, valid
 color value names (see \code{demo("colors")}) or a name of a pre-defined

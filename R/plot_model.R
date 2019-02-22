@@ -183,12 +183,11 @@
 #'   defaults to the 89\%-HDI. \code{ci.lvl} affects only the outer interval in
 #'   such cases. See \code{prob.inner} and \code{prob.outer} under the
 #'   \code{...}-argument for more details.
-#' @param se Either a logical, and if \code{TRUE}, error bars indicate standard
-#'   errors, not confidence intervals. Or a character vector with a specification
-#'   of the covariance matrix to compute robust standard errors (see argument
-#'   \code{vcov} of \code{\link[sjstats]{robust}} for valid values; robust standard
-#'   errors are only supported for models that work with \code{\link[lmtest]{coeftest}}).
-#'   \code{se} overrides \code{ci.lvl}: if not \code{NULL}, arguments \code{ci.lvl}
+#' @param se Logical, if \code{TRUE}, the standard errors are
+#'   also printed. If robust standard errors are required, use arguments
+#'   \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
+#'   \code{\link[sjstats]{robust}} for details). \code{se} overrides
+#'   \code{ci.lvl}: if not \code{NULL}, arguments \code{ci.lvl}
 #'   and \code{transform} will be ignored. Currently, \code{se} only applies
 #'   to \emph{Coefficients} plots.
 #' @param show.intercept Logical, if \code{TRUE}, the intercept of the fitted
@@ -204,6 +203,14 @@
 #'   legend.
 #' @param show.zeroinf Logical, if \code{TRUE}, shows the zero-inflation part of
 #'   hurdle- or zero-inflated models.
+#' @param vcov.fun Character vector, indicating the name of the \code{vcov*()}-function
+#'    from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust
+#'    standard errors are required.
+#' @param vcov.type Character vector, specifying the estimation type for the
+#'    robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
+#'    for details).
+#' @param vcov.args List of named vectors, used as additional arguments that
+#'    are passed down to \code{vcov.fun}.
 #' @param value.offset Numeric, offset for text labels to adjust their position
 #'   relative to the dots or lines.
 #' @param dot.size Numeric, size of the dots that indicate the point estimates.
@@ -462,6 +469,9 @@ plot_model <- function(model,
                        grid.breaks = NULL,
                        ci.lvl = NULL,
                        se = NULL,
+                       vcov.fun = NULL,
+                       vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
+                       vcov.args = NULL,
                        colors = "Set1",
                        show.intercept = FALSE,
                        show.values = FALSE,
@@ -491,6 +501,7 @@ plot_model <- function(model,
   pred.type <- match.arg(pred.type)
   mdrt.values <- match.arg(mdrt.values)
   prefix.labels <- match.arg(prefix.labels)
+  vcov.type <- match.arg(vcov.type)
 
 
   # if we prefix labels, use different default for case conversion,
@@ -503,7 +514,7 @@ plot_model <- function(model,
   }
 
   # check se-argument
-  se <- check_se_argument(se = se, type = type)
+  vcov.fun <- check_se_argument(se = vcov.fun, type = type)
 
 
   # get info on model family
@@ -608,6 +619,9 @@ plot_model <- function(model,
       facets = grid,
       show.zeroinf = show.zeroinf,
       p.threshold = p.threshold,
+      vcov.fun = vcov.fun,
+      vcov.type = vcov.type,
+      vcov.args = vcov.args,
       ...
     )
 

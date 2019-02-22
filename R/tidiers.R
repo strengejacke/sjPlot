@@ -1,10 +1,10 @@
-tidy_model <- function(model, ci.lvl, tf, type, bpe, se, facets, show.zeroinf, p.val, ...) {
+tidy_model <- function(model, ci.lvl, tf, type, bpe, se, robust, facets, show.zeroinf, p.val, ...) {
   dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, ...)
 
   # get robust standard errors, if requestes, and replace former s.e.
 
-  if (!is.null(se) && !is.logical(se) && obj_has_name(dat, "std.error")) {
-    std.err <- sjstats::robust(model, vcov.type = se)
+  if (!is.null(robust) && !is.null(robust$vcov.fun) && obj_has_name(dat, "std.error")) {
+    std.err <- sjstats::robust(model, vcov.fun = robust$vcov.fun, vcov.type = robust$vcov.type, vcov.args = robust$vcov.args)
     dat[["std.error"]] <- std.err[["std.error"]]
 
     # also fix CI and p-value after robust SE

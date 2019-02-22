@@ -64,11 +64,10 @@
 #'    also printed, and if yes, which type of standardization is done.
 #'    See 'Details'.
 #' @param show.p Logical, if \code{TRUE}, p-values are also printed.
-#' @param show.se Either logical, and if \code{TRUE}, the standard errors are
-#'   also printed. Or a character vector with a specification of the
-#'   covariance matrix to compute robust standard errors (see argument \code{vcov}
-#'   of \code{\link[sjstats]{robust}} for valid values; robust standard errors
-#'   are only supported for models that work with \code{\link[lmtest]{coeftest}}).
+#' @param show.se Logical, if \code{TRUE}, the standard errors are
+#'   also printed. If robust standard errors are required, use arguments
+#'   \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
+#'   \code{\link[sjstats]{robust}} for details).
 #' @param show.r2 Logical, if \code{TRUE}, the r-squared value is also printed.
 #'    Depending on the model, these might be pseudo-r-squared values, or Bayesian
 #'    r-squared etc. See \code{\link[sjstats]{r2}} for details.
@@ -250,6 +249,10 @@ tab_model <- function(
   dv.labels = NULL,
   wrap.labels = 25,
 
+  vcov.fun = NULL,
+  vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
+  vcov.args = NULL,
+
   string.pred = "Predictors",
   string.est = "Estimate",
   string.std = "std. Beta",
@@ -301,6 +304,7 @@ tab_model <- function(
   p.val <- match.arg(p.val)
   p.style <- match.arg(p.style)
   prefix.labels <- match.arg(prefix.labels)
+  vcov.type <- match.arg(vcov.type)
 
 
   # if we prefix labels, use different default for case conversion,
@@ -315,7 +319,7 @@ tab_model <- function(
   if (p.style == "asterisk") show.p <- FALSE
 
   # check se-argument
-  show.se <- check_se_argument(se = show.se, type = NULL)
+  vcov.fun <- check_se_argument(se = vcov.fun, type = NULL)
 
 
   models <- list(...)
@@ -394,6 +398,7 @@ tab_model <- function(
         type = "est",
         bpe,
         se = show.se,
+        robust = list(vcov.fun, vcov.type, vcov.args),
         facets = FALSE,
         show.zeroinf = show.zeroinf,
         p.val = p.val

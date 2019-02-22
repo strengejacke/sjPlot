@@ -13,6 +13,8 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   show.dev = FALSE, show.obs = TRUE, terms = NULL, rm.terms = NULL,
   group.terms = TRUE, order.terms = NULL, title = NULL,
   pred.labels = NULL, dv.labels = NULL, wrap.labels = 25,
+  vcov.fun = NULL, vcov.type = c("HC3", "const", "HC", "HC0", "HC1",
+  "HC2", "HC4", "HC4m", "HC5"), vcov.args = NULL,
   string.pred = "Predictors", string.est = "Estimate",
   string.std = "std. Beta", string.ci = "CI",
   string.se = "std. Error", string.p = "p", string.df = "df",
@@ -51,11 +53,10 @@ confidence intervals.}
 \item{show.hdi50}{Logical, if \code{TRUE}, for Bayesian models, a second
 credible interval is added to the table output.}
 
-\item{show.se}{Either logical, and if \code{TRUE}, the standard errors are
-also printed. Or a character vector with a specification of the
-covariance matrix to compute robust standard errors (see argument \code{vcov}
-of \code{\link[sjstats]{robust}} for valid values; robust standard errors
-are only supported for models that work with \code{\link[lmtest]{coeftest}}).}
+\item{show.se}{Logical, if \code{TRUE}, the standard errors are
+also printed. If robust standard errors are required, use arguments
+\code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
+\code{\link[sjstats]{robust}} for details).}
 
 \item{show.std}{Indicates whether standardized beta-coefficients should
 also printed, and if yes, which type of standardization is done.
@@ -151,6 +152,17 @@ fitted models. See 'Examples'.}
 
 \item{wrap.labels}{Numeric, determines how many chars of the value, variable
 or axis labels are displayed in one line and when a line break is inserted.}
+
+\item{vcov.fun}{Character vector, indicating the name of the \code{vcov*()}-function
+from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust
+standard errors are required.}
+
+\item{vcov.type}{Character vector, specifying the estimation type for the
+robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
+for details).}
+
+\item{vcov.args}{List of named vectors, used as additional arguments that
+are passed down to \code{vcov.fun}.}
 
 \item{string.pred}{Character vector,used as headline for the predictor column.
 Default is \code{"Predictors"}.}
