@@ -20,6 +20,7 @@ plot_point_estimates <- function(model,
                                  vline.color,
                                  value.size,
                                  facets,
+                                 hdi.style,
                                  ...) {
 
   # some defaults...
@@ -80,15 +81,27 @@ plot_point_estimates <- function(model,
 
   if (is.stan(model)) {
 
+    if (hdi.style == "whisker") {
+      hdi_alpha <- 1
+      dot.fac <- 1.2
+    } else {
+      hdi_alpha <- .5
+      dot.fac <- 3
+    }
+
     # special setup for rstan-models
-    p <- p +
-      layer_vertical_line +
-      geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), size = line.size, width = width)
+    p <- p + layer_vertical_line
+
+    if (hdi.style == "whisker")
+      p <- p + geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), size = line.size, width = width)
+    else
+      p <- p + geom_rect(aes_string(ymin = "conf.low", ymax = "conf.high", xmin = "xmin", xmax = "xmax"), alpha = hdi_alpha, colour = "white", size = .5)
+
 
     # only add inner region if requested
     if (size.inner > 0) {
       p <- p +
-        geom_rect(aes_string(ymin = "conf.low50", ymax = "conf.high50", xmin = "xmin", xmax = "xmax"), colour = "white", size = .5)
+        geom_rect(aes_string(ymin = "conf.low50", ymax = "conf.high50", xmin = "xmin", xmax = "xmax"), alpha = hdi_alpha, colour = "white", size = .5)
     }
 
     # define style for Bayesian point estimate
@@ -102,10 +115,10 @@ plot_point_estimates <- function(model,
       }
     } else if (is.null(bpe.color)) {
         p <- p +
-          geom_point(aes_string(y = "estimate"), fill = "white", size = geom.size * 1.2)
+          geom_point(aes_string(y = "estimate"), fill = "white", size = geom.size * dot.fac)
     } else {
       p <- p +
-        geom_point(aes_string(y = "estimate"), fill = "white", colour = bpe.color, size = geom.size * 1.2)
+        geom_point(aes_string(y = "estimate"), fill = "white", colour = bpe.color, size = geom.size * dot.fac)
     }
 
   } else {

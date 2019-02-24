@@ -277,6 +277,9 @@
 #' @param bpe.color Character vector, indicating the color of the Bayesian
 #'   point estimate. Setting \code{bpe.color = NULL} will inherit the color
 #'   from the mapped aesthetic to match it with the geom's color.
+#' @param hdi.style Character vector, defining whether inner and outer intervals
+#'   for Bayesion models are shown in boxplot-style (\code{"whisker"}) or in
+#'   bars with different alpha-levels (\code{"bar"}).
 #' @param ... Other arguments, passed down to various functions. Here is a list
 #'   of supported arguments and their description in detail.
 #'   \describe{
@@ -494,6 +497,7 @@ plot_model <- function(model,
                        bpe = "median",
                        bpe.style = "line",
                        bpe.color = "white",
+                       hdi.style = c("whisker", "bar"),
                        ...
                        ) {
 
@@ -502,7 +506,7 @@ plot_model <- function(model,
   mdrt.values <- match.arg(mdrt.values)
   prefix.labels <- match.arg(prefix.labels)
   vcov.type <- match.arg(vcov.type)
-
+  hdi.style <- match.arg(hdi.style)
 
   # if we prefix labels, use different default for case conversion,
   # else the separating white spaces after colon are removed.
@@ -622,6 +626,7 @@ plot_model <- function(model,
       vcov.fun = vcov.fun,
       vcov.type = vcov.type,
       vcov.args = vcov.args,
+      hdi.style = hdi.style,
       ...
     )
 
@@ -650,6 +655,7 @@ plot_model <- function(model,
       vline.color = vline.color,
       value.size = value.size,
       bpe.color = bpe.color,
+      hdi.style = hdi.style,
       ...
     )
 

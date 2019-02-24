@@ -22,7 +22,7 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std",
   line.size = NULL, vline.color = NULL, p.threshold = c(0.05, 0.01,
   0.001), grid, case, auto.label = TRUE, prefix.labels = c("none",
   "varname", "label"), bpe = "median", bpe.style = "line",
-  bpe.color = "white", ...)
+  bpe.color = "white", hdi.style = c("whisker", "bar"), ...)
 
 get_model_data(model, type = c("est", "re", "eff", "pred", "int", "std",
   "std2", "slope", "resid", "diag"), transform, terms = NULL,
@@ -349,6 +349,10 @@ instead of a line for the point estimate.}
 \item{bpe.color}{Character vector, indicating the color of the Bayesian
 point estimate. Setting \code{bpe.color = NULL} will inherit the color
 from the mapped aesthetic to match it with the geom's color.}
+
+\item{hdi.style}{Character vector, defining whether inner and outer intervals
+for Bayesion models are shown in boxplot-style (\code{"whisker"}) or in
+bars with different alpha-levels (\code{"bar"}).}
 
 \item{...}{Other arguments, passed down to various functions. Here is a list
 of supported arguments and their description in detail.
