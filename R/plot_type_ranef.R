@@ -25,7 +25,7 @@ plot_type_ranef <- function(model,
                             vline.color,
                             value.size,
                             bpe.color,
-                            hdi.style,
+                            ci.style,
                             ...) {
 
   if (inherits(model, "clmm")) {
@@ -321,7 +321,7 @@ plot_type_ranef <- function(model,
           value.size = value.size,
           facets = facets,
           bpe.color = bpe.color,
-          hdi.style = hdi.style,
+          ci.style = ci.style,
           ...
         )
       }

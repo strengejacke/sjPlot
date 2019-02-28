@@ -22,7 +22,7 @@ plot_model(model, type = c("est", "re", "eff", "pred", "int", "std",
   line.size = NULL, vline.color = NULL, p.threshold = c(0.05, 0.01,
   0.001), grid, case, auto.label = TRUE, prefix.labels = c("none",
   "varname", "label"), bpe = "median", bpe.style = "line",
-  bpe.color = "white", hdi.style = c("whisker", "bar"), ...)
+  bpe.color = "white", ci.style = c("whisker", "bar"), ...)
 
 get_model_data(model, type = c("est", "re", "eff", "pred", "int", "std",
   "std2", "slope", "resid", "diag"), transform, terms = NULL,
@@ -226,11 +226,11 @@ axis positions of the major grid lines.}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals (error bars).
 Use \code{ci.lvl = NA} to remove error bars. For \code{stanreg}-models,
-\code{ci.lvl} defines the (outer) probability for the
-\code{\link[sjstats]{hdi}} (High Density Interval) that is plotted. By
+\code{ci.lvl} defines the (outer) probability for the \emph{credible interval}
+that is plotted (see \code{\link[sjstats]{credint}}). By
 default, \code{stanreg}-models are printed with two intervals: the "inner"
-interval, which defaults to the 50\%-HDI; and the "outer" interval, which
-defaults to the 89\%-HDI. \code{ci.lvl} affects only the outer interval in
+interval, which defaults to the 50\%-CI; and the "outer" interval, which
+defaults to the 89\%-CI. \code{ci.lvl} affects only the outer interval in
 such cases. See \code{prob.inner} and \code{prob.outer} under the
 \code{...}-argument for more details.}
 
@@ -350,7 +350,7 @@ instead of a line for the point estimate.}
 point estimate. Setting \code{bpe.color = NULL} will inherit the color
 from the mapped aesthetic to match it with the geom's color.}
 
-\item{hdi.style}{Character vector, defining whether inner and outer intervals
+\item{ci.style}{Character vector, defining whether inner and outer intervals
 for Bayesion models are shown in boxplot-style (\code{"whisker"}) or in
 bars with different alpha-levels (\code{"bar"}).}
 

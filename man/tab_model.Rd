@@ -5,7 +5,7 @@
 \title{Print regression models as HTML table}
 \usage{
 tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
-  show.ci = 0.95, show.hdi50 = TRUE, show.se = NULL,
+  show.ci = 0.95, show.ci50 = TRUE, show.se = NULL,
   show.std = NULL, show.p = TRUE, show.stat = FALSE,
   show.df = FALSE, show.zeroinf = TRUE, show.r2 = TRUE,
   show.icc = TRUE, show.adj.icc = FALSE, show.re.var = TRUE,
@@ -22,7 +22,7 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   strings = NULL, ci.hyphen = "&nbsp;&ndash;&nbsp;",
   minus.sign = "&#45;", collapse.ci = FALSE, collapse.se = FALSE,
   linebreak = TRUE, col.order = c("est", "se", "std.est", "std.se",
-  "ci", "std.ci", "hdi.inner", "hdi.outer", "stat", "p", "df",
+  "ci", "std.ci", "ci.inner", "ci.outer", "stat", "p", "df",
   "response.level"), digits = 2, digits.p = 3, emph.p = TRUE,
   p.val = c("wald", "kr"), p.style = c("numeric", "asterisk"),
   p.threshold = c(0.05, 0.01, 0.001), case = "parsed",
@@ -37,7 +37,7 @@ May also be a \code{list} with fitted models. See 'Examples'.}
 \item{transform}{A character vector, naming a function that will be applied
 on estimates and confidence intervals. By default, \code{transform} will
 automatically use \code{"exp"} as transformation for applicable classes of
-regression models (e.g. logistic or poisson regression). Estimates of linear
+\code{model} (e.g. logistic or poisson regression). Estimates of linear
 models remain untransformed. Use \code{NULL} if you want the raw,
 non-transformed estimates.}
 
@@ -50,7 +50,7 @@ is printed to the table; if \code{FALSE}, confidence intervals are
 omitted. Or numeric, between 0 and 1, indicating the range of the
 confidence intervals.}
 
-\item{show.hdi50}{Logical, if \code{TRUE}, for Bayesian models, a second
+\item{show.ci50}{Logical, if \code{TRUE}, for Bayesian models, a second
 credible interval is added to the table output.}
 
 \item{show.se}{Logical, if \code{TRUE}, the standard errors are

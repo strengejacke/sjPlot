@@ -5,12 +5,6 @@
 #'   \code{tab_model()} creates HTML tables from regression models.
 #'
 #' @param title String, will be used as table caption.
-#' @param transform A character vector, naming a function that will be applied
-#'   on estimates and confidence intervals. By default, \code{transform} will
-#'   automatically use \code{"exp"} as transformation for applicable classes of
-#'   regression models (e.g. logistic or poisson regression). Estimates of linear
-#'   models remain untransformed. Use \code{NULL} if you want the raw,
-#'   non-transformed estimates.
 #' @param terms Character vector with names of those terms (variables) that should
 #'    be printed in the table. All other terms are removed from the output. If
 #'    \code{NULL}, all terms are printed. Note that the term names must match
@@ -113,7 +107,7 @@
 #'    factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
 #'    be grouped, if the factor has more than two levels. Grouping means that a separate headline
 #'    row is inserted to the table just before the predictor values.
-#' @param show.hdi50 Logical, if \code{TRUE}, for Bayesian models, a second
+#' @param show.ci50 Logical, if \code{TRUE}, for Bayesian models, a second
 #'    credible interval is added to the table output.
 #' @param show.fstat Logical, if \code{TRUE}, the F-statistics for each model is
 #'    printed in the table summary. This option is not supported by all model types.
@@ -221,7 +215,7 @@ tab_model <- function(
   show.intercept = TRUE,
   show.est = TRUE,
   show.ci = .95,
-  show.hdi50 = TRUE,
+  show.ci50 = TRUE,
   show.se = NULL,
   show.std = NULL,
   show.p = TRUE,
@@ -277,8 +271,8 @@ tab_model <- function(
     "std.se",
     "ci",
     "std.ci",
-    "hdi.inner",
-    "hdi.outer",
+    "ci.inner",
+    "ci.outer",
     "stat",
     "p",
     "df",
@@ -444,8 +438,8 @@ tab_model <- function(
 
       if (is.stan(model)) {
         dat <- dat %>%
-          sjmisc::var_rename(conf.int = "hdi.outer") %>%
-          dplyr::mutate(hdi.inner = sprintf(
+          sjmisc::var_rename(conf.int = "ci.outer") %>%
+          dplyr::mutate(ci.inner = sprintf(
             "%.*f%s%.*f",
             digits,
             .data$conf.low50,
@@ -523,8 +517,8 @@ tab_model <- function(
 
       # remove 2nd HDI if requested ----
 
-      if (!show.hdi50)
-        dat <- dplyr::select(dat, -string_starts_with("hdi.inner", colnames(dat)))
+      if (!show.ci50)
+        dat <- dplyr::select(dat, -string_starts_with("ci.inner", colnames(dat)))
 
 
       ## TODO optionally insert linebreak for new-line-CI / SE
@@ -542,10 +536,10 @@ tab_model <- function(
         dat[[est.cols]] <- sprintf("%s%s(%s)", dat[[est.cols]], lb, dat[[est.cols + 2]])
 
         # for stan models, we also have 50% HDI
-        if (!sjmisc::is_empty(string_starts_with("hdi", x = colnames(dat)))) {
-          dat <- dplyr::select(dat, -string_starts_with("hdi.outer", x = colnames(dat)))
+        if (!sjmisc::is_empty(string_starts_with("ci", x = colnames(dat)))) {
+          dat <- dplyr::select(dat, -string_starts_with("ci.outer", x = colnames(dat)))
           dat[[est.cols]] <- sprintf("%s%s(%s)", dat[[est.cols]], lb, dat[[est.cols + 2]])
-          dat <- dplyr::select(dat, -string_starts_with("hdi.inner", x = colnames(dat)))
+          dat <- dplyr::select(dat, -string_starts_with("ci.inner", x = colnames(dat)))
         } else {
           dat <- dplyr::select(dat, -string_starts_with("conf.int", x = colnames(dat)))
         }
@@ -990,11 +984,11 @@ tab_model <- function(
     pos <- grep("^response.level", x)
     if (!sjmisc::is_empty(pos)) x <- string.resp
 
-    pos <- grep("^hdi.inner", x)
-    if (!sjmisc::is_empty(pos)) x <- "HDI (50%)"
+    pos <- grep("^ci.inner", x)
+    if (!sjmisc::is_empty(pos)) x <- "CI (50%)"
 
-    pos <- grep("^hdi.outer", x)
-    if (!sjmisc::is_empty(pos)) x <- sprintf("HDI (%i%%)", round(100 * show.ci))
+    pos <- grep("^ci.outer", x)
+    if (!sjmisc::is_empty(pos)) x <- sprintf("CI (%i%%)", round(100 * show.ci))
 
     x
   })
@@ -1049,8 +1043,8 @@ sort_columns <- function(x, is.stan, col.order) {
     "std.se",
     "conf.int",
     "std.conf.int",
-    "hdi.inner",
-    "hdi.outer",
+    "ci.inner",
+    "ci.outer",
     "statistic",
     "p.value",
     "df",
@@ -1105,7 +1099,7 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
       dat,
       -string_starts_with("conf", x = colnames(dat)),
       -string_starts_with("std.conf", x = colnames(dat)),
-      -string_starts_with("hdi", x = colnames(dat))
+      -string_starts_with("ci", x = colnames(dat))
     )
   }
 

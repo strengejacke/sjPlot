@@ -192,7 +192,7 @@ tidy_cox_model <- function(model, ci.lvl) {
 ## TODO replace with sjstats::tidy_stan() in the future?
 
 #' @importFrom stats mad formula
-#' @importFrom sjstats hdi typical_value model_family
+#' @importFrom sjstats cred_int typical_value model_family
 #' @importFrom sjmisc var_rename add_columns is_empty
 #' @importFrom dplyr select filter slice inner_join n_distinct
 #' @importFrom purrr map_dbl
@@ -211,30 +211,30 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
 
   # check whether we have "prob.inner" and "prob.outer" argument
-  # and if so, use these for HDI and Bayesian point estimate
+  # and if so, use these for CI and Bayesian point estimate
 
   if ("prob.inner" %in% names(add.args)) p.inner <- eval(add.args[["prob.inner"]])
   if ("prob.outer" %in% names(add.args)) p.outer <- eval(add.args[["prob.outer"]])
 
 
-  # get two HDI-intervals
+  # get two CI-intervals
 
   if (type == "re")
     ty <- "random"
   else
     ty <- "fixed"
 
-  d1 <- sjstats::hdi(model, prob = p.outer, trans = tf, type = ty)
-  d2 <- sjstats::hdi(model, prob = p.inner, trans = tf, type = ty)
+  d1 <- sjstats::cred_int(model, prob = p.outer, trans = tf, type = ty)
+  d2 <- sjstats::cred_int(model, prob = p.inner, trans = tf, type = ty)
 
 
   # bind columns, so we have inner and outer hdi interval
 
   dat <- d2 %>%
-    dplyr::select(.data$hdi.low, .data$hdi.high) %>%
-    sjmisc::var_rename(hdi.low = "conf.low50", hdi.high = "conf.high50") %>%
+    dplyr::select(.data$ci.low, .data$ci.high) %>%
+    sjmisc::var_rename(ci.low = "conf.low50", ci.high = "conf.high50") %>%
     sjmisc::add_columns(d1) %>%
-    sjmisc::var_rename(hdi.low = "conf.low", hdi.high = "conf.high")
+    sjmisc::var_rename(ci.low = "conf.low", ci.high = "conf.high")
 
 
   # for brmsfit models, we need to remove some columns here to

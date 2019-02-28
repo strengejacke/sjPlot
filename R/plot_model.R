@@ -176,11 +176,11 @@
 #'   axis positions of the major grid lines.
 #' @param ci.lvl Numeric, the level of the confidence intervals (error bars).
 #'   Use \code{ci.lvl = NA} to remove error bars. For \code{stanreg}-models,
-#'   \code{ci.lvl} defines the (outer) probability for the
-#'   \code{\link[sjstats]{hdi}} (High Density Interval) that is plotted. By
+#'   \code{ci.lvl} defines the (outer) probability for the \emph{credible interval}
+#'   that is plotted (see \code{\link[sjstats]{credint}}). By
 #'   default, \code{stanreg}-models are printed with two intervals: the "inner"
-#'   interval, which defaults to the 50\%-HDI; and the "outer" interval, which
-#'   defaults to the 89\%-HDI. \code{ci.lvl} affects only the outer interval in
+#'   interval, which defaults to the 50\%-CI; and the "outer" interval, which
+#'   defaults to the 89\%-CI. \code{ci.lvl} affects only the outer interval in
 #'   such cases. See \code{prob.inner} and \code{prob.outer} under the
 #'   \code{...}-argument for more details.
 #' @param se Logical, if \code{TRUE}, the standard errors are
@@ -277,7 +277,7 @@
 #' @param bpe.color Character vector, indicating the color of the Bayesian
 #'   point estimate. Setting \code{bpe.color = NULL} will inherit the color
 #'   from the mapped aesthetic to match it with the geom's color.
-#' @param hdi.style Character vector, defining whether inner and outer intervals
+#' @param ci.style Character vector, defining whether inner and outer intervals
 #'   for Bayesion models are shown in boxplot-style (\code{"whisker"}) or in
 #'   bars with different alpha-levels (\code{"bar"}).
 #' @param ... Other arguments, passed down to various functions. Here is a list
@@ -497,7 +497,7 @@ plot_model <- function(model,
                        bpe = "median",
                        bpe.style = "line",
                        bpe.color = "white",
-                       hdi.style = c("whisker", "bar"),
+                       ci.style = c("whisker", "bar"),
                        ...
                        ) {
 
@@ -506,7 +506,7 @@ plot_model <- function(model,
   mdrt.values <- match.arg(mdrt.values)
   prefix.labels <- match.arg(prefix.labels)
   vcov.type <- match.arg(vcov.type)
-  hdi.style <- match.arg(hdi.style)
+  ci.style <- match.arg(ci.style)
 
   # if we prefix labels, use different default for case conversion,
   # else the separating white spaces after colon are removed.
@@ -626,7 +626,7 @@ plot_model <- function(model,
       vcov.fun = vcov.fun,
       vcov.type = vcov.type,
       vcov.args = vcov.args,
-      hdi.style = hdi.style,
+      ci.style = ci.style,
       ...
     )
 
@@ -655,7 +655,7 @@ plot_model <- function(model,
       vline.color = vline.color,
       value.size = value.size,
       bpe.color = bpe.color,
-      hdi.style = hdi.style,
+      ci.style = ci.style,
       ...
     )
 

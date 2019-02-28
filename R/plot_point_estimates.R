@@ -20,7 +20,7 @@ plot_point_estimates <- function(model,
                                  vline.color,
                                  value.size,
                                  facets,
-                                 hdi.style,
+                                 ci.style,
                                  ...) {
 
   # some defaults...
@@ -81,7 +81,7 @@ plot_point_estimates <- function(model,
 
   if (is.stan(model)) {
 
-    if (hdi.style == "whisker") {
+    if (ci.style == "whisker") {
       hdi_alpha <- 1
       dot.fac <- 1.2
     } else {
@@ -92,7 +92,7 @@ plot_point_estimates <- function(model,
     # special setup for rstan-models
     p <- p + layer_vertical_line
 
-    if (hdi.style == "whisker")
+    if (ci.style == "whisker")
       p <- p + geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), size = line.size, width = width)
     else
       p <- p + geom_rect(aes_string(ymin = "conf.low", ymax = "conf.high", xmin = "xmin", xmax = "xmax"), alpha = hdi_alpha, colour = "white", size = .5)

@@ -31,7 +31,7 @@ plot_model_estimates <- function(model,
                                  value.size,
                                  facets,
                                  p.threshold,
-                                 hdi.style,
+                                 ci.style,
                                  ...) {
 
   # remove intercept(s) from output
@@ -225,7 +225,7 @@ plot_model_estimates <- function(model,
           facets = facets,
           bpe.style = bpe.style,
           bpe.color = bpe.color,
-          hdi.style = hdi.style,
+          ci.style = ci.style,
           ...
         )
       }
@@ -260,7 +260,7 @@ plot_model_estimates <- function(model,
           vline.color = vline.color,
           value.size = value.size,
           facets = facets,
-          hdi.style = hdi.style,
+          ci.style = ci.style,
           ...
         )
 
@@ -287,7 +287,7 @@ plot_model_estimates <- function(model,
         vline.color = vline.color,
         value.size = value.size,
         facets = facets,
-        hdi.style = hdi.style,
+        ci.style = ci.style,
         ...
       )
 
