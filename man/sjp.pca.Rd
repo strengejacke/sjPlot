@@ -14,8 +14,9 @@ sjp.pca(data, rotation = c("varimax", "quartimax", "promax", "oblimin",
 \arguments{
 \item{data}{A data frame that should be used to compute a PCA, or a \code{\link{prcomp}} object.}
 
-\item{rotation}{Rotation of the factor loadings. May be \code{"varimax"} for orthogonal rotation
-or \code{"oblimin"} for oblique transformation.}
+\item{rotation}{Rotation of the factor loadings. May be one of
+\code{"varimax", "quartimax", "promax", "oblimin", "simplimax", "cluster"}
+or \code{"none"}.}
 
 \item{nmbr.fctr}{Number of factors used for calculating the rotation. By
 default, this value is \code{NULL} and the amount of factors is
