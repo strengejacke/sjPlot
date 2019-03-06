@@ -1,4 +1,4 @@
-#' @importFrom sjstats model_frame
+#' @importFrom insight get_data
 #' @importFrom stats formula sd quantile
 #' @importFrom purrr map map_lgl map_chr
 #' @importFrom sjmisc trim is_empty str_contains is_float
@@ -39,7 +39,7 @@ plot_type_int <- function(model,
   # get interaction terms and model frame
 
   ia.terms <- purrr::map(rhs[int.terms], ~ sjmisc::trim(unlist(strsplit(.x, "*", fixed = TRUE))))
-  mf <- sjstats::model_frame(model)
+  mf <- insight::get_data(model)
 
   pl <- list()
 

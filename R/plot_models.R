@@ -116,7 +116,7 @@ plot_models <- function(...,
 
 
   # get info on model family
-  fam.info <- sjstats::model_family(input_list[[1]])
+  fam.info <- insight::model_info(input_list[[1]])
 
   # check whether estimates should be transformed or not
 

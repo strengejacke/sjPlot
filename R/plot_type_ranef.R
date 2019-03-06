@@ -4,6 +4,7 @@
 #' @importFrom forcats fct_reorder
 #' @importFrom dplyr if_else
 #' @importFrom sjmisc remove_var
+#' @importFrom insight find_random
 plot_type_ranef <- function(model,
                             dat,
                             ri.nr,
@@ -41,7 +42,7 @@ plot_type_ranef <- function(model,
     rand.ef <- lme4::ranef(model)
     if (!is.list(rand.ef)) {
       rand.ef <- list(rand.ef)
-      names(rand.ef) <- sjstats::re_grp_var(model)
+      names(rand.ef) <- insight::find_random(model, flatten = TRUE)
     }
   } else
     rand.ef <- lme4::ranef(model)

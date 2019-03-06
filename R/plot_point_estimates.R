@@ -1,7 +1,7 @@
 #' @importFrom dplyr n_distinct if_else
 #' @importFrom sjmisc is_empty
 #' @importFrom sjlabelled as_numeric
-#' @importFrom sjstats resp_var
+#' @importFrom insight find_response
 plot_point_estimates <- function(model,
                                  dat,
                                  tf,
@@ -232,7 +232,7 @@ plot_point_estimates <- function(model,
     )
 
   # for multinomial models, set response variable name as name for legend
-  if (multinomial) p <- p + labs(colour = sjstats::resp_var(model))
+  if (multinomial) p <- p + labs(colour = insight::find_response(model))
 
   p
 }

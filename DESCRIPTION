@@ -32,6 +32,7 @@ Imports:
     glmmTMB,
     ggplot2 (>= 2.2.1),
     knitr,
+    insight,
     lme4 (>= 1.1-12),
     magrittr,
     MASS,

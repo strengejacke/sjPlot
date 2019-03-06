@@ -442,7 +442,8 @@
 #'   plot_model(m, bpe.style = "dot")
 #' }}
 #'
-#' @importFrom sjstats pred_vars std_beta p_value model_family
+#' @importFrom sjstats std_beta p_value
+#' @importFrom insight model_info find_predictors
 #' @importFrom sjmisc word_wrap str_contains
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom dplyr if_else n_distinct
@@ -522,7 +523,7 @@ plot_model <- function(model,
 
 
   # get info on model family
-  fam.info <- sjstats::model_family(model)
+  fam.info <- insight::model_info(model)
 
   # check whether estimates should be transformed or not
 
@@ -557,7 +558,7 @@ plot_model <- function(model,
 
 
   # check nr of estimates. if only one, plot slope
-  if (type == "est" && length(sjstats::pred_vars(model)) == 1 && fam.info$is_linear && one_par(model)) type <- "slope"
+  if (type == "est" && length(insight::find_predictors(model, component = "conditional", flatten = TRUE)) == 1 && fam.info$is_linear && one_par(model)) type <- "slope"
 
 
   # set some default options for stan-models, which are not

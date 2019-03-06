@@ -48,7 +48,7 @@ plot_type_eff <- function(type,
   log.y <- FALSE
 
   # save number of terms, needed later
-  n.terms <- length(sjstats::pred_vars(model))
+  n.terms <- length(insight::find_predictors(model, component = "conditional", flatten = TRUE))
 
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
   if ("alpha" %in% names(add.args)) alpha <- eval(add.args[["alpha"]])

@@ -43,6 +43,7 @@
 #' plot_residuals(fit, remove.estimates = c("e17age", "e42dep"))
 #'
 #' @importFrom rlang .data
+#' @importFrom insight get_data
 #' @export
 plot_residuals <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = TRUE,
                       show.resid = TRUE, show.pred = TRUE, show.ci = FALSE) {
@@ -51,7 +52,7 @@ plot_residuals <- function(fit, geom.size = 2, remove.estimates = NULL, show.lin
   if (!show.pred || !show.resid) show.lines <- FALSE
 
   # Obtain predicted and residual values
-  mydat <- sjstats::model_frame(fit)
+  mydat <- insight::get_data(fit)
 
   # check whether estimates should be removed from plot
   if (!is.null(remove.estimates)) {
@@ -63,7 +64,7 @@ plot_residuals <- function(fit, geom.size = 2, remove.estimates = NULL, show.lin
   mydat$residuals <- stats::residuals(fit)
 
   # get name of response, used in ggplot-aes
-  rv <- sjstats::resp_var(fit)
+  rv <- insight::find_response(fit)
 
   # remove estimates, if required
   dummy <- mydat %>% dplyr::select(keep, .data$predicted, .data$residuals)
