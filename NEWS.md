@@ -13,6 +13,7 @@
 ## Bug fixes
 
 * Legend labels were inverted for **brms**-models in `plot_model(..., type = "diag")`.
+* Legend labels were duplicated for marginal effects plots when `color ="bw"` and `legend.title` was specified.
 
 # sjPlot 2.6.2
 

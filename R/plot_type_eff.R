@@ -114,8 +114,16 @@ plot_type_eff <- function(type,
     p <- purrr::map(p, ~ .x + ggtitle(title))
 
   # set axis and plot titles
-  if (!is.null(legend.title))
-    p <- p + labs(colour = legend.title)
+  if (!is.null(legend.title)) {
+    if (geom.colors[1] == "bw") {
+      p <- p +
+        labs(linetype = legend.title) +
+        guides(colour = "none")
+    } else {
+      p <- p + labs(colour = legend.title)
+    }
+  }
+
 
   # set axis limits
   if (!is.null(axis.lim)) {
