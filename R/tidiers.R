@@ -192,8 +192,9 @@ tidy_cox_model <- function(model, ci.lvl) {
 ## TODO replace with sjstats::tidy_stan() in the future?
 
 #' @importFrom stats mad formula
-#' @importFrom sjstats cred_int typical_value model_family
-#' @importFrom sjmisc var_rename add_columns is_empty
+#' @importFrom sjstats cred_int
+#' @importFrom insight is_multivariate model_info
+#' @importFrom sjmisc var_rename add_columns is_empty typical_value
 #' @importFrom dplyr select filter slice inner_join n_distinct
 #' @importFrom purrr map_dbl
 #' @importFrom rlang .data
@@ -205,7 +206,10 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
   p.outer <- ci.lvl
 
   # get model information
-  modfam <- sjstats::model_family(model)
+  modfam <- insight::model_info(model)
+
+  if (insight::is_multivariate(model))
+    modfam <- modfam[[1]]
 
   # additional arguments for 'effects()'-function?
   add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
@@ -276,7 +280,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
   # add bayesian point estimate
 
-  est <- purrr::map_dbl(mod.dat, ~ sjstats::typical_value(.x, fun = bpe))
+  est <- purrr::map_dbl(mod.dat, ~ sjmisc::typical_value(.x, fun = bpe))
 
   dat <- data_frame(
     term = names(est),
@@ -436,7 +440,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
   # multivariate-response model?
 
-  if (inherits(model, "brmsfit") && modfam$is_multivariate) {
+  if (inherits(model, "brmsfit") && insight::is_multivariate(model)) {
 
     # get response variables
 

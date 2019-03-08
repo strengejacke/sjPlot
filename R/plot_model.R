@@ -525,6 +525,9 @@ plot_model <- function(model,
   # get info on model family
   fam.info <- insight::model_info(model)
 
+  if (insight::is_multivariate(model))
+    fam.info <- fam.info[[1]]
+
   # check whether estimates should be transformed or not
 
   if (missing(transform)) {

@@ -52,7 +52,6 @@
 #' @importFrom tidyr unnest
 #' @importFrom graphics plot
 #' @importFrom stats as.formula formula family poisson glm lm
-#' @importFrom sjstats resp_val
 #' @importFrom purrr map
 #' @importFrom MASS glm.nb
 #' @export
@@ -93,7 +92,7 @@ sjp.kfold_cv <- function(data, formula, k = 5, fit) {
       res <- modelr::crossv_kfold(data, k = k) %>%
         dplyr::mutate(model = purrr::map(.data$train, ~ stats::glm(formula, data = .x, family = stats::poisson(link = "log")))) %>%
         dplyr::mutate(residuals = purrr::map(.data$model, ~ stats::residuals(.x, "deviance"))) %>%
-        dplyr::mutate(.response = purrr::map(.data$model, ~ sjstats::resp_val(.x)))
+        dplyr::mutate(.response = purrr::map(.data$model, ~ insight::get_response(.x)))
     # for negative binomial models, show deviance residuals
     } else if (inherits(fit, "negbin")) {
       # create cross-validated test-training pairs, run poisson-model on each
@@ -101,7 +100,7 @@ sjp.kfold_cv <- function(data, formula, k = 5, fit) {
       res <- modelr::crossv_kfold(data, k = k) %>%
         dplyr::mutate(model = purrr::map(.data$train, ~ MASS::glm.nb(formula, data = .))) %>%
         dplyr::mutate(residuals = purrr::map(.data$model, ~ stats::residuals(.x, "deviance"))) %>%
-        dplyr::mutate(.response = purrr::map(.data$model, ~ sjstats::resp_val(.x)))
+        dplyr::mutate(.response = purrr::map(.data$model, ~ insight::get_response(.x)))
     }
 
     # unnest residuals and response values

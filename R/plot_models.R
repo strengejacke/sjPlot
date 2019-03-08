@@ -72,7 +72,7 @@
 #' @importFrom purrr map map_df map2
 #' @importFrom dplyr slice bind_rows filter
 #' @importFrom forcats fct_rev
-#' @importFrom sjstats std_beta p_value model_family
+#' @importFrom sjstats std_beta p_value
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom rlang .data
 #' @importFrom sjmisc word_wrap var_rename add_variables
@@ -117,6 +117,9 @@ plot_models <- function(...,
 
   # get info on model family
   fam.info <- insight::model_info(input_list[[1]])
+
+  if (insight::is_multivariate(input_list[[1]]))
+    fam.info <- fam.info[[1]]
 
   # check whether estimates should be transformed or not
 

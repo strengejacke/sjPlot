@@ -1,5 +1,5 @@
 #' @importFrom sjlabelled get_label
-#' @importFrom sjstats resp_val pred_vars resp_var model_frame
+#' @importFrom insight get_response find_response get_data find_predictors
 #' @importFrom sjmisc str_contains is_empty
 #' @importFrom stats formula residuals
 #' @importFrom dplyr filter
@@ -47,9 +47,9 @@ plot_type_slope <- function(model,
   # retrieve column names of dataset so we can identify in which
   # column the data for each predictor is.
 
-  model_data <- sjstats::model_frame(model)
-  depvar.label <- sjlabelled::get_label(model_data[[1]], def.value = sjstats::resp_var(model), case = case)
-  predvars <- sjstats::pred_vars(model)
+  model_data <- insight::get_data(model)
+  depvar.label <- sjlabelled::get_label(model_data[[1]], def.value = insight::find_response(model), case = case)
+  predvars <- insight::find_predictors(model, component = "conditional")
 
 
   # tell user that interaction terms are not supported by this method
@@ -102,7 +102,7 @@ plot_type_slope <- function(model,
       } else {
         data_frame(
           x = sjlabelled::as_numeric(model_data[[p_v]]),
-          y = sjstats::resp_val(model),
+          y = insight::get_response(model),
           group = sjlabelled::get_label(model_data[[p_v]], def.value = p_v, case = case)
         )
       }

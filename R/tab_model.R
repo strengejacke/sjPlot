@@ -204,7 +204,8 @@
 #' @importFrom purrr reduce map2 map_if map_df compact map_lgl map_chr flatten_chr
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns add_case
-#' @importFrom sjstats std_beta model_family r2 icc resp_var
+#' @importFrom sjstats std_beta r2 icc
+#' @importFrom insight model_info is_multivariate
 #' @importFrom stats nobs
 #' @importFrom rlang .data
 #' @export
@@ -372,7 +373,10 @@ tab_model <- function(
     function(model, i) {
 
       # get info on model family
-      fam.info <- sjstats::model_family(model)
+      fam.info <- insight::model_info(model)
+
+      if (insight::is_multivariate(model))
+        fam.info <- fam.info[[1]]
 
       # check whether estimates should be transformed or not
 
@@ -735,15 +739,19 @@ tab_model <- function(
   show.response <- TRUE
 
   if (length(model.data) == 1) {
-    fi <- sjstats::model_family(models[[1]])
-    if (fi$is_multivariate || fi$is_categorical) {
+    fi <- insight::model_info(models[[1]])
+
+    if (insight::is_multivariate(models[[1]]))
+      fi <- fi[[1]]
+
+    if (insight::is_multivariate(models[[1]]) || fi$is_categorical) {
 
       show.response <- FALSE
 
       if (fi$is_categorical) {
         dv.labels <- sprintf(
           "%s: %s",
-          sjstats::resp_var(models[[1]]),
+          insight::find_response(models[[1]]),
           unique(model.data[[1]][["response.level_1"]])
         )
 
@@ -756,7 +764,7 @@ tab_model <- function(
         )
 
         if (sjmisc::is_empty(dv.labels) || !isTRUE(auto.label))
-          dv.labels <- sjstats::resp_var(models[[1]])
+          dv.labels <- insight::find_response(models[[1]])
 
         model.data <- split(model.data[[1]], model.data[[1]]["response.level_1"])
         dv.labels <- dv.labels[match(names(dv.labels), names(model.data))]
@@ -890,7 +898,7 @@ tab_model <- function(
       linesep = "<br>"
     )
   } else if (sjmisc::is_empty(dv.labels)) {
-    dv.labels <- purrr::map(models, sjstats::resp_var) %>% purrr::flatten_chr()
+    dv.labels <- purrr::map(models, insight::find_response) %>% purrr::flatten_chr()
   }
 
 
@@ -932,9 +940,7 @@ tab_model <- function(
         )
       } else if (length(models) == 1) {
 
-        fi <- sjstats::model_family(models[[1]])
-
-        if (fi$is_multivariate)
+        if (insight::is_multivariate(models[[1]]))
           mr <- i
         else
           mr <- NULL

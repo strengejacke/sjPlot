@@ -105,7 +105,7 @@ axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, expon
 }
 
 
-#' @importFrom sjstats model_family
+#' @importFrom insight model_info
 #' @importFrom dplyr case_when
 estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.resp = NULL, include.zeroinf = FALSE) {
 
@@ -115,22 +115,22 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
   # check default label and fit family
   if (is.null(axis.title)) {
 
+    fitfam <- insight::model_info(fit)
+
     if (!is.null(multi.resp))
-      fitfam <- sjstats::model_family(fit, mv = TRUE)[[multi.resp]]
-    else
-      fitfam <- sjstats::model_family(fit)
+      fitfam <- fitfam[[multi.resp]]
 
     axis.title <- dplyr::case_when(
       !is.null(transform) && transform == "plogis" ~ "Probabilities",
-      is.null(transform) && fitfam$is_bin ~ "Log-Odds",
+      is.null(transform) && fitfam$is_binomial ~ "Log-Odds",
       is.null(transform) && fitfam$is_ordinal ~ "Log-Odds",
       is.null(transform) && fitfam$is_categorical ~ "Log-Odds",
-      is.null(transform) && fitfam$is_pois ~ "Log-Mean",
-      fitfam$is_pois ~ "Incidence Rate Ratios",
+      is.null(transform) && fitfam$is_count ~ "Log-Mean",
+      fitfam$is_count ~ "Incidence Rate Ratios",
       fitfam$is_ordinal ~ "Odds Ratios",
       fitfam$is_categorical ~ "Odds Ratios",
-      fitfam$is_bin && !fitfam$is_logit ~ "Risk Ratios",
-      fitfam$is_bin ~ "Odds Ratios",
+      fitfam$is_binomial && !fitfam$is_logit ~ "Risk Ratios",
+      fitfam$is_binomial ~ "Odds Ratios",
       TRUE ~ "Estimates"
     )
 
