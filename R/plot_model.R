@@ -380,7 +380,7 @@
 #'
 #' @references
 #'   Gelman A (2008) "Scaling regression inputs by dividing by two
-#'   standard deviations." \emph{Statistics in Medicine 27: 2865–2873.}
+#'   standard deviations." \emph{Statistics in Medicine 27: 2865-2873.}
 #'   \url{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}
 #'   \cr \cr
 #'   Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
