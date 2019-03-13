@@ -252,8 +252,10 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     lp <- string_starts_with("lp__", x = colnames(mod.dat))
     resp.cor <- string_starts_with("rescor__", x = colnames(mod.dat))
     priors <- string_starts_with("prior_", x = colnames(mod.dat))
+    xme <- string_starts_with(pattern = "Xme_me", x = colnames(mod.dat))
+    xme.sd <- string_starts_with(pattern = "sdme_me", x = colnames(mod.dat))
 
-    brmsfit.removers <- unique(c(re.sd, re.cor, lp, resp.cor, priors))
+    brmsfit.removers <- unique(c(re.sd, re.cor, lp, resp.cor, priors, xme, xme.sd))
 
     if (!sjmisc::is_empty(brmsfit.removers))
       mod.dat <- dplyr::select(mod.dat, !! -brmsfit.removers)
