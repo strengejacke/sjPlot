@@ -52,6 +52,7 @@
 #'          E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, only
 #'          (valid) axis labels from -100 to +100\% are printed. Neutral categories are
 #'          adjusted to the most left limit.
+#' @param reverse.scale Logical, if \code{TRUE}, the ordering of the categories is reversed, so positive and negative values switch position.
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.stackfrq
@@ -110,6 +111,7 @@ plot_likert <- function(items,
                        grid.breaks = 0.2,
                        expand.grid = TRUE,
                        digits = 1,
+                       reverse.scale = FALSE,
                        coord.flip = TRUE) {
 
   # check param. if we have a single vector instead of
@@ -611,9 +613,16 @@ plot_likert <- function(items,
     # for neutral category work...
 
     scale_x_continuous(breaks = seq_len(ncol(freq.df)), labels = axis.labels) +
-    scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range, grid.range), expand = expgrid, labels = gridlabs) +
     geom_hline(yintercept = 0, color = intercept.line.color)
 
+  # check wether percentage scale (y-axis) should be reversed
+  
+  if(!reverse.scale) {
+    gp <- gp +scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range, grid.range), expand = expgrid, labels = gridlabs) 
+  } else {
+    gp <- gp +scale_y_reverse(breaks = gridbreaks, limits = c(grid.range, -grid.range), expand = expgrid, labels = gridlabs)
+  }
+  
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
 
