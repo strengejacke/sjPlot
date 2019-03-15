@@ -14,7 +14,7 @@ plot_likert(items, title = NULL, legend.title = NULL,
   reverse.colors = FALSE, values = "show", show.n = TRUE,
   show.legend = TRUE, show.prc.sign = FALSE, grid.range = 1,
   grid.breaks = 0.2, expand.grid = TRUE, digits = 1,
-  coord.flip = TRUE)
+  reverse.scale = FALSE, coord.flip = TRUE)
 }
 \arguments{
 \item{items}{Data frame, with each column representing one item.}
@@ -122,6 +122,8 @@ axes and plotting region. Default is \code{FALSE}.}
 
 \item{digits}{Numeric, amount of digits after decimal point when rounding
 estimates or values.}
+
+\item{reverse.scale}{Logical, if \code{TRUE}, the ordering of the categories is reversed, so positive and negative values switch position.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 }
