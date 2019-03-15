@@ -46,12 +46,11 @@
 #'          }
 #' @param show.prc.sign Logical, if \code{TRUE}, \%-signs for value labels are shown.
 #' @param grid.range Numeric, limits of the x-axis-range, as proportion of 100.
-#'          Default is 1, so the x-scale ranges from zero to 100\% on
-#'          both sides from the center. You can use values beyond 1
-#'          (100\%) in case bar labels are not printed because they exceed the axis range.
-#'          E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, only
-#'          (valid) axis labels from -100 to +100\% are printed. Neutral categories are
-#'          adjusted to the most left limit.
+#'          Default is 1, so the x-scale ranges from zero to 100\% on both sides from the center. 
+#'          Can alternatively be supplied as a vector of 2 positive numbers (e.g. \code{grid.range = c(1,0.8)})
+#'          to set the left and right limit separately. You can use values beyond 1 (100\%) in case bar labels are not printed because 
+#'          they exceed the axis range. E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, only
+#'          (valid) axis labels from -100 to +100\% are printed. Neutral categories are adjusted to the most left limit.
 #' @param reverse.scale Logical, if \code{TRUE}, the ordering of the categories is reversed, so positive and negative values switch position.
 #'
 #' @inheritParams sjp.grpfrq
@@ -119,7 +118,9 @@ plot_likert <- function(items,
 
   if (!is.data.frame(items) && !is.matrix(items)) items <- as.data.frame(items)
 
-
+  # if grid.range is supplied as 1 value, it is duplicated for symmetric results. This is for compatibillity with older versions.
+  if (length(grid.range)==1) grid.range = c(grid.range, grid.range)
+  
   # copy titles
 
   if (is.null(axis.titles)) {
@@ -435,7 +436,7 @@ plot_likert <- function(items,
                     frq = -1 + fr[catcount + adding],
                     ypos = -1 + (fr[catcount + adding] / 2),
                     ypos2 = -1 + fr[catcount + adding],
-                    offset = -1 * grid.range)
+                    offset = -1 * grid.range[1])
         ))
 
       # cumulative neutral cat
@@ -496,7 +497,7 @@ plot_likert <- function(items,
 
   # Set up grid breaks
 
-  gridbreaks <- round(seq(-grid.range, grid.range, by = grid.breaks), 2)
+  gridbreaks <- round(seq(-grid.range[1], grid.range[2], by = grid.breaks), 2)
   gridlabs <- ifelse(abs(gridbreaks) > 1, "", paste0(abs(round(100 * gridbreaks)), "%"))
 
   # start plot here
@@ -600,7 +601,7 @@ plot_likert <- function(items,
 
     if (!is.null(cat.neutral)) {
       gp <- gp +
-        annotate("text", x = xpos.sum.dk, y = ypos.sum.dk + 1 - grid.range, hjust = hort.dk, label = ypos.sum.dk.lab)
+        annotate("text", x = xpos.sum.dk, y = ypos.sum.dk + 1 - grid.range[1], hjust = hort.dk, label = ypos.sum.dk.lab)
     }
   }
 
@@ -618,9 +619,9 @@ plot_likert <- function(items,
   # check wether percentage scale (y-axis) should be reversed
   
   if(!reverse.scale) {
-    gp <- gp +scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range, grid.range), expand = expgrid, labels = gridlabs) 
+    gp <- gp +scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range[1], grid.range[2]), expand = expgrid, labels = gridlabs) 
   } else {
-    gp <- gp +scale_y_reverse(breaks = gridbreaks, limits = c(grid.range, -grid.range), expand = expgrid, labels = gridlabs)
+    gp <- gp +scale_y_reverse(breaks = gridbreaks, limits = c(grid.range[2], -grid.range[1]), expand = expgrid, labels = gridlabs)
   }
   
   # check whether coordinates should be flipped, i.e.
