@@ -495,9 +495,9 @@ plot_likert <- function(items,
     expgrid <- c(0, 0)
   }
 
-  # Set up grid breaks
+  # Set up grid breaks. Calculate grid breaks starting at the center (0). Negative sequence is reversed. Positive sequence is skipping the 0 to avoid doubeling.
 
-  gridbreaks <- round(seq(-grid.range[1], grid.range[2], by = grid.breaks), 2)
+  gridbreaks <- round(c(rev(seq(0, -grid.range[1], by = -grid.breaks)), seq(grid.breaks, grid.range[2], by = grid.breaks)), 2)
   gridlabs <- ifelse(abs(gridbreaks) > 1, "", paste0(abs(round(100 * gridbreaks)), "%"))
 
   # start plot here
