@@ -46,9 +46,9 @@
 #'          }
 #' @param show.prc.sign Logical, if \code{TRUE}, \%-signs for value labels are shown.
 #' @param grid.range Numeric, limits of the x-axis-range, as proportion of 100.
-#'          Default is 1, so the x-scale ranges from zero to 100\% on both sides from the center. 
-#'          Can alternatively be supplied as a vector of 2 positive numbers (e.g. \code{grid.range = c(1,0.8)})
-#'          to set the left and right limit separately. You can use values beyond 1 (100\%) in case bar labels are not printed because 
+#'          Default is 1, so the x-scale ranges from zero to 100\% on both sides from the center.
+#'          Can alternatively be supplied as a vector of 2 positive numbers (e.g. \code{grid.range = c(1, .8)})
+#'          to set the left and right limit separately. You can use values beyond 1 (100\%) in case bar labels are not printed because
 #'          they exceed the axis range. E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, only
 #'          (valid) axis labels from -100 to +100\% are printed. Neutral categories are adjusted to the most left limit.
 #' @param reverse.scale Logical, if \code{TRUE}, the ordering of the categories is reversed, so positive and negative values switch position.
@@ -68,7 +68,7 @@
 #'
 #' plot_likert(
 #'   find_var(efc, pattern = "cop", out = "df"),
-#'   grid.range = 1.2,
+#'   grid.range = c(1.2, 1.4),
 #'   expand.grid = FALSE,
 #'   values = "sum.outside",
 #'   show.prc.sign = TRUE
@@ -119,8 +119,8 @@ plot_likert <- function(items,
   if (!is.data.frame(items) && !is.matrix(items)) items <- as.data.frame(items)
 
   # if grid.range is supplied as 1 value, it is duplicated for symmetric results. This is for compatibillity with older versions.
-  if (length(grid.range)==1) grid.range = c(grid.range, grid.range)
-  
+  if (length(grid.range) == 1) grid.range = c(grid.range, grid.range)
+
   # copy titles
 
   if (is.null(axis.titles)) {
@@ -617,13 +617,13 @@ plot_likert <- function(items,
     geom_hline(yintercept = 0, color = intercept.line.color)
 
   # check wether percentage scale (y-axis) should be reversed
-  
+
   if(!reverse.scale) {
-    gp <- gp +scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range[1], grid.range[2]), expand = expgrid, labels = gridlabs) 
+    gp <- gp +scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range[1], grid.range[2]), expand = expgrid, labels = gridlabs)
   } else {
     gp <- gp +scale_y_reverse(breaks = gridbreaks, limits = c(grid.range[2], -grid.range[1]), expand = expgrid, labels = gridlabs)
   }
-  
+
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
 

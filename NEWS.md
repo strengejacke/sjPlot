@@ -10,6 +10,7 @@
 * `tab_model()` gets a `strings`-argument, as convenient shortcut for setting column-header strings.
 * `tab_model()` and `plot_model()` get additional arguments `vcov.fun`, `vcov.type` and `vcov.args` that are passed down to `sjstats::robust()`, to calculate different types of (clustered) robust standard errors.
 * `plot_likert()` gets a `reverse.scale` to reverse the order of categories, so positive and negative values switch position.
+* Argument `grid.range` in `plot_likert()` now may also be a vector of length 2, to define diffent length for the left and right x-axis scales.
 
 ## Bug fixes
 
