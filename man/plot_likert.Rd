@@ -107,12 +107,11 @@ function, a legend is added to the plot.}
 \item{show.prc.sign}{Logical, if \code{TRUE}, \%-signs for value labels are shown.}
 
 \item{grid.range}{Numeric, limits of the x-axis-range, as proportion of 100.
-Default is 1, so the x-scale ranges from zero to 100\% on
-both sides from the center. You can use values beyond 1
-(100\%) in case bar labels are not printed because they exceed the axis range.
-E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, only
-(valid) axis labels from -100 to +100\% are printed. Neutral categories are
-adjusted to the most left limit.}
+Default is 1, so the x-scale ranges from zero to 100\% on both sides from the center. 
+Can alternatively be supplied as a vector of 2 positive numbers (e.g. \code{grid.range = c(1,0.8)})
+to set the left and right limit separately. You can use values beyond 1 (100\%) in case bar labels are not printed because 
+they exceed the axis range. E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, only
+(valid) axis labels from -100 to +100\% are printed. Neutral categories are adjusted to the most left limit.}
 
 \item{grid.breaks}{numeric; sets the distance between breaks for the axis,
 i.e. at every \code{grid.breaks}'th position a major grid is being printed.}
