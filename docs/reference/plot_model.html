@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2.9000</span>
       </span>
     </div>
 
@@ -159,14 +159,16 @@
   <span class='kw'>ri.nr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>,
   <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>axis.lim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>,
-  <span class='kw'>show.intercept</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.zeroinf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>value.offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>value.size</span>, <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vline.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>p.threshold</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span>), <span class='no'>grid</span>, <span class='no'>case</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>), <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
-  <span class='kw'>bpe.style</span> <span class='kw'>=</span> <span class='st'>"line"</span>, <span class='kw'>bpe.color</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='no'>...</span>)
+  <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"HC3"</span>,
+  <span class='st'>"const"</span>, <span class='st'>"HC"</span>, <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>, <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>, <span class='st'>"HC5"</span>),
+  <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>, <span class='kw'>show.intercept</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.zeroinf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>value.offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>value.size</span>, <span class='kw'>jitter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vline.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>p.threshold</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>,
+  <span class='fl'>0.001</span>), <span class='no'>grid</span>, <span class='no'>case</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"none"</span>,
+  <span class='st'>"varname"</span>, <span class='st'>"label"</span>), <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>, <span class='kw'>bpe.style</span> <span class='kw'>=</span> <span class='st'>"line"</span>,
+  <span class='kw'>bpe.color</span> <span class='kw'>=</span> <span class='st'>"white"</span>, <span class='kw'>ci.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"whisker"</span>, <span class='st'>"bar"</span>), <span class='no'>...</span>)
 
 <span class='fu'>get_model_data</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"est"</span>, <span class='st'>"re"</span>, <span class='st'>"eff"</span>, <span class='st'>"pred"</span>, <span class='st'>"int"</span>, <span class='st'>"std"</span>,
   <span class='st'>"std2"</span>, <span class='st'>"slope"</span>, <span class='st'>"resid"</span>, <span class='st'>"diag"</span>), <span class='no'>transform</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -355,7 +357,7 @@ plot function and type), used as title(s) for the x and y axis. If not
 specified, a default labelling  is chosen. <strong>Note:</strong> Some plot types
 may not support this argument sufficiently. In such cases, use the returned
 ggplot-object and add axis titles manually with
-<code><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></code>. Use <code>axis.title = ""</code> to remove axis
+<code><a href='https://www.rdocumentation.org/packages/ggplot2/topics/labs'>labs</a></code>. Use <code>axis.title = ""</code> to remove axis
 titles.</p></td>
     </tr>
     <tr>
@@ -404,24 +406,40 @@ axis positions of the major grid lines.</p></td>
       <th>ci.lvl</th>
       <td><p>Numeric, the level of the confidence intervals (error bars).
 Use <code>ci.lvl = NA</code> to remove error bars. For <code>stanreg</code>-models,
-<code>ci.lvl</code> defines the (outer) probability for the
-<code><a href='https://www.rdocumentation.org/packages/sjstats/topics/hdi'>hdi</a></code> (High Density Interval) that is plotted. By
+<code>ci.lvl</code> defines the (outer) probability for the <em>credible interval</em>
+that is plotted (see <code>credint</code>). By
 default, <code>stanreg</code>-models are printed with two intervals: the "inner"
-interval, which defaults to the 50%-HDI; and the "outer" interval, which
-defaults to the 89%-HDI. <code>ci.lvl</code> affects only the outer interval in
+interval, which defaults to the 50%-CI; and the "outer" interval, which
+defaults to the 89%-CI. <code>ci.lvl</code> affects only the outer interval in
 such cases. See <code>prob.inner</code> and <code>prob.outer</code> under the
 <code>...</code>-argument for more details.</p></td>
     </tr>
     <tr>
       <th>se</th>
-      <td><p>Either a logical, and if <code>TRUE</code>, error bars indicate standard
-errors, not confidence intervals. Or a character vector with a specification
-of the covariance matrix to compute robust standard errors (see argument
-<code>vcov</code> of <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/robust'>robust</a></code> for valid values; robust standard
-errors are only supported for models that work with <code><a href='https://www.rdocumentation.org/packages/lmtest/topics/coeftest'>coeftest</a></code>).
-<code>se</code> overrides <code>ci.lvl</code>: if not <code>NULL</code>, arguments <code>ci.lvl</code>
+      <td><p>Logical, if <code>TRUE</code>, the standard errors are
+also printed. If robust standard errors are required, use arguments
+<code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code> (see
+<code><a href='https://www.rdocumentation.org/packages/sjstats/topics/robust'>robust</a></code> for details). <code>se</code> overrides
+<code>ci.lvl</code>: if not <code>NULL</code>, arguments <code>ci.lvl</code>
 and <code>transform</code> will be ignored. Currently, <code>se</code> only applies
 to <em>Coefficients</em> plots.</p></td>
+    </tr>
+    <tr>
+      <th>vcov.fun</th>
+      <td><p>Character vector, indicating the name of the <code>vcov*()</code>-function
+from the <span class="pkg">sandwich</span>-package, e.g. <code>vcov.fun = "vcovCL"</code>, if robust
+standard errors are required.</p></td>
+    </tr>
+    <tr>
+      <th>vcov.type</th>
+      <td><p>Character vector, specifying the estimation type for the
+robust covariance matrix estimation (see <code><a href='https://www.rdocumentation.org/packages/sandwich/topics/vcovHC'>vcovHC</a></code>
+for details).</p></td>
+    </tr>
+    <tr>
+      <th>vcov.args</th>
+      <td><p>List of named vectors, used as additional arguments that
+are passed down to <code>vcov.fun</code>.</p></td>
     </tr>
     <tr>
       <th>colors</th>
@@ -547,7 +565,7 @@ details.</p></td>
 of the posterior distribution. Use <code>bpe</code> to define other functions to
 calculate the Bayesian point estimate. <code>bpe</code> needs to be a character
 naming the specific function, which is passed to the <code>fun</code>-argument in
-<code><a href='https://www.rdocumentation.org/packages/sjstats/topics/typical_value'>typical_value</a></code>. So, <code>bpe = "mean"</code> would
+<code><a href='https://www.rdocumentation.org/packages/sjstats/topics/reexports'>typical_value</a></code>. So, <code>bpe = "mean"</code> would
 calculate the mean value of the posterior distribution.</p></td>
     </tr>
     <tr>
@@ -562,6 +580,12 @@ instead of a line for the point estimate.</p></td>
       <td><p>Character vector, indicating the color of the Bayesian
 point estimate. Setting <code>bpe.color = NULL</code> will inherit the color
 from the mapped aesthetic to match it with the geom's color.</p></td>
+    </tr>
+    <tr>
+      <th>ci.style</th>
+      <td><p>Character vector, defining whether inner and outer intervals
+for Bayesion models are shown in boxplot-style (<code>"whisker"</code>) or in
+bars with different alpha-levels (<code>"bar"</code>).</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -655,7 +679,7 @@ of supported arguments and their description in detail.</p><dl class='dl-horizon
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Gelman A (2008) "Scaling regression inputs by dividing by two
-  standard deviations." <em>Statistics in Medicine 27: 2865–2873.</em>
+  standard deviations." <em>Statistics in Medicine 27: 2865-2873.</em>
   <a href='http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf'>http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf</a>
   <br /> <br />
   Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.</p>

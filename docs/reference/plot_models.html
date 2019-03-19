@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2.9000</span>
       </span>
     </div>
 
@@ -245,7 +245,7 @@ plot function and type), used as title(s) for the x and y axis. If not
 specified, a default labelling  is chosen. <strong>Note:</strong> Some plot types
 may not support this argument sufficiently. In such cases, use the returned
 ggplot-object and add axis titles manually with
-<code><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></code>. Use <code>axis.title = ""</code> to remove axis
+<code><a href='https://www.rdocumentation.org/packages/ggplot2/topics/labs'>labs</a></code>. Use <code>axis.title = ""</code> to remove axis
 titles.</p></td>
     </tr>
     <tr>
@@ -337,11 +337,11 @@ annotating p-values with asterisks. Only applies if
       <th>ci.lvl</th>
       <td><p>Numeric, the level of the confidence intervals (error bars).
 Use <code>ci.lvl = NA</code> to remove error bars. For <code>stanreg</code>-models,
-<code>ci.lvl</code> defines the (outer) probability for the
-<code><a href='https://www.rdocumentation.org/packages/sjstats/topics/hdi'>hdi</a></code> (High Density Interval) that is plotted. By
+<code>ci.lvl</code> defines the (outer) probability for the <em>credible interval</em>
+that is plotted (see <code>credint</code>). By
 default, <code>stanreg</code>-models are printed with two intervals: the "inner"
-interval, which defaults to the 50%-HDI; and the "outer" interval, which
-defaults to the 89%-HDI. <code>ci.lvl</code> affects only the outer interval in
+interval, which defaults to the 50%-CI; and the "outer" interval, which
+defaults to the 89%-CI. <code>ci.lvl</code> affects only the outer interval in
 such cases. See <code>prob.inner</code> and <code>prob.outer</code> under the
 <code>...</code>-argument for more details.</p></td>
     </tr>

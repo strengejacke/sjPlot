@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2.9000</span>
       </span>
     </div>
 
@@ -150,7 +150,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>tab_model</span>(<span class='no'>...</span>, <span class='no'>transform</span>, <span class='kw'>show.intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.est</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>show.hdi50</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>show.ci50</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>show.std</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.stat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>show.df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.zeroinf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.r2</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>show.icc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.adj.icc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.re.var</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -158,18 +158,22 @@
   <span class='kw'>show.dev</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rm.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>group.terms</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>order.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>pred.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dv.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>25</span>,
-  <span class='kw'>string.pred</span> <span class='kw'>=</span> <span class='st'>"Predictors"</span>, <span class='kw'>string.std</span> <span class='kw'>=</span> <span class='st'>"std. Beta"</span>,
-  <span class='kw'>string.ci</span> <span class='kw'>=</span> <span class='st'>"CI"</span>, <span class='kw'>string.se</span> <span class='kw'>=</span> <span class='st'>"std. Error"</span>, <span class='kw'>string.p</span> <span class='kw'>=</span> <span class='st'>"p"</span>,
-  <span class='kw'>string.df</span> <span class='kw'>=</span> <span class='st'>"df"</span>, <span class='kw'>string.stat</span> <span class='kw'>=</span> <span class='st'>"Statistic"</span>,
-  <span class='kw'>ci.hyphen</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;ndash;&amp;nbsp;"</span>, <span class='kw'>minus.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;#45;"</span>,
-  <span class='kw'>collapse.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>collapse.se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>linebreak</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>col.order</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"est"</span>, <span class='st'>"se"</span>, <span class='st'>"std.est"</span>, <span class='st'>"std.se"</span>, <span class='st'>"ci"</span>, <span class='st'>"std.ci"</span>,
-  <span class='st'>"hdi.inner"</span>, <span class='st'>"hdi.outer"</span>, <span class='st'>"stat"</span>, <span class='st'>"p"</span>, <span class='st'>"df"</span>, <span class='st'>"response.level"</span>),
-  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"wald"</span>, <span class='st'>"kr"</span>),
-  <span class='kw'>p.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"numeric"</span>, <span class='st'>"asterisk"</span>), <span class='kw'>p.threshold</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>,
-  <span class='fl'>0.001</span>), <span class='kw'>case</span> <span class='kw'>=</span> <span class='st'>"parsed"</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>), <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
-  <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'><a href='sjPlot-themes.html'>css_theme</a></span>(<span class='st'>"regression"</span>), <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"HC3"</span>, <span class='st'>"const"</span>, <span class='st'>"HC"</span>, <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>,
+  <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>, <span class='st'>"HC5"</span>), <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>string.pred</span> <span class='kw'>=</span> <span class='st'>"Predictors"</span>, <span class='kw'>string.est</span> <span class='kw'>=</span> <span class='st'>"Estimate"</span>,
+  <span class='kw'>string.std</span> <span class='kw'>=</span> <span class='st'>"std. Beta"</span>, <span class='kw'>string.ci</span> <span class='kw'>=</span> <span class='st'>"CI"</span>,
+  <span class='kw'>string.se</span> <span class='kw'>=</span> <span class='st'>"std. Error"</span>, <span class='kw'>string.p</span> <span class='kw'>=</span> <span class='st'>"p"</span>, <span class='kw'>string.df</span> <span class='kw'>=</span> <span class='st'>"df"</span>,
+  <span class='kw'>string.stat</span> <span class='kw'>=</span> <span class='st'>"Statistic"</span>, <span class='kw'>string.resp</span> <span class='kw'>=</span> <span class='st'>"Response"</span>,
+  <span class='kw'>strings</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ci.hyphen</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;ndash;&amp;nbsp;"</span>,
+  <span class='kw'>minus.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;#45;"</span>, <span class='kw'>collapse.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>collapse.se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>linebreak</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>col.order</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"est"</span>, <span class='st'>"se"</span>, <span class='st'>"std.est"</span>, <span class='st'>"std.se"</span>,
+  <span class='st'>"ci"</span>, <span class='st'>"std.ci"</span>, <span class='st'>"ci.inner"</span>, <span class='st'>"ci.outer"</span>, <span class='st'>"stat"</span>, <span class='st'>"p"</span>, <span class='st'>"df"</span>,
+  <span class='st'>"response.level"</span>), <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"wald"</span>, <span class='st'>"kr"</span>), <span class='kw'>p.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"numeric"</span>, <span class='st'>"asterisk"</span>),
+  <span class='kw'>p.threshold</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span>), <span class='kw'>case</span> <span class='kw'>=</span> <span class='st'>"parsed"</span>,
+  <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>),
+  <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'><a href='sjPlot-themes.html'>css_theme</a></span>(<span class='st'>"regression"</span>), <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,7 +188,7 @@ May also be a <code>list</code> with fitted models. See 'Examples'.</p></td>
       <td><p>A character vector, naming a function that will be applied
 on estimates and confidence intervals. By default, <code>transform</code> will
 automatically use <code>"exp"</code> as transformation for applicable classes of
-regression models (e.g. logistic or poisson regression). Estimates of linear
+<code>model</code> (e.g. logistic or poisson regression). Estimates of linear
 models remain untransformed. Use <code>NULL</code> if you want the raw,
 non-transformed estimates.</p></td>
     </tr>
@@ -204,17 +208,16 @@ omitted. Or numeric, between 0 and 1, indicating the range of the
 confidence intervals.</p></td>
     </tr>
     <tr>
-      <th>show.hdi50</th>
+      <th>show.ci50</th>
       <td><p>Logical, if <code>TRUE</code>, for Bayesian models, a second
 credible interval is added to the table output.</p></td>
     </tr>
     <tr>
       <th>show.se</th>
-      <td><p>Either logical, and if <code>TRUE</code>, the standard errors are
-also printed. Or a character vector with a specification of the
-covariance matrix to compute robust standard errors (see argument <code>vcov</code>
-of <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/robust'>robust</a></code> for valid values; robust standard errors
-are only supported for models that work with <code><a href='https://www.rdocumentation.org/packages/lmtest/topics/coeftest'>coeftest</a></code>).</p></td>
+      <td><p>Logical, if <code>TRUE</code>, the standard errors are
+also printed. If robust standard errors are required, use arguments
+<code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code> (see
+<code><a href='https://www.rdocumentation.org/packages/sjstats/topics/robust'>robust</a></code> for details).</p></td>
     </tr>
     <tr>
       <th>show.std</th>
@@ -356,9 +359,33 @@ fitted models. See 'Examples'.</p></td>
 or axis labels are displayed in one line and when a line break is inserted.</p></td>
     </tr>
     <tr>
+      <th>vcov.fun</th>
+      <td><p>Character vector, indicating the name of the <code>vcov*()</code>-function
+from the <span class="pkg">sandwich</span>-package, e.g. <code>vcov.fun = "vcovCL"</code>, if robust
+standard errors are required.</p></td>
+    </tr>
+    <tr>
+      <th>vcov.type</th>
+      <td><p>Character vector, specifying the estimation type for the
+robust covariance matrix estimation (see <code><a href='https://www.rdocumentation.org/packages/sandwich/topics/vcovHC'>vcovHC</a></code>
+for details).</p></td>
+    </tr>
+    <tr>
+      <th>vcov.args</th>
+      <td><p>List of named vectors, used as additional arguments that
+are passed down to <code>vcov.fun</code>.</p></td>
+    </tr>
+    <tr>
       <th>string.pred</th>
       <td><p>Character vector,used as headline for the predictor column.
 Default is <code>"Predictors"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>string.est</th>
+      <td><p>Character vector, used for the column heading of coefficients.
+Default is based on the response scale, e.g. for logistic regression models,
+<code>"Odds Ratios"</code> will be chosen, while for Poisson models it is
+<code>"Incidence Rate Ratios"</code> etc. Default if not specified is <code>"Estimate"</code>.</p></td>
     </tr>
     <tr>
       <th>string.std</th>
@@ -383,6 +410,18 @@ Default is <code>"Predictors"</code>.</p></td>
     <tr>
       <th>string.stat</th>
       <td><p>Character vector, used for the test statistic. Default is <code>"Statistic"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>string.resp</th>
+      <td><p>Character vector, used for the column heading of of the response level for multinominal or categorical models. Default is <code>"Response"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>strings</th>
+      <td><p>Named character vector, as alternative to arguments like <code>string.ci</code>
+or <code>string.p</code> etc. The name (lhs) must be one of the string-indicator from
+the forementioned arguments, while the value (rhs) is the string that is used
+as column heading. E.g., <code>strings = c(ci = "Conf.Int.", se = "std. Err")</code>
+would be equivalent to setting <code>string.ci = "Conf.Int.", string.se = "std. Err"</code>.</p></td>
     </tr>
     <tr>
       <th>ci.hyphen</th>
@@ -486,7 +525,7 @@ details.</p></td>
 of the posterior distribution. Use <code>bpe</code> to define other functions to
 calculate the Bayesian point estimate. <code>bpe</code> needs to be a character
 naming the specific function, which is passed to the <code>fun</code>-argument in
-<code><a href='https://www.rdocumentation.org/packages/sjstats/topics/typical_value'>typical_value</a></code>. So, <code>bpe = "mean"</code> would
+<code><a href='https://www.rdocumentation.org/packages/sjstats/topics/reexports'>typical_value</a></code>. So, <code>bpe = "mean"</code> would
 calculate the mean value of the posterior distribution.</p></td>
     </tr>
     <tr>
