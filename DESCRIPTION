@@ -6,6 +6,7 @@ Version: 2.6.2.9000
 Date: 2018-12-18
 Authors@R: c(
     person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8895-3206")),
+    person("Alexander", "Bartel", role = "ctb", comment = c(ORCID = "0000-0002-1280-6138")),
     person("Carsten", "Schwemmer", email = "carsten.schwemmer@uni-bamberg.de", role = "ctb")
           )
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
