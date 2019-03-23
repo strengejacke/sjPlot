@@ -13,7 +13,7 @@
 #'        of categories fails. In such cases, specify the amount of categories
 #'        with the \code{catcount}-argument.
 #'
-#' @param catcount Optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree",
+#' @param catcount optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree",
 #'          "disagree", "agree"} and \emph{"strongly agree"} would be \code{catcount = 4}).
 #'          Note that this argument only applies to "valid" answers, i.e. if you
 #'          have an additional neutral category (see \code{cat.neutral}) like \emph{"don't know"},
@@ -33,7 +33,7 @@
 #'            \item{\code{"neg.desc"}}{for sorting descending negative answers}
 #'            \item{\code{NULL}}{(default) for no sorting}
 #'          }
-#' @param reverse.colors Logical, if \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
+#' @param reverse.colors logical, if \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
 #'          so positive and negative values switch colors.
 #' @param cat.neutral.color Color of the neutral category, if plotted (see \code{cat.neutral}).
 #' @param intercept.line.color Color of the vertical intercept line that divides positive and negative values.
@@ -44,14 +44,29 @@
 #'            \item{\code{"sum.inside"}}{shows the sums of percentage values for both negative and positive values and prints them inside the end of each bar}
 #'            \item{\code{"sum.outside"}}{shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar}
 #'          }
-#' @param show.prc.sign Logical, if \code{TRUE}, \%-signs for value labels are shown.
+#' @param show.prc.sign logical, if \code{TRUE}, \%-signs for value labels are shown.
 #' @param grid.range Numeric, limits of the x-axis-range, as proportion of 100.
 #'          Default is 1, so the x-scale ranges from zero to 100\% on both sides from the center.
 #'          Can alternatively be supplied as a vector of 2 positive numbers (e.g. \code{grid.range = c(1, .8)})
 #'          to set the left and right limit separately. You can use values beyond 1 (100\%) in case bar labels are not printed because
 #'          they exceed the axis range. E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, only
 #'          (valid) axis labels from -100 to +100\% are printed. Neutral categories are adjusted to the most left limit.
-#' @param reverse.scale Logical, if \code{TRUE}, the ordering of the categories is reversed, so positive and negative values switch position.
+#' @param reverse.scale logical, if \code{TRUE}, the ordering of the categories is reversed, so positive and negative values switch position.
+#' 
+#' @param factor.groups (optional) Must be a vector of same length as \code{ncol(df)}, 
+#'                      where each item in this vector represents the group number 
+#'                      of the related columns of \code{df}. See 'Examples'.
+#' @param factor.groups.titles (optional, only used if groups are supplied) Titles for each factor group that will be used as table caption for each
+#'          component-table. Must be a character vector of same length as \code{length(unique(factor.groups))}.
+#'          Default is \code{"auto"}, which means that each table has a standard caption \emph{Component x}.
+#'          Use \code{NULL} to use names as supplied to \code{factor.groups} and use \code{FALSE} to suppress table captions.
+#' @param sort.groups (optional, only used if groups are supplied) logical, if groups should be sorted according to the values supplied to \code{factor.groups}. Defaults to \code{TRUE}.
+#' @param legend.pos (optional, only used if groups are supplied) Defines the legend position. Possible values are \code{c("bottom", "top", "both", "all", "none")}. 
+#'                   If the is only one group or this option is set to \code{"all"} legends will be printed as defined with \code{\link{set_theme}}.
+#' @param rel_heights (optional, only used if groups are supplied) This option can be used to adjust the height of the subplots. The bars in subplots can have different heights due to a differing number of items 
+#'                    or due to legend placement. This can be adjusted here. 
+#'                    Takes a vector of numbers, one for each plot. Values are evaluated relative to each other.
+#' @param cowplot.options (optional, only used if groups are supplied) List of label options to be passed to \code{\link[cowplot]{plot_grid}}.
 #'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.stackfrq
@@ -64,14 +79,33 @@
 #' data(efc)
 #' # find all variables from COPE-Index, which all have a "cop" in their
 #' # variable name, and then plot that subset as likert-plot
-#' find_var(efc, pattern = "cop", out = "df") %>% plot_likert()
+#' mydf <- find_var(efc, pattern = "cop", out = "df")
+#' 
+#' plot_likert(mydf)
 #'
 #' plot_likert(
-#'   find_var(efc, pattern = "cop", out = "df"),
+#'   mydf,
 #'   grid.range = c(1.2, 1.4),
 #'   expand.grid = FALSE,
 #'   values = "sum.outside",
 #'   show.prc.sign = TRUE
+#'   
+#' # Plot in groups
+#' 
+#' plot_likert(mydf, c(2,1,1,1,1,2,2,2,1))
+#' 
+#' factor.groups <- sjt.pca(mydf)$factor.index
+#' plot_likert(mydf, c(2,1,1,1,1,2,2,2,1), factor.groups = factor.groups)
+#' 
+#' plot_likert(mydf, 
+#'             c(rep("B",4),rep("A",5)), 
+#'             sort.groups = F, 
+#'             grid.range = c(0.9,1.1), 
+#'             geom.colors = "RdBu", 
+#'             rel_heights = c(6,8), 
+#'             wrap.labels = 40, 
+#'             reverse.scale=T)   
+#'
 #' )
 #'
 #' @import ggplot2
@@ -82,7 +116,110 @@
 #' @importFrom dplyr between
 #'
 #' @export
+
 plot_likert <- function(items,
+                        factor.groups = NULL,
+                        factor.groups.titles = "auto",
+                        title = NULL,
+                        legend.title = NULL,  # Options to be passed directly to .plot_likert()
+                        legend.labels = NULL,
+                        axis.titles = NULL,
+                        axis.labels = NULL,
+                        catcount = NULL,
+                        cat.neutral = NULL,
+                        sort.frq = NULL,
+                        weight.by = NULL,
+                        title.wtd.suffix = NULL,
+                        wrap.title = 50,
+                        wrap.labels = 30,
+                        wrap.legend.title = 30,
+                        wrap.legend.labels = 28,
+                        geom.size = .6,
+                        geom.colors = "BrBG",
+                        cat.neutral.color = "grey70",
+                        intercept.line.color = "grey50",
+                        reverse.colors = FALSE,
+                        values = "show",
+                        show.n = TRUE,
+                        show.legend = TRUE,
+                        show.prc.sign = FALSE,
+                        grid.range = 1,
+                        grid.breaks = 0.2,
+                        expand.grid = TRUE,
+                        digits = 1,
+                        reverse.scale = FALSE,
+                        coord.flip = TRUE,
+                        sort.groups = TRUE, # Group Options
+                        legend.pos = "bottom",
+                        rel_heights = 1,
+                        cowplot.options = list(label_x = 0.01, hjust = 0) # Fix for label position depending on label length bug in cowplot
+                        ) {
+
+  # Select options to be passed to .plot_likert()
+  .likert_options <- as.list(environment())[5:32]
+
+  ## If now no groups are supplied only 1 group will be assumed. Check for cowplot is only performed if there are groups supplied.
+  if (is.null(factor.groups))
+    factor.groups <- rep(1, length.out = ncol(items))
+  else
+    if (!requireNamespace("cowplot", quietly = T))
+      stop("plot_likert_grp: Please install the package \"cowplot\"", call. = F)
+
+  if (ncol(items) != length(factor.groups))
+    stop("plot_likert_grp: Length of groups has to equal the number of items: ncol(items) != length(groups)", call. = F)
+
+  # retrieve unique factor / group index values
+  findex <- unique(factor.groups)
+
+  if (sort.groups) findex <- sort(findex)
+
+  # Add empty title to plots, to create space for the group.labels
+  if (is.null(title) & length(findex) != 1) title <- rep("", length(findex))
+
+  .plot_list <- list()
+
+  # iterate all sub-plots (groups)
+  for (i in seq_along(findex)) {
+    index <- which(factor.groups == findex[i])
+
+    .pl <- do.call(".plot_likert", args = c(list(items[, index], title = title[i]), .likert_options))
+    # If there are 2 or more groups, the legend will be plotted according to legend.pos.
+    if (length(findex) != 1) {
+      if (legend.pos %in% c("top", "both") & i == 1)
+        .pl <- .pl + theme(legend.position = "top")
+      else if (legend.pos %in% c("bottom", "both") & i == length(findex))
+        .pl <- .pl + theme(legend.position = "bottom")
+      else if (legend.pos != "all")
+        .pl <- .pl + theme(legend.position = "none")
+    }
+
+    .plot_list[i] <-  list(.pl)
+  }
+
+  # Options to turn off or overwrite cowplot group.labels.
+  if (isFALSE(factor.groups.titles))
+    factor.groups.titles <- rep("", length(findex))
+  else if (!is.null(factor.groups.titles) && (factor.groups.titles[1] == "auto" || length(factor.groups.titles) != length(findex)) && (is.numeric(factor.groups))) {
+    factor.groups.titles <- sprintf("Component %i", seq_along(findex)) # For sjt.itemanalysis compatibility
+  } else if (length(factor.groups.titles) != length(findex))
+    factor.groups.titles <- findex
+
+  # If groups were supplied, combine the subplots with cowplot::plot_grid()
+  if (length(findex) == 1)
+    .out <- .plot_list[[1]]
+  else
+    .out <- do.call(get("plot_grid", asNamespace("cowplot")),
+                    args = c(list(
+                              "plotlist" = .plot_list,
+                              "labels" = factor.groups.titles,
+                              "rel_heights" = rel_heights,
+                              "ncol" = 1),
+                            cowplot.options))
+
+  return(.out)
+}
+
+.plot_likert <- function(items,
                        title = NULL,
                        legend.title = NULL,
                        legend.labels = NULL,
@@ -119,7 +256,7 @@ plot_likert <- function(items,
   if (!is.data.frame(items) && !is.matrix(items)) items <- as.data.frame(items)
 
   # if grid.range is supplied as 1 value, it is duplicated for symmetric results. This is for compatibillity with older versions.
-  if (length(grid.range) == 1) grid.range = c(grid.range, grid.range)
+  if (length(grid.range) == 1) grid.range <- c(grid.range, grid.range)
 
   # copy titles
 
@@ -618,10 +755,10 @@ plot_likert <- function(items,
 
   # check wether percentage scale (y-axis) should be reversed
 
-  if(!reverse.scale) {
-    gp <- gp +scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range[1], grid.range[2]), expand = expgrid, labels = gridlabs)
+  if (!reverse.scale) {
+    gp <- gp + scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range[1], grid.range[2]), expand = expgrid, labels = gridlabs)
   } else {
-    gp <- gp +scale_y_reverse(breaks = gridbreaks, limits = c(grid.range[2], -grid.range[1]), expand = expgrid, labels = gridlabs)
+    gp <- gp + scale_y_reverse(breaks = gridbreaks, limits = c(grid.range[2], -grid.range[1]), expand = expgrid, labels = gridlabs)
   }
 
   # check whether coordinates should be flipped, i.e.
