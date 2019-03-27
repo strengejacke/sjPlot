@@ -382,7 +382,7 @@ view_df <- function(x,
       if (is.list(x[[index]]))
         valstring <- "<span class=\"omit\">&lt;list&gt;</span>"
       else
-        valstring <- frq.value(index, x, df.val)
+        valstring <- frq.value(index, x, df.val, max.len = max.len)
 
       page.content <-
         paste0(page.content,
@@ -398,7 +398,7 @@ view_df <- function(x,
       if (is.list(x[[index]]))
         valstring <- "<span class=\"omit\">&lt;list&gt;</span>"
       else
-        valstring <- frq.value(index, x, df.val, as.prc = TRUE)
+        valstring <- frq.value(index, x, df.val, as.prc = TRUE, max.len = max.len)
 
       page.content <-
         paste0(page.content,
@@ -414,7 +414,7 @@ view_df <- function(x,
       if (is.list(x[[index]]))
         valstring <- "<span class=\"omit\">&lt;list&gt;</span>"
       else
-        valstring <- frq.value(index, x, df.val, weights)
+        valstring <- frq.value(index, x, df.val, weights, max.len = max.len)
 
       page.content <-
         paste0(page.content,
@@ -430,7 +430,7 @@ view_df <- function(x,
       if (is.list(x[[index]]))
         valstring <- "<span class=\"omit\">&lt;list&gt;</span>"
       else
-        valstring <- frq.value(index, x, df.val, weights, as.prc = TRUE)
+        valstring <- frq.value(index, x, df.val, weights, as.prc = TRUE, max.len = max.len)
 
       page.content <-
         paste0(page.content,
@@ -490,7 +490,7 @@ view_df <- function(x,
 
 #' @importFrom stats xtabs na.pass
 #' @importFrom sjmisc is_empty
-frq.value <- function(index, x, df.val, weights, as.prc = FALSE) {
+frq.value <- function(index, x, df.val, weights, as.prc = FALSE, max.len) {
   valstring <- ""
   # check if we have a valid index
   if (index <= ncol(x) && !is.null(df.val[[index]])) {
@@ -511,6 +511,9 @@ frq.value <- function(index, x, df.val, weights, as.prc = FALSE) {
       valstring <- "<NA>"
     } else {
       if (as.prc) frqs <- sprintf("%.2f", 100 * frqs / sum(frqs))
+      if (length(frqs) > min(c(length(df.val[[index]]), max.len))) {
+        frqs <- frqs[1:min(c(length(df.val[[index]]), max.len))]
+      }
       valstring <- paste(frqs, collapse = "<br>")
     }
   }
