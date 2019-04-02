@@ -26,6 +26,7 @@ Depends:
     stats,
     utils
 Imports:
+    bayestestR,
     broom,
     dplyr (>= 0.7.5),
     forcats,

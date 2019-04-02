@@ -361,7 +361,7 @@ tidy_label <- function(labs, sep = ".") {
 
 #' @importFrom lme4 ranef
 #' @importFrom purrr map_df
-#' @importFrom sjstats re_grp_var
+#' @importFrom insight find_random
 se_ranef <- function(object) {
   if (inherits(object, "MixMod")) {
     se.bygroup <- lme4::ranef(object, post_vars = TRUE)
@@ -377,7 +377,7 @@ se_ranef <- function(object) {
 
       dimnames(se.bygroup)[[2]] <- dimnames(vars.m[[1]])[[1]]
       se.bygroup <- list(se.bygroup)
-      names(se.bygroup) <- sjstats::re_grp_var(object)
+      names(se.bygroup) <- insight::find_random(object, flatten = TRUE)
     }
   } else {
     se.bygroup <- lme4::ranef(object, condVar = TRUE)

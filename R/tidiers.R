@@ -189,10 +189,8 @@ tidy_cox_model <- function(model, ci.lvl) {
 }
 
 
-## TODO replace with sjstats::tidy_stan() in the future?
-
 #' @importFrom stats mad formula
-#' @importFrom sjstats cred_int
+#' @importFrom bayestestR ci
 #' @importFrom insight is_multivariate model_info
 #' @importFrom sjmisc var_rename add_columns is_empty typical_value
 #' @importFrom dplyr select filter slice inner_join n_distinct
@@ -228,18 +226,22 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
   else
     ty <- "fixed"
 
-  d1 <- sjstats::cred_int(model, prob = p.outer, trans = tf, type = ty)
-  d2 <- sjstats::cred_int(model, prob = p.inner, trans = tf, type = ty)
+  d1 <- bayestestR::ci(model, ci = p.outer, effects = ty)
+  d2 <- bayestestR::ci(model, ci = p.inner, effects = ty)
 
+  d1$CI_low <- tf(d1$CI_low)
+  d1$CI_high <- tf(d1$CI_high)
+  d2$CI_low <- tf(d2$CI_low)
+  d2$CI_high <- tf(d2$CI_high)
 
   # bind columns, so we have inner and outer hdi interval
 
   dat <- d2 %>%
-    dplyr::select(.data$ci.low, .data$ci.high) %>%
-    sjmisc::var_rename(ci.low = "conf.low50", ci.high = "conf.high50") %>%
+    dplyr::select(.data$CI_low, .data$CI_high) %>%
+    sjmisc::var_rename(CI_low = "conf.low50", CI_high = "conf.high50") %>%
     sjmisc::add_columns(d1) %>%
-    sjmisc::var_rename(ci.low = "conf.low", ci.high = "conf.high")
-
+    sjmisc::var_rename(CI_low = "conf.low", CI_high = "conf.high") %>%
+    dplyr::select(-.data$CI)
 
   # for brmsfit models, we need to remove some columns here to
   # match data rows later
