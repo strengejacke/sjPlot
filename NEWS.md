@@ -18,6 +18,7 @@
 * Legend labels were duplicated for marginal effects plots when `color ="bw"` and `legend.title` was specified.
 * Fixed encoding issues with help-files.
 * `view_df()` did not truncated frequency- and percentage-values for variables where value labels were truncated to a certain maximum number.
+* `tab_model()` did not print number of observations for `coxph`-models.
 
 # sjPlot 2.6.2
 

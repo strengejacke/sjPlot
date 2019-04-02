@@ -404,16 +404,11 @@ se_ranef <- function(object) {
 }
 
 
-#' @importFrom stats nobs
+#' @importFrom insight n_obs
 get_observations <- function(model) {
   tryCatch(
     {
-      if (inherits(model, "gmnl"))
-        model$logLik$nobs
-      else if (inherits(model, "mlogit"))
-        nrow(model$model)
-      else
-        stats::nobs(model)
+      insight::n_obs(model)
     },
     error = function(x) { NULL }
   )
