@@ -8,9 +8,9 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   show.ci = 0.95, show.ci50 = TRUE, show.se = NULL,
   show.std = NULL, show.p = TRUE, show.stat = FALSE,
   show.df = FALSE, show.zeroinf = TRUE, show.r2 = TRUE,
-  show.icc = TRUE, show.adj.icc = FALSE, show.re.var = TRUE,
-  show.fstat = FALSE, show.aic = FALSE, show.aicc = FALSE,
-  show.dev = FALSE, show.obs = TRUE, terms = NULL, rm.terms = NULL,
+  show.icc = TRUE, show.re.var = TRUE, show.fstat = FALSE,
+  show.aic = FALSE, show.aicc = FALSE, show.dev = FALSE,
+  show.obs = TRUE, terms = NULL, rm.terms = NULL,
   group.terms = TRUE, order.terms = NULL, title = NULL,
   pred.labels = NULL, dv.labels = NULL, wrap.labels = 25,
   vcov.fun = NULL, vcov.type = c("HC3", "const", "HC", "HC0", "HC1",
@@ -79,14 +79,10 @@ Depending on the model, these might be pseudo-r-squared values, or Bayesian
 r-squared etc. See \code{\link[sjstats]{r2}} for details.}
 
 \item{show.icc}{Logical, if \code{TRUE}, prints the intraclass correlation
-coefficient for mixed models. See \code{\link[sjstats]{icc}} for details.}
-
-\item{show.adj.icc}{Logical, if \code{TRUE}, prints the adjusted intraclass
-correlation coefficient for mixed models. See \code{\link[sjstats]{icc}}
-with argument \code{adjusted = TRUE} for details.}
+coefficient for mixed models. See \code{\link[performance]{icc}} for details.}
 
 \item{show.re.var}{Logical, if \code{TRUE}, prints the random effect variances
-for mixed models. See \code{\link[sjstats]{re_var}} for details.}
+for mixed models. See \code{\link[insight]{get_variance}} for details.}
 
 \item{show.fstat}{Logical, if \code{TRUE}, the F-statistics for each model is
 printed in the table summary. This option is not supported by all model types.}

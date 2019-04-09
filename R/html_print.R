@@ -256,7 +256,6 @@ tab_model_df <- function(x,
                          rsq.list,
                          n_obs.list,
                          icc.list,
-                         icc.adj.list = NULL,
                          dev.list,
                          aic.list,
                          n.models,
@@ -534,34 +533,11 @@ tab_model_df <- function(x,
 
   if (!is_empty_list(icc.list) && show.icc) {
 
-    icc.len <- max(purrr::map_dbl(icc.list, length))
-
-    page.content <- paste0(
-      page.content,
-      create_random_effects(
-        rv.len = icc.len,
-        rv = icc.list,
-        rv.string = "ICC",
-        clean.rv = "icc",
-        var.names = colnames(x),
-        summary.css = summary.css,
-        n.cols = ncol(x)
-    ))
-
-  }
-
-
-  ## TODO also show conditional ICC
-
-  if (!is_empty_list(icc.adj.list) && show.adj.icc) {
-
-    # icc.len <- max(purrr::map_dbl(icc.adj.list, length))
-
     page.content <- paste0(
       page.content,
       create_random_effects(
         rv.len = 1,
-        rv = icc.adj.list,
+        rv = icc.list,
         rv.string = "ICC <sub>adjusted</sub>",
         clean.rv = "icc",
         var.names = colnames(x),

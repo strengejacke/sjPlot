@@ -43,12 +43,9 @@
 #' @param show.zeroinf Logical, if \code{TRUE} and model has a zero-inflated
 #'    model part, this is also printed to the table.
 #' @param show.re.var Logical, if \code{TRUE}, prints the random effect variances
-#'    for mixed models. See \code{\link[sjstats]{re_var}} for details.
+#'    for mixed models. See \code{\link[insight]{get_variance}} for details.
 #' @param show.icc Logical, if \code{TRUE}, prints the intraclass correlation
-#'    coefficient for mixed models. See \code{\link[sjstats]{icc}} for details.
-#' @param show.adj.icc Logical, if \code{TRUE}, prints the adjusted intraclass
-#'    correlation coefficient for mixed models. See \code{\link[sjstats]{icc}}
-#'    with argument \code{adjusted = TRUE} for details.
+#'    coefficient for mixed models. See \code{\link[performance]{icc}} for details.
 #' @param show.dev Logical, if \code{TRUE}, shows the deviance of the model.
 #' @param show.ci Either logical, and if \code{TRUE}, the confidence intervals
 #'    is printed to the table; if \code{FALSE}, confidence intervals are
@@ -206,6 +203,7 @@
 #' @importFrom sjmisc word_wrap var_rename add_columns add_case
 #' @importFrom sjstats std_beta r2 icc
 #' @importFrom insight model_info is_multivariate
+#' @importFrom performance r2
 #' @importFrom stats nobs
 #' @importFrom rlang .data
 #' @export
@@ -226,7 +224,6 @@ tab_model <- function(
   show.zeroinf = TRUE,
   show.r2 = TRUE,
   show.icc = TRUE,
-  show.adj.icc = FALSE,
   show.re.var = TRUE,
   show.fstat = FALSE,
   show.aic = FALSE,
@@ -602,33 +599,21 @@ tab_model <- function(
       }
 
 
+      # extract variance components ----
+
+      if ((show.icc || show.re.var || show.r2) && is_mixed_model(model)) {
+        vars <- insight::get_variance(model)
+      } else {
+        vars <- NULL
+      }
+
       # Add ICC statistic ----
 
       icc <- NULL
 
-      if ((show.icc || show.re.var) && is_mixed_model(model)) {
-        icc <- tryCatch(
-          {
-            suppressWarnings(sjstats::icc(model))
-          },
-          error = function(x) { NULL }
-        )
+      if ((show.icc || show.re.var) && is_mixed_model(model) && !is.null(vars) && !all(is.na(vars))) {
+        icc <- vars$var.random / (vars$var.random + vars$var.residual)
       }
-
-      icc.adjusted <- NULL
-
-      # get adjusted ICC, which also contains r-squared.
-      # these are similar to compute, so we save computation time
-
-      if ((show.adj.icc) && is_mixed_model(model)) {
-        icc.adjusted <- tryCatch(
-          {
-            sjstats::icc(model, adjusted = TRUE, type = "all")
-          },
-          error = function(x) { NULL }
-        )
-      }
-
 
       # Add r-squared statistic ----
 
@@ -638,20 +623,20 @@ tab_model <- function(
         # if marginal and conditional r-squared already have been computed
         # via adjusted ICC, use these results and avoid time consuming
         # multiple computation
-        if (is_mixed_model(model) && !is.null(icc.adjusted)) {
-          rsq <- icc.adjusted[[1]]
+        if (is_mixed_model(model)) {
+          rsq <- list(
+            r2_marginal = vars$var.fixed / (vars$var.fixed + vars$var.random + vars$var.residual),
+            r2_conditional = (vars$var.fixed + vars$var.random) / (vars$var.fixed + vars$var.random + vars$var.residual)
+          )
         } else {
           rsq <- tryCatch(
             {
-              suppressWarnings(sjstats::r2(model))
+              suppressWarnings(performance::r2(model))
             },
             error = function(x) { NULL }
           )
         }
       }
-
-      # fix return value for type = "all"
-      if (!is.null(icc.adjusted)) icc.adjusted <- icc.adjusted[[2]]
 
 
       # Add deviance and AIC statistic ----
@@ -682,8 +667,7 @@ tab_model <- function(
         n_obs = n_obs,
         icc = icc,
         dev = dev,
-        aic = aic,
-        icc.adj = icc.adjusted
+        aic = aic
       )
     }
   )
@@ -710,7 +694,6 @@ tab_model <- function(
   icc.data <- purrr::map(model.list, ~.x[[6]])
   dev.data <- purrr::map(model.list, ~.x[[7]])
   aic.data <- purrr::map(model.list, ~.x[[8]])
-  icc.adj.data <- purrr::map(model.list, ~.x[[9]])
   is.zeroinf <- purrr::map_lgl(model.list, ~ !is.null(.x[[3]]))
 
   zeroinf.data <- purrr::compact(zeroinf.data)
@@ -1027,7 +1010,6 @@ tab_model <- function(
     n.models = length(model.list),
     show.re.var = show.re.var,
     show.icc = show.icc,
-    show.adj.icc = show.adj.icc,
     CSS = CSS,
     file = file,
     use.viewer = use.viewer,
