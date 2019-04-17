@@ -55,7 +55,7 @@
 #' @importFrom tidyr gather
 #' @importFrom scales brewer_pal grey_pal
 #' @importFrom stats na.omit prcomp varimax
-#' @importFrom sjstats cronb
+#' @importFrom performance cronbachs_alpha
 #' @importFrom psych principal
 #' @export
 sjp.pca <- function(data,
@@ -221,7 +221,7 @@ sjp.pca <- function(data,
     for (n in seq_len(length(unique(itemloadings)))) {
       # calculate cronbach's alpha for those cases that all have the
       # highest loading on the same factor
-      cbv <- as.data.frame(rbind(cbv, cbind(nr = n, sjstats::cronb(stats::na.omit(dataframe[, which(itemloadings == n)])))))
+      cbv <- as.data.frame(rbind(cbv, cbind(nr = n, performance::cronbachs_alpha(stats::na.omit(dataframe[, which(itemloadings == n)])))))
     }
     # just for vertical position adjustment when we print the alpha values
     vpos <- rep(c(-0.25, -1), nrow(cbv))
