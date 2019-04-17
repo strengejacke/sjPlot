@@ -425,6 +425,8 @@ tab_model_df <- function(x,
   firstsumrow <- TRUE
 
 
+  ## TODO show ICC, no adjusted ICC, show variance components
+
   # add random effects ----
 
   if (!is_empty_list(icc.list) && show.re.var) {

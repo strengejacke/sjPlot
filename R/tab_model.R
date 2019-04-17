@@ -201,7 +201,7 @@
 #' @importFrom purrr reduce map2 map_if map_df compact map_lgl map_chr flatten_chr
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns add_case
-#' @importFrom sjstats std_beta r2 icc
+#' @importFrom sjstats std_beta
 #' @importFrom insight model_info is_multivariate
 #' @importFrom performance r2
 #' @importFrom stats nobs
