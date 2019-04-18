@@ -270,6 +270,9 @@ tab_model_df <- function(x,
                          file = NULL,
                          use.viewer = TRUE,
                          ...) {
+
+  ## TODO pass re-variances (from get_variances()) to here
+
   # make sure list elements in CSS argument have proper name attribute
   CSS <- check_css_param(CSS)
 
