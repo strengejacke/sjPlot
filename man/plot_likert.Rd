@@ -4,20 +4,31 @@
 \alias{plot_likert}
 \title{Plot likert scales as centered stacked bars}
 \usage{
-plot_likert(items, title = NULL, legend.title = NULL,
-  legend.labels = NULL, axis.titles = NULL, axis.labels = NULL,
-  catcount = NULL, cat.neutral = NULL, sort.frq = NULL,
-  weight.by = NULL, title.wtd.suffix = NULL, wrap.title = 50,
-  wrap.labels = 30, wrap.legend.title = 30, wrap.legend.labels = 28,
-  geom.size = 0.6, geom.colors = "BrBG",
-  cat.neutral.color = "grey70", intercept.line.color = "grey50",
-  reverse.colors = FALSE, values = "show", show.n = TRUE,
-  show.legend = TRUE, show.prc.sign = FALSE, grid.range = 1,
-  grid.breaks = 0.2, expand.grid = TRUE, digits = 1,
-  reverse.scale = FALSE, coord.flip = TRUE)
+plot_likert(items, factor.groups = NULL, factor.groups.titles = "auto",
+  title = NULL, legend.title = NULL, legend.labels = NULL,
+  axis.titles = NULL, axis.labels = NULL, catcount = NULL,
+  cat.neutral = NULL, sort.frq = NULL, weight.by = NULL,
+  title.wtd.suffix = NULL, wrap.title = 50, wrap.labels = 30,
+  wrap.legend.title = 30, wrap.legend.labels = 28, geom.size = 0.6,
+  geom.colors = "BrBG", cat.neutral.color = "grey70",
+  intercept.line.color = "grey50", reverse.colors = FALSE,
+  values = "show", show.n = TRUE, show.legend = TRUE,
+  show.prc.sign = FALSE, grid.range = 1, grid.breaks = 0.2,
+  expand.grid = TRUE, digits = 1, reverse.scale = FALSE,
+  coord.flip = TRUE, sort.groups = TRUE, legend.pos = "bottom",
+  rel_heights = 1, cowplot.options = list(label_x = 0.01, hjust = 0))
 }
 \arguments{
 \item{items}{Data frame, with each column representing one item.}
+
+\item{factor.groups}{(optional) Must be a vector of same length as \code{ncol(items)},
+where each item in this vector represents the group number
+of the related columns of \code{items}. See 'Examples'.}
+
+\item{factor.groups.titles}{(optional, only used if groups are supplied) Titles for each factor group that will be used as table caption for each
+component-table. Must be a character vector of same length as \code{length(unique(factor.groups))}.
+Default is \code{"auto"}, which means that each table has a standard caption \emph{Component x}.
+Use \code{NULL} to use names as supplied to \code{factor.groups} and use \code{FALSE} to suppress table captions.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.
@@ -34,7 +45,7 @@ for the x-axis and y-axis.}
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
 
-\item{catcount}{Optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree",
+\item{catcount}{optional, amount of categories of \code{items} (e.g. \emph{"strongly disagree",
 "disagree", "agree"} and \emph{"strongly agree"} would be \code{catcount = 4}).
 Note that this argument only applies to "valid" answers, i.e. if you
 have an additional neutral category (see \code{cat.neutral}) like \emph{"don't know"},
@@ -87,7 +98,7 @@ need smaller values than dot sizes.}
 
 \item{intercept.line.color}{Color of the vertical intercept line that divides positive and negative values.}
 
-\item{reverse.colors}{Logical, if \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
+\item{reverse.colors}{logical, if \code{TRUE}, the color scale from \code{geom.colors} will be reversed,
 so positive and negative values switch colors.}
 
 \item{values}{Determines style and position of percentage value labels on the bars:
@@ -104,7 +115,7 @@ group or category to the labels.}
 \item{show.legend}{logical, if \code{TRUE}, and depending on plot type and
 function, a legend is added to the plot.}
 
-\item{show.prc.sign}{Logical, if \code{TRUE}, \%-signs for value labels are shown.}
+\item{show.prc.sign}{logical, if \code{TRUE}, \%-signs for value labels are shown.}
 
 \item{grid.range}{Numeric, limits of the x-axis-range, as proportion of 100.
 Default is 1, so the x-scale ranges from zero to 100\% on both sides from the center.
@@ -122,9 +133,20 @@ axes and plotting region. Default is \code{FALSE}.}
 \item{digits}{Numeric, amount of digits after decimal point when rounding
 estimates or values.}
 
-\item{reverse.scale}{Logical, if \code{TRUE}, the ordering of the categories is reversed, so positive and negative values switch position.}
+\item{reverse.scale}{logical, if \code{TRUE}, the ordering of the categories is reversed, so positive and negative values switch position.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
+
+\item{sort.groups}{(optional, only used if groups are supplied) logical, if groups should be sorted according to the values supplied to \code{factor.groups}. Defaults to \code{TRUE}.}
+
+\item{legend.pos}{(optional, only used if groups are supplied) Defines the legend position. Possible values are \code{c("bottom", "top", "both", "all", "none")}.
+If the is only one group or this option is set to \code{"all"} legends will be printed as defined with \code{\link{set_theme}}.}
+
+\item{rel_heights}{(optional, only used if groups are supplied) This option can be used to adjust the height of the subplots. The bars in subplots can have different heights due to a differing number of items
+or due to legend placement. This can be adjusted here. Takes a vector of numbers, one
+for each plot. Values are evaluated relative to each other.}
+
+\item{cowplot.options}{(optional, only used if groups are supplied) List of label options to be passed to \code{\link[cowplot]{plot_grid}}.}
 }
 \value{
 A ggplot-object.
@@ -148,14 +170,34 @@ library(sjmisc)
 data(efc)
 # find all variables from COPE-Index, which all have a "cop" in their
 # variable name, and then plot that subset as likert-plot
-find_var(efc, pattern = "cop", out = "df") \%>\% plot_likert()
+mydf <- find_var(efc, pattern = "cop", out = "df")
+
+plot_likert(mydf)
 
 plot_likert(
-  find_var(efc, pattern = "cop", out = "df"),
+  mydf,
   grid.range = c(1.2, 1.4),
   expand.grid = FALSE,
   values = "sum.outside",
   show.prc.sign = TRUE
+)
+
+# Plot in groups
+
+plot_likert(mydf, c(2,1,1,1,1,2,2,2,1))
+
+factor.groups <- sjt.pca(mydf)$factor.index
+plot_likert(mydf, factor.groups = factor.groups)
+
+plot_likert(mydf,
+            c(rep("B", 4), rep("A", 5)),
+            sort.groups = FALSE,
+            grid.range = c(0.9, 1.1),
+            geom.colors = "RdBu",
+            rel_heights = c(6, 8),
+            wrap.labels = 40,
+            reverse.scale = TRUE)
+
 )
 
 }
