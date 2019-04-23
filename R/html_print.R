@@ -258,13 +258,13 @@ tab_model_df <- function(x,
                          icc.list,
                          dev.list,
                          aic.list,
+                         variance.list,
                          n.models,
                          title = NULL,
                          footnote = NULL,
                          col.header = NULL,
                          show.re.var = FALSE,
                          show.icc = FALSE,
-                         show.adj.icc = FALSE,
                          encoding = "UTF-8",
                          CSS = NULL,
                          file = NULL,
@@ -432,7 +432,7 @@ tab_model_df <- function(x,
 
   # add random effects ----
 
-  if (!is_empty_list(icc.list) && show.re.var) {
+  if (!is_empty_list(variance.list) && show.re.var) {
 
     page.content <- paste0(page.content, "  <tr>\n")
     page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"randomparts\">Random Effects</td>\n", ncol(x)))

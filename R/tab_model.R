@@ -611,7 +611,7 @@ tab_model <- function(
 
       icc <- NULL
 
-      if ((show.icc || show.re.var) && is_mixed_model(model) && !is.null(vars) && !all(is.na(vars))) {
+      if (show.icc && is_mixed_model(model) && !is.null(vars) && !all(is.na(vars))) {
         icc <- vars$var.random / (vars$var.random + vars$var.residual)
       }
 
@@ -667,7 +667,8 @@ tab_model <- function(
         n_obs = n_obs,
         icc = icc,
         dev = dev,
-        aic = aic
+        aic = aic,
+        variances = vars
       )
     }
   )
@@ -694,6 +695,7 @@ tab_model <- function(
   icc.data <- purrr::map(model.list, ~.x[[6]])
   dev.data <- purrr::map(model.list, ~.x[[7]])
   aic.data <- purrr::map(model.list, ~.x[[8]])
+  variance.data <- purrr::map(model.list, ~.x[[9]])
   is.zeroinf <- purrr::map_lgl(model.list, ~ !is.null(.x[[3]]))
 
   zeroinf.data <- purrr::compact(zeroinf.data)
@@ -1004,9 +1006,9 @@ tab_model <- function(
     rsq.list = rsq.data,
     n_obs.list = n_obs.data,
     icc.list = icc.data,
-    icc.adj.list = icc.adj.data,
     dev.list = dev.data,
     aic.list = aic.data,
+    variance.list = variance.data,
     n.models = length(model.list),
     show.re.var = show.re.var,
     show.icc = show.icc,
