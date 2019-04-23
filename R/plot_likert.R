@@ -52,20 +52,19 @@
 #'          they exceed the axis range. E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, only
 #'          (valid) axis labels from -100 to +100\% are printed. Neutral categories are adjusted to the most left limit.
 #' @param reverse.scale logical, if \code{TRUE}, the ordering of the categories is reversed, so positive and negative values switch position.
-#' 
-#' @param factor.groups (optional) Must be a vector of same length as \code{ncol(df)}, 
-#'                      where each item in this vector represents the group number 
-#'                      of the related columns of \code{df}. See 'Examples'.
+#' @param factor.groups (optional) Must be a vector of same length as \code{ncol(items)},
+#'    where each item in this vector represents the group number
+#'    of the related columns of \code{items}. See 'Examples'.
 #' @param factor.groups.titles (optional, only used if groups are supplied) Titles for each factor group that will be used as table caption for each
 #'          component-table. Must be a character vector of same length as \code{length(unique(factor.groups))}.
 #'          Default is \code{"auto"}, which means that each table has a standard caption \emph{Component x}.
 #'          Use \code{NULL} to use names as supplied to \code{factor.groups} and use \code{FALSE} to suppress table captions.
 #' @param sort.groups (optional, only used if groups are supplied) logical, if groups should be sorted according to the values supplied to \code{factor.groups}. Defaults to \code{TRUE}.
-#' @param legend.pos (optional, only used if groups are supplied) Defines the legend position. Possible values are \code{c("bottom", "top", "both", "all", "none")}. 
-#'                   If the is only one group or this option is set to \code{"all"} legends will be printed as defined with \code{\link{set_theme}}.
-#' @param rel_heights (optional, only used if groups are supplied) This option can be used to adjust the height of the subplots. The bars in subplots can have different heights due to a differing number of items 
-#'                    or due to legend placement. This can be adjusted here. 
-#'                    Takes a vector of numbers, one for each plot. Values are evaluated relative to each other.
+#' @param legend.pos (optional, only used if groups are supplied) Defines the legend position. Possible values are \code{c("bottom", "top", "both", "all", "none")}.
+#'    If the is only one group or this option is set to \code{"all"} legends will be printed as defined with \code{\link{set_theme}}.
+#' @param rel_heights (optional, only used if groups are supplied) This option can be used to adjust the height of the subplots. The bars in subplots can have different heights due to a differing number of items
+#'   or due to legend placement. This can be adjusted here. Takes a vector of numbers, one
+#'   for each plot. Values are evaluated relative to each other.
 #' @param cowplot.options (optional, only used if groups are supplied) List of label options to be passed to \code{\link[cowplot]{plot_grid}}.
 #'
 #' @inheritParams sjp.grpfrq
@@ -80,7 +79,7 @@
 #' # find all variables from COPE-Index, which all have a "cop" in their
 #' # variable name, and then plot that subset as likert-plot
 #' mydf <- find_var(efc, pattern = "cop", out = "df")
-#' 
+#'
 #' plot_likert(mydf)
 #'
 #' plot_likert(
@@ -89,22 +88,23 @@
 #'   expand.grid = FALSE,
 #'   values = "sum.outside",
 #'   show.prc.sign = TRUE
-#'   
+#' )
+#'
 #' # Plot in groups
-#' 
+#'
 #' plot_likert(mydf, c(2,1,1,1,1,2,2,2,1))
-#' 
+#'
 #' factor.groups <- sjt.pca(mydf)$factor.index
-#' plot_likert(mydf, c(2,1,1,1,1,2,2,2,1), factor.groups = factor.groups)
-#' 
-#' plot_likert(mydf, 
-#'             c(rep("B",4),rep("A",5)), 
-#'             sort.groups = F, 
-#'             grid.range = c(0.9,1.1), 
-#'             geom.colors = "RdBu", 
-#'             rel_heights = c(6,8), 
-#'             wrap.labels = 40, 
-#'             reverse.scale=T)   
+#' plot_likert(mydf, factor.groups = factor.groups)
+#'
+#' plot_likert(mydf,
+#'             c(rep("B", 4), rep("A", 5)),
+#'             sort.groups = FALSE,
+#'             grid.range = c(0.9, 1.1),
+#'             geom.colors = "RdBu",
+#'             rel_heights = c(6, 8),
+#'             wrap.labels = 40,
+#'             reverse.scale = TRUE)
 #'
 #' )
 #'
