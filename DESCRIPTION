@@ -53,6 +53,7 @@ Suggests:
     brms,
     car,
     cluster,
+    cowplot,
     GPArotation,
     gridExtra,
     ggrepel,
