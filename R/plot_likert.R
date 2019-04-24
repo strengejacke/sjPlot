@@ -152,7 +152,7 @@ plot_likert <- function(items,
                         sort.groups = TRUE, # Group Options
                         legend.pos = "bottom",
                         rel_heights = 1,
-                        cowplot.options = list(label_x = 0.01, hjust = 0) # Fix for label position depending on label length bug in cowplot
+                        cowplot.options = list(label_x = 0.01, hjust = 0, align="v") # Fix for label position depending on label length bug in cowplot
                         ) {
 
   # Select options to be passed to .plot_likert()
