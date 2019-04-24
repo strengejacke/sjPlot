@@ -76,7 +76,7 @@ model part, this is also printed to the table.}
 
 \item{show.r2}{Logical, if \code{TRUE}, the r-squared value is also printed.
 Depending on the model, these might be pseudo-r-squared values, or Bayesian
-r-squared etc. See \code{\link[sjstats]{r2}} for details.}
+r-squared etc. See \code{\link[performance]{r2}} for details.}
 
 \item{show.icc}{Logical, if \code{TRUE}, prints the intraclass correlation
 coefficient for mixed models. See \code{\link[performance]{icc}} for details.}
@@ -258,7 +258,7 @@ details.}
 of the posterior distribution. Use \code{bpe} to define other functions to
 calculate the Bayesian point estimate. \code{bpe} needs to be a character
 naming the specific function, which is passed to the \code{fun}-argument in
-\code{\link[sjstats]{typical_value}}. So, \code{bpe = "mean"} would
+\code{\link[sjmisc]{typical_value}}. So, \code{bpe = "mean"} would
 calculate the mean value of the posterior distribution.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,

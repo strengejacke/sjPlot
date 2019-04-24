@@ -141,7 +141,7 @@ annotating p-values with asterisks. Only applies if
 \item{ci.lvl}{Numeric, the level of the confidence intervals (error bars).
 Use \code{ci.lvl = NA} to remove error bars. For \code{stanreg}-models,
 \code{ci.lvl} defines the (outer) probability for the \emph{credible interval}
-that is plotted (see \code{\link[sjstats]{credint}}). By
+that is plotted (see \code{\link[bayestestR]{ci}}). By
 default, \code{stanreg}-models are printed with two intervals: the "inner"
 interval, which defaults to the 50\%-CI; and the "outer" interval, which
 defaults to the 89\%-CI. \code{ci.lvl} affects only the outer interval in

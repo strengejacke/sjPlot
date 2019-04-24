@@ -35,7 +35,7 @@
 #'          Default is \code{"auto"}, which means that each table has a standard caption \emph{Component x}.
 #'          Use \code{NULL} to suppress table captions.
 #' @param scale Logical, if \code{TRUE}, the data frame's vectors will be scaled when calculating the
-#'          Cronbach's Alpha value (see \code{\link[sjstats]{reliab_test}}). Recommended, when
+#'          Cronbach's Alpha value (see \code{\link[performance]{item_reliability}}). Recommended, when
 #'          the variables have different measures / scales.
 #' @param min.valid.rowmean Minimum amount of valid values to compute row means for index scores.
 #'          Default is 2, i.e. the return values \code{index.scores} and \code{df.index.scores} are
@@ -75,7 +75,7 @@
 #' @note \itemize{
 #'          \item The \emph{Shapiro-Wilk Normality Test} (see column \code{W(p)}) tests if an item has a distribution that is significantly different from normal.
 #'          \item \emph{Item difficulty} should range between 0.2 and 0.8. Ideal value is \code{p+(1-p)/2} (which mostly is between 0.5 and 0.8).
-#'          \item For \emph{item discrimination}, acceptable values are 0.20 or higher; the closer to 1.00 the better. See \code{\link[sjstats]{reliab_test}} for more details.
+#'          \item For \emph{item discrimination}, acceptable values are 0.20 or higher; the closer to 1.00 the better. See \code{\link[performance]{item_reliability}} for more details.
 #'          \item In case the total \emph{Cronbach's Alpha} value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the \emph{mean inter-item-correlation} is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also \code{\link[performance]{item_intercor}}.
 #'        }
 #'

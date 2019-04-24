@@ -61,7 +61,7 @@
 #'   \code{\link[sjstats]{robust}} for details).
 #' @param show.r2 Logical, if \code{TRUE}, the r-squared value is also printed.
 #'    Depending on the model, these might be pseudo-r-squared values, or Bayesian
-#'    r-squared etc. See \code{\link[sjstats]{r2}} for details.
+#'    r-squared etc. See \code{\link[performance]{r2}} for details.
 #' @param show.stat Logical, if \code{TRUE}, the coefficients' test statistic
 #'    is also printed.
 #' @param show.df Logical, if \code{TRUE} and \code{p.val = "kr"}, the p-values
