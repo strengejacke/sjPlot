@@ -271,8 +271,6 @@ tab_model_df <- function(x,
                          use.viewer = TRUE,
                          ...) {
 
-  ## TODO pass re-variances (from get_variances()) to here
-
   # make sure list elements in CSS argument have proper name attribute
   CSS <- check_css_param(CSS)
 
@@ -427,8 +425,6 @@ tab_model_df <- function(x,
   summary.css <- "tdata summary summarydata"
   firstsumrow <- TRUE
 
-
-  ## TODO show ICC, no adjusted ICC, show variance components
 
   # add random effects ----
 
