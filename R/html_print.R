@@ -445,14 +445,14 @@ tab_model_df <- function(x,
     page.content <- paste0(page.content, sprintf("\n  <tr>\n    <td class=\"%s\">&sigma;<sup>2</sup></td>\n", s_css))
     s_css <- summary.css
 
-    for (i in 1:length(icc.list)) {
+    for (i in 1:length(variance.list)) {
 
-      if (length(icc.list) == 1)
+      if (length(variance.list) == 1)
         colspan <- ncol(x) - 1
       else
         colspan <- length(string_ends_with(sprintf("_%i", i), x = colnames(x)))
 
-      if (is.null(icc.list[[i]])) {
+      if (is.null(variance.list[[i]])) {
 
         page.content <- paste0(
           page.content,
@@ -467,7 +467,7 @@ tab_model_df <- function(x,
             "    <td class=\"%s\" colspan=\"%i\">%.2f</td>\n",
             s_css,
             as.integer(colspan),
-            attr(icc.list[[i]], "sigma_2", exact = TRUE)
+            variance.list[[i]]$var.residual
           )
         )
 
@@ -477,7 +477,7 @@ tab_model_df <- function(x,
 
     # random effects: Between-group-variance: tau.00 ----
 
-    tau00 <- purrr::map(icc.list, ~ attr(.x, "tau.00", exact = TRUE))
+    tau00 <-  tau00 <- purrr::map(variance.list, ~ .x$var.intercept)
     tau00.len <- max(purrr::map_dbl(tau00, length))
 
     page.content <- paste0(
@@ -495,11 +495,11 @@ tab_model_df <- function(x,
 
     # random effects: random-slope-variance: tau11 ----
 
-    has_rnd_slope <- purrr::map_lgl(icc.list, ~ isTRUE(attr(.x, "rnd.slope.model", exact = TRUE)))
+    has_rnd_slope <- purrr::map_lgl(variance.list, ~ !is.null(.x$var.slope))
 
     if (any(has_rnd_slope)) {
 
-      tau11 <- purrr::map(icc.list, ~ attr(.x, "tau.11", exact = TRUE))
+      tau11 <- purrr::map(variance.list, ~ .x$var.slope)
       tau11.len <- max(purrr::map_dbl(tau11, length))
 
       page.content <- paste0(
@@ -514,7 +514,7 @@ tab_model_df <- function(x,
           n.cols = ncol(x)
       ))
 
-      rho01 <- purrr::map(icc.list, ~ attr(.x, "rho.01", exact = TRUE))
+      rho01 <- purrr::map(variance.list, ~ .x$cor.slope_intercept)
       rho01.len <- max(purrr::map_dbl(rho01, length))
 
       page.content <- paste0(
@@ -613,9 +613,9 @@ tab_model_df <- function(x,
 
     for (i in 1:length(rsq.list)) {
       if (!is.null(rsq.list[[i]])) {
-        rname <- names(rsq.list[[i]][[1]])
+        rname <- names(rsq.list[[i]][1])
         if (length(rsq.list[[i]]) > 1)
-          rname <- sprintf("%s / %s", rname, names(rsq.list[[i]][[2]]))
+          rname <- sprintf("%s / %s", rname, names(rsq.list[[i]][2]))
         break
       }
     }

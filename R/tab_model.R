@@ -612,7 +612,7 @@ tab_model <- function(
       icc <- NULL
 
       if (show.icc && is_mixed_model(model) && !is.null(vars) && !all(is.na(vars))) {
-        icc <- vars$var.random / (vars$var.random + vars$var.residual)
+        icc <- list(icc.adjusted = vars$var.random / (vars$var.random + vars$var.residual))
       }
 
       # Add r-squared statistic ----
@@ -625,8 +625,8 @@ tab_model <- function(
         # multiple computation
         if (is_mixed_model(model)) {
           rsq <- list(
-            r2_marginal = vars$var.fixed / (vars$var.fixed + vars$var.random + vars$var.residual),
-            r2_conditional = (vars$var.fixed + vars$var.random) / (vars$var.fixed + vars$var.random + vars$var.residual)
+            `Marginal R2` = vars$var.fixed / (vars$var.fixed + vars$var.random + vars$var.residual),
+            `Conditional R2` = (vars$var.fixed + vars$var.random) / (vars$var.fixed + vars$var.random + vars$var.residual)
           )
         } else {
           rsq <- tryCatch(
