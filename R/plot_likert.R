@@ -52,14 +52,14 @@
 #'          they exceed the axis range. E.g. \code{grid.range = 1.4} will set the axis from -140 to +140\%, however, only
 #'          (valid) axis labels from -100 to +100\% are printed. Neutral categories are adjusted to the most left limit.
 #' @param reverse.scale logical, if \code{TRUE}, the ordering of the categories is reversed, so positive and negative values switch position.
-#' @param factor.groups (optional) Must be a vector of same length as \code{ncol(items)},
+#' @param groups (optional) Must be a vector of same length as \code{ncol(items)},
 #'    where each item in this vector represents the group number
 #'    of the related columns of \code{items}. See 'Examples'.
-#' @param factor.groups.titles (optional, only used if groups are supplied) Titles for each factor group that will be used as table caption for each
-#'          component-table. Must be a character vector of same length as \code{length(unique(factor.groups))}.
+#' @param groups.titles (optional, only used if groups are supplied) Titles for each factor group that will be used as table caption for each
+#'          component-table. Must be a character vector of same length as \code{length(unique(groups))}.
 #'          Default is \code{"auto"}, which means that each table has a standard caption \emph{Component x}.
-#'          Use \code{NULL} to use names as supplied to \code{factor.groups} and use \code{FALSE} to suppress table captions.
-#' @param sort.groups (optional, only used if groups are supplied) logical, if groups should be sorted according to the values supplied to \code{factor.groups}. Defaults to \code{TRUE}.
+#'          Use \code{NULL} to use names as supplied to \code{groups} and use \code{FALSE} to suppress table captions.
+#' @param sort.groups (optional, only used if groups are supplied) logical, if groups should be sorted according to the values supplied to \code{groups}. Defaults to \code{TRUE}.
 #' @param legend.pos (optional, only used if groups are supplied) Defines the legend position. Possible values are \code{c("bottom", "top", "both", "all", "none")}.
 #'    If the is only one group or this option is set to \code{"all"} legends will be printed as defined with \code{\link{set_theme}}.
 #' @param rel_heights (optional, only used if groups are supplied) This option can be used to adjust the height of the subplots. The bars in subplots can have different heights due to a differing number of items
@@ -94,8 +94,8 @@
 #'
 #' plot_likert(mydf, c(2,1,1,1,1,2,2,2,1))
 #'
-#' factor.groups <- sjt.pca(mydf)$factor.index
-#' plot_likert(mydf, factor.groups = factor.groups)
+#' groups <- sjt.pca(mydf)$factor.index
+#' plot_likert(mydf, groups = groups)
 #'
 #' plot_likert(mydf,
 #'             c(rep("B", 4), rep("A", 5)),
@@ -118,8 +118,8 @@
 #' @export
 
 plot_likert <- function(items,
-                        factor.groups = NULL,
-                        factor.groups.titles = "auto",
+                        groups = NULL,
+                        groups.titles = "auto",
                         title = NULL,
                         legend.title = NULL,  # Options to be passed directly to .plot_likert()
                         legend.labels = NULL,
@@ -159,17 +159,18 @@ plot_likert <- function(items,
   .likert_options <- as.list(environment())[5:32]
 
   ## If now no groups are supplied only 1 group will be assumed. Check for cowplot is only performed if there are groups supplied.
-  if (is.null(factor.groups))
-    factor.groups <- rep(1, length.out = ncol(items))
-  else
+  if (is.null(groups)) {
+    groups <- rep(1, length.out = ncol(items))
+  } else {
     if (!requireNamespace("cowplot", quietly = T))
       stop("plot_likert_grp: Please install the package \"cowplot\"", call. = F)
+  }
 
-  if (ncol(items) != length(factor.groups))
+  if (ncol(items) != length(groups))
     stop("plot_likert_grp: Length of groups has to equal the number of items: ncol(items) != length(groups)", call. = F)
 
   # retrieve unique factor / group index values
-  findex <- unique(factor.groups)
+  findex <- unique(groups)
 
   if (sort.groups) findex <- sort(findex)
 
@@ -180,9 +181,10 @@ plot_likert <- function(items,
 
   # iterate all sub-plots (groups)
   for (i in seq_along(findex)) {
-    index <- which(factor.groups == findex[i])
+    index <- which(groups == findex[i])
 
     .pl <- do.call(".plot_likert", args = c(list(items[, index], title = title[i]), .likert_options))
+
     # If there are 2 or more groups, the legend will be plotted according to legend.pos.
     if (length(findex) != 1) {
       if (legend.pos %in% c("top", "both") & i == 1)
@@ -197,26 +199,31 @@ plot_likert <- function(items,
   }
 
   # Options to turn off or overwrite cowplot group.labels.
-  if (isFALSE(factor.groups.titles))
-    factor.groups.titles <- rep("", length(findex))
-  else if (!is.null(factor.groups.titles) && (factor.groups.titles[1] == "auto" || length(factor.groups.titles) != length(findex)) && (is.numeric(factor.groups))) {
-    factor.groups.titles <- sprintf("Component %i", seq_along(findex)) # For sjt.itemanalysis compatibility
-  } else if (length(factor.groups.titles) != length(findex))
-    factor.groups.titles <- findex
+  if (isFALSE(groups.titles)) {
+    groups.titles <- rep("", length(findex))
+  } else if (!is.null(groups.titles) && (groups.titles[1] == "auto" || length(groups.titles) != length(findex)) && (is.numeric(groups))) {
+    groups.titles <- sprintf("Component %i", seq_along(findex)) # For sjt.itemanalysis compatibility
+  } else if (length(groups.titles) != length(findex)) {
+    groups.titles <- findex
+  }
 
   # If groups were supplied, combine the subplots with cowplot::plot_grid()
-  if (length(findex) == 1)
+  if (length(findex) == 1) {
     .out <- .plot_list[[1]]
-  else
+  } else {
     .out <- do.call(get("plot_grid", asNamespace("cowplot")),
-                    args = c(list(
-                              "plotlist" = .plot_list,
-                              "labels" = factor.groups.titles,
-                              "rel_heights" = rel_heights,
-                              "ncol" = 1),
-                            cowplot.options))
+                    args = c(
+                      list(
+                        "plotlist" = .plot_list,
+                        "labels" = groups.titles,
+                        "rel_heights" = rel_heights,
+                        "ncol" = 1
+                      ),
+                      cowplot.options
+                    ))
+  }
 
-  return(.out)
+  .out
 }
 
 .plot_likert <- function(items,

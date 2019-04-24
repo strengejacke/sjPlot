@@ -4,7 +4,7 @@
 \alias{plot_likert}
 \title{Plot likert scales as centered stacked bars}
 \usage{
-plot_likert(items, factor.groups = NULL, factor.groups.titles = "auto",
+plot_likert(items, groups = NULL, groups.titles = "auto",
   title = NULL, legend.title = NULL, legend.labels = NULL,
   axis.titles = NULL, axis.labels = NULL, catcount = NULL,
   cat.neutral = NULL, sort.frq = NULL, weight.by = NULL,
@@ -21,14 +21,14 @@ plot_likert(items, factor.groups = NULL, factor.groups.titles = "auto",
 \arguments{
 \item{items}{Data frame, with each column representing one item.}
 
-\item{factor.groups}{(optional) Must be a vector of same length as \code{ncol(items)},
+\item{groups}{(optional) Must be a vector of same length as \code{ncol(items)},
 where each item in this vector represents the group number
 of the related columns of \code{items}. See 'Examples'.}
 
-\item{factor.groups.titles}{(optional, only used if groups are supplied) Titles for each factor group that will be used as table caption for each
-component-table. Must be a character vector of same length as \code{length(unique(factor.groups))}.
+\item{groups.titles}{(optional, only used if groups are supplied) Titles for each factor group that will be used as table caption for each
+component-table. Must be a character vector of same length as \code{length(unique(groups))}.
 Default is \code{"auto"}, which means that each table has a standard caption \emph{Component x}.
-Use \code{NULL} to use names as supplied to \code{factor.groups} and use \code{FALSE} to suppress table captions.}
+Use \code{NULL} to use names as supplied to \code{groups} and use \code{FALSE} to suppress table captions.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.
@@ -137,7 +137,7 @@ estimates or values.}
 
 \item{coord.flip}{logical, if \code{TRUE}, the x and y axis are swapped.}
 
-\item{sort.groups}{(optional, only used if groups are supplied) logical, if groups should be sorted according to the values supplied to \code{factor.groups}. Defaults to \code{TRUE}.}
+\item{sort.groups}{(optional, only used if groups are supplied) logical, if groups should be sorted according to the values supplied to \code{groups}. Defaults to \code{TRUE}.}
 
 \item{legend.pos}{(optional, only used if groups are supplied) Defines the legend position. Possible values are \code{c("bottom", "top", "both", "all", "none")}.
 If the is only one group or this option is set to \code{"all"} legends will be printed as defined with \code{\link{set_theme}}.}
@@ -186,8 +186,8 @@ plot_likert(
 
 plot_likert(mydf, c(2,1,1,1,1,2,2,2,1))
 
-factor.groups <- sjt.pca(mydf)$factor.index
-plot_likert(mydf, factor.groups = factor.groups)
+groups <- sjt.pca(mydf)$factor.index
+plot_likert(mydf, groups = groups)
 
 plot_likert(mydf,
             c(rep("B", 4), rep("A", 5)),
