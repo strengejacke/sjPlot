@@ -12,10 +12,16 @@
 
 ## Changes to functions
 
+### tab_model()
+
 * `tab_model()` gets a `show.ngrps`-argument, which adds back the functionality to print the number of random effects groups for mixed models.
+* `tab_model()` gets a `show.loglik`-argument, which adds back the functionality to print the model's log-Likelihood.
 * `tab_model()` gets a `strings`-argument, as convenient shortcut for setting column-header strings.
 * `tab_model()` and `plot_model()` get additional arguments `vcov.fun`, `vcov.type` and `vcov.args` that are passed down to `sjstats::robust()`, to calculate different types of (clustered) robust standard errors.
 * The `p.style`-argument now also allows printing both numeric p-values and asterisks, by using `p.style = "both"`.
+
+### plot_likert()
+
 * `plot_likert()` gets a `reverse.scale` argument to reverse the order of categories, so positive and negative values switch position.
 * `plot_likert()` gets a `groups` argument, to group items in the plot (thanks to @ndevln).
 * Argument `grid.range` in `plot_likert()` now may also be a vector of length 2, to define diffent length for the left and right x-axis scales.

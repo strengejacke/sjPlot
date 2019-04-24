@@ -328,6 +328,17 @@ model_aic <- function(x) {
 }
 
 
+#' @importFrom stats logLik
+model_loglik <- function(x) {
+  tryCatch(
+    {
+      stats::logLik(x)
+    },
+    error = function(x) { NULL }
+  )
+}
+
+
 #' @importFrom lme4 getME
 #' @importFrom stats deviance
 m_deviance <- function(x) {

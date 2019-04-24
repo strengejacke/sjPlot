@@ -49,6 +49,7 @@
 #' @param show.ngroups Logical, if \code{TRUE}, shows number of random effects groups
 #'    for mixed models.
 #' @param show.dev Logical, if \code{TRUE}, shows the deviance of the model.
+#' @param show.loglik Logical, if \code{TRUE}, shows the log-Likelihood of the model.
 #' @param show.ci Either logical, and if \code{TRUE}, the confidence intervals
 #'    is printed to the table; if \code{FALSE}, confidence intervals are
 #'    omitted. Or numeric, between 0 and 1, indicating the range of the
@@ -232,6 +233,7 @@ tab_model <- function(
   show.aic = FALSE,
   show.aicc = FALSE,
   show.dev = FALSE,
+  show.loglik = FALSE,
   show.obs = TRUE,
 
   terms = NULL,
@@ -673,6 +675,9 @@ tab_model <- function(
       aic <- NULL
       if (show.aic) aic <- model_aic(model)
 
+      loglik <- NULL
+      if (show.loglik) loglik <- model_loglik(model)
+
 
       ## TODO add F-Statistic
 
@@ -695,7 +700,8 @@ tab_model <- function(
         dev = dev,
         aic = aic,
         variances = vars,
-        n_re_grps = n_re_grps
+        n_re_grps = n_re_grps,
+        loglik = loglik
       )
     }
   )
@@ -724,6 +730,7 @@ tab_model <- function(
   aic.data <- purrr::map(model.list, ~.x[[8]])
   variance.data <- purrr::map(model.list, ~.x[[9]])
   ngrps.data <- purrr::map(model.list, ~.x[[10]])
+  loglik.data <- purrr::map(model.list, ~.x[[11]])
   is.zeroinf <- purrr::map_lgl(model.list, ~ !is.null(.x[[3]]))
 
   zeroinf.data <- purrr::compact(zeroinf.data)
@@ -1038,6 +1045,7 @@ tab_model <- function(
     aic.list = aic.data,
     variance.list = variance.data,
     ngrps.list = ngrps.data,
+    loglik.list = loglik.data,
     n.models = length(model.list),
     show.re.var = show.re.var,
     show.icc = show.icc,

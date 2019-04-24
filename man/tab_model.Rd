@@ -10,25 +10,25 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   show.df = FALSE, show.zeroinf = TRUE, show.r2 = TRUE,
   show.icc = TRUE, show.re.var = TRUE, show.ngroups = TRUE,
   show.fstat = FALSE, show.aic = FALSE, show.aicc = FALSE,
-  show.dev = FALSE, show.obs = TRUE, terms = NULL, rm.terms = NULL,
-  group.terms = TRUE, order.terms = NULL, title = NULL,
-  pred.labels = NULL, dv.labels = NULL, wrap.labels = 25,
-  vcov.fun = NULL, vcov.type = c("HC3", "const", "HC", "HC0", "HC1",
-  "HC2", "HC4", "HC4m", "HC5"), vcov.args = NULL,
-  string.pred = "Predictors", string.est = "Estimate",
-  string.std = "std. Beta", string.ci = "CI",
-  string.se = "std. Error", string.p = "p", string.df = "df",
-  string.stat = "Statistic", string.resp = "Response",
-  strings = NULL, ci.hyphen = "&nbsp;&ndash;&nbsp;",
-  minus.sign = "&#45;", collapse.ci = FALSE, collapse.se = FALSE,
-  linebreak = TRUE, col.order = c("est", "se", "std.est", "std.se",
-  "ci", "std.ci", "ci.inner", "ci.outer", "stat", "p", "df",
-  "response.level"), digits = 2, digits.p = 3, emph.p = TRUE,
-  p.val = c("wald", "kr"), p.style = c("numeric", "asterisk", "both"),
-  p.threshold = c(0.05, 0.01, 0.001), case = "parsed",
-  auto.label = TRUE, prefix.labels = c("none", "varname", "label"),
-  bpe = "median", CSS = css_theme("regression"), file = NULL,
-  use.viewer = TRUE)
+  show.dev = FALSE, show.loglik = FALSE, show.obs = TRUE,
+  terms = NULL, rm.terms = NULL, group.terms = TRUE,
+  order.terms = NULL, title = NULL, pred.labels = NULL,
+  dv.labels = NULL, wrap.labels = 25, vcov.fun = NULL,
+  vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m",
+  "HC5"), vcov.args = NULL, string.pred = "Predictors",
+  string.est = "Estimate", string.std = "std. Beta",
+  string.ci = "CI", string.se = "std. Error", string.p = "p",
+  string.df = "df", string.stat = "Statistic",
+  string.resp = "Response", strings = NULL,
+  ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;",
+  collapse.ci = FALSE, collapse.se = FALSE, linebreak = TRUE,
+  col.order = c("est", "se", "std.est", "std.se", "ci", "std.ci",
+  "ci.inner", "ci.outer", "stat", "p", "df", "response.level"),
+  digits = 2, digits.p = 3, emph.p = TRUE, p.val = c("wald", "kr"),
+  p.style = c("numeric", "asterisk", "both"), p.threshold = c(0.05,
+  0.01, 0.001), case = "parsed", auto.label = TRUE,
+  prefix.labels = c("none", "varname", "label"), bpe = "median",
+  CSS = css_theme("regression"), file = NULL, use.viewer = TRUE)
 }
 \arguments{
 \item{...}{One or more regression models, including glm's or mixed models.
@@ -97,6 +97,8 @@ in the table summary.}
 is printed in the table summary.}
 
 \item{show.dev}{Logical, if \code{TRUE}, shows the deviance of the model.}
+
+\item{show.loglik}{Logical, if \code{TRUE}, shows the log-Likelihood of the model.}
 
 \item{show.obs}{Logical, if \code{TRUE}, the number of observations per model is
 printed in the table summary.}

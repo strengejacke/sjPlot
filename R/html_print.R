@@ -260,6 +260,7 @@ tab_model_df <- function(x,
                          aic.list,
                          variance.list,
                          ngrps.list,
+                         loglik.list,
                          n.models,
                          title = NULL,
                          footnote = NULL,
@@ -722,6 +723,21 @@ tab_model_df <- function(x,
     page.content <- paste0(page.content, create_stats(
       data.list = aic.list,
       data.string = "AIC",
+      firstsumrow = firstsumrow,
+      summary.css = summary.css,
+      var.names = colnames(x),
+      n.cols = ncol(x)
+    ))
+    firstsumrow <- FALSE
+  }
+
+
+  # add aic ----
+
+  if (!is_empty_list(loglik.list)) {
+    page.content <- paste0(page.content, create_stats(
+      data.list = loglik.list,
+      data.string = "log-Likelihood",
       firstsumrow = firstsumrow,
       summary.css = summary.css,
       var.names = colnames(x),
