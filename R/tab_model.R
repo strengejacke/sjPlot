@@ -635,6 +635,9 @@ tab_model <- function(
             },
             error = function(x) { NULL }
           )
+          if (!is.null(rsq)) {
+            names(rsq) <- as.vector(sapply(rsq, names))
+          }
         }
       }
 
