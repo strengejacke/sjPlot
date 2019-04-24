@@ -46,6 +46,8 @@
 #'    for mixed models. See \code{\link[insight]{get_variance}} for details.
 #' @param show.icc Logical, if \code{TRUE}, prints the intraclass correlation
 #'    coefficient for mixed models. See \code{\link[performance]{icc}} for details.
+#' @param show.ngroups Logical, if \code{TRUE}, shows number of random effects groups
+#'    for mixed models.
 #' @param show.dev Logical, if \code{TRUE}, shows the deviance of the model.
 #' @param show.ci Either logical, and if \code{TRUE}, the confidence intervals
 #'    is printed to the table; if \code{FALSE}, confidence intervals are
@@ -202,7 +204,7 @@
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns add_case
 #' @importFrom sjstats std_beta
-#' @importFrom insight model_info is_multivariate
+#' @importFrom insight model_info is_multivariate get_random
 #' @importFrom performance r2
 #' @importFrom stats nobs
 #' @importFrom rlang .data
@@ -225,6 +227,7 @@ tab_model <- function(
   show.r2 = TRUE,
   show.icc = TRUE,
   show.re.var = TRUE,
+  show.ngroups = TRUE,
   show.fstat = FALSE,
   show.aic = FALSE,
   show.aicc = FALSE,
@@ -652,6 +655,16 @@ tab_model <- function(
       }
 
 
+      # Add number of random effect groups ----
+
+      n_re_grps <- NULL
+
+      if (show.ngroups && is_mixed_model(model)) {
+        n_re_grps <- sapply(insight::get_random(model), function(.i) length(unique(.i, na.rm = TRUE)))
+        names(n_re_grps) <- sprintf("ngrps.%s", names(n_re_grps))
+      }
+
+
       # Add deviance and AIC statistic ----
 
       dev <- NULL
@@ -681,7 +694,8 @@ tab_model <- function(
         icc = icc,
         dev = dev,
         aic = aic,
-        variances = vars
+        variances = vars,
+        n_re_grps = n_re_grps
       )
     }
   )
@@ -709,6 +723,7 @@ tab_model <- function(
   dev.data <- purrr::map(model.list, ~.x[[7]])
   aic.data <- purrr::map(model.list, ~.x[[8]])
   variance.data <- purrr::map(model.list, ~.x[[9]])
+  ngrps.data <- purrr::map(model.list, ~.x[[10]])
   is.zeroinf <- purrr::map_lgl(model.list, ~ !is.null(.x[[3]]))
 
   zeroinf.data <- purrr::compact(zeroinf.data)
@@ -1022,6 +1037,7 @@ tab_model <- function(
     dev.list = dev.data,
     aic.list = aic.data,
     variance.list = variance.data,
+    ngrps.list = ngrps.data,
     n.models = length(model.list),
     show.re.var = show.re.var,
     show.icc = show.icc,

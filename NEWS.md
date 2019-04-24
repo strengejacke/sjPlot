@@ -12,6 +12,7 @@
 
 ## Changes to functions
 
+* `tab_model()` gets a `show.ngrps`-argument, which adds back the functionality to print the number of random effects groups for mixed models.
 * `tab_model()` gets a `strings`-argument, as convenient shortcut for setting column-header strings.
 * `tab_model()` and `plot_model()` get additional arguments `vcov.fun`, `vcov.type` and `vcov.args` that are passed down to `sjstats::robust()`, to calculate different types of (clustered) robust standard errors.
 * The `p.style`-argument now also allows printing both numeric p-values and asterisks, by using `p.style = "both"`.

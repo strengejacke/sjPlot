@@ -259,6 +259,7 @@ tab_model_df <- function(x,
                          dev.list,
                          aic.list,
                          variance.list,
+                         ngrps.list,
                          n.models,
                          title = NULL,
                          footnote = NULL,
@@ -550,6 +551,27 @@ tab_model_df <- function(x,
   }
 
 
+  if (!is_empty_list(ngrps.list)) {
+
+    ngrps.len <- max(purrr::map_dbl(ngrps.list, length))
+
+    page.content <- paste0(
+      page.content,
+      create_random_effects(
+        rv.len = ngrps.len,
+        rv = ngrps.list,
+        rv.string = "N",
+        clean.rv = "",
+        var.names = colnames(x),
+        summary.css = summary.css,
+        n.cols = ncol(x),
+        delim = "ngrps.",
+        as_int = TRUE
+      ))
+
+  }
+
+
   # add no of observations ----
 
   if (!is_empty_list(n_obs.list)) {
@@ -762,7 +784,7 @@ tab_model_df <- function(x,
 }
 
 
-create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, summary.css, n.cols, delim = "_") {
+create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, summary.css, n.cols, delim = "_", as_int = FALSE) {
   page.content <- ""
   pattern <- paste0("^", clean.rv, delim)
 
@@ -806,16 +828,29 @@ create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, su
         else
           suffix <- ""
 
-        page.content <- paste0(
-          page.content,
-          sprintf(
-            "    <td class=\"%s\" colspan=\"%i\">%.2f%s</td>\n",
-            s_css,
-            as.integer(colspan),
-            rv[[j]][i],
-            suffix
+        if (as_int) {
+          page.content <- paste0(
+            page.content,
+            sprintf(
+              "    <td class=\"%s\" colspan=\"%i\">%i%s</td>\n",
+              s_css,
+              as.integer(colspan),
+              as.integer(rv[[j]][i]),
+              suffix
+            )
           )
-        )
+        } else {
+          page.content <- paste0(
+            page.content,
+            sprintf(
+              "    <td class=\"%s\" colspan=\"%i\">%.2f%s</td>\n",
+              s_css,
+              as.integer(colspan),
+              rv[[j]][i],
+              suffix
+            )
+          )
+        }
 
       }
     }
