@@ -635,8 +635,18 @@ tab_model <- function(
             },
             error = function(x) { NULL }
           )
+
+          # fix names of r-squared values
+
           if (!is.null(rsq)) {
-            names(rsq) <- as.vector(sapply(rsq, names))
+            r_has_names <- sapply(rsq, function(.n) !is.null(names(.n)))
+            if (all(r_has_names)) {
+              rnames <- as.vector(sapply(rsq, names))
+            } else {
+              rnames <- names(rsq)
+            }
+            rnames <- sub("_", " ", rnames)
+            names(rsq) <- rnames
           }
         }
       }
