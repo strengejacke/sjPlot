@@ -225,7 +225,7 @@ sjp.xtab(efc$e42dep, efc$e16sex)
 # load the ggplot2-library.
 library(ggplot2)
 set_theme(base = theme_classic())
-sjp.frq(efc$e42dep)
+plot_frq(efc$e42dep)
 
 # adjust value labels
 set_theme(
@@ -243,7 +243,7 @@ set_theme(
   base = theme_classic(), axis.linecolor = "grey50",
   axis.textcolor = "#6699cc"
 )
-sjp.frq(efc$e42dep)}
+plot_frq(efc$e42dep)}
 
 }
 \seealso{

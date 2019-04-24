@@ -1,7 +1,7 @@
 utils::globalVariables("density")
 
 #' @title Plot frequencies of variables
-#' @name sjp.frq
+#' @name plot_frq
 #'
 #' @description Plot frequencies of a variable as bar graph, histogram,
 #'                box plot etc.
@@ -60,34 +60,34 @@ utils::globalVariables("density")
 #' data(efc)
 #'
 #' # boxplot
-#' sjp.frq(efc$e17age, type = "box")
+#' plot_frq(efc$e17age, type = "box")
 #'
 #' # histogram
-#' sjp.frq(efc$e17age, type = "hist", show.mean = TRUE)
+#' plot_frq(efc$e17age, type = "hist", show.mean = TRUE)
 #'
 #' # violin plot
-#' sjp.frq(efc$e17age, type = "v")
+#' plot_frq(efc$e17age, type = "v")
 #'
 #' # bar plot
-#' sjp.frq(efc$e42dep)
+#' plot_frq(efc$e42dep)
 #'
 #' library(sjmisc)
 #' # grouped variable
 #' ageGrp <- group_var(efc$e17age)
 #' ageGrpLab <- group_labels(efc$e17age)
-#' sjp.frq(ageGrp, title = get_label(efc$e17age), axis.labels = ageGrpLab)
+#' plot_frq(ageGrp, title = get_label(efc$e17age), axis.labels = ageGrpLab)
 #'
 #' # plotting confidence intervals. expand grid and v/hjust for text labels
-#' sjp.frq(
+#' plot_frq(
 #'   efc$e15relat, type = "dot", show.ci = TRUE, sort.frq = "desc",
 #'   coord.flip = TRUE, expand.grid = TRUE, vjust = "bottom", hjust = "left"
 #' )
 #'
 #' # Simulate ggplot-default histogram
-#' sjp.frq(efc$c160age, type = "h", geom.size = 3)
+#' plot_frq(efc$c160age, type = "h", geom.size = 3)
 #'
 #' # histogram with overlayed normal curve
-#' sjp.frq(efc$c160age, type = "h", show.mean = TRUE, show.mean.val = TRUE,
+#' plot_frq(efc$c160age, type = "h", show.mean = TRUE, show.mean.val = TRUE,
 #'         normal.curve = TRUE, show.sd = TRUE, normal.curve.color = "blue",
 #'         normal.curve.size = 3, ylim = c(0,50))
 #'
@@ -98,7 +98,7 @@ utils::globalVariables("density")
 #' @importFrom stats na.omit sd weighted.mean dnorm
 #' @importFrom rlang .data
 #' @export
-sjp.frq <- function(var.cnt,
+plot_frq <- function(var.cnt,
                     title = "",
                     weight.by = NULL,
                     title.wtd.suffix = NULL,
