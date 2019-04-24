@@ -115,6 +115,7 @@ sjt.xtab <- function(var.row,
                      show.legend = FALSE,
                      show.na = FALSE,
                      show.summary = TRUE,
+                     drop.empty = TRUE,
                      statistics = c("auto", "cramer", "phi", "spearman", "kendall", "pearson", "fisher"),
                      string.total = "Total",
                      digits = 1,
@@ -153,6 +154,13 @@ sjt.xtab <- function(var.row,
   # --------------------------------------------------------
   var.name.row <- get_var_name(deparse(substitute(var.row)))
   var.name.col <- get_var_name(deparse(substitute(var.col)))
+
+  # remove empty value-labels
+  if (drop.empty) {
+    var.row <- sjlabelled::drop_labels(var.row)
+    var.col <- sjlabelled::drop_labels(var.col)
+  }
+
   # --------------------------------------------------------
   # create cross table of frequencies and percentages
   # --------------------------------------------------------

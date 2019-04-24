@@ -100,6 +100,7 @@ sjp.xtab <- function(x,
                      show.legend = TRUE,
                      show.summary = FALSE,
                      summary.pos = "r",
+                     drop.empty = TRUE,
                      string.total = "Total",
                      wrap.title = 50,
                      wrap.labels = 15,
@@ -128,6 +129,13 @@ sjp.xtab <- function(x,
   bar.pos <- match.arg(bar.pos)
   type <- match.arg(type)
   margin <- match.arg(margin)
+
+  # remove empty value-labels
+  if (drop.empty) {
+    x <- sjlabelled::drop_labels(x)
+    grp <- sjlabelled::drop_labels(grp)
+  }
+
   # --------------------------------------------------------
   # copy titles
   # --------------------------------------------------------

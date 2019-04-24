@@ -52,6 +52,7 @@ utils::globalVariables("density")
 #'          \code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}
 #'
 #' @inheritParams sjp.grpfrq
+#' @inheritParams sjt.xtab
 #'
 #' @return A ggplot-object.
 #'
@@ -94,7 +95,7 @@ utils::globalVariables("density")
 #' @import ggplot2
 #' @importFrom sjstats wtd_sd
 #' @importFrom sjmisc group_labels group_var to_value
-#' @importFrom sjlabelled set_labels
+#' @importFrom sjlabelled set_labels drop_labels
 #' @importFrom stats na.omit sd weighted.mean dnorm
 #' @importFrom rlang .data
 #' @export
@@ -124,6 +125,7 @@ plot_frq <- function(var.cnt,
                     show.mean = FALSE,
                     show.mean.val = TRUE,
                     show.sd = TRUE,
+                    drop.empty = TRUE,
                     mean.line.type = 2,
                     mean.line.size = 0.5,
                     inner.box.width = 0.15,
@@ -141,6 +143,12 @@ plot_frq <- function(var.cnt,
   # get variable name, used as default label if variable
   # has no label attributes
   var.name <- get_var_name(deparse(substitute(var.cnt)))
+
+  # remove empty value-labels
+  if (drop.empty) {
+    var.cnt <- sjlabelled::drop_labels(var.cnt)
+  }
+
 
   # try to find some useful default offsets for textlabels,
   # depending on plot range and flipped coordinates

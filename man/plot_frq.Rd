@@ -13,8 +13,8 @@ plot_frq(var.cnt, title = "", weight.by = NULL,
   grid.breaks = NULL, expand.grid = FALSE, show.values = TRUE,
   show.n = TRUE, show.prc = TRUE, show.axis.values = TRUE,
   show.ci = FALSE, show.na = FALSE, show.mean = FALSE,
-  show.mean.val = TRUE, show.sd = TRUE, mean.line.type = 2,
-  mean.line.size = 0.5, inner.box.width = 0.15,
+  show.mean.val = TRUE, show.sd = TRUE, drop.empty = TRUE,
+  mean.line.type = 2, mean.line.size = 0.5, inner.box.width = 0.15,
   inner.box.dotsize = 3, normal.curve = FALSE,
   normal.curve.color = "red", normal.curve.size = 0.8,
   normal.curve.alpha = 0.4, auto.group = NULL, coord.flip = FALSE,
@@ -121,6 +121,11 @@ mean. Only applies to histogram-charts.}
 \item{show.sd}{Logical, if \code{TRUE}, the standard deviation
 is annotated as shaded rectangle around the mean intercept
 line. Only applies to histogram-charts.}
+
+\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labelled,
+values that have no observations are still printed in the table (with
+frequency \code{0}). If \code{FALSE}, values / factor levels with no occurence
+in the data are omitted from the output.}
 
 \item{mean.line.type}{Numeric value, indicating the linetype of the mean
 intercept line. Only applies to histogram-charts and

@@ -8,14 +8,15 @@ sjt.xtab(var.row, var.col, weight.by = NULL, title = NULL,
   var.labels = NULL, value.labels = NULL, wrap.labels = 20,
   show.obs = TRUE, show.cell.prc = FALSE, show.row.prc = FALSE,
   show.col.prc = FALSE, show.exp = FALSE, show.legend = FALSE,
-  show.na = FALSE, show.summary = TRUE, statistics = c("auto",
-  "cramer", "phi", "spearman", "kendall", "pearson", "fisher"),
-  string.total = "Total", digits = 1, tdcol.n = "black",
-  tdcol.expected = "#339999", tdcol.cell = "#993333",
-  tdcol.row = "#333399", tdcol.col = "#339933", emph.total = FALSE,
-  emph.color = "#f8f8f8", prc.sign = "&nbsp;&#37;",
-  hundret = "100.0", CSS = NULL, encoding = NULL, file = NULL,
-  use.viewer = TRUE, remove.spaces = TRUE, ...)
+  show.na = FALSE, show.summary = TRUE, drop.empty = TRUE,
+  statistics = c("auto", "cramer", "phi", "spearman", "kendall",
+  "pearson", "fisher"), string.total = "Total", digits = 1,
+  tdcol.n = "black", tdcol.expected = "#339999",
+  tdcol.cell = "#993333", tdcol.row = "#333399",
+  tdcol.col = "#339933", emph.total = FALSE, emph.color = "#f8f8f8",
+  prc.sign = "&nbsp;&#37;", hundret = "100.0", CSS = NULL,
+  encoding = NULL, file = NULL, use.viewer = TRUE,
+  remove.spaces = TRUE, ...)
 }
 \arguments{
 \item{var.row}{Variable that should be displayed in the table rows.}
@@ -57,6 +58,11 @@ are added to the output.}
 \item{show.summary}{Logical, if \code{TRUE}, a summary row with
 chi-squared statistics, degrees of freedom and Cramer's V or Phi
 coefficient and p-value for the chi-squared statistics.}
+
+\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labelled,
+values that have no observations are still printed in the table (with
+frequency \code{0}). If \code{FALSE}, values / factor levels with no occurence
+in the data are omitted from the output.}
 
 \item{statistics}{Name of measure of association that should be computed. May
 be one of \code{"auto"}, \code{"cramer"}, \code{"phi"}, \code{"spearman"},

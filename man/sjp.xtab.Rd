@@ -10,12 +10,12 @@ sjp.xtab(x, grp, type = c("bar", "line"), margin = c("col", "cell",
   legend.title = NULL, legend.labels = NULL, weight.by = NULL,
   rev.order = FALSE, show.values = TRUE, show.n = TRUE,
   show.prc = TRUE, show.total = TRUE, show.legend = TRUE,
-  show.summary = FALSE, summary.pos = "r", string.total = "Total",
-  wrap.title = 50, wrap.labels = 15, wrap.legend.title = 20,
-  wrap.legend.labels = 20, geom.size = 0.7, geom.spacing = 0.1,
-  geom.colors = "Paired", dot.size = 3, smooth.lines = FALSE,
-  grid.breaks = 0.2, expand.grid = FALSE, ylim = NULL,
-  vjust = "bottom", hjust = "center", y.offset = NULL,
+  show.summary = FALSE, summary.pos = "r", drop.empty = TRUE,
+  string.total = "Total", wrap.title = 50, wrap.labels = 15,
+  wrap.legend.title = 20, wrap.legend.labels = 20, geom.size = 0.7,
+  geom.spacing = 0.1, geom.colors = "Paired", dot.size = 3,
+  smooth.lines = FALSE, grid.breaks = 0.2, expand.grid = FALSE,
+  ylim = NULL, vjust = "bottom", hjust = "center", y.offset = NULL,
   coord.flip = FALSE)
 }
 \arguments{
@@ -85,6 +85,11 @@ than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
 \item{summary.pos}{position of the model summary which is printed when \code{show.summary}
 is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner.
 Use \code{"l"} for upper left corner.}
+
+\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labelled,
+values that have no observations are still printed in the table (with
+frequency \code{0}). If \code{FALSE}, values / factor levels with no occurence
+in the data are omitted from the output.}
 
 \item{string.total}{String for the legend label when a total-column is added. Only applies
 if \code{show.total = TRUE}. Default is \code{"Total"}.}

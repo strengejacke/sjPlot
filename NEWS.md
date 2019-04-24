@@ -2,7 +2,7 @@
 
 ## General
 
-* Export `dplyr::n()`, to meet forthcoming changes in dplyr 0.8.0.
+* Export `dplyr::n()`, to meet changes in dplyr 0.8.0.
 * `plot_model()` and `tab_model()` now support `MixMod`-objects from package **GLMMadpative**, `mlogit`- and `gmnl`-models.
 
 ## Renamed functions
@@ -29,6 +29,7 @@
 ## Other
 
 * `plot_model()` gets additional arguments `vcov.fun`, `vcov.type` and `vcov.args` that are passed down to `sjstats::robust()`, to calculate different types of (clustered) robust standard errors.
+* `sjt.xtab()`, `sjp.xtab()`, `plot_frq()` and `sjp.grpfrq()` get a `drop.empty()`-argument, to drop values / factor levels with no observations from output.
 
 ## Bug fixes
 

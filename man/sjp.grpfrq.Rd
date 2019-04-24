@@ -14,11 +14,11 @@ sjp.grpfrq(var.cnt, var.grp, type = c("bar", "dot", "line", "boxplot",
   show.values = TRUE, show.n = TRUE, show.prc = TRUE,
   show.axis.values = TRUE, show.ci = FALSE, show.grpcnt = FALSE,
   show.legend = TRUE, show.na = FALSE, show.summary = FALSE,
-  auto.group = NULL, ylim = NULL, grid.breaks = NULL,
-  expand.grid = FALSE, inner.box.width = 0.15, inner.box.dotsize = 3,
-  smooth.lines = FALSE, emph.dots = TRUE, summary.pos = "r",
-  facet.grid = FALSE, coord.flip = FALSE, y.offset = NULL,
-  vjust = "bottom", hjust = "center")
+  drop.empty = TRUE, auto.group = NULL, ylim = NULL,
+  grid.breaks = NULL, expand.grid = FALSE, inner.box.width = 0.15,
+  inner.box.dotsize = 3, smooth.lines = FALSE, emph.dots = TRUE,
+  summary.pos = "r", facet.grid = FALSE, coord.flip = FALSE,
+  y.offset = NULL, vjust = "bottom", hjust = "center")
 }
 \arguments{
 \item{var.cnt}{Vector of counts, for which frequencies or means will be plotted or printed.}
@@ -124,6 +124,11 @@ if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is
 computed instead of chi-squared test. If the table's matrix is larger
 than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
 
+\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labelled,
+values that have no observations are still printed in the table (with
+frequency \code{0}). If \code{FALSE}, values / factor levels with no occurence
+in the data are omitted from the output.}
+
 \item{auto.group}{numeric value, indicating the minimum amount of unique values
 in the count variable, at which automatic grouping into smaller units
 is done (see \code{\link[sjmisc]{group_var}}). Default value for
@@ -216,5 +221,13 @@ sjp.grpfrq(efc$neg_c_7, efc$e42dep, show.values = FALSE)
 
 # same data as line plot
 sjp.grpfrq(efc$neg_c_7, efc$e42dep, type = "line")
+
+# show ony categories where we have data (i.e. drop zero-counts)
+library(dplyr)
+efc <- dplyr::filter(efc, e42dep \%in\% c(3,4))
+sjp.grpfrq(efc$c161sex, efc$e42dep, drop.empty = TRUE)
+
+# show all categories, even if not in data
+sjp.grpfrq(efc$c161sex, efc$e42dep, drop.empty = FALSE)
 
 }
