@@ -244,7 +244,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     dplyr::select(.data$CI_low, .data$CI_high) %>%
     sjmisc::var_rename(CI_low = "conf.low50", CI_high = "conf.high50") %>%
     sjmisc::add_columns(d1) %>%
-    sjmisc::var_rename(CI_low = "conf.low", CI_high = "conf.high") %>%
+    sjmisc::var_rename(CI_low = "conf.low", CI_high = "conf.high", Parameter = "term") %>%
     dplyr::select(-.data$CI)
 
   # for brmsfit models, we need to remove some columns here to
