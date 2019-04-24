@@ -127,8 +127,8 @@
 #'   \pkg{pbkrtest}-package. In this case, use \code{show.df = TRUE} to show
 #'   the approximated degrees of freedom for each coefficient.
 #' @param p.style Character, indicating if p-values should be printed as
-#'   numeric value (\code{"numeric"}) or as asterisks (\code{"asterisk"}).
-#'   May be abbreviated.
+#'   numeric value (\code{"numeric"}), as asterisks (\code{"asterisk"})
+#'   or both (\code{"both"}). May be abbreviated.
 #' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions,
 #'    according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
 #'    See 'Details' or \href{../doc/table_css.html}{this package-vignette}.
@@ -281,7 +281,7 @@ tab_model <- function(
   digits.p = 3,
   emph.p = TRUE,
   p.val = c("wald", "kr"),
-  p.style = c("numeric", "asterisk"),
+  p.style = c("numeric", "asterisk", "both"),
   p.threshold = c(0.05, 0.01, 0.001),
 
   case = "parsed",
@@ -488,7 +488,7 @@ tab_model <- function(
 
       # add asterisks to estimates ----
 
-      if (p.style == "asterisk") {
+      if (p.style %in% c("asterisk", "both")) {
         if (obj_has_name(dat, "estimate"))
           dat$estimate <- sprintf("%.*f <sup>%s</sup>", digits, dat$estimate, dat$p.stars)
         if (!show.est && obj_has_name(dat, "std.estimate"))
@@ -998,7 +998,7 @@ tab_model <- function(
   })
 
 
-  if (p.style == "asterisk")
+  if (p.style %in% c("asterisk", "both"))
     footnote <- sprintf(
       "* p&lt;%s&nbsp;&nbsp;&nbsp;** p&lt;%s&nbsp;&nbsp;&nbsp;*** p&lt;%s",
       format(p.threshold[1]),

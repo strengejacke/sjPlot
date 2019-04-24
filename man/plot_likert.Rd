@@ -16,7 +16,8 @@ plot_likert(items, groups = NULL, groups.titles = "auto",
   show.prc.sign = FALSE, grid.range = 1, grid.breaks = 0.2,
   expand.grid = TRUE, digits = 1, reverse.scale = FALSE,
   coord.flip = TRUE, sort.groups = TRUE, legend.pos = "bottom",
-  rel_heights = 1, cowplot.options = list(label_x = 0.01, hjust = 0))
+  rel_heights = 1, cowplot.options = list(label_x = 0.01, hjust = 0,
+  align = "v"))
 }
 \arguments{
 \item{items}{Data frame, with each column representing one item.}

@@ -24,7 +24,7 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   linebreak = TRUE, col.order = c("est", "se", "std.est", "std.se",
   "ci", "std.ci", "ci.inner", "ci.outer", "stat", "p", "df",
   "response.level"), digits = 2, digits.p = 3, emph.p = TRUE,
-  p.val = c("wald", "kr"), p.style = c("numeric", "asterisk"),
+  p.val = c("wald", "kr"), p.style = c("numeric", "asterisk", "both"),
   p.threshold = c(0.05, 0.01, 0.001), case = "parsed",
   auto.label = TRUE, prefix.labels = c("none", "varname", "label"),
   bpe = "median", CSS = css_theme("regression"), file = NULL,
@@ -226,8 +226,8 @@ with Kenward-Roger approximation for the degrees of freedom, using the
 the approximated degrees of freedom for each coefficient.}
 
 \item{p.style}{Character, indicating if p-values should be printed as
-numeric value (\code{"numeric"}) or as asterisks (\code{"asterisk"}).
-May be abbreviated.}
+numeric value (\code{"numeric"}), as asterisks (\code{"asterisk"})
+or both (\code{"both"}). May be abbreviated.}
 
 \item{p.threshold}{Numeric vector of length 3, indicating the treshold for
 annotating p-values with asterisks. Only applies if

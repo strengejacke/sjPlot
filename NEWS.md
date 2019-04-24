@@ -5,6 +5,11 @@
 * Export `dplyr::n()`, to meet forthcoming changes in dplyr 0.8.0.
 * `plot_model()` and `tab_model()` now support `MixMod`-objects from package **GLMMadpative**, `mlogit`- and `gmnl`-models.
 
+## Renamed functions
+
+* `sjp.kfold_cv()` was renamed to `plot_kfold_cv()`.
+* `sjp.frq()` was renamed to `plot_frq()`.
+
 ## Changes to functions
 
 * `tab_model()` gets a `strings`-argument, as convenient shortcut for setting column-header strings.
