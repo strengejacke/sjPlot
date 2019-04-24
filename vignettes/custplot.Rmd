@@ -119,7 +119,7 @@ You can use any pre-defined theme from ggplot, like `theme_bw()`, `theme_classic
 
 ```{r}
 set_theme(base = theme_light())
-sjp.frq(efc$e42dep)
+plot_frq(efc$e42dep)
 ```
 
 ## Pre-defined themes
@@ -165,7 +165,7 @@ show_sjplot_pals()
 If you want to use a specific theme as base for building your own theme, use the `base` argument. When using `base` instead of `theme`, further arguments for settings colors etc. are not ignored.
 ```{r}
 set_theme(base = theme_bw(), axis.linecolor = "darkgreen")
-sjp.frq(efc$e42dep)
+plot_frq(efc$e42dep)
 ```
 
 

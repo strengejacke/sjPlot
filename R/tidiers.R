@@ -229,10 +229,14 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
   d1 <- bayestestR::ci(model, ci = p.outer, effects = ty)
   d2 <- bayestestR::ci(model, ci = p.inner, effects = ty)
 
-  d1$CI_low <- tf(d1$CI_low)
-  d1$CI_high <- tf(d1$CI_high)
-  d2$CI_low <- tf(d2$CI_low)
-  d2$CI_high <- tf(d2$CI_high)
+  if (!is.null(tf)) {
+    funtrans <- match.fun(tf)
+
+    d1$CI_low <- funtrans(d1$CI_low)
+    d1$CI_high <- funtrans(d1$CI_high)
+    d2$CI_low <- funtrans(d2$CI_low)
+    d2$CI_high <- funtrans(d2$CI_high)
+  }
 
   # bind columns, so we have inner and outer hdi interval
 
