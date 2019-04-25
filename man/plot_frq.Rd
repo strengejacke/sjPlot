@@ -206,13 +206,14 @@ efc \%>\%
   dplyr::select(e17age, c160age) \%>\%
   plot_frq(type = "hist", show.mean = TRUE)
 
-# bar plot
-plot_frq(efc$e42dep)
+# bar plot(s)
 plot_frq(efc, e42dep, c172code)
 
-# grouped data
-x <- group_by(efc, c172code)
-plot_frq(x, e42dep)
+# grouped data frame, all panels in one plot
+efc \%>\%
+  group_by(e42dep) \%>\%
+  plot_frq(c161sex) \%>\%
+  plot_grid()
 
 library(sjmisc)
 # grouped variable
