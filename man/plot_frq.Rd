@@ -4,7 +4,7 @@
 \alias{plot_frq}
 \title{Plot frequencies of variables}
 \usage{
-plot_frq(var.cnt, title = "", weight.by = NULL,
+plot_frq(data, ..., title = "", weight.by = NULL,
   title.wtd.suffix = NULL, sort.frq = c("none", "asc", "desc"),
   type = c("bar", "dot", "histogram", "line", "density", "boxplot",
   "violin"), geom.size = NULL, geom.colors = "#336699",
@@ -21,12 +21,18 @@ plot_frq(var.cnt, title = "", weight.by = NULL,
   vjust = "bottom", hjust = "center", y.offset = NULL)
 }
 \arguments{
-\item{var.cnt}{Vector of counts, for which frequencies or means will be plotted or printed.}
+\item{data}{A data frame, or a grouped data frame.}
 
-\item{title}{character vector, used as plot title. Depending on plot type and function,
-will be set automatically. If \code{title = ""}, no title is printed.
-For effect-plots, may also be a character vector of length > 1,
-to define titles for each sub-plot or facet.}
+\item{...}{Optional, unquoted names of variables that should be selected for
+further processing. Required, if \code{data} is a data frame (and no
+vector) and only selected variables from \code{data} should be processed.
+You may also use functions like \code{:} or tidyselect's
+\code{\link[tidyselect]{select_helpers}}.}
+
+\item{title}{Character vector, used as plot title. By default,
+\code{\link[sjlabelled]{get_dv_labels}} is called to retrieve the label of
+the dependent variable, which will be used as title. Use \code{title = ""}
+to remove title.}
 
 \item{weight.by}{Vector of weights that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is
@@ -80,8 +86,8 @@ x-axis fits to the required range of the data.}
 of the y scale. By default, this argument is set to \code{NULL}, i.e. the
 y-axis fits to the required range of the data.}
 
-\item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
-one line and when a line break is inserted.}
+\item{wrap.title}{Numeric, determines how many chars of the plot title are
+displayed in one line and when a line break is inserted.}
 
 \item{wrap.labels}{numeric, determines how many chars of the value, variable or axis
 labels are displayed in one line and when a line break is inserted.}
@@ -180,29 +186,33 @@ to the top/bottom of the geom (see \code{hjust} and \code{vjust}).}
 A ggplot-object.
 }
 \description{
-Plot frequencies of a variable as bar graph, histogram,
-               box plot etc.
+Plot frequencies of a variable as bar graph, histogram, box plot etc.
 }
 \note{
 This function only works with variables with integer values (or numeric
-        factor levels), i.e. scales / centred variables
-        with decimals may result in unexpected behaviour.
+        factor levels), i.e. scales / centered variables
+        with fractional part may result in unexpected behaviour.
 }
 \examples{
 library(sjlabelled)
+library(dplyr)
 data(efc)
 
 # boxplot
 plot_frq(efc$e17age, type = "box")
 
-# histogram
-plot_frq(efc$e17age, type = "hist", show.mean = TRUE)
-
-# violin plot
-plot_frq(efc$e17age, type = "v")
+# histogram, pipe-workflow
+efc \%>\%
+  dplyr::select(e17age, c160age) \%>\%
+  plot_frq(type = "hist", show.mean = TRUE)
 
 # bar plot
 plot_frq(efc$e42dep)
+plot_frq(efc, e42dep, c172code)
+
+# grouped data
+x <- group_by(efc, c172code)
+plot_frq(x, e42dep)
 
 library(sjmisc)
 # grouped variable
@@ -215,9 +225,6 @@ plot_frq(
   efc$e15relat, type = "dot", show.ci = TRUE, sort.frq = "desc",
   coord.flip = TRUE, expand.grid = TRUE, vjust = "bottom", hjust = "left"
 )
-
-# Simulate ggplot-default histogram
-plot_frq(efc$c160age, type = "h", geom.size = 3)
 
 # histogram with overlayed normal curve
 plot_frq(efc$c160age, type = "h", show.mean = TRUE, show.mean.val = TRUE,

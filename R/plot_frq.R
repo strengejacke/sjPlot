@@ -3,13 +3,17 @@ utils::globalVariables("density")
 #' @title Plot frequencies of variables
 #' @name plot_frq
 #'
-#' @description Plot frequencies of a variable as bar graph, histogram,
-#'                box plot etc.
+#' @description Plot frequencies of a variable as bar graph, histogram, box plot etc.
 #'
 #' @note This function only works with variables with integer values (or numeric
-#'         factor levels), i.e. scales / centred variables
-#'         with decimals may result in unexpected behaviour.
+#'         factor levels), i.e. scales / centered variables
+#'         with fractional part may result in unexpected behaviour.
 #'
+#' @param ... Optional, unquoted names of variables that should be selected for
+#'   further processing. Required, if \code{data} is a data frame (and no
+#'   vector) and only selected variables from \code{data} should be processed.
+#'   You may also use functions like \code{:} or tidyselect's
+#'   \code{\link[tidyselect]{select_helpers}}.
 #' @param sort.frq Determines whether categories should be sorted
 #'          according to their frequencies or not. Default is \code{"none"}, so
 #'          categories are not sorted by frequency. Use \code{"asc"} or
@@ -51,6 +55,7 @@ utils::globalVariables("density")
 #'          cases, use the return value and add axis titles manually with
 #'          \code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}
 #'
+#' @inheritParams plot_scatter
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjt.xtab
 #'
@@ -58,19 +63,24 @@ utils::globalVariables("density")
 #'
 #' @examples
 #' library(sjlabelled)
+#' library(dplyr)
 #' data(efc)
 #'
 #' # boxplot
 #' plot_frq(efc$e17age, type = "box")
 #'
-#' # histogram
-#' plot_frq(efc$e17age, type = "hist", show.mean = TRUE)
-#'
-#' # violin plot
-#' plot_frq(efc$e17age, type = "v")
+#' # histogram, pipe-workflow
+#' efc %>%
+#'   dplyr::select(e17age, c160age) %>%
+#'   plot_frq(type = "hist", show.mean = TRUE)
 #'
 #' # bar plot
 #' plot_frq(efc$e42dep)
+#' plot_frq(efc, e42dep, c172code)
+#'
+#' # grouped data
+#' x <- group_by(efc, c172code)
+#' plot_frq(x, e42dep)
 #'
 #' library(sjmisc)
 #' # grouped variable
@@ -84,9 +94,6 @@ utils::globalVariables("density")
 #'   coord.flip = TRUE, expand.grid = TRUE, vjust = "bottom", hjust = "left"
 #' )
 #'
-#' # Simulate ggplot-default histogram
-#' plot_frq(efc$c160age, type = "h", geom.size = 3)
-#'
 #' # histogram with overlayed normal curve
 #' plot_frq(efc$c160age, type = "h", show.mean = TRUE, show.mean.val = TRUE,
 #'         normal.curve = TRUE, show.sd = TRUE, normal.curve.color = "blue",
@@ -99,7 +106,8 @@ utils::globalVariables("density")
 #' @importFrom stats na.omit sd weighted.mean dnorm
 #' @importFrom rlang .data
 #' @export
-plot_frq <- function(var.cnt,
+plot_frq <- function(data,
+                     ...,
                     title = "",
                     weight.by = NULL,
                     title.wtd.suffix = NULL,
@@ -140,9 +148,76 @@ plot_frq <- function(var.cnt,
                     hjust = "center",
                     y.offset = NULL) {
 
-  # get variable name, used as default label if variable
-  # has no label attributes
-  var.name <- get_var_name(deparse(substitute(var.cnt)))
+  # Match arguments -----
+  type <- match.arg(type)
+  sort.frq <- match.arg(sort.frq)
+
+  plot_data  <- get_dplyr_dot_data(data, dplyr::quos(...))
+
+  if (!is.data.frame(plot_data)) {
+    plot_data <- data.frame(plot_data, stringsAsFactors = FALSE)
+    colnames(plot_data) <- deparse(substitute(data))
+  }
+
+  pl <- NULL
+
+  if (inherits(plot_data, "grouped_df")) {
+    # get grouped data
+    grps <- get_grouped_data(plot_data)
+
+    # now plot everything
+    for (i in seq_len(nrow(grps))) {
+      # copy back labels to grouped data frame
+      tmp <- sjlabelled::copy_labels(grps$data[[i]], data)
+
+      # prepare argument list, including title
+      tmp.title <- get_grouped_plottitle(plot_data, grps, i, sep = "\n")
+
+      # plot
+
+      plots <- lapply(colnames(tmp), function(.d) {
+        plot_frq_helper(
+          var.cnt = tmp[[.d]], title = tmp.title, weight.by, title.wtd.suffix, sort.frq, type, geom.size, geom.colors,
+          errorbar.color, axis.title, axis.labels, xlim, ylim, wrap.title, wrap.labels, grid.breaks,
+          expand.grid, show.values, show.n, show.prc, show.axis.values, show.ci, show.na,
+          show.mean, show.mean.val, show.sd, drop.empty, mean.line.type, mean.line.size,
+          inner.box.width, inner.box.dotsize, normal.curve, normal.curve.color,
+          normal.curve.size, normal.curve.alpha, auto.group, coord.flip, vjust,
+          hjust, y.offset, var.name = .d
+        )
+      })
+
+      # add plots, check for NULL results
+      pl <- c(pl, list(plots))
+    }
+  } else {
+    pl <- lapply(colnames(plot_data), function(.d) {
+      plot_frq_helper(
+        var.cnt = plot_data[[.d]], title, weight.by, title.wtd.suffix, sort.frq, type, geom.size, geom.colors,
+        errorbar.color, axis.title, axis.labels, xlim, ylim, wrap.title, wrap.labels, grid.breaks,
+        expand.grid, show.values, show.n, show.prc, show.axis.values, show.ci, show.na,
+        show.mean, show.mean.val, show.sd, drop.empty, mean.line.type, mean.line.size,
+        inner.box.width, inner.box.dotsize, normal.curve, normal.curve.color,
+        normal.curve.size, normal.curve.alpha, auto.group, coord.flip, vjust,
+        hjust, y.offset, var.name = .d
+      )
+    })
+
+    if (length(pl) == 1) pl <- pl[[1]]
+  }
+
+  pl
+}
+
+
+plot_frq_helper <- function(
+  var.cnt, title, weight.by, title.wtd.suffix, sort.frq, type, geom.size, geom.colors,
+  errorbar.color, axis.title, axis.labels, xlim, ylim, wrap.title, wrap.labels, grid.breaks,
+  expand.grid, show.values, show.n, show.prc, show.axis.values, show.ci, show.na,
+  show.mean, show.mean.val, show.sd, drop.empty, mean.line.type, mean.line.size,
+  inner.box.width, inner.box.dotsize, normal.curve, normal.curve.color,
+  normal.curve.size, normal.curve.alpha, auto.group, coord.flip, vjust,
+  hjust, y.offset, var.name = NULL) {
 
   # remove empty value-labels
   if (drop.empty) {
@@ -196,10 +271,6 @@ plot_frq <- function(var.cnt,
 
   # check color argument
   if (length(geom.colors) > 1) geom.colors <- geom.colors[1]
-
-  # Match arguments -----
-  type <- match.arg(type)
-  sort.frq <- match.arg(sort.frq)
 
   # default grid-expansion
   if (isTRUE(expand.grid) || (missing(expand.grid) && type == "histogram")) {

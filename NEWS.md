@@ -28,6 +28,7 @@
 
 ### Other
 
+* `plot_frq()` (former `sjp.frq()`) now has pipe-consistent syntax, enables plotting multiple variables in one function call and supports grouped data frames.
 * `plot_model()` gets additional arguments `vcov.fun`, `vcov.type` and `vcov.args` that are passed down to `sjstats::robust()`, to calculate different types of (clustered) robust standard errors.
 * `sjt.xtab()`, `sjp.xtab()`, `plot_frq()` and `sjp.grpfrq()` get a `drop.empty()`-argument, to drop values / factor levels with no observations from output.
 

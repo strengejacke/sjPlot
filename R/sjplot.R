@@ -88,7 +88,7 @@
 #' @importFrom tidyr nest
 #' @importFrom stats complete.cases
 #' @export
-sjplot <- function(data, ..., fun = c("frq", "grpfrq", "xtab", "aov1", "likert", "stackfrq")) {
+sjplot <- function(data, ..., fun = c("grpfrq", "xtab", "aov1", "likert", "stackfrq")) {
   # check if x is a data frame
   if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
 
@@ -308,12 +308,7 @@ plot_sj <- function(x, fun, args) {
 
   # choose plottype, and call plot-function with or w/o additional arguments
   if (sjmisc::is_empty(args)) {
-    if (fun == "frq") {
-      pl <- list()
-      for (i in seq_len(ncol(x))) {
-        pl[[length(pl) + 1]] <- sjp.frq(x[[i]])
-      }
-    } else if (fun  == "grpfrq") {
+    if (fun  == "grpfrq") {
       p <- sjp.grpfrq(x[[1]], x[[2]])
     } else if (fun  == "likert") {
       p <- plot_likert(x)
@@ -325,12 +320,7 @@ plot_sj <- function(x, fun, args) {
       p <- sjp.aov1(x[[1]], x[[2]])
     }
   } else {
-    if (fun == "frq") {
-      pl <- list()
-      for (i in seq_len(ncol(x))) {
-        pl[[length(pl) + 1]] <- do.call(sjp.frq, args = c(list(var.cnt = x[[i]]), args))
-      }
-    } else if (fun  == "grpfrq") {
+    if (fun  == "grpfrq") {
       p <- do.call(sjp.grpfrq, args = c(list(var.cnt = x[[1]], var.grp = x[[2]]), args))
     } else if (fun  == "likert") {
       p <- do.call(plot_likert, args = c(list(items = x), args))
