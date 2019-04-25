@@ -475,7 +475,7 @@ tab_model_df <- function(x,
 
     # random effects: Between-group-variance: tau.00 ----
 
-    tau00 <-  tau00 <- purrr::map(variance.list, ~ .x$var.intercept)
+    tau00 <- purrr::map(variance.list, ~ .x$var.intercept)
     tau00.len <- max(purrr::map_dbl(tau00, length))
 
     page.content <- paste0(
@@ -541,7 +541,7 @@ tab_model_df <- function(x,
       create_random_effects(
         rv.len = 1,
         rv = icc.list,
-        rv.string = "ICC <sub>adjusted</sub>",
+        rv.string = "ICC",
         clean.rv = "icc",
         var.names = colnames(x),
         summary.css = summary.css,
@@ -732,7 +732,7 @@ tab_model_df <- function(x,
   }
 
 
-  # add aic ----
+  # add logLik ----
 
   if (!is_empty_list(loglik.list)) {
     page.content <- paste0(page.content, create_stats(
@@ -810,7 +810,7 @@ create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, su
     rvs <- rv.string
     rv.name <- gsub(pattern, "", names(rv[[1]][i]))
 
-    if (length(rv) == 1)
+    if (length(rv) == 1 && !sjmisc::is_empty(rv.name))
       rvs <- sprintf("%s <sub>%s</sub>", rv.string, rv.name)
     else if (i > 1)
       rvs <- ""

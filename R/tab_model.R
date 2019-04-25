@@ -205,8 +205,8 @@
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns add_case
 #' @importFrom sjstats std_beta
-#' @importFrom insight model_info is_multivariate get_random
-#' @importFrom performance r2
+#' @importFrom insight model_info is_multivariate find_random get_data
+#' @importFrom performance r2 icc
 #' @importFrom stats nobs
 #' @importFrom rlang .data
 #' @export
@@ -604,10 +604,18 @@ tab_model <- function(
       }
 
 
+      vars <- NULL
+
       # extract variance components ----
 
       if ((show.icc || show.re.var || show.r2) && is_mixed_model(model)) {
-        vars <- insight::get_variance(model)
+        if (inherits(model, "brmsfit")) {
+          vars_brms <- performance::icc(model)
+          vars$var.intercept <- attr(vars_brms, "var_rand_intercept")
+          vars$var.residual <- attr(vars_brms, "var_residual")
+        } else {
+          vars <- insight::get_variance(model)
+        }
       } else {
         vars <- NULL
       }
@@ -617,7 +625,11 @@ tab_model <- function(
       icc <- NULL
 
       if (show.icc && is_mixed_model(model) && !is.null(vars) && !all(is.na(vars))) {
-        icc <- list(icc.adjusted = vars$var.random / (vars$var.random + vars$var.residual))
+        if (inherits(model, "brmsfit")) {
+          icc <- list(icc.adjusted = vars_brms$ICC_decomposed)
+        } else {
+          icc <- list(icc.adjusted = vars$var.random / (vars$var.random + vars$var.residual))
+        }
       }
 
       # Add r-squared statistic ----
@@ -629,10 +641,25 @@ tab_model <- function(
         # via adjusted ICC, use these results and avoid time consuming
         # multiple computation
         if (is_mixed_model(model)) {
-          rsq <- list(
-            `Marginal R2` = vars$var.fixed / (vars$var.fixed + vars$var.random + vars$var.residual),
-            `Conditional R2` = (vars$var.fixed + vars$var.random) / (vars$var.fixed + vars$var.random + vars$var.residual)
-          )
+          if (inherits(model, "brmsfit")) {
+            rsqdummy <- tryCatch(
+              {
+                suppressWarnings(performance::r2(model))
+              },
+              error = function(x) { NULL }
+            )
+            if (!is.null(rsqdummy)) {
+              rsq <- list(
+                `Marginal R2` = rsqdummy$R2_Bayes_marginal,
+                `Conditional R2` = rsqdummy$R2_Bayes
+              )
+            }
+          } else {
+            rsq <- list(
+              `Marginal R2` = vars$var.fixed / (vars$var.fixed + vars$var.random + vars$var.residual),
+              `Conditional R2` = (vars$var.fixed + vars$var.random) / (vars$var.fixed + vars$var.random + vars$var.residual)
+            )
+          }
         } else {
           rsq <- tryCatch(
             {
@@ -662,7 +689,8 @@ tab_model <- function(
       n_re_grps <- NULL
 
       if (show.ngroups && is_mixed_model(model)) {
-        n_re_grps <- sapply(insight::get_random(model), function(.i) length(unique(.i, na.rm = TRUE)))
+        rand_eff <- insight::get_data(model)[, insight::find_random(model, split_nested = TRUE, flatten = TRUE), drop = FALSE]
+        n_re_grps <- sapply(rand_eff, function(.i) length(unique(.i, na.rm = TRUE)))
         names(n_re_grps) <- sprintf("ngrps.%s", names(n_re_grps))
       }
 
@@ -949,21 +977,21 @@ tab_model <- function(
     if (!sjmisc::is_empty(pos)) {
       i <- as.numeric(sub("estimate_", "", x = x, fixed = T))
 
+      if (insight::is_multivariate(models[[1]]))
+        mr <- i
+      else
+        mr <- NULL
+
       if (i <= length(models)) {
         x <- estimate_axis_title(
           models[[i]],
           axis.title = NULL,
           type = "est",
           transform = transform.data[[i]],
-          multi.resp = NULL,
+          multi.resp = mr,
           include.zeroinf = FALSE
         )
       } else if (length(models) == 1) {
-
-        if (insight::is_multivariate(models[[1]]))
-          mr <- i
-        else
-          mr <- NULL
 
         x <- estimate_axis_title(
           models[[1]],

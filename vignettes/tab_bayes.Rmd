@@ -19,7 +19,8 @@ knitr::opts_chunk$set(
   collapse = TRUE, 
   comment = "#>", 
   message = FALSE,
-  eval = if (isTRUE(exists("params"))) params$EVAL else FALSE
+  eval = TRUE
+  # eval = if (isTRUE(exists("params"))) params$EVAL else FALSE
 )
 ```
 
@@ -28,32 +29,27 @@ This vignette shows examples for using `tab_model()` to create HTML tables for m
 ```{r, results='hide', message=FALSE, warning=FALSE}
 # load required packages
 library(sjPlot)
-library(sjmisc)
+library(insight)
 library(brms)
 
-# load sample datasets
-data("efc")
-efc <- to_factor(efc, e42dep, c172code, c161sex, e15relat)
-zinb <- read.csv("http://stats.idre.ucla.edu/stat/data/fish.csv")
+# load sample models
 
-# fit two sample models
-m1 <- brm(
-  bf(count ~ child + camper + (1 | persons), 
-     zi ~ child + camper),
-  data = zinb,
-  family = zero_inflated_poisson(),
-  cores = 4,
-  iter = 1000
-)
+# set.seed(123)
+# f1 <- bf(mpg ~ wt + disp + cyl + hp + (1 |CAR| gear))
+# f2 <- bf(wt ~ disp + cyl + hp + (1 |CAR| gear))
+# m1 <- brms::brm(f1 + f2 + set_rescor(FALSE), data = mtcars)
+m1 <- insight::download_model("brms_zi_2")
 
-f1 <- bf(neg_c_7 ~ e42dep + c12hour + c172code + (1 |ID| e15relat))
-f2 <- bf(c12hour ~ c172code + (1 |ID| e15relat))
-m2 <- brm(
-  f1 + f2 + set_rescor(FALSE), 
-  data = efc, 
-  cores = 4,
-  iter = 1000
-)
+# zinb <- read.csv("http://stats.idre.ucla.edu/stat/data/fish.csv")
+# set.seed(123)
+# m2 <- brms::brm(bf(
+#     count ~ persons + child + camper + (1 | persons),
+#     zi ~ child + camper + (1 | persons)
+#   ),
+#   data = zinb,
+#   family = zero_inflated_poisson()
+# )
+m2 <- insight::download_model("brms_mv_2")
 ```
 
 ## Bayesian models summaries as HTML table

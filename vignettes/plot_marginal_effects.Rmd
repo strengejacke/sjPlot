@@ -23,7 +23,8 @@ knitr::opts_chunk$set(
   fig.width = 7, 
   fig.height = 3.5, 
   warning = FALSE,
-  eval = if (isTRUE(exists("params"))) params$EVAL else FALSE
+  eval = TRUE
+  # eval = if (isTRUE(exists("params"))) params$EVAL else FALSE
 )
 options(width = 800, tibble.width = Inf)
 ```
