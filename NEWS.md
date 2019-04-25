@@ -26,7 +26,7 @@
 * `plot_likert()` gets a `groups` argument, to group items in the plot (thanks to @ndevln).
 * Argument `grid.range` in `plot_likert()` now may also be a vector of length 2, to define diffent length for the left and right x-axis scales.
 
-## Other
+### Other
 
 * `plot_model()` gets additional arguments `vcov.fun`, `vcov.type` and `vcov.args` that are passed down to `sjstats::robust()`, to calculate different types of (clustered) robust standard errors.
 * `sjt.xtab()`, `sjp.xtab()`, `plot_frq()` and `sjp.grpfrq()` get a `drop.empty()`-argument, to drop values / factor levels with no observations from output.
