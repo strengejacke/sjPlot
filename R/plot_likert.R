@@ -106,8 +106,6 @@
 #'             wrap.labels = 40,
 #'             reverse.scale = TRUE)
 #'
-#' )
-#'
 #' @import ggplot2
 #' @importFrom stats na.omit xtabs
 #' @importFrom sjmisc is_odd set_na is_empty

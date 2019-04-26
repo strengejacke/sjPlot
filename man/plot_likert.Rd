@@ -199,6 +199,4 @@ plot_likert(mydf,
             wrap.labels = 40,
             reverse.scale = TRUE)
 
-)
-
 }

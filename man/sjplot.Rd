@@ -37,10 +37,6 @@ Following \code{fun}-values are currently supported:
             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first
             two variables in \code{data} are used (and required) to create the plot.
             }
-            \item{\code{"frq"}}{calls \code{\link{sjp.frq}}.
-            If \code{data} has more than one variable, a plot for each
-            variable in \code{data} is plotted.
-            }
             \item{\code{"grpfrq"}}{calls \code{\link{sjp.grpfrq}}. The first
             two variables in \code{data} are used (and required) to create the plot.
             }
