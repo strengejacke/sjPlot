@@ -68,12 +68,12 @@ For multivariate response models, like mediator-analysis-models, it is recommend
 tab_model(m2)
 ``` 
 
-## Just show one HDI-column
+## Just show one Credible Interval-column
 
-To show just one HDI-column, use `show.hdi50 = FALSE`.
+To show just one CI-column, use `show.ci50 = FALSE`.
 
 ```{r}
-tab_model(m2, show.hdi50 = FALSE)
+tab_model(m2, show.ci50 = FALSE)
 ``` 
 
 ## Mixing multivariate and univariate response models
@@ -81,5 +81,5 @@ tab_model(m2, show.hdi50 = FALSE)
 When both multivariate and univariate response models are displayed in one table, a column _Response_ is added for the multivariate response model, to indicate the different outcomes.
 
 ```{r}
-tab_model(m1, m2, show.hdi50 = F)
+tab_model(m1, m2, show.ci50 = FALSE)
 ``` 

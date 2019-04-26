@@ -839,7 +839,7 @@ create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, su
 
         rv.name <- gsub(pattern, "", names(rv[[j]][i]))
 
-        if (length(rv) > 1)
+        if (length(rv) > 1 && !sjmisc::is_empty(rv.name))
           suffix <- sprintf(" <sub>%s</sub>", rv.name)
         else
           suffix <- ""

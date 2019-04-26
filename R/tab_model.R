@@ -636,7 +636,7 @@ tab_model <- function(
 
       rsq <- NULL
 
-      if (show.r2) {
+      if (show.r2 && !insight::is_multivariate(model)) {
         # if marginal and conditional r-squared already have been computed
         # via adjusted ICC, use these results and avoid time consuming
         # multiple computation

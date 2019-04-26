@@ -119,6 +119,8 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
 
     if (!is.null(multi.resp))
       fitfam <- fitfam[[multi.resp]]
+    else if (insight::is_multivariate(fit))
+      fitfam <- fitfam[[1]]
 
     axis.title <- dplyr::case_when(
       !is.null(transform) && transform == "plogis" ~ "Probabilities",
