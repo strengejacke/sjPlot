@@ -197,7 +197,7 @@ plot_likert <- function(items,
   }
 
   # Options to turn off or overwrite cowplot group.labels.
-  if (isFALSE(groups.titles)) {
+  if (.is_false(groups.titles)) {
     groups.titles <- rep("", length(findex))
   } else if (!is.null(groups.titles) && (groups.titles[1] == "auto" || length(groups.titles) != length(findex)) && (is.numeric(groups))) {
     groups.titles <- sprintf("Component %i", seq_along(findex)) # For sjt.itemanalysis compatibility
