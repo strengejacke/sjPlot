@@ -19,8 +19,8 @@ knitr::opts_chunk$set(
   collapse = TRUE, 
   comment = "#>", 
   message = FALSE,
-  eval = TRUE
-  # eval = if (isTRUE(exists("params"))) params$EVAL else FALSE
+  # eval = TRUE
+  eval = if (isTRUE(exists("params"))) params$EVAL else FALSE
 )
 ```
 
