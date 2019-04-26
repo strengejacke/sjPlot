@@ -4,3 +4,5 @@
 Rplots.pdf
 ^docs$
 ^_pkgdown\.yml$
+^doc$
+^Meta$
