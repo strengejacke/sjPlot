@@ -49,7 +49,7 @@ plot_type_slope <- function(model,
 
   model_data <- insight::get_data(model)
   depvar.label <- sjlabelled::get_label(model_data[[1]], def.value = insight::find_response(model), case = case)
-  predvars <- insight::find_predictors(model, component = "conditional")
+  predvars <- insight::find_predictors(model, component = "conditional", flatten = TRUE)
 
 
   # tell user that interaction terms are not supported by this method

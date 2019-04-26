@@ -77,8 +77,8 @@ if (suppressWarnings(
         p <- tab_model(m1)
         p <- tab_model(m2)
         p <- tab_model(m1, m2)
-        p <- tab_model(m1, m2, show.hdi50 = FALSE)
-        p <- tab_model(m1, m2, col.order = c("hdi.outer", "hdi.inner", "est"))
+        p <- tab_model(m1, m2, show.ci50 = FALSE)
+        p <- tab_model(m1, m2, col.order = c("ci.outer", "ci.inner", "est"))
         p <- tab_model(m1, m2, bpe = "mean")
       })
     }
