@@ -828,7 +828,7 @@ create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, su
       else
         colspan <- length(string_ends_with(sprintf("_%i", j), x = var.names))
 
-      if (is.null(rv[[j]]) || is.na(rv[[j]][i])) {
+      if (is.null(rv[[j]]) || is.na(rv[[j]][i]) || sjmisc::is_empty(rv[[j]][i])) {
 
         page.content <- paste0(
           page.content,

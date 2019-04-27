@@ -472,7 +472,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     # and remove response name from term name
 
     for (i in responses) {
-      m <- string_contains(i, x = dat$term)
+      m <- grep(pattern = sprintf("_%s_", i), x = dat$term)
       dat$response.level[intersect(which(dat$response.level == ""), m)] <- i
       dat$term <- gsub(sprintf("b_%s_", i), "", dat$term, fixed = TRUE)
       dat$term <- gsub(sprintf("s_%s_", i), "", dat$term, fixed = TRUE)
