@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
       </span>
     </div>
 
@@ -161,11 +161,11 @@
   <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.prc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>show.axis.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.grpcnt</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.summary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>auto.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>inner.box.width</span> <span class='kw'>=</span> <span class='fl'>0.15</span>, <span class='kw'>inner.box.dotsize</span> <span class='kw'>=</span> <span class='fl'>3</span>,
-  <span class='kw'>smooth.lines</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>emph.dots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>summary.pos</span> <span class='kw'>=</span> <span class='st'>"r"</span>,
-  <span class='kw'>facet.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>)</pre>
+  <span class='kw'>drop.empty</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>auto.group</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>inner.box.width</span> <span class='kw'>=</span> <span class='fl'>0.15</span>,
+  <span class='kw'>inner.box.dotsize</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>smooth.lines</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>emph.dots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>summary.pos</span> <span class='kw'>=</span> <span class='st'>"r"</span>, <span class='kw'>facet.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -331,6 +331,13 @@ computed instead of chi-squared test. If the table's matrix is larger
 than 2x2, Fisher's excact test with Monte Carlo simulation is computed.</p></td>
     </tr>
     <tr>
+      <th>drop.empty</th>
+      <td><p>Logical, if <code>TRUE</code> and the variable's values are labelled,
+values that have no observations are still printed in the table (with
+frequency <code>0</code>). If <code>FALSE</code>, values / factor levels with no occurence
+in the data are omitted from the output.</p></td>
+    </tr>
+    <tr>
       <th>auto.group</th>
       <td><p>numeric value, indicating the minimum amount of unique values
 in the count variable, at which automatic grouping into smaller units
@@ -383,7 +390,7 @@ Use <code>"l"</code> for upper left corner.</p></td>
       <th>facet.grid</th>
       <td><p><code>TRUE</code> to arrange the lay out of of multiple plots
 in a grid of an integrated single plot. This argument calls
-<code><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></code> or <code><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></code>
+<code><a href='https://www.rdocumentation.org/packages/ggplot2/topics/facet_wrap'>facet_wrap</a></code> or <code><a href='https://www.rdocumentation.org/packages/ggplot2/topics/facet_grid'>facet_grid</a></code>
 to arrange plots. Use <code><a href='plot_grid.html'>plot_grid</a></code> to plot multiple plot-objects
 as an arranged grid with <code><a href='https://www.rdocumentation.org/packages/gridExtra/topics/arrangeGrob'>grid.arrange</a></code>.</p></td>
     </tr>
@@ -445,6 +452,12 @@ away from the center of the plot respectively.</p></td>
 <span class='fu'>sjp.grpfrq</span>(<span class='no'>efc</span>$<span class='no'>neg_c_7</span>, <span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='sjp.grpfrq-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># same data as line plot</span>
 <span class='fu'>sjp.grpfrq</span>(<span class='no'>efc</span>$<span class='no'>neg_c_7</span>, <span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"line"</span>)</div><div class='img'><img src='sjp.grpfrq-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># show ony categories where we have data (i.e. drop zero-counts)</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)
+<span class='no'>efc</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='no'>efc</span>, <span class='no'>e42dep</span> <span class='kw'>%in%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>))
+<span class='fu'>sjp.grpfrq</span>(<span class='no'>efc</span>$<span class='no'>c161sex</span>, <span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='kw'>drop.empty</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='sjp.grpfrq-7.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># show all categories, even if not in data</span>
+<span class='fu'>sjp.grpfrq</span>(<span class='no'>efc</span>$<span class='no'>c161sex</span>, <span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='kw'>drop.empty</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='img'><img src='sjp.grpfrq-8.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
       </span>
     </div>
 
@@ -149,17 +149,20 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>plot_likert</span>(<span class='no'>items</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>legend.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.titles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>catcount</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cat.neutral</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort.frq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title.wtd.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-  <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>wrap.legend.labels</span> <span class='kw'>=</span> <span class='fl'>28</span>,
-  <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"BrBG"</span>,
-  <span class='kw'>cat.neutral.color</span> <span class='kw'>=</span> <span class='st'>"grey70"</span>, <span class='kw'>intercept.line.color</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>,
-  <span class='kw'>reverse.colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>values</span> <span class='kw'>=</span> <span class='st'>"show"</span>, <span class='kw'>show.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.prc.sign</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>grid.range</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>reverse.scale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>plot_likert</span>(<span class='no'>items</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>groups.titles</span> <span class='kw'>=</span> <span class='st'>"auto"</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>axis.titles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>catcount</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>cat.neutral</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort.frq</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>title.wtd.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>30</span>,
+  <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>wrap.legend.labels</span> <span class='kw'>=</span> <span class='fl'>28</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.6</span>,
+  <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"BrBG"</span>, <span class='kw'>cat.neutral.color</span> <span class='kw'>=</span> <span class='st'>"grey70"</span>,
+  <span class='kw'>intercept.line.color</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>, <span class='kw'>reverse.colors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>values</span> <span class='kw'>=</span> <span class='st'>"show"</span>, <span class='kw'>show.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.prc.sign</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>grid.range</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
+  <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>reverse.scale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sort.groups</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>legend.pos</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>,
+  <span class='kw'>rel_heights</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cowplot.options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>label_x</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>align</span> <span class='kw'>=</span> <span class='st'>"v"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,6 +170,19 @@
     <tr>
       <th>items</th>
       <td><p>Data frame, with each column representing one item.</p></td>
+    </tr>
+    <tr>
+      <th>groups</th>
+      <td><p>(optional) Must be a vector of same length as <code><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>ncol(items)</a></code>,
+where each item in this vector represents the group number
+of the related columns of <code>items</code>. See 'Examples'.</p></td>
+    </tr>
+    <tr>
+      <th>groups.titles</th>
+      <td><p>(optional, only used if groups are supplied) Titles for each factor group that will be used as table caption for each
+component-table. Must be a character vector of same length as <code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(unique(groups))</a></code>.
+Default is <code>"auto"</code>, which means that each table has a standard caption <em>Component x</em>.
+Use <code>NULL</code> to use names as supplied to <code>groups</code> and use <code>FALSE</code> to suppress table captions.</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -195,7 +211,7 @@ argument, since in most cases, axis labels are set automatically.</p></td>
     </tr>
     <tr>
       <th>catcount</th>
-      <td><p>Optional, amount of categories of <code>items</code> (e.g. <em>"strongly disagree",
+      <td><p>optional, amount of categories of <code>items</code> (e.g. <em>"strongly disagree",
 "disagree", "agree"</em> and <em>"strongly agree"</em> would be <code>catcount = 4</code>).
 Note that this argument only applies to "valid" answers, i.e. if you
 have an additional neutral category (see <code>cat.neutral</code>) like <em>"don't know"</em>,
@@ -273,7 +289,7 @@ need smaller values than dot sizes.</p></td>
     </tr>
     <tr>
       <th>reverse.colors</th>
-      <td><p>Logical, if <code>TRUE</code>, the color scale from <code>geom.colors</code> will be reversed,
+      <td><p>logical, if <code>TRUE</code>, the color scale from <code>geom.colors</code> will be reversed,
 so positive and negative values switch colors.</p></td>
     </tr>
     <tr>
@@ -297,7 +313,7 @@ function, a legend is added to the plot.</p></td>
     </tr>
     <tr>
       <th>show.prc.sign</th>
-      <td><p>Logical, if <code>TRUE</code>, %-signs for value labels are shown.</p></td>
+      <td><p>logical, if <code>TRUE</code>, %-signs for value labels are shown.</p></td>
     </tr>
     <tr>
       <th>grid.range</th>
@@ -325,11 +341,30 @@ estimates or values.</p></td>
     </tr>
     <tr>
       <th>reverse.scale</th>
-      <td><p>Logical, if <code>TRUE</code>, the ordering of the categories is reversed, so positive and negative values switch position.</p></td>
+      <td><p>logical, if <code>TRUE</code>, the ordering of the categories is reversed, so positive and negative values switch position.</p></td>
     </tr>
     <tr>
       <th>coord.flip</th>
       <td><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></td>
+    </tr>
+    <tr>
+      <th>sort.groups</th>
+      <td><p>(optional, only used if groups are supplied) logical, if groups should be sorted according to the values supplied to <code>groups</code>. Defaults to <code>TRUE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>legend.pos</th>
+      <td><p>(optional, only used if groups are supplied) Defines the legend position. Possible values are <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("bottom", "top", "both", "all", "none")</a></code>.
+If the is only one group or this option is set to <code>"all"</code> legends will be printed as defined with <code><a href='set_theme.html'>set_theme</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>rel_heights</th>
+      <td><p>(optional, only used if groups are supplied) This option can be used to adjust the height of the subplots. The bars in subplots can have different heights due to a differing number of items
+or due to legend placement. This can be adjusted here. Takes a vector of numbers, one
+for each plot. Values are evaluated relative to each other.</p></td>
+    </tr>
+    <tr>
+      <th>cowplot.options</th>
+      <td><p>(optional, only used if groups are supplied) List of label options to be passed to <code><a href='https://www.rdocumentation.org/packages/cowplot/topics/plot_grid'>plot_grid</a></code>.</p></td>
     </tr>
     </table>
     
@@ -355,14 +390,29 @@ estimates or values.</p></td>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
 <span class='co'># find all variables from COPE-Index, which all have a "cop" in their</span>
 <span class='co'># variable name, and then plot that subset as likert-plot</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sjmisc/topics/find_var'>find_var</a></span>(<span class='no'>efc</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"cop"</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='st'>"df"</span>) <span class='kw'>%&gt;%</span> <span class='fu'>plot_likert</span>()</div><div class='img'><img src='plot_likert-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>mydf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sjmisc/topics/find_var'>find_var</a></span>(<span class='no'>efc</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"cop"</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='st'>"df"</span>)
+
+<span class='fu'>plot_likert</span>(<span class='no'>mydf</span>)</div><div class='img'><img src='plot_likert-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>plot_likert</span>(
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/sjmisc/topics/find_var'>find_var</a></span>(<span class='no'>efc</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"cop"</span>, <span class='kw'>out</span> <span class='kw'>=</span> <span class='st'>"df"</span>),
+  <span class='no'>mydf</span>,
   <span class='kw'>grid.range</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1.2</span>, <span class='fl'>1.4</span>),
   <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>values</span> <span class='kw'>=</span> <span class='st'>"sum.outside"</span>,
   <span class='kw'>show.prc.sign</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</div><div class='img'><img src='plot_likert-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Plot in groups</span>
+
+<span class='fu'>plot_likert</span>(<span class='no'>mydf</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>1</span>))</div><div class='img'><img src='plot_likert-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>groups</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sjt.pca.html'>sjt.pca</a></span>(<span class='no'>mydf</span>)$<span class='no'>factor.index</span>
+<span class='fu'>plot_likert</span>(<span class='no'>mydf</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>groups</span>)</div><div class='img'><img src='plot_likert-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_likert</span>(<span class='no'>mydf</span>,
+            <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"B"</span>, <span class='fl'>4</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"A"</span>, <span class='fl'>5</span>)),
+            <span class='kw'>sort.groups</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+            <span class='kw'>grid.range</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.9</span>, <span class='fl'>1.1</span>),
+            <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"RdBu"</span>,
+            <span class='kw'>rel_heights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>6</span>, <span class='fl'>8</span>),
+            <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>40</span>,
+            <span class='kw'>reverse.scale</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot_likert-5.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

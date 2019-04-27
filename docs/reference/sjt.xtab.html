@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
       </span>
     </div>
 
@@ -153,14 +153,15 @@
   <span class='kw'>var.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>value.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>,
   <span class='kw'>show.obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.cell.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.row.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>show.col.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.exp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.summary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>statistics</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"auto"</span>,
-  <span class='st'>"cramer"</span>, <span class='st'>"phi"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>, <span class='st'>"pearson"</span>, <span class='st'>"fisher"</span>),
-  <span class='kw'>string.total</span> <span class='kw'>=</span> <span class='st'>"Total"</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>tdcol.n</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
-  <span class='kw'>tdcol.expected</span> <span class='kw'>=</span> <span class='st'>"#339999"</span>, <span class='kw'>tdcol.cell</span> <span class='kw'>=</span> <span class='st'>"#993333"</span>,
-  <span class='kw'>tdcol.row</span> <span class='kw'>=</span> <span class='st'>"#333399"</span>, <span class='kw'>tdcol.col</span> <span class='kw'>=</span> <span class='st'>"#339933"</span>, <span class='kw'>emph.total</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>emph.color</span> <span class='kw'>=</span> <span class='st'>"#f8f8f8"</span>, <span class='kw'>prc.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;#37;"</span>,
-  <span class='kw'>hundret</span> <span class='kw'>=</span> <span class='st'>"100.0"</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>show.na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.summary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>drop.empty</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>statistics</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"cramer"</span>, <span class='st'>"phi"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>,
+  <span class='st'>"pearson"</span>, <span class='st'>"fisher"</span>), <span class='kw'>string.total</span> <span class='kw'>=</span> <span class='st'>"Total"</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>tdcol.n</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>tdcol.expected</span> <span class='kw'>=</span> <span class='st'>"#339999"</span>,
+  <span class='kw'>tdcol.cell</span> <span class='kw'>=</span> <span class='st'>"#993333"</span>, <span class='kw'>tdcol.row</span> <span class='kw'>=</span> <span class='st'>"#333399"</span>,
+  <span class='kw'>tdcol.col</span> <span class='kw'>=</span> <span class='st'>"#339933"</span>, <span class='kw'>emph.total</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>emph.color</span> <span class='kw'>=</span> <span class='st'>"#f8f8f8"</span>,
+  <span class='kw'>prc.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;#37;"</span>, <span class='kw'>hundret</span> <span class='kw'>=</span> <span class='st'>"100.0"</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -234,6 +235,13 @@ are added to the output.</p></td>
       <td><p>Logical, if <code>TRUE</code>, a summary row with
 chi-squared statistics, degrees of freedom and Cramer's V or Phi
 coefficient and p-value for the chi-squared statistics.</p></td>
+    </tr>
+    <tr>
+      <th>drop.empty</th>
+      <td><p>Logical, if <code>TRUE</code> and the variable's values are labelled,
+values that have no observations are still printed in the table (with
+frequency <code>0</code>). If <code>FALSE</code>, values / factor levels with no occurence
+in the data are omitted from the output.</p></td>
     </tr>
     <tr>
       <th>statistics</th>

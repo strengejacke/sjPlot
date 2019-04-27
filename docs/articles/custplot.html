@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@
       <h1>Customize Plot Appearance</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2018-12-18</h4>
+            <h4 class="date">2019-04-27</h4>
       
       
       <div class="hidden name"><code>custplot.Rmd</code></div>
@@ -120,185 +120,185 @@
 <a href="#tweaking-plot-appearance" class="anchor"></a>Tweaking plot appearance</h2>
 <p>The base function to globally change theme option for all sjp-function is <code><a href="../reference/set_theme.html">set_theme()</a></code>. Except for geom-colors and geom-sizes, all theme-options can be set via this function. This new theme will be applied to all following plots created with the <strong>sjPlot</strong> package.</p>
 <p>There are various arguments to change colors, sizes, angles etc. of labels. Following example show changes to colors, sizes, angles, geom-outlines and theme.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># load libraries</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjPlot)  <span class="co"># for plotting</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjmisc)  <span class="co"># for sample data</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2) <span class="co"># to access ggplot-themes</span>
-
-<span class="co"># load sample data set</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(efc)
-
-<span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(
-  <span class="dt">geom.outline.color =</span> <span class="st">"antiquewhite4"</span>, 
-  <span class="dt">geom.outline.size =</span> <span class="dv">1</span>, 
-  <span class="dt">geom.label.size =</span> <span class="dv">2</span>,
-  <span class="dt">geom.label.color =</span> <span class="st">"grey50"</span>,
-  <span class="dt">title.color =</span> <span class="st">"red"</span>, 
-  <span class="dt">title.size =</span> <span class="fl">1.5</span>, 
-  <span class="dt">axis.angle.x =</span> <span class="dv">45</span>, 
-  <span class="dt">axis.textcolor =</span> <span class="st">"blue"</span>, 
-  <span class="dt">base =</span> <span class="kw">theme_bw</span>()
-)
-
-<span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(
-  efc<span class="op">$</span>e42dep, 
-  efc<span class="op">$</span>e16sex, 
-  <span class="dt">title =</span> <span class="ot">NULL</span>, 
-  <span class="dt">geom.colors =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cadetblue"</span>, <span class="st">"coral"</span>), 
-  <span class="dt">geom.size =</span> <span class="fl">0.4</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># load libraries</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjPlot)  <span class="co"># for plotting</span></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjmisc)  <span class="co"># for sample data</span></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2) <span class="co"># to access ggplot-themes</span></a>
+<a class="sourceLine" id="cb1-5" title="5"></a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="co"># load sample data set</span></a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(efc)</a>
+<a class="sourceLine" id="cb1-8" title="8"></a>
+<a class="sourceLine" id="cb1-9" title="9"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(</a>
+<a class="sourceLine" id="cb1-10" title="10">  <span class="dt">geom.outline.color =</span> <span class="st">"antiquewhite4"</span>, </a>
+<a class="sourceLine" id="cb1-11" title="11">  <span class="dt">geom.outline.size =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb1-12" title="12">  <span class="dt">geom.label.size =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb1-13" title="13">  <span class="dt">geom.label.color =</span> <span class="st">"grey50"</span>,</a>
+<a class="sourceLine" id="cb1-14" title="14">  <span class="dt">title.color =</span> <span class="st">"red"</span>, </a>
+<a class="sourceLine" id="cb1-15" title="15">  <span class="dt">title.size =</span> <span class="fl">1.5</span>, </a>
+<a class="sourceLine" id="cb1-16" title="16">  <span class="dt">axis.angle.x =</span> <span class="dv">45</span>, </a>
+<a class="sourceLine" id="cb1-17" title="17">  <span class="dt">axis.textcolor =</span> <span class="st">"blue"</span>, </a>
+<a class="sourceLine" id="cb1-18" title="18">  <span class="dt">base =</span> <span class="kw">theme_bw</span>()</a>
+<a class="sourceLine" id="cb1-19" title="19">)</a>
+<a class="sourceLine" id="cb1-20" title="20"></a>
+<a class="sourceLine" id="cb1-21" title="21"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(</a>
+<a class="sourceLine" id="cb1-22" title="22">  efc<span class="op">$</span>e42dep, </a>
+<a class="sourceLine" id="cb1-23" title="23">  efc<span class="op">$</span>e16sex, </a>
+<a class="sourceLine" id="cb1-24" title="24">  <span class="dt">title =</span> <span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb1-25" title="25">  <span class="dt">geom.colors =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"cadetblue"</span>, <span class="st">"coral"</span>), </a>
+<a class="sourceLine" id="cb1-26" title="26">  <span class="dt">geom.size =</span> <span class="fl">0.4</span></a>
+<a class="sourceLine" id="cb1-27" title="27">)</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
 <div id="using-the-color-brewer-palettes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-the-color-brewer-palettes" class="anchor"></a>Using the Color Brewer palettes</h2>
 <p>All plotting functions support the usage of the <a href="http://colorbrewer2.org">Colorbrewer</a> palettes. To apply a color brewer palette, use specify the palette as <code>geom.colors</code>. Any valid color brewer palette is recognized automatically.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># blank theme</span>
-<span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(
-  <span class="dt">base =</span> <span class="kw"><a href="../reference/sjPlot-themes.html">theme_blank</a></span>(),
-  <span class="dt">axis.title.size =</span> .<span class="dv">9</span>,
-  <span class="dt">axis.textsize =</span> .<span class="dv">9</span>,
-  <span class="dt">legend.size =</span> .<span class="dv">7</span>,
-  <span class="dt">legend.title.size =</span> .<span class="dv">8</span>,
-  <span class="dt">geom.label.size =</span> <span class="dv">3</span>
-)
-
-<span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(
-  efc<span class="op">$</span>e42dep, 
-  efc<span class="op">$</span>e15relat, 
-  <span class="dt">geom.colors =</span> <span class="st">"PuRd"</span>, 
-  <span class="dt">show.values =</span> <span class="ot">FALSE</span>
-)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># blank theme</span></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(</a>
+<a class="sourceLine" id="cb2-3" title="3">  <span class="dt">base =</span> <span class="kw"><a href="../reference/sjPlot-themes.html">theme_blank</a></span>(),</a>
+<a class="sourceLine" id="cb2-4" title="4">  <span class="dt">axis.title.size =</span> <span class="fl">.9</span>,</a>
+<a class="sourceLine" id="cb2-5" title="5">  <span class="dt">axis.textsize =</span> <span class="fl">.9</span>,</a>
+<a class="sourceLine" id="cb2-6" title="6">  <span class="dt">legend.size =</span> <span class="fl">.7</span>,</a>
+<a class="sourceLine" id="cb2-7" title="7">  <span class="dt">legend.title.size =</span> <span class="fl">.8</span>,</a>
+<a class="sourceLine" id="cb2-8" title="8">  <span class="dt">geom.label.size =</span> <span class="dv">3</span></a>
+<a class="sourceLine" id="cb2-9" title="9">)</a>
+<a class="sourceLine" id="cb2-10" title="10"></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(</a>
+<a class="sourceLine" id="cb2-12" title="12">  efc<span class="op">$</span>e42dep, </a>
+<a class="sourceLine" id="cb2-13" title="13">  efc<span class="op">$</span>e15relat, </a>
+<a class="sourceLine" id="cb2-14" title="14">  <span class="dt">geom.colors =</span> <span class="st">"PuRd"</span>, </a>
+<a class="sourceLine" id="cb2-15" title="15">  <span class="dt">show.values =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb2-16" title="16">)</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 <p>An overview of all supported color codes can be obtained with <code>display.brewer.all()</code> from the <code>RColorBrewer</code> package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(RColorBrewer)
-<span class="kw">display.brewer.all</span>()</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(RColorBrewer)</a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="kw">display.brewer.all</span>()</a></code></pre></div>
 </div>
 <div id="plot-with-flipped-coordinates" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-with-flipped-coordinates" class="anchor"></a>Plot with flipped coordinates</h2>
 <p>The plot’s axes can be flipped using <code>coord.flip = TRUE</code>. If needed, labels can be placed inside the bars with the <code>vjust</code> or <code>hjust</code> arguments. In such cases, you might need to adjust the label colors with <code>geom.label.color = "white"</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(<span class="dt">geom.label.color =</span> <span class="st">"white"</span>, <span class="dt">geom.label.size =</span> <span class="dv">3</span>)
-
-<span class="co"># labels appear very large due to export metrics</span>
-<span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex, <span class="dt">coord.flip =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(<span class="dt">geom.label.color =</span> <span class="st">"white"</span>, <span class="dt">geom.label.size =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb4-2" title="2"></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="co"># labels appear very large due to export metrics</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex, <span class="dt">coord.flip =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
 <div id="adding-plot-margins" class="section level2">
 <h2 class="hasAnchor">
 <a href="#adding-plot-margins" class="anchor"></a>Adding plot margins</h2>
 <p>Plots with no margins towards the axes may look strange to some people (not to me, though). To restore the ggplot-default behaviour, use the <code>expand.grid</code> argument:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex, <span class="dt">expand.grid =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex, <span class="dt">expand.grid =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </div>
 <div id="theme-options" class="section level2">
 <h2 class="hasAnchor">
 <a href="#theme-options" class="anchor"></a>Theme options</h2>
 <p>You can use any pre-defined theme from ggplot, like <code>theme_bw()</code>, <code>theme_classic()</code> or <code>theme_minimal()</code> as default theme.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(<span class="dt">base =</span> <span class="kw">theme_light</span>())
-<span class="kw"><a href="../reference/sjp.frq.html">sjp.frq</a></span>(efc<span class="op">$</span>e42dep)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(<span class="dt">base =</span> <span class="kw">theme_light</span>())</a>
+<a class="sourceLine" id="cb6-2" title="2"><span class="kw"><a href="../reference/plot_frq.html">plot_frq</a></span>(efc<span class="op">$</span>e42dep)</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
 <div id="pre-defined-themes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pre-defined-themes" class="anchor"></a>Pre-defined themes</h2>
 <p>There is a set of pre-defined themes from the sjPlot-package. See <code><a href="../reference/sjPlot-themes.html">?"sjPlot-themes"</a></code> for a complete list.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjmisc)
-<span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(efc)
-efc &lt;-<span class="st"> </span><span class="kw">to_factor</span>(efc, e42dep, c172code)
-m &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>pos_v_<span class="dv">4</span> <span class="op">+</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>e42dep <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)
-
-<span class="co"># reset theme</span>
-<span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(<span class="dt">base =</span> <span class="kw">theme_grey</span>())
-
-<span class="co"># forest plot of regression model</span>
-p &lt;-<span class="st"> </span><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m)
-
-<span class="co"># default theme</span>
-p</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjmisc)</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(efc)</a>
+<a class="sourceLine" id="cb7-3" title="3">efc &lt;-<span class="st"> </span><span class="kw">to_factor</span>(efc, e42dep, c172code)</a>
+<a class="sourceLine" id="cb7-4" title="4">m &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>pos_v_<span class="dv">4</span> <span class="op">+</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>e42dep <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)</a>
+<a class="sourceLine" id="cb7-5" title="5"></a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="co"># reset theme</span></a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(<span class="dt">base =</span> <span class="kw">theme_grey</span>())</a>
+<a class="sourceLine" id="cb7-8" title="8"></a>
+<a class="sourceLine" id="cb7-9" title="9"><span class="co"># forest plot of regression model</span></a>
+<a class="sourceLine" id="cb7-10" title="10">p &lt;-<span class="st"> </span><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m)</a>
+<a class="sourceLine" id="cb7-11" title="11"></a>
+<a class="sourceLine" id="cb7-12" title="12"><span class="co"># default theme</span></a>
+<a class="sourceLine" id="cb7-13" title="13">p</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># pre-defined theme</span>
-p <span class="op">+</span><span class="st"> </span><span class="kw"><a href="../reference/sjPlot-themes.html">theme_sjplot</a></span>()</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="co"># pre-defined theme</span></a>
+<a class="sourceLine" id="cb8-2" title="2">p <span class="op">+</span><span class="st"> </span><span class="kw"><a href="../reference/sjPlot-themes.html">theme_sjplot</a></span>()</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-9-2.png" width="672"></p>
 </div>
 <div id="pre-defined-scales" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pre-defined-scales" class="anchor"></a>Pre-defined scales</h2>
 <p>There is also a new scale for <strong>ggplot</strong>-objects, <code><a href="../reference/sjPlot-themes.html">scale_color_sjplot()</a></code> and <code><a href="../reference/sjPlot-themes.html">scale_fill_sjplot()</a></code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="../reference/sjPlot-themes.html">theme_sjplot2</a></span>() <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="../reference/sjPlot-themes.html">scale_color_sjplot</a></span>(<span class="st">"simply"</span>)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">p <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="st">  </span><span class="kw"><a href="../reference/sjPlot-themes.html">theme_sjplot2</a></span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb9-3" title="3"><span class="st">  </span><span class="kw"><a href="../reference/sjPlot-themes.html">scale_color_sjplot</a></span>(<span class="st">"simply"</span>)</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 <p>To see all currently available color sets, use <code><a href="../reference/sjPlot-themes.html">show_sjplot_pals()</a></code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/sjPlot-themes.html">show_sjplot_pals</a></span>()</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="../reference/sjPlot-themes.html">show_sjplot_pals</a></span>()</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 </div>
 <div id="set-up-own-themes-based-on-existing-themes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#set-up-own-themes-based-on-existing-themes" class="anchor"></a>Set up own themes based on existing themes</h2>
 <p>If you want to use a specific theme as base for building your own theme, use the <code>base</code> argument. When using <code>base</code> instead of <code>theme</code>, further arguments for settings colors etc. are not ignored.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(<span class="dt">base =</span> <span class="kw">theme_bw</span>(), <span class="dt">axis.linecolor =</span> <span class="st">"darkgreen"</span>)
-<span class="kw"><a href="../reference/sjp.frq.html">sjp.frq</a></span>(efc<span class="op">$</span>e42dep)</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(<span class="dt">base =</span> <span class="kw">theme_bw</span>(), <span class="dt">axis.linecolor =</span> <span class="st">"darkgreen"</span>)</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="kw"><a href="../reference/plot_frq.html">plot_frq</a></span>(efc<span class="op">$</span>e42dep)</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 </div>
 <div id="further-customization-options" class="section level2">
 <h2 class="hasAnchor">
 <a href="#further-customization-options" class="anchor"></a>Further customization options</h2>
 <p>Each plotting function invisibly returns the ggplot-object. You can further add options to customize the appearance of the plot, like in the following example, where the count axis is hidden (color set to white):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(
-  <span class="dt">base =</span> <span class="kw">theme_classic</span>(),
-  <span class="dt">axis.tickslen =</span> <span class="dv">0</span>, <span class="co"># hides tick marks</span>
-  <span class="dt">axis.title.size =</span> .<span class="dv">9</span>,
-  <span class="dt">axis.textsize =</span> .<span class="dv">9</span>,
-  <span class="dt">legend.size =</span> .<span class="dv">7</span>,
-  <span class="dt">legend.title.size =</span> .<span class="dv">8</span>,
-  <span class="dt">geom.label.size =</span> <span class="fl">3.5</span>
-)
-  
-<span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(
-  efc<span class="op">$</span>e42dep,
-  efc<span class="op">$</span>e16sex,
-  <span class="dt">coord.flip =</span> <span class="ot">TRUE</span>,
-  <span class="dt">show.axis.values =</span> <span class="ot">FALSE</span>
-) <span class="op">+</span>
-<span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.line.x =</span> <span class="kw">element_line</span>(<span class="dt">color =</span> <span class="st">"white"</span>))</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(</a>
+<a class="sourceLine" id="cb12-2" title="2">  <span class="dt">base =</span> <span class="kw">theme_classic</span>(),</a>
+<a class="sourceLine" id="cb12-3" title="3">  <span class="dt">axis.tickslen =</span> <span class="dv">0</span>, <span class="co"># hides tick marks</span></a>
+<a class="sourceLine" id="cb12-4" title="4">  <span class="dt">axis.title.size =</span> <span class="fl">.9</span>,</a>
+<a class="sourceLine" id="cb12-5" title="5">  <span class="dt">axis.textsize =</span> <span class="fl">.9</span>,</a>
+<a class="sourceLine" id="cb12-6" title="6">  <span class="dt">legend.size =</span> <span class="fl">.7</span>,</a>
+<a class="sourceLine" id="cb12-7" title="7">  <span class="dt">legend.title.size =</span> <span class="fl">.8</span>,</a>
+<a class="sourceLine" id="cb12-8" title="8">  <span class="dt">geom.label.size =</span> <span class="fl">3.5</span></a>
+<a class="sourceLine" id="cb12-9" title="9">)</a>
+<a class="sourceLine" id="cb12-10" title="10">  </a>
+<a class="sourceLine" id="cb12-11" title="11"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(</a>
+<a class="sourceLine" id="cb12-12" title="12">  efc<span class="op">$</span>e42dep,</a>
+<a class="sourceLine" id="cb12-13" title="13">  efc<span class="op">$</span>e16sex,</a>
+<a class="sourceLine" id="cb12-14" title="14">  <span class="dt">coord.flip =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb12-15" title="15">  <span class="dt">show.axis.values =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb12-16" title="16">) <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-17" title="17"><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.line.x =</span> <span class="kw">element_line</span>(<span class="dt">color =</span> <span class="st">"white"</span>))</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 </div>
 <div id="plot-legend" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-legend" class="anchor"></a>Plot legend</h2>
 <p>The plot’s legend can be customized via various <code>legend.</code>-arguments, see following examples:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(
-  <span class="dt">base =</span> <span class="kw">theme_classic</span>(), 
-  <span class="dt">legend.title.face =</span> <span class="st">"italic"</span>, <span class="co"># title font face</span>
-  <span class="dt">legend.inside =</span> <span class="ot">TRUE</span>,         <span class="co"># legend inside plot</span>
-  <span class="dt">legend.color =</span> <span class="st">"grey50"</span>,      <span class="co"># legend label color</span>
-  <span class="dt">legend.pos =</span> <span class="st">"bottom right"</span>,  <span class="co"># legend position inside plot</span>
-  <span class="dt">axis.title.size =</span> .<span class="dv">9</span>,
-  <span class="dt">axis.textsize =</span> .<span class="dv">9</span>,
-  <span class="dt">legend.size =</span> .<span class="dv">7</span>,
-  <span class="dt">legend.title.size =</span> .<span class="dv">8</span>,
-  <span class="dt">geom.label.size =</span> <span class="dv">3</span>
-)
-
-<span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex, <span class="dt">coord.flip =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(</a>
+<a class="sourceLine" id="cb13-2" title="2">  <span class="dt">base =</span> <span class="kw">theme_classic</span>(), </a>
+<a class="sourceLine" id="cb13-3" title="3">  <span class="dt">legend.title.face =</span> <span class="st">"italic"</span>, <span class="co"># title font face</span></a>
+<a class="sourceLine" id="cb13-4" title="4">  <span class="dt">legend.inside =</span> <span class="ot">TRUE</span>,         <span class="co"># legend inside plot</span></a>
+<a class="sourceLine" id="cb13-5" title="5">  <span class="dt">legend.color =</span> <span class="st">"grey50"</span>,      <span class="co"># legend label color</span></a>
+<a class="sourceLine" id="cb13-6" title="6">  <span class="dt">legend.pos =</span> <span class="st">"bottom right"</span>,  <span class="co"># legend position inside plot</span></a>
+<a class="sourceLine" id="cb13-7" title="7">  <span class="dt">axis.title.size =</span> <span class="fl">.9</span>,</a>
+<a class="sourceLine" id="cb13-8" title="8">  <span class="dt">axis.textsize =</span> <span class="fl">.9</span>,</a>
+<a class="sourceLine" id="cb13-9" title="9">  <span class="dt">legend.size =</span> <span class="fl">.7</span>,</a>
+<a class="sourceLine" id="cb13-10" title="10">  <span class="dt">legend.title.size =</span> <span class="fl">.8</span>,</a>
+<a class="sourceLine" id="cb13-11" title="11">  <span class="dt">geom.label.size =</span> <span class="dv">3</span></a>
+<a class="sourceLine" id="cb13-12" title="12">)</a>
+<a class="sourceLine" id="cb13-13" title="13"></a>
+<a class="sourceLine" id="cb13-14" title="14"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex, <span class="dt">coord.flip =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(
-  <span class="dt">base =</span> <span class="kw">theme_classic</span>(), 
-  <span class="dt">axis.linecolor =</span> <span class="st">"white"</span>,     <span class="co"># "remove" axis lines</span>
-  <span class="dt">axis.textcolor.y =</span> <span class="st">"darkred"</span>, <span class="co"># set axis label text only for y axis</span>
-  <span class="dt">axis.tickslen =</span> <span class="dv">0</span>,            <span class="co"># "remove" tick marks</span>
-  <span class="dt">legend.title.color =</span> <span class="st">"red"</span>,   <span class="co"># legend title color</span>
-  <span class="dt">legend.title.size =</span> <span class="dv">2</span>,        <span class="co"># legend title size</span>
-  <span class="dt">legend.color =</span> <span class="st">"green"</span>,       <span class="co"># legend label color</span>
-  <span class="dt">legend.pos =</span> <span class="st">"top"</span>,           <span class="co"># legend position above plot</span>
-  <span class="dt">axis.title.size =</span> .<span class="dv">9</span>,
-  <span class="dt">axis.textsize =</span> .<span class="dv">9</span>,
-  <span class="dt">legend.size =</span> .<span class="dv">7</span>,
-  <span class="dt">geom.label.size =</span> <span class="dv">3</span>
-)
-
-<span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex)</code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(</a>
+<a class="sourceLine" id="cb14-2" title="2">  <span class="dt">base =</span> <span class="kw">theme_classic</span>(), </a>
+<a class="sourceLine" id="cb14-3" title="3">  <span class="dt">axis.linecolor =</span> <span class="st">"white"</span>,     <span class="co"># "remove" axis lines</span></a>
+<a class="sourceLine" id="cb14-4" title="4">  <span class="dt">axis.textcolor.y =</span> <span class="st">"darkred"</span>, <span class="co"># set axis label text only for y axis</span></a>
+<a class="sourceLine" id="cb14-5" title="5">  <span class="dt">axis.tickslen =</span> <span class="dv">0</span>,            <span class="co"># "remove" tick marks</span></a>
+<a class="sourceLine" id="cb14-6" title="6">  <span class="dt">legend.title.color =</span> <span class="st">"red"</span>,   <span class="co"># legend title color</span></a>
+<a class="sourceLine" id="cb14-7" title="7">  <span class="dt">legend.title.size =</span> <span class="dv">2</span>,        <span class="co"># legend title size</span></a>
+<a class="sourceLine" id="cb14-8" title="8">  <span class="dt">legend.color =</span> <span class="st">"green"</span>,       <span class="co"># legend label color</span></a>
+<a class="sourceLine" id="cb14-9" title="9">  <span class="dt">legend.pos =</span> <span class="st">"top"</span>,           <span class="co"># legend position above plot</span></a>
+<a class="sourceLine" id="cb14-10" title="10">  <span class="dt">axis.title.size =</span> <span class="fl">.9</span>,</a>
+<a class="sourceLine" id="cb14-11" title="11">  <span class="dt">axis.textsize =</span> <span class="fl">.9</span>,</a>
+<a class="sourceLine" id="cb14-12" title="12">  <span class="dt">legend.size =</span> <span class="fl">.7</span>,</a>
+<a class="sourceLine" id="cb14-13" title="13">  <span class="dt">geom.label.size =</span> <span class="dv">3</span></a>
+<a class="sourceLine" id="cb14-14" title="14">)</a>
+<a class="sourceLine" id="cb14-15" title="15"></a>
+<a class="sourceLine" id="cb14-16" title="16"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex)</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 </div>
   </div>

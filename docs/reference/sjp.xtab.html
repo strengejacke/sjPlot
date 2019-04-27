@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
       </span>
     </div>
 
@@ -155,12 +155,12 @@
   <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>rev.order</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>show.prc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.total</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.summary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>summary.pos</span> <span class='kw'>=</span> <span class='st'>"r"</span>, <span class='kw'>string.total</span> <span class='kw'>=</span> <span class='st'>"Total"</span>,
-  <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>wrap.legend.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.7</span>, <span class='kw'>geom.spacing</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"Paired"</span>, <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>smooth.lines</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>, <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.summary</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>summary.pos</span> <span class='kw'>=</span> <span class='st'>"r"</span>, <span class='kw'>drop.empty</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>string.total</span> <span class='kw'>=</span> <span class='st'>"Total"</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>15</span>,
+  <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>wrap.legend.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.7</span>,
+  <span class='kw'>geom.spacing</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"Paired"</span>, <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>smooth.lines</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>, <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -272,6 +272,13 @@ than 2x2, Fisher's excact test with Monte Carlo simulation is computed.</p></td>
       <td><p>position of the model summary which is printed when <code>show.summary</code>
 is <code>TRUE</code>. Default is <code>"r"</code>, i.e. it's printed to the upper right corner.
 Use <code>"l"</code> for upper left corner.</p></td>
+    </tr>
+    <tr>
+      <th>drop.empty</th>
+      <td><p>Logical, if <code>TRUE</code> and the variable's values are labelled,
+values that have no observations are still printed in the table (with
+frequency <code>0</code>). If <code>FALSE</code>, values / factor levels with no occurence
+in the data are omitted from the output.</p></td>
     </tr>
     <tr>
       <th>string.total</th>

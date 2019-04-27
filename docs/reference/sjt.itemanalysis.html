@@ -83,7 +83,7 @@ If factor.groups is not NULL, the data frame df will be
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
       </span>
     </div>
 
@@ -216,7 +216,7 @@ Use <code>NULL</code> to suppress table captions.</p></td>
     <tr>
       <th>scale</th>
       <td><p>Logical, if <code>TRUE</code>, the data frame's vectors will be scaled when calculating the
-Cronbach's Alpha value (see <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/reliab_test'>reliab_test</a></code>). Recommended, when
+Cronbach's Alpha value (see <code><a href='https://www.rdocumentation.org/packages/performance/topics/item_reliability'>item_reliability</a></code>). Recommended, when
 the variables have different measures / scales.</p></td>
     </tr>
     <tr>
@@ -311,8 +311,8 @@ may look less pretty, but it may help when exporting html-tables to office tools
     <ul>
 <li><p>The <em>Shapiro-Wilk Normality Test</em> (see column <code>W(p)</code>) tests if an item has a distribution that is significantly different from normal.</p></li>
 <li><p><em>Item difficulty</em> should range between 0.2 and 0.8. Ideal value is <code>p+(1-p)/2</code> (which mostly is between 0.5 and 0.8).</p></li>
-<li><p>For <em>item discrimination</em>, acceptable values are 0.20 or higher; the closer to 1.00 the better. See <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/reliab_test'>reliab_test</a></code> for more details.</p></li>
-<li><p>In case the total <em>Cronbach's Alpha</em> value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the <em>mean inter-item-correlation</em> is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also <code><a href='https://www.rdocumentation.org/packages/sjstats/topics/reliab_test'>mic</a></code>.</p></li>
+<li><p>For <em>item discrimination</em>, acceptable values are 0.20 or higher; the closer to 1.00 the better. See <code><a href='https://www.rdocumentation.org/packages/performance/topics/item_reliability'>item_reliability</a></code> for more details.</p></li>
+<li><p>In case the total <em>Cronbach's Alpha</em> value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the <em>mean inter-item-correlation</em> is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also <code><a href='https://www.rdocumentation.org/packages/performance/topics/item_intercor'>item_intercor</a></code>.</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
