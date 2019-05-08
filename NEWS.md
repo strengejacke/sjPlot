@@ -1,3 +1,9 @@
+# sjPlot 2.6.4
+
+## Bug fixes
+
+* Minor fix in `tab_model()` for mixed models that can't compute R2.
+
 # sjPlot 2.6.3
 
 ## General

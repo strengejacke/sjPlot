@@ -654,7 +654,7 @@ tab_model <- function(
                 `Conditional R2` = rsqdummy$R2_Bayes
               )
             }
-          } else {
+          } else if (!is.null(vars) && !all(is.na(vars))) {
             rsq <- list(
               `Marginal R2` = vars$var.fixed / (vars$var.fixed + vars$var.random + vars$var.residual),
               `Conditional R2` = (vars$var.fixed + vars$var.random) / (vars$var.fixed + vars$var.random + vars$var.residual)

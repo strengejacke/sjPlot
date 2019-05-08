@@ -662,7 +662,7 @@ tab_model_df <- function(x,
       else
         colspan <- length(string_ends_with(sprintf("_%i", i), x = colnames(x)))
 
-      if (is.null(rsq.list[[i]])) {
+      if (is.null(rsq.list[[i]]) || all(is.na(rsq.list[[i]])) || all(sjmisc::is_empty(rsq.list[[i]], first.only = FALSE))) {
 
         page.content <- paste0(
           page.content,
