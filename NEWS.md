@@ -2,6 +2,7 @@
 
 ## Bug fixes
 
+* Argument `string.est` in `tab_model()` did not overwrite the default label for the estimate-column-header.
 * Minor fix in `tab_model()` for mixed models that can't compute R2.
 
 # sjPlot 2.6.3

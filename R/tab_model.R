@@ -303,6 +303,7 @@ tab_model <- function(
   prefix.labels <- match.arg(prefix.labels)
   vcov.type <- match.arg(vcov.type)
 
+  change_string_est <- !missing(string.est)
 
   # if we prefix labels, use different default for case conversion,
   # else the separating white spaces after colon are removed.
@@ -982,7 +983,9 @@ tab_model <- function(
       else
         mr <- NULL
 
-      if (i <= length(models)) {
+      if (change_string_est && !sjmisc::is_empty(string.est)) {
+        x <- string.est
+      } else if (i <= length(models)) {
         x <- estimate_axis_title(
           models[[i]],
           axis.title = NULL,
@@ -992,7 +995,6 @@ tab_model <- function(
           include.zeroinf = FALSE
         )
       } else if (length(models) == 1) {
-
         x <- estimate_axis_title(
           models[[1]],
           axis.title = NULL,
@@ -1001,7 +1003,6 @@ tab_model <- function(
           multi.resp = mr,
           include.zeroinf = FALSE
         )
-
       } else {
         x <- string.est
       }
