@@ -65,6 +65,9 @@
 #' @param rel_heights (optional, only used if groups are supplied) This option can be used to adjust the height of the subplots. The bars in subplots can have different heights due to a differing number of items
 #'   or due to legend placement. This can be adjusted here. Takes a vector of numbers, one
 #'   for each plot. Values are evaluated relative to each other.
+#' @param group.legend.options (optional, only used if groups are supplied) List of options to be passed to \code{\link[ggplot2]{guide_legend}}.
+#' The most notable options are \code{byrow=T} (default), this will order the categories row wise.
+#' And with \code{group.legend.options = list(nrow = 1)} all categories can be forced to be on a single row.
 #' @param cowplot.options (optional, only used if groups are supplied) List of label options to be passed to \code{\link[cowplot]{plot_grid}}.
 #'
 #' @inheritParams sjp.grpfrq
@@ -150,6 +153,7 @@ plot_likert <- function(items,
                         sort.groups = TRUE, # Group Options
                         legend.pos = "bottom",
                         rel_heights = 1,
+                        group.legend.options = list(nrow = NULL, byrow = T), # Add rowwise order of levels and option to force a single rowed legend for 6 or more categories
                         cowplot.options = list(label_x = 0.01, hjust = 0, align="v") # Fix for label position depending on label length bug in cowplot
                         ) {
 
@@ -186,9 +190,9 @@ plot_likert <- function(items,
     # If there are 2 or more groups, the legend will be plotted according to legend.pos.
     if (length(findex) != 1) {
       if (legend.pos %in% c("top", "both") & i == 1)
-        .pl <- .pl + theme(legend.position = "top")
+        .pl <- .pl + theme(legend.position = "top") + guides(fill=do.call(guide_legend, group.legend.options))
       else if (legend.pos %in% c("bottom", "both") & i == length(findex))
-        .pl <- .pl + theme(legend.position = "bottom")
+        .pl <- .pl + theme(legend.position = "bottom") + guides(fill=do.call(guide_legend, group.legend.options))
       else if (legend.pos != "all")
         .pl <- .pl + theme(legend.position = "none")
     }
