@@ -153,7 +153,7 @@ plot_likert <- function(items,
                         sort.groups = TRUE, # Group Options
                         legend.pos = "bottom",
                         rel_heights = 1,
-                        group.legend.options = list(nrow = NULL, byrow = T), # Add rowwise order of levels and option to force a single rowed legend for 6 or more categories
+                        group.legend.options = list(nrow = NULL, byrow = TRUE), # Add rowwise order of levels and option to force a single rowed legend for 6 or more categories
                         cowplot.options = list(label_x = 0.01, hjust = 0, align="v") # Fix for label position depending on label length bug in cowplot
                         ) {
 
