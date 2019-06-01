@@ -139,6 +139,12 @@ sjt.itemanalysis <- function(df,
   # check encoding
   encoding <- get.encoding(encoding, df)
 
+  # convert ordered factors to labbeled
+  if (all(sapply(df, is.ordered))) df <- sjlabelled::as_labelled(df)
+
+  # Warn if factors are used
+  if (all(sapply(df, is.factor))) stop("Factors are not allowed. Please check if factor levels are ordered and use sjlabelled::as_labbeled() for conversion.")
+
   # auto-detect variable labels
   varlabels <- sjlabelled::get_label(df, def.value = colnames(df))
   colnames(df) <- varlabels
