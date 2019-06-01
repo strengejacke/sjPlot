@@ -725,8 +725,15 @@ plot_likert <- function(items,
         )
     }
   } else if (values == "sum.inside" || values == "sum.outside") {
+    # choose label offsets for summed proportions
+    move_pos_labels_left = case_when(
+      values == "sum.outside" & !reverse.scale ~ T,
+      values == "sum.inside" & !reverse.scale ~ F,
+      values == "sum.outside" & reverse.scale ~ F,
+      values == "sum.inside" & reverse.scale ~ T
+    )
     # show cumulative outside bar
-    if (values == "sum.outside") {
+    if (move_pos_labels_left) {
       hort.pos <- -0.15
       hort.neg <- 1.15
       hort.dk <- -0.15
