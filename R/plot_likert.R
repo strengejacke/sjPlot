@@ -730,7 +730,7 @@ plot_likert <- function(items,
     }
   } else if (values == "sum.inside" || values == "sum.outside") {
     # choose label offsets for summed proportions
-    move_pos_labels_left = case_when(
+    move_pos_labels_left = dplyr::case_when(
       values == "sum.outside" & !reverse.scale ~ T,
       values == "sum.inside" & !reverse.scale ~ F,
       values == "sum.outside" & reverse.scale ~ F,
