@@ -16,8 +16,8 @@ plot_likert(items, groups = NULL, groups.titles = "auto",
   show.prc.sign = FALSE, grid.range = 1, grid.breaks = 0.2,
   expand.grid = TRUE, digits = 1, reverse.scale = FALSE,
   coord.flip = TRUE, sort.groups = TRUE, legend.pos = "bottom",
-  rel_heights = 1, cowplot.options = list(label_x = 0.01, hjust = 0,
-  align = "v"))
+  rel_heights = 1, group.legend.options = list(nrow = NULL, byrow = T),
+  cowplot.options = list(label_x = 0.01, hjust = 0, align = "v"))
 }
 \arguments{
 \item{items}{Data frame, with each column representing one item.}
@@ -146,6 +146,10 @@ If the is only one group or this option is set to \code{"all"} legends will be p
 \item{rel_heights}{(optional, only used if groups are supplied) This option can be used to adjust the height of the subplots. The bars in subplots can have different heights due to a differing number of items
 or due to legend placement. This can be adjusted here. Takes a vector of numbers, one
 for each plot. Values are evaluated relative to each other.}
+
+\item{group.legend.options}{(optional, only used if groups are supplied) List of options to be passed to \code{\link[ggplot2]{guide_legend}}.
+The most notable options are \code{byrow=T} (default), this will order the categories row wise.
+And with \code{group.legend.options = list(nrow = 1)} all categories can be forced to be on a single row.}
 
 \item{cowplot.options}{(optional, only used if groups are supplied) List of label options to be passed to \code{\link[cowplot]{plot_grid}}.}
 }

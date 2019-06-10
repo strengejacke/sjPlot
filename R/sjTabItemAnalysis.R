@@ -139,6 +139,17 @@ sjt.itemanalysis <- function(df,
   # check encoding
   encoding <- get.encoding(encoding, df)
 
+  # convert ordered factors to numeric
+  ordered_vars <- sapply(df, is.ordered)
+  if (any(ordered_vars)) df[ordered_vars] <- sjlabelled::as_numeric(df[ordered_vars])
+
+  # Warn if factors are used
+  factor_vars <- sapply(df, is.factor)
+  if (any(factor_vars)) {
+    df[factor_vars] <- sjlabelled::as_numeric(df[factor_vars])
+    warning("At least one variable is of type factor, please check if the factor levels are ordered correctly.")
+  }
+
   # auto-detect variable labels
   varlabels <- sjlabelled::get_label(df, def.value = colnames(df))
   colnames(df) <- varlabels
