@@ -16,8 +16,8 @@ plot_likert(items, groups = NULL, groups.titles = "auto",
   show.prc.sign = FALSE, grid.range = 1, grid.breaks = 0.2,
   expand.grid = TRUE, digits = 1, reverse.scale = FALSE,
   coord.flip = TRUE, sort.groups = TRUE, legend.pos = "bottom",
-  rel_heights = 1, group.legend.options = list(nrow = NULL, byrow = T),
-  cowplot.options = list(label_x = 0.01, hjust = 0, align = "v"))
+  rel_heights = 1, group.legend.options = list(nrow = NULL, byrow =
+  TRUE), cowplot.options = list(label_x = 0.01, hjust = 0, align = "v"))
 }
 \arguments{
 \item{items}{Data frame, with each column representing one item.}
@@ -202,5 +202,32 @@ plot_likert(mydf,
             rel_heights = c(6, 8),
             wrap.labels = 40,
             reverse.scale = TRUE)
+
+# control legend items
+six_cat_example = data.frame(
+  matrix(sample(1:6, 600, replace = TRUE),
+  ncol = 6)
+)
+
+six_cat_example <-
+  six_cat_example \%>\%
+  dplyr::mutate_all(~ordered(.,labels = c("+++","++","+","-","--","---")))
+
+# Old default
+plot_likert(
+  six_cat_example,
+  groups = c(1, 1, 1, 2, 2, 2),
+  group.legend.options = list(nrow = 2, byrow = FALSE)
+)
+
+# New default
+plot_likert(six_cat_example, groups = c(1, 1, 1, 2, 2, 2))
+
+# Single row
+plot_likert(
+  six_cat_example,
+  groups = c(1, 1, 1, 2, 2, 2),
+  group.legend.options = list(nrow = 1)
+)
 
 }
