@@ -176,7 +176,7 @@ is_brms_mixed <- function(fit) {
 
 # short checker so we know if we need more summary statistics like ICC
 is_mixed_model <- function(fit) {
-  is_merMod(fit) | is_brms_mixed(fit) | inherits(fit, "glmmTMB")
+  insight::model_info(fit)$is_mixed
 }
 
 
