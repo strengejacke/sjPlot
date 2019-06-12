@@ -258,6 +258,7 @@ tab_model_df <- function(x,
                          icc.list,
                          dev.list,
                          aic.list,
+                         aicc.list,
                          variance.list,
                          ngrps.list,
                          loglik.list,
@@ -723,6 +724,21 @@ tab_model_df <- function(x,
     page.content <- paste0(page.content, create_stats(
       data.list = aic.list,
       data.string = "AIC",
+      firstsumrow = firstsumrow,
+      summary.css = summary.css,
+      var.names = colnames(x),
+      n.cols = ncol(x)
+    ))
+    firstsumrow <- FALSE
+  }
+
+
+  # add aicc ----
+
+  if (!is_empty_list(aicc.list)) {
+    page.content <- paste0(page.content, create_stats(
+      data.list = aicc.list,
+      data.string = "AICc",
       firstsumrow = firstsumrow,
       summary.css = summary.css,
       var.names = colnames(x),

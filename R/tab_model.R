@@ -746,7 +746,8 @@ tab_model <- function(
         aic = aic,
         variances = vars,
         n_re_grps = n_re_grps,
-        loglik = loglik
+        loglik = loglik,
+        aicc = aicc
       )
     }
   )
@@ -776,6 +777,7 @@ tab_model <- function(
   variance.data <- purrr::map(model.list, ~.x[[9]])
   ngrps.data <- purrr::map(model.list, ~.x[[10]])
   loglik.data <- purrr::map(model.list, ~.x[[11]])
+  aicc.data <- purrr::map(model.list, ~.x[[12]])
   is.zeroinf <- purrr::map_lgl(model.list, ~ !is.null(.x[[3]]))
 
   zeroinf.data <- purrr::compact(zeroinf.data)
@@ -1088,6 +1090,7 @@ tab_model <- function(
     icc.list = icc.data,
     dev.list = dev.data,
     aic.list = aic.data,
+    aicc.list = aicc.data,
     variance.list = variance.data,
     ngrps.list = ngrps.data,
     loglik.list = loglik.data,
