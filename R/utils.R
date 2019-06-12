@@ -330,6 +330,17 @@ model_aic <- function(x) {
 }
 
 
+#' @importFrom performance performance_aicc
+model_aicc <- function(x) {
+  tryCatch(
+    {
+      performance::performance_aicc(x)
+    },
+    error = function(x) { NULL }
+  )
+}
+
+
 #' @importFrom stats logLik
 model_loglik <- function(x) {
   tryCatch(

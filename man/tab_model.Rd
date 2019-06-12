@@ -19,16 +19,17 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   string.est = "Estimate", string.std = "std. Beta",
   string.ci = "CI", string.se = "std. Error", string.p = "p",
   string.df = "df", string.stat = "Statistic",
-  string.resp = "Response", strings = NULL,
-  ci.hyphen = "&nbsp;&ndash;&nbsp;", minus.sign = "&#45;",
-  collapse.ci = FALSE, collapse.se = FALSE, linebreak = TRUE,
-  col.order = c("est", "se", "std.est", "std.se", "ci", "std.ci",
-  "ci.inner", "ci.outer", "stat", "p", "df", "response.level"),
-  digits = 2, digits.p = 3, emph.p = TRUE, p.val = c("wald", "kr"),
-  p.style = c("numeric", "asterisk", "both"), p.threshold = c(0.05,
-  0.01, 0.001), case = "parsed", auto.label = TRUE,
-  prefix.labels = c("none", "varname", "label"), bpe = "median",
-  CSS = css_theme("regression"), file = NULL, use.viewer = TRUE)
+  string.resp = "Response", string.intercept = "(Intercept)",
+  strings = NULL, ci.hyphen = "&nbsp;&ndash;&nbsp;",
+  minus.sign = "&#45;", collapse.ci = FALSE, collapse.se = FALSE,
+  linebreak = TRUE, col.order = c("est", "se", "std.est", "std.se",
+  "ci", "std.ci", "ci.inner", "ci.outer", "stat", "p", "df",
+  "response.level"), digits = 2, digits.p = 3, emph.p = TRUE,
+  p.val = c("wald", "kr"), p.style = c("numeric", "asterisk", "both"),
+  p.threshold = c(0.05, 0.01, 0.001), case = "parsed",
+  auto.label = TRUE, prefix.labels = c("none", "varname", "label"),
+  bpe = "median", CSS = css_theme("regression"), file = NULL,
+  use.viewer = TRUE)
 }
 \arguments{
 \item{...}{One or more regression models, including glm's or mixed models.
@@ -186,6 +187,8 @@ Default is based on the response scale, e.g. for logistic regression models,
 \item{string.stat}{Character vector, used for the test statistic. Default is \code{"Statistic"}.}
 
 \item{string.resp}{Character vector, used for the column heading of of the response level for multinominal or categorical models. Default is \code{"Response"}.}
+
+\item{string.intercept}{Character vector, used as name for the intercept parameter. Default is \code{"(Intercept)"}.}
 
 \item{strings}{Named character vector, as alternative to arguments like \code{string.ci}
 or \code{string.p} etc. The name (lhs) must be one of the string-indicator from

@@ -3,7 +3,8 @@
 ## Changes to functions
 
 * `sjt.itemanalysis()` now works on ordered factors. A clearer error message was added when unordered factors are used. The old error message was not helpful.
-* `plot_liker()` showed category labels in the top and bottom legends in two rows if there are more than six categories. Also, the categories are ordered column wise instead of row wise. This behaviour can now be controlled for grouped likert plots, using `group.legend.options`. The ordering now defaults to row wise and the user can force all categories onto a single row.
+* `plot_likert()` showed category labels in the top and bottom legends in two rows if there are more than six categories. Also, the categories are ordered column wise instead of row wise. This behaviour can now be controlled for grouped likert plots, using `group.legend.options`. The ordering now defaults to row wise and the user can force all categories onto a single row.
+* `tab_model()` gets a `show.aicc`-argument to show the second order AIC.
 
 ## Bug fixes
 
