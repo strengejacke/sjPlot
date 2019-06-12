@@ -83,6 +83,7 @@
 #' @param string.df Character vector, used for the column heading of degrees of freedom. Default is \code{"df"}.
 #' @param string.stat Character vector, used for the test statistic. Default is \code{"Statistic"}.
 #' @param string.resp Character vector, used for the column heading of of the response level for multinominal or categorical models. Default is \code{"Response"}.
+#' @param string.intercept Character vector, used as name for the intercept parameter. Default is \code{"(Intercept)"}.
 #' @param strings Named character vector, as alternative to arguments like \code{string.ci}
 #'    or \code{string.p} etc. The name (lhs) must be one of the string-indicator from
 #'    the forementioned arguments, while the value (rhs) is the string that is used
@@ -259,6 +260,7 @@ tab_model <- function(
   string.df = "df",
   string.stat = "Statistic",
   string.resp = "Response",
+  string.intercept = "(Intercept)",
   strings = NULL,
   ci.hyphen = "&nbsp;&ndash;&nbsp;",
   minus.sign = "&#45;",
@@ -368,6 +370,7 @@ tab_model <- function(
     if ("df" %in% s.names) string.df <- strings[["df"]]
     if ("stat" %in% s.names) string.stat <- strings[["stat"]]
     if ("resp" %in% s.names) string.resp <- strings[["resp"]]
+    if ("intercept" %in% s.names) string.intercept <- strings[["intercept"]]
   }
 
   model.list <- purrr::map2(
@@ -710,6 +713,22 @@ tab_model <- function(
       if (inherits(model, "brmsfit")) {
         dat$term <- gsub("^b_", "", dat$term)
         if (!is.null(zidat)) zidat$term <- gsub("^b_", "", zidat$term)
+      }
+
+
+      # check if Intercept should be renamed...
+
+      if (string.intercept != "(Intercept)") {
+        intercepts <- which(dat$term == "(Intercept)")
+        if (!sjmisc::is_empty(intercepts)) {
+          dat$term[intercepts] <- string.intercept
+        }
+        if (!is.null(zidat)) {
+          intercepts <- which(zidat$term == "(Intercept)")
+          if (!sjmisc::is_empty(intercepts)) {
+            zidat$term[intercepts] <- string.intercept
+          }
+        }
       }
 
 
