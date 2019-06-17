@@ -1,6 +1,8 @@
 # sjPlot - Data Visualization for Statistics in Social Science <img src="man/figures/logo.png" align="right" />
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1308157.svg)](https://doi.org/10.5281/zenodo.1308157)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sjPlot)](https://cran.r-project.org/package=sjPlot) &#160;&#160; [![Documentation](https://img.shields.io/badge/documentation-sjPlot-orange.svg?colorB=E91E63)](https://strengejacke.github.io/sjPlot/) &#160;&#160; [![downloads](http://cranlogs.r-pkg.org/badges/sjPlot)](http://cranlogs.r-pkg.org/)
+&#160;&#160; [![total](http://cranlogs.r-pkg.org/badges/grand-total/sjPlot)](http://cranlogs.r-pkg.org/)
+
 
 Collection of plotting and table output functions for data visualization. Results of various statistical analyses (that are commonly used in social sciences) can be visualized using this package, including simple and cross tabulated frequencies, histograms, box plots, (generalized) linear models, mixed effects models, PCA and correlation matrices, cluster analyses, scatter plots, Likert scales, effects plots of interaction terms in regression models, constructing index or score variables and much more.
 
@@ -20,12 +22,6 @@ Please note the package dependencies when installing from GitHub. The GitHub ver
 [sjlabelled](https://github.com/strengejacke/sjlabelled) &rarr; [sjmisc](https://github.com/strengejacke/sjmisc) &rarr; [sjstats](https://github.com/strengejacke/sjstats) &rarr; [ggeffects](https://github.com/strengejacke/ggeffects) &rarr; [sjPlot](https://github.com/strengejacke/sjPlot)
 
 ### Officiale, stable release
-
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sjPlot)](https://cran.r-project.org/package=sjPlot) 
-&#160;&#160;
-[![downloads](http://cranlogs.r-pkg.org/badges/sjPlot)](http://cranlogs.r-pkg.org/)
-&#160;&#160;
-[![total](http://cranlogs.r-pkg.org/badges/grand-total/sjPlot)](http://cranlogs.r-pkg.org/)
 
 To install the latest stable release from CRAN, type following command into the R console:
 
