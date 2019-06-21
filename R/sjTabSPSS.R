@@ -77,7 +77,7 @@
 #'
 #' @importFrom utils txtProgressBar setTxtProgressBar
 #' @importFrom sjmisc is_even var_type is_float
-#' @importFrom sjlabelled get_values
+#' @importFrom sjlabelled get_values drop_labels
 #' @importFrom purrr map_lgl
 #' @importFrom rlang quo_name enquo
 #' @export
