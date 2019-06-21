@@ -136,6 +136,9 @@ view_df <- function(x,
   id <- seq_len(ncol(x))
   cnames <- colnames(x)
 
+  # drop unused labels
+  x <- sjlabelled::drop_labels(x)
+
   # do we have any "all-missing-variables"?
   if (any(all.na)) {
     rem.col <- seq_len(ncol(x))[all.na]
