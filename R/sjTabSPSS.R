@@ -501,7 +501,7 @@ view_df <- function(x,
 
 
 #' @importFrom stats xtabs na.pass
-#' @importFrom sjmisc is_empty
+#' @importFrom sjmisc is_empty frq
 frq.value <- function(index, x, df.val, weights, as.prc = FALSE, max.len) {
   valstring <- ""
   # check if we have a valid index

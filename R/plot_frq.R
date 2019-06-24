@@ -353,6 +353,9 @@ plot_frq_helper <- function(
     # sort labels in required order
     axis.labels <- axis.labels[mydat$order]
 
+  # wrap labels
+  axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
+
   # define text label position
   if (show.ci)
     mydat$label.pos <- mydat$upper.ci
