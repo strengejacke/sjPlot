@@ -104,10 +104,9 @@
 #'    \code{collapse.se = FALSE}, inserts a line break between estimate and
 #'    CI resp. SE values. If \code{FALSE}, values are printed in the same line
 #'    as estimate values.
-#' @param group.terms Logical, if \code{TRUE} (default), automatically groups table rows with
-#'    factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
-#'    be grouped, if the factor has more than two levels. Grouping means that a separate headline
-#'    row is inserted to the table just before the predictor values.
+#' @param show.reflvl Logical, if \code{TRUE}, an additional row is inserted to
+#'    the table before each predictor of type \code{\link{factor}}, which will
+#'    indicate the reference level of the related factor.
 #' @param show.ci50 Logical, if \code{TRUE}, for Bayesian models, a second
 #'    credible interval is added to the table output.
 #' @param show.fstat Logical, if \code{TRUE}, the F-statistics for each model is
@@ -236,10 +235,10 @@ tab_model <- function(
   show.dev = FALSE,
   show.loglik = FALSE,
   show.obs = TRUE,
+  show.reflvl = FALSE,
 
   terms = NULL,
   rm.terms = NULL,
-  group.terms = TRUE,
   order.terms = NULL,
 
   title = NULL,
@@ -905,11 +904,11 @@ tab_model <- function(
   if (isTRUE(auto.label) && sjmisc::is_empty(pred.labels)) {
     pred.labels <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE, prefix = prefix.labels)
     no.dupes <- !duplicated(names(pred.labels))
-    pred.labels <- prepare.labels(pred.labels[no.dupes], grp = group.terms)
+    pred.labels <- prepare.labels(pred.labels[no.dupes], grp = show.reflvl)
   } else {
     # no automatic grouping of table rows for categorical variables
     # when user supplies own labels
-    group.terms <- FALSE
+    show.reflvl <- FALSE
   }
 
 
@@ -926,6 +925,15 @@ tab_model <- function(
 
     if (!is.null(names(pred.labels))) {
       labs <- sjmisc::word_wrap(pred.labels, wrap = wrap.labels, linesep = "<br>")
+      if (show.reflvl) {
+        pl <- pred.labels
+        dupes <- which(pred.labels == names(pred.labels))
+        if (!sjmisc::is_empty(dupes)) pl <- pl[-dupes]
+        dat <- merge(dat, data.frame(term = names(pl)), by = "term", all = TRUE)
+        refs <- is.na(dat[, 2])
+      } else {
+        refs <- NULL
+      }
       # some labels may not match. in this case, we only need to replace those
       # elements in the vector that match a specific label, but
       # at the correct position inside "dat$term"
@@ -936,6 +944,17 @@ tab_model <- function(
       rp <- as.vector(stats::na.omit(find.matches))
 
       dat$term[tr] <- unname(labs[rp])
+
+      if (!is.null(refs)) {
+        dat[refs, 2:ncol(dat)] <- ""
+        est.cols <- if (show.est)
+          grepl("^estimate", colnames(dat))
+        else if (show.std)
+          grepl("^std.estimate", colnames(dat))
+        else
+          NULL
+        if (!is.null(est.cols)) dat[refs, est.cols] <- "<em>Reference</em>"
+      }
 
       # also label zero-inflated part
 
@@ -967,14 +986,6 @@ tab_model <- function(
   } else if (sjmisc::is_empty(dv.labels)) {
     dv.labels <- purrr::map(models, insight::find_response) %>% purrr::flatten_chr()
   }
-
-
-  # group terms ----
-
-  # if (group.terms) {
-  #   ## TODO group terms by variables, so category values of factors are "grouped"
-  #   remember.terms[attr(pred.labels, "category.value")]
-  # }
 
 
   # does user want a specific order for terms?

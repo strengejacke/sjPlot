@@ -11,7 +11,7 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   show.icc = TRUE, show.re.var = TRUE, show.ngroups = TRUE,
   show.fstat = FALSE, show.aic = FALSE, show.aicc = FALSE,
   show.dev = FALSE, show.loglik = FALSE, show.obs = TRUE,
-  terms = NULL, rm.terms = NULL, group.terms = TRUE,
+  show.reflvl = FALSE, terms = NULL, rm.terms = NULL,
   order.terms = NULL, title = NULL, pred.labels = NULL,
   dv.labels = NULL, wrap.labels = 25, vcov.fun = NULL,
   vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m",
@@ -104,6 +104,10 @@ is printed in the table summary.}
 \item{show.obs}{Logical, if \code{TRUE}, the number of observations per model is
 printed in the table summary.}
 
+\item{show.reflvl}{Logical, if \code{TRUE}, an additional row is inserted to
+the table before each predictor of type \code{\link{factor}}, which will
+indicate the reference level of the related factor.}
+
 \item{terms}{Character vector with names of those terms (variables) that should
 be printed in the table. All other terms are removed from the output. If
 \code{NULL}, all terms are printed. Note that the term names must match
@@ -124,11 +128,6 @@ need to be explicitely indicated in square brackets, and match the model's
 coefficient names, e.g. \code{rm.terms = "t_name [2,3]"} would remove the terms
 \code{"t_name2"} and \code{"t_name3"} (assuming that the variable \code{t_name}
 was categorical and has at least the factor levels \code{2} and \code{3}).}
-
-\item{group.terms}{Logical, if \code{TRUE} (default), automatically groups table rows with
-factor levels of same factor, i.e. predictors of type \code{\link{factor}} will
-be grouped, if the factor has more than two levels. Grouping means that a separate headline
-row is inserted to the table just before the predictor values.}
 
 \item{order.terms}{Numeric vector, indicating in which order the coefficients
 should be plotted. See examples in
