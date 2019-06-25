@@ -33,6 +33,7 @@ Imports:
     ggeffects (>= 0.10.0),
     glmmTMB,
     ggplot2 (>= 2.2.1),
+    ggrepel,
     knitr,
     insight (>= 0.3.0),
     lme4 (>= 1.1-12),
