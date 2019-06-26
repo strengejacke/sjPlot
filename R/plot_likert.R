@@ -729,28 +729,31 @@ plot_likert <- function(items,
   if (values == "show") {
     # show them in middle of bar
     gp <- gp +
-        ggrepel::geom_text_repel(
-          data = dplyr::filter(mydat.pos, .data$frq > 0),
-          aes(
-            x = .data$x,
-            y = .data$frq,
-            label = sprintf("%.*f%s", digits, 100 * .data$frq, percsign)),
-            direction = "y",
-            position=position_stack(vjust=0.5, reverse = TRUE),
-            force = .5,
-            point.padding = NA
-          ) +
-        ggrepel::geom_text_repel(
-          data = dplyr::filter(mydat.neg, .data$frq < 0),
-          aes(
-            x = .data$x,
-            y = .data$frq,
-            label = sprintf("%.*f%s", digits, 100 * abs(.data$frq), percsign)),
-            direction = "y",
-            position=position_stack(vjust=0.5, reverse = TRUE),
-            force = .5,
-            point.padding = NA
-          )
+      ggrepel::geom_text_repel(
+        data = dplyr::filter(mydat.pos, .data$frq > 0),
+        aes(
+          x = .data$x,
+          y = .data$frq,
+          label = sprintf("%.*f%s", digits, 100 * .data$frq, percsign)
+        ),
+        direction = "y",
+        position = position_stack(vjust = 0.5, reverse = TRUE),
+        force = .5,
+        point.padding = NA
+      ) +
+      ggrepel::geom_text_repel(
+        data = dplyr::filter(mydat.neg, .data$frq < 0),
+        aes(
+          x = .data$x,
+          y = .data$frq,
+          label = sprintf("%.*f%s", digits, 100 * abs(.data$frq), percsign)
+        ),
+        direction = "y",
+        position = position_stack(vjust = 0.5, reverse = TRUE),
+        force = .5,
+        point.padding = NA
+      )
+
     if (!is.null(cat.neutral)) {
       gp <- gp +
         geom_text(
