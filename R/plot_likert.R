@@ -70,6 +70,8 @@
 #' And with \code{group.legend.options = list(nrow = 1)} all categories can be forced to be on a single row.
 #' @param cowplot.options (optional, only used if groups are supplied) List of label options to be passed to \code{\link[cowplot]{plot_grid}}.
 #'
+#' @importFrom ggrepel geom_text_repel
+#'
 #' @inheritParams sjp.grpfrq
 #' @inheritParams sjp.stackfrq
 #' @inheritParams plot_model
@@ -727,23 +729,28 @@ plot_likert <- function(items,
   if (values == "show") {
     # show them in middle of bar
     gp <- gp +
-      geom_text(
-        data = dplyr::filter(mydat.pos, .data$frq > 0),
-        aes(
-          x = .data$x,
-          y = .data$ypos,
-          label = sprintf("%.*f%s", digits, 100 * .data$frq, percsign)
-        )
-      ) +
-      geom_text(
-        data = dplyr::filter(mydat.neg, .data$frq < 0),
-        aes(
-          x = .data$x,
-          y = .data$ypos,
-          label = sprintf("%.*f%s", digits, 100 * abs(.data$frq), percsign)
-        )
-      )
-
+        ggrepel::geom_text_repel(
+          data = dplyr::filter(mydat.pos, .data$frq > 0),
+          aes(
+            x = .data$x,
+            y = .data$frq,
+            label = sprintf("%.*f%s", digits, 100 * .data$frq, percsign)),
+            direction = "y",
+            position=position_stack(vjust=0.5, reverse = TRUE),
+            force = .5,
+            point.padding = NA
+          ) +
+        ggrepel::geom_text_repel(
+          data = dplyr::filter(mydat.neg, .data$frq < 0),
+          aes(
+            x = .data$x,
+            y = .data$frq,
+            label = sprintf("%.*f%s", digits, 100 * abs(.data$frq), percsign)),
+            direction = "y",
+            position=position_stack(vjust=0.5, reverse = TRUE),
+            force = .5,
+            point.padding = NA
+          )
     if (!is.null(cat.neutral)) {
       gp <- gp +
         geom_text(
