@@ -120,6 +120,7 @@
 #' @importFrom sjstats mean_n
 #' @importFrom performance item_reliability cronbachs_alpha item_intercor
 #' @importFrom sjmisc std
+#' @importFrom sjlabelled set_label
 #' @export
 sjt.itemanalysis <- function(df,
                              factor.groups = NULL,
@@ -347,6 +348,10 @@ sjt.itemanalysis <- function(df,
   html$index.scores <- df.index.scores
   html$cronbach.values <- cronbach.total
   html$ideal.item.diff <- diff.ideal.list
+
+  sjlabelled::set_label(html$index.scores) <- purrr::map2_chr(mic.total, cronbach.total, ~ sprintf(
+    "Mean icc=%.3f, Cronbach's Alpha=%.3f", .x, .y
+  ))
 
   html
 }
