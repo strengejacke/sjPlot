@@ -350,7 +350,7 @@ sjt.itemanalysis <- function(df,
   html$ideal.item.diff <- diff.ideal.list
 
   sjlabelled::set_label(html$index.scores) <- purrr::map2_chr(mic.total, cronbach.total, ~ sprintf(
-    "Mean icc=%.3f, Cronbach's Alpha=%.3f", .x, .y
+    "Mean icc=%.3f; Cronbach's Alpha=%.3f", .x, .y
   ))
 
   html
