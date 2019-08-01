@@ -79,6 +79,7 @@
 #' @param string.std Character vector, used for the column heading of standardized beta coefficients. Default is \code{"std. Beta"}.
 #' @param string.ci Character vector, used for the column heading of confidence interval values. Default is \code{"CI"}.
 #' @param string.se Character vector, used for the column heading of standard error values. Default is \code{"std. Error"}.
+#' @param string.std_se Character vector, used for the column heading of standard error of standardized coefficients. Default is \code{"standardized std. Error"}.
 #' @param string.p Character vector, used for the column heading of p values. Default is \code{"p"}.
 #' @param string.df Character vector, used for the column heading of degrees of freedom. Default is \code{"df"}.
 #' @param string.stat Character vector, used for the test statistic. Default is \code{"Statistic"}.
@@ -255,6 +256,7 @@ tab_model <- function(
   string.std = "std. Beta",
   string.ci = "CI",
   string.se = "std. Error",
+  string.std_se = "standardized std. Error",
   string.p = "p",
   string.df = "df",
   string.stat = "Statistic",
@@ -346,6 +348,9 @@ tab_model <- function(
   copos <- which("std.est" == col.order)
   if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.estimate"
 
+  copos <- which("std.se" == col.order)
+  if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.std.error"
+
   copos <- which("std.ci" == col.order)
   if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.conf.int"
 
@@ -365,6 +370,7 @@ tab_model <- function(
     if ("std" %in% s.names) string.std <- strings[["std"]]
     if ("ci" %in% s.names) string.ci <- strings[["ci"]]
     if ("se" %in% s.names) string.se <- strings[["se"]]
+    if ("std_se" %in% s.names) string.std_se <- strings[["std_se"]]
     if ("p" %in% s.names) string.p <- strings[["p"]]
     if ("df" %in% s.names) string.df <- strings[["df"]]
     if ("stat" %in% s.names) string.stat <- strings[["stat"]]
@@ -657,11 +663,18 @@ tab_model <- function(
                 `Conditional R2` = rsqdummy$R2_Bayes
               )
             }
-          } else if (!is.null(vars) && !all(is.na(vars))) {
-            rsq <- list(
-              `Marginal R2` = vars$var.fixed / (vars$var.fixed + vars$var.random + vars$var.residual),
-              `Conditional R2` = (vars$var.fixed + vars$var.random) / (vars$var.fixed + vars$var.random + vars$var.residual)
-            )
+          } else if (!is.null(vars)) {
+            if (is.null(vars$var.random)) {
+              rsq <- list(
+                `Marginal R2` = vars$var.fixed / (vars$var.fixed + vars$var.residual),
+                `Conditional R2` = NA
+              )
+            } else {
+              rsq <- list(
+                `Marginal R2` = vars$var.fixed / (vars$var.fixed + vars$var.random + vars$var.residual),
+                `Conditional R2` = (vars$var.fixed + vars$var.random) / (vars$var.fixed + vars$var.random + vars$var.residual)
+              )
+            }
           }
         } else {
           rsq <- tryCatch(

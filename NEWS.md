@@ -7,6 +7,7 @@
 * `plot_likert()` now automatically adjusts labels to avoid overlapping.
 * `tab_model()` gets a `show.aicc`-argument to show the second order AIC.
 * `tab_model()` gets a `show.reflvl`-argument to show the reference level of factors.
+* `tab_model()` gets a `string.std_se`-argument to change the column header for standard errors of standardized coefficients.
 
 ## Bug fixes
 

@@ -17,7 +17,8 @@ tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
   vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m",
   "HC5"), vcov.args = NULL, string.pred = "Predictors",
   string.est = "Estimate", string.std = "std. Beta",
-  string.ci = "CI", string.se = "std. Error", string.p = "p",
+  string.ci = "CI", string.se = "std. Error",
+  string.std_se = "standardized std. Error", string.p = "p",
   string.df = "df", string.stat = "Statistic",
   string.resp = "Response", string.intercept = "(Intercept)",
   strings = NULL, ci.hyphen = "&nbsp;&ndash;&nbsp;",
@@ -178,6 +179,8 @@ Default is based on the response scale, e.g. for logistic regression models,
 \item{string.ci}{Character vector, used for the column heading of confidence interval values. Default is \code{"CI"}.}
 
 \item{string.se}{Character vector, used for the column heading of standard error values. Default is \code{"std. Error"}.}
+
+\item{string.std_se}{Character vector, used for the column heading of standard error of standardized coefficients. Default is \code{"standardized std. Error"}.}
 
 \item{string.p}{Character vector, used for the column heading of p values. Default is \code{"p"}.}
 
