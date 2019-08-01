@@ -116,7 +116,7 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
       if (!obj_has_name(dat, "p.value"))
         dat$p.value <- tryCatch(
           {
-            sjstats::p_value(model, p.kr = FALSE)[["p.value"]]
+            suppressMessages(sjstats::p_value(model, p.kr = FALSE)[["p.value"]])
           },
           error = function(x) { NA }
         )
