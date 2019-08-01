@@ -217,7 +217,7 @@ plot_point_estimates <- function(model,
       facet_grid(~facet)
   else if (has_zeroinf)
     p <- p +
-      facet_wrap(~wrap.facet, ncol = 1, scales = "free_x")
+      facet_wrap(~wrap.facet, ncol = 1, scales = "free")
 
 
   # set axis and plot titles

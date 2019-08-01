@@ -9,6 +9,7 @@
 
 ### `tab_model()`
 
+* now supports `wbm()`-models from the *panelr*-package.
 * gets a `show.aicc`-argument to show the second order AIC.
 * gets a `show.reflvl`-argument to show the reference level of factors.
 * gets a `string.std_se` and `string.std_ci`-argument to change the column header for standard errors and confidence intervals of standardized coefficients.
@@ -17,6 +18,7 @@
 
 ### changes to other functions
 
+* `plot_model()` now supports `wbm()`-models from the *panelr*-package.
 * `sjt.itemanalysis()` now works on ordered factors. A clearer error message was added when unordered factors are used. The old error message was not helpful.
 
 ## Bug fixes

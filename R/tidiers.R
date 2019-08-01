@@ -27,6 +27,8 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
     tidy_stan_model(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, ...)
   else if (inherits(model, "lme"))
     tidy_lme_model(model, ci.lvl)
+  else if (inherits(model, "wblm"))
+    tidy_panelr_model(model, ci.lvl)
   else if (inherits(model, "gls"))
     tidy_gls_model(model, ci.lvl)
   else if (inherits(model, "coxph"))
@@ -185,6 +187,18 @@ tidy_cox_model <- function(model, ci.lvl) {
   if (!obj_has_name(dat, "p.value"))
     dat$p.value <- sjstats::p_value(model)[["p.value"]]
 
+  dat
+}
+
+
+#' @importFrom broom tidy
+tidy_panelr_model <- function(model, ci.lvl) {
+  # tidy the model
+  dat <- broom::tidy(model, conf.int = TRUE, conf.level = ci.lvl, effects = "fixed")
+  grp_column <- grep("group", colnames(dat), fixed = TRUE)
+  if (length(grp_column)) {
+    colnames(dat)[grp_column] <- "wrap.facet"
+  }
   dat
 }
 

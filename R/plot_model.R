@@ -561,7 +561,10 @@ plot_model <- function(model,
 
 
   # check nr of estimates. if only one, plot slope
-  if (type == "est" && length(insight::find_predictors(model, component = "conditional", flatten = TRUE)) == 1 && fam.info$is_linear && one_par(model)) type <- "slope"
+  if (type == "est" &&
+      length(insight::find_predictors(model, component = "conditional", flatten = TRUE)) == 1 &&
+      length(insight::find_predictors(model, component = "instruments", flatten = TRUE)) == 0 &&
+      fam.info$is_linear && one_par(model)) type <- "slope"
 
 
   # set some default options for stan-models, which are not
