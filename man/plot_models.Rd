@@ -12,8 +12,10 @@ plot_models(..., transform, std.est = NULL, rm.terms = NULL,
   grid.breaks = NULL, dot.size = 3, spacing = 0.4, colors = "Set1",
   show.values = FALSE, show.legend = TRUE, show.intercept = FALSE,
   show.p = TRUE, p.shape = FALSE, p.threshold = c(0.05, 0.01, 0.001),
-  ci.lvl = 0.95, vline.color = NULL, digits = 2, grid = FALSE,
-  auto.label = TRUE, prefix.labels = c("none", "varname", "label"))
+  ci.lvl = 0.95, vcov.fun = NULL, vcov.type = c("HC3", "const", "HC",
+  "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"), vcov.args = NULL,
+  vline.color = NULL, digits = 2, grid = FALSE, auto.label = TRUE,
+  prefix.labels = c("none", "varname", "label"))
 }
 \arguments{
 \item{...}{One or more regression models, including glm's or mixed models.
@@ -147,6 +149,17 @@ interval, which defaults to the 50\%-CI; and the "outer" interval, which
 defaults to the 89\%-CI. \code{ci.lvl} affects only the outer interval in
 such cases. See \code{prob.inner} and \code{prob.outer} under the
 \code{...}-argument for more details.}
+
+\item{vcov.fun}{Character vector, indicating the name of the \code{vcov*()}-function
+from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust
+standard errors are required.}
+
+\item{vcov.type}{Character vector, specifying the estimation type for the
+robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
+for details).}
+
+\item{vcov.args}{List of named vectors, used as additional arguments that
+are passed down to \code{vcov.fun}.}
 
 \item{vline.color}{Color of the vertical "zero effect" line. Default color is
 inherited from the current theme.}

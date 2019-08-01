@@ -43,7 +43,20 @@ plot_type_est <- function(type,
 
   if (type == "est" || type == "re") {
     robust <- list(vcov.fun, vcov.type, vcov.args)
-    dat <- tidy_model(model, ci.lvl, tf, type, bpe, se, robust, facets, show.zeroinf, p.val = "wald", ...)
+    dat <-
+      tidy_model(
+        model = model,
+        ci.lvl = ci.lvl,
+        tf = tf,
+        type = type,
+        bpe = bpe,
+        se = se,
+        robust = robust,
+        facets = facets,
+        show.zeroinf = show.zeroinf,
+        p.val = "wald",
+        ...
+      )
   } else {
     dat <- model %>%
       sjstats::std_beta(type = type, ci.lvl = ci.lvl) %>%

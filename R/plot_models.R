@@ -100,7 +100,11 @@ plot_models <- function(...,
                         show.intercept = FALSE,
                         show.p = TRUE,
                         p.shape = FALSE,
-                        p.threshold = c(0.05, 0.01, 0.001),                        ci.lvl = .95,
+                        p.threshold = c(0.05, 0.01, 0.001),
+                        ci.lvl = .95,
+                        vcov.fun = NULL,
+                        vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
+                        vcov.args = NULL,
                         vline.color = NULL,
                         digits = 2,
                         grid = FALSE,
@@ -109,6 +113,10 @@ plot_models <- function(...,
   # retrieve list of fitted models
   input_list <- list(...)
   names(input_list) <- unlist(lapply(match.call(expand.dots = F)$`...`, deparse))
+
+  vcov.type <- match.arg(vcov.type)
+  # check se-argument
+  vcov.fun <- check_se_argument(se = vcov.fun, type = "est")
 
   # check length. if we have a list of fitted model, we need to "unlist" them
   if (length(input_list) == 1 && class(input_list[[1]]) == "list")
@@ -148,7 +156,7 @@ plot_models <- function(...,
       purrr::map(~ sjstats::std_beta(.x, type = std.est)) %>%
       purrr::map(~ sjmisc::var_rename(.x, std.estimate = "estimate")) %>%
       purrr::map2(input_list, ~ sjmisc::add_variables(
-        .x, p.value = sjstats::p_value(.y)[["p.value"]][-1]
+        .x, p.value = suppressMessages(sjstats::p_value(.y)[["p.value"]][-1])
       ))
 
   } else {
@@ -159,12 +167,13 @@ plot_models <- function(...,
     fl <- purrr::map(
       input_list,
       ~ tidy_model(
-        .x,
-        ci.lvl,
+        model = .x,
+        ci.lvl = ci.lvl,
         tf = transform,
         type = "est",
         bpe = "line",
         se = FALSE,
+        robust = list(vcov.fun, vcov.type, vcov.args),
         facets = TRUE,
         show.zeroinf = FALSE,
         p.val = "wald",

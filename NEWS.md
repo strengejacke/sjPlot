@@ -27,6 +27,7 @@
 * The `plot_likert()` option `reverse.scale = TRUE` resulted in `values = "sum.inside"` being outside and the other way around. This is fixed now. 
 * `view_df()` mixed up labels and frequency values when value labels were present, but no such values were in the data.
 * Argument `wrap.labels` in `plot_frq()` did not properly work for factor levels.
+* Fix issue in `plot_models()` that stopped for some models.
 
 # sjPlot 2.6.3
 

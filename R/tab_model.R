@@ -404,11 +404,11 @@ tab_model <- function(
       # get tidy output of summary ----
 
       dat <- tidy_model(
-        model,
+        model = model,
         ci.lvl = ci.lvl,
-        transform,
+        tf = transform,
         type = "est",
-        bpe,
+        bpe = bpe,
         se = show.se,
         robust = list(vcov.fun, vcov.type, vcov.args),
         facets = FALSE,
