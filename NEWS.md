@@ -2,12 +2,22 @@
 
 ## Changes to functions
 
+### `plot_likert()`
+
+* showed category labels in the top and bottom legends in two rows if there are more than six categories. Also, the categories are ordered column wise instead of row wise. This behaviour can now be controlled for grouped likert plots, using `group.legend.options`. The ordering now defaults to row wise and the user can force all categories onto a single row.
+* now automatically adjusts labels to avoid overlapping.
+
+### `tab_model()`
+
+* gets a `show.aicc`-argument to show the second order AIC.
+* gets a `show.reflvl`-argument to show the reference level of factors.
+* gets a `string.std_se` and `string.std_ci`-argument to change the column header for standard errors and confidence intervals of standardized coefficients.
+* no longer prints a message that default p-values for mixed models are based on Wald approximation.
+* `show.ci50` defaults to `FALSE` now.
+
+### changes to other functions
+
 * `sjt.itemanalysis()` now works on ordered factors. A clearer error message was added when unordered factors are used. The old error message was not helpful.
-* `plot_likert()` showed category labels in the top and bottom legends in two rows if there are more than six categories. Also, the categories are ordered column wise instead of row wise. This behaviour can now be controlled for grouped likert plots, using `group.legend.options`. The ordering now defaults to row wise and the user can force all categories onto a single row.
-* `plot_likert()` now automatically adjusts labels to avoid overlapping.
-* `tab_model()` gets a `show.aicc`-argument to show the second order AIC.
-* `tab_model()` gets a `show.reflvl`-argument to show the reference level of factors.
-* `tab_model()` gets a `string.std_se` and `string.std_ci`-argument to change the column header for standard errors and confidence intervals of standardized coefficients.
 
 ## Bug fixes
 

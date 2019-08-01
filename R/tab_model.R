@@ -219,7 +219,7 @@ tab_model <- function(
   show.intercept = TRUE,
   show.est = TRUE,
   show.ci = .95,
-  show.ci50 = TRUE,
+  show.ci50 = FALSE,
   show.se = NULL,
   show.std = NULL,
   show.p = TRUE,

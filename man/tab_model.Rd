@@ -5,7 +5,7 @@
 \title{Print regression models as HTML table}
 \usage{
 tab_model(..., transform, show.intercept = TRUE, show.est = TRUE,
-  show.ci = 0.95, show.ci50 = TRUE, show.se = NULL,
+  show.ci = 0.95, show.ci50 = FALSE, show.se = NULL,
   show.std = NULL, show.p = TRUE, show.stat = FALSE,
   show.df = FALSE, show.zeroinf = TRUE, show.r2 = TRUE,
   show.icc = TRUE, show.re.var = TRUE, show.ngroups = TRUE,
