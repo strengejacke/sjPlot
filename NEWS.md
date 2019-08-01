@@ -7,10 +7,11 @@
 * `plot_likert()` now automatically adjusts labels to avoid overlapping.
 * `tab_model()` gets a `show.aicc`-argument to show the second order AIC.
 * `tab_model()` gets a `show.reflvl`-argument to show the reference level of factors.
-* `tab_model()` gets a `string.std_se`-argument to change the column header for standard errors of standardized coefficients.
+* `tab_model()` gets a `string.std_se` and `string.std_ci`-argument to change the column header for standard errors and confidence intervals of standardized coefficients.
 
 ## Bug fixes
 
+* `plot_model(type = "int")` now also recognized interaction terms with `:` in formula.
 * Argument `string.est` in `tab_model()` did not overwrite the default label for the estimate-column-header.
 * Minor fix in `tab_model()` for mixed models that can't compute R2.
 * The `plot_likert()` option `reverse.scale = TRUE` resulted in `values = "sum.inside"` being outside and the other way around. This is fixed now. 

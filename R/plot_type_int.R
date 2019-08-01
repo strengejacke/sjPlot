@@ -27,7 +27,7 @@ plot_type_int <- function(model,
   rhs <- unlist(strsplit(as.character(stats::formula(model))[3], "+", fixed = TRUE))
 
   # interaction terms are separated with ":"
-  int.terms <- purrr::map_lgl(rhs, ~ sjmisc::str_contains(.x, "*"))
+  int.terms <- purrr::map_lgl(rhs, ~ sjmisc::str_contains(x = .x, pattern = c("*", ":"), logic = "|"))
 
 
   # stop if no interaction found
@@ -38,7 +38,7 @@ plot_type_int <- function(model,
 
   # get interaction terms and model frame
 
-  ia.terms <- purrr::map(rhs[int.terms], ~ sjmisc::trim(unlist(strsplit(.x, "*", fixed = TRUE))))
+  ia.terms <- purrr::map(rhs[int.terms], ~ sjmisc::trim(unlist(strsplit(.x, "[\\*:]"))))
   mf <- insight::get_data(model)
 
   pl <- list()

@@ -80,6 +80,7 @@
 #' @param string.ci Character vector, used for the column heading of confidence interval values. Default is \code{"CI"}.
 #' @param string.se Character vector, used for the column heading of standard error values. Default is \code{"std. Error"}.
 #' @param string.std_se Character vector, used for the column heading of standard error of standardized coefficients. Default is \code{"standardized std. Error"}.
+#' @param string.std_ci Character vector, used for the column heading of confidence intervals of standardized coefficients. Default is \code{"standardized std. Error"}.
 #' @param string.p Character vector, used for the column heading of p values. Default is \code{"p"}.
 #' @param string.df Character vector, used for the column heading of degrees of freedom. Default is \code{"df"}.
 #' @param string.stat Character vector, used for the test statistic. Default is \code{"Statistic"}.
@@ -257,6 +258,7 @@ tab_model <- function(
   string.ci = "CI",
   string.se = "std. Error",
   string.std_se = "standardized std. Error",
+  string.std_ci = "standardized CI",
   string.p = "p",
   string.df = "df",
   string.stat = "Statistic",
@@ -371,6 +373,7 @@ tab_model <- function(
     if ("ci" %in% s.names) string.ci <- strings[["ci"]]
     if ("se" %in% s.names) string.se <- strings[["se"]]
     if ("std_se" %in% s.names) string.std_se <- strings[["std_se"]]
+    if ("std_ci" %in% s.names) string.std_ci <- strings[["std_ci"]]
     if ("p" %in% s.names) string.p <- strings[["p"]]
     if ("df" %in% s.names) string.df <- strings[["df"]]
     if ("stat" %in% s.names) string.stat <- strings[["stat"]]
