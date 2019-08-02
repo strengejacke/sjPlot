@@ -194,11 +194,11 @@ plot_likert <- function(items,
     groups <- rep(1, length.out = ncol(items))
   } else {
     if (!requireNamespace("cowplot", quietly = T))
-      stop("plot_likert_grp: Please install the package \"cowplot\"", call. = F)
+      stop("Package 'cowplot' required for this function wor work. Please install it.", call. = F)
   }
 
   if (ncol(items) != length(groups))
-    stop("plot_likert_grp: Length of groups has to equal the number of items: ncol(items) != length(groups)", call. = F)
+    stop("Length of groups has to equal the number of items: ncol(items) != length(groups).", call. = F)
 
   # retrieve unique factor / group index values
   findex <- unique(groups)
@@ -219,9 +219,9 @@ plot_likert <- function(items,
     # If there are 2 or more groups, the legend will be plotted according to legend.pos.
     if (length(findex) != 1) {
       if (legend.pos %in% c("top", "both") & i == 1)
-        .pl <- .pl + theme(legend.position = "top") + guides(fill=do.call(guide_legend, group.legend.options))
+        .pl <- .pl + theme(legend.position = "top") + guides(fill = do.call(guide_legend, group.legend.options))
       else if (legend.pos %in% c("bottom", "both") & i == length(findex))
-        .pl <- .pl + theme(legend.position = "bottom") + guides(fill=do.call(guide_legend, group.legend.options))
+        .pl <- .pl + theme(legend.position = "bottom") + guides(fill = do.call(guide_legend, group.legend.options))
       else if (legend.pos != "all")
         .pl <- .pl + theme(legend.position = "none")
     }

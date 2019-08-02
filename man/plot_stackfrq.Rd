@@ -14,7 +14,7 @@ plot_stackfrq(items, title = NULL, legend.title = NULL,
   digits = 1, vjust = "center", coord.flip = TRUE)
 }
 \arguments{
-\item{items}{Data frame, with each column representing one item.}
+\item{items}{Data frame, or a grouped data frame, with each column representing one item.}
 
 \item{title}{character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If \code{title = ""}, no title is printed.
@@ -114,5 +114,11 @@ end <- which(colnames(efc) == "c90cop9")
 # auto-detection of labels
 plot_stackfrq(efc[, start:end])
 
+# works on grouped data frames as well
+library(dplyr)
+efc \%>\%
+  group_by(c161sex) \%>\%
+  select(start:end) \%>\%
+  plot_stackfrq()
 
 }

@@ -20,7 +20,7 @@ plot_likert(items, groups = NULL, groups.titles = "auto",
   TRUE), cowplot.options = list(label_x = 0.01, hjust = 0, align = "v"))
 }
 \arguments{
-\item{items}{Data frame, with each column representing one item.}
+\item{items}{Data frame, or a grouped data frame, with each column representing one item.}
 
 \item{groups}{(optional) Must be a vector of same length as \code{ncol(items)},
 where each item in this vector represents the group number

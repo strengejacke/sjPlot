@@ -7,7 +7,7 @@
 #'
 #' @note Thanks to \href{http://www.clas.ufl.edu/users/forrest/}{Forrest Stevens} for bug fixes.
 #'
-#' @param items Data frame, with each column representing one item.
+#' @param items Data frame, or a grouped data frame, with each column representing one item.
 #' @param sort.frq Indicates whether the \code{items} should be ordered by
 #'   by highest count of first or last category of \code{items}.
 #'   \describe{
@@ -40,6 +40,12 @@
 #' # auto-detection of labels
 #' plot_stackfrq(efc[, start:end])
 #'
+#' # works on grouped data frames as well
+#' library(dplyr)
+#' efc %>%
+#'   group_by(c161sex) %>%
+#'   select(start:end) %>%
+#'   plot_stackfrq()
 #'
 #' @import ggplot2
 #' @importFrom sjmisc frq
@@ -76,6 +82,58 @@ plot_stackfrq <- function(items,
   # a data frame with several items, convert vector to data frame
 
   if (!is.data.frame(items) && !is.matrix(items)) items <- as.data.frame(items)
+
+  pl <- NULL
+
+  if (inherits(items, "grouped_df")) {
+    # get grouped data
+    grps <- get_grouped_data(items)
+
+    # now plot everything
+    for (i in seq_len(nrow(grps))) {
+      # copy back labels to grouped data frame
+      tmp <- sjlabelled::copy_labels(grps$data[[i]], items)
+
+      # prepare argument list, including title
+      tmp.title <- get_grouped_plottitle(items, grps, i, sep = "\n")
+
+      # plot
+      plots <- .plot_stackfrq_helper(
+        items = tmp, title = tmp.title, legend.title = legend.title, legend.labels = legend.labels,
+        axis.titles = axis.titles, axis.labels = axis.labels, weight.by = weight.by,
+        sort.frq = sort.frq, wrap.title = wrap.title, wrap.labels = wrap.labels,
+        wrap.legend.title = wrap.legend.title, wrap.legend.labels = wrap.legend.labels,
+        geom.size = geom.size, geom.colors = geom.colors, show.prc = show.prc,
+        show.n = show.n, show.total = show.total, show.axis.prc = show.axis.prc,
+        show.legend = show.legend, grid.breaks = grid.breaks, expand.grid = expand.grid,
+        digits = digits, vjust = vjust, coord.flip = coord.flip
+      )
+
+      # add plots, check for NULL results
+      pl <- list(pl, plots)
+    }
+  } else {
+    pl <- .plot_stackfrq_helper(
+      items = items, title = title, legend.title = legend.title, legend.labels = legend.labels,
+      axis.titles = axis.titles, axis.labels = axis.labels, weight.by = weight.by,
+      sort.frq = sort.frq, wrap.title = wrap.title, wrap.labels = wrap.labels,
+      wrap.legend.title = wrap.legend.title, wrap.legend.labels = wrap.legend.labels,
+      geom.size = geom.size, geom.colors = geom.colors, show.prc = show.prc,
+      show.n = show.n, show.total = show.total, show.axis.prc = show.axis.prc,
+      show.legend = show.legend, grid.breaks = grid.breaks, expand.grid = expand.grid,
+      digits = digits, vjust = vjust, coord.flip = coord.flip
+    )
+  }
+
+  pl
+}
+
+.plot_stackfrq_helper <- function(
+  items, title, legend.title, legend.labels, axis.titles, axis.labels,
+  weight.by, sort.frq, wrap.title, wrap.labels, wrap.legend.title,
+  wrap.legend.labels, geom.size, geom.colors, show.prc, show.n,
+  show.total, show.axis.prc, show.legend, grid.breaks, expand.grid, digits,
+  vjust, coord.flip) {
 
   # copy titles
 

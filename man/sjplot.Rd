@@ -5,8 +5,7 @@
 \alias{sjtab}
 \title{Wrapper to create plots and tables within a pipe-workflow}
 \usage{
-sjplot(data, ..., fun = c("grpfrq", "xtab", "aov1", "likert",
-  "stackfrq"))
+sjplot(data, ..., fun = c("grpfrq", "xtab", "aov1", "likert"))
 
 sjtab(data, ..., fun = c("xtab", "stackfrq"))
 }
@@ -43,8 +42,8 @@ Following \code{fun}-values are currently supported:
             \item{\code{"likert"}}{calls \code{\link{plot_likert}}. \code{data}
             must be a data frame with items to plot.
             }
-            \item{\code{"stackfrq"}}{calls \code{\link{plot_stackfrq}} or \code{\link{tab_stackfrq}}.
-            \code{data} must be a data frame with items to create the plot or table.
+            \item{\code{"stackfrq"}}{calls \code{\link{tab_stackfrq}}.
+            \code{data} must be a data frame with items to create the table.
             }
             \item{\code{"xtab"}}{calls \code{\link{sjp.xtab}} or \code{\link{sjt.xtab}}.
             The first two variables in \code{data} are used (and required)

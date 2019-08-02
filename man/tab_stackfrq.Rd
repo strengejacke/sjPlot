@@ -14,7 +14,7 @@ tab_stackfrq(items, weight.by = NULL, title = NULL,
   remove.spaces = TRUE)
 }
 \arguments{
-\item{items}{Data frame, with each column representing one item.}
+\item{items}{Data frame, or a grouped data frame, with each column representing one item.}
 
 \item{weight.by}{Vector of weights that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is
