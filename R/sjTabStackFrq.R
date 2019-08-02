@@ -1,5 +1,5 @@
 #' @title Summary of stacked frequencies as HTML table
-#' @name sjt.stackfrq
+#' @name tab_stackfrq
 #'
 #' @description Shows the results of stacked frequencies (such as likert scales) as HTML table.
 #'                This function is useful when several items with identical scale/categories
@@ -29,7 +29,7 @@
 #' @inheritParams sjt.itemanalysis
 #' @inheritParams sjt.xtab
 #' @inheritParams sjp.grpfrq
-#' @inheritParams sjp.stackfrq
+#' @inheritParams plot_stackfrq
 #'
 #' @return Invisibly returns
 #'          \itemize{
@@ -62,7 +62,7 @@
 #'
 #' # plot stacked frequencies of 5 (ordered) item-scales
 #' \dontrun{
-#' sjt.stackfrq(likert_4, value.labels = levels_4, var.labels = items)
+#' tab_stackfrq(likert_4, value.labels = levels_4, var.labels = items)
 #'
 #' # -------------------------------
 #' # Data from the EUROFAMCARE sample dataset
@@ -74,23 +74,23 @@
 #' # recveive first item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
 #'
-#' sjt.stackfrq(efc[, c(start:end)], alternate.rows = TRUE)
+#' tab_stackfrq(efc[, c(start:end)], alternate.rows = TRUE)
 #'
-#' sjt.stackfrq(efc[, c(start:end)], alternate.rows = TRUE,
+#' tab_stackfrq(efc[, c(start:end)], alternate.rows = TRUE,
 #'              show.n = TRUE, show.na = TRUE)
 #'
 #' # --------------------------------
 #' # User defined style sheet
 #' # --------------------------------
-#' sjt.stackfrq(efc[, c(start:end)], alternate.rows = TRUE,
+#' tab_stackfrq(efc[, c(start:end)], alternate.rows = TRUE,
 #'              show.total = TRUE, show.skew = TRUE, show.kurtosis = TRUE,
 #'              CSS = list(css.ncol = "border-left:1px dotted black;",
 #'                         css.summary = "font-style:italic;"))}
 #'
 #' @importFrom psych describe
-#' @importFrom stats xtabs
+#' @importFrom sjmisc frq
 #' @export
-sjt.stackfrq <- function(items,
+tab_stackfrq <- function(items,
                          weight.by = NULL,
                          title = NULL,
                          var.labels = NULL,
@@ -183,8 +183,8 @@ sjt.stackfrq <- function(items,
   if (is.null(weight.by)) {
     dummy <- sjmisc::frq(items, show.strings = TRUE, show.na = show.na)
   } else {
-    items[[".weights"]] <- weight.by
-    dummy <- sjmisc::frq(items, weights = ".weights", show.strings = TRUE, show.na = show.na)
+    items$weights <- weight.by
+    dummy <- sjmisc::frq(items, weights = items$weights, show.strings = TRUE, show.na = show.na)
   }
   mat.n <- do.call(rbind, lapply(dummy, function(.i) {
     as.data.frame(t(

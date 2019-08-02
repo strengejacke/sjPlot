@@ -1,5 +1,5 @@
 #' @title Plot stacked proportional bars
-#' @name sjp.stackfrq
+#' @name plot_stackfrq
 #'
 #' @description Plot items (variables) of a scale as stacked proportional bars. This
 #'                function is useful when several items with identical scale/categoroies
@@ -9,15 +9,19 @@
 #'
 #' @param items Data frame, with each column representing one item.
 #' @param sort.frq Indicates whether the \code{items} should be ordered by
-#'          by highest count of first or last category of \code{items}.
-#'          \describe{
-#'            \item{\code{"first.asc"}}{to order ascending by lowest count of first category,}
-#'            \item{\code{"first.desc"}}{to order descending by lowest count of first category,}
-#'            \item{\code{"last.asc"}}{to order ascending by lowest count of last category,}
-#'            \item{\code{"last.desc"}}{to order descending by lowest count of last category,}
-#'            \item{\code{NULL}}{(default) for no sorting.}
-#'          }
-#' @param show.prc Logical, if \code{TRUE} (default), the percentage values at the x-axis are shown.
+#'   by highest count of first or last category of \code{items}.
+#'   \describe{
+#'     \item{\code{"first.asc"}}{to order ascending by lowest count of first category,}
+#'     \item{\code{"first.desc"}}{to order descending by lowest count of first category,}
+#'     \item{\code{"last.asc"}}{to order ascending by lowest count of last category,}
+#'     \item{\code{"last.desc"}}{to order descending by lowest count of last category,}
+#'     \item{\code{NULL}}{(default) for no sorting.}
+#'   }
+#' @param show.axis.prc Logical, if \code{TRUE} (default), the percentage values at the x-axis are shown.
+#' @param show.total logical, if \code{TRUE}, adds total number of cases for each
+#'   group or category to the labels.
+#' @param show.prc Logical, whether percentage values should be plotted or not.
+#' @param show.n Logical, whether count values hould be plotted or not.
 #'
 #' @return A ggplot-object.
 #'
@@ -34,16 +38,16 @@
 #' # recveive first item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
 #' # auto-detection of labels
-#' sjp.stackfrq(efc[, start:end])
+#' plot_stackfrq(efc[, start:end])
 #'
 #'
 #' @import ggplot2
-#' @importFrom dplyr group_by mutate arrange
+#' @importFrom sjmisc frq
 #' @importFrom scales percent
-#' @importFrom stats na.omit xtabs
+#' @importFrom stats na.omit
 #' @importFrom rlang .data
 #' @export
-sjp.stackfrq <- function(items,
+plot_stackfrq <- function(items,
                          title = NULL,
                          legend.title = NULL,
                          legend.labels = NULL,
@@ -57,9 +61,10 @@ sjp.stackfrq <- function(items,
                          wrap.legend.labels = 28,
                          geom.size = 0.5,
                          geom.colors = "Blues",
-                         show.values = TRUE,
-                         show.n = TRUE,
                          show.prc = TRUE,
+                         show.n = FALSE,
+                         show.total = TRUE,
+                         show.axis.prc = TRUE,
                          show.legend = TRUE,
                          grid.breaks = 0.2,
                          expand.grid = FALSE,
@@ -146,7 +151,7 @@ sjp.stackfrq <- function(items,
   # Check whether N of each item should be included into
   # axis labels
 
-  if (show.n) {
+  if (show.total) {
     for (i in seq_len(length(axis.labels))) {
       axis.labels[i] <- paste(axis.labels[i],
                               sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))),
@@ -163,68 +168,24 @@ sjp.stackfrq <- function(items,
   # and weight variable. do this for each item that was
   # passed as parameter
 
-  mydat <- c()
-
-  # determine minimum value. if 0, add one, because
-  # vector indexing starts with 1
-
-  if (any(apply(items, c(1, 2), is.factor)) || any(apply(items, c(1, 2), is.character))) {
-    diff <- ifelse(min(apply(items, c(1, 2), as.numeric), na.rm = TRUE) == 0, 1, 0)
+  if (is.null(weight.by)) {
+    dummy <- sjmisc::frq(items, show.na = FALSE)
   } else {
-    diff <- ifelse(min(items, na.rm = TRUE) == 0, 1, 0)
+    items$weights <- weight.by
+    dummy <- sjmisc::frq(items, weights = items$weights)
   }
 
-  # iterate item-list
-  for (i in seq_len(ncol(items))) {
-    # get each single items
-    variable <- items[[i]]
+  dummy <- lapply(1:length(dummy), function(.i) {
+    dummy[[.i]]$grp <- .i
+    dummy[[.i]]$ypos <- (cumsum(dummy[[.i]]$valid.prc) - 0.5 * dummy[[.i]]$valid.prc) / 100
+    dummy[[.i]]
+  })
 
-    # create proportional table so we have the percentage
-    # values that should be used as y-value for the bar charts
-    # We now have a data frame with categories, group-association
-    # and percentage values (i.e. each cell as separate row in the
-    # data frame)
-
-    # check whether counts should be weighted or not
-    if (is.null(weight.by)) {
-      df <- as.data.frame(prop.table(table(variable)))
-    } else {
-      df <- as.data.frame(prop.table(round(stats::xtabs(weight.by ~ variable), 0)))
-    }
-
-    # give columns names
-    names(df) <- c("var", "prc")
-
-    # need to be numeric, so percentage values (see below) are
-    # correctly assigned, i.e. missing categories are considered
-    df$var <- sjlabelled::as_numeric(df$var, keep.labels = F) + diff # if categories start with zero, fix this here
-
-    # Create a vector of zeros
-    prc <- rep(0, countlen)
-
-    # Replace the values in prc for those indices which equal df$var
-    prc[df$var] <- df$prc
-
-    # create new data frame. We now have a data frame with all
-    # variable categories abd their related percentages, including
-    # zero counts, but no(!) missings!
-    mydf <- data.frame(grp = i, cat = seq_len(countlen), prc)
-
-    # now, append data frames
-    mydat <- data.frame(rbind(mydat, mydf))
-  }
-
-  # make sure group and count variable
-  # are factor values
+  mydat <- do.call(rbind, dummy)
 
   mydat$grp <- as.factor(mydat$grp)
-  mydat$cat <- as.factor(mydat$cat)
-
-  # add half of Percentage values as new y-position for stacked bars
-  mydat <- mydat %>%
-    dplyr::group_by(.data$grp) %>%
-    dplyr::mutate(ypos = cumsum(prc) - 0.5 * prc) %>%
-    dplyr::arrange(.data$grp)
+  mydat$cat <- as.factor(mydat$val)
+  mydat$prc <- mydat$valid.prc / 100
 
   # Prepare and trim legend labels to appropriate size
 
@@ -303,9 +264,19 @@ sjp.stackfrq <- function(items,
   # Set value labels and label digits
 
   mydat$digits <- digits
-  if (show.values) {
-    ggvaluelabels <-  geom_text(
+  if (show.prc && !show.n) {
+    ggvaluelabels <- geom_text(
       aes(y = .data$ypos, label = sprintf("%.*f%%", .data$digits, 100 * .data$prc)),
+      vjust = vjust
+    )
+  } else if (show.n && !show.prc) {
+    ggvaluelabels <- geom_text(
+      aes(y = .data$ypos, label = sprintf("%i", as.integer(.data$frq))),
+      vjust = vjust
+    )
+  } else if (show.n && show.prc) {
+    ggvaluelabels <- geom_text(
+      aes(y = .data$ypos, label = sprintf("%.*f%% (n=%i)", .data$digits, 100 * .data$prc, as.integer(.data$frq))),
       vjust = vjust
     )
   } else {
@@ -335,7 +306,7 @@ sjp.stackfrq <- function(items,
 
   # show/hide percentage values on x axis
 
-  if (show.prc)
+  if (show.axis.prc)
     perc.val <- scales::percent
   else
     perc.val <- NULL
@@ -355,7 +326,7 @@ sjp.stackfrq <- function(items,
     # It either corresponds to the maximum amount of cases in the data set
     # (length of var) or to the highest count of var's categories.
     scale_y_continuous(breaks = gridbreaks,
-                       limits = c(0, 1),
+                       limits = c(-0.02, 1.02),
                        expand = expgrid,
                        labels = perc.val)
   # check whether coordinates should be flipped, i.e.

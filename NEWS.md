@@ -1,5 +1,10 @@
 # sjPlot 2.6.4
 
+## Renamed functions
+
+* `sjp.stackfrq()` was renamed to `plot_stackfrq()`.
+* `sjt.stackfrq()` was renamed to `tab_stackfrq()`.
+
 ## Changes to functions
 
 ### `plot_likert()`
@@ -20,6 +25,7 @@
 
 * `plot_model()` now supports `wbm()`-models from the *panelr*-package.
 * `sjt.itemanalysis()` now works on ordered factors. A clearer error message was added when unordered factors are used. The old error message was not helpful.
+* `sjp.stackfrq()` (now named: `plot_stackfrq()`) gets a `show.n`-argument to also show count values. This option can be combined with `show.prc`.
 
 ## Bug fixes
 

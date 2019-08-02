@@ -43,7 +43,7 @@ Following \code{fun}-values are currently supported:
             \item{\code{"likert"}}{calls \code{\link{plot_likert}}. \code{data}
             must be a data frame with items to plot.
             }
-            \item{\code{"stackfrq"}}{calls \code{\link{sjp.stackfrq}} or \code{\link{sjt.stackfrq}}.
+            \item{\code{"stackfrq"}}{calls \code{\link{plot_stackfrq}} or \code{\link{tab_stackfrq}}.
             \code{data} must be a data frame with items to create the plot or table.
             }
             \item{\code{"xtab"}}{calls \code{\link{sjp.xtab}} or \code{\link{sjt.xtab}}.

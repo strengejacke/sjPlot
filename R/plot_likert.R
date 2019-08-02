@@ -73,7 +73,7 @@
 #' @importFrom ggrepel geom_text_repel
 #'
 #' @inheritParams sjp.grpfrq
-#' @inheritParams sjp.stackfrq
+#' @inheritParams plot_stackfrq
 #' @inheritParams plot_model
 #'
 #' @return A ggplot-object.
@@ -183,7 +183,7 @@ plot_likert <- function(items,
                         legend.pos = "bottom",
                         rel_heights = 1,
                         group.legend.options = list(nrow = NULL, byrow = TRUE), # Add rowwise order of levels and option to force a single rowed legend for 6 or more categories
-                        cowplot.options = list(label_x = 0.01, hjust = 0, align="v") # Fix for label position depending on label length bug in cowplot
+                        cowplot.options = list(label_x = 0.01, hjust = 0, align = "v") # Fix for label position depending on label length bug in cowplot
                         ) {
 
   # Select options to be passed to .plot_likert()
