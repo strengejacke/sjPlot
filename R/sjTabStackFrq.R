@@ -180,101 +180,41 @@ sjt.stackfrq <- function(items,
   # additional statistics required from psych-package?
   # ----------------------------
   if (show.skew || show.kurtosis) pstat <- psych::describe(items)
-  # ----------------------------
-  # create data frame with each item in a row
-  # therefore, iterate each item
-  # ----------------------------
-  # save counts for each items
-  itemcount <- c()
-  mat <- data.frame()
-  mat.n <- data.frame()
-  # ----------------------------
-  # determine minimum value. if 0, add one, because
-  # vector indexing starts with 1
-  # ----------------------------
-  if (any(apply(items, c(1, 2), is.factor)) ||
-      any(apply(items, c(1, 2), is.character))) {
-    diff <- ifelse(min(apply(items, c(1, 2), as.numeric), na.rm = TRUE) == 0, 1, 0)
+  if (is.null(weight.by)) {
+    dummy <- sjmisc::frq(items, show.strings = TRUE, show.na = show.na)
   } else {
-    diff <- ifelse(min(items, na.rm = TRUE) == 0, 1, 0)
+    items[[".weights"]] <- weight.by
+    dummy <- sjmisc::frq(items, weights = ".weights", show.strings = TRUE, show.na = show.na)
   }
-  # iterate item-list
-  for (i in seq_len(ncol(items))) {
-    # ----------------------------
-    # if we don't have weights, create simple frequency table
-    # of each item
-    # ----------------------------
-    if (show.na) {
-      # ----------------------------
-      # include missing
-      # ----------------------------
-      if (is.null(weight.by)) {
-        dummy <- table(addNA(items[[i]]))
-      } else {
-        # else weight with xtabs
-        dummy <- round(stats::xtabs(weight.by ~ addNA(items[[i]])), 0)
-      }
-    # ----------------------------
-    # exclude missing
-    # ----------------------------
-    } else {
-      if (is.null(weight.by)) {
-        dummy <- table(items[[i]])
-      } else {
-        # else weight with xtabs
-        dummy <- round(stats::xtabs(weight.by ~ items[[i]]), 0)
-      }
-    }
-    # ----------------------------
-    # save n
-    # ----------------------------
-    itemcount <- c(itemcount, sum(dummy))
-    # ----------------------------
-    # create frequency var, filled with zeros
-    # need this to fill categories with zero counts
-    # ----------------------------
-    fr <- rep(0, catcount)
-    # ----------------------------
-    # if we have missings, manually change table names
-    # ----------------------------
-    if (show.na) {
-      # retrieve amount of categories
-      tl <- length(names(dummy))
-      # retrieve maximum category value, omitting NA
-      maxtl <- max(as.numeric(stats::na.omit(names(dummy))))
-      # set NA table name to max-value+1, so we have continuous
-      # vector-index (needed below)
-      names(dummy)[tl] <- maxtl + 1
-    }
-    # ----------------------------
-    # table name equals cateogory value,
-    # table itself contains counts of each category
-    # ----------------------------
-    fr[as.numeric(names(dummy)) + diff] <- dummy
-    # ----------------------------
-    # add proportional percentages to data frame row
-    # ----------------------------
-    mat <- rbind(mat, round(prop.table(fr), 4))
-    mat.n <- rbind(mat.n, fr)
-  }
+  mat.n <- do.call(rbind, lapply(dummy, function(.i) {
+    as.data.frame(t(
+      data.frame(
+        prc = sjlabelled::as_numeric(.i$frq),
+        stringsAsFactors = FALSE
+      )
+    ))
+  }))
+  mat <- do.call(rbind, lapply(dummy, function(.i) {
+    as.data.frame(t(
+      data.frame(
+        frq = sjlabelled::as_numeric(.i$raw.prc),
+        stringsAsFactors = FALSE
+      )
+    ))
+  }))
+
   # ----------------------------
   # Check if ordering was requested
   # ----------------------------
   # default order
   facord <- seq_len(nrow(mat))
   if (!is.null(sort.frq)) {
-    # ----------------------------
-    # order by first cat
-    # ----------------------------
-    if (sort.frq == "first") {
-      facord <- order(mat[, 1])
-    # ----------------------------
-    # order by last cat
-    # ----------------------------
-    } else {
-      facord <- order(mat[, ncol(mat)])
-    }
+    if (sort.frq == "first")
+      facord <- order(mat.n$V1)
+    else
+      facord <- order(mat.n[, ncol(mat.n)])
   }
+
   # ----------------------------
   # reverse order
   # ----------------------------
@@ -386,13 +326,13 @@ sjt.stackfrq <- function(items,
     # --------------------------------------------------------
     for (j in seq_len(ncol(mat))) {
       if (show.n) {
-        page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%i<br>(%.*f&nbsp;%%)</td>\n", arcstring, mat.n[facord[i], j], digits, 100 * mat[facord[i], j]))
+        page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%i<br>(%.*f&nbsp;%%)</td>\n", arcstring, as.integer(mat.n[facord[i], j]), digits, mat[facord[i], j]))
       } else {
-        page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%.*f&nbsp;%%</td>\n", arcstring, digits, 100 * mat[facord[i], j]))
+        page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s\">%.*f&nbsp;%%</td>\n", arcstring, digits, mat[facord[i], j]))
       }
     }
     # add column with N's
-    if (show.total) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign ncol summary%s\">%i</td>\n", arcstring, itemcount[facord[i]]))
+    if (show.total) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign ncol summary%s\">%i</td>\n", arcstring, as.integer(sum(mat.n[facord[i], ]))))
     # add column with Skew's
     if (show.skew) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign skewcol summary%s\">%.*f</td>\n", arcstring, digits.stats, pstat$skew[facord[i]]))
     # add column with Kurtosis's

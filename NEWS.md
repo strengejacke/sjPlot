@@ -30,6 +30,7 @@
 * `view_df()` mixed up labels and frequency values when value labels were present, but no such values were in the data.
 * Argument `wrap.labels` in `plot_frq()` did not properly work for factor levels.
 * Fix issue in `plot_models()` that stopped for some models.
+* Fix issue in `sjt.stackfrq()`, when `show.na = TRUE` and some items had zero-values.
 
 # sjPlot 2.6.3
 
