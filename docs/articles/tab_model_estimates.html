@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
       </span>
     </div>
 
@@ -61,6 +61,9 @@
     </li>
     <li>
       <a href="../articles/plot_interactions.html">Plotting Interaction Effects of Regression Models</a>
+    </li>
+    <li>
+      <a href="../articles/plot_likert_scales.html">Plotting Likert Scales</a>
     </li>
     <li>
       <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects of Regression Models</a>
@@ -104,7 +107,7 @@
       <h1>Summary of Regression Models as HTML Table</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-04-27</h4>
+            <h4 class="date">2019-08-02</h4>
       
       
       <div class="hidden name"><code>tab_model_estimates.Rmd</code></div>
@@ -252,7 +255,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adjusted R<sup>2</sup>
+R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
 0.271 / 0.266
@@ -358,7 +361,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adjusted R<sup>2</sup>
+R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
 0.843 / 0.826
@@ -489,7 +492,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adjusted R<sup>2</sup>
+R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
 0.271 / 0.266
@@ -707,7 +710,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adjusted R<sup>2</sup>
+R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
 0.271 / 0.266
@@ -943,7 +946,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-Nagelkerke’s R<sup>2</sup>
+R<sup>2</sup> Nagelkerke
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
 0.106
@@ -1165,7 +1168,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-Nagelkerke’s R<sup>2</sup>
+R<sup>2</sup> Nagelkerke
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
 0.106
@@ -1185,8 +1188,7 @@ Nagelkerke’s R<sup>2</sup>
 <a class="sourceLine" id="cb9-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(<span class="st">"bioChemists"</span>)</a>
 <a class="sourceLine" id="cb9-3" title="3"></a>
 <a class="sourceLine" id="cb9-4" title="4">m5 &lt;-<span class="st"> </span><span class="kw">zeroinfl</span>(art <span class="op">~</span><span class="st"> </span>. <span class="op">|</span><span class="st"> </span>., <span class="dt">data =</span> bioChemists)</a>
-<a class="sourceLine" id="cb9-5" title="5"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m5)</a>
-<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt; Objects of class "zeroinfl" are not supported yet.</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-5" title="5"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m5)</a></code></pre></div>
 <table class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -1395,8 +1397,7 @@ Observations
 </tr>
 </table>
 <p>You can combine any model in one table.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1, m3, m5, <span class="dt">auto.label =</span> <span class="ot">FALSE</span>, <span class="dt">show.ci =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="co">#&gt; Objects of class "zeroinfl" are not supported yet.</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1, m3, m5, <span class="dt">auto.label =</span> <span class="ot">FALSE</span>, <span class="dt">show.ci =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <table class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -1409,7 +1410,7 @@ barthtot
 tot_sc_e
 </th>
 <th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
-art
+art()
 </th>
 </tr>
 <tr>
@@ -1802,7 +1803,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adjusted R<sup>2</sup>
+R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
 0.271 / 0.266
@@ -1846,7 +1847,7 @@ NA
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
 </th>
-<th colspan="8" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+<th colspan="7" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
 Total score BARTHEL INDEX
 </th>
 </tr>
@@ -1864,18 +1865,15 @@ std. Error
 std. Beta
 </td>
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-standardized std. Error
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
 CI
 </td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
 standardized CI
 </td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col8">
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">
 Statistic
 </td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col9">
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col8">
 p
 </td>
 </tr>
@@ -1892,16 +1890,14 @@ p
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 77.98 – 96.32
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
 18.62
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
 <strong>&lt;0.001
 </strong>
 </td>
@@ -1920,18 +1916,15 @@ carer’age
 -0.09
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.03
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.35 – -0.07
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.16 – -0.03
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
 -2.87
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
 <strong>0.004</strong>
 </td>
 </tr>
@@ -1949,18 +1942,15 @@ average number of hours<br>of care per week
 -0.48
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.03
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.32 – -0.24
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.54 – -0.42
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
 -14.95
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
 <strong>&lt;0.001
 </strong>
 </td>
@@ -1979,18 +1969,15 @@ Female
 -0.01
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.03
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -4.49 – 3.70
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.06 – 0.05
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
 -0.19
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
 0.850
 </td>
 </tr>
@@ -2008,18 +1995,15 @@ intermediate level of<br>education
 0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.04
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -3.11 – 5.84
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.05 – 0.10
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
 0.60
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
 0.550
 </td>
 </tr>
@@ -2037,18 +2021,15 @@ high level of education
 -0.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.04
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -7.21 – 3.93
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.09 – 0.05
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
 -0.58
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
 0.564
 </td>
 </tr>
@@ -2056,15 +2037,15 @@ high level of education
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
 Observations
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="8">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="7">
 821
 </td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adjusted R<sup>2</sup>
+R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="8">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="7">
 0.271 / 0.266
 </td>
 </tr>
@@ -2185,7 +2166,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-Nagelkerke’s R<sup>2</sup>
+R<sup>2</sup> Nagelkerke
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="1">
 0.106
@@ -2211,7 +2192,7 @@ Nagelkerke’s R<sup>2</sup>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
 </th>
-<th colspan="6" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+<th colspan="5" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
 Total score BARTHEL INDEX
 </th>
 </tr>
@@ -2229,12 +2210,9 @@ Statistic
 Estimates
 </td>
 <td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
-standardized std. Error
-</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
 std. Error
 </td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
 std. Beta
 </td>
 </tr>
@@ -2253,11 +2231,9 @@ std. Beta
 87.15
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 4.68
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 </td>
 </tr>
 <tr>
@@ -2274,12 +2250,9 @@ carer’age
 -0.21
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.03
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.07
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.09
 </td>
 </tr>
@@ -2298,12 +2271,9 @@ average number of hours<br>of care per week
 -0.28
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.03
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.02
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.48
 </td>
 </tr>
@@ -2321,12 +2291,9 @@ Female
 -0.39
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.03
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 2.09
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.01
 </td>
 </tr>
@@ -2344,12 +2311,9 @@ intermediate level of<br>education
 1.37
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.04
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 2.28
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.02
 </td>
 </tr>
@@ -2367,12 +2331,9 @@ high level of education
 -1.64
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.04
-</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 2.84
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.02
 </td>
 </tr>
@@ -2380,15 +2341,15 @@ high level of education
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
 Observations
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="6">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="5">
 821
 </td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adjusted R<sup>2</sup>
+R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="6">
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="5">
 0.271 / 0.266
 </td>
 </tr>
@@ -2497,7 +2458,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adjusted R<sup>2</sup>
+R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
 0.271 / 0.266
@@ -2731,7 +2692,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adjusted R<sup>2</sup>
+R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
 0.271 / 0.266
@@ -2902,7 +2863,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adjusted R<sup>2</sup>
+R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
 0.271 / 0.266
@@ -3149,7 +3110,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adjusted R<sup>2</sup>
+R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="1">
 0.271 / 0.266
@@ -3234,7 +3195,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adjusted R<sup>2</sup>
+R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
 0.271 / 0.266
@@ -3334,7 +3295,7 @@ Observations
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
-R<sup>2</sup> / adjusted R<sup>2</sup>
+R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
 0.271 / 0.266

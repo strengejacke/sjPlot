@@ -83,7 +83,7 @@ If factor.groups is not NULL, the data frame df will be
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
       </span>
     </div>
 
@@ -113,6 +113,9 @@ If factor.groups is not NULL, the data frame df will be
     </li>
     <li>
       <a href="../articles/plot_interactions.html">Plotting Interaction Effects of Regression Models</a>
+    </li>
+    <li>
+      <a href="../articles/plot_likert_scales.html">Plotting Likert Scales</a>
     </li>
     <li>
       <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects of Regression Models</a>
@@ -204,7 +207,9 @@ If factor.groups is not NULL, the data frame df will be
       <td><p>If not <code>NULL</code>, <code>df</code> will be splitted into sub-groups,
 where the item analysis is carried out for each of these groups. Must be a vector of same
 length as <code><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>ncol(df)</a></code>, where each item in this vector represents the group number of
-the related columns of <code>df</code>. See 'Examples'.</p></td>
+the related columns of <code>df</code>. If <code>factor.groups = "auto"</code>, a principal
+component analysis with Varimax rotation is performed, and the resulting
+groups for the components are used as group index. See 'Examples'.</p></td>
     </tr>
     <tr>
       <th>factor.groups.titles</th>
@@ -319,8 +324,8 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
     <ul>
 <li><p>Jorion N, Self B, James K, Schroeder L, DiBello L, Pellegrino J (2013) Classical Test Theory Analysis of the Dynamics Concept Inventory. (<a href='https://www.academia.edu/4104752/Classical_Test_Theory_Analysis_of_the_Dynamics_Concept_Inventory'>web</a>)</p></li>
-<li><p>Briggs SR, Cheek JM (1986) The role of factor analysis in the development and evaluation of personality scales. Journal of Personality, 54(1), 106-148. doi: <a href='http://doi.org/10.1111/j.1467-6494.1986.tb00391.x'>10.1111/j.1467-6494.1986.tb00391.x</a></p></li>
-<li><p>McLean S et al. (2013) Stigmatizing attitudes and beliefs about bulimia nervosa: Gender, age, education and income variability in a community sample. International Journal of Eating Disorders. doi: <a href='http://doi.org/10.1002/eat.22227'>10.1002/eat.22227</a></p></li>
+<li><p>Briggs SR, Cheek JM (1986) The role of factor analysis in the development and evaluation of personality scales. Journal of Personality, 54(1), 106-148. doi: <a href='https://doi.org/10.1111/j.1467-6494.1986.tb00391.x'>10.1111/j.1467-6494.1986.tb00391.x</a></p></li>
+<li><p>McLean S et al. (2013) Stigmatizing attitudes and beliefs about bulimia nervosa: Gender, age, education and income variability in a community sample. International Journal of Eating Disorders. doi: <a href='https://doi.org/10.1002/eat.22227'>10.1002/eat.22227</a></p></li>
 <li><p>Trochim WMK (2008) Types of Reliability. (<a href='http://www.socialresearchmethods.net/kb/reltypes.php'>web</a>)</p></li>
 </ul>
     
@@ -349,8 +354,11 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
 <span class='co'># Compute PCA on Cope-Index, and perform a</span>
 <span class='co'># item analysis for each extracted factor.</span>
-<span class='no'>factor.groups</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sjt.pca.html'>sjt.pca</a></span>(<span class='no'>mydf</span>)$<span class='no'>factor.index</span>
-<span class='fu'>sjt.itemanalysis</span>(<span class='no'>mydf</span>, <span class='no'>factor.groups</span>)
+<span class='no'>indices</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sjt.pca.html'>sjt.pca</a></span>(<span class='no'>mydf</span>)$<span class='no'>factor.index</span>
+<span class='fu'>sjt.itemanalysis</span>(<span class='no'>mydf</span>, <span class='kw'>factor.groups</span> <span class='kw'>=</span> <span class='no'>indices</span>)
+
+<span class='co'># or, equivalent</span>
+<span class='fu'>sjt.itemanalysis</span>(<span class='no'>mydf</span>, <span class='kw'>factor.groups</span> <span class='kw'>=</span> <span class='st'>"auto"</span>)
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

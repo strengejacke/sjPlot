@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
       </span>
     </div>
 
@@ -95,6 +95,9 @@
     </li>
     <li>
       <a href="../articles/plot_interactions.html">Plotting Interaction Effects of Regression Models</a>
+    </li>
+    <li>
+      <a href="../articles/plot_likert_scales.html">Plotting Likert Scales</a>
     </li>
     <li>
       <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects of Regression Models</a>
@@ -505,7 +508,7 @@ recommended values are from 0.3 to 2.5</p></td>
 <span class='co'># Use classic-theme. you may need to</span>
 <span class='co'># load the ggplot2-library.</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggplot2</span>)
-<span class='fu'>set_theme</span>(<span class='kw'>base</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/ggtheme'>theme_classic</a></span>())
+<span class='fu'>set_theme</span>(<span class='kw'>base</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_classic</a></span>())
 <span class='fu'><a href='plot_frq.html'>plot_frq</a></span>(<span class='no'>efc</span>$<span class='no'>e42dep</span>)
 
 <span class='co'># adjust value labels</span>
@@ -516,12 +519,12 @@ recommended values are from 0.3 to 2.5</p></td>
 )
 
 <span class='co'># hjust-aes needs adjustment for this</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/update_defaults'>update_geom_defaults</a></span>(<span class='st'>'text'</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>hjust</span> <span class='kw'>=</span> -<span class='fl'>0.1</span>))
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/update_defaults.html'>update_geom_defaults</a></span>(<span class='st'>'text'</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>hjust</span> <span class='kw'>=</span> -<span class='fl'>0.1</span>))
 <span class='fu'><a href='sjp.xtab.html'>sjp.xtab</a></span>(<span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='no'>efc</span>$<span class='no'>e16sex</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>)
 
 <span class='co'># Create own theme based on classic-theme</span>
 <span class='fu'>set_theme</span>(
-  <span class='kw'>base</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/ggplot2/topics/ggtheme'>theme_classic</a></span>(), <span class='kw'>axis.linecolor</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>,
+  <span class='kw'>base</span> <span class='kw'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggtheme.html'>theme_classic</a></span>(), <span class='kw'>axis.linecolor</span> <span class='kw'>=</span> <span class='st'>"grey50"</span>,
   <span class='kw'>axis.textcolor</span> <span class='kw'>=</span> <span class='st'>"#6699cc"</span>
 )
 <span class='fu'><a href='plot_frq.html'>plot_frq</a></span>(<span class='no'>efc</span>$<span class='no'>e42dep</span>)

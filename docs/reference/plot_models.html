@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@
     </li>
     <li>
       <a href="../articles/plot_interactions.html">Plotting Interaction Effects of Regression Models</a>
+    </li>
+    <li>
+      <a href="../articles/plot_likert_scales.html">Plotting Likert Scales</a>
     </li>
     <li>
       <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects of Regression Models</a>
@@ -159,8 +162,10 @@
   <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>spacing</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>,
   <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.intercept</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.shape</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>p.threshold</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span>),
-  <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>vline.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>))</pre>
+  <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"HC3"</span>, <span class='st'>"const"</span>, <span class='st'>"HC"</span>,
+  <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>, <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>, <span class='st'>"HC5"</span>), <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>vline.color</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -245,7 +250,7 @@ plot function and type), used as title(s) for the x and y axis. If not
 specified, a default labelling  is chosen. <strong>Note:</strong> Some plot types
 may not support this argument sufficiently. In such cases, use the returned
 ggplot-object and add axis titles manually with
-<code><a href='https://www.rdocumentation.org/packages/ggplot2/topics/labs'>labs</a></code>. Use <code>axis.title = ""</code> to remove axis
+<code><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></code>. Use <code>axis.title = ""</code> to remove axis
 titles.</p></td>
     </tr>
     <tr>
@@ -344,6 +349,23 @@ interval, which defaults to the 50%-CI; and the "outer" interval, which
 defaults to the 89%-CI. <code>ci.lvl</code> affects only the outer interval in
 such cases. See <code>prob.inner</code> and <code>prob.outer</code> under the
 <code>...</code>-argument for more details.</p></td>
+    </tr>
+    <tr>
+      <th>vcov.fun</th>
+      <td><p>Character vector, indicating the name of the <code>vcov*()</code>-function
+from the <span class="pkg">sandwich</span>-package, e.g. <code>vcov.fun = "vcovCL"</code>, if robust
+standard errors are required.</p></td>
+    </tr>
+    <tr>
+      <th>vcov.type</th>
+      <td><p>Character vector, specifying the estimation type for the
+robust covariance matrix estimation (see <code><a href='https://www.rdocumentation.org/packages/sandwich/topics/vcovHC'>vcovHC</a></code>
+for details).</p></td>
+    </tr>
+    <tr>
+      <th>vcov.args</th>
+      <td><p>List of named vectors, used as additional arguments that
+are passed down to <code>vcov.fun</code>.</p></td>
     </tr>
     <tr>
       <th>vline.color</th>

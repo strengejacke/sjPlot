@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
       </span>
     </div>
 
@@ -95,6 +95,9 @@
     </li>
     <li>
       <a href="../articles/plot_interactions.html">Plotting Interaction Effects of Regression Models</a>
+    </li>
+    <li>
+      <a href="../articles/plot_likert_scales.html">Plotting Likert Scales</a>
     </li>
     <li>
       <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects of Regression Models</a>
@@ -241,7 +244,7 @@ the plot function and type), used as title(s) for the x and y axis.
 If not specified, a default labelling  is chosen.
 <strong>Note:</strong> Some plot types do not support this argument. In such
 cases, use the return value and add axis titles manually with
-<code><a href='https://www.rdocumentation.org/packages/ggplot2/topics/labs'>labs</a></code>, e.g.: <code>$plot.list[[1]] + labs(x = ...)</code></p></td>
+<code><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></code>, e.g.: <code>$plot.list[[1]] + labs(x = ...)</code></p></td>
     </tr>
     <tr>
       <th>axis.labels</th>
@@ -426,7 +429,9 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sjlabelled</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: 'dplyr'</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from 'package:testthat':</span>
+#&gt; <span class='message'>Attaching package: 'dplyr'</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from 'package:sjlabelled':</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    as_label</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from 'package:testthat':</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    matches</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:stats':</span>
 #&gt; <span class='message'></span>

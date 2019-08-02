@@ -65,7 +65,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
       </span>
     </div>
 
@@ -95,6 +95,9 @@
     </li>
     <li>
       <a href="../articles/plot_interactions.html">Plotting Interaction Effects of Regression Models</a>
+    </li>
+    <li>
+      <a href="../articles/plot_likert_scales.html">Plotting Likert Scales</a>
     </li>
     <li>
       <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects of Regression Models</a>
@@ -161,15 +164,15 @@
   <span class='kw'>show.prc.sign</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>grid.range</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='fl'>0.2</span>,
   <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>reverse.scale</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>sort.groups</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>legend.pos</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>,
-  <span class='kw'>rel_heights</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>cowplot.options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>label_x</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>align</span> <span class='kw'>=</span> <span class='st'>"v"</span>))</pre>
+  <span class='kw'>rel_heights</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>group.legend.options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>nrow</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>byrow</span> <span class='kw'>=</span>
+  <span class='fl'>TRUE</span>), <span class='kw'>cowplot.options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>label_x</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>align</span> <span class='kw'>=</span> <span class='st'>"v"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>items</th>
-      <td><p>Data frame, with each column representing one item.</p></td>
+      <td><p>Data frame, or a grouped data frame, with each column representing one item.</p></td>
     </tr>
     <tr>
       <th>groups</th>
@@ -363,6 +366,12 @@ or due to legend placement. This can be adjusted here. Takes a vector of numbers
 for each plot. Values are evaluated relative to each other.</p></td>
     </tr>
     <tr>
+      <th>group.legend.options</th>
+      <td><p>(optional, only used if groups are supplied) List of options to be passed to <code><a href='https://ggplot2.tidyverse.org/reference/guide_legend.html'>guide_legend</a></code>.
+The most notable options are <code>byrow=T</code> (default), this will order the categories row wise.
+And with <code>group.legend.options = list(nrow = 1)</code> all categories can be forced to be on a single row.</p></td>
+    </tr>
+    <tr>
       <th>cowplot.options</th>
       <td><p>(optional, only used if groups are supplied) List of label options to be passed to <code><a href='https://www.rdocumentation.org/packages/cowplot/topics/plot_grid'>plot_grid</a></code>.</p></td>
     </tr>
@@ -413,6 +422,32 @@ for each plot. Values are evaluated relative to each other.</p></td>
             <span class='kw'>rel_heights</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>6</span>, <span class='fl'>8</span>),
             <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>40</span>,
             <span class='kw'>reverse.scale</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot_likert-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># control legend items</span>
+<span class='no'>six_cat_example</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>6</span>, <span class='fl'>600</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>),
+  <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='fl'>6</span>)
+)</div><span class='co'># NOT RUN {</span>
+<span class='no'>six_cat_example</span> <span class='kw'>&lt;-</span>
+  <span class='no'>six_cat_example</span> <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate_all.html'>mutate_all</a></span>(~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>ordered</a></span>(<span class='no'>.</span>,<span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"+++"</span>,<span class='st'>"++"</span>,<span class='st'>"+"</span>,<span class='st'>"-"</span>,<span class='st'>"--"</span>,<span class='st'>"---"</span>)))
+
+<span class='co'># Old default</span>
+<span class='fu'>plot_likert</span>(
+  <span class='no'>six_cat_example</span>,
+  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>),
+  <span class='kw'>group.legend.options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>byrow</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+)
+
+<span class='co'># New default</span>
+<span class='fu'>plot_likert</span>(<span class='no'>six_cat_example</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>))
+
+<span class='co'># Single row</span>
+<span class='fu'>plot_likert</span>(
+  <span class='no'>six_cat_example</span>,
+  <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>, <span class='fl'>2</span>),
+  <span class='kw'>group.legend.options</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+)
+<span class='co'># }</span><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
