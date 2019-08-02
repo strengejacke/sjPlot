@@ -33,6 +33,7 @@
 * `plot_model(type = "int")` now also recognized interaction terms with `:` in formula.
 * Argument `string.est` in `tab_model()` did not overwrite the default label for the estimate-column-header.
 * Minor fix in `tab_model()` for mixed models that can't compute R2.
+* Fix issue in `tab_model()` when printing robust standard errors and CI (i.e. when using arguments `vcov*`).
 * The `plot_likert()` option `reverse.scale = TRUE` resulted in `values = "sum.inside"` being outside and the other way around. This is fixed now. 
 * `view_df()` mixed up labels and frequency values when value labels were present, but no such values were in the data.
 * Argument `wrap.labels` in `plot_frq()` did not properly work for factor levels.

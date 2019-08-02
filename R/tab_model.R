@@ -410,7 +410,7 @@ tab_model <- function(
         type = "est",
         bpe = bpe,
         se = show.se,
-        robust = list(vcov.fun, vcov.type, vcov.args),
+        robust = list(vcov.fun = vcov.fun, vcov.type = vcov.type, vcov.args = vcov.args),
         facets = FALSE,
         show.zeroinf = show.zeroinf,
         p.val = p.val
