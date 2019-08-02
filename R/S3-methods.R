@@ -373,6 +373,8 @@ pdescr <- function(x, ...) {
     "Skewness"
   )
 
+  present_columns <- c("var", "type", "label", "n", "NA.prc", "mean", "sd", "se", "md", "trimmed", "range", "skew")
+  chead <- chead[which(present_columns %in% colnames(x))]
 
   x <- x %>%
     purrr::map_if(sjmisc::is_float, ~ round(.x, digits)) %>%
