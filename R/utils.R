@@ -175,8 +175,13 @@ is_brms_mixed <- function(fit) {
 
 
 # short checker so we know if we need more summary statistics like ICC
+#' @importFrom insight model_info is_multivariate
 is_mixed_model <- function(fit) {
-  insight::model_info(fit)$is_mixed
+  mi <- insight::model_info(fit)
+  if (insight::is_multivariate(fit))
+    mi[[1]]$is_mixed
+  else
+    mi$is_mixed
 }
 
 
