@@ -5,8 +5,6 @@
 #'                function is useful when several items with identical scale/categoroies
 #'                should be plotted to compare the distribution of answers.
 #'
-#' @note Thanks to \href{http://www.clas.ufl.edu/users/forrest/}{Forrest Stevens} for bug fixes.
-#'
 #' @param items Data frame, or a grouped data frame, with each column representing one item.
 #' @param sort.frq Indicates whether the \code{items} should be ordered by
 #'   by highest count of first or last category of \code{items}.

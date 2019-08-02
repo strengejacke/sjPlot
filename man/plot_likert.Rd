@@ -209,6 +209,7 @@ six_cat_example = data.frame(
   ncol = 6)
 )
 
+\dontrun{
 six_cat_example <-
   six_cat_example \%>\%
   dplyr::mutate_all(~ordered(.,labels = c("+++","++","+","-","--","---")))
@@ -228,6 +229,6 @@ plot_likert(
   six_cat_example,
   groups = c(1, 1, 1, 2, 2, 2),
   group.legend.options = list(nrow = 1)
-)
+)}
 
 }

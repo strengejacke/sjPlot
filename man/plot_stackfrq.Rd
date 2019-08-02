@@ -100,9 +100,6 @@ Plot items (variables) of a scale as stacked proportional bars. This
                function is useful when several items with identical scale/categoroies
                should be plotted to compare the distribution of answers.
 }
-\note{
-Thanks to \href{http://www.clas.ufl.edu/users/forrest/}{Forrest Stevens} for bug fixes.
-}
 \examples{
 # Data from the EUROFAMCARE sample dataset
 library(sjmisc)

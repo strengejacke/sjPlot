@@ -30,6 +30,7 @@ This vignette shows examples for using `tab_model()` to create HTML tables for m
 # load required packages
 library(sjPlot)
 library(insight)
+library(httr)
 library(brms)
 
 # load sample models

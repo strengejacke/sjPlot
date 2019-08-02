@@ -59,6 +59,7 @@ Suggests:
     GPArotation,
     gridExtra,
     ggridges,
+    httr,
     pscl,
     rstanarm,
     survey,
