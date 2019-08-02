@@ -17,7 +17,9 @@ sjt.itemanalysis(df, factor.groups = NULL,
 \item{factor.groups}{If not \code{NULL}, \code{df} will be splitted into sub-groups,
 where the item analysis is carried out for each of these groups. Must be a vector of same
 length as \code{ncol(df)}, where each item in this vector represents the group number of
-the related columns of \code{df}. See 'Examples'.}
+the related columns of \code{df}. If \code{factor.groups = "auto"}, a principal
+component analysis with Varimax rotation is performed, and the resulting
+groups for the components are used as group index. See 'Examples'.}
 
 \item{factor.groups.titles}{Titles for each factor group that will be used as table caption for each
 component-table. Must be a character vector of same length as \code{length(unique(factor.groups))}.
@@ -151,8 +153,11 @@ sjt.itemanalysis(efc[, start:end])
 
 # Compute PCA on Cope-Index, and perform a
 # item analysis for each extracted factor.
-factor.groups <- sjt.pca(mydf)$factor.index
-sjt.itemanalysis(mydf, factor.groups)}
+indices <- sjt.pca(mydf)$factor.index
+sjt.itemanalysis(mydf, factor.groups = indices)
+
+# or, equivalent
+sjt.itemanalysis(mydf, factor.groups = "auto")}
 
 }
 \references{

@@ -29,7 +29,9 @@
 #' @param factor.groups If not \code{NULL}, \code{df} will be splitted into sub-groups,
 #'          where the item analysis is carried out for each of these groups. Must be a vector of same
 #'          length as \code{ncol(df)}, where each item in this vector represents the group number of
-#'          the related columns of \code{df}. See 'Examples'.
+#'          the related columns of \code{df}. If \code{factor.groups = "auto"}, a principal
+#'          component analysis with Varimax rotation is performed, and the resulting
+#'          groups for the components are used as group index. See 'Examples'.
 #' @param factor.groups.titles Titles for each factor group that will be used as table caption for each
 #'          component-table. Must be a character vector of same length as \code{length(unique(factor.groups))}.
 #'          Default is \code{"auto"}, which means that each table has a standard caption \emph{Component x}.
@@ -112,13 +114,16 @@
 #'
 #' # Compute PCA on Cope-Index, and perform a
 #' # item analysis for each extracted factor.
-#' factor.groups <- sjt.pca(mydf)$factor.index
-#' sjt.itemanalysis(mydf, factor.groups)}
+#' indices <- sjt.pca(mydf)$factor.index
+#' sjt.itemanalysis(mydf, factor.groups = indices)
+#'
+#' # or, equivalent
+#' sjt.itemanalysis(mydf, factor.groups = "auto")}
 #'
 #' @importFrom psych describe
 #' @importFrom stats shapiro.test na.omit
 #' @importFrom sjstats mean_n
-#' @importFrom performance item_reliability cronbachs_alpha item_intercor
+#' @importFrom performance item_reliability cronbachs_alpha item_intercor principal_components
 #' @importFrom sjmisc std
 #' @importFrom sjlabelled set_label
 #' @export
@@ -157,7 +162,14 @@ sjt.itemanalysis <- function(df,
 
   # check whether we have (factor) groups
   # for data frame
-  if (is.null(factor.groups)) factor.groups <- rep(1, length.out = ncol(df))
+  if (is.null(factor.groups))
+    factor.groups <- rep(1, length.out = ncol(df))
+  else if (inherits(factor.groups, "perf_pca_rotate"))
+    factor.groups <- apply(factor.groups, 1, function(i) which.max(abs(i)))
+  else if (length(factor.groups) == 1 && factor.groups == "auto") {
+    pr <- performance::principal_components(df, rotation = "varimax")
+    factor.groups <- apply(pr, 1, function(i) which.max(abs(i)))
+  }
 
   # data frame with data from item-analysis-output-table
   df.ia <- list()
