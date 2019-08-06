@@ -1,3 +1,9 @@
+# sjPlot 2.7.1
+
+## Changes to functions
+
+* `tab_model()` now supports *gamlss* models.
+
 # sjPlot 2.7.0
 
 ## Renamed functions
