@@ -49,6 +49,8 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
     tidy_gmnl_model(model, ci.lvl)
   else if (inherits(model, "multinom"))
     tidy_multinom_model(model, ci.lvl, facets)
+  else if (inherits(model, "gamlss"))
+    tidy_gamlss_model(model, ci.lvl)
   else if (inherits(model, "gam"))
     tidy_gam_model(model, ci.lvl)
   else if (inherits(model, "Zelig-relogit"))
@@ -879,6 +881,32 @@ tidy_gam_model <- function(model, ci.lvl) {
     conf.low = est - stats::qnorm(ci) * se,
     conf.high = est + stats::qnorm(ci) * se,
     p.value = sm$p.pv
+  )
+}
+
+
+#' @importFrom insight get_parameters
+tidy_gamlss_model <- function(model, ci.lvl) {
+
+  # compute ci, two-ways
+  ci <- get_confint(ci.lvl)
+
+  # get estimates
+
+  sm <- summary(model)
+  pars <- insight::get_parameters(model)
+
+  est <- pars$estimate[pars$component == "conditional"]
+  se <- sm[1:length(est), 2]
+
+  data_frame(
+    term = pars$parameter[pars$component == "conditional"],
+    estimate = est,
+    std.error = se,
+    statistic = sm[1:length(est), 3],
+    conf.low = est - stats::qnorm(ci) * se,
+    conf.high = est + stats::qnorm(ci) * se,
+    p.value = sm[1:length(est), 4]
   )
 }
 
