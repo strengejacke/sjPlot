@@ -1,5 +1,9 @@
 # sjPlot 2.7.1
 
+## General
+
+* new color palettes were added (see `show_sjplot_pals()`).
+
 ## Changes to functions
 
 * `tab_model()` now supports *gamlss* models.
