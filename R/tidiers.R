@@ -109,9 +109,9 @@ tidy_generic <- function(model, ci.lvl, facets, p.val) {
         dat$p.value <- NA
       } else {
         dat$p.value <- pv$p.value
-        dat$std.error <- attr(pv, "se.kr", exact = TRUE)
-        dat$statistic <- attr(pv, "t.kr", exact = TRUE)
-        dat$df <- round(attr(pv, "df.kr", exact = TRUE))
+        if (!is.null(attr(pv, "se.kr", exact = TRUE))) dat$std.error <- attr(pv, "se.kr", exact = TRUE)
+        if (!is.null(attr(pv, "t.kr", exact = TRUE))) dat$statistic <- attr(pv, "t.kr", exact = TRUE)
+        if (!is.null(attr(pv, "df.kr", exact = TRUE))) dat$df <- round(attr(pv, "df.kr", exact = TRUE))
       }
 
     } else {

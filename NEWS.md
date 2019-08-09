@@ -4,6 +4,10 @@
 
 * new color palettes were added (see `show_sjplot_pals()`).
 
+## Bug fixes
+
+* Fixed bug in `tab_model()` with `show.df = TRUE` for *lmerModLmerTest*.
+
 ## Changes to functions
 
 * `tab_model()` now supports *gamlss* models.
