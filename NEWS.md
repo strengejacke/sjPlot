@@ -2,6 +2,7 @@
 
 ## General
 
+* Minor revisions to meet the changes in the forthcoming update from tidyr.
 * new color palettes were added (see `show_sjplot_pals()`).
 
 ## Bug fixes

@@ -29,7 +29,7 @@ Depends:
 Imports:
     bayestestR (>= 0.2.5),
     broom,
-    dplyr (>= 0.7.5),
+    dplyr (>= 0.8.1),
     forcats,
     ggeffects (>= 0.11.0),
     glmmTMB,
