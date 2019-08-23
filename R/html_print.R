@@ -31,6 +31,8 @@
 #'   Note that the first column with rownames is not counted.
 #' @param alternate.rows Logical, if \code{TRUE}, rows are printed in
 #'   alternatig colors (white and light grey by default).
+#' @param digits Numeric, amount of digits after decimal point when rounding
+#'   values.
 #' @param ... Currently not used.
 #'
 #' @inheritParams tab_model
@@ -86,7 +88,7 @@
 #' # sort 2nd column descending
 #' tab_df(iris[1:5, ], sort.column = -2)}
 #'
-#' @importFrom sjmisc var_type is_even
+#' @importFrom sjmisc var_type is_even is_float
 #' @importFrom purrr flatten_chr map
 #' @export
 tab_df <- function(x,
@@ -98,6 +100,7 @@ tab_df <- function(x,
                    show.footnote = FALSE,
                    alternate.rows = FALSE,
                    sort.column = NULL,
+                   digits = 2,
                    encoding = "UTF-8",
                    CSS = NULL,
                    file = NULL,
@@ -110,6 +113,12 @@ tab_df <- function(x,
   # get style definition
   style <- tab_df_style(CSS = CSS, ...)
 
+  x <- purrr::map_df(x, function(.i) {
+    if (is.numeric(.i) && sjmisc::is_float(.i))
+      sprintf("%.*f", digits, .i)
+    else
+      .i
+  })
 
   # get HTML content
   page.content <- tab_df_content(

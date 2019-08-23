@@ -12,6 +12,7 @@
 ## Changes to functions
 
 * `tab_model()` now supports *gamlss* models.
+* `tab_df()` gets a `digits` argument, to round numeric values in output.
 
 # sjPlot 2.7.0
 

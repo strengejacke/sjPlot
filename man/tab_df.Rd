@@ -7,8 +7,9 @@
 \usage{
 tab_df(x, title = NULL, footnote = NULL, col.header = NULL,
   show.type = FALSE, show.rownames = TRUE, show.footnote = FALSE,
-  alternate.rows = FALSE, sort.column = NULL, encoding = "UTF-8",
-  CSS = NULL, file = NULL, use.viewer = TRUE, ...)
+  alternate.rows = FALSE, sort.column = NULL, digits = 2,
+  encoding = "UTF-8", CSS = NULL, file = NULL, use.viewer = TRUE,
+  ...)
 
 tab_dfs(x, titles = NULL, footnotes = NULL, col.header = NULL,
   show.type = FALSE, show.rownames = TRUE, show.footnote = FALSE,
@@ -46,6 +47,9 @@ that should sorted. by default, the column is sorted in ascending order.
 Use negative index for descending order, for instance,
 \code{sort.column = -3} would sort the third column in descending order.
 Note that the first column with rownames is not counted.}
+
+\item{digits}{Numeric, amount of digits after decimal point when rounding
+values.}
 
 \item{encoding}{Character vector, indicating the charset encoding used
 for variable and value labels. Default is \code{"UTF-8"}. For Windows

@@ -48,7 +48,8 @@ by highest count of first or last category of \code{items}.
 \item{alternate.rows}{Logical, if \code{TRUE}, rows are printed in
 alternatig colors (white and light grey by default).}
 
-\item{digits}{Amount of decimals for estimates}
+\item{digits}{Numeric, amount of digits after decimal point when rounding
+values.}
 
 \item{string.total}{label for the total N column.}
 
