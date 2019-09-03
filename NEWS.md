@@ -5,14 +5,15 @@
 * Minor revisions to meet the changes in the forthcoming update from tidyr.
 * new color palettes were added (see `show_sjplot_pals()`).
 
-## Bug fixes
-
-* Fixed bug in `tab_model()` with `show.df = TRUE` for *lmerModLmerTest*.
-
 ## Changes to functions
 
 * `tab_model()` now supports *gamlss* models.
 * `tab_df()` gets a `digits` argument, to round numeric values in output.
+
+## Bug fixes
+
+* Fixed bug in `tab_model()` with `show.df = TRUE` for *lmerModLmerTest*.
+* Fixed bug in `tab_stackfrq()` when items had different amount of valid values.
 
 # sjPlot 2.7.0
 

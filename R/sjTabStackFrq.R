@@ -186,22 +186,8 @@ tab_stackfrq <- function(items,
     items$weights <- weight.by
     dummy <- sjmisc::frq(items, weights = items$weights, show.strings = TRUE, show.na = show.na)
   }
-  mat.n <- do.call(rbind, lapply(dummy, function(.i) {
-    as.data.frame(t(
-      data.frame(
-        prc = sjlabelled::as_numeric(.i$frq),
-        stringsAsFactors = FALSE
-      )
-    ))
-  }))
-  mat <- do.call(rbind, lapply(dummy, function(.i) {
-    as.data.frame(t(
-      data.frame(
-        frq = sjlabelled::as_numeric(.i$raw.prc),
-        stringsAsFactors = FALSE
-      )
-    ))
-  }))
+  mat.n <- .transform_data(dummy, col = "frq")
+  mat <- .transform_data(dummy, col = ifelse(isTRUE(show.na), "raw.prc", "valid.prc"))
 
   # ----------------------------
   # Check if ordering was requested
@@ -393,4 +379,21 @@ tab_stackfrq <- function(items,
                            knitr = knitr,
                            file = file,
                            viewer = use.viewer))
+}
+
+
+
+.transform_data <- function(x, col) {
+  dat <- suppressWarnings(Reduce(function(x, y) merge(x, y, all = TRUE, sort = FALSE, by = "val"), x))
+  if (is.factor(dat$val))
+    dat <- dat[order(dat$val, levels(dat$val)), ]
+  else
+    dat <- dat[order(dat$val), ]
+  colnames(dat) <- make.names(colnames(dat), unique = TRUE)
+  keep <- (colnames(dat) == "val") | grepl(paste0("^", col), colnames(dat))
+  dat <- as.data.frame(t(dat[, keep, drop = FALSE]))
+  dat[is.na(dat)] <- 0
+  dat <- as.data.frame(sapply(dat[-1, ], function(i) as.numeric(as.character(i))))
+  colnames(dat) <- sprintf("V%i", 1:ncol(dat))
+  dat
 }
