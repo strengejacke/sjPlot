@@ -115,7 +115,7 @@ non-transformed estimates.}
      memory allocation problems for vectors with many unique values. If a
      numeric vector is specified as second or third term (i.e. if this vector
      represents a grouping structure), representative values (see
-     \code{\link[ggeffects]{rprs_values}}) are chosen. If all values for a
+     \code{\link[ggeffects]{values_at}}) are chosen. If all values for a
      numeric vector should be used to compute predictions, you may use
      e.g. terms = "age [all]". For more details, see
      \code{\link[ggeffects]{ggpredict}}.}
