@@ -385,15 +385,19 @@ tab_stackfrq <- function(items,
 
 .transform_data <- function(x, col) {
   dat <- suppressWarnings(Reduce(function(x, y) merge(x, y, all = TRUE, sort = FALSE, by = "val"), x))
-  if (is.factor(dat$val))
-    dat <- dat[order(dat$val, levels(dat$val)), ]
-  else
+  if (is.factor(dat$val)) {
+    reihe <- levels(dat$val)
+    if (anyNA(dat$val))
+      reihe <- c(reihe, NA)
+    dat <- dat[order(dat$val, reihe), ]
+  } else {
     dat <- dat[order(dat$val), ]
+  }
   colnames(dat) <- make.names(colnames(dat), unique = TRUE)
   keep <- (colnames(dat) == "val") | grepl(paste0("^", col), colnames(dat))
   dat <- as.data.frame(t(dat[, keep, drop = FALSE]))
-  dat[is.na(dat)] <- 0
   dat <- as.data.frame(sapply(dat[-1, ], function(i) as.numeric(as.character(i))))
+  dat[is.na(dat)] <- 0
   colnames(dat) <- sprintf("V%i", 1:ncol(dat))
   dat
 }
