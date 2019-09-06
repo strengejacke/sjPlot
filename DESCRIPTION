@@ -49,7 +49,7 @@ Imports:
     scales,
     sjlabelled (>= 1.1.0),
     sjmisc (>= 2.8.0),
-    sjstats (>= 0.17.6),
+    sjstats (>= 0.17.5),
     tidyr (>= 0.7.0)
 Suggests:
     brms,
