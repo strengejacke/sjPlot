@@ -483,9 +483,9 @@ plot_likert <- function(items,
     # create proportional frequency table
 
     if (is.null(weight.by)) {
-      tab <- round(prop.table(table(items[[i]])), 3)
+      tab <- round(prop.table(table(items[[i]])), digits + 3)
     } else {
-      tab <- round(prop.table(stats::xtabs(weight.by ~ items[[i]])), 3)
+      tab <- round(prop.table(stats::xtabs(weight.by ~ items[[i]])), digits + 3)
     }
 
 
