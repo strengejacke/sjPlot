@@ -507,7 +507,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
   # do we have a zero-inflation model?
 
-  if (modfam$is_zeroinf || sjmisc::str_contains(dat$term, "b_zi_", ignore.case = T)) {
+  if (modfam$is_zero_inflated || sjmisc::str_contains(dat$term, "b_zi_", ignore.case = T)) {
     dat$wrap.facet <- "Conditional Model"
 
     # zero-inflated part

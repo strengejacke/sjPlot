@@ -136,7 +136,7 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
       TRUE ~ "Estimates"
     )
 
-    if (fitfam$is_zeroinf && isTRUE(include.zeroinf)) {
+    if (fitfam$is_zero_inflated && isTRUE(include.zeroinf)) {
       if (is.null(transform))
         axis.title <- c(axis.title, "Log-Odds")
       else
