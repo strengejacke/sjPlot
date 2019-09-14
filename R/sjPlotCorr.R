@@ -19,7 +19,7 @@
 #'          \code{"listwise"} (default) or \code{"pairwise"}. May be
 #'          abbreviated.
 #' @param corr.method Indicates the correlation computation method. May be one of
-#'          \code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
+#'          \code{"pearson"} (default), \code{"spearman"} or \code{"kendall"}.
 #'          May be abbreviated.
 #' @param p.numeric Logical, if \code{TRUE}, the p-values are printed
 #'          as numbers. If \code{FALSE} (default), asterisks are used.
