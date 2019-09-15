@@ -123,7 +123,8 @@
 #' @importFrom psych describe
 #' @importFrom stats shapiro.test na.omit
 #' @importFrom sjstats mean_n
-#' @importFrom performance item_reliability cronbachs_alpha item_intercor principal_components
+#' @importFrom performance item_reliability cronbachs_alpha item_intercor
+#' @importFrom parameters principal_components
 #' @importFrom sjmisc std
 #' @importFrom sjlabelled set_label
 #' @export
@@ -167,7 +168,7 @@ sjt.itemanalysis <- function(df,
   else if (inherits(factor.groups, "perf_pca_rotate"))
     factor.groups <- apply(factor.groups, 1, function(i) which.max(abs(i)))
   else if (length(factor.groups) == 1 && factor.groups == "auto") {
-    pr <- performance::principal_components(df, rotation = "varimax")
+    pr <- parameters::principal_components(df, rotation = "varimax")
     factor.groups <- apply(pr, 1, function(i) which.max(abs(i)))
   }
 

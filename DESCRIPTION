@@ -42,6 +42,7 @@ Imports:
     MASS,
     modelr,
     nlme,
+    parameters,
     performance (>= 0.3.0),
     psych,
     purrr,
