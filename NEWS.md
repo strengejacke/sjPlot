@@ -1,3 +1,9 @@
+# sjPlot 2.7.2
+
+## General
+
+* Replaced `performance::principal_component()` by `parameters::principal_component()`.
+
 # sjPlot 2.7.1
 
 ## General
