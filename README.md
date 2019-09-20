@@ -1,6 +1,6 @@
 # sjPlot - Data Visualization for Statistics in Social Science <img src="man/figures/logo.png" align="right" />
 
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sjPlot)](https://cran.r-project.org/package=sjPlot) &#160;&#160; [![Documentation](https://img.shields.io/badge/documentation-sjPlot-orange.svg?colorB=E91E63)](https://strengejacke.github.io/sjPlot/) &#160;&#160; [![downloads](http://cranlogs.r-pkg.org/badges/sjPlot)](http://cranlogs.r-pkg.org/)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/sjPlot)](https://cran.r-project.org/package=sjPlot) &#160;&#160; [![Documentation](https://img.shields.io/badge/documentation-sjPlot-orange.svg?colorB=E91E63)](https://strengejacke.github.io/sjPlot/) &#160;&#160; [![Build Status](https://travis-ci.org/strengejacke/sjPlot.svg?branch=master)](https://travis-ci.org/strengejacke/sjPlot) &#160;&#160; [![downloads](http://cranlogs.r-pkg.org/badges/sjPlot)](http://cranlogs.r-pkg.org/)
 &#160;&#160; [![total](http://cranlogs.r-pkg.org/badges/grand-total/sjPlot)](http://cranlogs.r-pkg.org/)
 
 
