@@ -17,10 +17,6 @@ library(devtools)
 devtools::install_github("strengejacke/sjPlot")
 ```
 
-Please note the package dependencies when installing from GitHub. The GitHub version of this package may depend on latest GitHub versions of my other packages, so you may need to install those first, if you encounter any problems. Here's the order for installing packages from GitHub:
-
-[sjlabelled](https://github.com/strengejacke/sjlabelled) &rarr; [sjmisc](https://github.com/strengejacke/sjmisc) &rarr; [sjstats](https://github.com/strengejacke/sjstats) &rarr; [ggeffects](https://github.com/strengejacke/ggeffects) &rarr; [sjPlot](https://github.com/strengejacke/sjPlot)
-
 ### Officiale, stable release
 
 To install the latest stable release from CRAN, type following command into the R console:
