@@ -896,11 +896,11 @@ tidy_gamlss_model <- function(model, ci.lvl) {
   sm <- summary(model)
   pars <- insight::get_parameters(model)
 
-  est <- pars$estimate[pars$component == "conditional"]
+  est <- pars[[2]][pars[[3]] == "conditional"]
   se <- sm[1:length(est), 2]
 
   data_frame(
-    term = pars$parameter[pars$component == "conditional"],
+    term = pars[[1]][pars[[3]] == "conditional"],
     estimate = est,
     std.error = se,
     statistic = sm[1:length(est), 3],
