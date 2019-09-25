@@ -109,8 +109,8 @@ Other models, like hurdle- or zero-inflated models, also work with `tab_model()`
 ```{r}
 library(pscl)
 data("bioChemists")
+m5 <- zeroinfl(art ~ fem + mar + kid5 + ment | kid5 + phd + ment, data = bioChemists)
 
-m5 <- zeroinfl(art ~ . | ., data = bioChemists)
 tab_model(m5)
 ```
 
