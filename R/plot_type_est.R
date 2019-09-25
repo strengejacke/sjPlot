@@ -1,3 +1,4 @@
+#' @importFrom parameters p_value
 #' @importFrom sjstats robust
 #' @importFrom sjmisc add_variables
 plot_type_est <- function(type,
@@ -60,7 +61,7 @@ plot_type_est <- function(type,
   } else {
     dat <- model %>%
       sjstats::std_beta(type = type, ci.lvl = ci.lvl) %>%
-      sjmisc::add_variables(p.value = sjstats::p_value(model)[["p.value"]][-1]) %>%
+      sjmisc::add_variables(p.value = parameters::p_value(model)[["p"]][-1]) %>%
       sjmisc::var_rename(std.estimate = "estimate")
 
     show.intercept <- FALSE

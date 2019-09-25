@@ -59,6 +59,7 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
           out$std.error <- parameters::se_kenward(model)
           out$df <- dof
           out$statistic <- out$estimate / out$std.error
+          out
         },
         error = function(x) { out }
       )

@@ -72,7 +72,7 @@
 #' @importFrom purrr map map_df map2
 #' @importFrom dplyr slice bind_rows filter
 #' @importFrom forcats fct_rev
-#' @importFrom sjstats std_beta p_value
+#' @importFrom sjstats std_beta
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom rlang .data
 #' @importFrom sjmisc word_wrap var_rename add_variables
@@ -156,7 +156,7 @@ plot_models <- function(...,
       purrr::map(~ sjstats::std_beta(.x, type = std.est)) %>%
       purrr::map(~ sjmisc::var_rename(.x, std.estimate = "estimate")) %>%
       purrr::map2(input_list, ~ sjmisc::add_variables(
-        .x, p.value = suppressMessages(sjstats::p_value(.y)[["p.value"]][-1])
+        .x, p.value = suppressMessages(parameters::p_value(.y)[["p"]][-1])
       ))
 
   } else {

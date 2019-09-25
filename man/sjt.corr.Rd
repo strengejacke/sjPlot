@@ -22,7 +22,7 @@ correlations between columns should be computed.}
 abbreviated.}
 
 \item{corr.method}{Indicates the correlation computation method. May be one of
-\code{"spearman"} (default), \code{"pearson"} or \code{"kendall"}.
+\code{"pearson"} (default), \code{"spearman"} or \code{"kendall"}.
 May be abbreviated.}
 
 \item{title}{String, will be used as table caption.}

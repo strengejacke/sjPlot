@@ -442,7 +442,7 @@
 #'   plot_model(m, bpe.style = "dot")
 #' }}
 #'
-#' @importFrom sjstats std_beta p_value
+#' @importFrom sjstats std_beta
 #' @importFrom insight model_info find_predictors
 #' @importFrom sjmisc word_wrap str_contains
 #' @importFrom sjlabelled get_dv_labels get_term_labels
