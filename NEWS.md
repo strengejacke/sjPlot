@@ -3,6 +3,11 @@
 ## General
 
 * Replaced `performance::principal_component()` by `parameters::principal_component()`.
+* Fixed CRAN check issues, due to the latest *bayestestR* update.
+
+## Bug fixes
+
+* Fixed bug in `plot_stackfrq()` for data frames with many missing values.
 
 # sjPlot 2.7.1
 
