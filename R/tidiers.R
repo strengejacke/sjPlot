@@ -44,6 +44,13 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
     column <- which(colnames(out) == "group")
     if (length(column)) colnames(out)[column] <- "wrap.facet"
 
+    if ("component" %in% colnames(out)) {
+      out$component[out$component == "zero_inflated"] <- "Zero-Inflated Model"
+      out$component[out$component == "zi"] <- "Zero-Inflated Model"
+      out$component[out$component == "conditional"] <- "Conditional Model"
+      out$component[out$component == "count"] <- "Conditional Model"
+    }
+
     if (is_merMod(model) && !is.null(p.val) && p.val == "kr") {
       out <- tryCatch(
         {
@@ -177,7 +184,11 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     )
 
   # sort columns, for tab_model()
-  dat <- dat[, c(1, 2, 4:8, 3)]
+  sorted_columns <- intersect(
+    c("term", "estimate", "std.error", "conf.low", "conf.high", "conf.low50", "conf.high50", "p.value"),
+    colnames(dat)
+  )
+  dat <- dat[, sorted_columns]
 
   # remove some of the information not needed for plotting
 

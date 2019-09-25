@@ -594,7 +594,7 @@ tab_model <- function(
       wf <- string_starts_with("wrap.facet", x = colnames(dat))
 
       if (!sjmisc::is_empty(wf)) {
-        zi <- which(dat[[wf]] %in% c("Zero-Inflated Model", "Zero Inflation Model"))
+        zi <- which(dat[[wf]] %in% c("Zero-Inflated Model", "Zero Inflation Model", "zero_inflated", "zi"))
 
         if (show.zeroinf && !sjmisc::is_empty(zi)) {
           zidat <- dat %>%
