@@ -67,6 +67,7 @@
 #'
 #' @importFrom psych KMO
 #' @importFrom stats prcomp
+#' @importFrom performance cronbachs_alpha
 #' @export
 sjt.pca <- function(data,
                     rotation = c("varimax", "quartimax", "promax", "oblimin", "simplimax", "cluster", "none"),
