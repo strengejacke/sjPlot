@@ -225,7 +225,8 @@ plot_stackfrq <- function(items,
   # passed as parameter
 
   if (is.null(weight.by)) {
-    dummy <- sjmisc::frq(items, show.na = FALSE)
+    dummy <- sjmisc::frq(items, show.na = TRUE)
+    dummy <- lapply(dummy, function(.i) .i[-nrow(.i), ])
   } else {
     items$weights <- weight.by
     dummy <- sjmisc::frq(items, weights = items$weights)
