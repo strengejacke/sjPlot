@@ -8,6 +8,7 @@
 ## Bug fixes
 
 * Fixed bug in `plot_stackfrq()` for data frames with many missing values.
+* Fixed bug with sorting frequencies in `plot_frq()` when vector had more labels than values. 
 
 # sjPlot 2.7.1
 

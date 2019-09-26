@@ -98,7 +98,7 @@
 #' )
 #'
 #' @importFrom stats ftable
-#' @importFrom sjstats xtab_statistics
+#' @importFrom sjstats xtab_statistics table_values
 #' @export
 sjt.xtab <- function(var.row,
                      var.col,

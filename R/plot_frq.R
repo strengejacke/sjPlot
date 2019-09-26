@@ -102,7 +102,7 @@ utils::globalVariables("density")
 #'
 #' @import ggplot2
 #' @importFrom sjstats wtd_sd
-#' @importFrom sjmisc group_labels group_var to_value
+#' @importFrom sjmisc group_labels group_var to_value frq
 #' @importFrom sjlabelled set_labels drop_labels
 #' @importFrom stats na.omit sd weighted.mean dnorm
 #' @importFrom rlang .data
@@ -178,7 +178,7 @@ plot_frq <- function(data,
 
       plots <- lapply(colnames(tmp), function(.d) {
         plot_frq_helper(
-          var.cnt = tmp[[.d]], title = tmp.title, weight.by, title.wtd.suffix, sort.frq, type, geom.size, geom.colors,
+          var.cnt = tmp[[.d]], title = tmp.title, weight.by = weight.by, title.wtd.suffix, sort.frq, type, geom.size, geom.colors,
           errorbar.color, axis.title, axis.labels, xlim, ylim, wrap.title, wrap.labels, grid.breaks,
           expand.grid, show.values, show.n, show.prc, show.axis.values, show.ci, show.na,
           show.mean, show.mean.val, show.sd, drop.empty, mean.line.type, mean.line.size,
@@ -194,7 +194,7 @@ plot_frq <- function(data,
   } else {
     pl <- lapply(colnames(plot_data), function(.d) {
       plot_frq_helper(
-        var.cnt = plot_data[[.d]], title, weight.by, title.wtd.suffix, sort.frq, type, geom.size, geom.colors,
+        var.cnt = plot_data[[.d]], title, weight.by = weight.by, title.wtd.suffix, sort.frq, type, geom.size, geom.colors,
         errorbar.color, axis.title, axis.labels, xlim, ylim, wrap.title, wrap.labels, grid.breaks,
         expand.grid, show.values, show.n, show.prc, show.axis.values, show.ci, show.na,
         show.mean, show.mean.val, show.sd, drop.empty, mean.line.type, mean.line.size,
@@ -252,17 +252,6 @@ plot_frq_helper <- function(
     y_offset <- y.offset
   }
 
-  # try to automatically set labels, if not passed as argument -----
-  # to make plot annotations more beautiful, supporting labelled data
-  if (is.null(axis.labels)) {
-    axis.labels <- sjlabelled::get_labels(
-      var.cnt,
-      attr.only = is.character(var.cnt),
-      values = NULL,
-      non.labelled = TRUE
-    )
-  }
-
   if (is.null(axis.title)) axis.title <- sjlabelled::get_label(var.cnt, def.value = var.name)
   if (is.null(title)) title <- sjlabelled::get_label(var.cnt, def.value = var.name)
 
@@ -313,45 +302,49 @@ plot_frq_helper <- function(
       var.name,
       length(unique(var.cnt))
     ))
+  }
 
-    # group axis labels
-    axis.labels <- sjmisc::group_labels(
-      sjmisc::to_value(var.cnt, keep.labels = F),
-      size = "auto",
-      n = auto.group
+  if (!is.null(weight.by)) {
+    dat <- data.frame(
+      var.cnt = var.cnt,
+      weight.by = weight.by,
+      stringsAsFactors = FALSE
     )
-
-    # group variable
-    var.cnt <- sjmisc::group_var(
-      sjmisc::to_value(var.cnt, keep.labels = F),
-      size = "auto",
-      as.num = TRUE,
-      n = auto.group,
-      append = FALSE
+  } else {
+    dat <- data.frame(
+      var.cnt = var.cnt,
+      stringsAsFactors = FALSE
     )
-
-    # set label attributes
-    var.cnt <- sjlabelled::set_labels(var.cnt, labels = axis.labels)
   }
 
   # create frequency data frame -----
-  df.frq <- create.frq.df(
-    var.cnt,
-    wrap.labels = wrap.labels,
-    order.frq = sort.frq,
-    round.prz = 2,
-    na.rm = !show.na,
-    weight.by = weight.by
-  )
+  df.frq <- suppressMessages(sjmisc::frq(
+    x = dat,
+    "var.cnt",
+    sort.frq = sort.frq,
+    weights = "weight.by",
+    auto.grp = auto.group,
+    show.na = show.na
+  ))
 
-  mydat <- df.frq$mydat
+  mydat <- df.frq[[1]]
+  # remove empty
+  mydat <- mydat[mydat$frq > 0, ]
+
+  # add confindence intervals for frequencies
+  total_n = sum(mydat$frq)
+  rel_frq <- as.numeric(mydat$frq / total_n)
+  ci <- 1.96 * suppressWarnings(sqrt(rel_frq * (1 - rel_frq) / total_n))
+  mydat$upper.ci <- total_n * (rel_frq + ci)
+  mydat$lower.ci <- total_n * (rel_frq - ci)
+  mydat$rel.upper.ci <- rel_frq + ci
+  mydat$rel.lower.ci <- rel_frq - ci
 
   # any labels detected?
-  if (!is.null(df.frq$labels) && is.null(axis.labels))
-    axis.labels <- df.frq$labels
-  else if (!is.null(axis.labels) && sort.frq != "none")
-    # sort labels in required order
-    axis.labels <- axis.labels[mydat$order]
+  if (!is.null(mydat$label) && is.null(axis.labels))
+    axis.labels <- mydat$label
+  else if (is.null(axis.labels))
+    axis.labels <- mydat$val
 
   # wrap labels
   axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
@@ -436,7 +429,7 @@ plot_frq_helper <- function(
       if (show.ci)
         upper_lim <- max(pretty(mydat$upper.ci * 1.1))
       else
-        upper_lim <- max(pretty(table(var.cnt) * 1.1))
+        upper_lim <- max(pretty(mydat$frq * 1.1))
     }
   }
 
@@ -528,10 +521,13 @@ plot_frq_helper <- function(
       geob <- geom_point(size = geom.size, colour = geom.colors)
     }
 
+    # as factor, but preserve order
+    mydat$val <- factor(mydat$val, levels = unique(mydat$val))
+
     # mydat is a data frame that only contains one variable (var).
     # Must be declared as factor, so the bars are central aligned to
     # each x-axis-break.
-    baseplot <- ggplot(mydat, aes(x = factor(.data$val), y = .data$frq)) +
+    baseplot <- ggplot(mydat, aes(x = .data$val, y = .data$frq)) +
       geob +
       yscale +
       # remove guide / legend
