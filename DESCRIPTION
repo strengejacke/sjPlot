@@ -2,7 +2,7 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 2.7.1
+Version: 2.7.2
 Date: 2019-09-06
 Authors@R: c(
     person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8895-3206")),
@@ -27,7 +27,7 @@ Depends:
     stats,
     utils
 Imports:
-    bayestestR (>= 0.2.5),
+    bayestestR (>= 0.3.0),
     broom,
     dplyr (>= 0.8.1),
     forcats,
@@ -36,22 +36,22 @@ Imports:
     ggplot2 (>= 3.2.0),
     ggrepel,
     knitr,
-    insight (>= 0.4.1),
+    insight (>= 0.5.0),
     lme4 (>= 1.1-12),
     magrittr,
     MASS,
     modelr,
     nlme,
-    parameters,
+    parameters (>= 0.2.0),
     performance (>= 0.3.0),
     psych,
     purrr,
     rlang,
     scales,
     sjlabelled (>= 1.1.0),
-    sjmisc (>= 2.8.0),
+    sjmisc (>= 2.8.2),
     sjstats (>= 0.17.5),
-    tidyr (>= 0.7.0)
+    tidyr (>= 1.0.0)
 Suggests:
     brms,
     car,
