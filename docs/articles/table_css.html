@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Customizing HTML tables • sjPlot</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Customizing HTML tables">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
@@ -31,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2</span>
       </span>
     </div>
 
@@ -44,52 +51,76 @@
   </a>
 </li>
 <li>
+  <a href="../news/index.html">News</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Regression Tables
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/blackwhitefigures.html">Black &amp; White Figures for Print Journals</a>
+      <a href="../articles/tab_model_estimates.html">Classical Regression Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_mixed.html">Mixed Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Regression Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/plot_model_estimates.html">Plotting Regression Coefficients</a>
+    </li>
+    <li>
+      <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects</a>
+    </li>
+    <li>
+      <a href="../articles/plot_interactions.html">Plotting Marginal Effects of Interactions</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Plot and Table Customization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/blackwhitefigures.html">Creating Black and White Figures</a>
     </li>
     <li>
       <a href="../articles/custplot.html">Customize Plot Appearance</a>
     </li>
     <li>
-      <a href="../articles/plot_interactions.html">Plotting Interaction Effects of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/plot_likert_scales.html">Plotting Likert Scales</a>
-    </li>
-    <li>
-      <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/plot_model_estimates.html">Plotting Estimates (Fixed Effects) of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
-    </li>
-    <li>
-      <a href="../articles/table_css.html">Customizing HTML tables</a>
-    </li>
-    <li>
-      <a href="../articles/tab_bayes.html">Summary of Bayesian Models as HTML Table</a>
-    </li>
-    <li>
-      <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
-    </li>
-    <li>
-      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customize Table Appearance</a>
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Other Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
 <li>
-  <a href="../news/index.html">Changelog</a>
+      <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
+    </li>
+  </ul>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
@@ -101,13 +132,14 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Customizing HTML tables</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-08-02</h4>
+            <h4 class="date">2019-09-27</h4>
       
       
       <div class="hidden name"><code>table_css.Rmd</code></div>
@@ -139,12 +171,12 @@
 <div id="retrieving-customizable-styles" class="section level3">
 <h3 class="hasAnchor">
 <a href="#retrieving-customizable-styles" class="anchor"></a>Retrieving customizable styles</h3>
-<p>The table functions invisibly return several values. The return value <code>page.style</code> contains the style information for the HTML table. You can print this style sheet to console using the <code><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat()</a></code>-function:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjPlot)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(efc)</a>
-<a class="sourceLine" id="cb1-3" title="3">m &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)</a>
+<p>The table functions invisibly return several values. The return value <code>page.style</code> contains the style information for the HTML table. You can print this style sheet to console using the <code><a href="https://rdrr.io/r/base/cat.html">cat()</a></code>-function:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjPlot)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</a>
+<a class="sourceLine" id="cb1-3" title="3">m &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c160age <span class="op">+</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)</a>
 <a class="sourceLine" id="cb1-4" title="4">tab &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m)</a></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(tab<span class="op">$</span>page.style)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(tab<span class="op">$</span>page.style)</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="co">#&gt; &lt;style&gt;</span></a>
 <a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt; html, body { background-color: white; }</span></a>
 <a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt; table { border-collapse:collapse; border:none; }</span></a>
@@ -183,7 +215,7 @@
 <a class="sourceLine" id="cb2-37" title="37"><span class="co">#&gt; .col5 {  }</span></a>
 <a class="sourceLine" id="cb2-38" title="38"><span class="co">#&gt; &lt;/style&gt;</span></a></code></pre></div>
 <p>The HTML code is in the <code>page.content</code> return value. The following code prints the HTML code of the table to the R console:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(tab<span class="op">$</span>page.content)</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>(tab<span class="op">$</span>page.content)</a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; &lt;table&gt;</span></a>
 <a class="sourceLine" id="cb3-3" title="3"><span class="co">#&gt; &lt;tr&gt;</span></a>
 <a class="sourceLine" id="cb3-4" title="4"><span class="co">#&gt; &lt;th class="thead firsttablerow firsttablecol col1"&gt;&amp;nbsp;&lt;/th&gt;</span></a>
@@ -198,7 +230,7 @@
 <a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt; &lt;tr&gt;</span></a>
 <a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;(Intercept)&lt;/td&gt;</span></a>
 <a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;90.06&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-16" title="16"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;77.97&amp;nbsp;&amp;ndash;&amp;nbsp;102.16&lt;/td&gt;</span></a>
+<a class="sourceLine" id="cb3-16" title="16"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;77.95&amp;nbsp;&amp;ndash;&amp;nbsp;102.18&lt;/td&gt;</span></a>
 <a class="sourceLine" id="cb3-17" title="17"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;&lt;strong&gt;&amp;lt;0.001&lt;/td&gt;</span></a>
 <a class="sourceLine" id="cb3-18" title="18"><span class="co">#&gt; &lt;/tr&gt;</span></a>
 <a class="sourceLine" id="cb3-19" title="19"><span class="co">#&gt; &lt;tr&gt;</span></a>
@@ -216,13 +248,13 @@
 <a class="sourceLine" id="cb3-31" title="31"><span class="co">#&gt; &lt;tr&gt;</span></a>
 <a class="sourceLine" id="cb3-32" title="32"><span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer's gender&lt;/td&gt;</span></a>
 <a class="sourceLine" id="cb3-33" title="33"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;-0.26&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-34" title="34"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;-4.35&amp;nbsp;&amp;ndash;&amp;nbsp;3.83&lt;/td&gt;</span></a>
+<a class="sourceLine" id="cb3-34" title="34"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;-4.36&amp;nbsp;&amp;ndash;&amp;nbsp;3.83&lt;/td&gt;</span></a>
 <a class="sourceLine" id="cb3-35" title="35"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;0.900&lt;/td&gt;</span></a>
 <a class="sourceLine" id="cb3-36" title="36"><span class="co">#&gt; &lt;/tr&gt;</span></a>
 <a class="sourceLine" id="cb3-37" title="37"><span class="co">#&gt; &lt;tr&gt;</span></a>
 <a class="sourceLine" id="cb3-38" title="38"><span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer's level of&lt;br&gt;education&lt;/td&gt;</span></a>
 <a class="sourceLine" id="cb3-39" title="39"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;-0.76&lt;/td&gt;</span></a>
-<a class="sourceLine" id="cb3-40" title="40"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;-3.54&amp;nbsp;&amp;ndash;&amp;nbsp;2.02&lt;/td&gt;</span></a>
+<a class="sourceLine" id="cb3-40" title="40"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;-3.55&amp;nbsp;&amp;ndash;&amp;nbsp;2.02&lt;/td&gt;</span></a>
 <a class="sourceLine" id="cb3-41" title="41"><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;0.592&lt;/td&gt;</span></a>
 <a class="sourceLine" id="cb3-42" title="42"><span class="co">#&gt; &lt;/tr&gt;</span></a>
 <a class="sourceLine" id="cb3-43" title="43"><span class="co">#&gt; &lt;tr&gt;</span></a>
@@ -252,7 +284,7 @@
 <p>Example:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(</a>
 <a class="sourceLine" id="cb4-2" title="2">  m,</a>
-<a class="sourceLine" id="cb4-3" title="3">  <span class="dt">CSS =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<a class="sourceLine" id="cb4-3" title="3">  <span class="dt">CSS =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
 <a class="sourceLine" id="cb4-4" title="4">    <span class="dt">css.depvarhead =</span> <span class="st">'color: red;'</span>,</a>
 <a class="sourceLine" id="cb4-5" title="5">    <span class="dt">css.centeralign =</span> <span class="st">'text-align: left;'</span>, </a>
 <a class="sourceLine" id="cb4-6" title="6">    <span class="dt">css.firsttablecol =</span> <span class="st">'font-weight: bold;'</span>, </a>
@@ -290,7 +322,7 @@ p
 90.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  ">
-77.97 – 102.16
+77.95 – 102.18
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  ">
 <strong>&lt;0.001
@@ -334,7 +366,7 @@ carer’s gender
 -0.26
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  ">
--4.35 – 3.83
+-4.36 – 3.83
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  ">
 0.900
@@ -348,7 +380,7 @@ carer’s level of<br>education
 -0.76
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  ">
--3.54 – 2.02
+-3.55 – 2.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align: left;  ">
 0.592
@@ -372,7 +404,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </tr>
 </table>
 <p>In the above example, the header row lost the original style and just became red. If you want to keep the original style and just add additional style information, use the plus-sign (+) as initial character for the parameter attributes. In the following example, the header row keeps its original style and is additionally printed in red:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m, <span class="dt">CSS =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">css.depvarhead =</span> <span class="st">'+color: red;'</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m, <span class="dt">CSS =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">css.depvarhead =</span> <span class="st">'+color: red;'</span>))</a></code></pre></div>
 <table class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black; text-align:left; ">
@@ -404,7 +436,7 @@ p
 90.06
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-77.97 – 102.16
+77.95 – 102.18
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001
@@ -448,7 +480,7 @@ carer’s gender
 -0.26
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--4.35 – 3.83
+-4.36 – 3.83
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.900
@@ -462,7 +494,7 @@ carer’s level of<br>education
 -0.76
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--3.54 – 2.02
+-3.55 – 2.02
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.592
@@ -522,7 +554,7 @@ p
 90.06
 </td>
 <td style="border:1px solid black; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-77.97 – 102.16
+77.95 – 102.18
 </td>
 <td style="border:1px solid black; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001
@@ -566,7 +598,7 @@ carer’s gender
 -0.26
 </td>
 <td style="border:1px solid black; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--4.35 – 3.83
+-4.36 – 3.83
 </td>
 <td style="border:1px solid black; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.900
@@ -580,7 +612,7 @@ carer’s level of<br>education
 -0.76
 </td>
 <td style="border:1px solid black; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--3.54 – 2.02
+-3.55 – 2.02
 </td>
 <td style="border:1px solid black; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.592
@@ -607,6 +639,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -622,17 +655,20 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 
 
+
       <footer><div class="copyright">
-  <p>Developed by Daniel Lüdecke.</p>
+  <p>Developed by <a href="https://github.com/strengejacke">Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

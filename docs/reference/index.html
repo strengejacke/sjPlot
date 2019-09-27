@@ -8,21 +8,32 @@
 
 <title>Function reference • sjPlot</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +41,11 @@
 
 
 
-<meta property="og:title" content="Function reference" />
 
+<meta property="og:title" content="Function reference" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -45,6 +57,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -63,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2</span>
       </span>
     </div>
 
@@ -76,55 +89,78 @@
   </a>
 </li>
 <li>
+  <a href="../news/index.html">News</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Regression Tables
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/blackwhitefigures.html">Black &amp; White Figures for Print Journals</a>
+      <a href="../articles/tab_model_estimates.html">Classical Regression Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_mixed.html">Mixed Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Regression Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/plot_model_estimates.html">Plotting Regression Coefficients</a>
+    </li>
+    <li>
+      <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects</a>
+    </li>
+    <li>
+      <a href="../articles/plot_interactions.html">Plotting Marginal Effects of Interactions</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Plot and Table Customization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/blackwhitefigures.html">Creating Black and White Figures</a>
     </li>
     <li>
       <a href="../articles/custplot.html">Customize Plot Appearance</a>
     </li>
     <li>
-      <a href="../articles/plot_interactions.html">Plotting Interaction Effects of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/plot_likert_scales.html">Plotting Likert Scales</a>
-    </li>
-    <li>
-      <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/plot_model_estimates.html">Plotting Estimates (Fixed Effects) of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
-    </li>
-    <li>
-      <a href="../articles/table_css.html">Customizing HTML tables</a>
-    </li>
-    <li>
-      <a href="../articles/tab_bayes.html">Summary of Bayesian Models as HTML Table</a>
-    </li>
-    <li>
-      <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
-    </li>
-    <li>
-      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customize Table Appearance</a>
     </li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Other Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
+    </li>
+  </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -134,6 +170,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -153,41 +190,77 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
+          <h2 id="section-plotting-regression-models" class="hasAnchor"><a href="#section-plotting-regression-models" class="anchor"></a>Plotting Regression Models</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
       <tr>
         
         <td>
-          <p><code><a href="dist_chisq.html">dist_chisq()</a></code> </p>
+          <p><code><a href="plot_model.html">plot_model()</a></code> <code><a href="plot_model.html">get_model_data()</a></code> </p>
         </td>
-        <td><p>Plot chi-squared distributions</p></td>
+        <td><p>Plot regression models</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="dist_f.html">dist_f()</a></code> </p>
+          <p><code><a href="plot_models.html">plot_models()</a></code> </p>
         </td>
-        <td><p>Plot F distributions</p></td>
+        <td><p>Forest plot of multiple regression models</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-regression-model-tables" class="hasAnchor"><a href="#section-regression-model-tables" class="anchor"></a>Regression Model Tables</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="tab_model.html">tab_model()</a></code> </p>
+        </td>
+        <td><p>Print regression models as HTML table</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-plotting-regression-model-diagnostics" class="hasAnchor"><a href="#section-plotting-regression-model-diagnostics" class="anchor"></a>Plotting Regression Model Diagnostics</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="plot_kfold_cv.html">plot_kfold_cv()</a></code> </p>
+        </td>
+        <td><p>Plot model fit from k-fold cross-validation</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="dist_norm.html">dist_norm()</a></code> </p>
+          <p><code><a href="plot_model.html">plot_model()</a></code> <code><a href="plot_model.html">get_model_data()</a></code> </p>
         </td>
-        <td><p>Plot normal distributions</p></td>
+        <td><p>Plot regression models</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="dist_t.html">dist_t()</a></code> </p>
+          <p><code><a href="plot_residuals.html">plot_residuals()</a></code> </p>
         </td>
-        <td><p>Plot t-distributions</p></td>
+        <td><p>Plot predicted values and their residuals</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="efc.html">efc</a></code> </p>
+          <p><code><a href="sjp.poly.html">sjp.poly()</a></code> </p>
         </td>
-        <td><p>Sample dataset from the EUROFAMCARE project</p></td>
-      </tr><tr>
+        <td><p>Plot polynomials for (generalized) linear regression</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-plotting-descriptive-statistics" class="hasAnchor"><a href="#section-plotting-descriptive-statistics" class="anchor"></a>Plotting Descriptive Statistics</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="plot_frq.html">plot_frq()</a></code> </p>
@@ -202,39 +275,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="plot_grid.html">plot_grid()</a></code> </p>
-        </td>
-        <td><p>Arrange list of plots as grid</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_kfold_cv.html">plot_kfold_cv()</a></code> </p>
-        </td>
-        <td><p>Plot model fit from k-fold cross-validation</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="plot_likert.html">plot_likert()</a></code> </p>
         </td>
         <td><p>Plot likert scales as centered stacked bars</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_model.html">plot_model()</a></code> <code><a href="plot_model.html">get_model_data()</a></code> </p>
-        </td>
-        <td><p>Plot regression models</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_models.html">plot_models()</a></code> </p>
-        </td>
-        <td><p>Forest plot of multiple regression models</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="plot_residuals.html">plot_residuals()</a></code> </p>
-        </td>
-        <td><p>Plot predicted values and their residuals</p></td>
       </tr><tr>
         
         <td>
@@ -250,16 +293,120 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="save_plot.html">save_plot()</a></code> </p>
+          <p><code><a href="sjp.chi2.html">sjp.chi2()</a></code> </p>
         </td>
-        <td><p>Save ggplot-figure for print publication</p></td>
+        <td><p>Plot Pearson's Chi2-Test of multiple contingency tables</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="set_theme.html">set_theme()</a></code> </p>
+          <p><code><a href="sjp.corr.html">sjp.corr()</a></code> </p>
         </td>
-        <td><p>Set global theme options for sjp-functions</p></td>
+        <td><p>Plot correlation matrix</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="sjp.grpfrq.html">sjp.grpfrq()</a></code> </p>
+        </td>
+        <td><p>Plot grouped or stacked frequencies</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sjp.xtab.html">sjp.xtab()</a></code> </p>
+        </td>
+        <td><p>Plot contingency tables</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-descriptive-statistics-tables" class="hasAnchor"><a href="#section-descriptive-statistics-tables" class="anchor"></a>Descriptive Statistics Tables</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="tab_stackfrq.html">tab_stackfrq()</a></code> </p>
+        </td>
+        <td><p>Summary of stacked frequencies as HTML table</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sjt.corr.html">sjt.corr()</a></code> </p>
+        </td>
+        <td><p>Summary of correlations as HTML table</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sjt.xtab.html">sjt.xtab()</a></code> </p>
+        </td>
+        <td><p>Summary of contingency tables as HTML table</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-generate-tables-from-data-frames-codebooks" class="hasAnchor"><a href="#section-generate-tables-from-data-frames-codebooks" class="anchor"></a>Generate Tables from Data Frames, Codebooks</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="tab_df.html">tab_df()</a></code> <code><a href="tab_df.html">tab_dfs()</a></code> </p>
+        </td>
+        <td><p>Print data frames as HTML table.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="view_df.html">view_df()</a></code> </p>
+        </td>
+        <td><p>View structure of labelled data frames</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-variable-feature-reduction" class="hasAnchor"><a href="#section-variable-feature-reduction" class="anchor"></a>Variable/Feature Reduction</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="sjp.fa.html">sjp.fa()</a></code> </p>
+        </td>
+        <td><p>Plot FA results</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sjt.fa.html">sjt.fa()</a></code> </p>
+        </td>
+        <td><p>Summary of factor analysis as HTML table</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sjp.pca.html">sjp.pca()</a></code> </p>
+        </td>
+        <td><p>Plot PCA results</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sjt.pca.html">sjt.pca()</a></code> </p>
+        </td>
+        <td><p>Summary of principal component analysis as HTML table</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="sjt.itemanalysis.html">sjt.itemanalysis()</a></code> </p>
+        </td>
+        <td><p>Summary of item analysis of an item scale as HTML table</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-cluster-analysis" class="hasAnchor"><a href="#section-cluster-analysis" class="anchor"></a>Cluster Analysis</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="sjc.cluster.html">sjc.cluster()</a></code> </p>
@@ -295,126 +442,78 @@
           <p><code><a href="sjc.qclus.html">sjc.qclus()</a></code> </p>
         </td>
         <td><p>Compute quick cluster analysis</p></td>
-      </tr><tr>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-plot-customization" class="hasAnchor"><a href="#section-plot-customization" class="anchor"></a>Plot Customization</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
-          <p><code><a href="sjp.aov1.html">sjp.aov1()</a></code> </p>
+          <p><code><a href="set_theme.html">set_theme()</a></code> </p>
         </td>
-        <td><p>Plot One-Way-Anova tables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sjp.chi2.html">sjp.chi2()</a></code> </p>
-        </td>
-        <td><p>Plot Pearson's Chi2-Test of multiple contingency tables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sjp.corr.html">sjp.corr()</a></code> </p>
-        </td>
-        <td><p>Plot correlation matrix</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sjp.fa.html">sjp.fa()</a></code> </p>
-        </td>
-        <td><p>Plot FA results</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sjp.grpfrq.html">sjp.grpfrq()</a></code> </p>
-        </td>
-        <td><p>Plot grouped or stacked frequencies</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sjp.pca.html">sjp.pca()</a></code> </p>
-        </td>
-        <td><p>Plot PCA results</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sjp.poly.html">sjp.poly()</a></code> </p>
-        </td>
-        <td><p>Plot polynomials for (generalized) linear regression</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sjp.xtab.html">sjp.xtab()</a></code> </p>
-        </td>
-        <td><p>Plot contingency tables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sjPlot-package.html">sjPlot-package</a></code> </p>
-        </td>
-        <td><p>Data Visualization for Statistics in Social Science</p></td>
+        <td><p>Set global theme options for sjp-functions</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="sjPlot-themes.html">theme_sjplot()</a></code> <code><a href="sjPlot-themes.html">theme_sjplot2()</a></code> <code><a href="sjPlot-themes.html">theme_blank()</a></code> <code><a href="sjPlot-themes.html">theme_538()</a></code> <code><a href="sjPlot-themes.html">font_size()</a></code> <code><a href="sjPlot-themes.html">label_angle()</a></code> <code><a href="sjPlot-themes.html">legend_style()</a></code> <code><a href="sjPlot-themes.html">scale_color_sjplot()</a></code> <code><a href="sjPlot-themes.html">scale_fill_sjplot()</a></code> <code><a href="sjPlot-themes.html">sjplot_pal()</a></code> <code><a href="sjPlot-themes.html">show_sjplot_pals()</a></code> <code><a href="sjPlot-themes.html">css_theme()</a></code> </p>
         </td>
         <td><p>Modify plot appearance</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-plot-distributions" class="hasAnchor"><a href="#section-plot-distributions" class="anchor"></a>Plot Distributions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="dist_chisq.html">dist_chisq()</a></code> </p>
+        </td>
+        <td><p>Plot chi-squared distributions</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="sjplot.html">sjplot()</a></code> <code><a href="sjplot.html">sjtab()</a></code> </p>
+          <p><code><a href="dist_f.html">dist_f()</a></code> </p>
         </td>
-        <td><p>Wrapper to create plots and tables within a pipe-workflow</p></td>
+        <td><p>Plot F distributions</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="sjt.corr.html">sjt.corr()</a></code> </p>
+          <p><code><a href="dist_norm.html">dist_norm()</a></code> </p>
         </td>
-        <td><p>Summary of correlations as HTML table</p></td>
+        <td><p>Plot normal distributions</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="sjt.fa.html">sjt.fa()</a></code> </p>
+          <p><code><a href="dist_t.html">dist_t()</a></code> </p>
         </td>
-        <td><p>Summary of factor analysis as HTML table</p></td>
+        <td><p>Plot t-distributions</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-utility-functions" class="hasAnchor"><a href="#section-utility-functions" class="anchor"></a>Utility Functions</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
+        
+        <td>
+          <p><code><a href="plot_grid.html">plot_grid()</a></code> </p>
+        </td>
+        <td><p>Arrange list of plots as grid</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="sjt.itemanalysis.html">sjt.itemanalysis()</a></code> </p>
+          <p><code><a href="save_plot.html">save_plot()</a></code> </p>
         </td>
-        <td><p>Summary of item analysis of an item scale as HTML table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sjt.pca.html">sjt.pca()</a></code> </p>
-        </td>
-        <td><p>Summary of principal component analysis as HTML table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="sjt.xtab.html">sjt.xtab()</a></code> </p>
-        </td>
-        <td><p>Summary of contingency tables as HTML table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tab_df.html">tab_df()</a></code> <code><a href="tab_df.html">tab_dfs()</a></code> </p>
-        </td>
-        <td><p>Print data frames as HTML table.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tab_model.html">tab_model()</a></code> </p>
-        </td>
-        <td><p>Print regression models as HTML table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="tab_stackfrq.html">tab_stackfrq()</a></code> </p>
-        </td>
-        <td><p>Summary of stacked frequencies as HTML table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="view_df.html">view_df()</a></code> </p>
-        </td>
-        <td><p>View structure of labelled data frames</p></td>
+        <td><p>Save ggplot-figure for print publication</p></td>
       </tr>
     </tbody>
     </table>
@@ -423,24 +522,38 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#section-plotting-regression-models">Plotting Regression Models</a></li>
+      <li><a href="#section-regression-model-tables">Regression Model Tables</a></li>
+      <li><a href="#section-plotting-regression-model-diagnostics">Plotting Regression Model Diagnostics</a></li>
+      <li><a href="#section-plotting-descriptive-statistics">Plotting Descriptive Statistics</a></li>
+      <li><a href="#section-descriptive-statistics-tables">Descriptive Statistics Tables</a></li>
+      <li><a href="#section-generate-tables-from-data-frames-codebooks">Generate Tables from Data Frames, Codebooks</a></li>
+      <li><a href="#section-variable-feature-reduction">Variable/Feature Reduction</a></li>
+      <li><a href="#section-cluster-analysis">Cluster Analysis</a></li>
+      <li><a href="#section-plot-customization">Plot Customization</a></li>
+      <li><a href="#section-plot-distributions">Plot Distributions</a></li>
+      <li><a href="#section-utility-functions">Utility Functions</a></li>
     </ul>
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
-  <p>Developed by Daniel Lüdecke.</p>
+  <p>Developed by <a href='https://github.com/strengejacke'>Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

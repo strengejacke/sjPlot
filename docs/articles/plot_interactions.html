@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Plotting Interaction Effects of Regression Models • sjPlot</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Plotting Interaction Effects of Regression Models">
 <meta property="og:description" content="">
 <meta property="og:image" content="/logo.png">
@@ -31,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2</span>
       </span>
     </div>
 
@@ -44,52 +51,76 @@
   </a>
 </li>
 <li>
+  <a href="../news/index.html">News</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Regression Tables
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/blackwhitefigures.html">Black &amp; White Figures for Print Journals</a>
+      <a href="../articles/tab_model_estimates.html">Classical Regression Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_mixed.html">Mixed Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Regression Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/plot_model_estimates.html">Plotting Regression Coefficients</a>
+    </li>
+    <li>
+      <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects</a>
+    </li>
+    <li>
+      <a href="../articles/plot_interactions.html">Plotting Marginal Effects of Interactions</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Plot and Table Customization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/blackwhitefigures.html">Creating Black and White Figures</a>
     </li>
     <li>
       <a href="../articles/custplot.html">Customize Plot Appearance</a>
     </li>
     <li>
-      <a href="../articles/plot_interactions.html">Plotting Interaction Effects of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/plot_likert_scales.html">Plotting Likert Scales</a>
-    </li>
-    <li>
-      <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/plot_model_estimates.html">Plotting Estimates (Fixed Effects) of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
-    </li>
-    <li>
-      <a href="../articles/table_css.html">Customizing HTML tables</a>
-    </li>
-    <li>
-      <a href="../articles/tab_bayes.html">Summary of Bayesian Models as HTML Table</a>
-    </li>
-    <li>
-      <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
-    </li>
-    <li>
-      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customize Table Appearance</a>
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Other Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
 <li>
-  <a href="../news/index.html">Changelog</a>
+      <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
+    </li>
+  </ul>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
@@ -101,13 +132,14 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Plotting Interaction Effects of Regression Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-08-02</h4>
+            <h4 class="date">2019-09-27</h4>
       
       
       <div class="hidden name"><code>plot_interactions.Rmd</code></div>
@@ -133,30 +165,30 @@
 <p><em>Note: To better understand the principle of plotting interaction terms, it might be helpful to read the vignette on <a href="plot_marginal_effects.html">marginal effects</a> first.</em></p>
 <p>To plot marginal effects of interaction terms, at least two model terms need to be specified (the terms that define the interaction) in the <code>terms</code>-argument, for which the effects are computed. To plot marginal effects for three-way-interactions, all three terms need to be specified in <code>terms</code>.</p>
 <p>A convenient way to automatically plot interactions is <code>type = "int"</code>, which scans the model formula for interaction terms and then uses these as <code>terms</code>-argument.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjPlot)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sjmisc)</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggplot2)</a>
-<a class="sourceLine" id="cb1-4" title="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(efc)</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjPlot)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjmisc)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</a>
 <a class="sourceLine" id="cb1-5" title="5"><span class="kw">theme_set</span>(<span class="kw"><a href="../reference/sjPlot-themes.html">theme_sjplot</a></span>())</a>
 <a class="sourceLine" id="cb1-6" title="6"></a>
 <a class="sourceLine" id="cb1-7" title="7"><span class="co"># make categorical</span></a>
 <a class="sourceLine" id="cb1-8" title="8">efc<span class="op">$</span>c161sex &lt;-<span class="st"> </span><span class="kw">to_factor</span>(efc<span class="op">$</span>c161sex)</a>
 <a class="sourceLine" id="cb1-9" title="9"></a>
 <a class="sourceLine" id="cb1-10" title="10"><span class="co"># fit model with interaction</span></a>
-<a class="sourceLine" id="cb1-11" title="11">fit &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>barthtot <span class="op">*</span><span class="st"> </span>c161sex, <span class="dt">data =</span> efc)</a>
+<a class="sourceLine" id="cb1-11" title="11">fit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>barthtot <span class="op">*</span><span class="st"> </span>c161sex, <span class="dt">data =</span> efc)</a>
 <a class="sourceLine" id="cb1-12" title="12"></a>
-<a class="sourceLine" id="cb1-13" title="13"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"barthtot"</span>, <span class="st">"c161sex"</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb1-13" title="13"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"barthtot"</span>, <span class="st">"c161sex"</span>))</a></code></pre></div>
 <p><img src="plot_interactions_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
 <p>For <code>type = "int"</code>, no terms need to be specified. Note that this plot type automatically uses the first interaction term in the formula for the x-axis, while the second term is used as grouping factor. Furthermore, if continuous variables are used as second term, you can specify preset-values for this term with the <code>mdrt.values</code>-argument, which are then used as grouping levels.</p>
 <p>In this example, the second term is a factor with two levels (male/female), so there is no need for choosing specific values for the moderator.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"int"</span>)</a></code></pre></div>
 <p><img src="plot_interactions_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 <p>To switch the terms, in this example <em>barthtot</em> and <em>c161sex</em>, simply switch the order of these terms on the <code>terms</code>-argument and use <code>type = "pred"</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c161sex"</span>, <span class="st">"barthtot [0, 100]"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c161sex"</span>, <span class="st">"barthtot [0, 100]"</span>))</a></code></pre></div>
 <p><img src="plot_interactions_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 <p>To switch the terms for plot-type <code>type = "int"</code>, you need to re-fit the model and change the formula accordingly, i.e. using <em>c161sex</em> as first term in the interaction.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># fit model with interaction, switching terms in formula</span></a>
-<a class="sourceLine" id="cb4-2" title="2">fit &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c161sex <span class="op">*</span><span class="st"> </span>barthtot, <span class="dt">data =</span> efc)</a>
+<a class="sourceLine" id="cb4-2" title="2">fit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c161sex <span class="op">*</span><span class="st"> </span>barthtot, <span class="dt">data =</span> efc)</a>
 <a class="sourceLine" id="cb4-3" title="3"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"int"</span>)</a></code></pre></div>
 <p><img src="plot_interactions_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 <p>By default, for continuous variables, the minimum and maximum values are chosen as grouping levels, which are 0 and 100 - that’s why the previous two plots are identical. You have other options as well, e.g. the mean-value and +/- 1 standard deviation (as suggested by Cohen and Cohen for continuous variables and popularized by Aiken and West 1991), which can be specified using <code>mdrt.values</code>.</p>
@@ -168,10 +200,10 @@
 <a href="#three-way-interactions" class="anchor"></a>Three-Way-Interactions</h1>
 <p>Since the <code>terms</code>-argument accepts up to three model terms, you can also compute marginal effects for a 3-way-interaction.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="co"># fit model with 3-way-interaction</span></a>
-<a class="sourceLine" id="cb6-2" title="2">fit &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>c12hour <span class="op">*</span><span class="st"> </span>barthtot <span class="op">*</span><span class="st"> </span>c161sex, <span class="dt">data =</span> efc)</a>
+<a class="sourceLine" id="cb6-2" title="2">fit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>c12hour <span class="op">*</span><span class="st"> </span>barthtot <span class="op">*</span><span class="st"> </span>c161sex, <span class="dt">data =</span> efc)</a>
 <a class="sourceLine" id="cb6-3" title="3"></a>
 <a class="sourceLine" id="cb6-4" title="4"><span class="co"># select only levels 30, 50 and 70 from continuous variable Barthel-Index</span></a>
-<a class="sourceLine" id="cb6-5" title="5"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"barthtot [30,50,70]"</span>, <span class="st">"c161sex"</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb6-5" title="5"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"barthtot [30,50,70]"</span>, <span class="st">"c161sex"</span>))</a></code></pre></div>
 <p><img src="plot_interactions_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>Again, <code>type = "int"</code> will automatically plot the interaction terms, however, using <code>mdrt.values = "minmax"</code> as default - in this case, the “levels” 0 and 100 from continuous variable <em>barthtot</em> are chosen by default.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"int"</span>)</a></code></pre></div>
@@ -185,6 +217,7 @@
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -199,17 +232,20 @@
 </div>
 
 
+
       <footer><div class="copyright">
-  <p>Developed by Daniel Lüdecke.</p>
+  <p>Developed by <a href="https://github.com/strengejacke">Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

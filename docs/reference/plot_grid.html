@@ -8,21 +8,32 @@
 
 <title>Arrange list of plots as grid — plot_grid • sjPlot</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,12 +41,12 @@
 
 
 
+
 <meta property="og:title" content="Arrange list of plots as grid — plot_grid" />
-
 <meta property="og:description" content="Plot multiple ggplot-objects as a grid-arranged single plot." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,6 +58,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -65,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2</span>
       </span>
     </div>
 
@@ -78,55 +90,78 @@
   </a>
 </li>
 <li>
+  <a href="../news/index.html">News</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Regression Tables
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/blackwhitefigures.html">Black &amp; White Figures for Print Journals</a>
+      <a href="../articles/tab_model_estimates.html">Classical Regression Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_mixed.html">Mixed Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Regression Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/plot_model_estimates.html">Plotting Regression Coefficients</a>
+    </li>
+    <li>
+      <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects</a>
+    </li>
+    <li>
+      <a href="../articles/plot_interactions.html">Plotting Marginal Effects of Interactions</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Plot and Table Customization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/blackwhitefigures.html">Creating Black and White Figures</a>
     </li>
     <li>
       <a href="../articles/custplot.html">Customize Plot Appearance</a>
     </li>
     <li>
-      <a href="../articles/plot_interactions.html">Plotting Interaction Effects of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/plot_likert_scales.html">Plotting Likert Scales</a>
-    </li>
-    <li>
-      <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/plot_model_estimates.html">Plotting Estimates (Fixed Effects) of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
-    </li>
-    <li>
-      <a href="../articles/table_css.html">Customizing HTML tables</a>
-    </li>
-    <li>
-      <a href="../articles/tab_bayes.html">Summary of Bayesian Models as HTML Table</a>
-    </li>
-    <li>
-      <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
-    </li>
-    <li>
-      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customize Table Appearance</a>
     </li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Other Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
+    </li>
+  </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -136,6 +171,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -147,13 +183,11 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Plot multiple ggplot-objects as a grid-arranged single plot.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>plot_grid</span>(<span class='no'>x</span>, <span class='kw'>margin</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))</pre>
-    
+    <pre class="usage"><span class='fu'>plot_grid</span>(<span class='no'>x</span>, <span class='kw'>margin</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -167,11 +201,10 @@
 and left margin for each plot, in centimetres.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An object of class <code>gtable</code>.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function takes a <code>list</code> of ggplot-objects as argument.
@@ -179,61 +212,61 @@ and left margin for each plot, in centimetres.</p></td>
          objects (e.g., when there is an argument <code>facet.grid</code>) usually
          return multiple plots as list (the return value is named <code>plot.list</code>).
          To arrange these plots as grid as a single plot, use <code>plot_grid</code>.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ggeffects</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggeffects</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
 
 <span class='co'># fit model</span>
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(
+<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(
   <span class='no'>tot_sc_e</span> ~ <span class='no'>c12hour</span> + <span class='no'>e17age</span> + <span class='no'>e42dep</span> + <span class='no'>neg_c_7</span>,
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>,
   <span class='kw'>family</span> <span class='kw'>=</span> <span class='no'>poisson</span>
 )
 
 <span class='co'># plot marginal effects for each predictor, each as single plot</span>
-<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/ggeffects/topics/ggpredict'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"c12hour"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/ggeffects/topics/plot'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/ggeffects/topics/ggpredict'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"e17age"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/ggeffects/topics/plot'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/ggeffects/topics/ggpredict'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"e42dep"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/ggeffects/topics/plot'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>p4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/ggeffects/topics/ggpredict'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"neg_c_7"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/ggeffects/topics/plot'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"c12hour"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"e17age"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"e42dep"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='no'>p4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"neg_c_7"</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># plot grid</span>
-<span class='fu'>plot_grid</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>))</div><div class='img'><img src='plot_grid-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_grid</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>))</div><div class='img'><img src='plot_grid-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
-  <p>Developed by Daniel Lüdecke.</p>
+  <p>Developed by <a href='https://github.com/strengejacke'>Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

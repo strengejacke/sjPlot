@@ -8,21 +8,32 @@
 
 <title>Plot contingency tables — sjp.xtab • sjPlot</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,12 +41,12 @@
 
 
 
+
 <meta property="og:title" content="Plot contingency tables — sjp.xtab" />
-
 <meta property="og:description" content="Plot proportional crosstables (contingency tables) of two variables as ggplot diagram." />
-
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,6 +58,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
 
 
   </head>
@@ -65,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2</span>
       </span>
     </div>
 
@@ -78,55 +90,78 @@
   </a>
 </li>
 <li>
+  <a href="../news/index.html">News</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
+    Regression Tables
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/blackwhitefigures.html">Black &amp; White Figures for Print Journals</a>
+      <a href="../articles/tab_model_estimates.html">Classical Regression Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_mixed.html">Mixed Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Regression Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/plot_model_estimates.html">Plotting Regression Coefficients</a>
+    </li>
+    <li>
+      <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects</a>
+    </li>
+    <li>
+      <a href="../articles/plot_interactions.html">Plotting Marginal Effects of Interactions</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Plot and Table Customization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/blackwhitefigures.html">Creating Black and White Figures</a>
     </li>
     <li>
       <a href="../articles/custplot.html">Customize Plot Appearance</a>
     </li>
     <li>
-      <a href="../articles/plot_interactions.html">Plotting Interaction Effects of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/plot_likert_scales.html">Plotting Likert Scales</a>
-    </li>
-    <li>
-      <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/plot_model_estimates.html">Plotting Estimates (Fixed Effects) of Regression Models</a>
-    </li>
-    <li>
-      <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
-    </li>
-    <li>
-      <a href="../articles/table_css.html">Customizing HTML tables</a>
-    </li>
-    <li>
-      <a href="../articles/tab_bayes.html">Summary of Bayesian Models as HTML Table</a>
-    </li>
-    <li>
-      <a href="../articles/tab_mixed.html">Summary of Mixed Models as HTML Table</a>
-    </li>
-    <li>
-      <a href="../articles/tab_model_estimates.html">Summary of Regression Models as HTML Table</a>
+      <a href="../articles/table_css.html">Customize Table Appearance</a>
     </li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">Changelog</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Other Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
+    </li>
+  </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -136,6 +171,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -147,13 +183,11 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Plot proportional crosstables (contingency tables) of two variables as ggplot diagram.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>sjp.xtab</span>(<span class='no'>x</span>, <span class='no'>grp</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"bar"</span>, <span class='st'>"line"</span>), <span class='kw'>margin</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"col"</span>, <span class='st'>"cell"</span>,
-  <span class='st'>"row"</span>), <span class='kw'>bar.pos</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"dodge"</span>, <span class='st'>"stack"</span>), <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>,
+    <pre class="usage"><span class='fu'>sjp.xtab</span>(<span class='no'>x</span>, <span class='no'>grp</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bar"</span>, <span class='st'>"line"</span>), <span class='kw'>margin</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"col"</span>, <span class='st'>"cell"</span>,
+  <span class='st'>"row"</span>), <span class='kw'>bar.pos</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"dodge"</span>, <span class='st'>"stack"</span>), <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>title.wtd.suffix</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.titles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>rev.order</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -165,7 +199,7 @@
   <span class='kw'>smooth.lines</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='fl'>0.2</span>, <span class='kw'>expand.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>, <span class='kw'>y.offset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -264,9 +298,9 @@ function, a legend is added to the plot.</p></td>
     <tr>
       <th>show.summary</th>
       <td><p>logical, if <code>TRUE</code> (default), a summary with chi-squared
-statistics (see <code><a href='https://www.rdocumentation.org/packages/stats/topics/chisq.test'>chisq.test</a></code>), Cramer's V or Phi-value etc.
+statistics (see <code><a href='https://rdrr.io/r/stats/chisq.test.html'>chisq.test</a></code>), Cramer's V or Phi-value etc.
 is shown. If a cell contains expected values lower than five (or lower than 10
-if df is 1), the Fisher's excact test (see <code><a href='https://www.rdocumentation.org/packages/stats/topics/fisher.test'>fisher.test</a></code>) is
+if df is 1), the Fisher's excact test (see <code><a href='https://rdrr.io/r/stats/fisher.test.html'>fisher.test</a></code>) is
 computed instead of chi-squared test. If the table's matrix is larger
 than 2x2, Fisher's excact test with Monte Carlo simulation is computed.</p></td>
     </tr>
@@ -372,39 +406,38 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
       <td><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A ggplot-object.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># create 4-category-items</span>
-<span class='no'>grp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>, <span class='fl'>100</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>grp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>, <span class='fl'>100</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='co'># create 3-category-items</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='fl'>100</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>3</span>, <span class='fl'>100</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># plot "cross tablulation" of x and grp</span>
 <span class='fu'>sjp.xtab</span>(<span class='no'>x</span>, <span class='no'>grp</span>)</div><div class='img'><img src='sjp.xtab-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot "cross tablulation" of x and y, including labels</span>
-<span class='fu'>sjp.xtab</span>(<span class='no'>x</span>, <span class='no'>grp</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"low"</span>, <span class='st'>"mid"</span>, <span class='st'>"high"</span>),
-         <span class='kw'>legend.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Grp 1"</span>, <span class='st'>"Grp 2"</span>, <span class='st'>"Grp 3"</span>, <span class='st'>"Grp 4"</span>))</div><div class='img'><img src='sjp.xtab-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>sjp.xtab</span>(<span class='no'>x</span>, <span class='no'>grp</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"low"</span>, <span class='st'>"mid"</span>, <span class='st'>"high"</span>),
+         <span class='kw'>legend.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Grp 1"</span>, <span class='st'>"Grp 2"</span>, <span class='st'>"Grp 3"</span>, <span class='st'>"Grp 4"</span>))</div><div class='img'><img src='sjp.xtab-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot "cross tablulation" of x and grp</span>
 <span class='co'># as stacked proportional bars</span>
 <span class='fu'>sjp.xtab</span>(<span class='no'>x</span>, <span class='no'>grp</span>, <span class='kw'>margin</span> <span class='kw'>=</span> <span class='st'>"row"</span>, <span class='kw'>bar.pos</span> <span class='kw'>=</span> <span class='st'>"stack"</span>,
-         <span class='kw'>show.summary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='sjp.xtab-3.png' alt='' width='700' height='433' /></div><div class='input'>
+         <span class='kw'>show.summary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Chi-squared approximation may be incorrect</span></div><div class='img'><img src='sjp.xtab-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># example with vertical labels</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sjmisc</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sjlabelled</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sjmisc</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sjlabelled</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
 <span class='fu'><a href='set_theme.html'>set_theme</a></span>(<span class='kw'>geom.label.angle</span> <span class='kw'>=</span> <span class='fl'>90</span>)
 <span class='fu'>sjp.xtab</span>(<span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='no'>efc</span>$<span class='no'>e16sex</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='st'>"bottom"</span>)</div><div class='img'><img src='sjp.xtab-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># grouped bars with EUROFAMCARE sample dataset</span>
 <span class='co'># dataset was importet from an SPSS-file,</span>
 <span class='co'># see ?sjmisc::read_spss</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>efc</span>)
-<span class='no'>efc.val</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sjlabelled/topics/get_labels'>get_labels</a></span>(<span class='no'>efc</span>)
-<span class='no'>efc.var</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sjlabelled/topics/get_label'>get_label</a></span>(<span class='no'>efc</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
+<span class='no'>efc.val</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/get_labels.html'>get_labels</a></span>(<span class='no'>efc</span>)
+<span class='no'>efc.var</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/get_label.html'>get_label</a></span>(<span class='no'>efc</span>)
 
 <span class='fu'>sjp.xtab</span>(<span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='no'>efc</span>$<span class='no'>e16sex</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='no'>efc.var</span>[<span class='st'>'e42dep'</span>],
          <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='no'>efc.val</span><span class='kw'>[[</span><span class='st'>'e42dep'</span>]], <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='no'>efc.var</span>[<span class='st'>'e16sex'</span>],
@@ -426,28 +459,30 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
-  <p>Developed by Daniel Lüdecke.</p>
+  <p>Developed by <a href='https://github.com/strengejacke'>Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

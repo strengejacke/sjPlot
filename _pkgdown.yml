@@ -1,0 +1,119 @@
+authors:
+  Daniel Lüdecke:
+    href: https://github.com/strengejacke
+
+template:
+  params:
+    bootswatch: cosmo
+
+reference:
+- title: "Plotting Regression Models"
+  contents:
+  - plot_model
+  - plot_models
+
+- title: "Regression Model Tables"
+  contents:
+  - tab_model
+
+- title: "Plotting Regression Model Diagnostics"
+  contents:
+  - plot_kfold_cv
+  - plot_model
+  - plot_residuals
+  - sjp.poly
+
+- title: "Plotting Descriptive Statistics"
+  contents:
+  - plot_frq
+  - plot_gpt
+  - plot_likert
+  - plot_scatter
+  - plot_stackfrq
+  - sjp.chi2
+  - sjp.corr
+  - sjp.grpfrq
+  - sjp.xtab
+
+- title: "Descriptive Statistics Tables"
+  contents:
+  - tab_stackfrq
+  - sjt.corr
+  - sjt.xtab
+
+- title: "Generate Tables from Data Frames, Codebooks"
+  contents:
+  - tab_df
+  - view_df
+
+- title: "Variable/Feature Reduction"
+  contents:
+  - sjp.fa
+  - sjt.fa
+  - sjp.pca
+  - sjt.pca
+  - sjt.itemanalysis
+
+- title: "Cluster Analysis"
+  contents:
+  - sjc.cluster
+  - sjc.dend
+  - sjc.elbow
+  - sjc.grpdisc
+  - sjc.kgap
+  - sjc.qclus
+
+- title: "Plot Customization"
+  contents:
+  - set_theme
+  - theme_sjplot
+
+- title: "Plot Distributions"
+  contents:
+  - dist_chisq
+  - dist_f
+  - dist_norm
+  - dist_t
+
+- title: "Utility Functions"
+  contents:
+  - plot_grid
+  - save_plot
+
+navbar:
+  type: default
+  left:
+  - icon: fa-home fa-lg
+    href: index.html
+  - text: News
+    href: news/index.html
+  - text: Reference
+    href: reference/index.html
+  - text: Regression Tables
+    menu:
+      - text: 'Classical Regression Models as HTML Table'
+        href: articles/tab_model_estimates.html
+      - text: 'Mixed Models as HTML Table'
+        href: articles/tab_mixed.html
+      - text: 'Bayesian Models as HTML Table'
+        href: articles/tab_bayes.html
+  - text: Regression Plots
+    menu:
+      - text: 'Plotting Regression Coefficients'
+        href: articles/plot_model_estimates.html
+      - text: 'Plotting Marginal Effects'
+        href: articles/plot_marginal_effects.html
+      - text: 'Plotting Marginal Effects of Interactions'
+        href: articles/plot_interactions.html
+  - text: Plot and Table Customization
+    menu:
+      - text: 'Creating Black and White Figures'
+        href: articles/blackwhitefigures.html
+      - text: 'Customize Plot Appearance'
+        href: articles/custplot.html
+      - text: 'Customize Table Appearance'
+        href: articles/table_css.html
+  - text: Other Articles
+    menu:
+      - text: 'Item Analysis of a Scale or an Index'
+        href: articles/sjtitemanalysis.html

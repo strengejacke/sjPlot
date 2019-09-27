@@ -192,6 +192,34 @@ tab_model(
 )
 ``` 
 
+## Including reference level of categorical predictors
+
+By default, for categorical predictors, the variable names and the categories for regression coefficients are shown in the table output. 
+
+```{r}
+library(glmmTMB)
+data("Salamanders")
+model <- glm(
+  count ~ spp + Wtemp + mined + cover,
+  family = poisson(),
+  data = Salamanders
+)
+
+tab_model(model)
+```
+
+You can include the reference level for categorical predictors by setting `show.reflvl = TRUE`.
+
+```{r}
+tab_model(model, show.reflvl = TRUE)
+```
+
+To show variable names, categories and include the reference level, also set `prefix.labels = "varname"`.
+
+```{r}
+tab_model(model, show.reflvl = TRUE, prefix.labels = "varname")
+```
+
 ## Show asterisks instead of numeric p-values
 
 You can change the style of how p-values are displayed with the argument `p.style`. With `p.style = "asterisk"`, the p-values are indicated as `*` in the table. 

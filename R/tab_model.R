@@ -207,7 +207,7 @@
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns add_case
 #' @importFrom sjstats std_beta
-#' @importFrom insight model_info is_multivariate find_random get_data
+#' @importFrom insight model_info is_multivariate find_random get_data find_predictors
 #' @importFrom performance r2 icc
 #' @importFrom stats nobs
 #' @importFrom rlang .data
@@ -313,7 +313,7 @@ tab_model <- function(
   # if we prefix labels, use different default for case conversion,
   # else the separating white spaces after colon are removed.
   if (missing(case)) {
-    if (prefix.labels == "none")
+    if (prefix.labels == "none" && !show.reflvl)
       case <- "parsed"
     else
       case <- NULL
@@ -919,8 +919,35 @@ tab_model <- function(
 
   if (isTRUE(auto.label) && sjmisc::is_empty(pred.labels)) {
     pred.labels <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE, prefix = prefix.labels)
+    category.values <- attr(pred.labels, "category.value")
+
+    # remove random effect labels
+    re_terms <- unlist(sapply(
+      models,
+      insight::find_predictors,
+      effects = "random",
+      component = "all",
+      flatten = TRUE
+     ))
+
+    if (!is.null(re_terms)) {
+      pred.labels.tmp <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE, prefix = "varname")
+      for (.re in re_terms) {
+        found <- grepl(paste0("^", .re, ":"), pred.labels.tmp)
+        if (any(found)) {
+          pred.labels <- pred.labels[!found]
+          category.values <- category.values[!found]
+          pred.labels.tmp <- pred.labels.tmp[!found]
+        }
+      }
+    }
+
     no.dupes <- !duplicated(names(pred.labels))
-    pred.labels <- prepare.labels(pred.labels[no.dupes], grp = show.reflvl)
+    pred.labels <- prepare.labels(
+      x = pred.labels[no.dupes],
+      grp = show.reflvl,
+      categorical = category.values[no.dupes]
+    )
   } else {
     # no automatic grouping of table rows for categorical variables
     # when user supplies own labels
@@ -946,6 +973,9 @@ tab_model <- function(
         dupes <- which(pred.labels == names(pred.labels))
         if (!sjmisc::is_empty(dupes)) pl <- pl[-dupes]
         dat <- merge(dat, data.frame(term = names(pl)), by = "term", all = TRUE)
+        # resort, in case reference level is alphabetically after other categories
+        found <- match(names(pl), dat$term)
+        dat[sort(found), ] <- dat[found, ]
         refs <- is.na(dat[, 2])
       } else {
         refs <- NULL
@@ -1245,9 +1275,9 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
 }
 
 
-prepare.labels <- function(x, grp) {
-  x_var <- names(x[attr(x, "category.value") == FALSE])
-  x_val <- names(x[attr(x, "category.value") == TRUE])
+prepare.labels <- function(x, grp, categorical) {
+  x_var <- names(x[!categorical])
+  x_val <- names(x[categorical])
 
   for (i in x_var) {
     pos <- string_starts_with(i, x = x_val)
