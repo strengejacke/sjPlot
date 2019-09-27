@@ -9,6 +9,7 @@
 
 * Fixed bug in `plot_stackfrq()` for data frames with many missing values.
 * Fixed bug with sorting frequencies in `plot_frq()` when vector had more labels than values. 
+* Fixed bug in `tab_model()` where `show.reflvl = TRUE` did not insert the reference category in first place, but in alphabetical order.
 
 # sjPlot 2.7.1
 
