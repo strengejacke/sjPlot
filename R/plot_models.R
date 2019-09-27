@@ -192,8 +192,7 @@ plot_models <- function(...,
   }
 
 
-  # exponentiation from broom::tidy does not work with merMod-objecs,
-  # so we do it manually for all model classes
+  # exponentiation
 
   if (!is.null(tf)) {
     funtrans <- match.fun(tf)

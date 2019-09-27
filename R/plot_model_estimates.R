@@ -55,8 +55,7 @@ plot_model_estimates <- function(model,
   if (!sjmisc::is_empty(noncoef)) dat <- dplyr::slice(dat, !! -noncoef)
 
 
-  # exponentiation from broom::tidy does not work with merMod-objecs,
-  # so we do it manually for all model classes
+  # exponentiation
 
   if (!is.null(tf) && !is.stan(model)) {
 
