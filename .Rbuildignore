@@ -1,8 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
-Rplots.pdf
-^docs$
 ^_pkgdown\.yml$
+
 ^doc$
+^docs$
 ^Meta$
+^pkgdown$
