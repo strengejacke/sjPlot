@@ -72,7 +72,7 @@
 #'
 #' @importFrom ggrepel geom_text_repel
 #'
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #' @inheritParams plot_stackfrq
 #' @inheritParams plot_model
 #'

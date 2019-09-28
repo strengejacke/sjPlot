@@ -23,7 +23,7 @@
 #'
 #' @return A ggplot-object.
 #'
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #' @inheritParams plot_frq
 #' @inheritParams plot_model
 #'

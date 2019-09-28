@@ -96,7 +96,7 @@ in a grid of an integrated single plot. This argument calls
 to arrange plots. Use \code{\link{plot_grid}} to plot multiple plot-objects
 as an arranged grid with \code{\link[gridExtra]{grid.arrange}}.}
 
-\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{plot_grpfrq}}.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
 depending on plot type and function). Note that bar and bin widths mostly

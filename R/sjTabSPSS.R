@@ -44,7 +44,7 @@
 #' @inheritParams tab_df
 #' @inheritParams tab_model
 #' @inheritParams sjt.xtab
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #'
 #' @return Invisibly returns
 #'          \itemize{

@@ -28,7 +28,7 @@
 #' @inheritParams tab_df
 #' @inheritParams sjt.itemanalysis
 #' @inheritParams sjt.xtab
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #' @inheritParams plot_stackfrq
 #'
 #' @return Invisibly returns

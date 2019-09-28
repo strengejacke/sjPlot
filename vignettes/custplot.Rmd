@@ -16,7 +16,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7, fig.height
 
 This vignette shows how the plots created by the `sjp.*` and `plot_model()` functions of the **sjPlot** package can be customized.
 
-The examples refer to `sjp.grpfrq()`, but most arguments are similar across all plotting function of the **sjPlot** package.
+The examples refer to `plot_grpfrq()`, but most arguments are similar across all plotting function of the **sjPlot** package.
 
 ## Tweaking plot appearance
 
@@ -45,7 +45,7 @@ set_theme(
   base = theme_bw()
 )
 
-sjp.grpfrq(
+plot_grpfrq(
   efc$e42dep, 
   efc$e16sex, 
   title = NULL, 
@@ -69,7 +69,7 @@ set_theme(
   geom.label.size = 3
 )
 
-sjp.grpfrq(
+plot_grpfrq(
   efc$e42dep, 
   efc$e15relat, 
   geom.colors = "PuRd", 
@@ -92,7 +92,7 @@ The plot's axes can be flipped using `coord.flip = TRUE`. If needed, labels can 
 set_theme(geom.label.color = "white", geom.label.size = 3)
 
 # labels appear very large due to export metrics
-sjp.grpfrq(efc$e42dep, efc$e16sex, coord.flip = TRUE)
+plot_grpfrq(efc$e42dep, efc$e16sex, coord.flip = TRUE)
 ```
 
 ## Adding plot margins
@@ -110,7 +110,7 @@ set_theme(
 ```
 
 ```{r}
-sjp.grpfrq(efc$e42dep, efc$e16sex, expand.grid = TRUE)
+plot_grpfrq(efc$e42dep, efc$e16sex, expand.grid = TRUE)
 ```
 
 ## Theme options
@@ -184,7 +184,7 @@ set_theme(
   geom.label.size = 3.5
 )
   
-sjp.grpfrq(
+plot_grpfrq(
   efc$e42dep,
   efc$e16sex,
   coord.flip = TRUE,
@@ -211,7 +211,7 @@ set_theme(
   geom.label.size = 3
 )
 
-sjp.grpfrq(efc$e42dep, efc$e16sex, coord.flip = TRUE)
+plot_grpfrq(efc$e42dep, efc$e16sex, coord.flip = TRUE)
 ```
 
 
@@ -231,6 +231,6 @@ set_theme(
   geom.label.size = 3
 )
 
-sjp.grpfrq(efc$e42dep, efc$e16sex)
+plot_grpfrq(efc$e42dep, efc$e16sex)
 ```
 

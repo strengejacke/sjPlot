@@ -26,7 +26,7 @@
 #'        is \code{FALSE}.
 #'
 #' @inheritParams plot_model
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #'
 #' @return A ggplot-object.
 #'

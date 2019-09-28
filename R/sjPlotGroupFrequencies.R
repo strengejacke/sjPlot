@@ -1,5 +1,5 @@
 #' @title Plot grouped or stacked frequencies
-#' @name sjp.grpfrq
+#' @name plot_grpfrq
 #'
 #' @description Plot grouped or stacked frequencies of variables as bar/dot,
 #'                box or violin plots, or line plot.
@@ -65,7 +65,7 @@
 #'          if \code{type = "violin"}. Default value is 0.15
 #' @param inner.box.dotsize size of mean dot insie a violin or box plot. Applies only
 #'          when \code{type = "violin"} or \code{"boxplot"}.
-#' @param geom.colors user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.
+#' @param geom.colors user defined color for geoms. See 'Details' in \code{\link{plot_grpfrq}}.
 #' @param geom.size size resp. width of the geoms (bar width, line thickness or point size,
 #'          depending on plot type and function). Note that bar and bin widths mostly
 #'          need smaller values than dot sizes.
@@ -139,30 +139,30 @@
 #'
 #' @examples
 #' data(efc)
-#' sjp.grpfrq(efc$e17age, efc$e16sex, show.values = FALSE)
+#' plot_grpfrq(efc$e17age, efc$e16sex, show.values = FALSE)
 #'
 #' # boxplot
-#' sjp.grpfrq(efc$e17age, efc$e42dep, type = "box")
+#' plot_grpfrq(efc$e17age, efc$e42dep, type = "box")
 #'
 #' # grouped bars
-#' sjp.grpfrq(efc$e42dep, efc$e16sex, title = NULL)
+#' plot_grpfrq(efc$e42dep, efc$e16sex, title = NULL)
 #'
 #' # box plots with interaction variable
-#' sjp.grpfrq(efc$e17age, efc$e42dep, intr.var = efc$e16sex, type = "box")
+#' plot_grpfrq(efc$e17age, efc$e42dep, intr.var = efc$e16sex, type = "box")
 #'
 #' # Grouped bar plot
-#' sjp.grpfrq(efc$neg_c_7, efc$e42dep, show.values = FALSE)
+#' plot_grpfrq(efc$neg_c_7, efc$e42dep, show.values = FALSE)
 #'
 #' # same data as line plot
-#' sjp.grpfrq(efc$neg_c_7, efc$e42dep, type = "line")
+#' plot_grpfrq(efc$neg_c_7, efc$e42dep, type = "line")
 #'
 #' # show ony categories where we have data (i.e. drop zero-counts)
 #' library(dplyr)
 #' efc <- dplyr::filter(efc, e42dep %in% c(3,4))
-#' sjp.grpfrq(efc$c161sex, efc$e42dep, drop.empty = TRUE)
+#' plot_grpfrq(efc$c161sex, efc$e42dep, drop.empty = TRUE)
 #'
 #' # show all categories, even if not in data
-#' sjp.grpfrq(efc$c161sex, efc$e42dep, drop.empty = FALSE)
+#' plot_grpfrq(efc$c161sex, efc$e42dep, drop.empty = FALSE)
 #'
 #' @import ggplot2
 #' @importFrom sjstats weight2
@@ -171,7 +171,7 @@
 #' @importFrom stats na.omit xtabs wilcox.test sd
 #' @importFrom rlang .data
 #' @export
-sjp.grpfrq <- function(var.cnt,
+plot_grpfrq <- function(var.cnt,
                        var.grp,
                        type = c("bar", "dot", "line", "boxplot", "violin"),
                        bar.pos = c("dodge", "stack"),
@@ -889,3 +889,8 @@ sjp.grpfrq <- function(var.cnt,
   # Plot integrated bar chart here
   baseplot
 }
+
+
+#' @rdname plot_grpfrq
+#' @export
+sjp.grpfrq <- plot_grpfrq

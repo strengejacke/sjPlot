@@ -31,7 +31,7 @@
 #'   each group in the data.
 #'
 #' @inheritParams plot_model
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #'
 #' @examples
 #' # load sample date

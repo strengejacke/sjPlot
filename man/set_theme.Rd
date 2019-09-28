@@ -219,7 +219,7 @@ set_theme()
 
 # legends of all plots inside
 set_theme(legend.pos = "top left", legend.inside = TRUE)
-sjp.xtab(efc$e42dep, efc$e16sex)
+plot_xtab(efc$e42dep, efc$e16sex)
 
 # Use classic-theme. you may need to
 # load the ggplot2-library.
@@ -236,7 +236,7 @@ set_theme(
 
 # hjust-aes needs adjustment for this
 update_geom_defaults('text', list(hjust = -0.1))
-sjp.xtab(efc$e42dep, efc$e16sex, vjust = "center", hjust = "center")
+plot_xtab(efc$e42dep, efc$e16sex, vjust = "center", hjust = "center")
 
 # Create own theme based on classic-theme
 set_theme(

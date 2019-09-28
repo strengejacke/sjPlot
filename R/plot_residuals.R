@@ -24,7 +24,7 @@
 #'
 #' @inheritParams plot_model
 #' @inheritParams plot_scatter
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #'
 #' @return A ggplot-object.
 #'

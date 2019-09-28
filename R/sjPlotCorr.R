@@ -24,7 +24,7 @@
 #' @param p.numeric Logical, if \code{TRUE}, the p-values are printed
 #'          as numbers. If \code{FALSE} (default), asterisks are used.
 #'
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #' @inheritParams plot_gpt
 #'
 #' @return (Insisibily) returns the ggplot-object with the complete plot (\code{plot}) as well as the data frame that

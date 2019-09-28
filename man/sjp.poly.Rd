@@ -41,7 +41,7 @@ ggplot-object and add axis titles manually with
 \code{\link[ggplot2]{labs}}. Use \code{axis.title = ""} to remove axis
 titles.}
 
-\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{plot_grpfrq}}.}
 
 \item{geom.size}{size resp. width of the geoms (bar width, line thickness or point size,
 depending on plot type and function). Note that bar and bin widths mostly

@@ -25,7 +25,7 @@ without shaded area is plotted.}
 \item{xmax}{Numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
 ranges to a value where a p-level of 0.00001 is reached.}
 
-\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{plot_grpfrq}}.}
 
 \item{geom.alpha}{Specifies the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.}
 }

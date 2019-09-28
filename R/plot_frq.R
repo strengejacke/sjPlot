@@ -56,7 +56,7 @@ utils::globalVariables("density")
 #'          \code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}
 #'
 #' @inheritParams plot_scatter
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #' @inheritParams sjt.xtab
 #'
 #' @return A ggplot-object.

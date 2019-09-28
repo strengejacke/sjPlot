@@ -52,7 +52,7 @@
 #'          legend labels (e.g. \code{"Group 1 (n=87)"}).
 #' @param reverse.axis Logical, if \code{TRUE}, the values on the x-axis are reversed.
 #'
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #'
 #' @return (Invisibly) returns an object with
 #'           \itemize{
@@ -520,7 +520,7 @@ sjc.dend <- function(data, groupcount, distance = "euclidean", agglomeration = "
 #'          whether a certain group is below or above the average classification goodness.
 #'
 #' @inheritParams sjc.cluster
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #'
 #' @return (Invisibly) returns an object with
 #'           \itemize{

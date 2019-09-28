@@ -34,8 +34,8 @@ utils::globalVariables("n")
 #' @return A ggplot-object.
 #'
 #' @inheritParams plot_scatter
-#' @inheritParams sjp.grpfrq
-#' @inheritParams sjp.xtab
+#' @inheritParams plot_grpfrq
+#' @inheritParams plot_xtab
 #'
 #' @details The p-values are based on \code{\link[stats]{chisq.test}} of \code{x}
 #'            and \code{y} for each \code{grp}.

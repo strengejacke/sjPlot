@@ -42,7 +42,7 @@
 #'
 #' @inheritParams plot_model
 #' @inheritParams plot_scatter
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #'
 #' @details For each polynomial degree, a simple linear regression on \code{x} (resp.
 #'            the extracted response, if \code{x} is a fitted model) is performed,

@@ -20,7 +20,7 @@
 #'          ranges to a value where a p-level of 0.00001 is reached.
 #' @param geom.alpha Specifies the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.
 #'
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #'
 #' @examples
 #' # a simple normal distribution
@@ -142,7 +142,7 @@ dist_norm <- function(norm = NULL,
 #'          ranges to a value where a p-level of 0.00001 is reached.
 #'
 #' @inheritParams dist_norm
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #'
 #' @examples
 #' # a simple chi-squared distribution
@@ -282,7 +282,7 @@ dist_chisq <- function(chi2 = NULL,
 #'          ranges to a value where a p-level of 0.00001 is reached.
 #'
 #' @inheritParams dist_norm
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #'
 #' @examples
 #' # a simple F distribution for 6 and 45 degrees of freedom
@@ -408,7 +408,7 @@ dist_f <- function(f = NULL,
 #'          ranges to a value where a p-level of 0.00001 is reached.
 #'
 #' @inheritParams dist_norm
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #'
 #' @examples
 #' # a simple t-distribution

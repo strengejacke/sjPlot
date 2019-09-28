@@ -50,7 +50,7 @@ for this argument.}
 depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
-\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{plot_grpfrq}}.}
 
 \item{wrap.title}{numeric, determines how many chars of the plot title are displayed in
 one line and when a line break is inserted.}

@@ -48,7 +48,7 @@
 #'          to label variable values in the output.
 #'
 #' @inheritParams tab_model
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #'
 #' @return Invisibly returns
 #'          \itemize{

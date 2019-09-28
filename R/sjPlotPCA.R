@@ -24,7 +24,7 @@
 #'            \item the data frame that was used for setting up the ggplot-object (\code{df}).
 #'            }
 #'
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #' @inheritParams sjt.pca
 #'
 #' @examples

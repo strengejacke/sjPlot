@@ -36,7 +36,7 @@ Following \code{fun}-values are currently supported:
             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first
             two variables in \code{data} are used (and required) to create the plot.
             }
-            \item{\code{"grpfrq"}}{calls \code{\link{sjp.grpfrq}}. The first
+            \item{\code{"grpfrq"}}{calls \code{\link{plot_grpfrq}}. The first
             two variables in \code{data} are used (and required) to create the plot.
             }
             \item{\code{"likert"}}{calls \code{\link{plot_likert}}. \code{data}
@@ -45,7 +45,7 @@ Following \code{fun}-values are currently supported:
             \item{\code{"stackfrq"}}{calls \code{\link{tab_stackfrq}}.
             \code{data} must be a data frame with items to create the table.
             }
-            \item{\code{"xtab"}}{calls \code{\link{sjp.xtab}} or \code{\link{sjt.xtab}}.
+            \item{\code{"xtab"}}{calls \code{\link{plot_xtab}} or \code{\link{sjt.xtab}}.
             The first two variables in \code{data} are used (and required)
             to create the plot or table.
             }

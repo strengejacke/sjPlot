@@ -30,10 +30,10 @@ reference:
   - plot_likert
   - plot_scatter
   - plot_stackfrq
+  - plot_grpfrq
+  - plot_xtab
   - sjp.chi2
   - sjp.corr
-  - sjp.grpfrq
-  - sjp.xtab
 
 - title: "Descriptive Statistics Tables"
   contents:

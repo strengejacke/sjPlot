@@ -16,8 +16,8 @@
 #' @param string.interc Character vector that indicates the reference group (intercept), that is appended to
 #'          the value label of the grouping variable. Default is \code{"(Intercept)"}.
 #'
-#' @inheritParams sjp.grpfrq
-#' @inheritParams sjp.xtab
+#' @inheritParams plot_grpfrq
+#' @inheritParams plot_xtab
 #' @inheritParams plot_gpt
 #' @inheritParams plot_model
 #'

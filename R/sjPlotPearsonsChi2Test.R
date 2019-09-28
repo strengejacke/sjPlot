@@ -12,7 +12,7 @@
 #'
 #' @return A ggplot-object.
 #'
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #'
 #' @examples
 #' # create data frame with 5 dichotomous (dummy) variables

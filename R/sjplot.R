@@ -30,7 +30,7 @@
 #'             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first
 #'             two variables in \code{data} are used (and required) to create the plot.
 #'             }
-#'             \item{\code{"grpfrq"}}{calls \code{\link{sjp.grpfrq}}. The first
+#'             \item{\code{"grpfrq"}}{calls \code{\link{plot_grpfrq}}. The first
 #'             two variables in \code{data} are used (and required) to create the plot.
 #'             }
 #'             \item{\code{"likert"}}{calls \code{\link{plot_likert}}. \code{data}
@@ -39,7 +39,7 @@
 #'             \item{\code{"stackfrq"}}{calls \code{\link{tab_stackfrq}}.
 #'             \code{data} must be a data frame with items to create the table.
 #'             }
-#'             \item{\code{"xtab"}}{calls \code{\link{sjp.xtab}} or \code{\link{sjt.xtab}}.
+#'             \item{\code{"xtab"}}{calls \code{\link{plot_xtab}} or \code{\link{sjt.xtab}}.
 #'             The first two variables in \code{data} are used (and required)
 #'             to create the plot or table.
 #'             }
@@ -285,21 +285,21 @@ plot_sj <- function(x, fun, args) {
   # choose plottype, and call plot-function with or w/o additional arguments
   if (sjmisc::is_empty(args)) {
     if (fun  == "grpfrq") {
-      p <- sjp.grpfrq(x[[1]], x[[2]])
+      p <- plot_grpfrq(x[[1]], x[[2]])
     } else if (fun  == "likert") {
       p <- plot_likert(x)
     } else if (fun  == "xtab") {
-      p <- sjp.xtab(x[[1]], x[[2]])
+      p <- plot_xtab(x[[1]], x[[2]])
     } else if (fun  == "aov1") {
       p <- sjp.aov1(x[[1]], x[[2]])
     }
   } else {
     if (fun  == "grpfrq") {
-      p <- do.call(sjp.grpfrq, args = c(list(var.cnt = x[[1]], var.grp = x[[2]]), args))
+      p <- do.call(plot_grpfrq, args = c(list(var.cnt = x[[1]], var.grp = x[[2]]), args))
     } else if (fun  == "likert") {
       p <- do.call(plot_likert, args = c(list(items = x), args))
     } else if (fun  == "xtab") {
-      p <- do.call(sjp.xtab, args = c(list(x = x[[1]], grp = x[[2]]), args))
+      p <- do.call(plot_xtab, args = c(list(x = x[[1]], grp = x[[2]]), args))
     } else if (fun  == "aov1") {
       p <- do.call(sjp.aov1, args = c(list(var.dep = x[[1]], var.grp = x[[2]]), args))
     }

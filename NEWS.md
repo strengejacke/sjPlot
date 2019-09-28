@@ -5,6 +5,11 @@
 * Replaced `performance::principal_component()` by `parameters::principal_component()`.
 * Fixed CRAN check issues, due to the latest *bayestestR* update.
 
+## Function renaming
+
+* `sjp.grpfrq()` is now names `plot_grpfrq()`.
+* `sjp.xtab()` is now names `plot_xtab()`.
+
 ## Changes to functions
 
 * `plot_grid()` gets a `tags`-argument to add tags to plot-panels.

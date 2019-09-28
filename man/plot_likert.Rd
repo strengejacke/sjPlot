@@ -93,7 +93,7 @@ displayed in one line and when a line break is inserted.}
 depending on plot type and function). Note that bar and bin widths mostly
 need smaller values than dot sizes.}
 
-\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{sjp.grpfrq}}.}
+\item{geom.colors}{user defined color for geoms. See 'Details' in \code{\link{plot_grpfrq}}.}
 
 \item{cat.neutral.color}{Color of the neutral category, if plotted (see \code{cat.neutral}).}
 

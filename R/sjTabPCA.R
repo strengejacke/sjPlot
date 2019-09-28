@@ -38,7 +38,7 @@
 #' @inheritParams view_df
 #' @inheritParams tab_df
 #' @inheritParams sjt.xtab
-#' @inheritParams sjp.grpfrq
+#' @inheritParams plot_grpfrq
 #' @inheritParams sjt.corr
 #'
 #' @return Invisibly returns
