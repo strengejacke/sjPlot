@@ -139,7 +139,7 @@
       <h1>Customize Plot Appearance</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2019-09-27</h4>
+            <h4 class="date">2019-09-28</h4>
       
       
       <div class="hidden name"><code>custplot.Rmd</code></div>
@@ -149,7 +149,7 @@
     
     
 <p>This vignette shows how the plots created by the <code>sjp.*</code> and <code><a href="../reference/plot_model.html">plot_model()</a></code> functions of the <strong>sjPlot</strong> package can be customized.</p>
-<p>The examples refer to <code><a href="../reference/sjp.grpfrq.html">sjp.grpfrq()</a></code>, but most arguments are similar across all plotting function of the <strong>sjPlot</strong> package.</p>
+<p>The examples refer to <code><a href="../reference/plot_grpfrq.html">plot_grpfrq()</a></code>, but most arguments are similar across all plotting function of the <strong>sjPlot</strong> package.</p>
 <div id="tweaking-plot-appearance" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tweaking-plot-appearance" class="anchor"></a>Tweaking plot appearance</h2>
@@ -175,7 +175,7 @@
 <a class="sourceLine" id="cb1-18" title="18">  <span class="dt">base =</span> <span class="kw">theme_bw</span>()</a>
 <a class="sourceLine" id="cb1-19" title="19">)</a>
 <a class="sourceLine" id="cb1-20" title="20"></a>
-<a class="sourceLine" id="cb1-21" title="21"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(</a>
+<a class="sourceLine" id="cb1-21" title="21"><span class="kw"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span>(</a>
 <a class="sourceLine" id="cb1-22" title="22">  efc<span class="op">$</span>e42dep, </a>
 <a class="sourceLine" id="cb1-23" title="23">  efc<span class="op">$</span>e16sex, </a>
 <a class="sourceLine" id="cb1-24" title="24">  <span class="dt">title =</span> <span class="ot">NULL</span>, </a>
@@ -198,7 +198,7 @@
 <a class="sourceLine" id="cb2-8" title="8">  <span class="dt">geom.label.size =</span> <span class="dv">3</span></a>
 <a class="sourceLine" id="cb2-9" title="9">)</a>
 <a class="sourceLine" id="cb2-10" title="10"></a>
-<a class="sourceLine" id="cb2-11" title="11"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(</a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="kw"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span>(</a>
 <a class="sourceLine" id="cb2-12" title="12">  efc<span class="op">$</span>e42dep, </a>
 <a class="sourceLine" id="cb2-13" title="13">  efc<span class="op">$</span>e15relat, </a>
 <a class="sourceLine" id="cb2-14" title="14">  <span class="dt">geom.colors =</span> <span class="st">"PuRd"</span>, </a>
@@ -216,14 +216,14 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(<span class="dt">geom.label.color =</span> <span class="st">"white"</span>, <span class="dt">geom.label.size =</span> <span class="dv">3</span>)</a>
 <a class="sourceLine" id="cb4-2" title="2"></a>
 <a class="sourceLine" id="cb4-3" title="3"><span class="co"># labels appear very large due to export metrics</span></a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex, <span class="dt">coord.flip =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb4-4" title="4"><span class="kw"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex, <span class="dt">coord.flip =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
 <div id="adding-plot-margins" class="section level2">
 <h2 class="hasAnchor">
 <a href="#adding-plot-margins" class="anchor"></a>Adding plot margins</h2>
 <p>Plots with no margins towards the axes may look strange to some people (not to me, though). To restore the ggplot-default behaviour, use the <code>expand.grid</code> argument:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex, <span class="dt">expand.grid =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex, <span class="dt">expand.grid =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </div>
 <div id="theme-options" class="section level2">
@@ -290,7 +290,7 @@
 <a class="sourceLine" id="cb12-8" title="8">  <span class="dt">geom.label.size =</span> <span class="fl">3.5</span></a>
 <a class="sourceLine" id="cb12-9" title="9">)</a>
 <a class="sourceLine" id="cb12-10" title="10">  </a>
-<a class="sourceLine" id="cb12-11" title="11"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(</a>
+<a class="sourceLine" id="cb12-11" title="11"><span class="kw"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span>(</a>
 <a class="sourceLine" id="cb12-12" title="12">  efc<span class="op">$</span>e42dep,</a>
 <a class="sourceLine" id="cb12-13" title="13">  efc<span class="op">$</span>e16sex,</a>
 <a class="sourceLine" id="cb12-14" title="14">  <span class="dt">coord.flip =</span> <span class="ot">TRUE</span>,</a>
@@ -316,7 +316,7 @@
 <a class="sourceLine" id="cb13-11" title="11">  <span class="dt">geom.label.size =</span> <span class="dv">3</span></a>
 <a class="sourceLine" id="cb13-12" title="12">)</a>
 <a class="sourceLine" id="cb13-13" title="13"></a>
-<a class="sourceLine" id="cb13-14" title="14"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex, <span class="dt">coord.flip =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb13-14" title="14"><span class="kw"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex, <span class="dt">coord.flip =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="../reference/set_theme.html">set_theme</a></span>(</a>
 <a class="sourceLine" id="cb14-2" title="2">  <span class="dt">base =</span> <span class="kw">theme_classic</span>(), </a>
@@ -333,7 +333,7 @@
 <a class="sourceLine" id="cb14-13" title="13">  <span class="dt">geom.label.size =</span> <span class="dv">3</span></a>
 <a class="sourceLine" id="cb14-14" title="14">)</a>
 <a class="sourceLine" id="cb14-15" title="15"></a>
-<a class="sourceLine" id="cb14-16" title="16"><span class="kw"><a href="../reference/sjp.grpfrq.html">sjp.grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex)</a></code></pre></div>
+<a class="sourceLine" id="cb14-16" title="16"><span class="kw"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span>(efc<span class="op">$</span>e42dep, efc<span class="op">$</span>e16sex)</a></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 </div>
   </div>

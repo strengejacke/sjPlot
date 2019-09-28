@@ -536,7 +536,7 @@ recommended values are from 0.3 to 2.5</p></td>
 
 <span class='co'># legends of all plots inside</span>
 <span class='fu'>set_theme</span>(<span class='kw'>legend.pos</span> <span class='kw'>=</span> <span class='st'>"top left"</span>, <span class='kw'>legend.inside</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'><a href='sjp.xtab.html'>sjp.xtab</a></span>(<span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='no'>efc</span>$<span class='no'>e16sex</span>)
+<span class='fu'><a href='plot_xtab.html'>plot_xtab</a></span>(<span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='no'>efc</span>$<span class='no'>e16sex</span>)
 
 <span class='co'># Use classic-theme. you may need to</span>
 <span class='co'># load the ggplot2-library.</span>
@@ -553,7 +553,7 @@ recommended values are from 0.3 to 2.5</p></td>
 
 <span class='co'># hjust-aes needs adjustment for this</span>
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/update_defaults.html'>update_geom_defaults</a></span>(<span class='st'>'text'</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>hjust</span> <span class='kw'>=</span> -<span class='fl'>0.1</span>))
-<span class='fu'><a href='sjp.xtab.html'>sjp.xtab</a></span>(<span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='no'>efc</span>$<span class='no'>e16sex</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>)
+<span class='fu'><a href='plot_xtab.html'>plot_xtab</a></span>(<span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='no'>efc</span>$<span class='no'>e16sex</span>, <span class='kw'>vjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>, <span class='kw'>hjust</span> <span class='kw'>=</span> <span class='st'>"center"</span>)
 
 <span class='co'># Create own theme based on classic-theme</span>
 <span class='fu'>set_theme</span>(

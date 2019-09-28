@@ -462,13 +462,11 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sjlabelled</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:testthat’:</span>
+#&gt; <span class='message'>Attaching package: 'dplyr'</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from 'package:sjlabelled':</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    matches</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:sjlabelled’:</span>
+#&gt; <span class='message'>    as_label</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:stats':</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    as_label</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
+#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:base':</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
 
@@ -486,7 +484,7 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 <span class='no'>efc</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='no'>e42dep</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>plot_frq</span>(<span class='no'>c161sex</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='plot_grid.html'>plot_grid</a></span>()</div><div class='img'><img src='plot_frq-6.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='fu'><a href='plot_grid.html'>plot_grid</a></span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: Not enough tags labels in list. Using letters instead.</span></div><div class='img'><img src='plot_frq-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sjmisc</span>)
 <span class='co'># grouped variable</span>
 <span class='no'>ageGrp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjmisc/man/group_var.html'>group_var</a></span>(<span class='no'>efc</span>$<span class='no'>e17age</span>)

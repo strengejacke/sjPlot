@@ -192,12 +192,31 @@
 <li>Fixed CRAN check issues, due to the latest <em>bayestestR</em> update.</li>
 </ul>
 </div>
+<div id="function-renaming" class="section level2">
+<h2 class="hasAnchor">
+<a href="#function-renaming" class="anchor"></a>Function renaming</h2>
+<ul>
+<li>
+<code><a href="../reference/plot_grpfrq.html">sjp.grpfrq()</a></code> is now names <code><a href="../reference/plot_grpfrq.html">plot_grpfrq()</a></code>.</li>
+<li>
+<code><a href="../reference/plot_xtab.html">sjp.xtab()</a></code> is now names <code><a href="../reference/plot_xtab.html">plot_xtab()</a></code>.</li>
+</ul>
+</div>
+<div id="changes-to-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<ul>
+<li>
+<code><a href="../reference/plot_grid.html">plot_grid()</a></code> gets a <code>tags</code>-argument to add tags to plot-panels.</li>
+</ul>
+</div>
 <div id="bug-fixes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed bug in <code><a href="../reference/plot_stackfrq.html">plot_stackfrq()</a></code> for data frames with many missing values.</li>
 <li>Fixed bug with sorting frequencies in <code><a href="../reference/plot_frq.html">plot_frq()</a></code> when vector had more labels than values.</li>
+<li>Fixed bug in <code><a href="../reference/tab_model.html">tab_model()</a></code> where <code>show.reflvl = TRUE</code> did not insert the reference category in first place, but in alphabetical order.</li>
 </ul>
 </div>
 </div>
@@ -213,9 +232,9 @@
 <li>new color palettes were added (see <code><a href="../reference/sjPlot-themes.html">show_sjplot_pals()</a></code>).</li>
 </ul>
 </div>
-<div id="changes-to-functions" class="section level2">
+<div id="changes-to-functions-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> now supports <em>gamlss</em> models.</li>
@@ -246,9 +265,9 @@
 <code>sjt.stackfrq()</code> was renamed to <code><a href="../reference/tab_stackfrq.html">tab_stackfrq()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-1" class="section level2">
+<div id="changes-to-functions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
 <div id="plot_likert" class="section level3">
 <h3 class="hasAnchor">
 <a href="#plot_likert" class="anchor"></a><code>plot_likert()</code>
@@ -345,9 +364,9 @@
 <code>sjp.frq()</code> was renamed to <code><a href="../reference/plot_frq.html">plot_frq()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-2" class="section level2">
+<div id="changes-to-functions-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
 <div id="tab_model-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tab_model-1" class="anchor"></a>tab_model()</h3>
@@ -383,7 +402,7 @@
 <li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> gets additional arguments <code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code> that are passed down to <code><a href="https://rdrr.io/pkg/sjstats/man/robust.html">sjstats::robust()</a></code>, to calculate different types of (clustered) robust standard errors.</li>
 <li>
-<code><a href="../reference/sjt.xtab.html">sjt.xtab()</a></code>, <code><a href="../reference/sjp.xtab.html">sjp.xtab()</a></code>, <code><a href="../reference/plot_frq.html">plot_frq()</a></code> and <code><a href="../reference/sjp.grpfrq.html">sjp.grpfrq()</a></code> get a <code>drop.empty()</code>-argument, to drop values / factor levels with no observations from output.</li>
+<code><a href="../reference/sjt.xtab.html">sjt.xtab()</a></code>, <code><a href="../reference/plot_xtab.html">sjp.xtab()</a></code>, <code><a href="../reference/plot_frq.html">plot_frq()</a></code> and <code><a href="../reference/plot_grpfrq.html">sjp.grpfrq()</a></code> get a <code>drop.empty()</code>-argument, to drop values / factor levels with no observations from output.</li>
 </ul>
 </div>
 </div>
@@ -421,9 +440,9 @@
 <code>sjt.lm()</code>, <code>sjt.glm()</code>, <code>sjt.lmer()</code> and <code>sjt.glmer()</code>. Please use <code><a href="../reference/tab_model.html">tab_model()</a></code> instead.</li>
 </ul>
 </div>
-<div id="changes-to-functions-3" class="section level2">
+<div id="changes-to-functions-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> supports printing simplex parameters of monotonic effects of <strong>brms</strong> models.</li>
@@ -466,9 +485,9 @@
 <code>sjt.lm()</code>, <code>sjt.glm()</code>, <code>sjt.lmer()</code> and <code>sjt.glmer()</code> are now deprecated. Please use <code><a href="../reference/tab_model.html">tab_model()</a></code> instead.</li>
 </ul>
 </div>
-<div id="changes-to-functions-4" class="section level2">
+<div id="changes-to-functions-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Arguments <code>dot.size</code> and <code>line.size</code> in <code><a href="../reference/plot_model.html">plot_model()</a></code> now also apply to marginal effects and diagnostic plots.</li>
 <li>
@@ -522,9 +541,9 @@
 <code>sjp.resid()</code> was renamed to <code><a href="../reference/plot_residuals.html">plot_residuals()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-5" class="section level2">
+<div id="changes-to-functions-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-6" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Improved support for <code>brmsfit</code>-objects with categorical-family for <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/tab_model.html">tab_model()</a></code>.</li>
 <li>
@@ -592,9 +611,9 @@
 <code>sjt.grpmean()</code>, <code>sjt.mwu()</code> and <code>sjt.df()</code>. The replacements are <code><a href="https://rdrr.io/pkg/sjstats/man/grpmean.html">sjstats::grpmean()</a></code>, <code><a href="https://rdrr.io/pkg/sjstats/man/mwu.html">sjstats::mwu()</a></code> and <code><a href="../reference/tab_df.html">tab_df()</a></code> resp. <code><a href="../reference/tab_df.html">tab_dfs()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-6" class="section level2">
+<div id="changes-to-functions-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-6" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-7" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/plot_models.html">plot_models()</a></code> get a <code>prefix.labels</code>-argument, to prefix automatically retrieved term labels with either the related variable name or label.</li>
@@ -634,9 +653,9 @@
 <li>
 <code><a href="../reference/plot_model.html">plot_model(type = "int")</a></code> could not automatically select <code>mdrt.values</code> properly for non-integer variables.</li>
 <li>
-<code><a href="../reference/sjp.grpfrq.html">sjp.grpfrq()</a></code> now correctly uses the complete space in facets when <code>facet.grid = TRUE</code>.</li>
+<code><a href="../reference/plot_grpfrq.html">sjp.grpfrq()</a></code> now correctly uses the complete space in facets when <code>facet.grid = TRUE</code>.</li>
 <li>
-<code><a href="../reference/sjp.grpfrq.html">sjp.grpfrq(type = "boxplot")</a></code> did not correctly label the x-axis when one category had no elements in a vector.</li>
+<code><a href="../reference/plot_grpfrq.html">sjp.grpfrq(type = "boxplot")</a></code> did not correctly label the x-axis when one category had no elements in a vector.</li>
 <li>Problems with German umlauts when printing HTML tables were fixed.</li>
 </ul>
 </div>

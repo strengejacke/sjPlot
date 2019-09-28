@@ -186,7 +186,7 @@
     <p>Plot multiple ggplot-objects as a grid-arranged single plot.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_grid</span>(<span class='no'>x</span>, <span class='kw'>margin</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))</pre>
+    <pre class="usage"><span class='fu'>plot_grid</span>(<span class='no'>x</span>, <span class='kw'>margin</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>1</span>), <span class='kw'>tags</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,6 +199,11 @@
       <th>margin</th>
       <td><p>A numeric vector of length 4, indicating the top, right, bottom
 and left margin for each plot, in centimetres.</p></td>
+    </tr>
+    <tr>
+      <th>tags</th>
+      <td><p>Add tags to your subfigures. Can be <code>TRUE</code> (letter tags)
+or character vector containing tags labels.</p></td>
     </tr>
     </table>
 
@@ -235,7 +240,9 @@ and left margin for each plot, in centimetres.</p></td>
   <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># plot grid</span>
-<span class='fu'>plot_grid</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>))</div><div class='img'><img src='plot_grid-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_grid</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Not enough tags labels in list. Using letters instead.</span></div><div class='img'><img src='plot_grid-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># plot grid</span>
+<span class='fu'>plot_grid</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>), <span class='kw'>tags</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot_grid-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

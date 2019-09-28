@@ -271,7 +271,7 @@ need smaller values than dot sizes.</p></td>
     </tr>
     <tr>
       <th>geom.colors</th>
-      <td><p>user defined color for geoms. See 'Details' in <code><a href='sjp.grpfrq.html'>sjp.grpfrq</a></code>.</p></td>
+      <td><p>user defined color for geoms. See 'Details' in <code><a href='plot_grpfrq.html'>plot_grpfrq</a></code>.</p></td>
     </tr>
     <tr>
       <th>wrap.title</th>
@@ -322,7 +322,7 @@ Only applies when <code>data</code> is a data frame.</p></td>
 <span class='no'>end</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>efc</span>) <span class='kw'>==</span> <span class='st'>"c90cop9"</span>)
 
 <span class='co'># use data frame as argument, let sjp.fa() compute FA</span>
-<span class='fu'>sjp.fa</span>(<span class='no'>efc</span>[, <span class='no'>start</span>:<span class='no'>end</span>])</div><div class='output co'>#&gt; Parallel analysis suggests that the number of factors =  3  and the number of components =  NA </div><div class='output co'>#&gt; <span class='message'>Following items have no clear factor loading:</span></div><div class='output co'>#&gt; <span class='message'>none.</span></div><div class='img'><img src='sjp.fa-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>sjp.fa</span>(<span class='no'>efc</span>[, <span class='no'>start</span>:<span class='no'>end</span>], <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"tile"</span>)</div><div class='output co'>#&gt; Parallel analysis suggests that the number of factors =  3  and the number of components =  NA </div><div class='output co'>#&gt; <span class='message'>Following items have no clear factor loading:</span></div><div class='output co'>#&gt; <span class='message'>none.</span></div><div class='img'><img src='sjp.fa-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>sjp.fa</span>(<span class='no'>efc</span>[, <span class='no'>start</span>:<span class='no'>end</span>])</div><div class='output co'>#&gt; Parallel analysis suggests that the number of factors =  3  and the number of components =  NA </div><div class='output co'>#&gt; <span class='message'>Following items have no clear factor loading:</span></div><div class='output co'>#&gt; <span class='message'>none.</span></div><div class='input'><span class='fu'>sjp.fa</span>(<span class='no'>efc</span>[, <span class='no'>start</span>:<span class='no'>end</span>], <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"tile"</span>)</div><div class='output co'>#&gt; Parallel analysis suggests that the number of factors =  3  and the number of components =  NA </div><div class='output co'>#&gt; <span class='message'>Following items have no clear factor loading:</span></div><div class='output co'>#&gt; <span class='message'>none.</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

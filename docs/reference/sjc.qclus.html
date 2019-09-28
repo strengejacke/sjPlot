@@ -315,7 +315,7 @@ as an arranged grid with <code><a href='https://rdrr.io/pkg/gridExtra/man/arrang
     </tr>
     <tr>
       <th>geom.colors</th>
-      <td><p>user defined color for geoms. See 'Details' in <code><a href='sjp.grpfrq.html'>sjp.grpfrq</a></code>.</p></td>
+      <td><p>user defined color for geoms. See 'Details' in <code><a href='plot_grpfrq.html'>plot_grpfrq</a></code>.</p></td>
     </tr>
     <tr>
       <th>geom.size</th>
@@ -393,10 +393,7 @@ legend labels (e.g. <code>"Group 1 (n=87)"</code>).</p></td>
 <span class='co'># k-means clustering of airquality data</span>
 <span class='co'># and saving the results. most likely, 3 cluster</span>
 <span class='co'># groups have been found (see below).</span>
-<span class='no'>airgrp</span> <span class='kw'>&lt;-</span> <span class='fu'>sjc.qclus</span>(<span class='no'>airquality</span>)</div><div class='output co'>#&gt; Clustering k = 1,2,..., K.max (= 10): .. done
-#&gt; Bootstrapping, b = 1,2,..., B (= 100)  [one "." per sample]:
-#&gt; .................................................. 50 
-#&gt; .................................................. 100 </div><div class='output co'>#&gt; <span class='message'>Clustering Gap statistic ["clusGap"].</span>
+<span class='no'>airgrp</span> <span class='kw'>&lt;-</span> <span class='fu'>sjc.qclus</span>(<span class='no'>airquality</span>)</div><div class='output co'>#&gt; <span class='message'>Clustering Gap statistic ["clusGap"].</span>
 #&gt; <span class='message'>B=100 simulated reference sets, k = 1..10</span></div><div class='output co'>#&gt; <span class='message'> --&gt; Number of clusters (method 'Tibs2001SEmax', SE.factor=1): 3</span></div><div class='img'><img src='sjc.qclus-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjc.qclus-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># "re-plot" cluster groups, without computing</span>
 <span class='co'># new k-means cluster analysis.</span>
