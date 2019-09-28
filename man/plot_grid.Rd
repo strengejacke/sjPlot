@@ -4,13 +4,16 @@
 \alias{plot_grid}
 \title{Arrange list of plots as grid}
 \usage{
-plot_grid(x, margin = c(1, 1, 1, 1))
+plot_grid(x, margin = c(1, 1, 1, 1), tags = NULL)
 }
 \arguments{
 \item{x}{A list of ggplot-objects. See 'Details'.}
 
 \item{margin}{A numeric vector of length 4, indicating the top, right, bottom
 and left margin for each plot, in centimetres.}
+
+\item{tags}{Add tags to your subfigures. Can be \code{TRUE} (letter tags)
+or character vector containing tags labels.}
 }
 \value{
 An object of class \code{gtable}.
@@ -48,5 +51,8 @@ p4 <- ggpredict(fit, "neg_c_7") \%>\%
 
 # plot grid
 plot_grid(list(p1, p2, p3, p4))
+
+# plot grid
+plot_grid(list(p1, p2, p3, p4), tags = TRUE)
 
 }

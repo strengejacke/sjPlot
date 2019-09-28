@@ -6,6 +6,8 @@
 #' @param x A list of ggplot-objects. See 'Details'.
 #' @param margin A numeric vector of length 4, indicating the top, right, bottom
 #'        and left margin for each plot, in centimetres.
+#' @param tags Add tags to your subfigures. Can be \code{TRUE} (letter tags)
+#'   or character vector containing tags labels.
 #'
 #' @return An object of class \code{gtable}.
 #'
@@ -39,8 +41,11 @@
 #' # plot grid
 #' plot_grid(list(p1, p2, p3, p4))
 #'
+#' # plot grid
+#' plot_grid(list(p1, p2, p3, p4), tags = TRUE)
+#'
 #' @export
-plot_grid <- function(x, margin = c(1, 1, 1, 1)) {
+plot_grid <- function(x, margin = c(1, 1, 1, 1), tags = NULL) {
   # check package availability -----
   if (!requireNamespace("gridExtra", quietly = TRUE)) {
     stop("Package `gridExtra` needed for this function to work. Please install it.", call. = F)
@@ -54,6 +59,27 @@ plot_grid <- function(x, margin = c(1, 1, 1, 1)) {
   x <- lapply(x, function(pl) {
     pl + theme(plot.margin = unit(margin, "cm"))
   })
+
+  tags_labels <- NULL
+
+  # Add tags
+  if (isTRUE(tags)) {
+    tags_labels = LETTERS
+  } else{
+    if (length(tags) < length(x)) {
+      warning("Not enough tags labels in list. Using letters instead.")
+      tags_labels = LETTERS
+    } else{
+      tags_labels = tags
+    }
+  }
+
+  if (!is.null(tags_labels)) {
+    for (i in 1:length(x)) {
+      x[[i]] <- x[[i]] + labs(tag = tags_labels[i])
+    }
+  }
+
 
   # compute amount of columns and rows
   ncol <- round(sqrt(length(x)))

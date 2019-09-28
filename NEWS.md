@@ -5,6 +5,10 @@
 * Replaced `performance::principal_component()` by `parameters::principal_component()`.
 * Fixed CRAN check issues, due to the latest *bayestestR* update.
 
+## Changes to functions
+
+* `plot_grid()` gets a `tags`-argument to add tags to plot-panels.
+
 ## Bug fixes
 
 * Fixed bug in `plot_stackfrq()` for data frames with many missing values.
