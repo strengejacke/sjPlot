@@ -946,7 +946,8 @@ tab_model <- function(
     pred.labels <- prepare.labels(
       x = pred.labels[no.dupes],
       grp = show.reflvl,
-      categorical = category.values[no.dupes]
+      categorical = category.values[no.dupes],
+      models = models
     )
   } else {
     # no automatic grouping of table rows for categorical variables
@@ -1275,15 +1276,17 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
 }
 
 
-prepare.labels <- function(x, grp, categorical) {
+prepare.labels <- function(x, grp, categorical, models) {
 
   # remove variable names from factor is ref levels are shown
   if (grp) {
-    f <- names(which(sapply(insight::get_data(iris), is.factor)))
-    remove <- names(x) %in% f
-    if (any(remove)) {
-      x <- x[!remove]
-      categorical <- categorical[!remove]
+    for (i in models) {
+      f <- names(which(sapply(insight::get_data(i), is.factor)))
+      remove <- names(x) %in% f
+      if (any(remove)) {
+        x <- x[!remove]
+        categorical <- categorical[!remove]
+      }
     }
   }
 
