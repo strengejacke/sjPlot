@@ -19,7 +19,8 @@ This document describes how to plot marginal effects of interaction terms from v
 `plot_model()` allows to create various plot tyes, which can be defined via the `type`-argument. The default is `type = "fe"`, which means that fixed effects (model coefficients) are plotted. To plot marginal effects of interaction terms, call `plot_model()` with:
 
   * `type = "pred"` to plot predicted values (marginal effects) for specific model terms, including interaction terms.
-  * `type = "eff"`, which is similar to `type = "pred"`, however, discrete predictors are held constant at their proportions (not reference level).
+  * `type = "eff"`, which is similar to `type = "pred"`, however, discrete predictors are held constant at their proportions (not reference level). It internally calls \code{\link[effects]{Effect}} via \code{\link[ggeffects]{ggeffect}}.
+  * `type = "emm"`, which is similar to `type = "eff"`. It internally calls \code{\link[emmeans]{emmeans}} via \code{\link[ggeffects]{ggemmeans}}.
   * `type = "int"` to plot marginal effects of interaction terms in a more convenient way.
 
 `plot_model()` supports [labelled data](https://cran.r-project.org/package=sjlabelled) and automatically uses variable and value labels to annotate the plot. This works with most regression modelling functions.

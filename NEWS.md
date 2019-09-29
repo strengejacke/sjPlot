@@ -1,3 +1,9 @@
+# sjPlot 2.7.3
+
+## Changes to functions
+
+* `plot_model()` gets `type = "emm"` as marginal effects plot type, which is similar to `type = "eff"`. See [Plotting Marginal Effects of Regression Models](https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html) for details.
+
 # sjPlot 2.7.2
 
 ## General

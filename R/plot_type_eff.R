@@ -26,7 +26,14 @@ plot_type_eff <- function(type,
       terms = terms,
       ci.lvl = ci.lvl,
       type = pred.type,
-      full.data = FALSE,
+      ...
+    )
+  } else if (type == "emm") {
+    dat <- ggeffects::ggemmeans(
+      model = model,
+      terms = terms,
+      ci.lvl = ci.lvl,
+      type = pred.type,
       ...
     )
   } else {

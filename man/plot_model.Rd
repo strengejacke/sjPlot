@@ -55,6 +55,8 @@ kinds of models are supported, e.g. from packages like \pkg{stats},
   \item{\code{type = "eff"}}{Similar to \code{type = "pred"}, however,
   discrete predictors are held constant at their proportions (not reference
   level). See \code{\link[ggeffects]{ggeffect}} for details.}
+  \item{\code{type = "emm"}}{Similar to \code{type = "eff"}, see
+  \code{\link[ggeffects]{ggemmeans}} for details.}
   \item{\code{type = "int"}}{Marginal effects of interaction terms in
   \code{model}.}
 }
