@@ -166,6 +166,7 @@ vignette: >
 </ul>
 <p>To plot marginal effects of regression models, at least one model term needs to be specified for which the effects are computed. It is also possible to compute marginal effects for model terms, grouped by the levels of another model’s predictor. The function also allows plotting marginal effects for two- or three-way-interactions, however, this is shown in a different vignette.</p>
 <p><code><a href="../reference/plot_model.html">plot_model()</a></code> supports <a href="https://cran.r-project.org/package=sjlabelled">labelled data</a> and automatically uses variable and value labels to annotate the plot. This works with most regression modelling functions.</p>
+<p><em><strong>Note:</strong> For marginal effects plots, <strong>sjPlot</strong> calls functions from the <a href="http://strengejacke.github.io/ggeffects"><strong>ggeffects-package</strong></a>. If you need more flexibility when creating marginal effects plots, consider directly using the <strong>ggeffects</strong>-package.</em></p>
 <div id="marginal-effects" class="section level1">
 <h1 class="hasAnchor">
 <a href="#marginal-effects" class="anchor"></a>Marginal effects</h1>
