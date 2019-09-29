@@ -41,7 +41,6 @@ Imports:
     magrittr,
     MASS,
     modelr,
-    nlme,
     parameters (>= 0.2.0),
     performance (>= 0.3.0),
     psych,
