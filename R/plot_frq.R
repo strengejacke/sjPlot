@@ -329,7 +329,7 @@ plot_frq_helper <- function(
 
   mydat <- df.frq[[1]]
   # remove empty
-  mydat <- mydat[mydat$frq > 0, ]
+  if (drop.empty) mydat <- mydat[mydat$frq > 0, ]
 
   # add confindence intervals for frequencies
   total_n = sum(mydat$frq)
