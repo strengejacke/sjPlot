@@ -1276,6 +1276,17 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
 
 
 prepare.labels <- function(x, grp, categorical) {
+
+  # remove variable names from factor is ref levels are shown
+  if (grp) {
+    f <- names(which(sapply(insight::get_data(iris), is.factor)))
+    remove <- names(x) %in% f
+    if (any(remove)) {
+      x <- x[!remove]
+      categorical <- categorical[!remove]
+    }
+  }
+
   x_var <- names(x[!categorical])
   x_val <- names(x[categorical])
 
