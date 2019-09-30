@@ -1,4 +1,3 @@
-#' @importFrom parameters p_value
 #' @importFrom sjstats robust
 #' @importFrom sjmisc add_variables
 plot_type_est <- function(type,
@@ -42,30 +41,28 @@ plot_type_est <- function(type,
 
   # get tidy output of summary ----
 
-  if (type == "est" || type == "re") {
-    robust <- list(vcov.fun, vcov.type, vcov.args)
-    dat <-
-      tidy_model(
-        model = model,
-        ci.lvl = ci.lvl,
-        tf = tf,
-        type = type,
-        bpe = bpe,
-        se = se,
-        robust = robust,
-        facets = facets,
-        show.zeroinf = show.zeroinf,
-        p.val = "wald",
-        ...
-      )
+  if (type == "std" || type == "std2") {
+    std_method <- switch(type, "std" = "refit", "std2" = "2sd")
   } else {
-    dat <- model %>%
-      sjstats::std_beta(type = type, ci.lvl = ci.lvl) %>%
-      sjmisc::add_variables(p.value = parameters::p_value(model)[["p"]][-1]) %>%
-      sjmisc::var_rename(std.estimate = "estimate")
-
-    show.intercept <- FALSE
+    std_method <- FALSE
   }
+
+  robust <- list(vcov.fun, vcov.type, vcov.args)
+  dat <-
+    tidy_model(
+      model = model,
+      ci.lvl = ci.lvl,
+      tf = tf,
+      type = type,
+      bpe = bpe,
+      se = se,
+      robust = robust,
+      facets = facets,
+      show.zeroinf = show.zeroinf,
+      p.val = "wald",
+      standardize = std_method,
+      ...
+    )
 
   # fix brms coefficient names
 

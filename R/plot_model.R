@@ -17,7 +17,7 @@
 #'     \item{\code{type = "re"}}{For mixed effects models, plots the random
 #'     effects.}
 #'     \item{\code{type = "std"}}{Forest-plot of standardized beta values.}
-#'     \item{\code{type = "std2"}}{Forest-plot of standardized beta values,
+#'     \item{\code{type = "2sd"}}{Forest-plot of standardized beta values,
 #'     however, standardization is done by dividing by two sd (see 'Details').}
 #'   }
 #'   \emph{Marginal Effects}  (\href{../doc/plot_marginal_effects.html}{related vignette})
@@ -444,7 +444,6 @@
 #'   plot_model(m, bpe.style = "dot")
 #' }}
 #'
-#' @importFrom sjstats std_beta
 #' @importFrom insight model_info find_predictors
 #' @importFrom sjmisc word_wrap str_contains
 #' @importFrom sjlabelled get_dv_labels get_term_labels

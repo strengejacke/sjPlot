@@ -28,13 +28,10 @@ automatically use \code{"exp"} as transformation for applicable classes of
 models remain untransformed. Use \code{NULL} if you want the raw,
 non-transformed estimates.}
 
-\item{std.est}{For linear models, choose whether standardized coefficients should
-be used for plotting. Default is no standardization.
-\describe{
-  \item{\code{NULL}}{(default) no standardization, returns original estimates.}
-  \item{\code{"std"}}{standardized beta values.}
-  \item{\code{"std2"}}{standardized beta values, however, standardization is done by rescaling estimates by dividing them by two sd (see \code{\link[sjstats]{std_beta}}).}
-}}
+\item{std.est}{Choose whether standardized coefficients should be used
+for plotting. Default is no standardization (\code{std.est = NULL}).
+May be \code{"std"} for standardized beta values or \code{"std2"}, where
+standardization is done by rescaling estimates by dividing them by two sd.}
 
 \item{rm.terms}{Character vector with names that indicate which terms should
 be removed from the plot. Counterpart to \code{terms}. \code{rm.terms =
@@ -186,7 +183,7 @@ A ggplot-object.
 }
 \description{
 Plot and compare regression coefficients with confidence
-               intervals of multiple regression models in one plot.
+  intervals of multiple regression models in one plot.
 }
 \examples{
 data(efc)
@@ -224,6 +221,6 @@ fit1 <- lm(mpg ~ wt + cyl + disp + gear, data = mtcars)
 fit2 <- update(fit1, . ~ . + hp)
 fit3 <- update(fit2, . ~ . + am)
 
-plot_models(fit1, fit2, fit3, std.est = "std2")
+plot_models(fit1, fit2, fit3, std.est = "2sd")
 
 }

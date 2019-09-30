@@ -206,7 +206,6 @@
 #' @importFrom purrr reduce map2 map_if map_df compact map_lgl map_chr flatten_chr
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns add_case
-#' @importFrom sjstats std_beta
 #' @importFrom insight model_info is_multivariate find_random get_data find_predictors
 #' @importFrom performance r2 icc
 #' @importFrom stats nobs
@@ -480,15 +479,27 @@ tab_model <- function(
 
       # tidy output of standardized values ----
 
-      if (!is.null(show.std) && fam.info$is_linear && !is.stan(model)) {
-        dat <- model %>%
-          sjstats::std_beta(type = show.std, ci.lvl = ci.lvl) %>%
+      if (!is.null(show.std) && !is.stan(model)) {
+        std_method <- switch(show.std, "std" = "refit", "std2" = "2sd", "refit")
+        dat <- tidy_model(
+          model = model,
+          ci.lvl = ci.lvl,
+          tf = transform,
+          type = "est",
+          bpe = bpe,
+          se = show.se,
+          robust = list(vcov.fun = vcov.fun, vcov.type = vcov.type, vcov.args = vcov.args),
+          facets = FALSE,
+          show.zeroinf = show.zeroinf,
+          p.val = p.val,
+          standardize = std_method
+        ) %>%
           sjmisc::var_rename(
+            estimate = "std.estimate",
             std.error = "std.se",
             conf.low = "std.conf.low",
             conf.high = "std.conf.high"
           ) %>%
-          sjmisc::add_case(.after = -1) %>%
           dplyr::select(-1) %>%
           sjmisc::add_columns(dat) %>%
           dplyr::mutate(std.conf.int = sprintf(

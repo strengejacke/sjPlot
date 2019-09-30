@@ -1,7 +1,7 @@
 #' @importFrom sjstats robust
 #' @importFrom stats qnorm pnorm
-tidy_model <- function(model, ci.lvl, tf, type, bpe, se, robust, facets, show.zeroinf, p.val, ...) {
-  dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, ...)
+tidy_model <- function(model, ci.lvl, tf, type, bpe, se, robust, facets, show.zeroinf, p.val, standardize = FALSE, ...) {
+  dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, standardize, ...)
 
   # get robust standard errors, if requestes, and replace former s.e.
 
@@ -25,10 +25,14 @@ tidy_model <- function(model, ci.lvl, tf, type, bpe, se, robust, facets, show.ze
 
 
 #' @importFrom parameters model_parameters standardize_names dof_kenward p_value_wald se_kenward
-get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, ...) {
+get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, standardize, ...) {
   if (is.stan(model)) {
     out <- tidy_stan_model(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, ...)
   } else {
+    if (!is.null(standardize) && !is.logical(standardize)) {
+      model <- parameters::standardize(model)
+    }
+
     component <- ifelse(show.zeroinf, "all", "conditional")
     out <- parameters::standardize_names(
       parameters::model_parameters(model, ci = ci.lvl, standardize = FALSE, component = component),

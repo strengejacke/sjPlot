@@ -2,28 +2,25 @@
 #' @name plot_models
 #'
 #' @description Plot and compare regression coefficients with confidence
-#'                intervals of multiple regression models in one plot.
+#'   intervals of multiple regression models in one plot.
 #'
 #' @param ... One or more regression models, including glm's or mixed models.
-#'        May also be a \code{list} with fitted models. See 'Examples'.
-#' @param std.est For linear models, choose whether standardized coefficients should
-#'        be used for plotting. Default is no standardization.
-#'        \describe{
-#'          \item{\code{NULL}}{(default) no standardization, returns original estimates.}
-#'          \item{\code{"std"}}{standardized beta values.}
-#'          \item{\code{"std2"}}{standardized beta values, however, standardization is done by rescaling estimates by dividing them by two sd (see \code{\link[sjstats]{std_beta}}).}
-#'        }
+#'   May also be a \code{list} with fitted models. See 'Examples'.
+#' @param std.est Choose whether standardized coefficients should be used
+#'   for plotting. Default is no standardization (\code{std.est = NULL}).
+#'   May be \code{"std"} for standardized beta values or \code{"std2"}, where
+#'   standardization is done by rescaling estimates by dividing them by two sd.
 #' @param m.labels Character vector, used to indicate the different models
-#'          in the plot's legend. If not specified, the labels of the dependent
-#'          variables for each model are used.
+#'   in the plot's legend. If not specified, the labels of the dependent
+#'   variables for each model are used.
 #' @param legend.pval.title Character vector, used as title of the plot legend that
-#'        indicates the p-values. Default is \code{"p-level"}. Only applies if
-#'        \code{p.shape = TRUE}.
+#'   indicates the p-values. Default is \code{"p-level"}. Only applies if
+#'   \code{p.shape = TRUE}.
 #' @param spacing Numeric, spacing between the dots and error bars of the
-#'        plotted fitted models. Default is 0.3.
+#'   plotted fitted models. Default is 0.3.
 #' @param p.shape Logical, if \code{TRUE}, significant levels are distinguished by
-#'        different point shapes and a related legend is plotted. Default
-#'        is \code{FALSE}.
+#'   different point shapes and a related legend is plotted. Default
+#'   is \code{FALSE}.
 #'
 #' @inheritParams plot_model
 #' @inheritParams plot_grpfrq
@@ -66,13 +63,12 @@
 #' fit2 <- update(fit1, . ~ . + hp)
 #' fit3 <- update(fit2, . ~ . + am)
 #'
-#' plot_models(fit1, fit2, fit3, std.est = "std2")
+#' plot_models(fit1, fit2, fit3, std.est = "2sd")
 #'
 #' @import ggplot2
 #' @importFrom purrr map map_df map2
 #' @importFrom dplyr slice bind_rows filter
 #' @importFrom forcats fct_rev
-#' @importFrom sjstats std_beta
 #' @importFrom sjlabelled get_dv_labels get_term_labels
 #' @importFrom rlang .data
 #' @importFrom sjmisc word_wrap var_rename add_variables
@@ -145,50 +141,40 @@ plot_models <- function(...,
     std.est <- NULL
 
 
-  # tidy output
   if (!is.null(std.est)) {
-
-    # for standardized estimates, we need to rename a column,
-    # and manually add p-values to the output. intercept is already
-    # removed from output
-
-    fl <- input_list %>%
-      purrr::map(~ sjstats::std_beta(.x, type = std.est)) %>%
-      purrr::map(~ sjmisc::var_rename(.x, std.estimate = "estimate")) %>%
-      purrr::map2(input_list, ~ sjmisc::add_variables(
-        .x, p.value = suppressMessages(parameters::p_value(.y)[["p"]][-1])
-      ))
-
+    std_method <- switch(std.est, "std" = "refit", "std2" = "2sd")
   } else {
+    std_method <- FALSE
+  }
 
-    # if not standardized, we can get simple tidy output and
-    # need to check whether intercept should be removed or not
+  # if not standardized, we can get simple tidy output and
+  # need to check whether intercept should be removed or not
 
-    fl <- purrr::map(
-      input_list,
-      ~ tidy_model(
-        model = .x,
-        ci.lvl = ci.lvl,
-        tf = transform,
-        type = "est",
-        bpe = "line",
-        se = FALSE,
-        robust = list(vcov.fun = vcov.fun, vcov.type = vcov.type, vcov.args = vcov.args),
-        facets = TRUE,
-        show.zeroinf = FALSE,
-        p.val = "wald",
-        ...
-      )
+  fl <- purrr::map(
+    input_list,
+    ~ tidy_model(
+      model = .x,
+      ci.lvl = ci.lvl,
+      tf = transform,
+      type = "est",
+      bpe = "line",
+      se = FALSE,
+      robust = list(vcov.fun = vcov.fun, vcov.type = vcov.type, vcov.args = vcov.args),
+      facets = TRUE,
+      show.zeroinf = FALSE,
+      p.val = "wald",
+      standardize = std_method,
+      ...
     )
+  )
 
-    # remove intercept from output
-    if (!show.intercept) {
-      fl <- purrr::map(fl, function(x) {
-        rm.i <- string_ends_with("(Intercept)", x = x$term)
-        dplyr::slice(x, !! -rm.i)
-      })
-    }
 
+  # remove intercept from output
+  if (!show.intercept) {
+    fl <- purrr::map(fl, function(x) {
+      rm.i <- string_ends_with("(Intercept)", x = x$term)
+      dplyr::slice(x, !! -rm.i)
+    })
   }
 
 

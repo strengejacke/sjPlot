@@ -45,7 +45,7 @@ kinds of models are supported, e.g. from packages like \pkg{stats},
   \item{\code{type = "re"}}{For mixed effects models, plots the random
   effects.}
   \item{\code{type = "std"}}{Forest-plot of standardized beta values.}
-  \item{\code{type = "std2"}}{Forest-plot of standardized beta values,
+  \item{\code{type = "2sd"}}{Forest-plot of standardized beta values,
   however, standardization is done by dividing by two sd (see 'Details').}
 }
 \emph{Marginal Effects}  (\href{../doc/plot_marginal_effects.html}{related vignette})
