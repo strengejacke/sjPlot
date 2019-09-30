@@ -1,5 +1,9 @@
 # sjPlot 2.7.3
 
+## General
+
+* Standardization of model parameters (in `plot_model()` or `tab_model()`) now uses standardization based on refitting the model (see [vignette](https://easystats.github.io/parameters/articles/standardization.html) for details).
+
 ## Changes to functions
 
 * `plot_model()` gets `type = "emm"` as marginal effects plot type, which is similar to `type = "eff"`. See [Plotting Marginal Effects of Regression Models](https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html) for details.
