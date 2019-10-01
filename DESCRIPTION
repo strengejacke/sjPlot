@@ -28,7 +28,6 @@ Depends:
     utils
 Imports:
     bayestestR (>= 0.3.0),
-    broom,
     dplyr (>= 0.8.1),
     forcats,
     ggeffects (>= 0.12.0),

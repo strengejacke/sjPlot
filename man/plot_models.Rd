@@ -221,6 +221,6 @@ fit1 <- lm(mpg ~ wt + cyl + disp + gear, data = mtcars)
 fit2 <- update(fit1, . ~ . + hp)
 fit3 <- update(fit2, . ~ . + am)
 
-plot_models(fit1, fit2, fit3, std.est = "2sd")
+plot_models(fit1, fit2, fit3, std.est = "std2")
 
 }

@@ -5,8 +5,8 @@
 \alias{get_model_data}
 \title{Plot regression models}
 \usage{
-plot_model(model, type = c("est", "re", "eff", "pred", "int", "std",
-  "std2", "slope", "resid", "diag"), transform, terms = NULL,
+plot_model(model, type = c("est", "re", "eff", "emm", "pred", "int",
+  "std", "std2", "slope", "resid", "diag"), transform, terms = NULL,
   sort.est = NULL, rm.terms = NULL, group.terms = NULL,
   order.terms = NULL, pred.type = c("fe", "re"),
   mdrt.values = c("minmax", "meansd", "zeromax", "quart", "all"),
@@ -45,7 +45,7 @@ kinds of models are supported, e.g. from packages like \pkg{stats},
   \item{\code{type = "re"}}{For mixed effects models, plots the random
   effects.}
   \item{\code{type = "std"}}{Forest-plot of standardized beta values.}
-  \item{\code{type = "2sd"}}{Forest-plot of standardized beta values,
+  \item{\code{type = "std2"}}{Forest-plot of standardized beta values,
   however, standardization is done by dividing by two sd (see 'Details').}
 }
 \emph{Marginal Effects}  (\href{../doc/plot_marginal_effects.html}{related vignette})

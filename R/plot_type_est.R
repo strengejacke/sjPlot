@@ -42,7 +42,7 @@ plot_type_est <- function(type,
   # get tidy output of summary ----
 
   if (type == "std" || type == "std2") {
-    std_method <- switch(type, "std" = "refit", "std2" = "2sd")
+    std_method <- switch(type, "std" = "refit", "std2" = "2sd", "refit")
   } else {
     std_method <- FALSE
   }

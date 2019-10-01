@@ -30,7 +30,7 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
     out <- tidy_stan_model(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, ...)
   } else {
     if (!is.null(standardize) && !is.logical(standardize)) {
-      model <- parameters::standardize(model)
+      model <- parameters::standardize(model, method = standardize)
     }
 
     component <- ifelse(show.zeroinf, "all", "conditional")

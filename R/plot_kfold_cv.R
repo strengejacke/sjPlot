@@ -48,10 +48,9 @@
 #' @importFrom modelr crossv_kfold
 #' @importFrom dplyr mutate ungroup summarise
 #' @importFrom purrr map map2
-#' @importFrom broom augment
 #' @importFrom tidyr unnest
 #' @importFrom graphics plot
-#' @importFrom stats as.formula formula family poisson glm lm
+#' @importFrom stats as.formula formula family poisson glm lm predict
 #' @importFrom purrr map
 #' @importFrom MASS glm.nb
 #' @export
@@ -112,8 +111,11 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
     # train data
     res <- modelr::crossv_kfold(data, k = k) %>%
       dplyr::mutate(model = purrr::map(.data$train, ~ stats::lm(formula, data = .))) %>%
-      dplyr::mutate(predicted = purrr::map2(.data$model, .data$test, ~ broom::augment(.x, newdata = .y))) %>%
-      tidyr::unnest(.data$predicted)
+      dplyr::mutate(predicted = purrr::map2(.data$model, .data$test, function(.x, .y) {
+        out <- data.frame(.fitted = stats::predict(.x, newdata = .y))
+        cbind(.y, out)
+      })) %>%
+      tidyr::unnest(cols = .data$predicted)
 
     # make sure that response vector has an identifiably name
     colnames(res)[which(colnames(res) == deparse(resp))] <- ".response"

@@ -17,7 +17,7 @@
 #'     \item{\code{type = "re"}}{For mixed effects models, plots the random
 #'     effects.}
 #'     \item{\code{type = "std"}}{Forest-plot of standardized beta values.}
-#'     \item{\code{type = "2sd"}}{Forest-plot of standardized beta values,
+#'     \item{\code{type = "std2"}}{Forest-plot of standardized beta values,
 #'     however, standardization is done by dividing by two sd (see 'Details').}
 #'   }
 #'   \emph{Marginal Effects}  (\href{../doc/plot_marginal_effects.html}{related vignette})
@@ -454,7 +454,7 @@
 #'
 #' @export
 plot_model <- function(model,
-                       type = c("est", "re", "eff", "pred", "int", "std", "std2", "slope", "resid", "diag"),
+                       type = c("est", "re", "eff", "emm", "pred", "int", "std", "std2", "slope", "resid", "diag"),
                        transform,
                        terms = NULL,
                        sort.est = NULL,
@@ -667,7 +667,7 @@ plot_model <- function(model,
       ...
     )
 
-  } else if (type %in% c("pred", "eff")) {
+  } else if (type %in% c("pred", "eff", "emm")) {
 
     # plot marginal effects ----
 

@@ -63,7 +63,7 @@
 #' fit2 <- update(fit1, . ~ . + hp)
 #' fit3 <- update(fit2, . ~ . + am)
 #'
-#' plot_models(fit1, fit2, fit3, std.est = "2sd")
+#' plot_models(fit1, fit2, fit3, std.est = "std2")
 #'
 #' @import ggplot2
 #' @importFrom purrr map map_df map2
@@ -142,7 +142,7 @@ plot_models <- function(...,
 
 
   if (!is.null(std.est)) {
-    std_method <- switch(std.est, "std" = "refit", "std2" = "2sd")
+    std_method <- switch(std.est, "std" = "refit", "std2" = "2sd", "refit")
   } else {
     std_method <- FALSE
   }
