@@ -29,6 +29,7 @@ Depends:
 Imports:
     bayestestR (>= 0.3.0),
     dplyr (>= 0.8.1),
+    effectsize,
     forcats,
     ggeffects (>= 0.12.0),
     glmmTMB,

@@ -24,18 +24,19 @@ tidy_model <- function(model, ci.lvl, tf, type, bpe, se, robust, facets, show.ze
 }
 
 
+#' @importFrom effectsize standardize
 #' @importFrom parameters model_parameters standardize_names dof_kenward p_value_wald se_kenward
 get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, standardize, ...) {
   if (is.stan(model)) {
     out <- tidy_stan_model(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, ...)
   } else {
     if (!is.null(standardize) && !is.logical(standardize)) {
-      model <- parameters::standardize(model, method = standardize)
+      model <- effectsize::standardize(model, method = standardize)
     }
 
     component <- ifelse(show.zeroinf, "all", "conditional")
     out <- parameters::standardize_names(
-      parameters::model_parameters(model, ci = ci.lvl, standardize = FALSE, component = component),
+      parameters::model_parameters(model, ci = ci.lvl, component = component),
       style = "broom"
     )
 
