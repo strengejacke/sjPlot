@@ -149,7 +149,7 @@ plot_model_estimates <- function(model,
     else
       dat$term <- forcats::fct_reorder(dat$term, dat$estimate)
   } else {
-    dat$term <- forcats::fct_rev(dat$term)
+    dat$term <- factor(dat$term, levels = rev(unique(dat$term)))
   }
 
 
