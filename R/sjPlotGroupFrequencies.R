@@ -132,7 +132,7 @@
 #'          \itemize{
 #'            \item If not specified, a default color brewer palette will be used, which is suitable for the plot style (i.e. diverging for likert scales, qualitative for grouped bars etc.).
 #'            \item If \code{"gs"}, a greyscale will be used.
-#'            \item If \code{"bw"}, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see \href{../doc/blackwhitefigures.html}{this package-vignette}).
+#'            \item If \code{"bw"}, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see \href{https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html}{this package-vignette}).
 #'            \item If \code{geom.colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
 #'            \item Else specify own color values or names as vector (e.g. \code{geom.colors = c("#f00000", "#00ff00")}).
 #'          }

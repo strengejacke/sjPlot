@@ -73,7 +73,7 @@ while creating the output.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
 according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
-See 'Details' or \href{../doc/table_css.html}{this package-vignette}.}
+See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.}
 
 \item{encoding}{Character vector, indicating the charset encoding used
 for variable and value labels. Default is \code{"UTF-8"}. For Windows

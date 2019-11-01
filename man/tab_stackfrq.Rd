@@ -85,7 +85,7 @@ display of special characters.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
 according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
-See 'Details' or \href{../doc/table_css.html}{this package-vignette}.}
+See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.}
 
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 viewer pane. If \code{FALSE} or no viewer available, the HTML table is

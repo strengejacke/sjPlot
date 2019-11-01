@@ -63,7 +63,7 @@ this argument is \code{NULL} and the diagnal cells are empty.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
 according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
-See 'Details' or \href{../doc/table_css.html}{this package-vignette}.}
+See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.}
 
 \item{encoding}{String, indicating the charset encoding used for variable and
 value labels. Default is \code{NULL}, so encoding will be auto-detected

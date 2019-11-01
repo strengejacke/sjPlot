@@ -136,7 +136,7 @@
 #'   or both (\code{"both"}). May be abbreviated.
 #' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions,
 #'    according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
-#'    See 'Details' or \href{../doc/table_css.html}{this package-vignette}.
+#'    See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.
 #' @param file Destination file, if the output should be saved as file.
 #'    If \code{NULL} (default), the output will be saved as temporary file and
 #'    openend either in the IDE's viewer pane or the default web browser.
@@ -162,9 +162,9 @@
 #'         default behaviour (i.e. \code{file = NULL}).
 #'         \cr \cr
 #'         Examples are shown in these three vignettes:
-#'         \href{../doc/tab_model_estimates.html}{Summary of Regression Models as HTML Table},
-#'         \href{../doc/tab_mixed.html}{Summary of Mixed Models as HTML Table} and
-#'         \href{../doc/tab_bayes.html}{Summary of Bayesian Models as HTML Table}.
+#'         \href{https://strengejacke.github.io/sjPlot/articles/tab_model_estimates.html}{Summary of Regression Models as HTML Table},
+#'         \href{https://strengejacke.github.io/sjPlot/articles/tab_mixed.html}{Summary of Mixed Models as HTML Table} and
+#'         \href{https://strengejacke.github.io/sjPlot/articles/tab_bayes.html}{Summary of Bayesian Models as HTML Table}.
 #'
 #' @details \strong{Standardized Estimates}
 #'    \cr \cr
