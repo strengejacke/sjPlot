@@ -2,7 +2,7 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 2.7.2
+Version: 2.7.2.1
 Date: 2019-09-29
 Authors@R: c(
     person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8895-3206")),
