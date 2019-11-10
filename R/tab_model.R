@@ -1109,10 +1109,10 @@ tab_model <- function(
     if (!sjmisc::is_empty(pos)) x <- string.std
 
     pos <- grep("^std.se", x)
-    if (!sjmisc::is_empty(pos)) x <- paste("standardized", string.se)
+    if (!sjmisc::is_empty(pos)) x <- string.std_se
 
     pos <- grep("^std.conf.int", x)
-    if (!sjmisc::is_empty(pos)) x <- paste("standardized", string.ci)
+    if (!sjmisc::is_empty(pos)) x <- string.std_ci
 
     pos <- grep("^p.value", x)
     if (!sjmisc::is_empty(pos)) x <- string.p
