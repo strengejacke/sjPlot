@@ -65,6 +65,11 @@ utils::globalVariables("density")
 #' library(sjlabelled)
 #' library(dplyr)
 #' data(efc)
+#' data(iris)
+#'
+#' # simple plots, two different notations
+#' plot_frq(iris, Species)
+#' plot_frq(efc$tot_sc_e)
 #'
 #' # boxplot
 #' plot_frq(efc$e17age, type = "box")
@@ -341,7 +346,7 @@ plot_frq_helper <- function(
   mydat$rel.lower.ci <- rel_frq - ci
 
   # any labels detected?
-  if (!is.null(mydat$label) && is.null(axis.labels))
+  if (!is.null(mydat$label) && is.null(axis.labels) && !all(stats::na.omit(mydat$label) == "<none>"))
     axis.labels <- mydat$label
   else if (is.null(axis.labels))
     axis.labels <- mydat$val
@@ -485,7 +490,11 @@ plot_frq_helper <- function(
   }
 
   # Set up grid breaks
-  maxx <- max(mydat$val) + 1
+  maxx <- if (is.numeric(mydat$val))
+    max(mydat$val) + 1
+  else
+    nrow(mydat)
+
   if (is.null(grid.breaks)) {
     gridbreaks <- waiver()
     histgridbreaks <- waiver()

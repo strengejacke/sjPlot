@@ -12,6 +12,8 @@
 ## Bug fixes
 
 * `sort.est = NULL` in `plot_model()` now preserves original order of coefficients.
+* Fixed bug in automatic axis labelling for `plot_frq()` for non-labelled, numeric values.
+* Fixed bug in `plot_frq()` when plotting factors.
 
 # sjPlot 2.7.2
 

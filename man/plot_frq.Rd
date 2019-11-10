@@ -197,6 +197,11 @@ This function only works with variables with integer values (or numeric
 library(sjlabelled)
 library(dplyr)
 data(efc)
+data(iris)
+
+# simple plots, two different notations
+plot_frq(iris, Species)
+plot_frq(efc$tot_sc_e)
 
 # boxplot
 plot_frq(efc$e17age, type = "box")
