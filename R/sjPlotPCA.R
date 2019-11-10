@@ -73,6 +73,10 @@ sjp.pca <- function(data,
                     wrap.labels = 30,
                     show.values = TRUE,
                     show.cronb = TRUE) {
+
+  ## TODO change to deprecated
+  warning("'sjp.pca()' will become deprecated in a future update. Please use 'parameters::principal_components()' and the 'plot()' method instead.", call. = FALSE)
+
   # --------------------------------------------------------
   # check arguments
   # --------------------------------------------------------

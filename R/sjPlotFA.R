@@ -76,6 +76,10 @@ sjp.fa <- function(data,
                     wrap.labels = 30,
                     show.values = TRUE,
                     show.cronb = TRUE) {
+
+  ## TODO change to deprecated
+  warning("'sjp.fa()' will become deprecated in a future update. Please use 'parameters::factor_analysis()' and the 'plot()' method instead.", call. = FALSE)
+
   # --------------------------------------------------------
   # check arguments
   # --------------------------------------------------------
