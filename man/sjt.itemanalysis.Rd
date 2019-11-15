@@ -4,12 +4,23 @@
 \alias{sjt.itemanalysis}
 \title{Summary of item analysis of an item scale as HTML table}
 \usage{
-sjt.itemanalysis(df, factor.groups = NULL,
-  factor.groups.titles = "auto", scale = FALSE,
-  min.valid.rowmean = 2, alternate.rows = TRUE, sort.column = NULL,
-  show.shapiro = FALSE, show.kurtosis = FALSE,
-  show.corr.matrix = TRUE, CSS = NULL, encoding = NULL,
-  file = NULL, use.viewer = TRUE, remove.spaces = TRUE)
+sjt.itemanalysis(
+  df,
+  factor.groups = NULL,
+  factor.groups.titles = "auto",
+  scale = FALSE,
+  min.valid.rowmean = 2,
+  alternate.rows = TRUE,
+  sort.column = NULL,
+  show.shapiro = FALSE,
+  show.kurtosis = FALSE,
+  show.corr.matrix = TRUE,
+  CSS = NULL,
+  encoding = NULL,
+  file = NULL,
+  use.viewer = TRUE,
+  remove.spaces = TRUE
+)
 }
 \arguments{
 \item{df}{A data frame with items.}

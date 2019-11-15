@@ -30,8 +30,9 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
   if (is.stan(model)) {
     out <- tidy_stan_model(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, ...)
   } else {
-    if (!is.null(standardize) && !is.logical(standardize)) {
-      model <- effectsize::standardize(model, method = standardize)
+    if (!is.null(standardize)) {
+      if (is.logical(standardize)) standardize <- "std"
+      model <- effectsize::standardize(model, two_sd = isTRUE(standardize == "std2"))
     }
 
     component <- ifelse(show.zeroinf, "all", "conditional")

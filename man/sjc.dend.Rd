@@ -4,8 +4,7 @@
 \alias{sjc.dend}
 \title{Compute hierarchical cluster analysis and visualize group classification}
 \usage{
-sjc.dend(data, groupcount, distance = "euclidean",
-  agglomeration = "ward")
+sjc.dend(data, groupcount, distance = "euclidean", agglomeration = "ward")
 }
 \arguments{
 \item{data}{A data frame with variables that should be used for the

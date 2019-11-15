@@ -4,14 +4,30 @@
 \alias{tab_stackfrq}
 \title{Summary of stacked frequencies as HTML table}
 \usage{
-tab_stackfrq(items, weight.by = NULL, title = NULL,
-  var.labels = NULL, value.labels = NULL, wrap.labels = 20,
-  sort.frq = NULL, alternate.rows = FALSE, digits = 2,
-  string.total = "N", string.na = "NA", show.n = FALSE,
-  show.total = FALSE, show.na = FALSE, show.skew = FALSE,
-  show.kurtosis = FALSE, digits.stats = 2, file = NULL,
-  encoding = NULL, CSS = NULL, use.viewer = TRUE,
-  remove.spaces = TRUE)
+tab_stackfrq(
+  items,
+  weight.by = NULL,
+  title = NULL,
+  var.labels = NULL,
+  value.labels = NULL,
+  wrap.labels = 20,
+  sort.frq = NULL,
+  alternate.rows = FALSE,
+  digits = 2,
+  string.total = "N",
+  string.na = "NA",
+  show.n = FALSE,
+  show.total = FALSE,
+  show.na = FALSE,
+  show.skew = FALSE,
+  show.kurtosis = FALSE,
+  digits.stats = 2,
+  file = NULL,
+  encoding = NULL,
+  CSS = NULL,
+  use.viewer = TRUE,
+  remove.spaces = TRUE
+)
 }
 \arguments{
 \item{items}{Data frame, or a grouped data frame, with each column representing one item.}

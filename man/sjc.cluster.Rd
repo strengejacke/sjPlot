@@ -4,11 +4,16 @@
 \alias{sjc.cluster}
 \title{Compute hierarchical or kmeans cluster analysis}
 \usage{
-sjc.cluster(data, groupcount = NULL, method = c("hclust", "kmeans"),
-  distance = c("euclidean", "maximum", "manhattan", "canberra", "binary",
-  "minkowski"), agglomeration = c("ward", "ward.D", "ward.D2", "single",
-  "complete", "average", "mcquitty", "median", "centroid"),
-  iter.max = 20, algorithm = c("Hartigan-Wong", "Lloyd", "MacQueen"))
+sjc.cluster(
+  data,
+  groupcount = NULL,
+  method = c("hclust", "kmeans"),
+  distance = c("euclidean", "maximum", "manhattan", "canberra", "binary", "minkowski"),
+  agglomeration = c("ward", "ward.D", "ward.D2", "single", "complete", "average",
+    "mcquitty", "median", "centroid"),
+  iter.max = 20,
+  algorithm = c("Hartigan-Wong", "Lloyd", "MacQueen")
+)
 }
 \arguments{
 \item{data}{A data frame with variables that should be used for the

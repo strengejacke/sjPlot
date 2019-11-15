@@ -4,14 +4,28 @@
 \alias{sjt.pca}
 \title{Summary of principal component analysis as HTML table}
 \usage{
-sjt.pca(data, rotation = c("varimax", "quartimax", "promax", "oblimin",
-  "simplimax", "cluster", "none"), nmbr.fctr = NULL,
-  fctr.load.tlrn = 0.1, title = "Principal Component Analysis",
-  var.labels = NULL, wrap.labels = 40, show.cronb = TRUE,
-  show.msa = FALSE, show.var = FALSE, alternate.rows = FALSE,
-  digits = 2, string.pov = "Proportion of Variance",
-  string.cpov = "Cumulative Proportion", CSS = NULL, encoding = NULL,
-  file = NULL, use.viewer = TRUE, remove.spaces = TRUE)
+sjt.pca(
+  data,
+  rotation = c("varimax", "quartimax", "promax", "oblimin", "simplimax", "cluster",
+    "none"),
+  nmbr.fctr = NULL,
+  fctr.load.tlrn = 0.1,
+  title = "Principal Component Analysis",
+  var.labels = NULL,
+  wrap.labels = 40,
+  show.cronb = TRUE,
+  show.msa = FALSE,
+  show.var = FALSE,
+  alternate.rows = FALSE,
+  digits = 2,
+  string.pov = "Proportion of Variance",
+  string.cpov = "Cumulative Proportion",
+  CSS = NULL,
+  encoding = NULL,
+  file = NULL,
+  use.viewer = TRUE,
+  remove.spaces = TRUE
+)
 }
 \arguments{
 \item{data}{A data frame that should be used to compute a PCA, or a \code{\link{prcomp}} object.}

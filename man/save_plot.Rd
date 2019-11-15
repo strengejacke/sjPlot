@@ -4,11 +4,21 @@
 \alias{save_plot}
 \title{Save ggplot-figure for print publication}
 \usage{
-save_plot(filename, fig = last_plot(), width = 12, height = 9,
-  dpi = 300, theme = theme_get(), label.color = "black",
-  label.size = 2.4, axis.textsize = 0.8, axis.titlesize = 0.75,
-  legend.textsize = 0.6, legend.titlesize = 0.65,
-  legend.itemsize = 0.5)
+save_plot(
+  filename,
+  fig = last_plot(),
+  width = 12,
+  height = 9,
+  dpi = 300,
+  theme = theme_get(),
+  label.color = "black",
+  label.size = 2.4,
+  axis.textsize = 0.8,
+  axis.titlesize = 0.75,
+  legend.textsize = 0.6,
+  legend.titlesize = 0.65,
+  legend.itemsize = 0.5
+)
 }
 \arguments{
 \item{filename}{Name of the output file; filename must end with one

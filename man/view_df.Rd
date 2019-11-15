@@ -4,13 +4,30 @@
 \alias{view_df}
 \title{View structure of labelled data frames}
 \usage{
-view_df(x, weight.by = NULL, alternate.rows = TRUE, show.id = TRUE,
-  show.type = FALSE, show.values = TRUE, show.string.values = FALSE,
-  show.labels = TRUE, show.frq = FALSE, show.prc = FALSE,
-  show.wtd.frq = FALSE, show.wtd.prc = FALSE, show.na = FALSE,
-  max.len = 15, sort.by.name = FALSE, wrap.labels = 50,
-  verbose = FALSE, CSS = NULL, encoding = NULL, file = NULL,
-  use.viewer = TRUE, remove.spaces = TRUE)
+view_df(
+  x,
+  weight.by = NULL,
+  alternate.rows = TRUE,
+  show.id = TRUE,
+  show.type = FALSE,
+  show.values = TRUE,
+  show.string.values = FALSE,
+  show.labels = TRUE,
+  show.frq = FALSE,
+  show.prc = FALSE,
+  show.wtd.frq = FALSE,
+  show.wtd.prc = FALSE,
+  show.na = FALSE,
+  max.len = 15,
+  sort.by.name = FALSE,
+  wrap.labels = 50,
+  verbose = FALSE,
+  CSS = NULL,
+  encoding = NULL,
+  file = NULL,
+  use.viewer = TRUE,
+  remove.spaces = TRUE
+)
 }
 \arguments{
 \item{x}{A (labelled) data frame, imported by \code{\link[sjlabelled]{read_spss}},

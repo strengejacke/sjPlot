@@ -4,12 +4,25 @@
 \alias{sjt.fa}
 \title{Summary of factor analysis as HTML table}
 \usage{
-sjt.fa(data, rotation = c("promax", "varimax"), method = c("ml",
-  "minres", "wls", "gls", "pa", "minchi", "minrank"), nmbr.fctr = NULL,
-  fctr.load.tlrn = 0.1, title = "Factor Analysis", var.labels = NULL,
-  wrap.labels = 40, show.cronb = TRUE, show.comm = FALSE,
-  alternate.rows = FALSE, digits = 2, CSS = NULL, encoding = NULL,
-  file = NULL, use.viewer = TRUE, remove.spaces = TRUE)
+sjt.fa(
+  data,
+  rotation = c("promax", "varimax"),
+  method = c("ml", "minres", "wls", "gls", "pa", "minchi", "minrank"),
+  nmbr.fctr = NULL,
+  fctr.load.tlrn = 0.1,
+  title = "Factor Analysis",
+  var.labels = NULL,
+  wrap.labels = 40,
+  show.cronb = TRUE,
+  show.comm = FALSE,
+  alternate.rows = FALSE,
+  digits = 2,
+  CSS = NULL,
+  encoding = NULL,
+  file = NULL,
+  use.viewer = TRUE,
+  remove.spaces = TRUE
+)
 }
 \arguments{
 \item{data}{A data frame that should be used to compute a FA, or a \code{\link[psych]{fa}} object.}

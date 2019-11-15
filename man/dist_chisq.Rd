@@ -4,8 +4,14 @@
 \alias{dist_chisq}
 \title{Plot chi-squared distributions}
 \usage{
-dist_chisq(chi2 = NULL, deg.f = NULL, p = NULL, xmax = NULL,
-  geom.colors = NULL, geom.alpha = 0.7)
+dist_chisq(
+  chi2 = NULL,
+  deg.f = NULL,
+  p = NULL,
+  xmax = NULL,
+  geom.colors = NULL,
+  geom.alpha = 0.7
+)
 }
 \arguments{
 \item{chi2}{Numeric, optional. If specified, a chi-squared distribution with \code{deg.f} degrees

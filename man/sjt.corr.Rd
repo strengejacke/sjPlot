@@ -4,13 +4,26 @@
 \alias{sjt.corr}
 \title{Summary of correlations as HTML table}
 \usage{
-sjt.corr(data, na.deletion = c("listwise", "pairwise"),
-  corr.method = c("pearson", "spearman", "kendall"), title = NULL,
-  var.labels = NULL, wrap.labels = 40, show.p = TRUE,
-  p.numeric = FALSE, fade.ns = TRUE, val.rm = NULL, digits = 3,
-  triangle = "both", string.diag = NULL, CSS = NULL,
-  encoding = NULL, file = NULL, use.viewer = TRUE,
-  remove.spaces = TRUE)
+sjt.corr(
+  data,
+  na.deletion = c("listwise", "pairwise"),
+  corr.method = c("pearson", "spearman", "kendall"),
+  title = NULL,
+  var.labels = NULL,
+  wrap.labels = 40,
+  show.p = TRUE,
+  p.numeric = FALSE,
+  fade.ns = TRUE,
+  val.rm = NULL,
+  digits = 3,
+  triangle = "both",
+  string.diag = NULL,
+  CSS = NULL,
+  encoding = NULL,
+  file = NULL,
+  use.viewer = TRUE,
+  remove.spaces = TRUE
+)
 }
 \arguments{
 \item{data}{Matrix with correlation coefficients as returned by the

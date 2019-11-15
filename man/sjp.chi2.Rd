@@ -4,9 +4,15 @@
 \alias{sjp.chi2}
 \title{Plot Pearson's Chi2-Test of multiple contingency tables}
 \usage{
-sjp.chi2(df, title = "Pearson's Chi2-Test of Independence",
-  axis.labels = NULL, wrap.title = 50, wrap.labels = 20,
-  show.legend = FALSE, legend.title = NULL)
+sjp.chi2(
+  df,
+  title = "Pearson's Chi2-Test of Independence",
+  axis.labels = NULL,
+  wrap.title = 50,
+  wrap.labels = 20,
+  show.legend = FALSE,
+  legend.title = NULL
+)
 }
 \arguments{
 \item{df}{A data frame with (dichotomous) factor variables.}
