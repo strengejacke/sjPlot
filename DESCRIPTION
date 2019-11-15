@@ -59,7 +59,6 @@ Suggests:
     gridExtra,
     ggridges,
     httr,
-    nlme,
     pscl,
     rstanarm,
     survey,

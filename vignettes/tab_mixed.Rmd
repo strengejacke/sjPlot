@@ -30,9 +30,9 @@ This vignette shows examples for using `tab_model()` to create HTML tables for m
 # load required packages
 library(sjPlot)
 library(lme4)
-library(nlme)
 data("sleepstudy")
-data("Orthodont")
+data("efc")
+efc$cluster <- as.factor(efc$e15relat)
 ```
 
 ## Mixed models summaries as HTML table
@@ -40,7 +40,7 @@ data("Orthodont")
 Unlike tables for [non-mixed models](tab_model_estimates.html), `tab_models()` adds additional information on the random effects to the table output for mixed models. You can hide these information with `show.icc = FALSE` and `show.re.var = FALSE`. Furthermore, the R-squared values are marginal and conditional R-squared statistics, based on _Nakagawa et al. 2017_.
 
 ```{r}
-m1 <- lmer(distance ~ age + Sex + (1 | Subject), data = Orthodont)
+m1 <- lmer(neg_c_7 ~ c160age + c161sex + e42dep + (1 | cluster), data = efc)
 m2 <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
 
 tab_model(m1, m2)
