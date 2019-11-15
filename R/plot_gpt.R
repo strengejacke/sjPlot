@@ -64,7 +64,7 @@ plot_gpt <- function(
   x,
   y,
   grp,
-  colors = "metro ui",
+  colors = "metro",
   geom.size = 2.5,
   shape.fill.color = "#f0f0f0",
   shapes = c(15, 16, 17, 18, 21, 22, 23, 24, 25, 7, 8, 9, 10, 12),

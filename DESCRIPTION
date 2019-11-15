@@ -26,29 +26,29 @@ Depends:
     stats,
     utils
 Imports:
-    bayestestR (>= 0.3.0),
+    bayestestR (>= 0.4.0),
     dplyr (>= 0.8.1),
     effectsize,
     forcats,
-    ggeffects (>= 0.12.0),
+    ggeffects (>= 0.13.0),
     glmmTMB,
     ggplot2 (>= 3.2.0),
     ggrepel,
     knitr,
-    insight (>= 0.5.0),
+    insight (>= 0.6.0),
     lme4 (>= 1.1-12),
     magrittr,
     MASS,
     modelr,
     parameters (>= 0.2.0),
-    performance (>= 0.3.0),
+    performance (>= 0.4.0),
     psych,
     purrr,
     rlang,
     scales,
-    sjlabelled (>= 1.1.0),
+    sjlabelled (>= 1.1.1),
     sjmisc (>= 2.8.2),
-    sjstats (>= 0.17.5),
+    sjstats (>= 0.17.7),
     tidyr (>= 1.0.0)
 Suggests:
     brms,
@@ -59,6 +59,7 @@ Suggests:
     gridExtra,
     ggridges,
     httr,
+    nlme,
     pscl,
     rstanarm,
     survey,
@@ -67,5 +68,5 @@ Suggests:
     testthat
 URL: https://strengejacke.github.io/sjPlot/
 BugReports: https://github.com/strengejacke/sjPlot/issues
-RoxygenNote: 7.0.0
+RoxygenNote: 6.1.1
 VignetteBuilder: knitr
