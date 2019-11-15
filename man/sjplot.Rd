@@ -73,9 +73,9 @@ efc \%>\% sjplot(e17age, c172code, fun = "grpfrq",
 
 \dontrun{
 # table output of grouped data frame
-efc %>%
-  group_by(e16sex, c172code) %>%
-  select(e42dep, n4pstu, e16sex, c172code) %>%
+efc \%>\%
+  group_by(e16sex, c172code) \%>\%
+  select(e42dep, n4pstu, e16sex, c172code) \%>\%
   sjtab(fun = "xtab", use.viewer = FALSE) # open all tables in browser}
 
 }

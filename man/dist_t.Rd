@@ -4,14 +4,8 @@
 \alias{dist_t}
 \title{Plot t-distributions}
 \usage{
-dist_t(
-  t = NULL,
-  deg.f = NULL,
-  p = NULL,
-  xmax = NULL,
-  geom.colors = NULL,
-  geom.alpha = 0.7
-)
+dist_t(t = NULL, deg.f = NULL, p = NULL, xmax = NULL,
+  geom.colors = NULL, geom.alpha = 0.7)
 }
 \arguments{
 \item{t}{Numeric, optional. If specified, a t-distribution with \code{deg.f} degrees
