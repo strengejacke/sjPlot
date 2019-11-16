@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2.1</span>
       </span>
     </div>
 
@@ -190,7 +190,7 @@
                is plotted, for each subgroup of <code>grp</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_gpt</span>(<span class='no'>data</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>grp</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"metro ui"</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>2.5</span>,
+    <pre class="usage"><span class='fu'>plot_gpt</span>(<span class='no'>data</span>, <span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>grp</span>, <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"metro"</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>2.5</span>,
   <span class='kw'>shape.fill.color</span> <span class='kw'>=</span> <span class='st'>"#f0f0f0"</span>, <span class='kw'>shapes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>15</span>, <span class='fl'>16</span>, <span class='fl'>17</span>, <span class='fl'>18</span>, <span class='fl'>21</span>, <span class='fl'>22</span>, <span class='fl'>23</span>,
   <span class='fl'>24</span>, <span class='fl'>25</span>, <span class='fl'>7</span>, <span class='fl'>8</span>, <span class='fl'>9</span>, <span class='fl'>10</span>, <span class='fl'>12</span>), <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>axis.titles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>legend.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -229,7 +229,7 @@ color value names (see <code><a href='https://rdrr.io/r/utils/demo.html'>demo("c
 color palette. Following options are valid for the <code>colors</code> argument:</p><ul>
 <li><p>If not specified, a default color brewer palette will be used, which is suitable for the plot style.</p></li>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
-<li><p>If <code>"bw"</code>, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see <a href='../doc/blackwhitefigures.html'>this package-vignette</a>).</p></li>
+<li><p>If <code>"bw"</code>, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see <a href='https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html'>this package-vignette</a>).</p></li>
 <li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href='https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html'>display.brewer.all</a></code> to view all available palette names.</p></li>
 <li><p>There are some pre-defined color palettes in this package, see <code><a href='sjPlot-themes.html'>sjPlot-themes</a></code> for details.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = "#00ff00"</code> or <code>colors = c("firebrick", "blue")</code>).</p></li>

@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2.1</span>
       </span>
     </div>
 
@@ -320,7 +320,7 @@ Only applies when <code>data</code> is a data frame.</p></td>
 )
 <span class='co'># plot results from PCA as circles, including Eigenvalue-diagnostic.</span>
 <span class='co'># note that this plot does not compute the Cronbach's Alpha</span>
-<span class='fu'>sjp.pca</span>(<span class='no'>pca</span>, <span class='kw'>plot.eigen</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"circle"</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; <span class='message'>--------------------------------------------</span></div><div class='output co'>#&gt; Importance of components:
+<span class='fu'>sjp.pca</span>(<span class='no'>pca</span>, <span class='kw'>plot.eigen</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"circle"</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>10</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 'sjp.pca()' will become deprecated in a future update. Please use 'parameters::principal_components()' and the 'plot()' method instead.</span></div><div class='output co'>#&gt; <span class='message'>--------------------------------------------</span></div><div class='output co'>#&gt; Importance of components:
 #&gt;                          PC1    PC2    PC3     PC4    PC5     PC6     PC7
 #&gt; Standard deviation     1.798 1.1311 0.9665 0.86090 0.8156 0.79511 0.74264
 #&gt; Proportion of Variance 0.359 0.1421 0.1038 0.08235 0.0739 0.07024 0.06128
@@ -331,7 +331,7 @@ Only applies when <code>data</code> is a data frame.</p></td>
 #&gt; Cumulative Proportion  0.95120 1.0000</div><div class='output co'>#&gt; <span class='message'>Eigenvalues:</span></div><div class='output co'>#&gt; [1] 3.2314271 1.2793112 0.9342115 0.7411566 0.6651403 0.6321939 0.5515205
 #&gt; [8] 0.5258241 0.4392147</div><div class='output co'>#&gt; <span class='message'>--------------------------------------------</span></div><div class='output co'>#&gt; <span class='message'>Cronbach's Alpha can only be calculated when having a data frame with each component / variable as column.</span></div><div class='img'><img src='sjp.pca-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjp.pca-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># use data frame as argument, let sjp.pca() compute PCA</span>
-<span class='fu'>sjp.pca</span>(<span class='no'>efc</span>[, <span class='no'>start</span>:<span class='no'>end</span>])</div><div class='output co'>#&gt; <span class='message'>Following items have no clear factor loading:</span></div><div class='output co'>#&gt; <span class='message'>none.</span></div><div class='img'><img src='sjp.pca-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>sjp.pca</span>(<span class='no'>efc</span>[, <span class='no'>start</span>:<span class='no'>end</span>], <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"tile"</span>)</div><div class='output co'>#&gt; <span class='message'>Following items have no clear factor loading:</span></div><div class='output co'>#&gt; <span class='message'>none.</span></div><div class='img'><img src='sjp.pca-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>sjp.pca</span>(<span class='no'>efc</span>[, <span class='no'>start</span>:<span class='no'>end</span>])</div><div class='output co'>#&gt; <span class='warning'>Warning: 'sjp.pca()' will become deprecated in a future update. Please use 'parameters::principal_components()' and the 'plot()' method instead.</span></div><div class='output co'>#&gt; <span class='message'>Following items have no clear factor loading:</span></div><div class='output co'>#&gt; <span class='message'>none.</span></div><div class='img'><img src='sjp.pca-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>sjp.pca</span>(<span class='no'>efc</span>[, <span class='no'>start</span>:<span class='no'>end</span>], <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"tile"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 'sjp.pca()' will become deprecated in a future update. Please use 'parameters::principal_components()' and the 'plot()' method instead.</span></div><div class='output co'>#&gt; <span class='message'>Following items have no clear factor loading:</span></div><div class='output co'>#&gt; <span class='message'>none.</span></div><div class='img'><img src='sjp.pca-4.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div></pre>
   </div>

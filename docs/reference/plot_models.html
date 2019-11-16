@@ -44,7 +44,7 @@
 
 <meta property="og:title" content="Forest plot of multiple regression models — plot_models" />
 <meta property="og:description" content="Plot and compare regression coefficients with confidence
-               intervals of multiple regression models in one plot." />
+  intervals of multiple regression models in one plot." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -78,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2.1</span>
       </span>
     </div>
 
@@ -185,7 +185,7 @@
 
     <div class="ref-description">
     <p>Plot and compare regression coefficients with confidence
-               intervals of multiple regression models in one plot.</p>
+  intervals of multiple regression models in one plot.</p>
     </div>
 
     <pre class="usage"><span class='fu'>plot_models</span>(<span class='no'>...</span>, <span class='no'>transform</span>, <span class='kw'>std.est</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rm.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -220,13 +220,10 @@ non-transformed estimates.</p></td>
     </tr>
     <tr>
       <th>std.est</th>
-      <td><p>For linear models, choose whether standardized coefficients should
-be used for plotting. Default is no standardization.</p><dl class='dl-horizontal'>
-  <dt><code>NULL</code></dt><dd><p>(default) no standardization, returns original estimates.</p></dd>
-  <dt><code>"std"</code></dt><dd><p>standardized beta values.</p></dd>
-  <dt><code>"std2"</code></dt><dd><p>standardized beta values, however, standardization is done by rescaling estimates by dividing them by two sd (see <code><a href='https://rdrr.io/pkg/sjstats/man/std_beta.html'>std_beta</a></code>).</p></dd>
-
-</dl></td>
+      <td><p>Choose whether standardized coefficients should be used
+for plotting. Default is no standardization (<code>std.est = NULL</code>).
+May be <code>"std"</code> for standardized beta values or <code>"std2"</code>, where
+standardization is done by rescaling estimates by dividing them by two sd.</p></td>
     </tr>
     <tr>
       <th>rm.terms</th>
@@ -334,7 +331,7 @@ color value names (see <code><a href='https://rdrr.io/r/utils/demo.html'>demo("c
 color palette. Following options are valid for the <code>colors</code> argument:</p><ul>
 <li><p>If not specified, a default color brewer palette will be used, which is suitable for the plot style.</p></li>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
-<li><p>If <code>"bw"</code>, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see <a href='../doc/blackwhitefigures.html'>this package-vignette</a>).</p></li>
+<li><p>If <code>"bw"</code>, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see <a href='https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html'>this package-vignette</a>).</p></li>
 <li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href='https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html'>display.brewer.all</a></code> to view all available palette names.</p></li>
 <li><p>There are some pre-defined color palettes in this package, see <code><a href='sjPlot-themes.html'>sjPlot-themes</a></code> for details.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = "#00ff00"</code> or <code>colors = c("firebrick", "blue")</code>).</p></li>
@@ -419,10 +416,12 @@ layout.</p></td>
     </tr>
     <tr>
       <th>auto.label</th>
-      <td><p>Logical, if <code>TRUE</code> (the default), plot-labels are
-based on value and variable labels, if the data is labelled. See
-<code><a href='https://rdrr.io/pkg/sjlabelled/man/get_label.html'>get_label</a></code> and
-<code><a href='https://rdrr.io/pkg/sjlabelled/man/get_term_labels.html'>get_term_labels</a></code> for details. If <code>FALSE</code>,
+      <td><p>Logical, if <code>TRUE</code> (the default),
+ and <a href='https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html'>data is labelled</a>,
+ <code><a href='https://rdrr.io/pkg/sjlabelled/man/get_term_labels.html'>get_term_labels</a></code> is called to retrieve the labels
+ of the coefficients, which will be used as predictor labels. If data is
+ not labelled, <a href='https://easystats.github.io/parameters/reference/format_parameters.html'>format_parameters()</a>
+ is used to create pretty labels. If <code>auto.label = FALSE</code>,
 original variable names and value labels (factor levels) are used.</p></td>
     </tr>
     <tr>
@@ -471,7 +470,7 @@ details.</p></td>
 <span class='no'>fit2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='no'>fit1</span>, <span class='no'>.</span> ~ <span class='no'>.</span> + <span class='no'>hp</span>)
 <span class='no'>fit3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='no'>fit2</span>, <span class='no'>.</span> ~ <span class='no'>.</span> + <span class='no'>am</span>)
 
-<span class='fu'>plot_models</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit3</span>, <span class='kw'>std.est</span> <span class='kw'>=</span> <span class='st'>"std2"</span>)</div><div class='img'><img src='plot_models-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_models</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit3</span>, <span class='kw'>std.est</span> <span class='kw'>=</span> <span class='st'>"std2"</span>)</div><div class='output co'>#&gt; <span class='message'>Variable `am` contains only two different values. Consider converting it to a factor.</span></div><div class='img'><img src='plot_models-4.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

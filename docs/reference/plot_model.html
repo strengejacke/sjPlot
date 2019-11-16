@@ -78,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.2.1</span>
       </span>
     </div>
 
@@ -188,8 +188,8 @@
   estimates (as so-called forest or dot whisker plots) or marginal effects.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_model</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"est"</span>, <span class='st'>"re"</span>, <span class='st'>"eff"</span>, <span class='st'>"pred"</span>, <span class='st'>"int"</span>, <span class='st'>"std"</span>,
-  <span class='st'>"std2"</span>, <span class='st'>"slope"</span>, <span class='st'>"resid"</span>, <span class='st'>"diag"</span>), <span class='no'>transform</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>plot_model</span>(<span class='no'>model</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"est"</span>, <span class='st'>"re"</span>, <span class='st'>"eff"</span>, <span class='st'>"emm"</span>, <span class='st'>"pred"</span>, <span class='st'>"int"</span>,
+  <span class='st'>"std"</span>, <span class='st'>"std2"</span>, <span class='st'>"slope"</span>, <span class='st'>"resid"</span>, <span class='st'>"diag"</span>), <span class='no'>transform</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>sort.est</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rm.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>group.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>order.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pred.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>),
   <span class='kw'>mdrt.values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"minmax"</span>, <span class='st'>"meansd"</span>, <span class='st'>"zeromax"</span>, <span class='st'>"quart"</span>, <span class='st'>"all"</span>),
@@ -227,7 +227,7 @@ kinds of models are supported, e.g. from packages like <span class="pkg">stats</
     <tr>
       <th>type</th>
       <td><p>Type of plot. There are three groups of plot-types: <br /> <br />
-<em>Coefficients</em> (<a href='../doc/plot_model_estimates.html'>related vignette</a>)</p><dl class='dl-horizontal'>
+<em>Coefficients</em> (<a href='https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html'>related vignette</a>)</p><dl class='dl-horizontal'>
   <dt><code>type = "est"</code></dt><dd><p>Forest-plot of estimates. If the fitted model
   only contains one predictor, slope-line is plotted.</p></dd>
   <dt><code>type = "re"</code></dt><dd><p>For mixed effects models, plots the random
@@ -236,12 +236,14 @@ kinds of models are supported, e.g. from packages like <span class="pkg">stats</
   <dt><code>type = "std2"</code></dt><dd><p>Forest-plot of standardized beta values,
   however, standardization is done by dividing by two sd (see 'Details').</p></dd>
 
-</dl><p><em>Marginal Effects</em>  (<a href='../doc/plot_marginal_effects.html'>related vignette</a>)</p><dl class='dl-horizontal'>
+</dl><p><em>Marginal Effects</em>  (<a href='https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html'>related vignette</a>)</p><dl class='dl-horizontal'>
   <dt><code>type = "pred"</code></dt><dd><p>Predicted values (marginal effects) for
   specific model terms. See <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></code> for details.</p></dd>
   <dt><code>type = "eff"</code></dt><dd><p>Similar to <code>type = "pred"</code>, however,
   discrete predictors are held constant at their proportions (not reference
   level). See <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect</a></code> for details.</p></dd>
+  <dt><code>type = "emm"</code></dt><dd><p>Similar to <code>type = "eff"</code>, see
+  <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans</a></code> for details.</p></dd>
   <dt><code>type = "int"</code></dt><dd><p>Marginal effects of interaction terms in
   <code>model</code>.</p></dd>
 
@@ -343,7 +345,7 @@ Each group of coefficients gets its own color (see 'Examples').</p></td>
       <th>order.terms</th>
       <td><p>Numeric vector, indicating in which order the coefficients
 should be plotted. See examples in
-<a href='../doc/plot_model_estimates.html'>this package-vignette</a>.</p></td>
+<a href='https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html'>this package-vignette</a>.</p></td>
     </tr>
     <tr>
       <th>pred.type</th>
@@ -490,7 +492,7 @@ color value names (see <code><a href='https://rdrr.io/r/utils/demo.html'>demo("c
 color palette. Following options are valid for the <code>colors</code> argument:</p><ul>
 <li><p>If not specified, a default color brewer palette will be used, which is suitable for the plot style.</p></li>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
-<li><p>If <code>"bw"</code>, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see <a href='../doc/blackwhitefigures.html'>this package-vignette</a>).</p></li>
+<li><p>If <code>"bw"</code>, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see <a href='https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html'>this package-vignette</a>).</p></li>
 <li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href='https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html'>display.brewer.all</a></code> to view all available palette names.</p></li>
 <li><p>There are some pre-defined color palettes in this package, see <code><a href='sjPlot-themes.html'>sjPlot-themes</a></code> for details.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = "#00ff00"</code> or <code>colors = c("firebrick", "blue")</code>).</p></li>
@@ -587,10 +589,12 @@ default when prefixing labels.</p></td>
     </tr>
     <tr>
       <th>auto.label</th>
-      <td><p>Logical, if <code>TRUE</code> (the default), plot-labels are
-based on value and variable labels, if the data is labelled. See
-<code><a href='https://rdrr.io/pkg/sjlabelled/man/get_label.html'>get_label</a></code> and
-<code><a href='https://rdrr.io/pkg/sjlabelled/man/get_term_labels.html'>get_term_labels</a></code> for details. If <code>FALSE</code>,
+      <td><p>Logical, if <code>TRUE</code> (the default),
+ and <a href='https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html'>data is labelled</a>,
+ <code><a href='https://rdrr.io/pkg/sjlabelled/man/get_term_labels.html'>get_term_labels</a></code> is called to retrieve the labels
+ of the coefficients, which will be used as predictor labels. If data is
+ not labelled, <a href='https://easystats.github.io/parameters/reference/format_parameters.html'>format_parameters()</a>
+ is used to create pretty labels. If <code>auto.label = FALSE</code>,
 original variable names and value labels (factor levels) are used.</p></td>
     </tr>
     <tr>
@@ -685,10 +689,10 @@ of supported arguments and their description in detail.</p><dl class='dl-horizon
     binary predictors.</p></dd>
   <dt><code>type = "pred"</code></dt><dd><p>Plots marginal effects. Simply wraps
     <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></code>. See also
-    <a href='../doc/plot_marginal_effects.html'>this package-vignette</a>.</p></dd>
+    <a href='https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html'>this package-vignette</a>.</p></dd>
   <dt><code>type = "eff"</code></dt><dd><p>Plots marginal effects. Simply wraps
     <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect</a></code>. See also
-    <a href='../doc/plot_marginal_effects.html'>this package-vignette</a>.</p></dd>
+    <a href='https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html'>this package-vignette</a>.</p></dd>
   <dt><code>type = "int"</code></dt><dd><p>A shortcut for marginal effects plots, where
     interaction terms are automatically detected and used as
     <code>terms</code>-argument. Furthermore, if the moderator variable (the second
@@ -701,7 +705,7 @@ of supported arguments and their description in detail.</p><dl class='dl-horizon
     (moderating variable). Use <code>type = "pred"</code> or <code>type = "eff"</code>
     and specify a certain order in the <code>terms</code>-argument to indicate
     which variable(s) should be used as moderator. See also
-    <a href='../doc/plot_interactions.html'>this package-vignette</a>.</p></dd>
+    <a href='https://strengejacke.github.io/sjPlot/articles/plot_interactions.html'>this package-vignette</a>.</p></dd>
   <dt><code>type = "slope"</code> and <code>type = "resid"</code></dt><dd><p>Simple diagnostic-plots,
   where a linear model for each single predictor is plotted against the
   response variable, or the model's residuals. Additionally, a loess-smoothed
