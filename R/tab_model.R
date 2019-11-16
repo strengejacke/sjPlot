@@ -482,7 +482,7 @@ tab_model <- function(
       # tidy output of standardized values ----
 
       if (!is.null(show.std) && !is.stan(model)) {
-        std_method <- switch(show.std, "std" = "refit", "std2" = "2sd", "refit")
+        std_method <- switch(show.std, "std" = "refit", "std2" = "2sd", "")
         dat <- tidy_model(
           model = model,
           ci.lvl = ci.lvl,
@@ -930,8 +930,8 @@ tab_model <- function(
 
   # get default labels for dv and terms ----
 
-  if (isTRUE(auto.label)) {
-    if (sjmisc::is_empty(pred.labels)) {
+  if (isTRUE(auto.label) && sjmisc::is_empty(pred.labels)) {
+    if (.labelled_model_data(models)) {
       pred.labels <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE, prefix = prefix.labels)
       category.values <- attr(pred.labels, "category.value")
 

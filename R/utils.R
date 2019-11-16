@@ -438,3 +438,26 @@ get_observations <- function(model) {
     error = function(x) { NULL }
   )
 }
+
+
+#' @importFrom insight find_predictors get_data
+.labelled_model_data <- function(models) {
+  # to be generic, make sure argument is a list
+  if (!inherits(models, "list")) models <- list(models)
+
+  # get model terms and model frame
+  mf <- try(lapply(models, function(.x) insight::get_data(.x)[, -1, drop = FALSE]), silent = TRUE)
+
+  # return NULL on error
+  if (inherits(mf, "try-error")) {
+    return(FALSE)
+  }
+
+
+  # get all variable labels for predictors
+  lbs <- unlist(lapply(mf, function(x) {
+    any(sapply(x, function(i) !is.null(attributes(i)$label)))
+  }))
+
+  any(isTRUE(lbs))
+}

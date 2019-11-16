@@ -555,7 +555,7 @@ plot_model <- function(model,
     # labels for axis with term names
     if (is.null(axis.labels)) {
       term_labels <- sjlabelled::get_term_labels(model, case = case, prefix = prefix.labels, ...)
-      if (!identical(names(term_labels), unname(term_labels))) axis.labels <- term_labels
+      if (.labelled_model_data(model)) axis.labels <- term_labels
     }
     axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
 
