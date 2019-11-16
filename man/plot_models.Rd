@@ -167,10 +167,12 @@ estimates or values.}
 \item{grid}{Logical, if \code{TRUE}, multiple plots are plotted as grid
 layout.}
 
-\item{auto.label}{Logical, if \code{TRUE} (the default), plot-labels are
-based on value and variable labels, if the data is labelled. See
-\code{\link[sjlabelled]{get_label}} and
-\code{\link[sjlabelled]{get_term_labels}} for details. If \code{FALSE},
+\item{auto.label}{Logical, if \code{TRUE} (the default),
+ and \href{https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html}{data is labelled},
+ \code{\link[sjlabelled]{get_term_labels}} is called to retrieve the labels
+ of the coefficients, which will be used as predictor labels. If data is
+ not labelled, \href{https://easystats.github.io/parameters/reference/format_parameters.html}{format_parameters()}
+ is used to create pretty labels. If \code{auto.label = FALSE},
 original variable names and value labels (factor levels) are used.}
 
 \item{prefix.labels}{Indicates whether the value labels of categorical variables

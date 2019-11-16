@@ -140,9 +140,11 @@ should be plotted. See examples in
 \item{pred.labels}{Character vector with labels of predictor variables.
 If not \code{NULL}, \code{pred.labels} will be used in the first
 table column with the predictors' names. By default, if \code{auto.label = TRUE}
-and \code{\link[sjlabelled]{get_term_labels}} is called to retrieve the labels
-of the coefficients, which will be used as predictor labels.
-If \code{pred.labels = ""} or \code{auto.label = FALSE}, the raw
+and \href{https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html}{data is labelled},
+\code{\link[sjlabelled]{get_term_labels}} is called to retrieve the labels
+of the coefficients, which will be used as predictor labels. If data is
+not labelled, \href{https://easystats.github.io/parameters/reference/format_parameters.html}{format_parameters()}
+is used to create pretty labels. If \code{pred.labels = ""} or \code{auto.label = FALSE}, the raw
 variable names as used in the model formula are used as predictor
 labels. If \code{pred.labels} is a named vector, predictor labels (by
 default, the names of the model's coefficients) will be matched with the
@@ -255,10 +257,12 @@ it will be set to \code{"parsed"}, unless \code{prefix.labels} is not
 specified, it will be set to \code{NULL} - this is a more convenient
 default when prefixing labels.}
 
-\item{auto.label}{Logical, if \code{TRUE} (the default), plot-labels are
-based on value and variable labels, if the data is labelled. See
-\code{\link[sjlabelled]{get_label}} and
-\code{\link[sjlabelled]{get_term_labels}} for details. If \code{FALSE},
+\item{auto.label}{Logical, if \code{TRUE} (the default),
+ and \href{https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html}{data is labelled},
+ \code{\link[sjlabelled]{get_term_labels}} is called to retrieve the labels
+ of the coefficients, which will be used as predictor labels. If data is
+ not labelled, \href{https://easystats.github.io/parameters/reference/format_parameters.html}{format_parameters()}
+ is used to create pretty labels. If \code{auto.label = FALSE},
 original variable names and value labels (factor levels) are used.}
 
 \item{prefix.labels}{Indicates whether the value labels of categorical variables

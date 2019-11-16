@@ -47,7 +47,7 @@ plot_point_estimates <- function(model,
   # set default for empty titles/labels
 
   if (sjmisc::is_empty(title)) title <- NULL
-  if (sjmisc::is_empty(axis.labels)) axis.labels <- NULL
+  if (sjmisc::is_empty(axis.labels)) axis.labels <- attributes(dat)$pretty_names
   if (sjmisc::is_empty(axis.title)) axis.title <- NULL
 
 

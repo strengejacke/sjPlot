@@ -36,10 +36,8 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
     }
 
     component <- ifelse(show.zeroinf, "all", "conditional")
-    out <- parameters::standardize_names(
-      parameters::model_parameters(model, ci = ci.lvl, component = component),
-      style = "broom"
-    )
+    model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component)
+    out <- parameters::standardize_names(model_params, style = "broom")
 
     column <- which(colnames(out) == "response")
     if (length(column)) colnames(out)[column] <- ifelse(isTRUE(facets), "facet", "response.level")
@@ -72,6 +70,7 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
     }
   }
 
+  attr(out, "pretty_names") <- attributes(model_params)$pretty_names
   out
 }
 

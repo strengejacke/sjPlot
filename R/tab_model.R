@@ -27,9 +27,11 @@
 #' @param pred.labels Character vector with labels of predictor variables.
 #'    If not \code{NULL}, \code{pred.labels} will be used in the first
 #'    table column with the predictors' names. By default, if \code{auto.label = TRUE}
-#'    and \code{\link[sjlabelled]{get_term_labels}} is called to retrieve the labels
-#'    of the coefficients, which will be used as predictor labels.
-#'    If \code{pred.labels = ""} or \code{auto.label = FALSE}, the raw
+#'    and \href{https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html}{data is labelled},
+#'    \code{\link[sjlabelled]{get_term_labels}} is called to retrieve the labels
+#'    of the coefficients, which will be used as predictor labels. If data is
+#'    not labelled, \href{https://easystats.github.io/parameters/reference/format_parameters.html}{format_parameters()}
+#'    is used to create pretty labels. If \code{pred.labels = ""} or \code{auto.label = FALSE}, the raw
 #'    variable names as used in the model formula are used as predictor
 #'    labels. If \code{pred.labels} is a named vector, predictor labels (by
 #'    default, the names of the model's coefficients) will be matched with the
@@ -928,38 +930,43 @@ tab_model <- function(
 
   # get default labels for dv and terms ----
 
-  if (isTRUE(auto.label) && sjmisc::is_empty(pred.labels)) {
-    pred.labels <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE, prefix = prefix.labels)
-    category.values <- attr(pred.labels, "category.value")
+  if (isTRUE(auto.label)) {
+    if (sjmisc::is_empty(pred.labels)) {
+      pred.labels <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE, prefix = prefix.labels)
+      category.values <- attr(pred.labels, "category.value")
 
-    # remove random effect labels
-    re_terms <- unlist(sapply(
-      models,
-      insight::find_predictors,
-      effects = "random",
-      component = "all",
-      flatten = TRUE
-     ))
+      # remove random effect labels
+      re_terms <- unlist(sapply(
+        models,
+        insight::find_predictors,
+        effects = "random",
+        component = "all",
+        flatten = TRUE
+      ))
 
-    if (!is.null(re_terms)) {
-      pred.labels.tmp <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE, prefix = "varname")
-      for (.re in re_terms) {
-        found <- grepl(paste0("^", .re, ":"), pred.labels.tmp)
-        if (any(found)) {
-          pred.labels <- pred.labels[!found]
-          category.values <- category.values[!found]
-          pred.labels.tmp <- pred.labels.tmp[!found]
+      if (!is.null(re_terms)) {
+        pred.labels.tmp <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE, prefix = "varname")
+        for (.re in re_terms) {
+          found <- grepl(paste0("^", .re, ":"), pred.labels.tmp)
+          if (any(found)) {
+            pred.labels <- pred.labels[!found]
+            category.values <- category.values[!found]
+            pred.labels.tmp <- pred.labels.tmp[!found]
+          }
         }
       }
-    }
 
-    no.dupes <- !duplicated(names(pred.labels))
-    pred.labels <- prepare.labels(
-      x = pred.labels[no.dupes],
-      grp = show.reflvl,
-      categorical = category.values[no.dupes],
-      models = models
-    )
+      no.dupes <- !duplicated(names(pred.labels))
+      pred.labels <- prepare.labels(
+        x = pred.labels[no.dupes],
+        grp = show.reflvl,
+        categorical = category.values[no.dupes],
+        models = models
+      )
+    } else {
+      pred.labels <- unique(unlist(lapply(models, parameters::format_parameters)))
+      show.reflvl <- FALSE
+    }
   } else {
     # no automatic grouping of table rows for categorical variables
     # when user supplies own labels

@@ -245,10 +245,12 @@
 #'   \code{"l"}) or \code{"varname"} (or \code{"v"}) and \code{case} is not
 #'   specified, it will be set to \code{NULL} - this is a more convenient
 #'   default when prefixing labels.
-#' @param auto.label Logical, if \code{TRUE} (the default), plot-labels are
-#'   based on value and variable labels, if the data is labelled. See
-#'   \code{\link[sjlabelled]{get_label}} and
-#'   \code{\link[sjlabelled]{get_term_labels}} for details. If \code{FALSE},
+#' @param auto.label Logical, if \code{TRUE} (the default),
+#'    and \href{https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html}{data is labelled},
+#'    \code{\link[sjlabelled]{get_term_labels}} is called to retrieve the labels
+#'    of the coefficients, which will be used as predictor labels. If data is
+#'    not labelled, \href{https://easystats.github.io/parameters/reference/format_parameters.html}{format_parameters()}
+#'    is used to create pretty labels. If \code{auto.label = FALSE},
 #'   original variable names and value labels (factor levels) are used.
 #' @param prefix.labels Indicates whether the value labels of categorical variables
 #'   should be prefixed, e.g. with the variable name or variable label. See
@@ -551,7 +553,10 @@ plot_model <- function(model,
     title <- sjmisc::word_wrap(title, wrap = wrap.title)
 
     # labels for axis with term names
-    if (is.null(axis.labels)) axis.labels <- sjlabelled::get_term_labels(model, case = case, prefix = prefix.labels, ...)
+    if (is.null(axis.labels)) {
+      term_labels <- sjlabelled::get_term_labels(model, case = case, prefix = prefix.labels, ...)
+      if (!identical(names(term_labels), unname(term_labels))) axis.labels <- term_labels
+    }
     axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
 
     # title for axis with estimate values
