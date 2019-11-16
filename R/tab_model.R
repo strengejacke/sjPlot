@@ -931,7 +931,7 @@ tab_model <- function(
   # get default labels for dv and terms ----
 
   if (isTRUE(auto.label) && sjmisc::is_empty(pred.labels)) {
-    if (.labelled_model_data(models)) {
+    if (.labelled_model_data(models) || any(sapply(models, is.stan))) {
       pred.labels <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE, prefix = prefix.labels)
       category.values <- attr(pred.labels, "category.value")
 
