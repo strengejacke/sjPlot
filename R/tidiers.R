@@ -70,9 +70,10 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
         error = function(x) { out }
       )
     }
+
+    attr(out, "pretty_names") <- attributes(model_params)$pretty_names
   }
 
-  attr(out, "pretty_names") <- attributes(model_params)$pretty_names
   out
 }
 
