@@ -31,13 +31,13 @@ label_angle(angle.x, angle.y, base.theme)
 
 legend_style(inside, pos, justify, base.theme)
 
-scale_color_sjplot(palette = "metro ui", discrete = TRUE,
+scale_color_sjplot(palette = "metro", discrete = TRUE,
   reverse = FALSE, ...)
 
-scale_fill_sjplot(palette = "metro ui", discrete = TRUE,
+scale_fill_sjplot(palette = "metro", discrete = TRUE,
   reverse = FALSE, ...)
 
-sjplot_pal(palette = "metro ui", n = NULL)
+sjplot_pal(palette = "metro", n = NULL)
 
 show_sjplot_pals()
 

@@ -283,7 +283,7 @@ sjplot_colors <- list(
 
 #' @rdname sjPlot-themes
 #' @export
-scale_color_sjplot <- function(palette = "metro ui", discrete = TRUE, reverse = FALSE, ...) {
+scale_color_sjplot <- function(palette = "metro", discrete = TRUE, reverse = FALSE, ...) {
   pal <- get_sjplot_pal(palette = palette, reverse = reverse)
 
   if (discrete) {
@@ -296,7 +296,7 @@ scale_color_sjplot <- function(palette = "metro ui", discrete = TRUE, reverse = 
 
 #' @rdname sjPlot-themes
 #' @export
-scale_fill_sjplot <- function(palette = "metro ui", discrete = TRUE, reverse = FALSE, ...) {
+scale_fill_sjplot <- function(palette = "metro", discrete = TRUE, reverse = FALSE, ...) {
   pal <- get_sjplot_pal(palette = palette, reverse = reverse)
 
   if (discrete) {
@@ -310,7 +310,7 @@ scale_fill_sjplot <- function(palette = "metro ui", discrete = TRUE, reverse = F
 #' @importFrom stats quantile
 #' @rdname sjPlot-themes
 #' @export
-sjplot_pal <- function(palette = "metro ui", n = NULL) {
+sjplot_pal <- function(palette = "metro", n = NULL) {
   pl <- sjplot_colors[[palette]]
 
   if (!is.null(n) && n <= length(pl)) {
@@ -376,7 +376,7 @@ show_sjplot_pals <- function() {
 
 
 #' @importFrom grDevices colorRampPalette
-get_sjplot_pal <- function(palette = "metro ui", reverse = FALSE, ...) {
+get_sjplot_pal <- function(palette = "metro", reverse = FALSE, ...) {
   pal <- sjplot_colors[[palette]]
   if (reverse) pal <- rev(pal)
   grDevices::colorRampPalette(pal, ...)

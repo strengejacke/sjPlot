@@ -79,7 +79,7 @@ plot_scatter <- function(
   axis.titles = NULL,
   dot.size = 1.5,
   label.size = 3,
-  colors = "metro ui",
+  colors = "metro",
   fit.line = NULL,
   fit.grps = NULL,
   show.rug = FALSE,
