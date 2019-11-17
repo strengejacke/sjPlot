@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute quick cluster analysis — sjc.qclus • sjPlot</title>
+<title>Deprecated functions — sjc.qclus • sjPlot</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,9 +42,8 @@
 
 
 
-<meta property="og:title" content="Compute quick cluster analysis — sjc.qclus" />
-<meta property="og:description" content="Compute a quick kmeans or hierarchical cluster analysis and displays &quot;cluster characteristics&quot;
-               as plot." />
+<meta property="og:title" content="Deprecated functions — sjc.qclus" />
+<meta property="og:description" content="A list of deprecated functions." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -178,237 +177,48 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute quick cluster analysis</h1>
+    <h1>Deprecated functions</h1>
     
     <div class="hidden name"><code>sjc.qclus.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Compute a quick kmeans or hierarchical cluster analysis and displays "cluster characteristics"
-               as plot.</p>
+    <p>A list of deprecated functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sjc.qclus</span>(<span class='no'>data</span>, <span class='kw'>groupcount</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"kmeans"</span>, <span class='st'>"hclust"</span>), <span class='kw'>distance</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"euclidean"</span>, <span class='st'>"maximum"</span>,
-  <span class='st'>"manhattan"</span>, <span class='st'>"canberra"</span>, <span class='st'>"binary"</span>, <span class='st'>"minkowski"</span>),
-  <span class='kw'>agglomeration</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ward"</span>, <span class='st'>"ward.D"</span>, <span class='st'>"ward.D2"</span>, <span class='st'>"single"</span>, <span class='st'>"complete"</span>,
-  <span class='st'>"average"</span>, <span class='st'>"mcquitty"</span>, <span class='st'>"median"</span>, <span class='st'>"centroid"</span>), <span class='kw'>iter.max</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>algorithm</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Hartigan-Wong"</span>, <span class='st'>"Lloyd"</span>, <span class='st'>"MacQueen"</span>),
-  <span class='kw'>show.accuracy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>40</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>wrap.legend.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>, <span class='kw'>facet.grid</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"Paired"</span>, <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>geom.spacing</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
-  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.grpcnt</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>legend.title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>legend.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>coord.flip</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>reverse.axis</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>sjc.qclus</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='fu'>sjc.cluster</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='fu'>sjc.grpdisc</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='fu'>sjc.elbow</span>(<span class='no'>x</span>, <span class='no'>...</span>)
+
+<span class='fu'>sjc.kgap</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>A data frame with variables that should be used for the
-cluster analysis.</p></td>
+      <th>x</th>
+      <td><p>An object.</p></td>
     </tr>
     <tr>
-      <th>groupcount</th>
-      <td><p>Amount of groups (clusters) used for the cluster solution. May also be
-a set of initial (distinct) cluster centres, in case <code>method = "kmeans"</code>
-(see <code><a href='https://rdrr.io/r/stats/kmeans.html'>kmeans</a></code> for details on <code>centers</code> argument).
-If <code>groupcount = NULL</code> and <code>method = "kmeans"</code>, the optimal
-amount of clusters is calculated using the gap statistics (see
-<code><a href='sjc.kgap.html'>sjc.kgap</a></code>). For <code>method = "hclust"</code>, <code>groupcount</code>
-needs to be specified. Following functions may be helpful for estimating
-the amount of clusters:</p><ul>
-<li><p>Use <code><a href='sjc.elbow.html'>sjc.elbow</a></code> to determine the group-count depending on the elbow-criterion.</p></li>
-<li><p>If <code>method = "kmeans"</code>, use <code><a href='sjc.kgap.html'>sjc.kgap</a></code> to determine the group-count according to the gap-statistic.</p></li>
-<li><p>If <code>method = "hclust"</code> (hierarchical clustering, default), use <code><a href='sjc.dend.html'>sjc.dend</a></code> to inspect different cluster group solutions.</p></li>
-<li><p>Use <code><a href='sjc.grpdisc.html'>sjc.grpdisc</a></code> to inspect the goodness of grouping (accuracy of classification).</p></li>
-</ul></td>
-    </tr>
-    <tr>
-      <th>groups</th>
-      <td><p>Optional, by default, this argument is <code>NULL</code> and will be
-ignored. However, to plot existing cluster groups, specify <code>groupcount</code>
-and <code>groups</code>. <code>groups</code> is a vector of same length as
-<code><a href='https://rdrr.io/r/base/nrow.html'>nrow(data)</a></code> and indicates the group classification of the cluster
-analysis. The group classification can be computed with the
-<code><a href='sjc.cluster.html'>sjc.cluster</a></code> function. See 'Examples'.</p></td>
-    </tr>
-    <tr>
-      <th>method</th>
-      <td><p>Method for computing the cluster analysis. By default (<code>"kmeans"</code>), a
-kmeans cluster analysis will be computed. Use <code>"hclust"</code> to
-compute a hierarchical cluster analysis. You can specify the
-initial letters only.</p></td>
-    </tr>
-    <tr>
-      <th>distance</th>
-      <td><p>Distance measure to be used when <code>method = "hclust"</code> (for hierarchical
-clustering). Must be one of <code>"euclidean"</code>, <code>"maximum"</code>, <code>"manhattan"</code>,
-<code>"canberra"</code>, <code>"binary"</code> or <code>"minkowski"</code>. See <code><a href='https://rdrr.io/r/stats/dist.html'>dist</a></code>.
-If is <code>method = "kmeans"</code> this argument will be ignored.</p></td>
-    </tr>
-    <tr>
-      <th>agglomeration</th>
-      <td><p>Agglomeration method to be used when <code>method = "hclust"</code> (for hierarchical
-clustering). This should be one of <code>"ward"</code>, <code>"single"</code>, <code>"complete"</code>, <code>"average"</code>,
-<code>"mcquitty"</code>, <code>"median"</code> or <code>"centroid"</code>. Default is <code>"ward"</code> (see <code><a href='https://rdrr.io/r/stats/hclust.html'>hclust</a></code>).
-If <code>method = "kmeans"</code> this argument will be ignored. See 'Note'.</p></td>
-    </tr>
-    <tr>
-      <th>iter.max</th>
-      <td><p>Maximum number of iterations allowed. Only applies, if
-<code>method = "kmeans"</code>. See <code><a href='https://rdrr.io/r/stats/kmeans.html'>kmeans</a></code> for details on this argument.</p></td>
-    </tr>
-    <tr>
-      <th>algorithm</th>
-      <td><p>Algorithm used for calculating kmeans cluster. Only applies, if
-<code>method = "kmeans"</code>. May be one of <code>"Hartigan-Wong"</code> (default),
-<code>"Lloyd"</code> (used by SPSS), or <code>"MacQueen"</code>. See <code><a href='https://rdrr.io/r/stats/kmeans.html'>kmeans</a></code>
-for details on this argument.</p></td>
-    </tr>
-    <tr>
-      <th>show.accuracy</th>
-      <td><p>Logical, if <code>TRUE</code>, the <code><a href='sjc.grpdisc.html'>sjc.grpdisc</a></code> function will be called,
-which computes a linear discriminant analysis on the classified cluster groups and plots a
-bar graph indicating the goodness of classification for each group.</p></td>
-    </tr>
-    <tr>
-      <th>title</th>
-      <td><p>character vector, used as plot title. Depending on plot type and function,
-will be set automatically. If <code>title = ""</code>, no title is printed.
-For effect-plots, may also be a character vector of length &gt; 1,
-to define titles for each sub-plot or facet.</p></td>
-    </tr>
-    <tr>
-      <th>axis.labels</th>
-      <td><p>character vector with labels used as axis labels. Optional
-argument, since in most cases, axis labels are set automatically.</p></td>
-    </tr>
-    <tr>
-      <th>wrap.title</th>
-      <td><p>numeric, determines how many chars of the plot title are displayed in
-one line and when a line break is inserted.</p></td>
-    </tr>
-    <tr>
-      <th>wrap.labels</th>
-      <td><p>numeric, determines how many chars of the value, variable or axis
-labels are displayed in one line and when a line break is inserted.</p></td>
-    </tr>
-    <tr>
-      <th>wrap.legend.title</th>
-      <td><p>numeric, determines how many chars of the legend's title
-are displayed in one line and when a line break is inserted.</p></td>
-    </tr>
-    <tr>
-      <th>wrap.legend.labels</th>
-      <td><p>numeric, determines how many chars of the legend labels are
-displayed in one line and when a line break is inserted.</p></td>
-    </tr>
-    <tr>
-      <th>facet.grid</th>
-      <td><p><code>TRUE</code> to arrange the lay out of of multiple plots
-in a grid of an integrated single plot. This argument calls
-<code><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></code> or <code><a href='https://ggplot2.tidyverse.org/reference/facet_grid.html'>facet_grid</a></code>
-to arrange plots. Use <code><a href='plot_grid.html'>plot_grid</a></code> to plot multiple plot-objects
-as an arranged grid with <code><a href='https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html'>grid.arrange</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>geom.colors</th>
-      <td><p>user defined color for geoms. See 'Details' in <code><a href='plot_grpfrq.html'>plot_grpfrq</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>geom.size</th>
-      <td><p>size resp. width of the geoms (bar width, line thickness or point size,
-depending on plot type and function). Note that bar and bin widths mostly
-need smaller values than dot sizes.</p></td>
-    </tr>
-    <tr>
-      <th>geom.spacing</th>
-      <td><p>the spacing between geoms (i.e. bar spacing)</p></td>
-    </tr>
-    <tr>
-      <th>show.legend</th>
-      <td><p>logical, if <code>TRUE</code>, and depending on plot type and
-function, a legend is added to the plot.</p></td>
-    </tr>
-    <tr>
-      <th>show.grpcnt</th>
-      <td><p>Logical, if <code>TRUE</code> (default), the count within each cluster group is added to the
-legend labels (e.g. <code>"Group 1 (n=87)"</code>).</p></td>
-    </tr>
-    <tr>
-      <th>legend.title</th>
-      <td><p>character vector, used as title for the plot legend.</p></td>
-    </tr>
-    <tr>
-      <th>legend.labels</th>
-      <td><p>character vector with labels for the guide/legend.</p></td>
-    </tr>
-    <tr>
-      <th>coord.flip</th>
-      <td><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></td>
-    </tr>
-    <tr>
-      <th>reverse.axis</th>
-      <td><p>Logical, if <code>TRUE</code>, the values on the x-axis are reversed.</p></td>
+      <th>...</th>
+      <td><p>Currently not used.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>(Invisibly) returns an object with</p><ul>
-<li><p><code>data</code>: the used data frame for plotting,</p></li>
-<li><p><code>plot</code>: the ggplot object,</p></li>
-<li><p><code>groupcount</code>: the number of found cluster (as calculated by <code><a href='sjc.kgap.html'>sjc.kgap</a></code>)</p></li>
-<li><p><code>classification</code>: the group classification (as calculated by <code><a href='sjc.cluster.html'>sjc.cluster</a></code>), including missing values, so this vector can be appended to the original data frame.</p></li>
-<li><p><code>accuracy</code>: the accuracy of group classification (as calculated by <code><a href='sjc.grpdisc.html'>sjc.grpdisc</a></code>).</p></li>
-</ul>
+    <p>Nothing.</p>
 
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>Following steps are computed in this function:</p><ol>
-<li><p>If <code>method = "kmeans"</code>, this function first determines the optimal group count via gap statistics (unless argument <code>groupcount</code> is specified), using the <code><a href='sjc.kgap.html'>sjc.kgap</a></code> function.</p></li>
-<li><p>A cluster analysis is performed by running the <code><a href='sjc.cluster.html'>sjc.cluster</a></code> function to determine the cluster groups.</p></li>
-<li><p>Then, all variables in <code>data</code> are scaled and centered. The mean value of these z-scores within each cluster group is calculated to see how certain characteristics (variables) in a cluster group differ in relation to other cluster groups.</p></li>
-<li><p>These results are plotted as graph.</p></li>
-</ol><p>This method can also be used to plot existing cluster solution as graph witouth computing
-         a new cluster analysis. See argument <code>groups</code> for more details.</p>
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>See 'Note' in <code><a href='sjc.cluster.html'>sjc.cluster</a></code></p>
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Maechler M, Rousseeuw P, Struyf A, Hubert M, Hornik K (2014) cluster: Cluster Analysis Basics and Extensions. R package.</p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'># k-means clustering of mtcars-dataset</span>
-<span class='fu'>sjc.qclus</span>(<span class='no'>mtcars</span>)
-
-<span class='co'># k-means clustering of mtcars-dataset with 4 pre-defined</span>
-<span class='co'># groups in a faceted panel</span>
-<span class='fu'>sjc.qclus</span>(<span class='no'>airquality</span>, <span class='kw'>groupcount</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>facet.grid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)}
-
-<span class='co'># k-means clustering of airquality data</span>
-<span class='co'># and saving the results. most likely, 3 cluster</span>
-<span class='co'># groups have been found (see below).</span>
-<span class='no'>airgrp</span> <span class='kw'>&lt;-</span> <span class='fu'>sjc.qclus</span>(<span class='no'>airquality</span>)</div><div class='output co'>#&gt; <span class='message'>Clustering Gap statistic ["clusGap"].</span>
-#&gt; <span class='message'>B=100 simulated reference sets, k = 1..10</span></div><div class='output co'>#&gt; <span class='message'> --&gt; Number of clusters (method 'Tibs2001SEmax', SE.factor=1): 3</span></div><div class='img'><img src='sjc.qclus-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjc.qclus-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># "re-plot" cluster groups, without computing</span>
-<span class='co'># new k-means cluster analysis.</span>
-<span class='fu'>sjc.qclus</span>(<span class='no'>airquality</span>, <span class='kw'>groupcount</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='no'>airgrp</span>$<span class='no'>classification</span>)</div><div class='img'><img src='sjc.qclus-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='sjc.qclus-4.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#note">Note</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

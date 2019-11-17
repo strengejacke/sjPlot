@@ -54,15 +54,6 @@ reference:
   - sjt.pca
   - sjt.itemanalysis
 
-- title: "Cluster Analysis"
-  contents:
-  - sjc.cluster
-  - sjc.dend
-  - sjc.elbow
-  - sjc.grpdisc
-  - sjc.kgap
-  - sjc.qclus
-
 - title: "Plot Customization"
   contents:
   - set_theme

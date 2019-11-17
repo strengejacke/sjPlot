@@ -1,5 +1,9 @@
 # sjPlot 2.7.3
 
+## Breaking changes
+
+* Cluster functions have been removed, as these are now re-implemented in the **parameters** package.
+
 ## General
 
 * Standardization of model parameters (in `plot_model()` or `tab_model()`) now uses standardization based on refitting the model (see [vignette](https://easystats.github.io/effectsize/articles/standardize_parameters.html) for details).
