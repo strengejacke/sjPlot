@@ -28,6 +28,7 @@
 #' sjp.chi2(mydf, axis.labels = items)
 #'
 #' @import ggplot2
+#' @importFrom grDevices rgb
 #' @importFrom dplyr bind_rows
 #' @export
 sjp.chi2 <- function(df,
@@ -89,9 +90,9 @@ sjp.chi2 <- function(df,
     geom_tile() +
     scale_x_discrete(labels = axis.labels) +
     scale_y_discrete(labels = axis.labels) +
-    scale_fill_gradient2(low = rgb(128, 205, 193, maxColorValue = 255),
+    scale_fill_gradient2(low = grDevices::rgb(128, 205, 193, maxColorValue = 255),
                          mid = "white",
-                         high = rgb(5, 113, 176, maxColorValue = 255),
+                         high = grDevices::rgb(5, 113, 176, maxColorValue = 255),
                          midpoint = 0.05) +
     geom_text(label = sprintf("%.3f", m$p.value)) +
     labs(title = title,

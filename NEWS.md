@@ -1,4 +1,4 @@
-# sjPlot 2.7.3
+# sjPlot 2.8.0
 
 ## Breaking changes
 
