@@ -1,3 +1,9 @@
+# sjPlot 2.8.1
+
+## Bug fixes
+
+* Fixed issue in `tab_model()` with detecting labels when `auto.label = TRUE`.
+
 # sjPlot 2.8.0
 
 ## Breaking changes
