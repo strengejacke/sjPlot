@@ -459,5 +459,5 @@ get_observations <- function(model) {
     any(sapply(x, function(i) !is.null(attributes(i)$label)))
   }))
 
-  any(isTRUE(lbs))
+  any(lbs)
 }
