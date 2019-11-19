@@ -963,7 +963,7 @@ tab_model <- function(
         categorical = category.values[no.dupes],
         models = models
       )
-    } else {
+    } else if (!show.reflvl) {
       pred.labels <- unique(unlist(lapply(models, parameters::format_parameters)))
       show.reflvl <- FALSE
     }
