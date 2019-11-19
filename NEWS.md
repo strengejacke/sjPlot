@@ -3,6 +3,7 @@
 ## Bug fixes
 
 * Fixed issue in `tab_model()` with detecting labels when `auto.label = TRUE`.
+* Fixed bug in `tab_model()` with `show.reflvl = TRUE`.
 
 # sjPlot 2.8.0
 
