@@ -3,6 +3,7 @@
 ## Bug fixes
 
 * Fixed issue in `tab_model()` with detecting labels when `auto.label = TRUE`.
+* Fixed issue in `tab_model()` for negative binomial hurdle mixed models (i.e. *glmmTMB* models with truncated negative-binomial family).
 * Fixed bug in `tab_model()` with `show.reflvl = TRUE`.
 
 # sjPlot 2.8.0
