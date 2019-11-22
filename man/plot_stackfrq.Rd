@@ -4,14 +4,32 @@
 \alias{plot_stackfrq}
 \title{Plot stacked proportional bars}
 \usage{
-plot_stackfrq(items, title = NULL, legend.title = NULL,
-  legend.labels = NULL, axis.titles = NULL, axis.labels = NULL,
-  weight.by = NULL, sort.frq = NULL, wrap.title = 50,
-  wrap.labels = 30, wrap.legend.title = 30, wrap.legend.labels = 28,
-  geom.size = 0.5, geom.colors = "Blues", show.prc = TRUE,
-  show.n = FALSE, show.total = TRUE, show.axis.prc = TRUE,
-  show.legend = TRUE, grid.breaks = 0.2, expand.grid = FALSE,
-  digits = 1, vjust = "center", coord.flip = TRUE)
+plot_stackfrq(
+  items,
+  title = NULL,
+  legend.title = NULL,
+  legend.labels = NULL,
+  axis.titles = NULL,
+  axis.labels = NULL,
+  weight.by = NULL,
+  sort.frq = NULL,
+  wrap.title = 50,
+  wrap.labels = 30,
+  wrap.legend.title = 30,
+  wrap.legend.labels = 28,
+  geom.size = 0.5,
+  geom.colors = "Blues",
+  show.prc = TRUE,
+  show.n = FALSE,
+  show.total = TRUE,
+  show.axis.prc = TRUE,
+  show.legend = TRUE,
+  grid.breaks = 0.2,
+  expand.grid = FALSE,
+  digits = 1,
+  vjust = "center",
+  coord.flip = TRUE
+)
 }
 \arguments{
 \item{items}{Data frame, or a grouped data frame, with each column representing one item.}

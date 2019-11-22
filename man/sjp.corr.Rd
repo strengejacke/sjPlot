@@ -4,12 +4,23 @@
 \alias{sjp.corr}
 \title{Plot correlation matrix}
 \usage{
-sjp.corr(data, title = NULL, axis.labels = NULL, sort.corr = TRUE,
-  decimals = 3, na.deletion = c("listwise", "pairwise"),
+sjp.corr(
+  data,
+  title = NULL,
+  axis.labels = NULL,
+  sort.corr = TRUE,
+  decimals = 3,
+  na.deletion = c("listwise", "pairwise"),
   corr.method = c("pearson", "spearman", "kendall"),
-  geom.colors = "RdBu", wrap.title = 50, wrap.labels = 20,
-  show.legend = FALSE, legend.title = NULL, show.values = TRUE,
-  show.p = TRUE, p.numeric = FALSE)
+  geom.colors = "RdBu",
+  wrap.title = 50,
+  wrap.labels = 20,
+  show.legend = FALSE,
+  legend.title = NULL,
+  show.values = TRUE,
+  show.p = TRUE,
+  p.numeric = FALSE
+)
 }
 \arguments{
 \item{data}{Matrix with correlation coefficients as returned by the

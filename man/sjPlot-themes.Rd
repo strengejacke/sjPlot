@@ -24,18 +24,24 @@ theme_blank(base_size = 12, base_family = "")
 
 theme_538(base_size = 12, base_family = "")
 
-font_size(title, axis_title.x, axis_title.y, labels.x, labels.y, offset.x,
-  offset.y, base.theme)
+font_size(
+  title,
+  axis_title.x,
+  axis_title.y,
+  labels.x,
+  labels.y,
+  offset.x,
+  offset.y,
+  base.theme
+)
 
 label_angle(angle.x, angle.y, base.theme)
 
 legend_style(inside, pos, justify, base.theme)
 
-scale_color_sjplot(palette = "metro", discrete = TRUE,
-  reverse = FALSE, ...)
+scale_color_sjplot(palette = "metro", discrete = TRUE, reverse = FALSE, ...)
 
-scale_fill_sjplot(palette = "metro", discrete = TRUE,
-  reverse = FALSE, ...)
+scale_fill_sjplot(palette = "metro", discrete = TRUE, reverse = FALSE, ...)
 
 sjplot_pal(palette = "metro", n = NULL)
 

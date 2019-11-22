@@ -4,13 +4,31 @@
 \alias{plot_scatter}
 \title{Plot (grouped) scatter plots}
 \usage{
-plot_scatter(data, x, y, grp, title = "", legend.title = NULL,
-  legend.labels = NULL, dot.labels = NULL, axis.titles = NULL,
-  dot.size = 1.5, label.size = 3, colors = "metro",
-  fit.line = NULL, fit.grps = NULL, show.rug = FALSE,
-  show.legend = TRUE, show.ci = FALSE, wrap.title = 50,
-  wrap.legend.title = 20, wrap.legend.labels = 20, jitter = 0.05,
-  emph.dots = FALSE, grid = FALSE)
+plot_scatter(
+  data,
+  x,
+  y,
+  grp,
+  title = "",
+  legend.title = NULL,
+  legend.labels = NULL,
+  dot.labels = NULL,
+  axis.titles = NULL,
+  dot.size = 1.5,
+  label.size = 3,
+  colors = "metro",
+  fit.line = NULL,
+  fit.grps = NULL,
+  show.rug = FALSE,
+  show.legend = TRUE,
+  show.ci = FALSE,
+  wrap.title = 50,
+  wrap.legend.title = 20,
+  wrap.legend.labels = 20,
+  jitter = 0.05,
+  emph.dots = FALSE,
+  grid = FALSE
+)
 }
 \arguments{
 \item{data}{A data frame, or a grouped data frame.}

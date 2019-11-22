@@ -4,11 +4,23 @@
 \alias{sjp.poly}
 \title{Plot polynomials for (generalized) linear regression}
 \usage{
-sjp.poly(x, poly.term, poly.degree, poly.scale = FALSE, fun = NULL,
-  axis.title = NULL, geom.colors = NULL, geom.size = 0.8,
-  show.loess = TRUE, show.loess.ci = TRUE, show.p = TRUE,
-  show.scatter = TRUE, point.alpha = 0.2, point.color = "#404040",
-  loess.color = "#808080")
+sjp.poly(
+  x,
+  poly.term,
+  poly.degree,
+  poly.scale = FALSE,
+  fun = NULL,
+  axis.title = NULL,
+  geom.colors = NULL,
+  geom.size = 0.8,
+  show.loess = TRUE,
+  show.loess.ci = TRUE,
+  show.p = TRUE,
+  show.scatter = TRUE,
+  point.alpha = 0.2,
+  point.color = "#404040",
+  loess.color = "#808080"
+)
 }
 \arguments{
 \item{x}{A vector, representing the response variable of a linear (mixed) model; or

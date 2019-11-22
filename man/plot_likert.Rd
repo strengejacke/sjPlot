@@ -4,20 +4,45 @@
 \alias{plot_likert}
 \title{Plot likert scales as centered stacked bars}
 \usage{
-plot_likert(items, groups = NULL, groups.titles = "auto",
-  title = NULL, legend.title = NULL, legend.labels = NULL,
-  axis.titles = NULL, axis.labels = NULL, catcount = NULL,
-  cat.neutral = NULL, sort.frq = NULL, weight.by = NULL,
-  title.wtd.suffix = NULL, wrap.title = 50, wrap.labels = 30,
-  wrap.legend.title = 30, wrap.legend.labels = 28, geom.size = 0.6,
-  geom.colors = "BrBG", cat.neutral.color = "grey70",
-  intercept.line.color = "grey50", reverse.colors = FALSE,
-  values = "show", show.n = TRUE, show.legend = TRUE,
-  show.prc.sign = FALSE, grid.range = 1, grid.breaks = 0.2,
-  expand.grid = TRUE, digits = 1, reverse.scale = FALSE,
-  coord.flip = TRUE, sort.groups = TRUE, legend.pos = "bottom",
-  rel_heights = 1, group.legend.options = list(nrow = NULL, byrow =
-  TRUE), cowplot.options = list(label_x = 0.01, hjust = 0, align = "v"))
+plot_likert(
+  items,
+  groups = NULL,
+  groups.titles = "auto",
+  title = NULL,
+  legend.title = NULL,
+  legend.labels = NULL,
+  axis.titles = NULL,
+  axis.labels = NULL,
+  catcount = NULL,
+  cat.neutral = NULL,
+  sort.frq = NULL,
+  weight.by = NULL,
+  title.wtd.suffix = NULL,
+  wrap.title = 50,
+  wrap.labels = 30,
+  wrap.legend.title = 30,
+  wrap.legend.labels = 28,
+  geom.size = 0.6,
+  geom.colors = "BrBG",
+  cat.neutral.color = "grey70",
+  intercept.line.color = "grey50",
+  reverse.colors = FALSE,
+  values = "show",
+  show.n = TRUE,
+  show.legend = TRUE,
+  show.prc.sign = FALSE,
+  grid.range = 1,
+  grid.breaks = 0.2,
+  expand.grid = TRUE,
+  digits = 1,
+  reverse.scale = FALSE,
+  coord.flip = TRUE,
+  sort.groups = TRUE,
+  legend.pos = "bottom",
+  rel_heights = 1,
+  group.legend.options = list(nrow = NULL, byrow = TRUE),
+  cowplot.options = list(label_x = 0.01, hjust = 0, align = "v")
+)
 }
 \arguments{
 \item{items}{Data frame, or a grouped data frame, with each column representing one item.}
@@ -211,7 +236,7 @@ six_cat_example = data.frame(
 
 \dontrun{
 six_cat_example <-
-  six_cat_example \%>\%
+  six_cat_example %>%
   dplyr::mutate_all(~ordered(.,labels = c("+++","++","+","-","--","---")))
 
 # Old default

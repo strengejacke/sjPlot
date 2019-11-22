@@ -4,8 +4,15 @@
 \alias{dist_norm}
 \title{Plot normal distributions}
 \usage{
-dist_norm(norm = NULL, mean = 0, sd = 1, p = NULL, xmax = NULL,
-  geom.colors = NULL, geom.alpha = 0.7)
+dist_norm(
+  norm = NULL,
+  mean = 0,
+  sd = 1,
+  p = NULL,
+  xmax = NULL,
+  geom.colors = NULL,
+  geom.alpha = 0.7
+)
 }
 \arguments{
 \item{norm}{Numeric, optional. If specified, a normal distribution with \code{mean} and \code{sd}

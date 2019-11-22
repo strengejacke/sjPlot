@@ -5,16 +5,40 @@
 \alias{tab_dfs}
 \title{Print data frames as HTML table.}
 \usage{
-tab_df(x, title = NULL, footnote = NULL, col.header = NULL,
-  show.type = FALSE, show.rownames = TRUE, show.footnote = FALSE,
-  alternate.rows = FALSE, sort.column = NULL, digits = 2,
-  encoding = "UTF-8", CSS = NULL, file = NULL, use.viewer = TRUE,
-  ...)
+tab_df(
+  x,
+  title = NULL,
+  footnote = NULL,
+  col.header = NULL,
+  show.type = FALSE,
+  show.rownames = TRUE,
+  show.footnote = FALSE,
+  alternate.rows = FALSE,
+  sort.column = NULL,
+  digits = 2,
+  encoding = "UTF-8",
+  CSS = NULL,
+  file = NULL,
+  use.viewer = TRUE,
+  ...
+)
 
-tab_dfs(x, titles = NULL, footnotes = NULL, col.header = NULL,
-  show.type = FALSE, show.rownames = TRUE, show.footnote = FALSE,
-  alternate.rows = FALSE, sort.column = NULL, encoding = "UTF-8",
-  CSS = NULL, file = NULL, use.viewer = TRUE, ...)
+tab_dfs(
+  x,
+  titles = NULL,
+  footnotes = NULL,
+  col.header = NULL,
+  show.type = FALSE,
+  show.rownames = TRUE,
+  show.footnote = FALSE,
+  alternate.rows = FALSE,
+  sort.column = NULL,
+  encoding = "UTF-8",
+  CSS = NULL,
+  file = NULL,
+  use.viewer = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{For \code{tab_df()}, a data frame; and for \code{tab_dfs()}, a

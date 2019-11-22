@@ -4,9 +4,15 @@
 \alias{plot_residuals}
 \title{Plot predicted values and their residuals}
 \usage{
-plot_residuals(fit, geom.size = 2, remove.estimates = NULL,
-  show.lines = TRUE, show.resid = TRUE, show.pred = TRUE,
-  show.ci = FALSE)
+plot_residuals(
+  fit,
+  geom.size = 2,
+  remove.estimates = NULL,
+  show.lines = TRUE,
+  show.resid = TRUE,
+  show.pred = TRUE,
+  show.ci = FALSE
+)
 }
 \arguments{
 \item{fit}{Fitted linear (mixed) regression model (including objects of class

@@ -4,13 +4,27 @@
 \alias{sjp.aov1}
 \title{Plot One-Way-Anova tables}
 \usage{
-sjp.aov1(var.dep, var.grp, meansums = FALSE, title = NULL,
-  axis.labels = NULL, rev.order = FALSE,
-  string.interc = "(Intercept)", axis.title = "", axis.lim = NULL,
-  geom.colors = c("#3366a0", "#aa3333"), geom.size = 3,
-  wrap.title = 50, wrap.labels = 25, grid.breaks = NULL,
-  show.values = TRUE, digits = 2, y.offset = 0.15, show.p = TRUE,
-  show.summary = FALSE)
+sjp.aov1(
+  var.dep,
+  var.grp,
+  meansums = FALSE,
+  title = NULL,
+  axis.labels = NULL,
+  rev.order = FALSE,
+  string.interc = "(Intercept)",
+  axis.title = "",
+  axis.lim = NULL,
+  geom.colors = c("#3366a0", "#aa3333"),
+  geom.size = 3,
+  wrap.title = 50,
+  wrap.labels = 25,
+  grid.breaks = NULL,
+  show.values = TRUE,
+  digits = 2,
+  y.offset = 0.15,
+  show.p = TRUE,
+  show.summary = FALSE
+)
 }
 \arguments{
 \item{var.dep}{Dependent variable. Will be used with following formula:

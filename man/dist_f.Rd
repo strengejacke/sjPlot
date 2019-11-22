@@ -4,8 +4,15 @@
 \alias{dist_f}
 \title{Plot F distributions}
 \usage{
-dist_f(f = NULL, deg.f1 = NULL, deg.f2 = NULL, p = NULL,
-  xmax = NULL, geom.colors = NULL, geom.alpha = 0.7)
+dist_f(
+  f = NULL,
+  deg.f1 = NULL,
+  deg.f2 = NULL,
+  p = NULL,
+  xmax = NULL,
+  geom.colors = NULL,
+  geom.alpha = 0.7
+)
 }
 \arguments{
 \item{f}{Numeric, optional. If specified, an F distribution with \code{deg.f1} and \code{deg.f2} degrees

@@ -4,12 +4,23 @@
 \alias{sjp.fa}
 \title{Plot FA results}
 \usage{
-sjp.fa(data, rotation = c("promax", "varimax"), method = c("ml",
-  "minres", "wls", "gls", "pa", "minchi", "minrank"), nmbr.fctr = NULL,
-  fctr.load.tlrn = 0.1, digits = 2, title = NULL,
-  axis.labels = NULL, type = c("bar", "circle", "tile"),
-  geom.size = 0.6, geom.colors = "RdBu", wrap.title = 50,
-  wrap.labels = 30, show.values = TRUE, show.cronb = TRUE)
+sjp.fa(
+  data,
+  rotation = c("promax", "varimax"),
+  method = c("ml", "minres", "wls", "gls", "pa", "minchi", "minrank"),
+  nmbr.fctr = NULL,
+  fctr.load.tlrn = 0.1,
+  digits = 2,
+  title = NULL,
+  axis.labels = NULL,
+  type = c("bar", "circle", "tile"),
+  geom.size = 0.6,
+  geom.colors = "RdBu",
+  wrap.title = 50,
+  wrap.labels = 30,
+  show.values = TRUE,
+  show.cronb = TRUE
+)
 }
 \arguments{
 \item{data}{A data frame that should be used to compute a FA, or a \code{\link[psych]{fa}} object.}

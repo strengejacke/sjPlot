@@ -4,14 +4,31 @@
 \alias{plot_gpt}
 \title{Plot grouped proportional tables}
 \usage{
-plot_gpt(data, x, y, grp, colors = "metro", geom.size = 2.5,
-  shape.fill.color = "#f0f0f0", shapes = c(15, 16, 17, 18, 21, 22, 23,
-  24, 25, 7, 8, 9, 10, 12), title = NULL, axis.labels = NULL,
-  axis.titles = NULL, legend.title = NULL, legend.labels = NULL,
-  wrap.title = 50, wrap.labels = 15, wrap.legend.title = 20,
-  wrap.legend.labels = 20, axis.lim = NULL, grid.breaks = NULL,
-  show.total = TRUE, annotate.total = TRUE, show.p = TRUE,
-  show.n = TRUE)
+plot_gpt(
+  data,
+  x,
+  y,
+  grp,
+  colors = "metro",
+  geom.size = 2.5,
+  shape.fill.color = "#f0f0f0",
+  shapes = c(15, 16, 17, 18, 21, 22, 23, 24, 25, 7, 8, 9, 10, 12),
+  title = NULL,
+  axis.labels = NULL,
+  axis.titles = NULL,
+  legend.title = NULL,
+  legend.labels = NULL,
+  wrap.title = 50,
+  wrap.labels = 15,
+  wrap.legend.title = 20,
+  wrap.legend.labels = 20,
+  axis.lim = NULL,
+  grid.breaks = NULL,
+  show.total = TRUE,
+  annotate.total = TRUE,
+  show.p = TRUE,
+  show.n = TRUE
+)
 }
 \arguments{
 \item{data}{A data frame, or a grouped data frame.}

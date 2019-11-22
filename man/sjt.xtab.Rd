@@ -4,19 +4,42 @@
 \alias{sjt.xtab}
 \title{Summary of contingency tables as HTML table}
 \usage{
-sjt.xtab(var.row, var.col, weight.by = NULL, title = NULL,
-  var.labels = NULL, value.labels = NULL, wrap.labels = 20,
-  show.obs = TRUE, show.cell.prc = FALSE, show.row.prc = FALSE,
-  show.col.prc = FALSE, show.exp = FALSE, show.legend = FALSE,
-  show.na = FALSE, show.summary = TRUE, drop.empty = TRUE,
-  statistics = c("auto", "cramer", "phi", "spearman", "kendall",
-  "pearson", "fisher"), string.total = "Total", digits = 1,
-  tdcol.n = "black", tdcol.expected = "#339999",
-  tdcol.cell = "#993333", tdcol.row = "#333399",
-  tdcol.col = "#339933", emph.total = FALSE, emph.color = "#f8f8f8",
-  prc.sign = "&nbsp;&#37;", hundret = "100.0", CSS = NULL,
-  encoding = NULL, file = NULL, use.viewer = TRUE,
-  remove.spaces = TRUE, ...)
+sjt.xtab(
+  var.row,
+  var.col,
+  weight.by = NULL,
+  title = NULL,
+  var.labels = NULL,
+  value.labels = NULL,
+  wrap.labels = 20,
+  show.obs = TRUE,
+  show.cell.prc = FALSE,
+  show.row.prc = FALSE,
+  show.col.prc = FALSE,
+  show.exp = FALSE,
+  show.legend = FALSE,
+  show.na = FALSE,
+  show.summary = TRUE,
+  drop.empty = TRUE,
+  statistics = c("auto", "cramer", "phi", "spearman", "kendall", "pearson", "fisher"),
+  string.total = "Total",
+  digits = 1,
+  tdcol.n = "black",
+  tdcol.expected = "#339999",
+  tdcol.cell = "#993333",
+  tdcol.row = "#333399",
+  tdcol.col = "#339933",
+  emph.total = FALSE,
+  emph.color = "#f8f8f8",
+  prc.sign = "&nbsp;&#37;",
+  hundret = "100.0",
+  CSS = NULL,
+  encoding = NULL,
+  file = NULL,
+  use.viewer = TRUE,
+  remove.spaces = TRUE,
+  ...
+)
 }
 \arguments{
 \item{var.row}{Variable that should be displayed in the table rows.}
