@@ -646,7 +646,7 @@ tab_model <- function(
       }
 
       # sanity check for models currently not supported by "get_variance()"
-      if (!is.null(vars) && is.na(vars)) vars <- NULL
+      if (!is.null(vars) && length(vars) == 1 && is.na(vars)) vars <- NULL
 
       # Add ICC statistic ----
 

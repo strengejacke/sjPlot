@@ -4,12 +4,14 @@ if (suppressWarnings(
   require("testthat") &&
   require("sjPlot") &&
   require("sjmisc") &&
-  require("lme4")
+  require("lme4") &&
+  require("glmmTMB")
 )) {
 
   context("sjPlot, tab_model type std")
 
   data(sleepstudy)
+  data(Salamanders)
   data(iris)
   data(efc)
 
@@ -19,8 +21,19 @@ if (suppressWarnings(
   m2 <- lmer(Sepal.Length ~ Sepal.Width + Petal.Length + (1 | Species), data = iris)
   m3 <- lm(neg_c_7 ~ e42dep + barthtot + c161sex, data = efc)
 
+  m4 <- glmmTMB(
+    count ~ spp + mined + (1 | site),
+    ziformula = ~ spp + mined,
+    family = truncated_nbinom2,
+    Salamanders
+  )
+
   test_that("tab_model", {
     p <- tab_model(m1, m2, m3)
+  })
+
+  test_that("tab_model", {
+    expect_warning(tab_model(m1, m2, m3, m4))
   })
 
   test_that("tab_model, check shows", {
@@ -43,7 +56,6 @@ if (suppressWarnings(
     p <- tab_model(m1, m2, m3, show.std = "std")
     p <- tab_model(m1, m2, m3, show.std = "std2")
   })
-
 
   if (.runThisTest) {
 
