@@ -113,6 +113,9 @@
 #'    indicate the reference level of the related factor.
 #' @param show.ci50 Logical, if \code{TRUE}, for Bayesian models, a second
 #'    credible interval is added to the table output.
+#' @param bootstrap Logical, if \code{TRUE}, preformes bootstrap, default is FALSE.
+#' @param iterations Numeric value, set to \code{1000}, number of bootsrap iterations, default is 1000.
+#' @param seed Logical, if \code{NULL}, set.seed, default is NULL.
 #' @param show.fstat Logical, if \code{TRUE}, the F-statistics for each model is
 #'    printed in the table summary. This option is not supported by all model types.
 #' @param show.aic Logical, if \code{TRUE}, the AIC value for each model is printed
@@ -220,6 +223,9 @@ tab_model <- function(
   show.intercept = TRUE,
   show.est = TRUE,
   show.ci = .95,
+  bootstrap = bootstrap,
+  iterations = iterations,
+  seed = NULL,
   show.ci50 = FALSE,
   show.se = NULL,
   show.std = NULL,
@@ -272,6 +278,7 @@ tab_model <- function(
   collapse.ci = FALSE,
   collapse.se = FALSE,
   linebreak = TRUE,
+
 
   col.order = c(
     "est",
@@ -414,7 +421,11 @@ tab_model <- function(
         robust = list(vcov.fun = vcov.fun, vcov.type = vcov.type, vcov.args = vcov.args),
         facets = FALSE,
         show.zeroinf = show.zeroinf,
-        p.val = p.val
+        p.val = p.val,
+        bootstrap = bootstrap,
+        iterations = iterations,
+        seed = seed
+
       )
 
 
@@ -494,7 +505,10 @@ tab_model <- function(
           facets = FALSE,
           show.zeroinf = show.zeroinf,
           p.val = p.val,
-          standardize = std_method
+          standardize = std_method,
+          bootstrap = bootstrap,
+          iterations = iterations,
+          seed = seed
         ) %>%
           sjmisc::var_rename(
             estimate = "std.estimate",
