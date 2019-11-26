@@ -78,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.0.1</span>
       </span>
     </div>
 
@@ -188,16 +188,40 @@
   the results in RStudio's viewer pane or in a web browser.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tab_df</span>(<span class='no'>x</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>footnote</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col.header</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>show.type</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.rownames</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.footnote</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>sort.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='st'>"UTF-8"</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>tab_df</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>footnote</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>col.header</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.type</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.rownames</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.footnote</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>sort.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='st'>"UTF-8"</span>,
+  <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>
+)
 
-<span class='fu'>tab_dfs</span>(<span class='no'>x</span>, <span class='kw'>titles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>footnotes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>col.header</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>show.type</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.rownames</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.footnote</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>sort.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='st'>"UTF-8"</span>,
-  <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'>tab_dfs</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>titles</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>footnotes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>col.header</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.type</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.rownames</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.footnote</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>sort.column</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='st'>"UTF-8"</span>,
+  <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

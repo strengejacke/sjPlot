@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.0.1</span>
       </span>
     </div>
 
@@ -186,19 +186,42 @@
     <p>Shows contingency tables as HTML file in browser or viewer pane, or saves them as file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sjt.xtab</span>(<span class='no'>var.row</span>, <span class='no'>var.col</span>, <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>var.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>value.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>,
-  <span class='kw'>show.obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.cell.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.row.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.col.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.exp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.summary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>drop.empty</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>statistics</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"cramer"</span>, <span class='st'>"phi"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>,
-  <span class='st'>"pearson"</span>, <span class='st'>"fisher"</span>), <span class='kw'>string.total</span> <span class='kw'>=</span> <span class='st'>"Total"</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>tdcol.n</span> <span class='kw'>=</span> <span class='st'>"black"</span>, <span class='kw'>tdcol.expected</span> <span class='kw'>=</span> <span class='st'>"#339999"</span>,
-  <span class='kw'>tdcol.cell</span> <span class='kw'>=</span> <span class='st'>"#993333"</span>, <span class='kw'>tdcol.row</span> <span class='kw'>=</span> <span class='st'>"#333399"</span>,
-  <span class='kw'>tdcol.col</span> <span class='kw'>=</span> <span class='st'>"#339933"</span>, <span class='kw'>emph.total</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>emph.color</span> <span class='kw'>=</span> <span class='st'>"#f8f8f8"</span>,
-  <span class='kw'>prc.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;#37;"</span>, <span class='kw'>hundret</span> <span class='kw'>=</span> <span class='st'>"100.0"</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>sjt.xtab</span>(
+  <span class='no'>var.row</span>,
+  <span class='no'>var.col</span>,
+  <span class='kw'>weight.by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>var.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>value.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>20</span>,
+  <span class='kw'>show.obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.cell.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.row.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.col.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.exp</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.legend</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.na</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.summary</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>drop.empty</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>statistics</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"cramer"</span>, <span class='st'>"phi"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>, <span class='st'>"pearson"</span>, <span class='st'>"fisher"</span>),
+  <span class='kw'>string.total</span> <span class='kw'>=</span> <span class='st'>"Total"</span>,
+  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>tdcol.n</span> <span class='kw'>=</span> <span class='st'>"black"</span>,
+  <span class='kw'>tdcol.expected</span> <span class='kw'>=</span> <span class='st'>"#339999"</span>,
+  <span class='kw'>tdcol.cell</span> <span class='kw'>=</span> <span class='st'>"#993333"</span>,
+  <span class='kw'>tdcol.row</span> <span class='kw'>=</span> <span class='st'>"#333399"</span>,
+  <span class='kw'>tdcol.col</span> <span class='kw'>=</span> <span class='st'>"#339933"</span>,
+  <span class='kw'>emph.total</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>emph.color</span> <span class='kw'>=</span> <span class='st'>"#f8f8f8"</span>,
+  <span class='kw'>prc.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;#37;"</span>,
+  <span class='kw'>hundret</span> <span class='kw'>=</span> <span class='st'>"100.0"</span>,
+  <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -285,7 +308,7 @@ in the data are omitted from the output.</p></td>
       <td><p>Name of measure of association that should be computed. May
 be one of <code>"auto"</code>, <code>"cramer"</code>, <code>"phi"</code>, <code>"spearman"</code>,
 <code>"kendall"</code>, <code>"pearson"</code> or <code>"fisher"</code>. See
-<code><a href='https://rdrr.io/pkg/sjstats/man/xtab_statistics.html'>xtab_statistics</a></code>.</p></td>
+<code><a href='https://rdrr.io/pkg/sjstats/man/crosstable_statistics.html'>xtab_statistics</a></code>.</p></td>
     </tr>
     <tr>
       <th>string.total</th>

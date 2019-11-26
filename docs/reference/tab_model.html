@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.0.1</span>
       </span>
     </div>
 
@@ -186,34 +186,77 @@
     <p><code>tab_model()</code> creates HTML tables from regression models.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tab_model</span>(<span class='no'>...</span>, <span class='no'>transform</span>, <span class='kw'>show.intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.est</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='kw'>show.ci50</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>show.std</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.stat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.zeroinf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.r2</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.icc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.re.var</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.ngroups</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.fstat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.aic</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.aicc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>show.dev</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.loglik</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show.reflvl</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>rm.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>order.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pred.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>dv.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>25</span>, <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HC3"</span>, <span class='st'>"const"</span>, <span class='st'>"HC"</span>, <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>, <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>,
-  <span class='st'>"HC5"</span>), <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>string.pred</span> <span class='kw'>=</span> <span class='st'>"Predictors"</span>,
-  <span class='kw'>string.est</span> <span class='kw'>=</span> <span class='st'>"Estimate"</span>, <span class='kw'>string.std</span> <span class='kw'>=</span> <span class='st'>"std. Beta"</span>,
-  <span class='kw'>string.ci</span> <span class='kw'>=</span> <span class='st'>"CI"</span>, <span class='kw'>string.se</span> <span class='kw'>=</span> <span class='st'>"std. Error"</span>,
+    <pre class="usage"><span class='fu'>tab_model</span>(
+  <span class='no'>...</span>,
+  <span class='no'>transform</span>,
+  <span class='kw'>show.intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.est</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.ci</span> <span class='kw'>=</span> <span class='fl'>0.95</span>,
+  <span class='kw'>show.ci50</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.std</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.stat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.df</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.zeroinf</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.r2</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.icc</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.re.var</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.ngroups</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.fstat</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.aic</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.aicc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.dev</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.loglik</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>show.obs</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.reflvl</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>rm.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>order.terms</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pred.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>dv.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>25</span>,
+  <span class='kw'>bootstrap</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>iterations</span> <span class='kw'>=</span> <span class='fl'>1000</span>,
+  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HC3"</span>, <span class='st'>"const"</span>, <span class='st'>"HC"</span>, <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>, <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>, <span class='st'>"HC5"</span>),
+  <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>string.pred</span> <span class='kw'>=</span> <span class='st'>"Predictors"</span>,
+  <span class='kw'>string.est</span> <span class='kw'>=</span> <span class='st'>"Estimate"</span>,
+  <span class='kw'>string.std</span> <span class='kw'>=</span> <span class='st'>"std. Beta"</span>,
+  <span class='kw'>string.ci</span> <span class='kw'>=</span> <span class='st'>"CI"</span>,
+  <span class='kw'>string.se</span> <span class='kw'>=</span> <span class='st'>"std. Error"</span>,
   <span class='kw'>string.std_se</span> <span class='kw'>=</span> <span class='st'>"standardized std. Error"</span>,
-  <span class='kw'>string.std_ci</span> <span class='kw'>=</span> <span class='st'>"standardized CI"</span>, <span class='kw'>string.p</span> <span class='kw'>=</span> <span class='st'>"p"</span>,
-  <span class='kw'>string.df</span> <span class='kw'>=</span> <span class='st'>"df"</span>, <span class='kw'>string.stat</span> <span class='kw'>=</span> <span class='st'>"Statistic"</span>,
-  <span class='kw'>string.resp</span> <span class='kw'>=</span> <span class='st'>"Response"</span>, <span class='kw'>string.intercept</span> <span class='kw'>=</span> <span class='st'>"(Intercept)"</span>,
-  <span class='kw'>strings</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ci.hyphen</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;ndash;&amp;nbsp;"</span>,
-  <span class='kw'>minus.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;#45;"</span>, <span class='kw'>collapse.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>collapse.se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>linebreak</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>col.order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"est"</span>, <span class='st'>"se"</span>, <span class='st'>"std.est"</span>, <span class='st'>"std.se"</span>,
-  <span class='st'>"ci"</span>, <span class='st'>"std.ci"</span>, <span class='st'>"ci.inner"</span>, <span class='st'>"ci.outer"</span>, <span class='st'>"stat"</span>, <span class='st'>"p"</span>, <span class='st'>"df"</span>,
-  <span class='st'>"response.level"</span>), <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wald"</span>, <span class='st'>"kr"</span>), <span class='kw'>p.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"numeric"</span>, <span class='st'>"asterisk"</span>, <span class='st'>"both"</span>),
-  <span class='kw'>p.threshold</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span>), <span class='kw'>case</span> <span class='kw'>=</span> <span class='st'>"parsed"</span>,
-  <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>),
-  <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'><a href='sjPlot-themes.html'>css_theme</a></span>(<span class='st'>"regression"</span>), <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>string.std_ci</span> <span class='kw'>=</span> <span class='st'>"standardized CI"</span>,
+  <span class='kw'>string.p</span> <span class='kw'>=</span> <span class='st'>"p"</span>,
+  <span class='kw'>string.df</span> <span class='kw'>=</span> <span class='st'>"df"</span>,
+  <span class='kw'>string.stat</span> <span class='kw'>=</span> <span class='st'>"Statistic"</span>,
+  <span class='kw'>string.resp</span> <span class='kw'>=</span> <span class='st'>"Response"</span>,
+  <span class='kw'>string.intercept</span> <span class='kw'>=</span> <span class='st'>"(Intercept)"</span>,
+  <span class='kw'>strings</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>ci.hyphen</span> <span class='kw'>=</span> <span class='st'>"&amp;nbsp;&amp;ndash;&amp;nbsp;"</span>,
+  <span class='kw'>minus.sign</span> <span class='kw'>=</span> <span class='st'>"&amp;#45;"</span>,
+  <span class='kw'>collapse.ci</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>collapse.se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>linebreak</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>col.order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"est"</span>, <span class='st'>"se"</span>, <span class='st'>"std.est"</span>, <span class='st'>"std.se"</span>, <span class='st'>"ci"</span>, <span class='st'>"std.ci"</span>, <span class='st'>"ci.inner"</span>,
+    <span class='st'>"ci.outer"</span>, <span class='st'>"stat"</span>, <span class='st'>"p"</span>, <span class='st'>"df"</span>, <span class='st'>"response.level"</span>),
+  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wald"</span>, <span class='st'>"kr"</span>),
+  <span class='kw'>p.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"numeric"</span>, <span class='st'>"asterisk"</span>, <span class='st'>"both"</span>),
+  <span class='kw'>p.threshold</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span>),
+  <span class='kw'>case</span> <span class='kw'>=</span> <span class='st'>"parsed"</span>,
+  <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>),
+  <span class='kw'>bpe</span> <span class='kw'>=</span> <span class='st'>"median"</span>,
+  <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'><a href='sjPlot-themes.html'>css_theme</a></span>(<span class='st'>"regression"</span>),
+  <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -278,7 +321,7 @@ is also printed.</p></td>
       <th>show.df</th>
       <td><p>Logical, if <code>TRUE</code> and <code>p.val = "kr"</code>, the p-values
 for linear mixed models are based on df with Kenward-Rogers approximation.
-These df-values are printed. See <code><a href='https://rdrr.io/pkg/sjstats/man/overdisp.html'>p_value</a></code> for details.</p></td>
+These df-values are printed. See <code><a href='https://rdrr.io/pkg/sjstats/man/r2.html'>p_value</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>show.zeroinf</th>
@@ -401,6 +444,18 @@ fitted models. See 'Examples'.</p></td>
       <th>wrap.labels</th>
       <td><p>Numeric, determines how many chars of the value, variable
 or axis labels are displayed in one line and when a line break is inserted.</p></td>
+    </tr>
+    <tr>
+      <th>bootstrap</th>
+      <td><p>Logical, if <code>TRUE</code>, returns bootstrapped estimates..</p></td>
+    </tr>
+    <tr>
+      <th>iterations</th>
+      <td><p>Numeric, number of bootsrap iterations (default is 1000).</p></td>
+    </tr>
+    <tr>
+      <th>seed</th>
+      <td><p>Numeric, the number of the seed to replicate bootstrapped estimates. If <code>NULL</code>, uses random seed.</p></td>
     </tr>
     <tr>
       <th>vcov.fun</th>

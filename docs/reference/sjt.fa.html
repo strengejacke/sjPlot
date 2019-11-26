@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.0.1</span>
       </span>
     </div>
 
@@ -196,12 +196,25 @@
                reliability test. The result is an alpha value for each factor dimension.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sjt.fa</span>(<span class='no'>data</span>, <span class='kw'>rotation</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"promax"</span>, <span class='st'>"varimax"</span>), <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ml"</span>,
-  <span class='st'>"minres"</span>, <span class='st'>"wls"</span>, <span class='st'>"gls"</span>, <span class='st'>"pa"</span>, <span class='st'>"minchi"</span>, <span class='st'>"minrank"</span>), <span class='kw'>nmbr.fctr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>fctr.load.tlrn</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Factor Analysis"</span>, <span class='kw'>var.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>40</span>, <span class='kw'>show.cronb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.comm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>sjt.fa</span>(
+  <span class='no'>data</span>,
+  <span class='kw'>rotation</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"promax"</span>, <span class='st'>"varimax"</span>),
+  <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"ml"</span>, <span class='st'>"minres"</span>, <span class='st'>"wls"</span>, <span class='st'>"gls"</span>, <span class='st'>"pa"</span>, <span class='st'>"minchi"</span>, <span class='st'>"minrank"</span>),
+  <span class='kw'>nmbr.fctr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>fctr.load.tlrn</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='st'>"Factor Analysis"</span>,
+  <span class='kw'>var.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>40</span>,
+  <span class='kw'>show.cronb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.comm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>file</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>use.viewer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>remove.spaces</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

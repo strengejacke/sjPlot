@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.0.1</span>
       </span>
     </div>
 
@@ -196,12 +196,24 @@
                an alpha value for each factor dimension.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sjp.pca</span>(<span class='no'>data</span>, <span class='kw'>rotation</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"varimax"</span>, <span class='st'>"quartimax"</span>, <span class='st'>"promax"</span>, <span class='st'>"oblimin"</span>,
-  <span class='st'>"simplimax"</span>, <span class='st'>"cluster"</span>, <span class='st'>"none"</span>), <span class='kw'>nmbr.fctr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>fctr.load.tlrn</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>plot.eigen</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bar"</span>, <span class='st'>"circle"</span>,
-  <span class='st'>"tile"</span>), <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.6</span>, <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"RdBu"</span>, <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>,
-  <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.cronb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>sjp.pca</span>(
+  <span class='no'>data</span>,
+  <span class='kw'>rotation</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"varimax"</span>, <span class='st'>"quartimax"</span>, <span class='st'>"promax"</span>, <span class='st'>"oblimin"</span>, <span class='st'>"simplimax"</span>, <span class='st'>"cluster"</span>,
+    <span class='st'>"none"</span>),
+  <span class='kw'>nmbr.fctr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>fctr.load.tlrn</span> <span class='kw'>=</span> <span class='fl'>0.1</span>,
+  <span class='kw'>plot.eigen</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='kw'>title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>axis.labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bar"</span>, <span class='st'>"circle"</span>, <span class='st'>"tile"</span>),
+  <span class='kw'>geom.size</span> <span class='kw'>=</span> <span class='fl'>0.6</span>,
+  <span class='kw'>geom.colors</span> <span class='kw'>=</span> <span class='st'>"RdBu"</span>,
+  <span class='kw'>wrap.title</span> <span class='kw'>=</span> <span class='fl'>50</span>,
+  <span class='kw'>wrap.labels</span> <span class='kw'>=</span> <span class='fl'>30</span>,
+  <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show.cronb</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

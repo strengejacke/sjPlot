@@ -57,12 +57,32 @@ m.mtcars <- lm(mpg ~ cyl + hp + wt, data = mtcars)
 tab_model(m.mtcars)
 ```
 
+If factors are involved and `auto.label = TRUE`, "pretty" parameters names are used (see [`format_parameters()`](https://easystats.github.io/parameters/reference/format_parameters.html).
+
+```{r}
+set.seed(2)
+dat <- data.frame(
+  y = runif(100, 0, 100),
+  drug = as.factor(sample(c("nonsense", "useful", "placebo"), 100, TRUE)),
+  group = as.factor(sample(c("control", "treatment"), 100, TRUE))
+)
+
+pretty_names <- lm(y ~ drug * group, data = dat)
+tab_model(pretty_names)
+```
+
 ### Turn off automatic labelling
 
 To turn off automatic labelling, use `auto.label = FALSE`, or provide an empty character vector for `pred.labels` and `dv.labels`.
 
 ```{r}
 tab_model(m1, auto.label = FALSE)
+```
+
+Same for models with non-labelled data and factors.
+
+```{r}
+tab_model(pretty_names, auto.label = FALSE)
 ```
 
 ## More than one model
