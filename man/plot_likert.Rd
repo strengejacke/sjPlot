@@ -236,7 +236,7 @@ six_cat_example = data.frame(
 
 \dontrun{
 six_cat_example <-
-  six_cat_example %>%
+  six_cat_example \%>\%
   dplyr::mutate_all(~ordered(.,labels = c("+++","++","+","-","--","---")))
 
 # Old default

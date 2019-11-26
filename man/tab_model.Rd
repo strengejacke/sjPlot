@@ -35,6 +35,9 @@ tab_model(
   pred.labels = NULL,
   dv.labels = NULL,
   wrap.labels = 25,
+  bootstrap = FALSE,
+  iterations = 1000,
+  seed = NULL,
   vcov.fun = NULL,
   vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
   vcov.args = NULL,
@@ -197,6 +200,12 @@ fitted models. See 'Examples'.}
 
 \item{wrap.labels}{Numeric, determines how many chars of the value, variable
 or axis labels are displayed in one line and when a line break is inserted.}
+
+\item{bootstrap}{Logical, if \code{TRUE}, returns bootstrapped estimates..}
+
+\item{iterations}{Numeric, number of bootsrap iterations (default is 1000).}
+
+\item{seed}{Numeric, the number of the seed to replicate bootstrapped estimates. If \code{NULL}, uses random seed.}
 
 \item{vcov.fun}{Character vector, indicating the name of the \code{vcov*()}-function
 from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust
