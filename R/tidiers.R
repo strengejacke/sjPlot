@@ -1,9 +1,10 @@
 #' @importFrom sjstats robust
 #' @importFrom stats qnorm pnorm
-tidy_model <- function(model, ci.lvl, tf, type, bpe, se, robust, facets, show.zeroinf, p.val, standardize = FALSE, ...) {
+tidy_model <- function(model, ci.lvl, tf, type, bpe, se, robust, facets, show.zeroinf,
+                       p.val, standardize = FALSE, bootstrap = bootstrap, iterations = iterations, seed = seed, ...) {
   if (!is.logical(standardize) && standardize == "") standardize <- NULL
   if (is.logical(standardize) && standardize == FALSE) standardize <- NULL
-  dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, standardize, ...)
+  dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, standardize, bootstrap, iterations, seed, ...)
 
   # get robust standard errors, if requestes, and replace former s.e.
 
@@ -28,9 +29,9 @@ tidy_model <- function(model, ci.lvl, tf, type, bpe, se, robust, facets, show.ze
 
 #' @importFrom effectsize standardize
 #' @importFrom parameters model_parameters standardize_names dof_kenward p_value_wald se_kenward
-get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, standardize, ...) {
+get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, standardize, bootstrap, iterations, seed, ...) {
   if (is.stan(model)) {
-    out <- tidy_stan_model(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, ...)
+    out <- tidy_stan_model(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, bootstrap, iterations, seed, ...)
   } else {
     if (!is.null(standardize)) {
       if (isTRUE(standardize)) standardize <- "std"
@@ -38,7 +39,8 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
     }
 
     component <- ifelse(show.zeroinf, "all", "conditional")
-    model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component)
+    if (!is.null(seed)) {set.seed(seed = seed)}
+    model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations)
     out <- parameters::standardize_names(model_params, style = "broom")
 
     column <- which(colnames(out) == "response")
