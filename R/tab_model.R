@@ -982,7 +982,11 @@ tab_model <- function(
         models = models
       )
     } else {
-      pred.labels <- unique(unlist(lapply(models, parameters::format_parameters)))
+      pred.labels <- NULL
+      for (pl_counter in 1:length(models)) {
+        pred.labels <- c(pred.labels, parameters::format_parameters(models[[pl_counter]]))
+      }
+      pred.labels <- pred.labels[!duplicated(names(pred.labels))]
       show.reflvl <- FALSE
     }
   } else {
