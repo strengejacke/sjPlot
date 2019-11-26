@@ -8,7 +8,7 @@ Authors@R: c(
     person("Alexander", "Bartel", role = "ctb", comment = c(ORCID = "0000-0002-1280-6138")),
     person("Carsten", "Schwemmer", email = "carsten.schwemmer@uni-bamberg.de", role = "ctb"),
     person(given = "Chuck", family = "Powell", role = "ctb", email = "ibecav@gmail.com", comment = c(ORCID = "0000-0002-3606-2188")), 
-    person(given = "Amir", family = "Djalovski", role = "ctb", email = "Amir.DJV@gmail.com"))
+    person(given = "Amir", family = "Djalovski", role = "ctb", email = "Amir.DJV@gmail.com")
           )
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Collection of plotting and table output functions for data
