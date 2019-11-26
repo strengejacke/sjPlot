@@ -1,5 +1,9 @@
 # sjPlot 2.8.1
 
+## Changes to functions
+
+* `tab_model()` gets arguments `bootstrap`, `iterations` and `seed` to return bootstrapped estimates.
+
 ## Bug fixes
 
 * Fixed issue in `tab_model()` with detecting labels when `auto.label = TRUE`.
