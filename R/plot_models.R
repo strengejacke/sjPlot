@@ -164,6 +164,9 @@ plot_models <- function(...,
       show.zeroinf = FALSE,
       p.val = "wald",
       standardize = std_method,
+      bootstrap = FALSE,
+      iterations = 1000,
+      seed = NULL,
       ...
     )
   )

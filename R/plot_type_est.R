@@ -61,6 +61,9 @@ plot_type_est <- function(type,
       show.zeroinf = show.zeroinf,
       p.val = "wald",
       standardize = std_method,
+      bootstrap = FALSE,
+      iterations = 1000,
+      seed = NULL,
       ...
     )
 
