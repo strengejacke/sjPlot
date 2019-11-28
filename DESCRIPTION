@@ -61,6 +61,7 @@ Suggests:
     ggridges,
     httr,
     pscl,
+    rmarkdown,
     rstanarm,
     survey,
     TMB,
