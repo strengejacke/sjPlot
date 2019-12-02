@@ -47,6 +47,12 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
     model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations)
     out <- parameters::standardize_names(model_params, style = "broom")
 
+    # remove special components
+    if ("component" %in% colnames(out) && "precision" %in% out$component) {
+      out <- out[out$component != "precision", ]
+      out$component <- NULL
+    }
+
     column <- which(colnames(out) == "response")
     if (length(column)) colnames(out)[column] <- ifelse(isTRUE(facets), "facet", "response.level")
 
