@@ -68,7 +68,14 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
         {
           dof <- parameters::dof_kenward(model)
           out$p.value <- parameters::p_value_wald(model, dof = dof)[["p"]]
-          out$std.error <- parameters::se_kenward(model)
+
+          ## TODO fix once parameters 0.4.0 is on CRAN
+          se_kr <- parameters::se_kenward(model)
+          if (is.data.frame(se_kr))
+            out$std.error <- se_kr[["SE"]]
+          else
+            out$std.error <- se_kr
+
           out$df <- dof
           out$statistic <- out$estimate / out$std.error
           out
