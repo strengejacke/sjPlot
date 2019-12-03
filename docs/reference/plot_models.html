@@ -78,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.1</span>
       </span>
     </div>
 
@@ -469,7 +469,7 @@ details.</p></td>
 <span class='no'>fit3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>tot_sc_e</span> ~ <span class='no'>c160age</span> + <span class='no'>c12hour</span> + <span class='no'>c161sex</span> + <span class='no'>c172code</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>)
 
 <span class='co'># plot multiple models</span>
-<span class='fu'>plot_models</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit3</span>, <span class='kw'>grid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='error'>Error in if (bootstrap) {    parameters &lt;- parameters_bootstrap(model, iterations = iterations,         ci = ci, ...)} else {    parameters &lt;- if (is.null(comp_argument)) {        .extract_parameters_generic(model, ci = ci, component = "conditional",             merge_by = merge_by, standardize = standardize, ...)    }    else {        .extract_parameters_generic(model, ci = ci, merge_by = merge_by,             standardize = standardize, ...)    }}: argument is not interpretable as logical</span></div><div class='input'>
+<span class='fu'>plot_models</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit3</span>, <span class='kw'>grid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot_models-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot multiple models with legend labels and</span>
 <span class='co'># point shapes instead of value labels</span>
 <span class='fu'>plot_models</span>(
@@ -479,21 +479,21 @@ details.</p></td>
   ),
   <span class='kw'>m.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Barthel Index"</span>, <span class='st'>"Negative Impact"</span>, <span class='st'>"Services used"</span>),
   <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.p</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>p.shape</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='error'>Error in if (bootstrap) {    parameters &lt;- parameters_bootstrap(model, iterations = iterations,         ci = ci, ...)} else {    parameters &lt;- if (is.null(comp_argument)) {        .extract_parameters_generic(model, ci = ci, component = "conditional",             merge_by = merge_by, standardize = standardize, ...)    }    else {        .extract_parameters_generic(model, ci = ci, merge_by = merge_by,             standardize = standardize, ...)    }}: argument is not interpretable as logical</span></div><div class='input'>
+)</div><div class='img'><img src='plot_models-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot multiple models from nested lists argument</span>
 <span class='no'>all.models</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
 <span class='no'>all.models</span><span class='kw'>[[</span><span class='fl'>1</span>]] <span class='kw'>&lt;-</span> <span class='no'>fit1</span>
 <span class='no'>all.models</span><span class='kw'>[[</span><span class='fl'>2</span>]] <span class='kw'>&lt;-</span> <span class='no'>fit2</span>
 <span class='no'>all.models</span><span class='kw'>[[</span><span class='fl'>3</span>]] <span class='kw'>&lt;-</span> <span class='no'>fit3</span>
 
-<span class='fu'>plot_models</span>(<span class='no'>all.models</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='error'>Error in if (bootstrap) {    parameters &lt;- parameters_bootstrap(model, iterations = iterations,         ci = ci, ...)} else {    parameters &lt;- if (is.null(comp_argument)) {        .extract_parameters_generic(model, ci = ci, component = "conditional",             merge_by = merge_by, standardize = standardize, ...)    }    else {        .extract_parameters_generic(model, ci = ci, merge_by = merge_by,             standardize = standardize, ...)    }}: argument is not interpretable as logical</span></div><div class='input'>
+<span class='fu'>plot_models</span>(<span class='no'>all.models</span>)</div><div class='img'><img src='plot_models-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot multiple models with different predictors (stepwise inclusion),</span>
 <span class='co'># standardized estimates</span>
 <span class='no'>fit1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>wt</span> + <span class='no'>cyl</span> + <span class='no'>disp</span> + <span class='no'>gear</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>mtcars</span>)
 <span class='no'>fit2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='no'>fit1</span>, <span class='no'>.</span> ~ <span class='no'>.</span> + <span class='no'>hp</span>)
 <span class='no'>fit3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='no'>fit2</span>, <span class='no'>.</span> ~ <span class='no'>.</span> + <span class='no'>am</span>)
 
-<span class='fu'>plot_models</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit3</span>, <span class='kw'>std.est</span> <span class='kw'>=</span> <span class='st'>"std2"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: the condition has length &gt; 1 and only the first element will be used</span></div><div class='output co'>#&gt; <span class='error'>Error in if (bootstrap) {    parameters &lt;- parameters_bootstrap(model, iterations = iterations,         ci = ci, ...)} else {    parameters &lt;- if (is.null(comp_argument)) {        .extract_parameters_generic(model, ci = ci, component = "conditional",             merge_by = merge_by, standardize = standardize, ...)    }    else {        .extract_parameters_generic(model, ci = ci, merge_by = merge_by,             standardize = standardize, ...)    }}: argument is not interpretable as logical</span></div><div class='input'>
+<span class='fu'>plot_models</span>(<span class='no'>fit1</span>, <span class='no'>fit2</span>, <span class='no'>fit3</span>, <span class='kw'>std.est</span> <span class='kw'>=</span> <span class='st'>"std2"</span>)</div><div class='output co'>#&gt; <span class='message'>Variable `am` contains only two different values. Consider converting it to a factor.</span></div><div class='img'><img src='plot_models-4.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
