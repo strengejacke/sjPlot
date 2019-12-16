@@ -164,7 +164,7 @@ tab_df_content <- function(
         arcstring,
         mcc,
         ccnt,
-        mydf[rcnt, ccnt])
+        mydf[[ccnt]][rcnt])
       )
     }
 
