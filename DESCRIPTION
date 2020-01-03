@@ -41,7 +41,7 @@ Imports:
     magrittr,
     MASS,
     modelr,
-    parameters (>= 0.2.0),
+    parameters (>= 0.3.0),
     performance (>= 0.4.0),
     psych,
     purrr,
@@ -69,5 +69,5 @@ Suggests:
     testthat
 URL: https://strengejacke.github.io/sjPlot/
 BugReports: https://github.com/strengejacke/sjPlot/issues
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2
 VignetteBuilder: knitr

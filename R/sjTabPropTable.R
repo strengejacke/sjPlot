@@ -98,7 +98,7 @@
 #' )
 #'
 #' @importFrom stats ftable
-#' @importFrom sjstats xtab_statistics table_values
+#' @importFrom sjstats crosstable_statistics table_values
 #' @export
 sjt.xtab <- function(var.row,
                      var.col,
@@ -433,14 +433,14 @@ sjt.xtab <- function(var.row,
 
     if (!is.null(weight.by)) {
       xtsdf$weights <- weight.by
-      xt_stat <- sjstats::xtab_statistics(
+      xt_stat <- sjstats::crosstable_statistics(
         data = xtsdf,
         weights = "weights",
         statistics = statistics,
         ...
       )
     } else {
-      xt_stat <- sjstats::xtab_statistics(
+      xt_stat <- sjstats::crosstable_statistics(
         data = xtsdf,
         statistics = statistics,
         ...

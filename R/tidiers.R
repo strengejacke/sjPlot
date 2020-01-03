@@ -12,6 +12,7 @@ tidy_model <- function(
   # get robust standard errors, if requestes, and replace former s.e.
 
   if (!is.null(robust) && !is.null(robust$vcov.fun) && obj_has_name(dat, "std.error")) {
+    ## TODO use robust from model_parameters()
     std.err <- sjstats::robust(model, vcov.fun = robust$vcov.fun, vcov.type = robust$vcov.type, vcov.args = robust$vcov.args)
     dat[["std.error"]] <- std.err[["std.error"]]
 
