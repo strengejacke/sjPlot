@@ -1,39 +1,14 @@
 #' @importFrom sjstats robust
 #' @importFrom stats qnorm pnorm
+#' @importFrom effectsize standardize
+#' @importFrom parameters model_parameters standardize_names dof_kenward p_value_wald se_kenward
 tidy_model <- function(
-  model, ci.lvl, tf, type, bpe, se, robust, facets, show.zeroinf, p.val,
+  model, ci.lvl, tf, type, bpe, robust, facets, show.zeroinf, p.val,
   standardize = FALSE, bootstrap = FALSE, iterations = 1000, seed = NULL, ...) {
 
   if (!is.logical(standardize) && standardize == "") standardize <- NULL
   if (is.logical(standardize) && standardize == FALSE) standardize <- NULL
 
-  dat <- get_tidy_data(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, standardize, bootstrap, iterations, seed, ...)
-
-  # get robust standard errors, if requestes, and replace former s.e.
-
-  if (!is.null(robust) && !is.null(robust$vcov.fun) && obj_has_name(dat, "std.error")) {
-    ## TODO use robust from model_parameters()
-    std.err <- sjstats::robust(model, vcov.fun = robust$vcov.fun, vcov.type = robust$vcov.type, vcov.args = robust$vcov.args)
-    dat[["std.error"]] <- std.err[["std.error"]]
-
-    # also fix CI and p-value after robust SE
-    ci <- .get_confint(ci.lvl)
-
-    dat$conf.low <- dat$estimate - stats::qnorm(ci) * dat$std.error
-    dat$conf.high <- dat$estimate + stats::qnorm(ci) * dat$std.error
-
-    if (obj_has_name(dat, "p.value")) {
-      dat$p.value <- 2 * stats::pnorm(abs(dat$estimate / dat$std.error), lower.tail = FALSE)
-    }
-  }
-
-  dat
-}
-
-
-#' @importFrom effectsize standardize
-#' @importFrom parameters model_parameters standardize_names dof_kenward p_value_wald se_kenward
-get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.val, standardize, bootstrap, iterations, seed, ...) {
   if (is.stan(model)) {
     out <- tidy_stan_model(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, ...)
   } else {
@@ -45,7 +20,12 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
       set.seed(seed)
     }
     component <- ifelse(show.zeroinf & insight::model_info(model)$is_zero_inflated, "all", "conditional")
-    model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations)
+
+    if (!is.null(robust) && !is.null(robust$vcov.fun)) {
+      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, robust = TRUE, vcov.fun = robust$vcov.fun, vcov.type = robust$vcov.type, vcov.args = robust$vcov.args, ...)
+    } else {
+      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations)
+    }
     out <- parameters::standardize_names(model_params, style = "broom")
 
     column <- which(colnames(out) == "response")
@@ -67,17 +47,9 @@ get_tidy_data <- function(model, ci.lvl, tf, type, bpe, facets, show.zeroinf, p.
     if (is_merMod(model) && !is.null(p.val) && p.val == "kr") {
       out <- tryCatch(
         {
-          dof <- parameters::dof_kenward(model)
-          out$p.value <- parameters::p_value_wald(model, dof = dof)[["p"]]
-
-          ## TODO fix once parameters 0.4.0 is on CRAN
-          se_kr <- parameters::se_kenward(model)
-          if (is.data.frame(se_kr))
-            out$std.error <- se_kr[["SE"]]
-          else
-            out$std.error <- se_kr
-
-          out$df <- dof
+          out$df <- parameters::dof_kenward(model)
+          out$p.value <- parameters::p_value_wald(model, dof = out$df)[["p"]]
+          out$std.error <- parameters::se_kenward(model)[["SE"]]
           out$statistic <- out$estimate / out$std.error
           out
         },
