@@ -1,3 +1,9 @@
+# sjPlot 2.8.2
+
+## Bug fixes
+
+* Improved `tab_df()` now uses value labels for factors instead of numeric values.
+
 # sjPlot 2.8.1
 
 ## Changes to functions
