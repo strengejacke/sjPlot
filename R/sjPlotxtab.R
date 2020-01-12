@@ -76,7 +76,6 @@
 #'
 #' @import ggplot2
 #' @importFrom dplyr group_by mutate arrange filter select summarize
-#' @importFrom tidyr gather
 #' @importFrom scales percent
 #' @importFrom stats na.omit
 #' @export
@@ -241,7 +240,7 @@ plot_xtab <- function(x,
   # -----------------------------------------------
   # tidy data
   #---------------------------------------------------
-  mydf <- tidyr::gather(myptab, "group", "prc", !! 2:(grpcount + 1), factor_key = TRUE)
+  mydf <- .gather(myptab, names_to = "group", values_to = "prc", columns = 2:(grpcount + 1))
   # -----------------------------------------------
   # add total column and row to n-values
   #---------------------------------------------------
@@ -252,7 +251,7 @@ plot_xtab <- function(x,
   # -----------------------------------------------
   # add n-values to tidy data frame
   #---------------------------------------------------
-  dummydf <- tidyr::gather(mydat$mydat, "group", "n", !! 2:(grpcount + 1), factor_key = TRUE)
+  dummydf <- .gather(mydat$mydat, names_to = "group", values_to = "n", columns = 2:(grpcount + 1))
   mydf$n <- as.numeric(dummydf$n)
   # -----------------------------------------------
   # remove total for row and column index
