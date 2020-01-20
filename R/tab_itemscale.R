@@ -1,5 +1,5 @@
 #' @title Summary of item analysis of an item scale as HTML table
-#' @name sjt.itemanalysis
+#' @name tab_itemscale
 #'
 #' @description This function performs an item analysis with certain statistics that are
 #'                useful for scale or index development. The resulting tables are shown in the
@@ -57,7 +57,7 @@
 #'
 #' @inheritParams tab_model
 #' @inheritParams view_df
-#' @inheritParams sjt.xtab
+#' @inheritParams tab_xtab
 #' @inheritParams tab_df
 #'
 #' @return Invisibly returns
@@ -107,18 +107,18 @@
 #' colnames(mydf) <- varlabs[start:end]
 #'
 #' \dontrun{
-#' sjt.itemanalysis(mydf)
+#' tab_itemscale(mydf)
 #'
 #' # auto-detection of labels
-#' sjt.itemanalysis(efc[, start:end])
+#' tab_itemscale(efc[, start:end])
 #'
 #' # Compute PCA on Cope-Index, and perform a
 #' # item analysis for each extracted factor.
 #' indices <- sjt.pca(mydf)$factor.index
-#' sjt.itemanalysis(mydf, factor.groups = indices)
+#' tab_itemscale(mydf, factor.groups = indices)
 #'
 #' # or, equivalent
-#' sjt.itemanalysis(mydf, factor.groups = "auto")}
+#' tab_itemscale(mydf, factor.groups = "auto")}
 #'
 #' @importFrom psych describe
 #' @importFrom stats shapiro.test na.omit
@@ -128,7 +128,7 @@
 #' @importFrom sjmisc std
 #' @importFrom sjlabelled set_label
 #' @export
-sjt.itemanalysis <- function(df,
+tab_itemscale <- function(df,
                              factor.groups = NULL,
                              factor.groups.titles = "auto",
                              scale = FALSE,
@@ -368,3 +368,8 @@ sjt.itemanalysis <- function(df,
 
   html
 }
+
+
+#' @rdname tab_itemscale
+#' @export
+sjt.itemanalysis <- tab_itemscale

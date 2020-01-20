@@ -38,8 +38,8 @@ reference:
 - title: "Descriptive Statistics Tables"
   contents:
   - tab_stackfrq
+  - tab_xtab
   - sjt.corr
-  - sjt.xtab
 
 - title: "Generate Tables from Data Frames, Codebooks"
   contents:
@@ -48,11 +48,9 @@ reference:
 
 - title: "Variable/Feature Reduction"
   contents:
-  - sjp.fa
   - sjt.fa
-  - sjp.pca
   - sjt.pca
-  - sjt.itemanalysis
+  - tab_itemscale
 
 - title: "Plot Customization"
   contents:

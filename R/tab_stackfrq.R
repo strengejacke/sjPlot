@@ -26,8 +26,8 @@
 #'          Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.
 #'
 #' @inheritParams tab_df
-#' @inheritParams sjt.itemanalysis
-#' @inheritParams sjt.xtab
+#' @inheritParams tab_itemscale
+#' @inheritParams tab_xtab
 #' @inheritParams plot_grpfrq
 #' @inheritParams plot_stackfrq
 #'

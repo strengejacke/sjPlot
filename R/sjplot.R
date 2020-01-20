@@ -39,7 +39,7 @@
 #'             \item{\code{"stackfrq"}}{calls \code{\link{tab_stackfrq}}.
 #'             \code{data} must be a data frame with items to create the table.
 #'             }
-#'             \item{\code{"xtab"}}{calls \code{\link{plot_xtab}} or \code{\link{sjt.xtab}}.
+#'             \item{\code{"xtab"}}{calls \code{\link{plot_xtab}} or \code{\link{tab_xtab}}.
 #'             The first two variables in \code{data} are used (and required)
 #'             to create the plot or table.
 #'             }
@@ -314,7 +314,7 @@ tab_sj <- function(x, fun, args) {
   # choose plottype, and call plot-function with or w/o additional arguments
   if (sjmisc::is_empty(args)) {
     if (fun  == "xtab") {
-      sjt.xtab(x[[1]], x[[2]])
+      tab_xtab(x[[1]], x[[2]])
     } else if (fun  == "stackfrq") {
       tab_stackfrq(x)
     }
@@ -322,7 +322,7 @@ tab_sj <- function(x, fun, args) {
     if (fun  == "stackfrq") {
       do.call(tab_stackfrq, args = c(list(items = x), args))
     } else if (fun  == "xtab") {
-      do.call(sjt.xtab, args = c(list(var.row = x[[1]], var.col = x[[2]]), args))
+      do.call(tab_xtab, args = c(list(var.row = x[[1]], var.col = x[[2]]), args))
     }
   }
 }

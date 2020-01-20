@@ -1,5 +1,5 @@
 #' @title Summary of contingency tables as HTML table
-#' @name sjt.xtab
+#' @name tab_xtab
 #'
 #' @description Shows contingency tables as HTML file in browser or viewer pane, or saves them as file.
 #'
@@ -65,11 +65,11 @@
 #'
 #' # print simple cross table with labels
 #' \dontrun{
-#' sjt.xtab(efc$e16sex, efc$e42dep)
+#' tab_xtab(efc$e16sex, efc$e42dep)
 #'
 #' # print cross table with manually set
 #' # labels and expected values
-#' sjt.xtab(
+#' tab_xtab(
 #'   efc$e16sex,
 #'   efc$e42dep,
 #'   var.labels = c("Elder's gender", "Elder's dependency"),
@@ -77,19 +77,19 @@
 #' )
 #'
 #' # print minimal cross table with labels, total col/row highlighted
-#' sjt.xtab(efc$e16sex, efc$e42dep, show.cell.prc = FALSE, emph.total = TRUE)
+#' tab_xtab(efc$e16sex, efc$e42dep, show.cell.prc = FALSE, emph.total = TRUE)
 #'
 #' # User defined style sheet
-#' sjt.xtab(efc$e16sex, efc$e42dep,
+#' tab_xtab(efc$e16sex, efc$e42dep,
 #'          CSS = list(css.table = "border: 2px solid;",
 #'                     css.tdata = "border: 1px solid;",
 #'                     css.horline = "border-bottom: double blue;"))}
 #'
 #' # ordinal data, use Kendall's tau
-#' sjt.xtab(efc$e42dep, efc$quol_5, statistics = "kendall")
+#' tab_xtab(efc$e42dep, efc$quol_5, statistics = "kendall")
 #'
 #' # calculate Spearman's rho, with continuity correction
-#' sjt.xtab(
+#' tab_xtab(
 #'   efc$e42dep,
 #'   efc$quol_5,
 #'   statistics = "spearman",
@@ -100,7 +100,7 @@
 #' @importFrom stats ftable
 #' @importFrom sjstats crosstable_statistics table_values
 #' @export
-sjt.xtab <- function(var.row,
+tab_xtab <- function(var.row,
                      var.col,
                      weight.by = NULL,
                      title = NULL,
@@ -582,3 +582,8 @@ sjt.xtab <- function(var.row,
                            file = file,
                            viewer = use.viewer))
 }
+
+
+#' @rdname tab_xtab
+#' @export
+sjt.xtab <- tab_xtab

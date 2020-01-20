@@ -13,7 +13,7 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 ```
 
-This document shows examples for using the `sjt.itemanalysis()` function of the sjPlot package.
+This document shows examples for using the `tab_itemscale()` function of the sjPlot package.
 
 ## Performing an item analysis of a scale or index
 
@@ -51,7 +51,7 @@ mydf <- dplyr::select(efc, contains("cop"))
 The simplest function call is just passing the data frame as argument. In this case, the function assumes that all variables of the data frame belong to one factor only.
 
 ```{r}
-sjt.itemanalysis(mydf)
+tab_itemscale(mydf)
 ```
 
 To interprete the output, we may consider following values as rule-of-thumbs for indicating a reliable scale:
@@ -70,19 +70,19 @@ The items of the COPE index used for our example do not represent a single facto
 factor.groups <- sjt.pca(mydf)$factor.index
 ```
 
-The PCA extracted two components. Now `sjt.itemanalysis()` ...
+The PCA extracted two components. Now `tab_itemscale()` ...
 
 1. performs an item analysis on both components, showing whether each of them is a reliable and useful scale or index score
 2. builds an index of each component, by standardizing each scale
 3. and adds a component-correlation-matrix, to see whether the index scores (which are based on the components) are highly correlated or not.
 
 ```{r}
-sjt.itemanalysis(mydf, factor.groups)
+tab_itemscale(mydf, factor.groups)
 ```
 
 ## Adding further statistics
 
 ```{r}
-sjt.itemanalysis(mydf, factor.groups, show.shapiro = TRUE, show.kurtosis = TRUE)
+tab_itemscale(mydf, factor.groups, show.shapiro = TRUE, show.kurtosis = TRUE)
 ```
 

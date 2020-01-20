@@ -57,7 +57,7 @@ utils::globalVariables("density")
 #'
 #' @inheritParams plot_scatter
 #' @inheritParams plot_grpfrq
-#' @inheritParams sjt.xtab
+#' @inheritParams tab_xtab
 #'
 #' @return A ggplot-object.
 #'

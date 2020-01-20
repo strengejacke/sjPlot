@@ -37,7 +37,7 @@
 #' @inheritParams tab_model
 #' @inheritParams view_df
 #' @inheritParams tab_df
-#' @inheritParams sjt.xtab
+#' @inheritParams tab_xtab
 #' @inheritParams plot_grpfrq
 #' @inheritParams sjt.corr
 #'

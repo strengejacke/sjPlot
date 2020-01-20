@@ -45,7 +45,7 @@ Following \code{fun}-values are currently supported:
             \item{\code{"stackfrq"}}{calls \code{\link{tab_stackfrq}}.
             \code{data} must be a data frame with items to create the table.
             }
-            \item{\code{"xtab"}}{calls \code{\link{plot_xtab}} or \code{\link{sjt.xtab}}.
+            \item{\code{"xtab"}}{calls \code{\link{plot_xtab}} or \code{\link{tab_xtab}}.
             The first two variables in \code{data} are used (and required)
             to create the plot or table.
             }

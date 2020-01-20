@@ -24,7 +24,7 @@
 #'          this argument is \code{NULL} and the diagnal cells are empty.
 #'
 #' @inheritParams tab_model
-#' @inheritParams sjt.xtab
+#' @inheritParams tab_xtab
 #' @inheritParams plot_grpfrq
 #' @inheritParams sjp.corr
 #'

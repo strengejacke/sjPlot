@@ -43,7 +43,7 @@
 #'
 #' @inheritParams tab_df
 #' @inheritParams tab_model
-#' @inheritParams sjt.xtab
+#' @inheritParams tab_xtab
 #' @inheritParams plot_grpfrq
 #'
 #' @return Invisibly returns
