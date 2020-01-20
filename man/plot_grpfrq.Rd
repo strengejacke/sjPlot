@@ -2,57 +2,9 @@
 % Please edit documentation in R/sjPlotGroupFrequencies.R
 \name{plot_grpfrq}
 \alias{plot_grpfrq}
-\alias{sjp.grpfrq}
 \title{Plot grouped or stacked frequencies}
 \usage{
 plot_grpfrq(
-  var.cnt,
-  var.grp,
-  type = c("bar", "dot", "line", "boxplot", "violin"),
-  bar.pos = c("dodge", "stack"),
-  weight.by = NULL,
-  intr.var = NULL,
-  title = "",
-  title.wtd.suffix = NULL,
-  legend.title = NULL,
-  axis.titles = NULL,
-  axis.labels = NULL,
-  legend.labels = NULL,
-  intr.var.labels = NULL,
-  wrap.title = 50,
-  wrap.labels = 15,
-  wrap.legend.title = 20,
-  wrap.legend.labels = 20,
-  geom.size = NULL,
-  geom.spacing = 0.15,
-  geom.colors = "Paired",
-  show.values = TRUE,
-  show.n = TRUE,
-  show.prc = TRUE,
-  show.axis.values = TRUE,
-  show.ci = FALSE,
-  show.grpcnt = FALSE,
-  show.legend = TRUE,
-  show.na = FALSE,
-  show.summary = FALSE,
-  drop.empty = TRUE,
-  auto.group = NULL,
-  ylim = NULL,
-  grid.breaks = NULL,
-  expand.grid = FALSE,
-  inner.box.width = 0.15,
-  inner.box.dotsize = 3,
-  smooth.lines = FALSE,
-  emph.dots = TRUE,
-  summary.pos = "r",
-  facet.grid = FALSE,
-  coord.flip = FALSE,
-  y.offset = NULL,
-  vjust = "bottom",
-  hjust = "center"
-)
-
-sjp.grpfrq(
   var.cnt,
   var.grp,
   type = c("bar", "dot", "line", "boxplot", "violin"),
