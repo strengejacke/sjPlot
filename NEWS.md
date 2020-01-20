@@ -1,5 +1,14 @@
 # sjPlot 2.8.2
 
+## Function renaming
+
+* `sjt.itemanalysis()` is now named `tab_itemscale()`.
+* `sjt.xtab()` is now named `tab_xtab()`.
+
+## Changes to functions
+
+* Improved handling for `tab_model()` of robust estimation in general and Kenward-Roger or Satterthwaite approximations in particular for linear mixed models.
+
 ## Bug fixes
 
 * Improved `tab_df()` now uses value labels for factors instead of numeric values.

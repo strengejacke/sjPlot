@@ -148,7 +148,7 @@
 
     
     
-<p>This document shows examples for using the <code><a href="../reference/sjt.itemanalysis.html">sjt.itemanalysis()</a></code> function of the sjPlot package.</p>
+<p>This document shows examples for using the <code><a href="../reference/tab_itemscale.html">tab_itemscale()</a></code> function of the sjPlot package.</p>
 <div id="performing-an-item-analysis-of-a-scale-or-index" class="section level2">
 <h2 class="hasAnchor">
 <a href="#performing-an-item-analysis-of-a-scale-or-index" class="anchor"></a>Performing an item analysis of a scale or index</h2>
@@ -175,7 +175,7 @@
 <h2 class="hasAnchor">
 <a href="#index-score-with-one-component" class="anchor"></a>Index score with one component</h2>
 <p>The simplest function call is just passing the data frame as argument. In this case, the function assumes that all variables of the data frame belong to one factor only.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="../reference/sjt.itemanalysis.html">sjt.itemanalysis</a></span>(mydf)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span>(mydf)</a></code></pre></div>
 <table class="table">
 <caption style="font-weight: bold; text-align:left;">
 Component 1
@@ -460,13 +460,13 @@ Mean inter-item-correlation=0.092 · Cronbach’s α=0.459
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># Compute PCA on Cope-Index, and retrieve </span></a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="co"># factor indices for each COPE index variable</span></a>
 <a class="sourceLine" id="cb2-3" title="3">factor.groups &lt;-<span class="st"> </span><span class="kw"><a href="../reference/sjt.pca.html">sjt.pca</a></span>(mydf)<span class="op">$</span>factor.index</a></code></pre></div>
-<p>The PCA extracted two components. Now <code><a href="../reference/sjt.itemanalysis.html">sjt.itemanalysis()</a></code> …</p>
+<p>The PCA extracted two components. Now <code><a href="../reference/tab_itemscale.html">tab_itemscale()</a></code> …</p>
 <ol style="list-style-type: decimal">
 <li>performs an item analysis on both components, showing whether each of them is a reliable and useful scale or index score</li>
 <li>builds an index of each component, by standardizing each scale</li>
 <li>and adds a component-correlation-matrix, to see whether the index scores (which are based on the components) are highly correlated or not.</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/sjt.itemanalysis.html">sjt.itemanalysis</a></span>(mydf, factor.groups)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span>(mydf, factor.groups)</a></code></pre></div>
 <table class="table">
 <caption style="font-weight: bold; text-align:left;">
 Component 1
@@ -823,7 +823,7 @@ Computed correlation used pearson-method with listwise-deletion.
 <div id="adding-further-statistics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#adding-further-statistics" class="anchor"></a>Adding further statistics</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/sjt.itemanalysis.html">sjt.itemanalysis</a></span>(mydf, factor.groups, <span class="dt">show.shapiro =</span> <span class="ot">TRUE</span>, <span class="dt">show.kurtosis =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span>(mydf, factor.groups, <span class="dt">show.shapiro =</span> <span class="ot">TRUE</span>, <span class="dt">show.kurtosis =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <table class="table">
 <caption style="font-weight: bold; text-align:left;">
 Component 1
