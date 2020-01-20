@@ -63,7 +63,7 @@
 #' @param show.se Logical, if \code{TRUE}, the standard errors are
 #'   also printed. If robust standard errors are required, use arguments
 #'   \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
-#'   \code{\link[sjstats]{robust}} for details).
+#'   \code{\link[parameters]{standard_error_robust}} for details).
 #' @param show.r2 Logical, if \code{TRUE}, the r-squared value is also printed.
 #'    Depending on the model, these might be pseudo-r-squared values, or Bayesian
 #'    r-squared etc. See \code{\link[performance]{r2}} for details.
@@ -71,7 +71,7 @@
 #'    is also printed.
 #' @param show.df Logical, if \code{TRUE} and \code{p.val = "kr"}, the p-values
 #'    for linear mixed models are based on df with Kenward-Rogers approximation.
-#'    These df-values are printed. See \code{\link[sjstats]{p_value}} for details.
+#'    These df-values are printed. See \code{\link[parameters]{p_value}} for details.
 #' @param string.pred Character vector,used as headline for the predictor column.
 #'    Default is \code{"Predictors"}.
 #' @param string.est Character vector, used for the column heading of coefficients.
@@ -132,10 +132,12 @@
 #'    Table columns are printed in the order as they appear in \code{col.order}.
 #' @param p.val Character, for mixed models, indicates how p-values are computed.
 #'   Use \code{p.val = "wald"} for a faster, but less precise computation. For
-#'   \code{p.val = "kr"}, computation of p-values is based on conditional F-tests
-#'   with Kenward-Roger approximation for the degrees of freedom, using the
-#'   \pkg{pbkrtest}-package. In this case, use \code{show.df = TRUE} to show
-#'   the approximated degrees of freedom for each coefficient.
+#'   \code{p.val = "kenward"} (or \code{p.val = "kr"}), computation of p-values
+#'   is based on conditional F-tests with Kenward-Roger approximation for the
+#'   degrees of freedom. \code{p.val = "satterthwaite"} uses Satterthwaite's
+#'   approximation (see \code{\link[parameters]{dof_kenward}} and \code{\link[parameters]{dof_satterthwaite}}
+#'   for details). In the latter cases, use \code{show.df = TRUE} to show the
+#'   approximated degrees of freedom for each coefficient.
 #' @param p.style Character, indicating if p-values should be printed as
 #'   numeric value (\code{"numeric"}), as asterisks (\code{"asterisk"})
 #'   or both (\code{"both"}). May be abbreviated.
@@ -299,7 +301,7 @@ tab_model <- function(
   digits = 2,
   digits.p = 3,
   emph.p = TRUE,
-  p.val = c("wald", "kr"),
+  p.val = c("wald", "kenward", "kr", "satterthwaite"),
   p.style = c("numeric", "asterisk", "both"),
   p.threshold = c(0.05, 0.01, 0.001),
 
@@ -425,7 +427,6 @@ tab_model <- function(
         bootstrap = bootstrap,
         iterations = iterations,
         seed = seed
-
       )
 
 

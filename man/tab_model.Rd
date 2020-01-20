@@ -64,7 +64,7 @@ tab_model(
   digits = 2,
   digits.p = 3,
   emph.p = TRUE,
-  p.val = c("wald", "kr"),
+  p.val = c("wald", "kenward", "kr", "satterthwaite"),
   p.style = c("numeric", "asterisk", "both"),
   p.threshold = c(0.05, 0.01, 0.001),
   case = "parsed",
@@ -102,7 +102,7 @@ credible interval is added to the table output.}
 \item{show.se}{Logical, if \code{TRUE}, the standard errors are
 also printed. If robust standard errors are required, use arguments
 \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
-\code{\link[sjstats]{robust}} for details).}
+\code{\link[parameters]{standard_error_robust}} for details).}
 
 \item{show.std}{Indicates whether standardized beta-coefficients should
 also printed, and if yes, which type of standardization is done.
@@ -115,7 +115,7 @@ is also printed.}
 
 \item{show.df}{Logical, if \code{TRUE} and \code{p.val = "kr"}, the p-values
 for linear mixed models are based on df with Kenward-Rogers approximation.
-These df-values are printed. See \code{\link[sjstats]{p_value}} for details.}
+These df-values are printed. See \code{\link[parameters]{p_value}} for details.}
 
 \item{show.zeroinf}{Logical, if \code{TRUE} and model has a zero-inflated
 model part, this is also printed to the table.}
@@ -284,10 +284,12 @@ Table columns are printed in the order as they appear in \code{col.order}.}
 
 \item{p.val}{Character, for mixed models, indicates how p-values are computed.
 Use \code{p.val = "wald"} for a faster, but less precise computation. For
-\code{p.val = "kr"}, computation of p-values is based on conditional F-tests
-with Kenward-Roger approximation for the degrees of freedom, using the
-\pkg{pbkrtest}-package. In this case, use \code{show.df = TRUE} to show
-the approximated degrees of freedom for each coefficient.}
+\code{p.val = "kenward"} (or \code{p.val = "kr"}), computation of p-values
+is based on conditional F-tests with Kenward-Roger approximation for the
+degrees of freedom. \code{p.val = "satterthwaite"} uses Satterthwaite's
+approximation (see \code{\link[parameters]{dof_kenward}} and \code{\link[parameters]{dof_satterthwaite}}
+for details). In the latter cases, use \code{show.df = TRUE} to show the
+approximated degrees of freedom for each coefficient.}
 
 \item{p.style}{Character, indicating if p-values should be printed as
 numeric value (\code{"numeric"}), as asterisks (\code{"asterisk"})

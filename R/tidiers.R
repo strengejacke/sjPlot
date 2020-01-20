@@ -21,10 +21,21 @@ tidy_model <- function(
     }
     component <- ifelse(show.zeroinf & insight::model_info(model)$is_zero_inflated, "all", "conditional")
 
+    if (is.null(p.val)) p.val <- "wald"
+
+    df_method <- switch(
+      p.val,
+      "wald" = "wald",
+      "kr" = ,
+      "kenward" = "kenward",
+      "s" = ,
+      "satterthwaite" = "satterthwaite"
+    )
+
     if (!is.null(robust) && !is.null(robust$vcov.fun)) {
-      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, robust = TRUE, vcov.fun = robust$vcov.fun, vcov.type = robust$vcov.type, vcov.args = robust$vcov.args, ...)
+      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, robust = TRUE, vcov_estimation = robust$vcov.fun, vcov_type = robust$vcov.type, vcov_args = robust$vcov.args, df_method = df_method, ...)
     } else {
-      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations)
+      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, df_method = df_method)
     }
     out <- parameters::standardize_names(model_params, style = "broom")
 
@@ -44,18 +55,18 @@ tidy_model <- function(
       out$component[out$component == "count"] <- "Conditional Model"
     }
 
-    if (is_merMod(model) && !is.null(p.val) && p.val == "kr") {
-      out <- tryCatch(
-        {
-          out$df <- parameters::dof_kenward(model)
-          out$p.value <- parameters::p_value_wald(model, dof = out$df)[["p"]]
-          out$std.error <- parameters::se_kenward(model)[["SE"]]
-          out$statistic <- out$estimate / out$std.error
-          out
-        },
-        error = function(x) { out }
-      )
-    }
+    # if (is_merMod(model) && !is.null(p.val) && p.val == "kr") {
+    #   out <- tryCatch(
+    #     {
+    #       out$df <- parameters::dof_kenward(model)
+    #       out$p.value <- parameters::p_value_wald(model, dof = out$df)[["p"]]
+    #       out$std.error <- parameters::se_kenward(model)[["SE"]]
+    #       out$statistic <- out$estimate / out$std.error
+    #       out
+    #     },
+    #     error = function(x) { out }
+    #   )
+    # }
 
     attr(out, "pretty_names") <- attributes(model_params)$pretty_names
   }
