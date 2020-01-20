@@ -96,7 +96,6 @@
 #'   exact = FALSE,
 #'   continuity = TRUE
 #' )
-#'
 #' @importFrom stats ftable
 #' @importFrom sjstats crosstable_statistics table_values
 #' @export

@@ -231,5 +231,4 @@ tab_xtab(
   exact = FALSE,
   continuity = TRUE
 )
-
 }
