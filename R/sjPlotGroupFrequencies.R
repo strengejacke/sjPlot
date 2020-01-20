@@ -889,8 +889,3 @@ plot_grpfrq <- function(var.cnt,
   # Plot integrated bar chart here
   baseplot
 }
-
-
-#' @rdname plot_grpfrq
-#' @export
-sjp.grpfrq <- plot_grpfrq

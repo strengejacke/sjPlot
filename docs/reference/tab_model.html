@@ -246,7 +246,7 @@
   <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wald"</span>, <span class='st'>"kr"</span>),
+  <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wald"</span>, <span class='st'>"kenward"</span>, <span class='st'>"kr"</span>, <span class='st'>"satterthwaite"</span>),
   <span class='kw'>p.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"numeric"</span>, <span class='st'>"asterisk"</span>, <span class='st'>"both"</span>),
   <span class='kw'>p.threshold</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span>),
   <span class='kw'>case</span> <span class='kw'>=</span> <span class='st'>"parsed"</span>,
@@ -300,7 +300,7 @@ credible interval is added to the table output.</p></td>
       <td><p>Logical, if <code>TRUE</code>, the standard errors are
 also printed. If robust standard errors are required, use arguments
 <code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code> (see
-<code><a href='https://rdrr.io/pkg/sjstats/man/robust.html'>robust</a></code> for details).</p></td>
+<code><a href='https://rdrr.io/pkg/parameters/man/standard_error_robust.html'>standard_error_robust</a></code> for details).</p></td>
     </tr>
     <tr>
       <th>show.std</th>
@@ -321,7 +321,7 @@ is also printed.</p></td>
       <th>show.df</th>
       <td><p>Logical, if <code>TRUE</code> and <code>p.val = "kr"</code>, the p-values
 for linear mixed models are based on df with Kenward-Rogers approximation.
-These df-values are printed. See <code><a href='https://rdrr.io/pkg/sjstats/man/r2.html'>p_value</a></code> for details.</p></td>
+These df-values are printed. See <code><a href='https://rdrr.io/pkg/parameters/man/p_value.html'>p_value</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>show.zeroinf</th>
@@ -424,7 +424,7 @@ should be plotted. See examples in
 If not <code>NULL</code>, <code>pred.labels</code> will be used in the first
 table column with the predictors' names. By default, if <code>auto.label = TRUE</code>
 and <a href='https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html'>data is labelled</a>,
-<code><a href='https://rdrr.io/pkg/sjlabelled/man/get_term_labels.html'>get_term_labels</a></code> is called to retrieve the labels
+<code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>get_term_labels</a></code> is called to retrieve the labels
 of the coefficients, which will be used as predictor labels. If data is
 not labelled, <a href='https://easystats.github.io/parameters/reference/format_parameters.html'>format_parameters()</a>
 is used to create pretty labels. If <code>pred.labels = ""</code> or <code>auto.label = FALSE</code>, the raw
@@ -586,10 +586,12 @@ Table columns are printed in the order as they appear in <code>col.order</code>.
       <th>p.val</th>
       <td><p>Character, for mixed models, indicates how p-values are computed.
 Use <code>p.val = "wald"</code> for a faster, but less precise computation. For
-<code>p.val = "kr"</code>, computation of p-values is based on conditional F-tests
-with Kenward-Roger approximation for the degrees of freedom, using the
-<span class="pkg">pbkrtest</span>-package. In this case, use <code>show.df = TRUE</code> to show
-the approximated degrees of freedom for each coefficient.</p></td>
+<code>p.val = "kenward"</code> (or <code>p.val = "kr"</code>), computation of p-values
+is based on conditional F-tests with Kenward-Roger approximation for the
+degrees of freedom. <code>p.val = "satterthwaite"</code> uses Satterthwaite's
+approximation (see <code><a href='https://rdrr.io/pkg/parameters/man/p_value_kenward.html'>dof_kenward</a></code> and <code><a href='https://rdrr.io/pkg/parameters/man/p_value_satterthwaite.html'>dof_satterthwaite</a></code>
+for details). In the latter cases, use <code>show.df = TRUE</code> to show the
+approximated degrees of freedom for each coefficient.</p></td>
     </tr>
     <tr>
       <th>p.style</th>
@@ -618,7 +620,7 @@ default when prefixing labels.</p></td>
       <th>auto.label</th>
       <td><p>Logical, if <code>TRUE</code> (the default),
  and <a href='https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html'>data is labelled</a>,
- <code><a href='https://rdrr.io/pkg/sjlabelled/man/get_term_labels.html'>get_term_labels</a></code> is called to retrieve the labels
+ <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>get_term_labels</a></code> is called to retrieve the labels
  of the coefficients, which will be used as predictor labels. If data is
  not labelled, <a href='https://easystats.github.io/parameters/reference/format_parameters.html'>format_parameters()</a>
  is used to create pretty labels. If <code>auto.label = FALSE</code>,
@@ -628,7 +630,7 @@ original variable names and value labels (factor levels) are used.</p></td>
       <th>prefix.labels</th>
       <td><p>Indicates whether the value labels of categorical variables
 should be prefixed, e.g. with the variable name or variable label. See
-argument <code>prefix</code> in <code><a href='https://rdrr.io/pkg/sjlabelled/man/get_term_labels.html'>get_term_labels</a></code> for
+argument <code>prefix</code> in <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>get_term_labels</a></code> for
 details.</p></td>
     </tr>
     <tr>

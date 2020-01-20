@@ -466,8 +466,3 @@ plot_xtab <- function(x,
     legend.labels
   )
 }
-
-
-#' @rdname plot_xtab
-#' @export
-sjp.xtab <- plot_xtab

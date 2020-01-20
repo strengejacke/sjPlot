@@ -435,7 +435,7 @@ random effects will be plotted.</p></td>
     <tr>
       <th>title</th>
       <td><p>Character vector, used as plot title. By default,
-<code><a href='https://rdrr.io/pkg/sjlabelled/man/get_term_labels.html'>get_dv_labels</a></code> is called to retrieve the label of
+<code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>get_dv_labels</a></code> is called to retrieve the label of
 the dependent variable, which will be used as title. Use <code>title = ""</code>
 to remove title.</p></td>
     </tr>
@@ -452,7 +452,7 @@ titles.</p></td>
     <tr>
       <th>axis.labels</th>
       <td><p>Character vector with labels for the model terms, used as
-axis labels. By default, <code><a href='https://rdrr.io/pkg/sjlabelled/man/get_term_labels.html'>get_term_labels</a></code> is
+axis labels. By default, <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>get_term_labels</a></code> is
 called to retrieve the labels of the coefficients, which will be used as
 axis labels. Use <code>axis.labels = ""</code> or <code>auto.label = FALSE</code> to
 use the variable names as labels instead. If <code>axis.labels</code> is a named
@@ -508,7 +508,7 @@ such cases. See <code>prob.inner</code> and <code>prob.outer</code> under the
       <td><p>Logical, if <code>TRUE</code>, the standard errors are
 also printed. If robust standard errors are required, use arguments
 <code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code> (see
-<code><a href='https://rdrr.io/pkg/sjstats/man/robust.html'>robust</a></code> for details). <code>se</code> overrides
+<code><a href='https://rdrr.io/pkg/sjstats/man/r2.html'>robust</a></code> for details). <code>se</code> overrides
 <code>ci.lvl</code>: if not <code>NULL</code>, arguments <code>ci.lvl</code>
 and <code>transform</code> will be ignored. Currently, <code>se</code> only applies
 to <em>Coefficients</em> plots.</p></td>
@@ -636,7 +636,7 @@ default when prefixing labels.</p></td>
       <th>auto.label</th>
       <td><p>Logical, if <code>TRUE</code> (the default),
  and <a href='https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html'>data is labelled</a>,
- <code><a href='https://rdrr.io/pkg/sjlabelled/man/get_term_labels.html'>get_term_labels</a></code> is called to retrieve the labels
+ <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>get_term_labels</a></code> is called to retrieve the labels
  of the coefficients, which will be used as predictor labels. If data is
  not labelled, <a href='https://easystats.github.io/parameters/reference/format_parameters.html'>format_parameters()</a>
  is used to create pretty labels. If <code>auto.label = FALSE</code>,
@@ -646,7 +646,7 @@ original variable names and value labels (factor levels) are used.</p></td>
       <th>prefix.labels</th>
       <td><p>Indicates whether the value labels of categorical variables
 should be prefixed, e.g. with the variable name or variable label. See
-argument <code>prefix</code> in <code><a href='https://rdrr.io/pkg/sjlabelled/man/get_term_labels.html'>get_term_labels</a></code> for
+argument <code>prefix</code> in <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>get_term_labels</a></code> for
 details.</p></td>
     </tr>
     <tr>

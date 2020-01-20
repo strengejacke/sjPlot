@@ -1,7 +1,7 @@
 #' @importFrom sjstats robust
 #' @importFrom stats qnorm pnorm
 #' @importFrom effectsize standardize
-#' @importFrom parameters model_parameters standardize_names dof_kenward p_value_wald se_kenward
+#' @importFrom parameters model_parameters standardize_names
 tidy_model <- function(
   model, ci.lvl, tf, type, bpe, robust, facets, show.zeroinf, p.val,
   standardize = FALSE, bootstrap = FALSE, iterations = 1000, seed = NULL, ...) {
@@ -54,19 +54,6 @@ tidy_model <- function(
       out$component[out$component == "conditional"] <- "Conditional Model"
       out$component[out$component == "count"] <- "Conditional Model"
     }
-
-    # if (is_merMod(model) && !is.null(p.val) && p.val == "kr") {
-    #   out <- tryCatch(
-    #     {
-    #       out$df <- parameters::dof_kenward(model)
-    #       out$p.value <- parameters::p_value_wald(model, dof = out$df)[["p"]]
-    #       out$std.error <- parameters::se_kenward(model)[["SE"]]
-    #       out$statistic <- out$estimate / out$std.error
-    #       out
-    #     },
-    #     error = function(x) { out }
-    #   )
-    # }
 
     attr(out, "pretty_names") <- attributes(model_params)$pretty_names
   }
