@@ -30,6 +30,7 @@ This function takes a \code{list} of ggplot-objects as argument.
 }
 \examples{
 library(ggeffects)
+library(dplyr)
 data(efc)
 
 # fit model

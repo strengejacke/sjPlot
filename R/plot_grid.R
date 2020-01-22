@@ -19,6 +19,7 @@
 #'
 #' @examples
 #' library(ggeffects)
+#' library(dplyr)
 #' data(efc)
 #'
 #' # fit model
