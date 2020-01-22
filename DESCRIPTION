@@ -42,7 +42,7 @@ Imports:
     MASS,
     modelr,
     parameters (>= 0.4.0),
-    performance (>= 0.4.0),
+    performance (>= 0.4.3),
     psych,
     purrr,
     rlang,
