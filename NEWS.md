@@ -8,6 +8,7 @@
 ## Changes to functions
 
 * Improved handling for `tab_model()` of robust estimation in general and Kenward-Roger or Satterthwaite approximations in particular for linear mixed models.
+* Fixed issue to cope with forthcoming *tidyselect*-update.
 
 ## Bug fixes
 

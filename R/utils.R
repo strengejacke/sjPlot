@@ -320,14 +320,9 @@ model_deviance <- function(x) {
 }
 
 
-#' @importFrom stats AIC
+#' @importFrom performance performance_aic
 model_aic <- function(x) {
-  tryCatch(
-    {
-      stats::AIC(x)
-    },
-    error = function(x) { NULL }
-  )
+  performance::performance_aic(x)
 }
 
 
