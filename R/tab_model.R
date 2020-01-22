@@ -217,6 +217,7 @@
 #' @importFrom performance r2 icc
 #' @importFrom stats nobs setNames
 #' @importFrom rlang .data
+#' @importFrom utils packageVersion
 #' @export
 tab_model <- function(
   ...,
@@ -320,7 +321,7 @@ tab_model <- function(
   vcov.type <- match.arg(vcov.type)
 
   ## TODO remove once parameters update is on CRAN
-  if (p.val != "wald" && packageVersion("parameters") <= "0.4.1") {
+  if (p.val != "wald" && utils::packageVersion("parameters") <= "0.4.1") {
     message("Computation of Kenward-Roger or Satterthwaite approximated degrees of freedom for p-values will be inaccurate with the current version of the 'parameters' package. Please update package 'parameters' from GitHub to get reliable p-values.")
   }
 
