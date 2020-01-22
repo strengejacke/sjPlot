@@ -215,7 +215,7 @@
 #' @importFrom sjmisc word_wrap var_rename add_columns add_case
 #' @importFrom insight model_info is_multivariate find_random get_data find_predictors
 #' @importFrom performance r2 icc
-#' @importFrom stats nobs
+#' @importFrom stats nobs setNames
 #' @importFrom rlang .data
 #' @export
 tab_model <- function(
@@ -869,17 +869,10 @@ tab_model <- function(
 
         model.data <- split(model.data[[1]], model.data[[1]]["response.level_1"])
       } else {
-        dv.labels <- sjmisc::word_wrap(
-          sjlabelled::get_dv_labels(models, mv = TRUE, case = case),
-          wrap = wrap.labels,
-          linesep = "<br>"
-        )
-
-        if (sjmisc::is_empty(dv.labels) || !isTRUE(auto.label))
-          dv.labels <- insight::find_response(models[[1]])
-
+        dv.labels <- insight::find_response(models[[1]])
         model.data <- split(model.data[[1]], model.data[[1]]["response.level_1"])
         dv.labels <- dv.labels[match(names(dv.labels), names(model.data))]
+        dv.labels <- sjmisc::word_wrap(dv.labels, wrap = wrap.labels, linesep = "<br>")
       }
 
       model.data <- purrr::map2(model.data, 1:length(model.data), function(x, y) {

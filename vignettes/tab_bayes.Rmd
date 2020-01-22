@@ -18,10 +18,16 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE, 
   comment = "#>", 
-  message = FALSE,
-  eval = TRUE
-  # eval = if (isTRUE(exists("params"))) params$EVAL else FALSE
+  message = FALSE
 )
+
+if (!requireNamespace("insight", quietly = TRUE) ||
+    !requireNamespace("httr", quietly = TRUE) ||
+    !requireNamespace("brms", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+} else {
+  knitr::opts_chunk$set(eval = TRUE)
+}
 ```
 
 This vignette shows examples for using `tab_model()` to create HTML tables for mixed models. Basically, `tab_model()` behaves in a very similar way for mixed models as for other, simple regression models, as shown [in this vignette](tab_model_estimates.html).

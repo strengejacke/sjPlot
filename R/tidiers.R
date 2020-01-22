@@ -125,7 +125,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
   # for brmsfit models, we need to remove some columns here to
   # match data rows later
 
-  mod.dat <- as.data.frame(model)
+  mod.dat <- as.data.frame(model, optional = FALSE)
 
   if (inherits(model, "brmsfit")) {
     re.sd <- string_starts_with("sd_", x = colnames(mod.dat))
