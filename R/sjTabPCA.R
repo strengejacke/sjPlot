@@ -64,8 +64,6 @@
 #' end <- which(colnames(efc) == "c90cop9")
 #' # auto-detection of labels
 #' sjt.pca(efc[, start:end])}
-#'
-#' @importFrom psych KMO
 #' @importFrom stats prcomp
 #' @importFrom performance cronbachs_alpha
 #' @export
@@ -99,6 +97,11 @@ sjt.pca <- function(data,
   if (is.null(var.labels) && is.data.frame(data)) {
     var.labels <- sjlabelled::get_label(data, def.value = colnames(data))
   }
+
+  if (!requireNamespace("psych", quietly = TRUE)) {
+    stop("Package 'psych' required for this function to work. Please install it.", call. = FALSE)
+  }
+
   # ----------------------------
   # check if user has passed a data frame
   # or a pca object

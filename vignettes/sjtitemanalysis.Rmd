@@ -11,6 +11,12 @@ vignette: >
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+
+if (!requireNamespace("psych", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+} else {
+  knitr::opts_chunk$set(eval = TRUE)
+}
 ```
 
 This document shows examples for using the `tab_itemscale()` function of the sjPlot package.

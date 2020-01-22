@@ -56,7 +56,6 @@
 #' @importFrom scales brewer_pal grey_pal
 #' @importFrom stats na.omit prcomp varimax
 #' @importFrom performance cronbachs_alpha
-#' @importFrom psych principal
 #' @export
 sjp.pca <- function(data,
                     rotation = c("varimax", "quartimax", "promax", "oblimin", "simplimax", "cluster", "none"),
@@ -76,6 +75,10 @@ sjp.pca <- function(data,
 
   ## TODO change to deprecated
   warning("'sjp.pca()' will become deprecated in a future update. Please use 'parameters::principal_components()' and the 'plot()' method instead.", call. = FALSE)
+
+  if (!requireNamespace("psych", quietly = TRUE)) {
+    stop("Package 'psych' required for this function to work. Please install it.", call. = FALSE)
+  }
 
   # --------------------------------------------------------
   # check arguments

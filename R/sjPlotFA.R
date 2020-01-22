@@ -58,7 +58,6 @@
 #' @importFrom scales brewer_pal grey_pal
 #' @importFrom stats na.omit prcomp
 #' @importFrom performance cronbachs_alpha
-#' @importFrom psych fa fa.parallel
 #' @importFrom grDevices dev.off
 #' @export
 sjp.fa <- function(data,
@@ -79,6 +78,10 @@ sjp.fa <- function(data,
 
   ## TODO change to deprecated
   warning("'sjp.fa()' will become deprecated in a future update. Please use 'parameters::factor_analysis()' and the 'plot()' method instead.", call. = FALSE)
+
+  if (!requireNamespace("psych", quietly = TRUE)) {
+    stop("Package 'psych' required for this function to work. Please install it.", call. = FALSE)
+  }
 
   # --------------------------------------------------------
   # check arguments

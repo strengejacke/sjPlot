@@ -120,12 +120,11 @@
 #' # or, equivalent
 #' tab_itemscale(mydf, factor.groups = "auto")}
 #'
-#' @importFrom psych describe
 #' @importFrom stats shapiro.test na.omit
 #' @importFrom sjstats mean_n
 #' @importFrom performance item_reliability cronbachs_alpha item_intercor
-#' @importFrom parameters principal_components
-#' @importFrom sjmisc std
+#' @importFrom parameters principal_components kurtosis
+#' @importFrom sjmisc std descr
 #' @importFrom sjlabelled set_label
 #' @export
 tab_itemscale <- function(df,
@@ -222,7 +221,7 @@ tab_itemscale <- function(df,
     diff.ideal <- apply(df.sub, 2, fun.diff.ideal)
 
     # get statistics
-    dstat <- psych::describe(df.sub)
+    dstat <- sjmisc::descr(df.sub)
     reli <- performance::item_reliability(df.sub, standardize = scale)
 
     # get index score value, by retrieving the row mean
@@ -255,7 +254,7 @@ tab_itemscale <- function(df,
 
     # include kurtosis statistics
     if (show.kurtosis) {
-      df.dummy <- data_frame(cbind(df.dummy, round(dstat$kurtosis, 2)))
+      df.dummy <- data_frame(cbind(df.dummy, round(parameters::kurtosis(df.sub), 2)))
       df.colnames <- c(df.colnames, "Kurtosis")
     }
 

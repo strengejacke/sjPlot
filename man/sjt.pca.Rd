@@ -128,5 +128,4 @@ start <- which(colnames(efc) == "c82cop1")
 end <- which(colnames(efc) == "c90cop9")
 # auto-detection of labels
 sjt.pca(efc[, start:end])}
-
 }

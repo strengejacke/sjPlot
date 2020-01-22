@@ -86,8 +86,7 @@
 #'              show.total = TRUE, show.skew = TRUE, show.kurtosis = TRUE,
 #'              CSS = list(css.ncol = "border-left:1px dotted black;",
 #'                         css.summary = "font-style:italic;"))}
-#'
-#' @importFrom psych describe
+#' @importFrom parameters skewness kurtosis
 #' @importFrom sjmisc frq
 #' @export
 tab_stackfrq <- function(items,
@@ -179,7 +178,8 @@ tab_stackfrq <- function(items,
   # ----------------------------
   # additional statistics required from psych-package?
   # ----------------------------
-  if (show.skew || show.kurtosis) pstat <- psych::describe(items)
+  if (show.skew) pstat_skewness <- parameters::skewness(items)
+  if (show.kurtosis) pstat_kurtosis <- parameters::kurtosis(items)
   if (is.null(weight.by)) {
     dummy <- sjmisc::frq(items, show.strings = TRUE, show.na = show.na)
   } else {
@@ -320,9 +320,9 @@ tab_stackfrq <- function(items,
     # add column with N's
     if (show.total) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign ncol summary%s\">%i</td>\n", arcstring, as.integer(sum(mat.n[facord[i], ]))))
     # add column with Skew's
-    if (show.skew) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign skewcol summary%s\">%.*f</td>\n", arcstring, digits.stats, pstat$skew[facord[i]]))
+    if (show.skew) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign skewcol summary%s\">%.*f</td>\n", arcstring, digits.stats, pstat_skewness[facord[i]]))
     # add column with Kurtosis's
-    if (show.kurtosis) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign kurtcol summary%s\">%.*f</td>\n", arcstring, digits.stats, pstat$kurtosis[facord[i]]))
+    if (show.kurtosis) page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign kurtcol summary%s\">%.*f</td>\n", arcstring, digits.stats, pstat_kurtosis[facord[i]]))
     # close row
     page.content <- paste0(page.content, "  </tr>\n")
   }

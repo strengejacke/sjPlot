@@ -413,13 +413,13 @@
 #' plot_grid(p)}
 #'
 #' # plot random effects
-#' library(lme4)
-#' m <- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
-#' plot_model(m, type = "re")
+#' if (require("lme4")) {
+#'   m <- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
+#'   plot_model(m, type = "re")
 #'
-#' # plot marginal effects
-#' plot_model(m, type = "pred", terms = "Days")
-#'
+#'   # plot marginal effects
+#'   plot_model(m, type = "pred", terms = "Days")
+#' }
 #' # plot interactions
 #' \dontrun{
 #' m <- glm(

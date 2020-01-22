@@ -173,5 +173,4 @@ tab_stackfrq(efc[, c(start:end)], alternate.rows = TRUE,
              show.total = TRUE, show.skew = TRUE, show.kurtosis = TRUE,
              CSS = list(css.ncol = "border-left:1px dotted black;",
                         css.summary = "font-style:italic;"))}
-
 }
