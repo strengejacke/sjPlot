@@ -115,12 +115,18 @@ diag_qq <- function(model, geom.colors, dot.size, line.size, ...) {
 }
 
 
-#' @importFrom lme4 ranef
 #' @importFrom purrr map map_dbl
 #' @importFrom stats qnorm ppoints
 diag_reqq <- function(model, dot.size) {
 
   if (!is_merMod(model) && !inherits(model, "glmmTMB")) return(NULL)
+
+  if (!requireNamespace("lme4", quietly = TRUE)) {
+    stop("Package 'lme4' required for this function to work, please install it.")
+  }
+  if (!requireNamespace("glmmTMB", quietly = TRUE)) {
+    stop("Package 'glmmTMB' required for this function to work, please install it.")
+  }
 
   if (inherits(model, "glmmTMB")) {
     re <- glmmTMB::ranef(model)[[1]]

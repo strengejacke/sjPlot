@@ -45,7 +45,7 @@
 #' plot_kfold_cv(efc, fit = fit)
 #'
 #' @import ggplot2
-#' @importFrom modelr crossv_kfold
+#' @importFrom parameters data_partition
 #' @importFrom dplyr mutate ungroup summarise
 #' @importFrom purrr map map2
 #' @importFrom tidyr unnest
@@ -88,7 +88,11 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
     if (fam$family == "poisson") {
       # create cross-validated test-training pairs, run poisson-model on each
       # pair, get deviance residuals and response value
-      res <- modelr::crossv_kfold(data, k = k) %>%
+      kfolds <- do.call(rbind, lapply(1:k, function(i) {
+        out <- parameters::data_partition(data, training_proportion = .8)
+        data.frame(training = I(list(out$training)), test = I(list(out$test)))
+      }))
+      res <- kfolds %>%
         dplyr::mutate(model = purrr::map(.data$train, ~ stats::glm(formula, data = .x, family = stats::poisson(link = "log")))) %>%
         dplyr::mutate(residuals = purrr::map(.data$model, ~ stats::residuals(.x, "deviance"))) %>%
         dplyr::mutate(.response = purrr::map(.data$model, ~ insight::get_response(.x)))
@@ -96,7 +100,11 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
     } else if (inherits(fit, "negbin")) {
       # create cross-validated test-training pairs, run poisson-model on each
       # pair, get deviance residuals and response value
-      res <- modelr::crossv_kfold(data, k = k) %>%
+      kfolds <- do.call(rbind, lapply(1:k, function(i) {
+        out <- parameters::data_partition(data, training_proportion = .8)
+        data.frame(training = I(list(out$training)), test = I(list(out$test)))
+      }))
+      res <- kfolds %>%
         dplyr::mutate(model = purrr::map(.data$train, ~ MASS::glm.nb(formula, data = .))) %>%
         dplyr::mutate(residuals = purrr::map(.data$model, ~ stats::residuals(.x, "deviance"))) %>%
         dplyr::mutate(.response = purrr::map(.data$model, ~ insight::get_response(.x)))
@@ -109,7 +117,11 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
     # create cross-validated test-training pairs, run linear model on each
     # pair, get predicted values and quality measures for models fitted on the
     # train data
-    res <- modelr::crossv_kfold(data, k = k) %>%
+    kfolds <- do.call(rbind, lapply(1:k, function(i) {
+      out <- parameters::data_partition(data, training_proportion = .8)
+      data.frame(training = I(list(out$training)), test = I(list(out$test)))
+    }))
+    res <- kfolds %>%
       dplyr::mutate(model = purrr::map(.data$train, ~ stats::lm(formula, data = .))) %>%
       dplyr::mutate(predicted = purrr::map2(.data$model, .data$test, function(.x, .y) {
         out <- data.frame(.fitted = stats::predict(.x, newdata = .y))

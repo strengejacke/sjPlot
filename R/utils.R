@@ -348,10 +348,12 @@ model_loglik <- function(x) {
 }
 
 
-#' @importFrom lme4 getME
 #' @importFrom stats deviance
 m_deviance <- function(x) {
   if (is_merMod(x)) {
+    if (!requireNamespace("lme4", quietly = TRUE)) {
+      stop("Package 'lme4' required for this function to work, please install it.")
+    }
     d <- lme4::getME(x, "devcomp")$cmp["dev"]
     if (is.na(d)) d <- stats::deviance(x, REML = FALSE)
   } else {
@@ -379,10 +381,12 @@ tidy_label <- function(labs, sep = ".") {
 }
 
 
-#' @importFrom lme4 ranef
 #' @importFrom purrr map_df
 #' @importFrom insight find_random
 se_ranef <- function(object) {
+  if (!requireNamespace("lme4", quietly = TRUE)) {
+    stop("Package 'lme4' required for this function to work, please install it.")
+  }
   if (inherits(object, "MixMod")) {
     se.bygroup <- lme4::ranef(object, post_vars = TRUE)
     vars.m <- attr(se.bygroup, "post_vars")

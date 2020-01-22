@@ -125,21 +125,16 @@ sjp.poly <- function(x,
   # --------------------------------------------
   # parameter check: fitted model or variables?
   # --------------------------------------------
-  if (!is.vector(x) && !is.numeric(x) && !is.factor(x)) mf <- insight::get_data(x)
-
-  if (is_merMod(x)) {
+  if (!is.vector(x) && !is.numeric(x) && !is.factor(x)) {
+    mf <- insight::get_data(x)
     # retrieve response vector
-    resp <- lme4::getME(x, "y")
-    # retrieve polynomial term
-    poly.term <- mf[[poly.term]]
-  } else if (inherits(x, c("lm", "glm"))) {
-    # retrieve response vector
-    resp <- mf[[1]]
+    resp <- insight::get_response(x)
     # retrieve polynomial term
     poly.term <- mf[[poly.term]]
   } else {
     resp <- x
   }
+
   # --------------------------------------------
   # check for glm or lm
   # --------------------------------------------

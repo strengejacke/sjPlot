@@ -1,4 +1,3 @@
-#' @importFrom lme4 ranef
 #' @importFrom purrr map map_df map2
 #' @importFrom stats qnorm
 #' @importFrom forcats fct_reorder
@@ -32,6 +31,13 @@ plot_type_ranef <- function(model,
   if (inherits(model, "clmm")) {
     se <- FALSE
     ci.lvl <- NA
+  }
+
+  if (!requireNamespace("lme4", quietly = TRUE)) {
+    stop("Package 'lme4' required for this function to work, please install it.")
+  }
+  if (!requireNamespace("glmmTMB", quietly = TRUE)) {
+    stop("Package 'glmmTMB' required for this function to work, please install it.")
   }
 
   # get tidy output of summary ----
