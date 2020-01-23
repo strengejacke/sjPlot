@@ -223,7 +223,6 @@ This function only works with variables with integer values (or numeric
 }
 \examples{
 library(sjlabelled)
-library(dplyr)
 data(efc)
 data(iris)
 
@@ -234,19 +233,23 @@ plot_frq(efc$tot_sc_e)
 # boxplot
 plot_frq(efc$e17age, type = "box")
 
-# histogram, pipe-workflow
-efc \%>\%
-  dplyr::select(e17age, c160age) \%>\%
-  plot_frq(type = "hist", show.mean = TRUE)
+if (require("dplyr")) {
+  # histogram, pipe-workflow
+  efc \%>\%
+    dplyr::select(e17age, c160age) \%>\%
+    plot_frq(type = "hist", show.mean = TRUE)
 
-# bar plot(s)
-plot_frq(efc, e42dep, c172code)
+  # bar plot(s)
+  plot_frq(efc, e42dep, c172code)
+}
 
-# grouped data frame, all panels in one plot
-efc \%>\%
-  group_by(e42dep) \%>\%
-  plot_frq(c161sex) \%>\%
-  plot_grid()
+if (require("dplyr") && require("gridExtra")) {
+  # grouped data frame, all panels in one plot
+  efc \%>\%
+    group_by(e42dep) \%>\%
+    plot_frq(c161sex) \%>\%
+    plot_grid()
+}
 
 library(sjmisc)
 # grouped variable
@@ -264,5 +267,4 @@ plot_frq(
 plot_frq(efc$c160age, type = "h", show.mean = TRUE, show.mean.val = TRUE,
         normal.curve = TRUE, show.sd = TRUE, normal.curve.color = "blue",
         normal.curve.size = 3, ylim = c(0,50))
-
 }

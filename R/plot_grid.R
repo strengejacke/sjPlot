@@ -18,33 +18,33 @@
 #'          To arrange these plots as grid as a single plot, use \code{plot_grid}.
 #'
 #' @examples
-#' library(ggeffects)
-#' library(dplyr)
-#' data(efc)
+#' if (require("dplyr") && require("gridExtra")) {
+#'   library(ggeffects)
+#'   data(efc)
 #'
-#' # fit model
-#' fit <- glm(
-#'   tot_sc_e ~ c12hour + e17age + e42dep + neg_c_7,
-#'   data = efc,
-#'   family = poisson
-#' )
+#'   # fit model
+#'   fit <- glm(
+#'     tot_sc_e ~ c12hour + e17age + e42dep + neg_c_7,
+#'     data = efc,
+#'     family = poisson
+#'   )
 #'
-#' # plot marginal effects for each predictor, each as single plot
-#' p1 <- ggpredict(fit, "c12hour") %>%
-#'   plot(show.y.title = FALSE, show.title = FALSE)
-#' p2 <- ggpredict(fit, "e17age") %>%
-#'   plot(show.y.title = FALSE, show.title = FALSE)
-#' p3 <- ggpredict(fit, "e42dep") %>%
-#'   plot(show.y.title = FALSE, show.title = FALSE)
-#' p4 <- ggpredict(fit, "neg_c_7") %>%
-#'   plot(show.y.title = FALSE, show.title = FALSE)
+#'   # plot marginal effects for each predictor, each as single plot
+#'   p1 <- ggpredict(fit, "c12hour") %>%
+#'     plot(show.y.title = FALSE, show.title = FALSE)
+#'   p2 <- ggpredict(fit, "e17age") %>%
+#'     plot(show.y.title = FALSE, show.title = FALSE)
+#'   p3 <- ggpredict(fit, "e42dep") %>%
+#'     plot(show.y.title = FALSE, show.title = FALSE)
+#'   p4 <- ggpredict(fit, "neg_c_7") %>%
+#'     plot(show.y.title = FALSE, show.title = FALSE)
 #'
-#' # plot grid
-#' plot_grid(list(p1, p2, p3, p4))
+#'   # plot grid
+#'   plot_grid(list(p1, p2, p3, p4))
 #'
-#' # plot grid
-#' plot_grid(list(p1, p2, p3, p4), tags = TRUE)
-#'
+#'   # plot grid
+#'   plot_grid(list(p1, p2, p3, p4), tags = TRUE)
+#' }
 #' @export
 plot_grid <- function(x, margin = c(1, 1, 1, 1), tags = NULL) {
   # check package availability -----
