@@ -111,7 +111,7 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
     }
 
     # unnest residuals and response values
-    res <- res %>% tidyr::unnest(residuals, .data$.response)
+    res <- suppressWarnings(res %>% tidyr::unnest(residuals, .data$.response))
 
   } else {
     # create cross-validated test-training pairs, run linear model on each
