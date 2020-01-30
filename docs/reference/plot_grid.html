@@ -19,7 +19,7 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
@@ -219,31 +219,33 @@ or character vector containing tags labels.</p></td>
          To arrange these plots as grid as a single plot, use <code>plot_grid</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggeffects</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"dplyr"</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"gridExtra"</span>)) {
+  <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggeffects</span>)
+  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
 
-<span class='co'># fit model</span>
-<span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(
-  <span class='no'>tot_sc_e</span> ~ <span class='no'>c12hour</span> + <span class='no'>e17age</span> + <span class='no'>e42dep</span> + <span class='no'>neg_c_7</span>,
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>,
-  <span class='kw'>family</span> <span class='kw'>=</span> <span class='no'>poisson</span>
-)
+  <span class='co'># fit model</span>
+  <span class='no'>fit</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/glm.html'>glm</a></span>(
+    <span class='no'>tot_sc_e</span> ~ <span class='no'>c12hour</span> + <span class='no'>e17age</span> + <span class='no'>e42dep</span> + <span class='no'>neg_c_7</span>,
+    <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>efc</span>,
+    <span class='kw'>family</span> <span class='kw'>=</span> <span class='no'>poisson</span>
+  )
 
-<span class='co'># plot marginal effects for each predictor, each as single plot</span>
-<span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"c12hour"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"e17age"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"e42dep"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-<span class='no'>p4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"neg_c_7"</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+  <span class='co'># plot marginal effects for each predictor, each as single plot</span>
+  <span class='no'>p1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"c12hour"</span>) <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+  <span class='no'>p2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"e17age"</span>) <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+  <span class='no'>p3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"e42dep"</span>) <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+  <span class='no'>p4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></span>(<span class='no'>fit</span>, <span class='st'>"neg_c_7"</span>) <span class='kw'>%&gt;%</span>
+    <span class='fu'><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot</a></span>(<span class='kw'>show.y.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>show.title</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='co'># plot grid</span>
-<span class='fu'>plot_grid</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Not enough tags labels in list. Using letters instead.</span></div><div class='img'><img src='plot_grid-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># plot grid</span>
-<span class='fu'>plot_grid</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>), <span class='kw'>tags</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot_grid-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+  <span class='co'># plot grid</span>
+  <span class='fu'>plot_grid</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>))
+
+  <span class='co'># plot grid</span>
+  <span class='fu'>plot_grid</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>p1</span>, <span class='no'>p2</span>, <span class='no'>p3</span>, <span class='no'>p4</span>), <span class='kw'>tags</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt; <span class='warning'>Warning: Not enough tags labels in list. Using letters instead.</span></div><div class='img'><img src='plot_grid-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot_grid-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

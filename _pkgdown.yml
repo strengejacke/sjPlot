@@ -4,7 +4,7 @@ authors:
 
 template:
   params:
-    bootswatch: cosmo
+    bootswatch: flatly
 
 reference:
 - title: "Plotting Regression Models"
