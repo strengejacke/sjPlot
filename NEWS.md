@@ -1,3 +1,13 @@
+# sjPlot 2.8.3
+
+## General
+
+* `tab_model()` and `plot_model()` now support _clogit_ models (requires latest update of package **insight**).
+
+## Bug fixes
+
+* Fixed issue in `tab_model()` and `plot_model()` for certain cases when coefficients could not be estimated and were `NA`.
+
 # sjPlot 2.8.2
 
 ## Function renaming

@@ -51,6 +51,14 @@ plot_point_estimates <- function(model,
   if (sjmisc::is_empty(axis.title)) axis.title <- NULL
 
 
+  # if we have non-estimable coefficients (i.e. missings)
+  # remove them here
+
+  no_coefficient <- which(is.na(dat$estimate))
+  if (length(no_coefficient) > 0) {
+    dat <- dat[-no_coefficient, ]
+  }
+
   # axis limits and tick breaks for y-axis
 
   axis.scaling <- axis_limits_and_ticks(

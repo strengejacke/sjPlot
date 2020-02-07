@@ -467,7 +467,7 @@ tab_model <- function(
 
       # emphasize p-values ----
 
-      if (emph.p && !all(dat$p.value == "NA")) dat$p.value[dat$p.sig] <- sprintf("<strong>%s</strong>", dat$p.value[dat$p.sig])
+      if (emph.p && !all(dat$p.value == "NA")) dat$p.value[which(dat$p.sig)] <- sprintf("<strong>%s</strong>", dat$p.value[which(dat$p.sig)])
       dat <- dplyr::select(dat, -.data$p.sig)
 
 
