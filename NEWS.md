@@ -7,6 +7,7 @@
 ## Bug fixes
 
 * Fixed issue in `tab_model()` and `plot_model()` for certain cases when coefficients could not be estimated and were `NA`.
+* Fixed issue in `tab_model()` when `p.val="kr"` and `show.df=TRUE`.
 
 # sjPlot 2.8.2
 

@@ -295,7 +295,7 @@ tab_model <- function(
     "ci.outer",
     "stat",
     "p",
-    "df",
+    "df.error",
     "response.level"
   ),
 
@@ -1218,7 +1218,7 @@ sort_columns <- function(x, is.stan, col.order) {
     "ci.outer",
     "statistic",
     "p.value",
-    "df",
+    "df.error",
     "wrap.facet",
     "response.level"
   )
