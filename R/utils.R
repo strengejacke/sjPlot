@@ -43,7 +43,7 @@ axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, expon
   if (is.infinite(max.val) || is.na(max.val)) max.val <- max.est
 
 
-  # for negative signes, need to change multiplier
+  # for negative signs, need to change multiplier
 
   if (min.val < 0) fac.ll <- 1 / fac.ll
   if (max.val < 0) fac.ul <- 1 / fac.ul

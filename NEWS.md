@@ -8,6 +8,7 @@
 
 * Fixed issue in `tab_model()` and `plot_model()` for certain cases when coefficients could not be estimated and were `NA`.
 * Fixed issue in `tab_model()` when `p.val="kr"` and `show.df=TRUE`.
+* Fixed issue in `tab_model()` with formatting issues of p-values when standardized coefficients where requested.
 
 # sjPlot 2.8.2
 
