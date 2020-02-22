@@ -60,13 +60,14 @@ tab_model(
   collapse.se = FALSE,
   linebreak = TRUE,
   col.order = c("est", "se", "std.est", "std.se", "ci", "std.ci", "ci.inner",
-    "ci.outer", "stat", "p", "df", "response.level"),
+    "ci.outer", "stat", "p", "df.error", "response.level"),
   digits = 2,
   digits.p = 3,
   emph.p = TRUE,
   p.val = c("wald", "kenward", "kr", "satterthwaite"),
   p.style = c("numeric", "asterisk", "both"),
   p.threshold = c(0.05, 0.01, 0.001),
+  p.adjust = NULL,
   case = "parsed",
   auto.label = TRUE,
   prefix.labels = c("none", "varname", "label"),
@@ -298,6 +299,9 @@ or both (\code{"both"}). May be abbreviated.}
 \item{p.threshold}{Numeric vector of length 3, indicating the treshold for
 annotating p-values with asterisks. Only applies if
 \code{p.style = "asterisk"}.}
+
+\item{p.adjust}{Character vector, if not \code{NULL}, indicates the method
+to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
 specified character case. See \code{\link[snakecase]{to_any_case}} for more

@@ -4,6 +4,10 @@
 
 * `tab_model()` and `plot_model()` now support _clogit_ models (requires latest update of package **insight**).
 
+## Changes to functions
+
+* `tab_model()` gets a `p.adjust` argument to adjust p-values for multiple comparisons.
+
 ## Bug fixes
 
 * Fixed issue in `tab_model()` and `plot_model()` for certain cases when coefficients could not be estimated and were `NA`.

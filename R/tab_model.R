@@ -150,6 +150,8 @@
 #' @param use.viewer Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 #'    viewer pane. If \code{FALSE} or no viewer available, the HTML table is
 #'    opened in a web browser.
+#' @param p.adjust Character vector, if not \code{NULL}, indicates the method
+#'   to adjust p-values. See \code{\link[stats]{p.adjust}} for details.
 #'
 #' @inheritParams plot_models
 #' @inheritParams plot_model
@@ -305,6 +307,7 @@ tab_model <- function(
   p.val = c("wald", "kenward", "kr", "satterthwaite"),
   p.style = c("numeric", "asterisk", "both"),
   p.threshold = c(0.05, 0.01, 0.001),
+  p.adjust = NULL,
 
   case = "parsed",
   auto.label = TRUE,
@@ -432,7 +435,8 @@ tab_model <- function(
         p.val = p.val,
         bootstrap = bootstrap,
         iterations = iterations,
-        seed = seed
+        seed = seed,
+        p_adjust = p.adjust
       )
 
 
