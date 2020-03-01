@@ -16,9 +16,9 @@
 #'     only contains one predictor, slope-line is plotted.}
 #'     \item{\code{type = "re"}}{For mixed effects models, plots the random
 #'     effects.}
-#'     \item{\code{type = "std"}}{Forest-plot of standardized beta values.}
-#'     \item{\code{type = "std2"}}{Forest-plot of standardized beta values,
-#'     however, standardization is done by dividing by two sd (see 'Details').}
+#'     \item{\code{type = "std"}}{Forest-plot of standardized coefficients.}
+#'     \item{\code{type = "std2"}}{Forest-plot of standardized coefficients,
+#'     however, standardization is done by dividing by two SD (see 'Details').}
 #'   }
 #'   \emph{Marginal Effects}  (\href{https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html}{related vignette})
 #'   \describe{
@@ -331,23 +331,21 @@
 #'   (depending on the plot-type) a list of such data frames.
 #'
 #' @details
-#'   \code{get_model_data()} simply calls \code{plot_model()} and returns
-#'   the data from the ggplot-object. Hence, it is rather inefficient and should
-#'   be used as alternative to \pkg{brooms} \code{tidy()}-function only in
-#'   specific situations. \cr \cr Some details on the different plot-types:
+#' \subsection{Different Plot Types}{
 #'   \describe{
-#'   \item{\code{type = "std2"}}{Plots standardized beta values,
-#'     however, standardization follows Gelman's (2008) suggestion, rescaling the
+#'   \item{\code{type = "std"}}{Plots standardized estimates. See details below.}
+#'   \item{\code{type = "std2"}}{Plots standardized estimates, however,
+#'     standardization follows Gelman's (2008) suggestion, rescaling the
 #'     estimates by dividing them by two standard deviations instead of just one.
 #'     Resulting coefficients are then directly comparable for untransformed
 #'     binary predictors.
 #'   }
-#'   \item{\code{type = "pred"}}{Plots marginal effects. Simply wraps
-#'     \code{\link[ggeffects]{ggpredict}}. See also
+#'   \item{\code{type = "pred"}}{Plots estimated marginal means (or marginal effects).
+#'     Simply wraps \code{\link[ggeffects]{ggpredict}}. See also
 #'     \href{https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html}{this package-vignette}.
 #'   }
-#'   \item{\code{type = "eff"}}{Plots marginal effects. Simply wraps
-#'     \code{\link[ggeffects]{ggeffect}}. See also
+#'   \item{\code{type = "eff"}}{Plots estimated marginal means (or marginal effects).
+#'     Simply wraps \code{\link[ggeffects]{ggeffect}}. See also
 #'     \href{https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html}{this package-vignette}.
 #'   }
 #'   \item{\code{type = "int"}}{A shortcut for marginal effects plots, where
@@ -378,9 +376,21 @@
 #'   multicollinearity-check (Variance Inflation Factors), QQ-plots,
 #'   checks for normal distribution of residuals and homoscedasticity
 #'   (constant variance of residuals) are shown. For \strong{generalized
-#'   lineare mixed models}, returns the QQ-plot for random effects.
+#'   linear mixed models}, returns the QQ-plot for random effects.
 #'   }
 #'   }
+#' }
+#' \subsection{Standardized Estimates}{
+#'   Default standardization is done by completely refitting the model on the
+#'   standardized data. Hence, this approach is equal to standardizing the
+#'   variables before fitting the model, which is particularly recommended for
+#'   complex models that include interactions or transformations (e.g., polynomial
+#'   or spline terms). When \code{type = "std2"}, standardization of estimates
+#'   follows \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
+#'   suggestion, rescaling the estimates by dividing them by two standard deviations
+#'   instead of just one. Resulting coefficients are then directly comparable for
+#'   untransformed binary predictors.
+#' }
 #'
 #' @references
 #'   Gelman A (2008) "Scaling regression inputs by dividing by two

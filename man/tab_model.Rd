@@ -359,23 +359,22 @@ Invisibly returns
 \code{tab_model()} creates HTML tables from regression models.
 }
 \details{
-\strong{Standardized Estimates}
-   \cr \cr
-   Concerning the \code{show.std} argument, \code{show.std = "std"}
-   will print normal standardized estimates. For \code{show.std = "std2"},
-   however, standardization of estimates follows
-   \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
-   suggestion, rescaling the estimates by dividing them by two standard
-   deviations instead of just one. Resulting coefficients are then
-   directly comparable for untransformed binary predictors.
-   For backward compatibility reasons, \code{show.std} also may be
-   a logical value; if \code{TRUE}, normal standardized estimates are
-   printed (same effect as \code{show.std = "std"}). Use
-   \code{show.std = NULL} (default) or \code{show.std = FALSE},
-   if standardized estimats should not be printed.
-   \cr \cr
-   \strong{How do I use \code{CSS}-argument?}
-   \cr \cr
+\subsection{Standardized Estimates}{
+  Default standardization is done by completely refitting the model on the
+  standardized data. Hence, this approach is equal to standardizing the
+  variables before fitting the model, which is particularly recommended for
+  complex models that include interactions or transformations (e.g., polynomial
+  or spline terms). When \code{show.std = "std2"}, standardization of estimates
+  follows \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
+  suggestion, rescaling the estimates by dividing them by two standard deviations
+  instead of just one. Resulting coefficients are then directly comparable for
+  untransformed binary predictors. For backward compatibility reasons,
+  \code{show.std} also may be a logical value; if \code{TRUE}, normal standardized
+  estimates are printed (same effect as \code{show.std = "std"}). Use
+  \code{show.std = NULL} (default) or \code{show.std = FALSE}, if no standardization
+  is required.
+}
+\subsection{How do I use \code{CSS}-argument?}{
    With the \code{CSS}-argument, the visual appearance of the tables
    can be modified. To get an overview of all style-sheet-classnames
    that are used in this function, see return value \code{page.style} for details.
@@ -394,6 +393,7 @@ Invisibly returns
      \item \code{css.arc = 'color:blue;'} for a blue text color each 2nd row.
      \item \code{css.caption = '+color:red;'} to add red font-color to the default table caption style.
    }
+}
 }
 \note{
 The HTML tables can either be saved as file and manually opened (use argument \code{file}) or
