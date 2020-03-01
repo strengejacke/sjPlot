@@ -101,8 +101,8 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
   else
     ty <- "fixed"
 
-  d1 <- bayestestR::ci(model, ci = p.outer, effects = ty)
-  d2 <- bayestestR::ci(model, ci = p.inner, effects = ty)
+  d1 <- bayestestR::ci(model, ci = p.outer, effects = ty, component = "all")
+  d2 <- bayestestR::ci(model, ci = p.inner, effects = ty, component = "all")
 
   if (!is.null(tf)) {
     funtrans <- match.fun(tf)
