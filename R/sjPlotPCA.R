@@ -74,7 +74,7 @@ sjp.pca <- function(data,
                     show.cronb = TRUE) {
 
   ## TODO change to deprecated
-  warning("'sjp.pca()' will become deprecated in a future update. Please use 'parameters::principal_components()' and the 'plot()' method instead.", call. = FALSE)
+  .Deprecated(msg = "'sjp.pca()' will become deprecated in a future update. Please use 'parameters::principal_components()' and the 'plot()' method instead.")
 
   if (!requireNamespace("psych", quietly = TRUE)) {
     stop("Package 'psych' required for this function to work. Please install it.", call. = FALSE)

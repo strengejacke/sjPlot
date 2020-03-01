@@ -21,16 +21,15 @@ Description: Collection of plotting and table output functions for data
     labelled data.
 License: GPL-3
 Depends:
-    R (>= 3.2),
+    R (>= 3.2)
+Imports:
     graphics,
     grDevices,
     stats,
-    utils
-Imports:
+    utils,
     bayestestR (>= 0.5.0),
     dplyr (>= 0.8.1),
     effectsize,
-    forcats,
     ggeffects (>= 0.14.0),
     ggplot2 (>= 3.2.0),
     knitr,

@@ -76,8 +76,7 @@ sjp.fa <- function(data,
                     show.values = TRUE,
                     show.cronb = TRUE) {
 
-  ## TODO change to deprecated
-  warning("'sjp.fa()' will become deprecated in a future update. Please use 'parameters::factor_analysis()' and the 'plot()' method instead.", call. = FALSE)
+  .Deprecated(msg = "'sjp.fa()' will become deprecated in a future update. Please use 'parameters::factor_analysis()' and the 'plot()' method instead.")
 
   if (!requireNamespace("psych", quietly = TRUE)) {
     stop("Package 'psych' required for this function to work. Please install it.", call. = FALSE)

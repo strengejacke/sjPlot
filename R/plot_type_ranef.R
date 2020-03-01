@@ -286,7 +286,7 @@ plot_type_ranef <- function(model,
       function(x, y) {
 
         # sort terms
-        x$term <- forcats::fct_reorder(x$term, x$reihe)
+        x$term <- factor(x$term, levels = unique(x$term[order(x$reihe)]))
 
 
         # now we need a named vector, in order

@@ -226,7 +226,7 @@ plot_models <- function(...,
 
 
   # reverse group, to plot correct order from top to bottom
-  ff$group <- forcats::fct_rev(ff$group)
+  ff$group <- factor(ff$group, levels = rev(unique(ff$group)))
 
 
   # add p-asterisks to data

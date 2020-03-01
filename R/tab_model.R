@@ -324,11 +324,6 @@ tab_model <- function(
   prefix.labels <- match.arg(prefix.labels)
   vcov.type <- match.arg(vcov.type)
 
-  ## TODO remove once parameters update is on CRAN
-  if (p.val != "wald" && utils::packageVersion("parameters") <= "0.4.1") {
-    message("Computation of Kenward-Roger or Satterthwaite approximated degrees of freedom for p-values will be inaccurate with the current version of the 'parameters' package. Please update package 'parameters' from GitHub to get reliable p-values.")
-  }
-
   change_string_est <- !missing(string.est)
 
   # if we prefix labels, use different default for case conversion,

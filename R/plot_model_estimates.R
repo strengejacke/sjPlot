@@ -131,10 +131,12 @@ plot_model_estimates <- function(model,
 
   # does user want a specific order for terms?
 
+  ordered.terms <- FALSE
   if (!is.null(term.order)) {
     if (length(term.order) == nrow(dat)) {
-      dat$term <- forcats::fct_reorder(dat$term, order(term.order))
+      dat$term <- factor(dat$term, levels = unique(dat$term)[term.order])
       sort.est <- FALSE
+      ordered.terms <- TRUE
     } else {
       message("Number of values in `order.terms` does not match number of terms. Terms are not sorted.")
     }
@@ -145,10 +147,10 @@ plot_model_estimates <- function(model,
 
   if (isTRUE(sort.est)) {
     if (!is.null(group.terms))
-      dat$term <- forcats::fct_reorder(dat$term, dat$group)
+      dat$term <- factor(dat$term, levels = unique(dat$term[order(dat$group)]))
     else
-      dat$term <- forcats::fct_reorder(dat$term, dat$estimate)
-  } else {
+      dat$term <- factor(dat$term, levels = unique(dat$term[order(dat$estimate)]))
+  } else if (!ordered.terms) {
     dat$term <- factor(dat$term, levels = rev(unique(dat$term)))
   }
 
@@ -189,7 +191,7 @@ plot_model_estimates <- function(model,
         }
         x$reihe <- order(reihe)
 
-        x$term <- forcats::fct_reorder(x$term, x$reihe)
+        x$term <- factor(x$term, levels = unique(x$term[order(x$reihe)]))
 
         # plot title
 
