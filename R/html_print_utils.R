@@ -32,6 +32,7 @@ tab_df_content <- function(
   include.table.tag = TRUE,
   no.last.table.row = FALSE,
   show.header = TRUE,
+  zeroinf = FALSE,
   ...) {
 
   # save no of rows and columns
@@ -119,6 +120,13 @@ tab_df_content <- function(
 
     page.content <- paste0(page.content, "  </tr>\n")
 
+  }
+
+
+  if (isTRUE(zeroinf)) {
+    page.content <- paste0(page.content, "  <tr>\n")
+    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"zeroparts\">Count Model</td>\n", colcnt + 1))
+    page.content <- paste0(page.content, "  </tr>\n")
   }
 
 

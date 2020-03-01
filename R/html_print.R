@@ -313,6 +313,7 @@ tab_model_df <- function(x,
     sort.column = NULL,
     include.table.tag = FALSE,
     no.last.table.row = TRUE,
+    zeroinf = is.zeroinf,
     ...
   )
 
@@ -389,7 +390,7 @@ tab_model_df <- function(x,
     )
 
     page.content <- paste0(page.content, "  <tr>\n")
-    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"simplexparts\">Simplex Parameters</td>\n", ncol(x)))
+    page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"simplexparts\">Monotonic Effects</td>\n", ncol(x)))
     page.content <- paste0(page.content, "  </tr>\n")
 
     page.content <- paste0(page.content, sp.content)
@@ -426,6 +427,7 @@ tab_model_df <- function(x,
       sort.column = NULL,
       include.table.tag = FALSE,
       no.last.table.row = TRUE,
+      zeroinf = FALSE,
       ...
     )
 
