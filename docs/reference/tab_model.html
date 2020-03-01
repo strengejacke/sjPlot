@@ -242,13 +242,14 @@
   <span class='kw'>collapse.se</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>linebreak</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>col.order</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"est"</span>, <span class='st'>"se"</span>, <span class='st'>"std.est"</span>, <span class='st'>"std.se"</span>, <span class='st'>"ci"</span>, <span class='st'>"std.ci"</span>, <span class='st'>"ci.inner"</span>,
-    <span class='st'>"ci.outer"</span>, <span class='st'>"stat"</span>, <span class='st'>"p"</span>, <span class='st'>"df"</span>, <span class='st'>"response.level"</span>),
+    <span class='st'>"ci.outer"</span>, <span class='st'>"stat"</span>, <span class='st'>"p"</span>, <span class='st'>"df.error"</span>, <span class='st'>"response.level"</span>),
   <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>,
   <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wald"</span>, <span class='st'>"kenward"</span>, <span class='st'>"kr"</span>, <span class='st'>"satterthwaite"</span>),
   <span class='kw'>p.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"numeric"</span>, <span class='st'>"asterisk"</span>, <span class='st'>"both"</span>),
   <span class='kw'>p.threshold</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span>),
+  <span class='kw'>p.adjust</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>case</span> <span class='kw'>=</span> <span class='st'>"parsed"</span>,
   <span class='kw'>auto.label</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>prefix.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>),
@@ -606,6 +607,11 @@ annotating p-values with asterisks. Only applies if
 <code>p.style = "asterisk"</code>.</p></td>
     </tr>
     <tr>
+      <th>p.adjust</th>
+      <td><p>Character vector, if not <code>NULL</code>, indicates the method
+to adjust p-values. See <code><a href='https://rdrr.io/r/stats/p.adjust.html'>p.adjust</a></code> for details.</p></td>
+    </tr>
+    <tr>
       <th>case</th>
       <td><p>Desired target case. Labels will automatically converted into the
 specified character case. See <code><a href='https://rdrr.io/pkg/snakecase/man/to_any_case.html'>to_any_case</a></code> for more
@@ -673,24 +679,23 @@ opened in a web browser.</p></td>
 </ul><p>for further use.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><strong>Standardized Estimates</strong>
-   <br /> <br />
-   Concerning the <code>show.std</code> argument, <code>show.std = "std"</code>
-   will print normal standardized estimates. For <code>show.std = "std2"</code>,
-   however, standardization of estimates follows
-   <a href='http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf'>Gelman's (2008)</a>
-   suggestion, rescaling the estimates by dividing them by two standard
-   deviations instead of just one. Resulting coefficients are then
-   directly comparable for untransformed binary predictors.
-   For backward compatibility reasons, <code>show.std</code> also may be
-   a logical value; if <code>TRUE</code>, normal standardized estimates are
-   printed (same effect as <code>show.std = "std"</code>). Use
-   <code>show.std = NULL</code> (default) or <code>show.std = FALSE</code>,
-   if standardized estimats should not be printed.
-   <br /> <br />
-   <strong>How do I use <code>CSS</code>-argument?</strong>
-   <br /> <br />
-   With the <code>CSS</code>-argument, the visual appearance of the tables
+    
+<h3>Standardized Estimates</h3>
+<p>Default standardization is done by completely refitting the model on the
+  standardized data. Hence, this approach is equal to standardizing the
+  variables before fitting the model, which is particularly recommended for
+  complex models that include interactions or transformations (e.g., polynomial
+  or spline terms). When <code>show.std = "std2"</code>, standardization of estimates
+  follows <a href='http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf'>Gelman's (2008)</a>
+  suggestion, rescaling the estimates by dividing them by two standard deviations
+  instead of just one. Resulting coefficients are then directly comparable for
+  untransformed binary predictors. For backward compatibility reasons,
+  <code>show.std</code> also may be a logical value; if <code>TRUE</code>, normal standardized
+  estimates are printed (same effect as <code>show.std = "std"</code>). Use
+  <code>show.std = NULL</code> (default) or <code>show.std = FALSE</code>, if no standardization
+  is required.</p>
+<h3>How do I use <code>CSS</code>-argument?</h3>
+<p>With the <code>CSS</code>-argument, the visual appearance of the tables
    can be modified. To get an overview of all style-sheet-classnames
    that are used in this function, see return value <code>page.style</code> for details.
    Arguments for this list have following syntax:</p><ol>
@@ -705,6 +710,7 @@ opened in a web browser.</p></td>
 <li><p><code>css.arc = 'color:blue;'</code> for a blue text color each 2nd row.</p></li>
 <li><p><code>css.caption = '+color:red;'</code> to add red font-color to the default table caption style.</p></li>
 </ul>
+
 
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 

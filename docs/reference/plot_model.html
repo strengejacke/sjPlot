@@ -277,9 +277,9 @@ kinds of models are supported, e.g. from packages like <span class="pkg">stats</
   only contains one predictor, slope-line is plotted.</p></dd>
   <dt><code>type = "re"</code></dt><dd><p>For mixed effects models, plots the random
   effects.</p></dd>
-  <dt><code>type = "std"</code></dt><dd><p>Forest-plot of standardized beta values.</p></dd>
-  <dt><code>type = "std2"</code></dt><dd><p>Forest-plot of standardized beta values,
-  however, standardization is done by dividing by two sd (see 'Details').</p></dd>
+  <dt><code>type = "std"</code></dt><dd><p>Forest-plot of standardized coefficients.</p></dd>
+  <dt><code>type = "std2"</code></dt><dd><p>Forest-plot of standardized coefficients,
+  however, standardization is done by dividing by two SD (see 'Details').</p></dd>
 
 </dl><p><em>Marginal Effects</em>  (<a href='https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html'>related vignette</a>)</p><dl class='dl-horizontal'>
   <dt><code>type = "pred"</code></dt><dd><p>Predicted values (marginal effects) for
@@ -723,20 +723,20 @@ of supported arguments and their description in detail.</p><dl class='dl-horizon
   (depending on the plot-type) a list of such data frames.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><code>get_model_data()</code> simply calls <code>plot_model()</code> and returns
-  the data from the ggplot-object. Hence, it is rather inefficient and should
-  be used as alternative to <span class="pkg">brooms</span> <code>tidy()</code>-function only in
-  specific situations. <br /> <br /> Some details on the different plot-types:</p><dl class='dl-horizontal'>
-  <dt><code>type = "std2"</code></dt><dd><p>Plots standardized beta values,
-    however, standardization follows Gelman's (2008) suggestion, rescaling the
+    
+<h3>Different Plot Types</h3>
+<p></p><dl class='dl-horizontal'>
+  <dt><code>type = "std"</code></dt><dd><p>Plots standardized estimates. See details below.</p></dd>
+  <dt><code>type = "std2"</code></dt><dd><p>Plots standardized estimates, however,
+    standardization follows Gelman's (2008) suggestion, rescaling the
     estimates by dividing them by two standard deviations instead of just one.
     Resulting coefficients are then directly comparable for untransformed
     binary predictors.</p></dd>
-  <dt><code>type = "pred"</code></dt><dd><p>Plots marginal effects. Simply wraps
-    <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></code>. See also
+  <dt><code>type = "pred"</code></dt><dd><p>Plots estimated marginal means (or marginal effects).
+    Simply wraps <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></code>. See also
     <a href='https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html'>this package-vignette</a>.</p></dd>
-  <dt><code>type = "eff"</code></dt><dd><p>Plots marginal effects. Simply wraps
-    <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect</a></code>. See also
+  <dt><code>type = "eff"</code></dt><dd><p>Plots estimated marginal means (or marginal effects).
+    Simply wraps <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect</a></code>. See also
     <a href='https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html'>this package-vignette</a>.</p></dd>
   <dt><code>type = "int"</code></dt><dd><p>A shortcut for marginal effects plots, where
     interaction terms are automatically detected and used as
@@ -764,9 +764,20 @@ of supported arguments and their description in detail.</p><dl class='dl-horizon
   multicollinearity-check (Variance Inflation Factors), QQ-plots,
   checks for normal distribution of residuals and homoscedasticity
   (constant variance of residuals) are shown. For <strong>generalized
-  lineare mixed models</strong>, returns the QQ-plot for random effects.</p></dd>
+  linear mixed models</strong>, returns the QQ-plot for random effects.</p></dd>
   
 </dl>
+
+<h3>Standardized Estimates</h3>
+<p>Default standardization is done by completely refitting the model on the
+  standardized data. Hence, this approach is equal to standardizing the
+  variables before fitting the model, which is particularly recommended for
+  complex models that include interactions or transformations (e.g., polynomial
+  or spline terms). When <code>type = "std2"</code>, standardization of estimates
+  follows <a href='http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf'>Gelman's (2008)</a>
+  suggestion, rescaling the estimates by dividing them by two standard deviations
+  instead of just one. Resulting coefficients are then directly comparable for
+  untransformed binary predictors.</p>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
