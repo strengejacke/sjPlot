@@ -70,7 +70,7 @@ Another example for the \emph{iris} dataset would be
 \code{rm.terms}-argument does not apply to \emph{Marginal Effects} plots.}
 
 \item{title}{Character vector, used as plot title. By default,
-\code{\link[sjlabelled]{get_dv_labels}} is called to retrieve the label of
+\code{\link[sjlabelled]{response_labels}} is called to retrieve the label of
 the dependent variable, which will be used as title. Use \code{title = ""}
 to remove title.}
 
@@ -86,7 +86,7 @@ indicates the p-values. Default is \code{"p-level"}. Only applies if
 \code{p.shape = TRUE}.}
 
 \item{axis.labels}{Character vector with labels for the model terms, used as
-axis labels. By default, \code{\link[sjlabelled]{get_term_labels}} is
+axis labels. By default, \code{\link[sjlabelled]{term_labels}} is
 called to retrieve the labels of the coefficients, which will be used as
 axis labels. Use \code{axis.labels = ""} or \code{auto.label = FALSE} to
 use the variable names as labels instead. If \code{axis.labels} is a named
@@ -200,7 +200,7 @@ layout.}
 
 \item{auto.label}{Logical, if \code{TRUE} (the default),
  and \href{https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html}{data is labelled},
- \code{\link[sjlabelled]{get_term_labels}} is called to retrieve the labels
+ \code{\link[sjlabelled]{term_labels}} is called to retrieve the labels
  of the coefficients, which will be used as predictor labels. If data is
  not labelled, \href{https://easystats.github.io/parameters/reference/format_parameters.html}{format_parameters()}
  is used to create pretty labels. If \code{auto.label = FALSE},
@@ -208,7 +208,7 @@ original variable names and value labels (factor levels) are used.}
 
 \item{prefix.labels}{Indicates whether the value labels of categorical variables
 should be prefixed, e.g. with the variable name or variable label. See
-argument \code{prefix} in \code{\link[sjlabelled]{get_term_labels}} for
+argument \code{prefix} in \code{\link[sjlabelled]{term_labels}} for
 details.}
 }
 \value{

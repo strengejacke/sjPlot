@@ -28,7 +28,7 @@
 #'    If not \code{NULL}, \code{pred.labels} will be used in the first
 #'    table column with the predictors' names. By default, if \code{auto.label = TRUE}
 #'    and \href{https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html}{data is labelled},
-#'    \code{\link[sjlabelled]{get_term_labels}} is called to retrieve the labels
+#'    \code{\link[sjlabelled]{term_labels}} is called to retrieve the labels
 #'    of the coefficients, which will be used as predictor labels. If data is
 #'    not labelled, \href{https://easystats.github.io/parameters/reference/format_parameters.html}{format_parameters()}
 #'    is used to create pretty labels. If \code{pred.labels = ""} or \code{auto.label = FALSE}, the raw
@@ -216,7 +216,7 @@
 #
 #' @importFrom dplyr full_join select if_else mutate
 #' @importFrom purrr reduce map2 map_if map_df compact map_lgl map_chr flatten_chr
-#' @importFrom sjlabelled get_dv_labels get_term_labels
+#' @importFrom sjlabelled response_labels term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns add_case
 #' @importFrom insight model_info is_multivariate find_random get_data find_predictors
 #' @importFrom performance r2 icc
@@ -957,7 +957,7 @@ tab_model <- function(
 
   if (isTRUE(auto.label) && sjmisc::is_empty(pred.labels)) {
     if (.labelled_model_data(models) || any(sapply(models, is.stan)) || isTRUE(show.reflvl)) {
-      pred.labels <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE, prefix = prefix.labels)
+      pred.labels <- sjlabelled::term_labels(models, case = case, mark.cat = TRUE, prefix = prefix.labels)
       category.values <- attr(pred.labels, "category.value")
 
       # remove random effect labels
@@ -970,7 +970,7 @@ tab_model <- function(
       ))
 
       if (!is.null(re_terms)) {
-        pred.labels.tmp <- sjlabelled::get_term_labels(models, case = case, mark.cat = TRUE, prefix = "varname")
+        pred.labels.tmp <- sjlabelled::term_labels(models, case = case, mark.cat = TRUE, prefix = "varname")
         for (.re in re_terms) {
           found <- grepl(paste0("^", .re, ":"), pred.labels.tmp)
           if (any(found)) {
@@ -1073,7 +1073,7 @@ tab_model <- function(
 
   if (isTRUE(auto.label) && sjmisc::is_empty(dv.labels)) {
     dv.labels <- sjmisc::word_wrap(
-      sjlabelled::get_dv_labels(models, case = case),
+      sjlabelled::response_labels(models, case = case),
       wrap = wrap.labels,
       linesep = "<br>"
     )

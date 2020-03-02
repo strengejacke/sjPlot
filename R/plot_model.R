@@ -146,7 +146,7 @@
 #'   \code{\link[lme4]{ranef}}) will be plotted. Default is \code{NULL}, so all
 #'   random effects will be plotted.
 #' @param title Character vector, used as plot title. By default,
-#'   \code{\link[sjlabelled]{get_dv_labels}} is called to retrieve the label of
+#'   \code{\link[sjlabelled]{response_labels}} is called to retrieve the label of
 #'   the dependent variable, which will be used as title. Use \code{title = ""}
 #'   to remove title.
 #' @param axis.title Character vector of length one or two (depending on the
@@ -157,7 +157,7 @@
 #'   \code{\link[ggplot2]{labs}}. Use \code{axis.title = ""} to remove axis
 #'   titles.
 #' @param axis.labels Character vector with labels for the model terms, used as
-#'   axis labels. By default, \code{\link[sjlabelled]{get_term_labels}} is
+#'   axis labels. By default, \code{\link[sjlabelled]{term_labels}} is
 #'   called to retrieve the labels of the coefficients, which will be used as
 #'   axis labels. Use \code{axis.labels = ""} or \code{auto.label = FALSE} to
 #'   use the variable names as labels instead. If \code{axis.labels} is a named
@@ -254,14 +254,14 @@
 #'   default when prefixing labels.
 #' @param auto.label Logical, if \code{TRUE} (the default),
 #'    and \href{https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html}{data is labelled},
-#'    \code{\link[sjlabelled]{get_term_labels}} is called to retrieve the labels
+#'    \code{\link[sjlabelled]{term_labels}} is called to retrieve the labels
 #'    of the coefficients, which will be used as predictor labels. If data is
 #'    not labelled, \href{https://easystats.github.io/parameters/reference/format_parameters.html}{format_parameters()}
 #'    is used to create pretty labels. If \code{auto.label = FALSE},
 #'   original variable names and value labels (factor levels) are used.
 #' @param prefix.labels Indicates whether the value labels of categorical variables
 #'   should be prefixed, e.g. with the variable name or variable label. See
-#'   argument \code{prefix} in \code{\link[sjlabelled]{get_term_labels}} for
+#'   argument \code{prefix} in \code{\link[sjlabelled]{term_labels}} for
 #'   details.
 #' @param jitter Numeric, between 0 and 1. If \code{show.data = TRUE}, you can
 #'   add a small amount of random variation to the location of each data point.
@@ -465,7 +465,7 @@
 #'
 #' @importFrom insight model_info find_predictors
 #' @importFrom sjmisc word_wrap str_contains
-#' @importFrom sjlabelled get_dv_labels get_term_labels
+#' @importFrom sjlabelled response_labels term_labels
 #' @importFrom dplyr if_else n_distinct
 #' @importFrom graphics plot
 #' @importFrom ggeffects ggpredict ggeffect
@@ -572,12 +572,12 @@ plot_model <- function(model,
   if (type %in% c("est", "std", "std2") && isTRUE(auto.label)) {
 
     # get labels of dependent variables, and wrap them if too long
-    if (is.null(title)) title <- sjlabelled::get_dv_labels(model, case = case, mv = fam.info$is_multivariate, ...)
+    if (is.null(title)) title <- sjlabelled::response_labels(model, case = case, mv = fam.info$is_multivariate, ...)
     title <- sjmisc::word_wrap(title, wrap = wrap.title)
 
     # labels for axis with term names
     if (is.null(axis.labels)) {
-      term_labels <- sjlabelled::get_term_labels(model, case = case, prefix = prefix.labels, ...)
+      term_labels <- sjlabelled::term_labels(model, case = case, prefix = prefix.labels, ...)
       if (.labelled_model_data(model) || is.stan(model)) axis.labels <- term_labels
     }
     axis.labels <- sjmisc::word_wrap(axis.labels, wrap = wrap.labels)

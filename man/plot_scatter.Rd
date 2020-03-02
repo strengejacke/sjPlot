@@ -41,7 +41,7 @@ plot_scatter(
 scatter plot will be grouped. See 'Examples'.}
 
 \item{title}{Character vector, used as plot title. By default,
-\code{\link[sjlabelled]{get_dv_labels}} is called to retrieve the label of
+\code{\link[sjlabelled]{response_labels}} is called to retrieve the label of
 the dependent variable, which will be used as title. Use \code{title = ""}
 to remove title.}
 
