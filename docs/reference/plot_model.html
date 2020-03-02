@@ -211,6 +211,7 @@
   <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>ci.lvl</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>se</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>robust</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HC3"</span>, <span class='st'>"const"</span>, <span class='st'>"HC"</span>, <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>, <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>, <span class='st'>"HC5"</span>),
   <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
@@ -508,10 +509,20 @@ such cases. See <code>prob.inner</code> and <code>prob.outer</code> under the
       <td><p>Logical, if <code>TRUE</code>, the standard errors are
 also printed. If robust standard errors are required, use arguments
 <code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code> (see
-<code><a href='https://rdrr.io/pkg/sjstats/man/r2.html'>robust</a></code> for details). <code>se</code> overrides
-<code>ci.lvl</code>: if not <code>NULL</code>, arguments <code>ci.lvl</code>
-and <code>transform</code> will be ignored. Currently, <code>se</code> only applies
-to <em>Coefficients</em> plots.</p></td>
+<code><a href='https://rdrr.io/pkg/parameters/man/standard_error_robust.html'>standard_error_robust</a></code> and
+<a href='https://easystats.github.io/parameters/articles/model_parameters_robust.html'>this vignette</a>
+for details), or use argument <code>robust</code> as shortcut. <code>se</code> overrides
+<code>ci.lvl</code>: if not <code>NULL</code>, arguments <code>ci.lvl</code> and <code>transform</code>
+will be ignored. Currently, <code>se</code> only applies to <em>Coefficients</em> plots.</p></td>
+    </tr>
+    <tr>
+      <th>robust</th>
+      <td><p>Logical, shortcut for arguments <code>vcov.fun</code> and <code>vcov.type</code>.
+If <code>TRUE</code>, uses <code>vcov.fun = "vcovHC"</code> and <code>vcov.type = "HC3"</code> as
+default, that is, <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC</a></code> with default-type is called
+(see <code><a href='https://rdrr.io/pkg/parameters/man/standard_error_robust.html'>standard_error_robust</a></code> and
+<a href='https://easystats.github.io/parameters/articles/model_parameters_robust.html'>this vignette</a>
+for further details).</p></td>
     </tr>
     <tr>
       <th>vcov.fun</th>
