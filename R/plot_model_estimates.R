@@ -134,7 +134,7 @@ plot_model_estimates <- function(model,
   ordered.terms <- FALSE
   if (!is.null(term.order)) {
     if (length(term.order) == nrow(dat)) {
-      dat$term <- factor(dat$term, levels = unique(dat$term)[term.order])
+      dat$term <- factor(dat$term, levels = unique(dat$term)[rev(term.order)])
       sort.est <- FALSE
       ordered.terms <- TRUE
     } else {
