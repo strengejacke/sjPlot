@@ -7,6 +7,7 @@
 ## Changes to functions
 
 * `tab_model()` gets a `p.adjust` argument to adjust p-values for multiple comparisons.
+* `tab_model()`, `plot_model()` and `plot_models()` get a `robust`-argument to easily compute standard errors, confidence intervals and p-values based on robust estimation of the variance-covariance matrix. `robust` is just a convenient shortcut for `vcov.fun` and `vcov.type`.
 
 ## Bug fixes
 
