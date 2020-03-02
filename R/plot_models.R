@@ -98,6 +98,7 @@ plot_models <- function(...,
                         p.shape = FALSE,
                         p.threshold = c(0.05, 0.01, 0.001),
                         ci.lvl = .95,
+                        robust = FALSE,
                         vcov.fun = NULL,
                         vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
                         vcov.args = NULL,
@@ -111,6 +112,12 @@ plot_models <- function(...,
   names(input_list) <- unlist(lapply(match.call(expand.dots = F)$`...`, deparse))
 
   vcov.type <- match.arg(vcov.type)
+
+  if (isTRUE(robust)) {
+    vcov.type <- "HC3"
+    vcov.fun <- "vcovHC"
+  }
+
   # check se-argument
   vcov.fun <- check_se_argument(se = vcov.fun, type = "est")
 

@@ -28,6 +28,7 @@ plot_model(
   grid.breaks = NULL,
   ci.lvl = NULL,
   se = NULL,
+  robust = FALSE,
   vcov.fun = NULL,
   vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
   vcov.args = NULL,
@@ -284,10 +285,18 @@ such cases. See \code{prob.inner} and \code{prob.outer} under the
 \item{se}{Logical, if \code{TRUE}, the standard errors are
 also printed. If robust standard errors are required, use arguments
 \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
-\code{\link[sjstats]{robust}} for details). \code{se} overrides
-\code{ci.lvl}: if not \code{NULL}, arguments \code{ci.lvl}
-and \code{transform} will be ignored. Currently, \code{se} only applies
-to \emph{Coefficients} plots.}
+\code{\link[parameters]{standard_error_robust}} and
+\href{https://easystats.github.io/parameters/articles/model_parameters_robust.html}{this vignette}
+for details), or use argument \code{robust} as shortcut. \code{se} overrides
+\code{ci.lvl}: if not \code{NULL}, arguments \code{ci.lvl} and \code{transform}
+will be ignored. Currently, \code{se} only applies to \emph{Coefficients} plots.}
+
+\item{robust}{Logical, shortcut for arguments \code{vcov.fun} and \code{vcov.type}.
+If \code{TRUE}, uses \code{vcov.fun = "vcovHC"} and \code{vcov.type = "HC3"} as
+default, that is, \code{\link[sandwich]{vcovHC}} with default-type is called
+(see \code{\link[parameters]{standard_error_robust}} and
+\href{https://easystats.github.io/parameters/articles/model_parameters_robust.html}{this vignette}
+for further details).}
 
 \item{vcov.fun}{Character vector, indicating the name of the \code{vcov*()}-function
 from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust

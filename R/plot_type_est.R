@@ -47,7 +47,6 @@ plot_type_est <- function(type,
     std_method <- FALSE
   }
 
-  robust <- list(vcov.fun, vcov.type, vcov.args)
   dat <-
     tidy_model(
       model = model,
@@ -55,7 +54,7 @@ plot_type_est <- function(type,
       tf = tf,
       type = type,
       bpe = bpe,
-      robust = robust,
+      robust = list(vcov.fun = vcov.fun, vcov.type = vcov.type, vcov.args = vcov.args),
       facets = facets,
       show.zeroinf = show.zeroinf,
       p.val = "wald",

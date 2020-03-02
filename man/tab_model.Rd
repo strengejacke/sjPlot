@@ -38,6 +38,7 @@ tab_model(
   bootstrap = FALSE,
   iterations = 1000,
   seed = NULL,
+  robust = FALSE,
   vcov.fun = NULL,
   vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
   vcov.args = NULL,
@@ -103,7 +104,9 @@ credible interval is added to the table output.}
 \item{show.se}{Logical, if \code{TRUE}, the standard errors are
 also printed. If robust standard errors are required, use arguments
 \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
-\code{\link[parameters]{standard_error_robust}} for details).}
+\code{\link[parameters]{standard_error_robust}} and
+\href{https://easystats.github.io/parameters/articles/model_parameters_robust.html}{this vignette}
+for details).}
 
 \item{show.std}{Indicates whether standardized beta-coefficients should
 also printed, and if yes, which type of standardization is done.
@@ -207,6 +210,13 @@ or axis labels are displayed in one line and when a line break is inserted.}
 \item{iterations}{Numeric, number of bootsrap iterations (default is 1000).}
 
 \item{seed}{Numeric, the number of the seed to replicate bootstrapped estimates. If \code{NULL}, uses random seed.}
+
+\item{robust}{Logical, shortcut for arguments \code{vcov.fun} and \code{vcov.type}.
+If \code{TRUE}, uses \code{vcov.fun = "vcovHC"} and \code{vcov.type = "HC3"} as
+default, that is, \code{\link[sandwich]{vcovHC}} with default-type is called
+(see \code{\link[parameters]{standard_error_robust}} and
+\href{https://easystats.github.io/parameters/articles/model_parameters_robust.html}{this vignette}
+for further details).}
 
 \item{vcov.fun}{Character vector, indicating the name of the \code{vcov*()}-function
 from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust

@@ -63,7 +63,9 @@
 #' @param show.se Logical, if \code{TRUE}, the standard errors are
 #'   also printed. If robust standard errors are required, use arguments
 #'   \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
-#'   \code{\link[parameters]{standard_error_robust}} for details).
+#'   \code{\link[parameters]{standard_error_robust}} and
+#'   \href{https://easystats.github.io/parameters/articles/model_parameters_robust.html}{this vignette}
+#'   for details).
 #' @param show.r2 Logical, if \code{TRUE}, the r-squared value is also printed.
 #'    Depending on the model, these might be pseudo-r-squared values, or Bayesian
 #'    r-squared etc. See \code{\link[performance]{r2}} for details.
@@ -262,6 +264,7 @@ tab_model <- function(
   iterations = 1000,
   seed = NULL,
 
+  robust = FALSE,
   vcov.fun = NULL,
   vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
   vcov.args = NULL,
@@ -336,6 +339,12 @@ tab_model <- function(
   }
 
   if (p.style == "asterisk") show.p <- FALSE
+
+  # default robust?
+  if (isTRUE(robust)) {
+    vcov.type <- "HC3"
+    vcov.fun <- "vcovHC"
+  }
 
   # check se-argument
   vcov.fun <- check_se_argument(se = vcov.fun, type = NULL)

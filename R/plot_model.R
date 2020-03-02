@@ -188,10 +188,11 @@
 #' @param se Logical, if \code{TRUE}, the standard errors are
 #'   also printed. If robust standard errors are required, use arguments
 #'   \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
-#'   \code{\link[sjstats]{robust}} for details). \code{se} overrides
-#'   \code{ci.lvl}: if not \code{NULL}, arguments \code{ci.lvl}
-#'   and \code{transform} will be ignored. Currently, \code{se} only applies
-#'   to \emph{Coefficients} plots.
+#'   \code{\link[parameters]{standard_error_robust}} and
+#'   \href{https://easystats.github.io/parameters/articles/model_parameters_robust.html}{this vignette}
+#'   for details), or use argument \code{robust} as shortcut. \code{se} overrides
+#'   \code{ci.lvl}: if not \code{NULL}, arguments \code{ci.lvl} and \code{transform}
+#'   will be ignored. Currently, \code{se} only applies to \emph{Coefficients} plots.
 #' @param show.intercept Logical, if \code{TRUE}, the intercept of the fitted
 #'   model is also plotted. Default is \code{FALSE}. If \code{transform =
 #'   "exp"}, please note that due to exponential transformation of estimates,
@@ -205,6 +206,12 @@
 #'   legend.
 #' @param show.zeroinf Logical, if \code{TRUE}, shows the zero-inflation part of
 #'   hurdle- or zero-inflated models.
+#' @param robust Logical, shortcut for arguments \code{vcov.fun} and \code{vcov.type}.
+#'   If \code{TRUE}, uses \code{vcov.fun = "vcovHC"} and \code{vcov.type = "HC3"} as
+#'   default, that is, \code{\link[sandwich]{vcovHC}} with default-type is called
+#'   (see \code{\link[parameters]{standard_error_robust}} and
+#'   \href{https://easystats.github.io/parameters/articles/model_parameters_robust.html}{this vignette}
+#'   for further details).
 #' @param vcov.fun Character vector, indicating the name of the \code{vcov*()}-function
 #'    from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust
 #'    standard errors are required.
@@ -486,6 +493,7 @@ plot_model <- function(model,
                        grid.breaks = NULL,
                        ci.lvl = NULL,
                        se = NULL,
+                       robust = FALSE,
                        vcov.fun = NULL,
                        vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
                        vcov.args = NULL,
@@ -529,6 +537,11 @@ plot_model <- function(model,
       case <- "parsed"
     else
       case <- NULL
+  }
+
+  if (isTRUE(robust)) {
+    vcov.type <- "HC3"
+    vcov.fun <- "vcovHC"
   }
 
   # check se-argument
