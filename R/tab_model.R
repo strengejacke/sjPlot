@@ -668,7 +668,7 @@ tab_model <- function(
           vars$var.intercept <- attr(vars_brms, "var_rand_intercept")
           vars$var.residual <- attr(vars_brms, "var_residual")
         } else {
-          vars <- insight::get_variance(model)
+          vars <- suppressWarnings(insight::get_variance(model))
         }
       } else {
         vars <- NULL
