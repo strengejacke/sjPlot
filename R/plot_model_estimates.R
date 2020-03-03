@@ -1,5 +1,4 @@
 #' @importFrom dplyr slice filter if_else
-#' @importFrom forcats fct_reorder fct_rev
 #' @importFrom rlang .data
 #' @importFrom sjmisc remove_var
 #' @importFrom purrr pmap

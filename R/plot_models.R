@@ -68,7 +68,6 @@
 #' @import ggplot2
 #' @importFrom purrr map map_df map2
 #' @importFrom dplyr slice bind_rows filter
-#' @importFrom forcats fct_rev
 #' @importFrom sjlabelled response_labels term_labels
 #' @importFrom rlang .data
 #' @importFrom sjmisc word_wrap var_rename add_variables
