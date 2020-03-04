@@ -33,7 +33,7 @@ if (suppressWarnings(
   })
 
   test_that("tab_model", {
-    expect_warning(tab_model(m1, m2, m3, m4))
+    tab_model(m1, m2, m3, m4)
   })
 
   test_that("tab_model, check shows", {
