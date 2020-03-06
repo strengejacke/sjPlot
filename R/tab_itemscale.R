@@ -254,7 +254,7 @@ tab_itemscale <- function(df,
 
     # include kurtosis statistics
     if (show.kurtosis) {
-      df.dummy <- data_frame(cbind(df.dummy, round(parameters::kurtosis(df.sub), 2)))
+      df.dummy <- data_frame(cbind(df.dummy, round(as.numeric(parameters::kurtosis(df.sub)), 2)))
       df.colnames <- c(df.colnames, "Kurtosis")
     }
 
