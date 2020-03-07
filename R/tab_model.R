@@ -597,9 +597,11 @@ tab_model <- function(
 
         # for stan models, we also have 50% HDI
         if (!sjmisc::is_empty(string_starts_with("ci", x = colnames(dat)))) {
+          if (isTRUE(show.ci50)) {
+            dat <- dplyr::select(dat, -string_starts_with("ci.inner", x = colnames(dat)))
+            dat[[est.cols]] <- sprintf("%s%s(%s)", dat[[est.cols]], lb, dat[[est.cols + 2]])
+          }
           dat <- dplyr::select(dat, -string_starts_with("ci.outer", x = colnames(dat)))
-          dat[[est.cols]] <- sprintf("%s%s(%s)", dat[[est.cols]], lb, dat[[est.cols + 2]])
-          dat <- dplyr::select(dat, -string_starts_with("ci.inner", x = colnames(dat)))
         } else {
           dat <- dplyr::select(dat, -string_starts_with("conf.int", x = colnames(dat)))
         }
