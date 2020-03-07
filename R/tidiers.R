@@ -33,6 +33,9 @@ tidy_model <- function(
     )
 
     if (!is.null(robust) && !is.null(robust$vcov.fun)) {
+      if (grepl("^vcov", robust$vcov.fun)) {
+        robust$vcov.fun <- sub("^vcov", "", robust$vcov.fun)
+      }
       model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, robust = TRUE, vcov_estimation = robust$vcov.fun, vcov_type = robust$vcov.type, vcov_args = robust$vcov.args, df_method = df_method, p_adjust = p_adjust, ...)
     } else {
       model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, df_method = df_method, p_adjust = p_adjust)
