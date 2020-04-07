@@ -65,7 +65,7 @@ tab_model(
   digits = 2,
   digits.p = 3,
   emph.p = TRUE,
-  p.val = c("wald", "kenward", "kr", "satterthwaite"),
+  p.val = c("wald", "kenward", "kr", "satterthwaite", "ml1", "betwithin"),
   p.style = c("numeric", "asterisk", "both"),
   p.threshold = c(0.05, 0.01, 0.001),
   p.adjust = NULL,
@@ -173,7 +173,7 @@ use \code{terms = "Species [versicolor,virginica]"}.}
 be removed from the output Counterpart to \code{terms}. \code{rm.terms =
 "t_name"} would remove the term \emph{t_name}. Default is \code{NULL}, i.e.
 all terms are used. For factors, levels that should be removed from the plot
-need to be explicitely indicated in square brackets, and match the model's
+need to be explicitly indicated in square brackets, and match the model's
 coefficient names, e.g. \code{rm.terms = "t_name [2,3]"} would remove the terms
 \code{"t_name2"} and \code{"t_name3"} (assuming that the variable \code{t_name}
 was categorical and has at least the factor levels \code{2} and \code{3}).}
@@ -207,7 +207,7 @@ or axis labels are displayed in one line and when a line break is inserted.}
 
 \item{bootstrap}{Logical, if \code{TRUE}, returns bootstrapped estimates..}
 
-\item{iterations}{Numeric, number of bootsrap iterations (default is 1000).}
+\item{iterations}{Numeric, number of bootstrap iterations (default is 1000).}
 
 \item{seed}{Numeric, the number of the seed to replicate bootstrapped estimates. If \code{NULL}, uses random seed.}
 
@@ -259,7 +259,7 @@ Default is based on the response scale, e.g. for logistic regression models,
 
 \item{strings}{Named character vector, as alternative to arguments like \code{string.ci}
 or \code{string.p} etc. The name (lhs) must be one of the string-indicator from
-the forementioned arguments, while the value (rhs) is the string that is used
+the aforementioned arguments, while the value (rhs) is the string that is used
 as column heading. E.g., \code{strings = c(ci = "Conf.Int.", se = "std. Err")}
 would be equivalent to setting \code{string.ci = "Conf.Int.", string.se = "std. Err"}.}
 
@@ -298,9 +298,10 @@ Use \code{p.val = "wald"} for a faster, but less precise computation. For
 \code{p.val = "kenward"} (or \code{p.val = "kr"}), computation of p-values
 is based on conditional F-tests with Kenward-Roger approximation for the
 degrees of freedom. \code{p.val = "satterthwaite"} uses Satterthwaite's
-approximation (see \code{\link[parameters]{dof_kenward}} and \code{\link[parameters]{dof_satterthwaite}}
-for details). In the latter cases, use \code{show.df = TRUE} to show the
-approximated degrees of freedom for each coefficient.}
+approximation and \code{"ml1"} uses a "m-l-1" heuristic (see
+\code{\link[parameters]{degrees_of_freedom}} for details). Use
+\code{show.df = TRUE} to show the approximated degrees of freedom
+for each coefficient.}
 
 \item{p.style}{Character, indicating if p-values should be printed as
 numeric value (\code{"numeric"}), as asterisks (\code{"asterisk"})

@@ -20,7 +20,7 @@
 #'    be removed from the output Counterpart to \code{terms}. \code{rm.terms =
 #'    "t_name"} would remove the term \emph{t_name}. Default is \code{NULL}, i.e.
 #'    all terms are used. For factors, levels that should be removed from the plot
-#'    need to be explicitely indicated in square brackets, and match the model's
+#'    need to be explicitly indicated in square brackets, and match the model's
 #'    coefficient names, e.g. \code{rm.terms = "t_name [2,3]"} would remove the terms
 #'    \code{"t_name2"} and \code{"t_name3"} (assuming that the variable \code{t_name}
 #'    was categorical and has at least the factor levels \code{2} and \code{3}).
@@ -92,7 +92,7 @@
 #' @param string.intercept Character vector, used as name for the intercept parameter. Default is \code{"(Intercept)"}.
 #' @param strings Named character vector, as alternative to arguments like \code{string.ci}
 #'    or \code{string.p} etc. The name (lhs) must be one of the string-indicator from
-#'    the forementioned arguments, while the value (rhs) is the string that is used
+#'    the aforementioned arguments, while the value (rhs) is the string that is used
 #'    as column heading. E.g., \code{strings = c(ci = "Conf.Int.", se = "std. Err")}
 #'    would be equivalent to setting \code{string.ci = "Conf.Int.", string.se = "std. Err"}.
 #' @param ci.hyphen Character vector, indicating the hyphen for confidence interval range.
@@ -116,7 +116,7 @@
 #' @param show.ci50 Logical, if \code{TRUE}, for Bayesian models, a second
 #'    credible interval is added to the table output.
 #' @param bootstrap Logical, if \code{TRUE}, returns bootstrapped estimates..
-#' @param iterations Numeric, number of bootsrap iterations (default is 1000).
+#' @param iterations Numeric, number of bootstrap iterations (default is 1000).
 #' @param seed Numeric, the number of the seed to replicate bootstrapped estimates. If \code{NULL}, uses random seed.
 #' @param show.fstat Logical, if \code{TRUE}, the F-statistics for each model is
 #'    printed in the table summary. This option is not supported by all model types.
@@ -137,9 +137,10 @@
 #'   \code{p.val = "kenward"} (or \code{p.val = "kr"}), computation of p-values
 #'   is based on conditional F-tests with Kenward-Roger approximation for the
 #'   degrees of freedom. \code{p.val = "satterthwaite"} uses Satterthwaite's
-#'   approximation (see \code{\link[parameters]{dof_kenward}} and \code{\link[parameters]{dof_satterthwaite}}
-#'   for details). In the latter cases, use \code{show.df = TRUE} to show the
-#'   approximated degrees of freedom for each coefficient.
+#'   approximation and \code{"ml1"} uses a "m-l-1" heuristic (see
+#'   \code{\link[parameters]{degrees_of_freedom}} for details). Use
+#'   \code{show.df = TRUE} to show the approximated degrees of freedom
+#'   for each coefficient.
 #' @param p.style Character, indicating if p-values should be printed as
 #'   numeric value (\code{"numeric"}), as asterisks (\code{"asterisk"})
 #'   or both (\code{"both"}). May be abbreviated.
@@ -308,7 +309,7 @@ tab_model <- function(
   digits = 2,
   digits.p = 3,
   emph.p = TRUE,
-  p.val = c("wald", "kenward", "kr", "satterthwaite"),
+  p.val = c("wald", "kenward", "kr", "satterthwaite", "ml1", "betwithin"),
   p.style = c("numeric", "asterisk", "both"),
   p.threshold = c(0.05, 0.01, 0.001),
   p.adjust = NULL,
