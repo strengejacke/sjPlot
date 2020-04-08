@@ -9,7 +9,6 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, axis.labels, ..
   alpha <- .3
   scale <- .9
 
-
   if (inherits(model, "brmsfit")) {
 
     # check if brms can be loaded
@@ -17,22 +16,8 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, axis.labels, ..
     if (!requireNamespace("brms", quietly = TRUE))
       stop("Package `brms` needs to be loaded first!", call. = F)
 
-    # check if prior sample are available
-
-    d2 <- brms::prior_samples(model)
-
-    if (is.null(d2))
-      stop("No prior-samples found. Please use option `sample_prior = TRUE` when fitting the model.", call. = FALSE)
-
 
     # get samples from posterior and prior
-
-    d2 <- dplyr::select(
-      d2,
-      string_starts_with("b_", colnames(d2)),
-      -string_starts_with("b_Intercept", colnames(d2))
-    )
-
 
     d1 <- brms::posterior_samples(model)
 
@@ -41,6 +26,14 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, axis.labels, ..
       string_starts_with("b_", colnames(d1)),
       -string_starts_with("b_Intercept", colnames(d1))
     )
+
+
+    # check if prior sample are available
+
+    d2 <- brms::prior_samples(model, pars=colnames(d1))
+
+    if (is.null(d2))
+      stop("No prior-samples found. Please use option `sample_prior = TRUE` when fitting the model.", call. = FALSE)
 
   } else if (inherits(model, c("stanreg", "stanfit"))) {
 
