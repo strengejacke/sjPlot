@@ -564,6 +564,8 @@ sj.setGeomColors <- function(plot,
     return(plot)
   }
 
+  labels <- factor(unname(labels), levels = labels)
+
   # ---------------------------------------------------------
   # dummy function for setting legend labels and geom-colors
   # ---------------------------------------------------------

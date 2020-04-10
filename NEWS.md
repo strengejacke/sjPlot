@@ -1,3 +1,9 @@
+# sjPlot 2.8.4
+
+## Bug fixes
+
+* Fixed bug in `plot_xtab()` with wrong order of legend labels.
+
 # sjPlot 2.8.3
 
 ## General
