@@ -66,7 +66,7 @@ tab_model(
   digits.p = 3,
   emph.p = TRUE,
   p.val = c("wald", "kenward", "kr", "satterthwaite", "ml1", "betwithin"),
-  p.style = c("numeric", "asterisk", "both"),
+  p.style = c("numeric", "stars", "numeric_stars", "scientific", "scientific_stars"),
   p.threshold = c(0.05, 0.01, 0.001),
   p.adjust = NULL,
   case = "parsed",
@@ -304,8 +304,9 @@ approximation and \code{"ml1"} uses a "m-l-1" heuristic (see
 for each coefficient.}
 
 \item{p.style}{Character, indicating if p-values should be printed as
-numeric value (\code{"numeric"}), as asterisks (\code{"asterisk"})
-or both (\code{"both"}). May be abbreviated.}
+numeric value (\code{"numeric"}), as 'stars' (asterisks) only (\code{"stars"}),
+or scientific (\code{"scientific"}). Scientific and numeric style can be
+combined with "stars", e.g. \code{"numeric_stars"}}
 
 \item{p.threshold}{Numeric vector of length 3, indicating the treshold for
 annotating p-values with asterisks. Only applies if

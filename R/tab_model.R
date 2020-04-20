@@ -142,8 +142,9 @@
 #'   \code{show.df = TRUE} to show the approximated degrees of freedom
 #'   for each coefficient.
 #' @param p.style Character, indicating if p-values should be printed as
-#'   numeric value (\code{"numeric"}), as asterisks (\code{"asterisk"})
-#'   or both (\code{"both"}). May be abbreviated.
+#'   numeric value (\code{"numeric"}), as 'stars' (asterisks) only (\code{"stars"}),
+#'   or scientific (\code{"scientific"}). Scientific and numeric style can be
+#'   combined with "stars", e.g. \code{"numeric_stars"}
 #' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions,
 #'    according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
 #'    See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.
@@ -308,7 +309,7 @@ tab_model <- function(
   digits.p = 3,
   emph.p = TRUE,
   p.val = c("wald", "kenward", "kr", "satterthwaite", "ml1", "betwithin"),
-  p.style = c("numeric", "asterisk", "both"),
+  p.style = c("numeric", "stars", "numeric_stars", "scientific", "scientific_stars"),
   p.threshold = c(0.05, 0.01, 0.001),
   p.adjust = NULL,
 
@@ -337,7 +338,7 @@ tab_model <- function(
       case <- NULL
   }
 
-  if (p.style == "asterisk") show.p <- FALSE
+  if (p.style == "stars") show.p <- FALSE
 
   # default robust?
   if (isTRUE(robust)) {
@@ -468,9 +469,14 @@ tab_model <- function(
         dplyr::select(-.data$conf.low, -.data$conf.high) %>%
         dplyr::mutate(
           p.stars = get_p_stars(.data$p.value, p.threshold),
-          p.sig = .data$p.value < .05,
-          p.value = sprintf("%.*f", digits.p, .data$p.value)
+          p.sig = .data$p.value < .05
         )
+
+      if (grepl("scientific", p.style)) {
+        dat$p.value <- formatC(dat$p.value, format = "e", digits = digits.p)
+      } else {
+        dat$p.value <- sprintf("%.*f", digits.p, dat$p.value)
+      }
 
 
       # emphasize p-values ----
@@ -519,6 +525,7 @@ tab_model <- function(
           facets = FALSE,
           show.zeroinf = show.zeroinf,
           p.val = p.val,
+          p_adjust = p.adjust,
           standardize = std_method,
           bootstrap = bootstrap,
           iterations = iterations,
@@ -546,7 +553,7 @@ tab_model <- function(
 
       # add asterisks to estimates ----
 
-      if (p.style %in% c("asterisk", "both")) {
+      if (grepl("stars", p.style)) {
         if (obj_has_name(dat, "estimate"))
           dat$estimate <- sprintf("%.*f <sup>%s</sup>", digits, dat$estimate, dat$p.stars)
         if (!show.est && obj_has_name(dat, "std.estimate"))
@@ -1173,7 +1180,7 @@ tab_model <- function(
   })
 
 
-  if (p.style %in% c("asterisk", "both"))
+  if (grepl("stars", p.style))
     footnote <- sprintf(
       "* p&lt;%s&nbsp;&nbsp;&nbsp;** p&lt;%s&nbsp;&nbsp;&nbsp;*** p&lt;%s",
       format(p.threshold[1]),

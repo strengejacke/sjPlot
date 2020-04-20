@@ -3,6 +3,7 @@
 ## Changes to functions
 
 * `tab_model()` now accepts all options for `p.val` that are supported by `parameters::model_parameters()`.
+* The `p.style` argument in `tab_model()` was slightly revised, and now also accepts `"scientific"` as option for scientific notation of p-values.
 
 ## Bug fixes
 
