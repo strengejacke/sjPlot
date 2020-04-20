@@ -153,8 +153,6 @@
 #' @param use.viewer Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 #'    viewer pane. If \code{FALSE} or no viewer available, the HTML table is
 #'    opened in a web browser.
-#' @param p.adjust Character vector, if not \code{NULL}, indicates the method
-#'   to adjust p-values. See \code{\link[stats]{p.adjust}} for details.
 #'
 #' @inheritParams plot_models
 #' @inheritParams plot_model

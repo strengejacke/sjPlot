@@ -62,7 +62,6 @@ Suggests:
     rstanarm,
     survey,
     TMB,
-    Zelig,
     testthat
 URL: https://strengejacke.github.io/sjPlot/
 BugReports: https://github.com/strengejacke/sjPlot/issues

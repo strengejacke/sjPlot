@@ -1,5 +1,9 @@
 # sjPlot 2.8.4
 
+## Changes to functions
+
+* `tab_model()` now accepts all options for `p.val` that are supported by `parameters::model_parameters()`.
+
 ## Bug fixes
 
 * Fixed bug in `plot_xtab()` with wrong order of legend labels.

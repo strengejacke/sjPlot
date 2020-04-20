@@ -96,6 +96,7 @@ plot_models <- function(...,
                         show.p = TRUE,
                         p.shape = FALSE,
                         p.threshold = c(0.05, 0.01, 0.001),
+                        p.adjust = NULL,
                         ci.lvl = .95,
                         robust = FALSE,
                         vcov.fun = NULL,
@@ -172,6 +173,7 @@ plot_models <- function(...,
       bootstrap = FALSE,
       iterations = 1000,
       seed = NULL,
+      p_adjust = p.adjust,
       ...
     )
   )

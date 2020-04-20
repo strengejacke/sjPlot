@@ -35,6 +35,7 @@ plot_type_est <- function(type,
                           vcov.type,
                           vcov.args,
                           ci.style,
+                          p_adjust,
                           ...) {
 
   if (missing(facets)) facets <- TRUE
@@ -62,6 +63,7 @@ plot_type_est <- function(type,
       bootstrap = FALSE,
       iterations = 1000,
       seed = NULL,
+      p_adjust = p_adjust,
       ...
     )
 

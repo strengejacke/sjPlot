@@ -29,6 +29,7 @@ plot_models(
   show.p = TRUE,
   p.shape = FALSE,
   p.threshold = c(0.05, 0.01, 0.001),
+  p.adjust = NULL,
   ci.lvl = 0.95,
   robust = FALSE,
   vcov.fun = NULL,
@@ -160,6 +161,9 @@ is \code{FALSE}.}
 \item{p.threshold}{Numeric vector of length 3, indicating the treshold for
 annotating p-values with asterisks. Only applies if
 \code{p.style = "asterisk"}.}
+
+\item{p.adjust}{Character vector, if not \code{NULL}, indicates the method
+to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals (error bars).
 Use \code{ci.lvl = NA} to remove error bars. For \code{stanreg}-models,

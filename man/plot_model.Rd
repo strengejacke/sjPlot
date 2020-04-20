@@ -47,6 +47,7 @@ plot_model(
   line.size = NULL,
   vline.color = NULL,
   p.threshold = c(0.05, 0.01, 0.001),
+  p.adjust = NULL,
   grid,
   case,
   auto.label = TRUE,
@@ -365,6 +366,9 @@ inherited from the current theme.}
 \item{p.threshold}{Numeric vector of length 3, indicating the treshold for
 annotating p-values with asterisks. Only applies if
 \code{p.style = "asterisk"}.}
+
+\item{p.adjust}{Character vector, if not \code{NULL}, indicates the method
+to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
 
 \item{grid}{Logical, if \code{TRUE}, multiple plots are plotted as grid
 layout.}

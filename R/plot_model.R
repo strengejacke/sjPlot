@@ -269,6 +269,8 @@
 #'   will be occupied by the jittered values.
 #' @param digits Numeric, amount of digits after decimal point when rounding
 #'   estimates or values.
+#' @param p.adjust Character vector, if not \code{NULL}, indicates the method
+#'   to adjust p-values. See \code{\link[stats]{p.adjust}} for details.
 #' @param value.size Numeric, indicates the size of value labels. Can be used
 #'   for all plot types where the argument \code{show.values} is applicable,
 #'   e.g. \code{value.size = 4}.
@@ -512,6 +514,7 @@ plot_model <- function(model,
                        line.size = NULL,
                        vline.color = NULL,
                        p.threshold = c(0.05, 0.01, 0.001),
+                       p.adjust = NULL,
                        grid,
                        case,
                        auto.label = TRUE,
@@ -663,6 +666,7 @@ plot_model <- function(model,
       vcov.type = vcov.type,
       vcov.args = vcov.args,
       ci.style = ci.style,
+      p_adjust = p.adjust,
       ...
     )
 
