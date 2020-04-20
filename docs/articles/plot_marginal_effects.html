@@ -12,20 +12,20 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Plotting Marginal Effects of Regression Models">
-<meta property="og:description" content="">
+<meta property="og:description" content="sjPlot">
 <meta property="og:image" content="/logo.png">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.3.1</span>
       </span>
     </div>
 
@@ -123,7 +123,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/strengejacke/sjPlot/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -136,12 +143,12 @@
       </header><script src="plot_marginal_effects_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Plotting Marginal Effects of Regression Models</h1>
+      <h1 data-toc-skip>Plotting Marginal Effects of Regression Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-03-02</h4>
+            <h4 class="date">2020-04-20</h4>
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/plot_marginal_effects.Rmd"><code>vignettes/plot_marginal_effects.Rmd</code></a></small>
       <div class="hidden name"><code>plot_marginal_effects.Rmd</code></div>
 
     </div>
@@ -173,77 +180,77 @@ vignette: >
 <h1 class="hasAnchor">
 <a href="#marginal-effects" class="anchor"></a>Marginal effects</h1>
 <p><code><a href="../reference/plot_model.html">plot_model(type = "pred")</a></code> computes predicted values for all possible levels and values from a model’s predictors. In the simplest case, a fitted model is passed as first argument, followed by the <code>type</code> argument and the term in question as <code>terms</code> argument:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjPlot)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">theme_set</span>(<span class="kw"><a href="../reference/sjPlot-themes.html">theme_sjplot</a></span>())</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a>fit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(barthtot <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>neg_c_<span class="dv">7</span> <span class="op">+</span><span class="st"> </span>c161sex <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)</span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sjPlot</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">efc</span>)
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span>(<span class="fu"><a href="../reference/sjPlot-themes.html">theme_sjplot</a></span>())
+
+<span class="no">fit</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">barthtot</span> ~ <span class="no">c12hour</span> + <span class="no">neg_c_7</span> + <span class="no">c161sex</span> + <span class="no">c172code</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">efc</span>)
+
+<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">fit</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"pred"</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="st">"c12hour"</span>)</pre></body></html></div>
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
 <p>The plot shows the predicted values for the response at each value from the term <em>c12hour</em>.</p>
 <div id="marginal-effects-for-different-groups" class="section level2">
 <h2 class="hasAnchor">
 <a href="#marginal-effects-for-different-groups" class="anchor"></a>Marginal effects for different groups</h2>
 <p>The <code>terms</code>-argument accepts up to three model terms, where the second and third term indicate grouping levels. This allows predictions for the term in question at different levels for other model terms:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">fit</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"pred"</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>))</pre></body></html></div>
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 <p>A second grouping structure can be defined, which will create a plot with multiple panels in grid layout:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">fit</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"pred"</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour"</span>, <span class="st">"c172code"</span>, <span class="st">"c161sex"</span>))</pre></body></html></div>
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 </div>
 <div id="marginal-effects-at-specific-values-or-levels" class="section level2">
 <h2 class="hasAnchor">
 <a href="#marginal-effects-at-specific-values-or-levels" class="anchor"></a>Marginal effects at specific values or levels</h2>
 <p>The <code>terms</code>-argument not only defines the model terms of interest, but each model term <em>that defines the grouping structure</em> can be limited to certain values. This allows to compute and plot marginal effects for terms at specific values only. To define these values, put them in square brackets directly after the term name: <code>terms = c("c12hour [30, 50, 80]", "c172code [1,3]")</code></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour [30, 50, 80]"</span>, <span class="st">"c172code [1,3]"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">fit</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"pred"</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"c12hour [30, 50, 80]"</span>, <span class="st">"c172code [1,3]"</span>))</pre></body></html></div>
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 <p>Note that in the above plot, although the values 30, 50 and 80 only are selected from <em>c12hour</em>, the continuous scale automatically adds panel grids every 5 units along the x-axis.</p>
 <p>Defining own values is especially useful when variables are, for instance, log-transformed. <code><a href="../reference/plot_model.html">plot_model()</a></code> then typically only uses the range of the log-transformed variable, which is in most cases not what we want. In such situation, specify the range in the <code>terms</code>-argument.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(mtcars)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>mpg_model &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(mpg <span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(hp), <span class="dt">data =</span> mtcars)</span>
-<span id="cb5-3"><a href="#cb5-3"></a></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co"># x-values and predictions based on the log(hp)-values</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mpg_model, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="st">"hp"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">mtcars</span>)
+<span class="no">mpg_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">mpg</span> ~ <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">hp</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">mtcars</span>)
+
+<span class="co"># x-values and predictions based on the log(hp)-values</span>
+<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">mpg_model</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"pred"</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="st">"hp"</span>)</pre></body></html></div>
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="co"># x-values and predictions based on hp-values from 50 to 150</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mpg_model, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="st">"hp [50:150]"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r">
+<span class="co"># x-values and predictions based on hp-values from 50 to 150</span>
+<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">mpg_model</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"pred"</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="st">"hp [50:150]"</span>)</pre></body></html></div>
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-5-2.png" width="672"></p>
 <p>The brackets in the <code>terms</code>-argument also accept the name of a valid function, to (back-)transform predicted valued. In this example, an alternative would be to specify that values should be exponentiated, which is indicated by <code>[exp]</code> in the <code>terms</code>-argument:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># x-values and predictions based on exponentiated hp-values</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(mpg_model, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="st">"hp [exp]"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="co"># x-values and predictions based on exponentiated hp-values</span>
+<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">mpg_model</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"pred"</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="st">"hp [exp]"</span>)</pre></body></html></div>
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 </div>
 <div id="polynomial-terms-and-splines" class="section level2">
 <h2 class="hasAnchor">
 <a href="#polynomial-terms-and-splines" class="anchor"></a>Polynomial terms and splines</h2>
 <p>The function also works for models with polynomial terms or splines. Following code reproduces the plot from <code><a href="https://rdrr.io/r/splines/bs.html">?splines::bs</a></code>:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(splines)</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(women)</span>
-<span id="cb8-3"><a href="#cb8-3"></a></span>
-<span id="cb8-4"><a href="#cb8-4"></a>fm1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(weight <span class="op">~</span><span class="st"> </span><span class="kw">bs</span>(height, <span class="dt">df =</span> <span class="dv">5</span>), <span class="dt">data =</span> women)</span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fm1, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="st">"height"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">splines</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">women</span>)
+
+<span class="no">fm1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">weight</span> ~ <span class="fu"><a href="https://rdrr.io/r/splines/bs.html">bs</a></span>(<span class="no">height</span>, <span class="kw">df</span> <span class="kw">=</span> <span class="fl">5</span>), <span class="kw">data</span> <span class="kw">=</span> <span class="no">women</span>)
+<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">fm1</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"pred"</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="st">"height"</span>)</pre></body></html></div>
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </div>
 <div id="different-constant-values-for-factors" class="section level2">
 <h2 class="hasAnchor">
 <a href="#different-constant-values-for-factors" class="anchor"></a>Different constant values for factors</h2>
 <p>Model predictions are based on all possible combinations of the model terms, which are - roughly speaking - created using <code><a href="https://rdrr.io/r/base/expand.grid.html">expand.grid()</a></code>. For the terms in question, all values are used for combinations. All other model predictors that are <em>not</em> specified in the <code>terms</code>-argument, are held constant (which is achieved with <code><a href="https://rdrr.io/pkg/sjstats/man/reexports.html">sjstats::typical_value()</a></code>). By default, continuous variables are set to their mean, while factors are set to their reference level.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</span>
-<span id="cb9-2"><a href="#cb9-2"></a>efc<span class="op">$</span>c172code &lt;-<span class="st"> </span>sjlabelled<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sjlabelled/man/as_factor.html">as_factor</a></span>(efc<span class="op">$</span>c172code)</span>
-<span id="cb9-3"><a href="#cb9-3"></a>fit &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(neg_c_<span class="dv">7</span> <span class="op">~</span><span class="st"> </span>c12hour <span class="op">+</span><span class="st"> </span>c172code, <span class="dt">data =</span> efc)</span>
-<span id="cb9-4"><a href="#cb9-4"></a></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="co"># reference category is used for "c172code", i.e. c172code</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="co"># used the first level as value for predictions</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"pred"</span>, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">efc</span>)
+<span class="no">efc</span>$<span class="no">c172code</span> <span class="kw">&lt;-</span> <span class="kw pkg">sjlabelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/sjlabelled/man/as_factor.html">as_factor</a></span>(<span class="no">efc</span>$<span class="no">c172code</span>)
+<span class="no">fit</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">neg_c_7</span> ~ <span class="no">c12hour</span> + <span class="no">c172code</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">efc</span>)
+
+<span class="co"># reference category is used for "c172code", i.e. c172code</span>
+<span class="co"># used the first level as value for predictions</span>
+<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">fit</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"pred"</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="st">"c12hour"</span>)</pre></body></html></div>
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 <p>However, one may want to set factors to their <em>proportions</em> instead of reference level. E.g., a factor <em>gender</em> with value 0 for female and value 1 for male persons, would be set to <code>0</code> when marginal effects are computed with <code>type = "pred"</code>. But if 40% of the sample are female persons, another possibility to hold this factor constant is to use the value <code>.4</code> (reflecting the proportion of 40%). If this is required, use <code>type = "eff"</code>, which internally does not call <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> to compute marginal effects, but rather <code><a href="https://rdrr.io/pkg/effects/man/effect.html">effects::effect()</a></code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># proportion is used for "c172code", i.e. it is set to</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="co"># mean(sjlabelled::as_numeric(efc$c172code), na.rm = T),</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="co"># which is about 1.9715</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(fit, <span class="dt">type =</span> <span class="st">"eff"</span>, <span class="dt">terms =</span> <span class="st">"c12hour"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="co"># proportion is used for "c172code", i.e. it is set to</span>
+<span class="co"># mean(sjlabelled::as_numeric(efc$c172code), na.rm = T),</span>
+<span class="co"># which is about 1.9715</span>
+<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">fit</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"eff"</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="st">"c12hour"</span>)</pre></body></html></div>
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
 </div>
 </div>
@@ -254,25 +261,11 @@ vignette: >
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li>
-<a href="#marginal-effects">Marginal effects</a>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#marginal-effects-for-different-groups">Marginal effects for different groups</a></li>
-      <li><a href="#marginal-effects-at-specific-values-or-levels">Marginal effects at specific values or levels</a></li>
-      <li><a href="#polynomial-terms-and-splines">Polynomial terms and splines</a></li>
-      <li><a href="#different-constant-values-for-factors">Different constant values for factors</a></li>
-      </ul>
-</li>
-      <li><a href="#interaction-terms">Interaction terms</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -283,7 +276,7 @@ vignette: >
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
