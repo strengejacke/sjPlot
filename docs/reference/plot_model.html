@@ -115,6 +115,9 @@
     <li>
       <a href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
     </li>
+    <li>
+      <a href="../articles/tab_model_robust.html">Robust Estimation of Standard Errors</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -536,14 +539,14 @@ for further details).</p></td>
     <tr>
       <th>vcov.fun</th>
       <td><p>Character vector, indicating the name of the <code>vcov*()</code>-function
-from the <span class="pkg">sandwich</span>-package, e.g. <code>vcov.fun = "vcovCL"</code>, if robust
-standard errors are required.</p></td>
+from the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span> package, e.g. <code>vcov.fun = "vcovCL"</code>,
+if robust standard errors are required.</p></td>
     </tr>
     <tr>
       <th>vcov.type</th>
       <td><p>Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC</a></code>
-for details).</p></td>
+robust covariance matrix estimation (see <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC()</a></code>
+or <code><a href='https://rdrr.io/pkg/clubSandwich/man/vcovCR.html'>vcovCR()</a></code> for details).</p></td>
     </tr>
     <tr>
       <th>vcov.args</th>

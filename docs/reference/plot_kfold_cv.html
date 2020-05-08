@@ -116,6 +116,9 @@
     <li>
       <a href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
     </li>
+    <li>
+      <a href="../articles/tab_model_robust.html">Robust Estimation of Standard Errors</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -230,7 +233,7 @@ only linear, poisson and negative binomial regression models are supported.</p><
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This function, first, generates <code>k</code> cross-validated test-training
-           pairs (using the <code><a href='https://rdrr.io/pkg/modelr/man/crossv_mc.html'>crossv_kfold</a></code>-function) and
+           pairs (using the <code><a href='https://modelr.tidyverse.org/reference/crossv_mc.html'>crossv_kfold</a></code>-function) and
            fits the same model, specified in the <code>formula</code>- or <code>fit</code>-
            argument, over all training data sets. <br /> <br />
            Then, the test data is used to predict the outcome from all

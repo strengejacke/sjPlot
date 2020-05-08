@@ -300,12 +300,12 @@ default, that is, \code{\link[sandwich]{vcovHC}} with default-type is called
 for further details).}
 
 \item{vcov.fun}{Character vector, indicating the name of the \code{vcov*()}-function
-from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust
-standard errors are required.}
+from the \pkg{sandwich} or \pkg{clubSandwich} package, e.g. \code{vcov.fun = "vcovCL"},
+if robust standard errors are required.}
 
 \item{vcov.type}{Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
-for details).}
+robust covariance matrix estimation (see \code{\link[sandwich:vcovHC]{vcovHC()}}
+or \code{\link[clubSandwich:vcovCR]{vcovCR()}} for details).}
 
 \item{vcov.args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov.fun}.}
