@@ -266,7 +266,7 @@ tab_model <- function(
 
   robust = FALSE,
   vcov.fun = NULL,
-  vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
+  vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5", "CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3"),
   vcov.args = NULL,
 
   string.pred = "Predictors",

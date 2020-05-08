@@ -213,11 +213,11 @@
 #'   \href{https://easystats.github.io/parameters/articles/model_parameters_robust.html}{this vignette}
 #'   for further details).
 #' @param vcov.fun Character vector, indicating the name of the \code{vcov*()}-function
-#'    from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust
-#'    standard errors are required.
+#'    from the \pkg{sandwich} or \pkg{clubSandwich} package, e.g. \code{vcov.fun = "vcovCL"},
+#'    if robust standard errors are required.
 #' @param vcov.type Character vector, specifying the estimation type for the
-#'    robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
-#'    for details).
+#'    robust covariance matrix estimation (see \code{\link[sandwich:vcovHC]{vcovHC()}}
+#'    or \code{\link[clubSandwich:vcovCR]{vcovCR()}} for details).
 #' @param vcov.args List of named vectors, used as additional arguments that
 #'    are passed down to \code{vcov.fun}.
 #' @param value.offset Numeric, offset for text labels to adjust their position
