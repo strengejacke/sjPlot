@@ -376,7 +376,7 @@ tab_model <- function(
   if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.estimate"
 
   copos <- which("std.se" == col.order)
-  if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.std.error"
+  if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.se"
 
   copos <- which("std.ci" == col.order)
   if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.conf.int"
