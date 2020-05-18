@@ -10,6 +10,7 @@
 ## Bug fixes
 
 * Fixed bug in `plot_xtab()` with wrong order of legend labels.
+* Fixed bug in `plot_models()` with wrong axis title for exponentiated coefficients.
 
 # sjPlot 2.8.3
 

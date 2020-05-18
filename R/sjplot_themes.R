@@ -405,5 +405,8 @@ css.themes <- list(
   `cells` = list(
     css.td = "border:1px solid black;",
     css.thead = "border:1px solid black;"
+  ),
+  `right_aligned` = list(
+    css.tdata = "padding:0.2cm; text-align:right; vertical-align:middle;"
   )
 )

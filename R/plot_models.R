@@ -353,7 +353,7 @@ plot_models <- function(...,
   p <-
     p + labs(
       x = NULL,
-      y = sjmisc::word_wrap(estimate_axis_title(input_list[[1]], axis.title, type = "est"), wrap = wrap.title),
+      y = sjmisc::word_wrap(estimate_axis_title(input_list[[1]], axis.title, type = "est", transform = !is.null(tf)), wrap = wrap.title),
       title = sjmisc::word_wrap(title, wrap = wrap.title),
       colour = sjmisc::word_wrap(legend.title, wrap = wrap.legend.title),
       shape = sjmisc::word_wrap(legend.pval.title, wrap = wrap.legend.title)
