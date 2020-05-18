@@ -6,6 +6,7 @@
 * `tab_model()` now accepts all options for `p.val` that are supported by `parameters::model_parameters()`.
 * The `p.style` argument in `tab_model()` was slightly revised, and now also accepts `"scientific"` as option for scientific notation of p-values.
 * `plot_models()` gains `value.size` and `line.size` arguments, similar to `plot_model()`.
+* `plot_models()` should sort coefficients in their natural order now.
 
 ## Bug fixes
 

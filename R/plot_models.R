@@ -267,6 +267,8 @@ plot_models <- function(...,
   yintercept <- if (isTRUE(tf == "exp")) 1 else 0
   layer_vertical_line <- geom_intercept_line(yintercept, axis.scaling, vline.color)
 
+  # reorder terms
+  ff$term <- factor(ff$term, levels = rev(unique(ff$term)))
 
   # set up base plot
 
