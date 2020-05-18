@@ -5,6 +5,7 @@
 * The robust estimation (argument `vcov.fun` in `tab_model()` or `plot_model()`) now also uses and thus accepts estimation-types from package *clubSandwich*.
 * `tab_model()` now accepts all options for `p.val` that are supported by `parameters::model_parameters()`.
 * The `p.style` argument in `tab_model()` was slightly revised, and now also accepts `"scientific"` as option for scientific notation of p-values.
+* `plot_models()` gains `value.size` and `line.size` arguments, similar to `plot_model()`.
 
 ## Bug fixes
 

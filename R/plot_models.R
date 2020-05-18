@@ -88,6 +88,8 @@ plot_models <- function(...,
                         wrap.legend.title = 20,
                         grid.breaks = NULL,
                         dot.size = 3,
+                        line.size = NULL,
+                        value.size = NULL,
                         spacing = 0.4,
                         colors = "Set1",
                         show.values = FALSE,
@@ -120,6 +122,9 @@ plot_models <- function(...,
 
   # check se-argument
   vcov.fun <- check_se_argument(se = vcov.fun, type = "est")
+
+  if (missing(line.size) || is.null(line.size)) line.size <- .7
+  if (missing(value.size) || is.null(value.size)) value.size <- 4
 
   # check length. if we have a list of fitted model, we need to "unlist" them
   if (length(input_list) == 1 && class(input_list[[1]]) == "list")
@@ -277,7 +282,8 @@ plot_models <- function(...,
     geom_errorbar(
       aes_string(ymin = "conf.low", ymax = "conf.high"),
       position = position_dodge(spacing),
-      width = 0
+      width = 0,
+      size = line.size
     ) +
     coord_flip() +
     guides(colour = guide_legend(reverse = TRUE))
@@ -300,7 +306,8 @@ plot_models <- function(...,
       position = position_dodge(spacing),
       vjust = spacing * -1.5,
       hjust = -.1,
-      show.legend = FALSE
+      show.legend = FALSE,
+      size = value.size
     )
 
 

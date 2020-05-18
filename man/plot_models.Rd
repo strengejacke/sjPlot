@@ -21,6 +21,8 @@ plot_models(
   wrap.legend.title = 20,
   grid.breaks = NULL,
   dot.size = 3,
+  line.size = NULL,
+  value.size = NULL,
   spacing = 0.4,
   colors = "Set1",
   show.values = FALSE,
@@ -125,6 +127,12 @@ single value, sets the distance between breaks for the axis at every
 axis positions of the major grid lines.}
 
 \item{dot.size}{Numeric, size of the dots that indicate the point estimates.}
+
+\item{line.size}{Numeric, size of the lines that indicate the error bars.}
+
+\item{value.size}{Numeric, indicates the size of value labels. Can be used
+for all plot types where the argument \code{show.values} is applicable,
+e.g. \code{value.size = 4}.}
 
 \item{spacing}{Numeric, spacing between the dots and error bars of the
 plotted fitted models. Default is 0.3.}
