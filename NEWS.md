@@ -12,6 +12,7 @@
 
 * Fixed bug in `plot_xtab()` with wrong order of legend labels.
 * Fixed bug in `plot_models()` with wrong axis title for exponentiated coefficients.
+* Fixed bug in `tab_model()` that did not show standard error of standardized coefficients when `show.se = TRUE`.
 
 # sjPlot 2.8.3
 
