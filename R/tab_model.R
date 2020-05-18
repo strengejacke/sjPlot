@@ -102,6 +102,7 @@
 #' @param emph.p Logical, if \code{TRUE}, significant p-values are shown bold faced.
 #' @param digits Amount of decimals for estimates
 #' @param digits.p Amount of decimals for p-values
+#' @param digits.re Amount of decimals for random effects part of the summary table.
 #' @param collapse.ci Logical, if \code{FALSE}, the CI values are shown in
 #'    a separate table column.
 #' @param collapse.se Logical, if \code{FALSE}, the SE values are shown in
@@ -307,6 +308,7 @@ tab_model <- function(
 
   digits = 2,
   digits.p = 3,
+  digits.re = 2,
   emph.p = TRUE,
   p.val = c("wald", "kenward", "kr", "satterthwaite", "ml1", "betwithin"),
   p.style = c("numeric", "stars", "numeric_stars", "scientific", "scientific_stars"),
@@ -1213,7 +1215,8 @@ tab_model <- function(
     CSS = CSS,
     file = file,
     use.viewer = use.viewer,
-    footnote = footnote
+    footnote = footnote,
+    digits.re = digits.re
   )
 }
 

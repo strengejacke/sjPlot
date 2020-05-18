@@ -277,6 +277,7 @@ tab_model_df <- function(x,
                          col.header = NULL,
                          show.re.var = FALSE,
                          show.icc = FALSE,
+                         digits.re = 2,
                          encoding = "UTF-8",
                          CSS = NULL,
                          file = NULL,
@@ -474,9 +475,10 @@ tab_model_df <- function(x,
         page.content <- paste0(
           page.content,
           sprintf(
-            "    <td class=\"%s\" colspan=\"%i\">%.2f</td>\n",
+            "    <td class=\"%s\" colspan=\"%i\">%.*f</td>\n",
             s_css,
             as.integer(colspan),
+            digits.re,
             variance.list[[i]]$var.residual
           )
         )
@@ -499,7 +501,8 @@ tab_model_df <- function(x,
         clean.rv = "tau.00",
         var.names = colnames(x),
         summary.css = summary.css,
-        n.cols = ncol(x)
+        n.cols = ncol(x),
+        digits.re = digits.re
     ))
 
 
@@ -521,7 +524,8 @@ tab_model_df <- function(x,
           clean.rv = "tau.11",
           var.names = colnames(x),
           summary.css = summary.css,
-          n.cols = ncol(x)
+          n.cols = ncol(x),
+          digits.re = digits.re
       ))
 
       rho01 <- purrr::map(variance.list, ~ .x$cor.slope_intercept)
@@ -536,7 +540,8 @@ tab_model_df <- function(x,
           clean.rv = "rho.01",
           var.names = colnames(x),
           summary.css = summary.css,
-          n.cols = ncol(x)
+          n.cols = ncol(x),
+          digits.re = digits.re
       ))
 
     }
@@ -558,7 +563,8 @@ tab_model_df <- function(x,
         var.names = colnames(x),
         summary.css = summary.css,
         n.cols = ncol(x),
-        delim = ".adjusted"
+        delim = ".adjusted",
+        digits.re = digits.re
       ))
 
   }
@@ -827,7 +833,7 @@ tab_model_df <- function(x,
 }
 
 
-create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, summary.css, n.cols, delim = "_", as_int = FALSE) {
+create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, summary.css, n.cols, delim = "_", as_int = FALSE, digits.re = 2) {
   page.content <- ""
   pattern <- paste0("^", clean.rv, delim)
 
@@ -886,9 +892,10 @@ create_random_effects <- function(rv.len, rv, rv.string, clean.rv, var.names, su
           page.content <- paste0(
             page.content,
             sprintf(
-              "    <td class=\"%s\" colspan=\"%i\">%.2f%s</td>\n",
+              "    <td class=\"%s\" colspan=\"%i\">%.*f%s</td>\n",
               s_css,
               as.integer(colspan),
+              digits.re,
               rv[[j]][i],
               suffix
             )

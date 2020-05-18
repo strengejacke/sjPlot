@@ -65,6 +65,7 @@ tab_model(
     "ci.outer", "stat", "p", "df.error", "response.level"),
   digits = 2,
   digits.p = 3,
+  digits.re = 2,
   emph.p = TRUE,
   p.val = c("wald", "kenward", "kr", "satterthwaite", "ml1", "betwithin"),
   p.style = c("numeric", "stars", "numeric_stars", "scientific", "scientific_stars"),
@@ -291,6 +292,8 @@ Table columns are printed in the order as they appear in \code{col.order}.}
 \item{digits}{Amount of decimals for estimates}
 
 \item{digits.p}{Amount of decimals for p-values}
+
+\item{digits.re}{Amount of decimals for random effects part of the summary table.}
 
 \item{emph.p}{Logical, if \code{TRUE}, significant p-values are shown bold faced.}
 
