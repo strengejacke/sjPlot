@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.4</span>
       </span>
     </div>
 
@@ -112,6 +112,9 @@
     </li>
     <li>
       <a href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_robust.html">Robust Estimation of Standard Errors</a>
     </li>
   </ul>
 </li>
@@ -196,9 +199,16 @@
 <h2 class="hasAnchor">
 <a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
 <ul>
+<li>The robust estimation (argument <code>vcov.fun</code> in <code><a href="../reference/tab_model.html">tab_model()</a></code> or <code><a href="../reference/plot_model.html">plot_model()</a></code>) now also uses and thus accepts estimation-types from package <em>clubSandwich</em>.</li>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> now accepts all options for <code>p.val</code> that are supported by <code><a href="https://rdrr.io/pkg/parameters/man/model_parameters.html">parameters::model_parameters()</a></code>.</li>
 <li>The <code>p.style</code> argument in <code><a href="../reference/tab_model.html">tab_model()</a></code> was slightly revised, and now also accepts <code>"scientific"</code> as option for scientific notation of p-values.</li>
+<li>
+<code><a href="../reference/tab_model.html">tab_model()</a></code> gets a <code>digits.re</code> argument to define decimal part of the random effects summary.</li>
+<li>
+<code><a href="../reference/plot_models.html">plot_models()</a></code> gains <code>value.size</code> and <code>line.size</code> arguments, similar to <code><a href="../reference/plot_model.html">plot_model()</a></code>.</li>
+<li>
+<code><a href="../reference/plot_models.html">plot_models()</a></code> should sort coefficients in their natural order now.</li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -206,6 +216,8 @@
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed bug in <code><a href="../reference/plot_xtab.html">plot_xtab()</a></code> with wrong order of legend labels.</li>
+<li>Fixed bug in <code><a href="../reference/plot_models.html">plot_models()</a></code> with wrong axis title for exponentiated coefficients.</li>
+<li>Fixed bug in <code><a href="../reference/tab_model.html">tab_model()</a></code> that did not show standard error of standardized coefficients when <code>show.se = TRUE</code>.</li>
 </ul>
 </div>
 </div>
@@ -605,7 +617,7 @@
 <code><a href="../reference/tab_model.html">tab_model()</a></code> supports printing simplex parameters of monotonic effects of <strong>brms</strong> models.</li>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> gets a <code>prefix.labels</code>-argument to add a prefix to the labels of categorical terms.</li>
-<li>The <code>rotation</code>-argument in <code><a href="../reference/sjt.pca.html">sjt.pca()</a></code> and <code><a href="../reference/sjp.pca.html">sjp.pca()</a></code> now supports all rotations from <code><a href="https://rdrr.io/pkg/psych/man/principal.html">psych::principal()</a></code>.</li>
+<li>The <code>rotation</code>-argument in <code>sjt.pca()</code> and <code>sjp.pca()</code> now supports all rotations from <code><a href="https://rdrr.io/pkg/psych/man/principal.html">psych::principal()</a></code>.</li>
 </ul>
 </div>
 <div id="bug-fixes-9" class="section level2">

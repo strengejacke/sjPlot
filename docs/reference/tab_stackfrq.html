@@ -83,7 +83,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.4</span>
       </span>
     </div>
 
@@ -388,30 +388,33 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
 <span class='co'># plot stacked frequencies of 5 (ordered) item-scales</span>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>tab_stackfrq</span>(<span class='no'>likert_4</span>, <span class='kw'>value.labels</span> <span class='kw'>=</span> <span class='no'>levels_4</span>, <span class='kw'>var.labels</span> <span class='kw'>=</span> <span class='no'>items</span>)
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
+  <span class='fu'>tab_stackfrq</span>(<span class='no'>likert_4</span>, <span class='kw'>value.labels</span> <span class='kw'>=</span> <span class='no'>levels_4</span>, <span class='kw'>var.labels</span> <span class='kw'>=</span> <span class='no'>items</span>)
 
-<span class='co'># -------------------------------</span>
-<span class='co'># Data from the EUROFAMCARE sample dataset</span>
-<span class='co'># Auto-detection of labels</span>
-<span class='co'># -------------------------------</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
-<span class='co'># recveive first item of COPE-index scale</span>
-<span class='no'>start</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>efc</span>) <span class='kw'>==</span> <span class='st'>"c82cop1"</span>)
-<span class='co'># recveive first item of COPE-index scale</span>
-<span class='no'>end</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>efc</span>) <span class='kw'>==</span> <span class='st'>"c90cop9"</span>)
+  <span class='co'># -------------------------------</span>
+  <span class='co'># Data from the EUROFAMCARE sample dataset</span>
+  <span class='co'>#  Auto-detection of labels</span>
+  <span class='co'># -------------------------------</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>efc</span>)
+  <span class='co'># recveive first item of COPE-index scale</span>
+  <span class='no'>start</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>efc</span>) <span class='kw'>==</span> <span class='st'>"c82cop1"</span>)
+  <span class='co'># recveive first item of COPE-index scale</span>
+  <span class='no'>end</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>efc</span>) <span class='kw'>==</span> <span class='st'>"c90cop9"</span>)
 
-<span class='fu'>tab_stackfrq</span>(<span class='no'>efc</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>start</span>:<span class='no'>end</span>)], <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='fu'>tab_stackfrq</span>(<span class='no'>efc</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>start</span>:<span class='no'>end</span>)], <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='fu'>tab_stackfrq</span>(<span class='no'>efc</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>start</span>:<span class='no'>end</span>)], <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-             <span class='kw'>show.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='fu'>tab_stackfrq</span>(<span class='no'>efc</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>start</span>:<span class='no'>end</span>)], <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+               <span class='kw'>show.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='co'># --------------------------------</span>
-<span class='co'># User defined style sheet</span>
-<span class='co'># --------------------------------</span>
-<span class='fu'>tab_stackfrq</span>(<span class='no'>efc</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>start</span>:<span class='no'>end</span>)], <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-             <span class='kw'>show.total</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.skew</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.kurtosis</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-             <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>css.ncol</span> <span class='kw'>=</span> <span class='st'>"border-left:1px dotted black;"</span>,
-                        <span class='kw'>css.summary</span> <span class='kw'>=</span> <span class='st'>"font-style:italic;"</span>))}</div></pre>
+  <span class='co'># --------------------------------</span>
+  <span class='co'># User defined style sheet</span>
+  <span class='co'># --------------------------------</span>
+  <span class='fu'>tab_stackfrq</span>(<span class='no'>efc</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>start</span>:<span class='no'>end</span>)], <span class='kw'>alternate.rows</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+               <span class='kw'>show.total</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.skew</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show.kurtosis</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+               <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>css.ncol</span> <span class='kw'>=</span> <span class='st'>"border-left:1px dotted black;"</span>,
+                          <span class='kw'>css.summary</span> <span class='kw'>=</span> <span class='st'>"font-style:italic;"</span>))
+}
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

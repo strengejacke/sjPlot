@@ -64,7 +64,7 @@ kurstosis
 Shapiro-Wilk Normality Test
 If factor.groups is not NULL, the data frame df will be
                splitted into groups, assuming that factor.groups indicate those columns
-               of the data frame that belong to a certain factor (see return value of function sjt.pca
+               of the data frame that belong to a certain factor (see return value of function tab_pca
                as example for retrieving factor groups for a scale and see examples for more details)." />
 <meta property="og:image" content="/logo.png" />
 
@@ -98,7 +98,7 @@ If factor.groups is not NULL, the data frame df will be
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.4</span>
       </span>
     </div>
 
@@ -229,7 +229,7 @@ If factor.groups is not NULL, the data frame df will be
 <li><p>Shapiro-Wilk Normality Test</p></li>
 </ul><p>If <code>factor.groups</code> is not <code>NULL</code>, the data frame <code>df</code> will be
                splitted into groups, assuming that <code>factor.groups</code> indicate those columns
-               of the data frame that belong to a certain factor (see return value of function <code><a href='sjt.pca.html'>sjt.pca</a></code>
+               of the data frame that belong to a certain factor (see return value of function <code><a href='tab_pca.html'>tab_pca</a></code>
                as example for retrieving factor groups for a scale and see examples for more details).</p>
     </div>
 
@@ -424,18 +424,20 @@ may look less pretty, but it may help when exporting html-tables to office tools
 <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>mydf</span>) <span class='kw'>&lt;-</span> <span class='no'>varlabs</span>[<span class='no'>start</span>:<span class='no'>end</span>]
 
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>tab_itemscale</span>(<span class='no'>mydf</span>)
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
+  <span class='fu'>tab_itemscale</span>(<span class='no'>mydf</span>)
 
-<span class='co'># auto-detection of labels</span>
-<span class='fu'>tab_itemscale</span>(<span class='no'>efc</span>[, <span class='no'>start</span>:<span class='no'>end</span>])
+  <span class='co'># auto-detection of labels</span>
+  <span class='fu'>tab_itemscale</span>(<span class='no'>efc</span>[, <span class='no'>start</span>:<span class='no'>end</span>])
 
-<span class='co'># Compute PCA on Cope-Index, and perform a</span>
-<span class='co'># item analysis for each extracted factor.</span>
-<span class='no'>indices</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sjt.pca.html'>sjt.pca</a></span>(<span class='no'>mydf</span>)$<span class='no'>factor.index</span>
-<span class='fu'>tab_itemscale</span>(<span class='no'>mydf</span>, <span class='kw'>factor.groups</span> <span class='kw'>=</span> <span class='no'>indices</span>)
+  <span class='co'># Compute PCA on Cope-Index, and perform a</span>
+  <span class='co'># item analysis for each extracted factor.</span>
+  <span class='no'>indices</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tab_pca.html'>tab_pca</a></span>(<span class='no'>mydf</span>)$<span class='no'>factor.index</span>
+  <span class='fu'>tab_itemscale</span>(<span class='no'>mydf</span>, <span class='kw'>factor.groups</span> <span class='kw'>=</span> <span class='no'>indices</span>)
 
-<span class='co'># or, equivalent</span>
-<span class='fu'>tab_itemscale</span>(<span class='no'>mydf</span>, <span class='kw'>factor.groups</span> <span class='kw'>=</span> <span class='st'>"auto"</span>)}</div></pre>
+  <span class='co'># or, equivalent</span>
+  <span class='fu'>tab_itemscale</span>(<span class='no'>mydf</span>, <span class='kw'>factor.groups</span> <span class='kw'>=</span> <span class='st'>"auto"</span>)
+}}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

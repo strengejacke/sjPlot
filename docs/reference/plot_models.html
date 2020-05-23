@@ -81,7 +81,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.4</span>
       </span>
     </div>
 
@@ -216,6 +216,8 @@
   <span class='kw'>wrap.legend.title</span> <span class='kw'>=</span> <span class='fl'>20</span>,
   <span class='kw'>grid.breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>dot.size</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>line.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>value.size</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>spacing</span> <span class='kw'>=</span> <span class='fl'>0.4</span>,
   <span class='kw'>colors</span> <span class='kw'>=</span> <span class='st'>"Set1"</span>,
   <span class='kw'>show.values</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -354,6 +356,16 @@ axis positions of the major grid lines.</p></td>
     <tr>
       <th>dot.size</th>
       <td><p>Numeric, size of the dots that indicate the point estimates.</p></td>
+    </tr>
+    <tr>
+      <th>line.size</th>
+      <td><p>Numeric, size of the lines that indicate the error bars.</p></td>
+    </tr>
+    <tr>
+      <th>value.size</th>
+      <td><p>Numeric, indicates the size of value labels. Can be used
+for all plot types where the argument <code>show.values</code> is applicable,
+e.g. <code>value.size = 4</code>.</p></td>
     </tr>
     <tr>
       <th>spacing</th>

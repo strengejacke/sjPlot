@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.4</span>
       </span>
     </div>
 
@@ -460,37 +460,40 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
 <span class='co'># print simple cross table with labels</span>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>tab_xtab</span>(<span class='no'>efc</span>$<span class='no'>e16sex</span>, <span class='no'>efc</span>$<span class='no'>e42dep</span>)
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
+  <span class='fu'>tab_xtab</span>(<span class='no'>efc</span>$<span class='no'>e16sex</span>, <span class='no'>efc</span>$<span class='no'>e42dep</span>)
 
-<span class='co'># print cross table with manually set</span>
-<span class='co'># labels and expected values</span>
-<span class='fu'>tab_xtab</span>(
-  <span class='no'>efc</span>$<span class='no'>e16sex</span>,
-  <span class='no'>efc</span>$<span class='no'>e42dep</span>,
-  <span class='kw'>var.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Elder's gender"</span>, <span class='st'>"Elder's dependency"</span>),
-  <span class='kw'>show.exp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)
+  <span class='co'># print cross table with manually set</span>
+  <span class='co'># labels and expected values</span>
+  <span class='fu'>tab_xtab</span>(
+    <span class='no'>efc</span>$<span class='no'>e16sex</span>,
+    <span class='no'>efc</span>$<span class='no'>e42dep</span>,
+    <span class='kw'>var.labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Elder's gender"</span>, <span class='st'>"Elder's dependency"</span>),
+    <span class='kw'>show.exp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  )
 
-<span class='co'># print minimal cross table with labels, total col/row highlighted</span>
-<span class='fu'>tab_xtab</span>(<span class='no'>efc</span>$<span class='no'>e16sex</span>, <span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='kw'>show.cell.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>emph.total</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='co'># print minimal cross table with labels, total col/row highlighted</span>
+  <span class='fu'>tab_xtab</span>(<span class='no'>efc</span>$<span class='no'>e16sex</span>, <span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='kw'>show.cell.prc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>emph.total</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='co'># User defined style sheet</span>
-<span class='fu'>tab_xtab</span>(<span class='no'>efc</span>$<span class='no'>e16sex</span>, <span class='no'>efc</span>$<span class='no'>e42dep</span>,
-         <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>css.table</span> <span class='kw'>=</span> <span class='st'>"border: 2px solid;"</span>,
-                    <span class='kw'>css.tdata</span> <span class='kw'>=</span> <span class='st'>"border: 1px solid;"</span>,
-                    <span class='kw'>css.horline</span> <span class='kw'>=</span> <span class='st'>"border-bottom: double blue;"</span>))}
+  <span class='co'># User defined style sheet</span>
+  <span class='fu'>tab_xtab</span>(<span class='no'>efc</span>$<span class='no'>e16sex</span>, <span class='no'>efc</span>$<span class='no'>e42dep</span>,
+           <span class='kw'>CSS</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>css.table</span> <span class='kw'>=</span> <span class='st'>"border: 2px solid;"</span>,
+                      <span class='kw'>css.tdata</span> <span class='kw'>=</span> <span class='st'>"border: 1px solid;"</span>,
+                      <span class='kw'>css.horline</span> <span class='kw'>=</span> <span class='st'>"border-bottom: double blue;"</span>))
 
-<span class='co'># ordinal data, use Kendall's tau</span>
-<span class='fu'>tab_xtab</span>(<span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='no'>efc</span>$<span class='no'>quol_5</span>, <span class='kw'>statistics</span> <span class='kw'>=</span> <span class='st'>"kendall"</span>)
+  <span class='co'># ordinal data, use Kendall's tau</span>
+  <span class='fu'>tab_xtab</span>(<span class='no'>efc</span>$<span class='no'>e42dep</span>, <span class='no'>efc</span>$<span class='no'>quol_5</span>, <span class='kw'>statistics</span> <span class='kw'>=</span> <span class='st'>"kendall"</span>)
 
-<span class='co'># calculate Spearman's rho, with continuity correction</span>
-<span class='fu'>tab_xtab</span>(
-  <span class='no'>efc</span>$<span class='no'>e42dep</span>,
-  <span class='no'>efc</span>$<span class='no'>quol_5</span>,
-  <span class='kw'>statistics</span> <span class='kw'>=</span> <span class='st'>"spearman"</span>,
-  <span class='kw'>exact</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>continuity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
-)</div></pre>
+  <span class='co'># calculate Spearman's rho, with continuity correction</span>
+  <span class='fu'>tab_xtab</span>(
+    <span class='no'>efc</span>$<span class='no'>e42dep</span>,
+    <span class='no'>efc</span>$<span class='no'>quol_5</span>,
+    <span class='kw'>statistics</span> <span class='kw'>=</span> <span class='st'>"spearman"</span>,
+    <span class='kw'>exact</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <span class='kw'>continuity</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+  )
+}
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
