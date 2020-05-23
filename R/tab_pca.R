@@ -540,7 +540,3 @@ tab_pca <- function(data,
                            header = table.header,
                            viewer = use.viewer))
 }
-
-
-#' @export
-sjt.pca <- tab_pca

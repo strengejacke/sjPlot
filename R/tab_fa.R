@@ -462,7 +462,3 @@ tab_fa <- function(data,
     )
   )
 }
-
-
-#' @export
-sjt.fa <- tab_fa

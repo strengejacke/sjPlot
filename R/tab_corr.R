@@ -477,7 +477,3 @@ tab_corr <- function(data,
     )
   )
 }
-
-
-#' @export
-sjt.corr <- tab_corr

@@ -57,6 +57,7 @@ Suggests:
     ggridges,
     httr,
     lme4 (>= 1.1-12),
+    nFactors,
     pscl,
     psych,
     rmarkdown,

@@ -216,7 +216,7 @@ plot_likert(
 
 plot_likert(mydf, c(2,1,1,1,1,2,2,2,1))
 
-if (require("parameters")) {
+if (require("parameters") && require("nFactors")) {
   groups <- parameters::principal_components(mydf)
   plot_likert(mydf, groups = parameters::closest_component(groups))
 }
