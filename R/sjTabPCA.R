@@ -39,7 +39,7 @@
 #' @inheritParams tab_df
 #' @inheritParams tab_xtab
 #' @inheritParams plot_grpfrq
-#' @inheritParams sjt.corr
+#' @inheritParams tab_corr
 #'
 #' @return Invisibly returns
 #'          \itemize{

@@ -10,14 +10,12 @@
 #'
 #' @param show.comm Logical, if \code{TRUE}, show the communality column in the table.
 #'
-#' @inheritParams sjp.fa
-#' @inheritParams sjp.pca
 #' @inheritParams sjt.pca
 #' @inheritParams tab_model
 #' @inheritParams tab_df
 #' @inheritParams tab_xtab
 #' @inheritParams plot_grpfrq
-#' @inheritParams sjt.corr
+#' @inheritParams tab_corr
 #'
 #' @return Invisibly returns
 #'          \itemize{

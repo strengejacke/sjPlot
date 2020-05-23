@@ -33,13 +33,12 @@ reference:
   - plot_grpfrq
   - plot_xtab
   - sjp.chi2
-  - sjp.corr
 
 - title: "Descriptive Statistics Tables"
   contents:
   - tab_stackfrq
   - tab_xtab
-  - sjt.corr
+  - tab_corr
 
 - title: "Generate Tables from Data Frames, Codebooks"
   contents:

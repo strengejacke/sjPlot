@@ -123,7 +123,7 @@
 #' @importFrom stats shapiro.test na.omit
 #' @importFrom sjstats mean_n
 #' @importFrom performance item_reliability cronbachs_alpha item_intercor
-#' @importFrom parameters principal_components kurtosis
+#' @importFrom parameters principal_components kurtosis closest_component
 #' @importFrom sjmisc std descr
 #' @importFrom sjlabelled set_label
 #' @export
@@ -164,11 +164,11 @@ tab_itemscale <- function(df,
   # for data frame
   if (is.null(factor.groups))
     factor.groups <- rep(1, length.out = ncol(df))
-  else if (inherits(factor.groups, "perf_pca_rotate"))
-    factor.groups <- apply(factor.groups, 1, function(i) which.max(abs(i)))
+  else if (inherits(factor.groups, "parameters_pca"))
+    factor.groups <- parameters::closest_component(factor.groups)
   else if (length(factor.groups) == 1 && factor.groups == "auto") {
     pr <- parameters::principal_components(df, rotation = "varimax")
-    factor.groups <- apply(pr, 1, function(i) which.max(abs(i)))
+    factor.groups <- parameters::closest_component(pr)
   }
 
   # data frame with data from item-analysis-output-table
@@ -331,7 +331,7 @@ tab_itemscale <- function(df,
       colnames(df.cc) <- sprintf("Component %i", seq_len(ncol(df.cc)))
 
       # compute correlation table, store html result
-      html2 <- sjt.corr(
+      html2 <- tab_corr(
         df.cc,
         na.deletion = "listwise",
         p.numeric = TRUE,

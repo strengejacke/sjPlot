@@ -3,8 +3,6 @@
 #'
 #' @description Plot correlation matrix as ellipses or tiles.
 #'
-#' @seealso \code{\link{sjt.corr}}
-#'
 #' @param data Matrix with correlation coefficients as returned by the
 #'          \code{\link{cor}}-function, or a \code{data.frame} of variables where
 #'          correlations between columns should be computed.
@@ -42,37 +40,6 @@
 #'            blue and red colors indicate positive or negative correlations, where
 #'            stronger correlations are darker.
 #'
-#' @examples
-#' # create data frame with 5 random variables
-#' mydf <- data.frame(cbind(runif(10), runif(10), runif(10),
-#'                          runif(10), runif(10)))
-#'
-#' # plot correlation matrix
-#' sjp.corr(mydf)
-#'
-#' # -------------------------------
-#' # Data from the EUROFAMCARE sample dataset
-#' # -------------------------------
-#' library(sjlabelled)
-#' data(efc)
-#'
-#' # retrieve variable and value labels
-#' varlabs <- get_label(efc)
-#'
-#' # create data frame
-#' vars.index <- c(1, 4, 15, 19, 20, 21, 22, 24, 25)
-#' mydf <- data.frame(efc[, vars.index])
-#' colnames(mydf) <- varlabs[vars.index]
-#'
-#' # show legend
-#' sjp.corr(mydf, show.legend = TRUE)
-#'
-#' # -------------------------------
-#' # auto-detection of labels
-#' # -------------------------------
-#' sjp.corr(efc[, vars.index])
-#'
-#'
 #' @import ggplot2
 #' @importFrom tidyr gather
 #' @importFrom scales brewer_pal grey_pal
@@ -93,6 +60,8 @@ sjp.corr <- function(data,
                      show.values = TRUE,
                      show.p = TRUE,
                      p.numeric = FALSE) {
+  .Deprecated(msg = "'sjp.corr' is deprecated. Please use 'correlation::correlation()' and its related plot()-method.")
+
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
