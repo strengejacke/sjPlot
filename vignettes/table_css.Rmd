@@ -13,7 +13,7 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", warning = FALSE, message = FALSE)
 ```
 
-All `sjt.*`-functions as well as `tab_model()` create a HTML page with the table output. This table, by default, is opened in the viewer pane of your IDE (in case you’re using an IDE that also supports the viewer pane). If a viewer pane is not available, the created HTML output is saved as temporary file and opened in your default web browser. The temporary files are deleted after your R session ends.
+All `tab_*`-functions create a HTML page with the table output. This table, by default, is opened in the viewer pane of your IDE (in case you’re using an IDE that also supports the viewer pane). If a viewer pane is not available, the created HTML output is saved as temporary file and opened in your default web browser. The temporary files are deleted after your R session ends.
 
 ## Copying table output to office or word processors
 

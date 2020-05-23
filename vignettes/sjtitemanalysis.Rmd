@@ -12,7 +12,10 @@ vignette: >
 ```{r echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 
-if (!requireNamespace("psych", quietly = TRUE)) {
+if (!requireNamespace("dplyr", quietly = TRUE) ||
+    !requireNamespace("sjmisc", quietly = TRUE) ||
+    !requireNamespace("parameters", quietly = TRUE) ||
+    !requireNamespace("psych", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 } else {
   knitr::opts_chunk$set(eval = TRUE)
@@ -39,7 +42,7 @@ Optional, following statistics can be computed as well:
 * kurstosis
 * Shapiro-Wilk Normality Test
 
-If the argument `factor.groups` is _not_ `NULL`, the data frame df will be splitted into groups, assuming that `factor.groups` indicate those columns (variables) of the data frame that belong to a certain factor (see, for instance, return value of function `sjt.pca()` or `sjp.pca()` as example for retrieving factor groups for a scale). This is useful when you have perfomed a principal component analysis or factor analysis as first step, and now want to see whether the found factors / components represent a scale or index score.
+If the argument `factor.groups` is _not_ `NULL`, the data frame df will be splitted into groups, assuming that `factor.groups` indicate those columns (variables) of the data frame that belong to a certain factor (see, for instance, return value of function `tab_pca()` or `parameters::principal_components()` as example for retrieving factor groups for a scale). This is useful when you have perfomed a principal component analysis or factor analysis as first step, and now want to see whether the found factors / components represent a scale or index score.
 
 To demonstrate this function, we first need some data:
 
@@ -71,9 +74,11 @@ To interprete the output, we may consider following values as rule-of-thumbs for
 The items of the COPE index used for our example do not represent a single factor. We can check this, for instance, with a principle component analysis. If you know, which variable belongs to which factor (i.e. which variable is part of which component), you can pass a numeric vector with these group indices to the argument `factor.groups`. In this case, the data frame is divided into the components specified by `factor.groups`, and each component (or factor) is analysed.
 
 ```{r}
+library(parameters)
 # Compute PCA on Cope-Index, and retrieve 
 # factor indices for each COPE index variable
-factor.groups <- sjt.pca(mydf)$factor.index
+pca <- parameters::principal_components(mydf)
+factor.groups <- parameters::closest_component(pca)
 ```
 
 The PCA extracted two components. Now `tab_itemscale()` ...
