@@ -31,6 +31,15 @@ tab_fa(
 \code{"varimax", "quartimax", "promax", "oblimin", "simplimax", "cluster"}
 or \code{"none"}.}
 
+\item{method}{the factoring method to be used. \code{"ml"} will do a maximum likelihood factor analysis (default).
+\code{"minres"} will do a minimum residual (OLS),
+\code{"wls"} will do a weighted least squares (WLS) solution,
+\code{"gls"} does a generalized weighted least squares (GLS),
+\code{"pa"} will do the principal factor solution,
+\code{"minchi"} will minimize the sample size weighted chi square
+when treating pairwise correlations with different number of
+subjects per pair. \code{"minrank"} will do a minimum rank factor analysis.}
+
 \item{nmbr.fctr}{Number of factors used for calculating the rotation. By
 default, this value is \code{NULL} and the amount of factors is
 calculated according to the Kaiser-criteria.}

@@ -9,6 +9,14 @@
 #'                reliability test. The result is an alpha value for each factor dimension.
 #'
 #' @param show.comm Logical, if \code{TRUE}, show the communality column in the table.
+#' @param method the factoring method to be used. \code{"ml"} will do a maximum likelihood factor analysis (default).
+#'         \code{"minres"} will do a minimum residual (OLS),
+#'         \code{"wls"} will do a weighted least squares (WLS) solution,
+#'         \code{"gls"} does a generalized weighted least squares (GLS),
+#'         \code{"pa"} will do the principal factor solution,
+#'         \code{"minchi"} will minimize the sample size weighted chi square
+#'         when treating pairwise correlations with different number of
+#'         subjects per pair. \code{"minrank"} will do a minimum rank factor analysis.
 #'
 #' @inheritParams tab_pca
 #' @inheritParams tab_model
