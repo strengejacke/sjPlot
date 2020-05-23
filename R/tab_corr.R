@@ -55,41 +55,39 @@
 #'
 #' @examples
 #' \dontrun{
-#' # plot correlation matrix using circles
-#' tab_corr(mydf)
+#' if (interactive()) {
+#'   # Data from the EUROFAMCARE sample dataset
+#'   library(sjmisc)
+#'   data(efc)
 #'
-#' # Data from the EUROFAMCARE sample dataset
-#' library(sjmisc)
-#' data(efc)
+#'   # retrieve variable and value labels
+#'   varlabs <- get_label(efc)
 #'
-#' # retrieve variable and value labels
-#' varlabs <- get_label(efc)
+#'   # recveive first item of COPE-index scale
+#'   start <- which(colnames(efc) == "c83cop2")
+#'   # recveive last item of COPE-index scale
+#'   end <- which(colnames(efc) == "c88cop7")
 #'
-#' # recveive first item of COPE-index scale
-#' start <- which(colnames(efc) == "c83cop2")
-#' # recveive last item of COPE-index scale
-#' end <- which(colnames(efc) == "c88cop7")
+#'   # create data frame with COPE-index scale
+#'   mydf <- data.frame(efc[, c(start:end)])
+#'   colnames(mydf) <- varlabs[c(start:end)]
 #'
-#' # create data frame with COPE-index scale
-#' mydf <- data.frame(efc[, c(start:end)])
-#' colnames(mydf) <- varlabs[c(start:end)]
+#'   # we have high correlations here, because all items
+#'   # belong to one factor.
+#'   tab_corr(mydf, p.numeric = TRUE)
 #'
-#' # we have high correlations here, because all items
-#' # belong to one factor.
-#' tab_corr(mydf, p.numeric = TRUE)
+#'   # auto-detection of labels, only lower triangle
+#'   tab_corr(efc[, c(start:end)], triangle = "lower")
 #'
-#' # auto-detection of labels, only lower triangle
-#' tab_corr(efc[, c(start:end)], triangle = "lower")
+#'   # auto-detection of labels, only lower triangle, all correlation
+#'   # values smaller than 0.3 are not shown in the table
+#'   tab_corr(efc[, c(start:end)], triangle = "lower", val.rm = 0.3)
 #'
-#' # auto-detection of labels, only lower triangle, all correlation
-#' # values smaller than 0.3 are not shown in the table
-#' tab_corr(efc[, c(start:end)], triangle = "lower", val.rm = 0.3)
-#'
-#' # auto-detection of labels, only lower triangle, all correlation
-#' # values smaller than 0.3 are printed in blue
-#' tab_corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3,
-#'          CSS = list(css.valueremove = 'color:blue;'))}
-#'
+#'   # auto-detection of labels, only lower triangle, all correlation
+#'   # values smaller than 0.3 are printed in blue
+#'   tab_corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3,
+#'            CSS = list(css.valueremove = 'color:blue;'))
+#' }}
 #' @importFrom stats na.omit cor cor.test
 #' @export
 tab_corr <- function(data,

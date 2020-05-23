@@ -1,41 +1,17 @@
-#' @title Summary of principal component analysis as HTML table
-#' @name sjt.pca
+#' @title Summary of factor analysis as HTML table
+#' @name tab_fa
 #'
-#' @description Performes a principle component analysis on a data frame or matrix
-#'                (with varimax or oblimin rotation) and displays the factor solution as HTML
+#' @description Performes a factor analysis on a data frame or matrix
+#'                and displays the factors as HTML
 #'                table, or saves them as file. \cr \cr In case a data frame is used as
 #'                parameter, the Cronbach's Alpha value for each factor scale will be calculated,
 #'                i.e. all variables with the highest loading for a factor are taken for the
 #'                reliability test. The result is an alpha value for each factor dimension.
 #'
-#' @param data A data frame that should be used to compute a PCA, or a \code{\link{prcomp}} object.
-#' @param rotation Rotation of the factor loadings. May be one of
-#'    \code{"varimax", "quartimax", "promax", "oblimin", "simplimax", "cluster"}
-#'    or \code{"none"}.
-#' @param nmbr.fctr Number of factors used for calculating the rotation. By
-#'          default, this value is \code{NULL} and the amount of factors is
-#'          calculated according to the Kaiser-criteria.
-#' @param fctr.load.tlrn Specifies the minimum difference a variable needs to have between
-#'          factor loadings (components) in order to indicate a clear loading on just one factor and not
-#'          diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading
-#'          on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
-#'          from the principal component analysis. By default, the minimum difference of loading values
-#'          between the highest and 2nd highest factor should be 0.1
-#' @param show.cronb Logical, if \code{TRUE} (default), the cronbach's alpha value for each factor scale will be calculated,
-#'          i.e. all variables with the highest loading for a factor are taken for the
-#'          reliability test. The result is an alpha value for each factor dimension.
-#'          Only applies when \code{data} is a data frame.
-#' @param show.msa Logical, if \code{TRUE}, shows an additional column with the measure of sampling adequacy according
-#'          dor each component.
-#' @param show.var Logical, if \code{TRUE}, the proportions of variances for each component as well as cumulative
-#'          variance are shown in the table footer.
-#' @param string.pov String for the table row that contains the proportions of variances. By default,
-#'          \emph{"Proportion of Variance"} will be used.
-#' @param string.cpov String for the table row that contains the cumulative variances. By default,
-#'          \emph{"Cumulative Proportion"} will be used.
+#' @param show.comm Logical, if \code{TRUE}, show the communality column in the table.
 #'
+#' @inheritParams tab_pca
 #' @inheritParams tab_model
-#' @inheritParams view_df
 #' @inheritParams tab_df
 #' @inheritParams tab_xtab
 #' @inheritParams plot_grpfrq
@@ -52,10 +28,15 @@
 #'            }
 #'            for further use.
 #'
+#' @note This method for factor analysis relies on the functions
+#'       \code{\link[psych]{fa}} and \code{\link[psych]{fa.parallel}} from the psych package.
+#'
+#'
 #' @examples
 #' \dontrun{
 #' # Data from the EUROFAMCARE sample dataset
 #' library(sjmisc)
+#' library(GPArotation)
 #' data(efc)
 #'
 #' # recveive first item of COPE-index scale
@@ -63,66 +44,77 @@
 #' # recveive last item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
 #' # auto-detection of labels
-#' sjt.pca(efc[, start:end])}
-#' @importFrom stats prcomp
-#' @importFrom performance cronbachs_alpha
+#' if (interactive()) {
+#'   tab_fa(efc[, start:end])
+#' }}
 #' @export
-sjt.pca <- function(data,
-                    rotation = c("varimax", "quartimax", "promax", "oblimin", "simplimax", "cluster", "none"),
-                    nmbr.fctr = NULL,
-                    fctr.load.tlrn = 0.1,
-                    title = "Principal Component Analysis",
-                    var.labels = NULL,
-                    wrap.labels = 40,
-                    show.cronb = TRUE,
-                    show.msa = FALSE,
-                    show.var = FALSE,
-                    alternate.rows = FALSE,
-                    digits = 2,
-                    string.pov = "Proportion of Variance",
-                    string.cpov = "Cumulative Proportion",
-                    CSS = NULL,
-                    encoding = NULL,
-                    file = NULL,
-                    use.viewer = TRUE,
-                    remove.spaces = TRUE) {
+tab_fa <- function(data,
+                   rotation = c("promax", "varimax"),
+                   method = c("ml", "minres", "wls", "gls", "pa", "minchi", "minrank"),
+                   nmbr.fctr = NULL,
+                   fctr.load.tlrn = 0.1,
+                   title = "Factor Analysis",
+                   var.labels = NULL,
+                   wrap.labels = 40,
+                   show.cronb = TRUE,
+                   show.comm = FALSE,
+                   alternate.rows = FALSE,
+                   digits = 2,
+                   CSS = NULL,
+                   encoding = NULL,
+                   file = NULL,
+                   use.viewer = TRUE,
+                   remove.spaces = TRUE) {
   # -------------------------------------
   # check encoding
   # -------------------------------------
   encoding <- get.encoding(encoding, data)
+
+  # check arguments
   rotation <- match.arg(rotation)
+  method <- match.arg(method)
+
+  if (!requireNamespace("psych", quietly = TRUE)) {
+    stop("Package 'psych' required for this function to work. Please install it.", call. = FALSE)
+  }
+
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
   if (is.null(var.labels) && is.data.frame(data)) {
     var.labels <- sjlabelled::get_label(data, def.value = colnames(data))
   }
-
-  if (!requireNamespace("psych", quietly = TRUE)) {
-    stop("Package 'psych' required for this function to work. Please install it.", call. = FALSE)
-  }
-
   # ----------------------------
   # check if user has passed a data frame
   # or a pca object
   # ----------------------------
-  if (inherits(data, "prcomp")) {
-    pcadata <- data
+  # ----------------------------
+  # check if user has passed a data frame
+  # or a pca object
+  # ----------------------------
+  if (inherits(data, "fa")) {
+    fadata <- data
     dataframeparam <- FALSE
-    show.msa <- FALSE
-  } else {
-    pcadata <- stats::prcomp(
-      stats::na.omit(data),
-      retx = TRUE,
-      center = TRUE,
-      scale. = TRUE
-    )
+  } else if (is.data.frame(data)) {
+
+    if (is.null(nmbr.fctr)) {
+      nr_factors <- psych::fa.parallel(data, fa = 'fa', fm = method)$nfact
+      dev.off()
+      fadata <- psych::fa(data, nfactors = nr_factors, fm = method, rotate = rotation)
+    }
+    else {
+
+      fadata <- psych::fa(data, nfactors = nmbr.fctr, fm = method, rotate = rotation)
+
+    }
     dataframeparam <- TRUE
   }
+
+
   # -------------------------------------
   # init header
   # -------------------------------------
-  toWrite <- table.header <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
+  toWrite <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
   # -------------------------------------
   # init style sheet and tags used for css-definitions
   # we can use these variables for string-replacement
@@ -135,10 +127,8 @@ sjt.pca <- function(data,
   tag.centeralign <- "centeralign"
   tag.rightalign <- "rightalign"
   tag.cronbach <- "cronbach"
-  tag.msa <- "msa"
-  tag.pov <- "pov"
-  tag.cpov <- "cpov"
-  tag.rotate <- "rotate"
+  tag.comm <- "comm"
+  tag.rotation <- "rotation"
   tag.kmo <- "kmo"
   tag.arc <- "arc"
   tag.minval <- "minval"
@@ -151,22 +141,17 @@ sjt.pca <- function(data,
   css.tdata <- "padding:0.2cm;"
   css.centeralign <- "text-align:center;"
   css.rightalign <- "text-align:right;"
-  css.cronbach <- "font-style:italic;"
-  css.msa <- "font-style:italic; color:#666666;"
-  css.kmo <- "font-style:italic; border-bottom:double;"
-  css.rotate <- "font-style:italic; font-size:0.9em;"
-  css.pov <- "font-style:italic; border-top:1px solid;"
-  css.cpov <- "font-style:italic;"
+  css.cronbach <- "font-style:italic; border-bottom:double;"
+  css.comm <- "font-style:italic; color:#666666;"
+  css.kmo <- "font-style:italic;"
+  css.rotation <- "font-style:italic; font-size:0.9em;"
   css.minval <- "color:#cccccc;"
   css.arc <- "background-color:#eaeaea;"
   css.removable <- "background-color:#eacccc;"
   css.firsttablerow <- "border-top:1px solid black;"
   css.firsttablecol <- ""
-  if (!show.msa && !show.cronb) css.cpov <- sprintf("%s border-bottom:double;", css.cpov)
-  if (!show.msa && show.cronb) css.cronbach <- sprintf("%s border-bottom:double;", css.cronbach)
-  if (!show.var && show.cronb) css.cronbach <- sprintf("%s border-top:1px solid;", css.cronbach)
-  if (!show.var && !show.cronb) css.kmo <- sprintf("%s border-top:1px solid;",css.kmo)
-  if (!show.var && !show.cronb && !show.msa) css.table <- sprintf("%s border-bottom:double;", css.table)
+  if (!show.comm && show.cronb) css.cronbach <- sprintf("%s border-bottom:double;", css.cronbach)
+
   # ------------------------
   # check user defined style sheets
   # ------------------------
@@ -181,59 +166,34 @@ sjt.pca <- function(data,
     if (!is.null(CSS[['css.firsttablerow']])) css.firsttablerow <- ifelse(substring(CSS[['css.firsttablerow']], 1, 1) == '+', paste0(css.firsttablerow, substring(CSS[['css.firsttablerow']], 2)), CSS[['css.firsttablerow']])
     if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']], 1, 1) == '+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']], 2)), CSS[['css.firsttablecol']])
     if (!is.null(CSS[['css.cronbach']])) css.cronbach <- ifelse(substring(CSS[['css.cronbach']], 1, 1) == '+', paste0(css.cronbach, substring(CSS[['css.cronbach']], 2)), CSS[['css.cronbach']])
-    if (!is.null(CSS[['css.msa']])) css.msa <- ifelse(substring(CSS[['css.msa']], 1, 1) == '+', paste0(css.msa, substring(CSS[['css.msa']], 2)), CSS[['css.msa']])
+    if (!is.null(CSS[['css.comm']])) css.comm <- ifelse(substring(CSS[['css.comm']], 1, 1) == '+', paste0(css.comm, substring(CSS[['css.comm']], 2)), CSS[['css.comm']])
     if (!is.null(CSS[['css.kmo']])) css.kmo <- ifelse(substring(CSS[['css.kmo']], 1, 1) == '+', paste0(css.kmo, substring(CSS[['css.kmo']], 2)), CSS[['css.kmo']])
-    if (!is.null(CSS[['css.rotate']])) css.rotate <- ifelse(substring(CSS[['css.rotate']], 1, 1) == '+', paste0(css.rotate, substring(CSS[['css.rotate']], 2)), CSS[['css.rotate']])
-    if (!is.null(CSS[['css.pov']])) css.pov <- ifelse(substring(CSS[['css.pov']], 1, 1) == '+', paste0(css.pov, substring(CSS[['css.pov']], 2)), CSS[['css.pov']])
-    if (!is.null(CSS[['css.cpov']])) css.cpov <- ifelse(substring(CSS[['css.cpov']], 1, 1) == '+', paste0(css.cpov, substring(CSS[['css.cpov']], 2)), CSS[['css.cpov']])
+    if (!is.null(CSS[['css.rotation']])) css.rotation <- ifelse(substring(CSS[['css.rotation']], 1, 1) == '+', paste0(css.rotation, substring(CSS[['css.rotation']], 2)), CSS[['css.rotation']])
     if (!is.null(CSS[['css.minval']])) css.minval <- ifelse(substring(CSS[['css.minval']], 1, 1) == '+', paste0(css.minval, substring(CSS[['css.minval']], 2)), CSS[['css.minval']])
     if (!is.null(CSS[['css.removable']])) css.removable <- ifelse(substring(CSS[['css.removable']], 1, 1) == '+', paste0(css.removable, substring(CSS[['css.removable']], 2)), CSS[['css.removable']])
   }
   # ------------------------
   # set page style
   # ------------------------
-  page.style <-  sprintf("<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
+  page.style <-  sprintf("<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s  { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s  { %s }\n</style>",
                          tag.table, css.table, tag.caption, css.caption, tag.thead, css.thead,
                          tag.tdata, css.tdata, tag.cronbach, css.cronbach, tag.minval, css.minval,
                          tag.removable, css.removable, tag.firsttablerow, css.firsttablerow,
                          tag.firsttablecol, css.firsttablecol, tag.centeralign, css.centeralign,
-                         tag.rightalign, css.rightalign, tag.rotate, css.rotate,
-                         tag.msa, css.msa, tag.kmo, css.kmo, tag.pov, css.pov, tag.cpov,
-                         css.cpov, tag.arc, css.arc)
+                         tag.rightalign, css.rightalign, tag.rotation, css.rotation,
+                         tag.comm, css.comm, tag.kmo, css.kmo, tag.arc, css.arc)
   # ------------------------
   # start content
   # ------------------------
   toWrite <- paste0(toWrite, page.style)
   toWrite = paste(toWrite, "\n</head>\n<body>", "\n")
-  # ----------------------------
-  # calculate eigenvalues
-  # ----------------------------
-  pcadata.eigenval <- pcadata$sdev^2
-  # ----------------------------
-  # retrieve best amount of factors according
-  # to Kaiser-critearia, i.e. factors with eigen value > 1
-  # ----------------------------
-  pcadata.kaiser <- which(pcadata.eigenval < 1)[1] - 1
-  # --------------------------------------------------------
-  # varimax rotation, retrieve factor loadings
-  # --------------------------------------------------------
-  # check for predefined number of factors
-  if (!is.null(nmbr.fctr) && is.numeric(nmbr.fctr)) pcadata.kaiser <- nmbr.fctr
 
-  if (pcadata.kaiser < 2) {
-    stop("Only one principal component extracted. Can't rotate loading matrices. You may use `nmbr.fctr` to extract more than one component.", call. = F)
-  }
-
-  rotation <- match.arg(rotation)
-
-  # rotate matrix
-  if (rotation == "varimax")
-    pcadata.rotate <- varimaxrota(pcadata, pcadata.kaiser)
-  else
-    pcadata.rotate <- psych::principal(r = data, nfactors = pcadata.kaiser, rotate = rotation)
 
   # create data frame with factor loadings
-  df <- as.data.frame(pcadata.rotate$loadings[, seq_len(ncol(pcadata.rotate$loadings))])
+  loadings <- fadata$loadings[]
+  names <- rownames(fadata$loadings)
+  df <- as.data.frame(loadings, row.names = names)
+
   # ----------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
@@ -327,16 +287,9 @@ sjt.pca <- function(data,
   # -------------------------------------
   # retrieve kmo and msa for data set
   # -------------------------------------
-  kmo <- NULL
-  if (show.msa) kmo <- psych::KMO(data)
-  # -------------------------------------
-  # variance
-  # -------------------------------------
-  pov <- cpov <- NULL
-  if (show.var) {
-    pov <- summary(pcadata)$importance[2, seq_len(pcadata.kaiser)]
-    cpov <- summary(pcadata)$importance[3, seq_len(pcadata.kaiser)]
-  }
+  #kmo <- NULL # not implemented at the moment
+  #if (show.msa) kmo <- psych::KMO(data)
+
   # -------------------------------------
   # convert data frame, add label names
   # -------------------------------------
@@ -358,10 +311,10 @@ sjt.pca <- function(data,
   page.content <- paste0(page.content, "    <th class=\"thead\">&nbsp;</th>\n")
   # iterate columns
   for (i in seq_len(ncol(df))) {
-    page.content <- paste0(page.content, sprintf("    <th class=\"thead\">Component %i</th>\n", i))
+    page.content <- paste0(page.content, sprintf("    <th class=\"thead\">Factor %i</th>\n", i))
   }
-  # check if msa column should be shown
-  if (show.msa) page.content <- paste0(page.content, "    <th class=\"thead msa\">MSA</th>\n")
+  # check if communality column should be shown
+  if (show.comm) page.content <- paste0(page.content, "    <th class=\"thead comm\">Communality</th>\n")
   # close table row
   page.content <- paste0(page.content, "  </tr>\n")
   # -------------------------------------
@@ -395,44 +348,31 @@ sjt.pca <- function(data,
       page.content <- paste0(page.content, sprintf("    <td%s>%.*f</td>\n",
                                                    colcss, digits, df[i, j]))
     }
-    # check if msa column should be shown
-    if (show.msa) page.content <- paste0(page.content, sprintf("    <td class=\"tdata msa centeralign%s%s\">%.*f</td>\n",
-                                                              arcstring,
-                                                              rowcss,
-                                                              digits,
-                                                              kmo$MSAi[[i]]))
+    # check if comm column should be shown
+    if (show.comm) page.content <- paste0(page.content, sprintf("    <td class=\"tdata comm centeralign%s%s\">%.*f</td>\n",
+                                                               arcstring,
+                                                               rowcss,
+                                                               digits,
+                                                               fadata$communalities[[i]]))
     # close row
     page.content <- paste0(page.content, "  </tr>\n")
   }
-  # -------------------------------------
-  # variance
-  # -------------------------------------
-  if (show.var) {
+
+  #
+  #
+  # # -------------------------------------
+  # # Total Communalities   # not implemented at the moment
+  # # -------------------------------------
+  if (show.comm) {
     # write tr-tag with class-attributes
     page.content <- paste0(page.content, "  <tr>\n")
-    # first column
-    page.content <- paste0(page.content, sprintf("    <td class=\"tdata pov\">%s</td>\n", string.pov))
-    # iterate alpha-values
-    for (i in 1:length(pov)) {
-      page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign pov\">%.*f&nbsp;%%</td>\n",
-                                                   digits,
-                                                   100 * pov[i]))
-    }
-    # check if msa column should be shown
-    if (show.msa) page.content <- paste0(page.content, "    <td class=\"tdata centeralign pov\"></td>\n")
-    page.content <- paste0(page.content, "  </tr>\n  <tr>\n")
-    # first column
-    page.content <- paste0(page.content, sprintf("    <td class=\"tdata cpov\">%s</td>\n", string.cpov))
-    # iterate alpha-values
-    for (i in 1:length(pov)) {
-      page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign cpov\">%.*f&nbsp;%%</td>\n",
-                                                   digits,
-                                                   100 * cpov[i]))
-    }
-    # check if msa column should be shown
-    if (show.msa) page.content <- paste0(page.content, "    <td class=\"tdata centeralign cpov\"></td>\n")
+    page.content <- paste0(page.content, "    <td class=\"tdata kmo\">Total Communalities</td>\n")
+    page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign kmo\" colspan=\"%i\"></td>\n", ncol(df)))
+    page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign kmo\">%.*f</td>\n", digits, sum(fadata$communalities)))
     page.content <- paste0(page.content, "  </tr>\n")
   }
+
+
   # -------------------------------------
   # cronbach's alpha
   # -------------------------------------
@@ -447,29 +387,12 @@ sjt.pca <- function(data,
                                                    digits,
                                                    alphaValues[i]))
     }
-    # check if msa column should be shown
-    if (show.msa) page.content <- paste0(page.content, "    <td class=\"tdata centeralign cronbach\"></td>\n")
+    # check if comm column should be shown
+    if (show.comm) page.content <- paste0(page.content, "    <td class=\"tdata centeralign cronbach\"></td>\n")
     page.content <- paste0(page.content, "  </tr>\n")
   }
-  # -------------------------------------
-  # Kaiser-Meyer-Olkin-Kriterium
-  # -------------------------------------
-  if (show.msa) {
-    # write tr-tag with class-attributes
-    page.content <- paste0(page.content, "  <tr>\n")
-    page.content <- paste0(page.content, "    <td class=\"tdata kmo\">Kaiser-Meyer-Olkin</td>\n")
-    page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign kmo\" colspan=\"%i\"></td>\n", ncol(df)))
-    page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign kmo\">%.*f</td>\n", digits, kmo$MSA))
-    page.content <- paste0(page.content, "  </tr>\n")
-  }
-  # -------------------------------------
-  # show rotation
-  # -------------------------------------
-  colsp <- ncol(df) + 1
-  if (show.msa) colsp <- colsp + 1
-  page.content <- paste0(page.content, "  <tr>\n")
-  page.content <- paste0(page.content, sprintf("    <td class=\"tdata rightalign rotate\" colspan=\"%i\">%s-rotation</td>\n", colsp, rotation))
-  page.content <- paste0(page.content, "  </tr>\n")
+
+
   # -------------------------------------
   # finish table
   # -------------------------------------
@@ -506,12 +429,10 @@ sjt.pca <- function(data,
   knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.rightalign, css.rightalign, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.cronbach, css.cronbach, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.msa, css.msa, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.pov, css.pov, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.comm, css.comm, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.cpov, css.cpov, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.kmo, css.kmo, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.rotate, css.rotate, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(tag.rotation, css.rotation, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.minval, css.minval, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.removable, css.removable, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.firsttablerow, css.firsttablerow, knitr, fixed = TRUE, useBytes = TRUE)
@@ -527,14 +448,21 @@ sjt.pca <- function(data,
   # -------------------------------------
   # return results
   # -------------------------------------
-  structure(class = c("sjTable", "sjtpca"),
-                      list(page.style = page.style,
-                           page.content = page.content,
-                           page.complete = toWrite,
-                           knitr = knitr,
-                           factor.index = factorindex,
-                           removed.items = removableItems,
-                           file = file,
-                           header = table.header,
-                           viewer = use.viewer))
+  structure(
+    class = c("sjTable", "sjtfa"),
+    list(
+      page.style = page.style,
+      page.content = page.content,
+      page.complete = toWrite,
+      knitr = knitr,
+      factor.index = factorindex,
+      removed.items = removableItems,
+      file = file,
+      viewer = use.viewer
+    )
+  )
 }
+
+
+#' @export
+sjt.fa <- tab_fa

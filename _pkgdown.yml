@@ -47,8 +47,8 @@ reference:
 
 - title: "Variable/Feature Reduction"
   contents:
-  - sjt.fa
-  - sjt.pca
+  - tab_fa
+  - tab_pca
   - tab_itemscale
 
 - title: "Plot Customization"

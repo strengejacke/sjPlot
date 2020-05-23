@@ -146,7 +146,7 @@ This function performs an item analysis with certain statistics that are
                }
                If \code{factor.groups} is not \code{NULL}, the data frame \code{df} will be
                splitted into groups, assuming that \code{factor.groups} indicate those columns
-               of the data frame that belong to a certain factor (see return value of function \code{\link{sjt.pca}}
+               of the data frame that belong to a certain factor (see return value of function \code{\link{tab_pca}}
                as example for retrieving factor groups for a scale and see examples for more details).
 }
 \note{
@@ -176,19 +176,20 @@ mydf <- data.frame(efc[, start:end])
 colnames(mydf) <- varlabs[start:end]
 
 \dontrun{
-tab_itemscale(mydf)
+if (interactive()) {
+  tab_itemscale(mydf)
 
-# auto-detection of labels
-tab_itemscale(efc[, start:end])
+  # auto-detection of labels
+  tab_itemscale(efc[, start:end])
 
-# Compute PCA on Cope-Index, and perform a
-# item analysis for each extracted factor.
-indices <- sjt.pca(mydf)$factor.index
-tab_itemscale(mydf, factor.groups = indices)
+  # Compute PCA on Cope-Index, and perform a
+  # item analysis for each extracted factor.
+  indices <- tab_pca(mydf)$factor.index
+  tab_itemscale(mydf, factor.groups = indices)
 
-# or, equivalent
-tab_itemscale(mydf, factor.groups = "auto")}
-
+  # or, equivalent
+  tab_itemscale(mydf, factor.groups = "auto")
+}}
 }
 \references{
 \itemize{
