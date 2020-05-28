@@ -1,4 +1,4 @@
-pandoc: 2.7.2
+pandoc: 2.9.2.1
 pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
@@ -14,5 +14,5 @@ articles:
   tab_mixed: tab_mixed.html
   tab_model_estimates: tab_model_estimates.html
   tab_model_robust: tab_model_robust.html
-last_built: 2020-05-23T11:32Z
+last_built: 2020-05-28T09:02Z
 
