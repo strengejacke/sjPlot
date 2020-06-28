@@ -51,8 +51,10 @@ tab_model(
   string.std_se = "standardized std. Error",
   string.std_ci = "standardized CI",
   string.p = "p",
+  string.std.p = "std. p",
   string.df = "df",
   string.stat = "Statistic",
+  string.std.stat = "std. Statistic",
   string.resp = "Response",
   string.intercept = "(Intercept)",
   strings = NULL,
@@ -62,7 +64,7 @@ tab_model(
   collapse.se = FALSE,
   linebreak = TRUE,
   col.order = c("est", "se", "std.est", "std.se", "ci", "std.ci", "ci.inner",
-    "ci.outer", "stat", "p", "df.error", "response.level"),
+    "ci.outer", "stat", "std.stat", "p", "std.p", "df.error", "response.level"),
   digits = 2,
   digits.p = 3,
   digits.re = 2,
@@ -251,9 +253,13 @@ Default is based on the response scale, e.g. for logistic regression models,
 
 \item{string.p}{Character vector, used for the column heading of p values. Default is \code{"p"}.}
 
+\item{string.std.p}{Character vector, used for the column heading of p values. Default is \code{"std. p"}.}
+
 \item{string.df}{Character vector, used for the column heading of degrees of freedom. Default is \code{"df"}.}
 
 \item{string.stat}{Character vector, used for the test statistic. Default is \code{"Statistic"}.}
+
+\item{string.std.stat}{Character vector, used for the test statistic. Default is \code{"std. Statistic"}.}
 
 \item{string.resp}{Character vector, used for the column heading of of the response level for multinominal or categorical models. Default is \code{"Response"}.}
 
