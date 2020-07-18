@@ -133,7 +133,7 @@
 #'    are only shown in the table when the related argument (like \code{show.est}
 #'    for \code{"estimate"}) is set to \code{TRUE} or another valid value.
 #'    Table columns are printed in the order as they appear in \code{col.order}.
-#' @param p.val Character, for mixed models, indicates how p-values are computed.
+#' @param df.method,p.val Character, for mixed models, indicates how p-values are computed.
 #'   Use \code{p.val = "wald"} for a faster, but less precise computation. For
 #'   \code{p.val = "kenward"} (or \code{p.val = "kr"}), computation of p-values
 #'   is based on conditional F-tests with Kenward-Roger approximation for the
@@ -311,6 +311,7 @@ tab_model <- function(
   digits.re = 2,
   emph.p = TRUE,
   p.val = NULL,
+  df.method = NULL,
   p.style = c("numeric", "stars", "numeric_stars", "scientific", "scientific_stars"),
   p.threshold = c(0.05, 0.01, 0.001),
   p.adjust = NULL,
@@ -323,6 +324,10 @@ tab_model <- function(
   file = NULL,
   use.viewer = TRUE
 ) {
+
+  if (!missing(df.method)) {
+    p.val <- df.method
+  }
 
   if (!is.null(p.val)) {
     p.val <- match.arg(p.val, choices = c("wald", "profile", "kenward", "kr", "satterthwaite", "ml1", "betwithin"))
