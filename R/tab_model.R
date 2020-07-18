@@ -310,7 +310,7 @@ tab_model <- function(
   digits.p = 3,
   digits.re = 2,
   emph.p = TRUE,
-  p.val = c("wald", "kenward", "kr", "satterthwaite", "ml1", "betwithin"),
+  p.val = NULL,
   p.style = c("numeric", "stars", "numeric_stars", "scientific", "scientific_stars"),
   p.threshold = c(0.05, 0.01, 0.001),
   p.adjust = NULL,
@@ -324,7 +324,9 @@ tab_model <- function(
   use.viewer = TRUE
 ) {
 
-  p.val <- match.arg(p.val)
+  if (!is.null(p.val)) {
+    p.val <- match.arg(p.val, choices = c("wald", "profile", "kenward", "kr", "satterthwaite", "ml1", "betwithin"))
+  }
   p.style <- match.arg(p.style)
   prefix.labels <- match.arg(prefix.labels)
   vcov.type <- match.arg(vcov.type)
