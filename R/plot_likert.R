@@ -97,8 +97,10 @@
 #'
 #' plot_likert(mydf, c(2,1,1,1,1,2,2,2,1))
 #'
-#' groups <- sjt.pca(mydf)$factor.index
-#' plot_likert(mydf, groups = groups)
+#' if (require("parameters") && require("nFactors")) {
+#'   groups <- parameters::principal_components(mydf)
+#'   plot_likert(mydf, groups = parameters::closest_component(groups))
+#' }
 #'
 #' plot_likert(mydf,
 #'             c(rep("B", 4), rep("A", 5)),
@@ -136,16 +138,13 @@
 #'   groups = c(1, 1, 1, 2, 2, 2),
 #'   group.legend.options = list(nrow = 1)
 #' )}
-#'
 #' @import ggplot2
 #' @importFrom stats na.omit xtabs
 #' @importFrom sjmisc is_odd set_na is_empty
 #' @importFrom sjlabelled as_numeric
 #' @importFrom purrr map flatten_dbl
 #' @importFrom dplyr between
-#'
 #' @export
-
 plot_likert <- function(items,
                         groups = NULL,
                         groups.titles = "auto",

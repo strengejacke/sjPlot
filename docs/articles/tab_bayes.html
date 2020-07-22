@@ -12,20 +12,20 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Summary of Bayesian Models as HTML Table">
-<meta property="og:description" content="">
+<meta property="og:description" content="sjPlot">
 <meta property="og:image" content="/logo.png">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.4</span>
       </span>
     </div>
 
@@ -71,6 +71,9 @@
     </li>
     <li>
       <a href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_robust.html">Robust Estimation of Standard Errors</a>
     </li>
   </ul>
 </li>
@@ -123,7 +126,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/strengejacke/sjPlot/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -136,12 +146,12 @@
       </header><script src="tab_bayes_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Summary of Bayesian Models as HTML Table</h1>
+      <h1 data-toc-skip>Summary of Bayesian Models as HTML Table</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-03-02</h4>
+            <h4 class="date">2020-05-28</h4>
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/tab_bayes.Rmd"><code>vignettes/tab_bayes.Rmd</code></a></small>
       <div class="hidden name"><code>tab_bayes.Rmd</code></div>
 
     </div>
@@ -155,38 +165,38 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 -->
 <p>This vignette shows examples for using <code><a href="../reference/tab_model.html">tab_model()</a></code> to create HTML tables for mixed models. Basically, <code><a href="../reference/tab_model.html">tab_model()</a></code> behaves in a very similar way for mixed models as for other, simple regression models, as shown <a href="tab_model_estimates.html">in this vignette</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># load required packages</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjPlot)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(insight)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(httr)</span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(brms)</span>
-<span id="cb1-6"><a href="#cb1-6"></a></span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># load sample models</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># zinb &lt;- read.csv("http://stats.idre.ucla.edu/stat/data/fish.csv")</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co"># set.seed(123)</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co"># m1 &lt;- brm(bf(</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="co">#     count ~ persons + child + camper + (1 | persons),</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co">#     zi ~ child + camper + (1 | persons)</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a><span class="co">#   ),</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a><span class="co">#   data = zinb,</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="co">#   family = zero_inflated_poisson()</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="co"># )</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a>m1 &lt;-<span class="st"> </span>insight<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/insight/man/download_model.html">download_model</a></span>(<span class="st">"brms_zi_2"</span>)</span>
-<span id="cb1-19"><a href="#cb1-19"></a></span>
-<span id="cb1-20"><a href="#cb1-20"></a><span class="co"># data(epilepsy)</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a><span class="co"># set.seed(123)</span></span>
-<span id="cb1-22"><a href="#cb1-22"></a><span class="co"># epilepsy$visit &lt;- as.numeric(epilepsy$visit)</span></span>
-<span id="cb1-23"><a href="#cb1-23"></a><span class="co"># epilepsy$Base2 &lt;- sample(epilepsy$Base, nrow(epilepsy), replace = TRUE)</span></span>
-<span id="cb1-24"><a href="#cb1-24"></a><span class="co"># f1 &lt;- bf(Base ~ zAge + count + (1 |ID| patient))</span></span>
-<span id="cb1-25"><a href="#cb1-25"></a><span class="co"># f2 &lt;- bf(Base2 ~ zAge + Trt + (1 |ID| patient))</span></span>
-<span id="cb1-26"><a href="#cb1-26"></a><span class="co"># m2 &lt;- brm(f1 + f2 + set_rescor(FALSE), data = epilepsy)</span></span>
-<span id="cb1-27"><a href="#cb1-27"></a>m2 &lt;-<span class="st"> </span>insight<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/insight/man/download_model.html">download_model</a></span>(<span class="st">"brms_mv_3"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># load required packages</span>
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sjPlot</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">insight</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">httr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">brms</span>)
+
+<span class="co"># load sample models</span>
+
+<span class="co"># zinb &lt;- read.csv("http://stats.idre.ucla.edu/stat/data/fish.csv")</span>
+<span class="co"># set.seed(123)</span>
+<span class="co"># m1 &lt;- brm(bf(</span>
+<span class="co">#     count ~ persons + child + camper + (1 | persons),</span>
+<span class="co">#     zi ~ child + camper + (1 | persons)</span>
+<span class="co">#   ),</span>
+<span class="co">#   data = zinb,</span>
+<span class="co">#   family = zero_inflated_poisson()</span>
+<span class="co"># )</span>
+<span class="no">m1</span> <span class="kw">&lt;-</span> <span class="kw pkg">insight</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/insight/man/download_model.html">download_model</a></span>(<span class="st">"brms_zi_2"</span>)
+
+<span class="co"># data(epilepsy)</span>
+<span class="co"># set.seed(123)</span>
+<span class="co"># epilepsy$visit &lt;- as.numeric(epilepsy$visit)</span>
+<span class="co"># epilepsy$Base2 &lt;- sample(epilepsy$Base, nrow(epilepsy), replace = TRUE)</span>
+<span class="co"># f1 &lt;- bf(Base ~ zAge + count + (1 |ID| patient))</span>
+<span class="co"># f2 &lt;- bf(Base2 ~ zAge + Trt + (1 |ID| patient))</span>
+<span class="co"># m2 &lt;- brm(f1 + f2 + set_rescor(FALSE), data = epilepsy)</span>
+<span class="no">m2</span> <span class="kw">&lt;-</span> <span class="kw pkg">insight</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/insight/man/download_model.html">download_model</a></span>(<span class="st">"brms_mv_3"</span>)</pre></body></html></div>
 <div id="bayesian-models-summaries-as-html-table" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bayesian-models-summaries-as-html-table" class="anchor"></a>Bayesian models summaries as HTML table</h2>
 <p>For Bayesian regression models, some of the differences to the table output from <a href="tab_model_estimates.html">simple models</a> or <a href="tab_mixed.html">mixed models</a> of <code>tab_models()</code> are the use of <em>Highest Density Intervals</em> instead of confidence intervals, the Bayes-R-squared values, and a different “point estimate” (which is, by default, the median from the posterior draws).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span>(<span class="no">m1</span>)</pre></body></html></div>
 <table class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -304,7 +314,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-5.25
+5.48
 </td>
 </tr>
 <tr>
@@ -312,7 +322,7 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-34.13
+34.00
 </td>
 </tr>
 <tr>
@@ -320,7 +330,7 @@ Random Effects
 ICC
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.13
+0.14
 </td>
 </tr>
 <tr>
@@ -353,7 +363,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 <h2 class="hasAnchor">
 <a href="#multivariate-response-models" class="anchor"></a>Multivariate response models</h2>
 <p>For multivariate response models, like mediator-analysis-models, it is recommended to print just one model in the table, as each regression is displayed as own “model” in the output.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m2)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span>(<span class="no">m2</span>)</pre></body></html></div>
 <table class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -457,7 +467,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">
-132.35
+131.47
 </td>
 </tr>
 <tr>
@@ -465,7 +475,7 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">
-1.30
+1.36
 </td>
 </tr>
 <tr>
@@ -498,7 +508,7 @@ Observations
 <h2 class="hasAnchor">
 <a href="#show-two-credible-interval-column" class="anchor"></a>Show two Credible Interval-column</h2>
 <p>To show a second CI-column, use <code>show.ci50 = TRUE</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m2, <span class="dt">show.ci50 =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span>(<span class="no">m2</span>, <span class="kw">show.ci50</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <table class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -630,7 +640,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="6">
-128.87
+132.64
 </td>
 </tr>
 <tr>
@@ -638,7 +648,7 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="6">
-1.32
+1.34
 </td>
 </tr>
 <tr>
@@ -671,7 +681,7 @@ Observations
 <h2 class="hasAnchor">
 <a href="#mixing-multivariate-and-univariate-response-models" class="anchor"></a>Mixing multivariate and univariate response models</h2>
 <p>When both multivariate and univariate response models are displayed in one table, a column <em>Response</em> is added for the multivariate response model, to indicate the different outcomes.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/tab_model.html">tab_model</a></span>(m1, m2)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span>(<span class="no">m1</span>, <span class="no">m2</span>)</pre></body></html></div>
 <table class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -933,10 +943,10 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-5.35
+5.30
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-130.47
+128.06
 </td>
 </tr>
 <tr>
@@ -944,10 +954,10 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-33.83
+34.13
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-1.30
+1.33
 </td>
 </tr>
 <tr>
@@ -955,7 +965,7 @@ Random Effects
 ICC
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.14
+0.13
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
 0.98
@@ -998,19 +1008,11 @@ NA
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#bayesian-models-summaries-as-html-table">Bayesian models summaries as HTML table</a></li>
-      <li><a href="#multivariate-response-models">Multivariate response models</a></li>
-      <li><a href="#show-two-credible-interval-column">Show two Credible Interval-column</a></li>
-      <li><a href="#mixing-multivariate-and-univariate-response-models">Mixing multivariate and univariate response models</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -1021,7 +1023,7 @@ NA
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

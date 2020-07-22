@@ -1,5 +1,5 @@
 #' @title Summary of factor analysis as HTML table
-#' @name sjt.fa
+#' @name tab_fa
 #'
 #' @description Performes a factor analysis on a data frame or matrix
 #'                and displays the factors as HTML
@@ -9,15 +9,21 @@
 #'                reliability test. The result is an alpha value for each factor dimension.
 #'
 #' @param show.comm Logical, if \code{TRUE}, show the communality column in the table.
+#' @param method the factoring method to be used. \code{"ml"} will do a maximum likelihood factor analysis (default).
+#'         \code{"minres"} will do a minimum residual (OLS),
+#'         \code{"wls"} will do a weighted least squares (WLS) solution,
+#'         \code{"gls"} does a generalized weighted least squares (GLS),
+#'         \code{"pa"} will do the principal factor solution,
+#'         \code{"minchi"} will minimize the sample size weighted chi square
+#'         when treating pairwise correlations with different number of
+#'         subjects per pair. \code{"minrank"} will do a minimum rank factor analysis.
 #'
-#' @inheritParams sjp.fa
-#' @inheritParams sjp.pca
-#' @inheritParams sjt.pca
+#' @inheritParams tab_pca
 #' @inheritParams tab_model
 #' @inheritParams tab_df
 #' @inheritParams tab_xtab
 #' @inheritParams plot_grpfrq
-#' @inheritParams sjt.corr
+#' @inheritParams tab_corr
 #'
 #' @return Invisibly returns
 #'          \itemize{
@@ -46,9 +52,11 @@
 #' # recveive last item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
 #' # auto-detection of labels
-#' sjt.fa(efc[, start:end])}
+#' if (interactive()) {
+#'   tab_fa(efc[, start:end])
+#' }}
 #' @export
-sjt.fa <- function(data,
+tab_fa <- function(data,
                    rotation = c("promax", "varimax"),
                    method = c("ml", "minres", "wls", "gls", "pa", "minchi", "minrank"),
                    nmbr.fctr = NULL,

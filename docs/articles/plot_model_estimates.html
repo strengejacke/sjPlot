@@ -12,20 +12,20 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Plotting Estimates (Fixed Effects) of Regression Models">
-<meta property="og:description" content="">
+<meta property="og:description" content="sjPlot">
 <meta property="og:image" content="/logo.png">
-<meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.4</span>
       </span>
     </div>
 
@@ -71,6 +71,9 @@
     </li>
     <li>
       <a href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_robust.html">Robust Estimation of Standard Errors</a>
     </li>
   </ul>
 </li>
@@ -123,7 +126,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/strengejacke/sjPlot/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -136,12 +146,12 @@
       </header><script src="plot_model_estimates_files/header-attrs-2.1/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Plotting Estimates (Fixed Effects) of Regression Models</h1>
+      <h1 data-toc-skip>Plotting Estimates (Fixed Effects) of Regression Models</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-03-02</h4>
+            <h4 class="date">2020-05-28</h4>
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/plot_model_estimates.Rmd"><code>vignettes/plot_model_estimates.Rmd</code></a></small>
       <div class="hidden name"><code>plot_model_estimates.Rmd</code></div>
 
     </div>
@@ -150,100 +160,100 @@
     
 <p>This document describes how to plot estimates as forest plots (or dot whisker plots) of various regression models, using the <code><a href="../reference/plot_model.html">plot_model()</a></code> function. <code><a href="../reference/plot_model.html">plot_model()</a></code> is a generic plot-function, which accepts many model-objects, like <code>lm</code>, <code>glm</code>, <code>lme</code>, <code>lmerMod</code> etc.</p>
 <p><code><a href="../reference/plot_model.html">plot_model()</a></code> allows to create various plot tyes, which can be defined via the <code>type</code>-argument. The default is <code>type = "fe"</code>, which means that fixed effects (model coefficients) are plotted. For mixed effects models, only fixed effects are plotted by default as well.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjPlot)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjlabelled)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(sjmisc)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(efc)</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="kw">theme_set</span>(<span class="kw"><a href="../reference/sjPlot-themes.html">theme_sjplot</a></span>())</span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sjPlot</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sjlabelled</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sjmisc</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
+
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">efc</span>)
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span>(<span class="fu"><a href="../reference/sjPlot-themes.html">theme_sjplot</a></span>())</pre></body></html></div>
 <div id="fitting-a-logistic-regression-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#fitting-a-logistic-regression-model" class="anchor"></a>Fitting a logistic regression model</h2>
 <p>First, we fit a model that will be used in the following examples. The examples work in the same way for any other model as well.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># create binary response</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>y &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(efc<span class="op">$</span>neg_c_<span class="dv">7</span> <span class="op">&lt;</span><span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/median.html">median</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span>(efc<span class="op">$</span>neg_c_<span class="dv">7</span>)), <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="co"># create data frame for fitting model</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(</span>
-<span id="cb2-6"><a href="#cb2-6"></a>  <span class="dt">y =</span> <span class="kw">to_factor</span>(y),</span>
-<span id="cb2-7"><a href="#cb2-7"></a>  <span class="dt">sex =</span> <span class="kw">to_factor</span>(efc<span class="op">$</span>c161sex),</span>
-<span id="cb2-8"><a href="#cb2-8"></a>  <span class="dt">dep =</span> <span class="kw">to_factor</span>(efc<span class="op">$</span>e42dep),</span>
-<span id="cb2-9"><a href="#cb2-9"></a>  <span class="dt">barthel =</span> efc<span class="op">$</span>barthtot,</span>
-<span id="cb2-10"><a href="#cb2-10"></a>  <span class="dt">education =</span> <span class="kw">to_factor</span>(efc<span class="op">$</span>c172code)</span>
-<span id="cb2-11"><a href="#cb2-11"></a>)</span>
-<span id="cb2-12"><a href="#cb2-12"></a></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="co"># set variable label for response</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="kw">set_label</span>(df<span class="op">$</span>y) &lt;-<span class="st"> "High Negative Impact"</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="co"># fit model</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a>m1 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(y <span class="op">~</span>., <span class="dt">data =</span> df, <span class="dt">family =</span> <span class="kw"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>(<span class="dt">link =</span> <span class="st">"logit"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># create binary response</span>
+<span class="no">y</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span>(<span class="no">efc</span>$<span class="no">neg_c_7</span> <span class="kw">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span>(<span class="no">efc</span>$<span class="no">neg_c_7</span>)), <span class="fl">0</span>, <span class="fl">1</span>)
+
+<span class="co"># create data frame for fitting model</span>
+<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
+  <span class="kw">y</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sjmisc/man/to_factor.html">to_factor</a></span>(<span class="no">y</span>),
+  <span class="kw">sex</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sjmisc/man/to_factor.html">to_factor</a></span>(<span class="no">efc</span>$<span class="no">c161sex</span>),
+  <span class="kw">dep</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sjmisc/man/to_factor.html">to_factor</a></span>(<span class="no">efc</span>$<span class="no">e42dep</span>),
+  <span class="kw">barthel</span> <span class="kw">=</span> <span class="no">efc</span>$<span class="no">barthtot</span>,
+  <span class="kw">education</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/pkg/sjmisc/man/to_factor.html">to_factor</a></span>(<span class="no">efc</span>$<span class="no">c172code</span>)
+)
+
+<span class="co"># set variable label for response</span>
+<span class="fu"><a href="https://rdrr.io/pkg/sjlabelled/man/set_label.html">set_label</a></span>(<span class="no">df</span>$<span class="no">y</span>) <span class="kw">&lt;-</span> <span class="st">"High Negative Impact"</span>
+
+<span class="co"># fit model</span>
+<span class="no">m1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span>(<span class="no">y</span> ~<span class="no">.</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">df</span>, <span class="kw">family</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span>(<span class="kw">link</span> <span class="kw">=</span> <span class="st">"logit"</span>))</pre></body></html></div>
 </div>
 <div id="plotting-estimates-of-generalized-linear-models" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plotting-estimates-of-generalized-linear-models" class="anchor"></a>Plotting estimates of generalized linear models</h2>
 <p>The simplest function call is just passing the model object as argument. By default, estimates are sorted in descending order, with the highest effect at the top.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m1)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">m1</span>)</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 <p>The “neutral” line, i.e. the vertical intercept that indicates no effect (x-axis position 1 for most glm’s and position 0 for most linear models), is drawn slightly thicker than the other grid lines. You can change the line color with the <code>vline.color</code>-argument.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m1, <span class="dt">vline.color =</span> <span class="st">"red"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">m1</span>, <span class="kw">vline.color</span> <span class="kw">=</span> <span class="st">"red"</span>)</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
 <div id="sorting-estimates" class="section level2">
 <h2 class="hasAnchor">
 <a href="#sorting-estimates" class="anchor"></a>Sorting estimates</h2>
 <p>By default, the estimates are sorted in the same order as they were introduced into the model. Use <code>sort.est = TRUE</code> to sort estimates in descending order, from highest to lowest value.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m1, <span class="dt">sort.est =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">m1</span>, <span class="kw">sort.est</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>Another way to sort estimates is to use the <code>order.terms</code>-argument. This is a numeric vector, indicating the order of estimates in the plot. In the summary, we see that “sex2” is the first term, followed by the three dependency-categories (position 2-4), the Barthel-Index (5) and two levels for intermediate and high level of education (6 and 7).</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(m1)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; </span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt; Call:</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt; glm(formula = y ~ ., family = binomial(link = "logit"), data = df)</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt; </span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt; Deviance Residuals: </span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt;     Min       1Q   Median       3Q      Max  </span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt; -2.2654  -0.9275   0.4610   0.9464   2.0215  </span></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt; </span></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; Coefficients:</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt;              Estimate Std. Error z value Pr(&gt;|z|)    </span></span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt; (Intercept)  0.700232   0.576715   1.214 0.224682    </span></span>
-<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt; sex2         0.649136   0.186186   3.486 0.000489 ***</span></span>
-<span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt; dep2         0.485259   0.361498   1.342 0.179480    </span></span>
-<span id="cb6-15"><a href="#cb6-15"></a><span class="co">#&gt; dep3         1.125130   0.361977   3.108 0.001882 ** </span></span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt; dep4         0.910194   0.441774   2.060 0.039368 *  </span></span>
-<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt; barthel     -0.029802   0.004732  -6.298 3.02e-10 ***</span></span>
-<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt; education2   0.226525   0.200298   1.131 0.258081    </span></span>
-<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt; education3   0.283600   0.249327   1.137 0.255346    </span></span>
-<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt; ---</span></span>
-<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
-<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt; </span></span>
-<span id="cb6-23"><a href="#cb6-23"></a><span class="co">#&gt; (Dispersion parameter for binomial family taken to be 1)</span></span>
-<span id="cb6-24"><a href="#cb6-24"></a><span class="co">#&gt; </span></span>
-<span id="cb6-25"><a href="#cb6-25"></a><span class="co">#&gt;     Null deviance: 1122.16  on 814  degrees of freedom</span></span>
-<span id="cb6-26"><a href="#cb6-26"></a><span class="co">#&gt; Residual deviance:  939.77  on 807  degrees of freedom</span></span>
-<span id="cb6-27"><a href="#cb6-27"></a><span class="co">#&gt;   (93 observations deleted due to missingness)</span></span>
-<span id="cb6-28"><a href="#cb6-28"></a><span class="co">#&gt; AIC: 955.77</span></span>
-<span id="cb6-29"><a href="#cb6-29"></a><span class="co">#&gt; </span></span>
-<span id="cb6-30"><a href="#cb6-30"></a><span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">m1</span>)
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; glm(formula = y ~ ., family = binomial(link = "logit"), data = df)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Deviance Residuals: </span>
+<span class="co">#&gt;     Min       1Q   Median       3Q      Max  </span>
+<span class="co">#&gt; -2.2654  -0.9275   0.4610   0.9464   2.0215  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt;              Estimate Std. Error z value Pr(&gt;|z|)    </span>
+<span class="co">#&gt; (Intercept)  0.700232   0.576715   1.214 0.224682    </span>
+<span class="co">#&gt; sex2         0.649136   0.186186   3.486 0.000489 ***</span>
+<span class="co">#&gt; dep2         0.485259   0.361498   1.342 0.179480    </span>
+<span class="co">#&gt; dep3         1.125130   0.361977   3.108 0.001882 ** </span>
+<span class="co">#&gt; dep4         0.910194   0.441774   2.060 0.039368 *  </span>
+<span class="co">#&gt; barthel     -0.029802   0.004732  -6.298 3.02e-10 ***</span>
+<span class="co">#&gt; education2   0.226525   0.200298   1.131 0.258081    </span>
+<span class="co">#&gt; education3   0.283600   0.249327   1.137 0.255346    </span>
+<span class="co">#&gt; ---</span>
+<span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; (Dispersion parameter for binomial family taken to be 1)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     Null deviance: 1122.16  on 814  degrees of freedom</span>
+<span class="co">#&gt; Residual deviance:  939.77  on 807  degrees of freedom</span>
+<span class="co">#&gt;   (93 observations deleted due to missingness)</span>
+<span class="co">#&gt; AIC: 955.77</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></pre></body></html></div>
 <p>Now we want the educational levels (6 and 7) first, than gender (1), followed by dependency (2-4)and finally the Barthel-Index (5). Use this order as numeric vector for the <code>order.terms</code>-argument.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m1, <span class="dt">order.terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">m1</span>, <span class="kw">order.terms</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span>))</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
 <div id="estimates-on-the-untransformed-scale" class="section level2">
 <h2 class="hasAnchor">
 <a href="#estimates-on-the-untransformed-scale" class="anchor"></a>Estimates on the untransformed scale</h2>
 <p>By default, <code><a href="../reference/plot_model.html">plot_model()</a></code> automatically exponentiates coefficients, if appropriate (e.g. for models with log or logit link). You can explicitley prevent transformation by setting the <code>transform</code>-argument to <code>NULL</code>, or apply any transformation by using a character vector with the function name.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m1, <span class="dt">transform =</span> <span class="ot">NULL</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">m1</span>, <span class="kw">transform</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m1, <span class="dt">transform =</span> <span class="st">"plogis"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">m1</span>, <span class="kw">transform</span> <span class="kw">=</span> <span class="st">"plogis"</span>)</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-9-2.png" width="672"></p>
 </div>
 <div id="showing-value-labels" class="section level2">
 <h2 class="hasAnchor">
 <a href="#showing-value-labels" class="anchor"></a>Showing value labels</h2>
 <p>By default, just the dots and error bars are plotted. Use <code>show.values = TRUE</code> to show the value labels with the estimates values, and use <code>show.p = FALSE</code> to suppress the asterisks that indicate the significance level of the p-values. Use <code>value.offset</code> to adjust the relative positioning of value labels to the dots and lines.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m1, <span class="dt">show.values =</span> <span class="ot">TRUE</span>, <span class="dt">value.offset =</span> <span class="fl">.3</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">m1</span>, <span class="kw">show.values</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">value.offset</span> <span class="kw">=</span> <span class="fl">.3</span>)</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 </div>
 <div id="labelling-the-plot" class="section level2">
@@ -251,33 +261,33 @@
 <a href="#labelling-the-plot" class="anchor"></a>Labelling the plot</h2>
 <p>As seen in the above examples, by default, the plotting-functions of <strong>sjPlot</strong> retrieve value and variable labels if the data is <em>labelled</em>, using the <a href="https://cran.r-project.org/package=sjlabelled">sjlabelled-package</a>. If the data is not labelled, the variable names are used. In such cases, use the arguments <code>title</code>, <code>axis.labels</code> and <code>axis.title</code> to annotate the plot title and axes. If you want variable names instead of labels, even for labelled data, use <code>""</code> as argument-value, e.g. <code>axis.labels = ""</code>, or set <code>auto.label</code> to <code>FALSE</code>.</p>
 <p>Furthermore, <code><a href="../reference/plot_model.html">plot_model()</a></code> applies case-conversion to all labels by default, using the <a href="https://cran.r-project.org/package=snakecase">snakecase-package</a>. This converts labels into human-readable versions. Use <code>case = NULL</code> to turn case-conversion off, or refer to the package-vignette of the <strong>snakecase</strong>-package for further options.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(iris)</span>
-<span id="cb11-2"><a href="#cb11-2"></a>m2 &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(Sepal.Length <span class="op">~</span><span class="st"> </span>Sepal.Width <span class="op">+</span><span class="st"> </span>Petal.Length <span class="op">+</span><span class="st"> </span>Species, <span class="dt">data =</span> iris)</span>
-<span id="cb11-3"><a href="#cb11-3"></a></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co"># variable names as labels, but made "human readable"</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="co"># separating dots are removed</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m2)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">iris</span>)
+<span class="no">m2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span>(<span class="no">Sepal.Length</span> ~ <span class="no">Sepal.Width</span> + <span class="no">Petal.Length</span> + <span class="no">Species</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">iris</span>)
+
+<span class="co"># variable names as labels, but made "human readable"</span>
+<span class="co"># separating dots are removed</span>
+<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">m2</span>)</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># to use variable names even for labelled data</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m1, <span class="dt">axis.labels =</span> <span class="st">""</span>, <span class="dt">title =</span> <span class="st">"my own title"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="co"># to use variable names even for labelled data</span>
+<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">m1</span>, <span class="kw">axis.labels</span> <span class="kw">=</span> <span class="st">""</span>, <span class="kw">title</span> <span class="kw">=</span> <span class="st">"my own title"</span>)</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-11-2.png" width="672"></p>
 </div>
 <div id="pick-or-remove-specific-terms-from-plot" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pick-or-remove-specific-terms-from-plot" class="anchor"></a>Pick or remove specific terms from plot</h2>
 <p>Use <code>terms</code> resp. <code>rm.terms</code> to select specific terms that should (not) be plotted.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># keep only coefficients sex2, dep2 and dep3</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m1, <span class="dt">terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sex2"</span>, <span class="st">"dep2"</span>, <span class="st">"dep3"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="co"># keep only coefficients sex2, dep2 and dep3</span>
+<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">m1</span>, <span class="kw">terms</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sex2"</span>, <span class="st">"dep2"</span>, <span class="st">"dep3"</span>))</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># remove coefficients sex2, dep2 and dep3</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m1, <span class="dt">rm.terms =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sex2"</span>, <span class="st">"dep2"</span>, <span class="st">"dep3"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="co"># remove coefficients sex2, dep2 and dep3</span>
+<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">m1</span>, <span class="kw">rm.terms</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"sex2"</span>, <span class="st">"dep2"</span>, <span class="st">"dep3"</span>))</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-12-2.png" width="672"></p>
 </div>
 <div id="standardized-estimates" class="section level2">
 <h2 class="hasAnchor">
 <a href="#standardized-estimates" class="anchor"></a>Standardized estimates</h2>
 <p>For linear models, you can also plot standardized beta coefficients, using <code>type = "std"</code> or <code>type = "std2"</code>. These two options differ in the way how coefficients are standardized. <code>type = "std2"</code> plots standardized beta values, however, standardization follows Gelman’s (2008) suggestion, rescaling the estimates by dividing them by two standard deviations instead of just one.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m2, <span class="dt">type =</span> <span class="st">"std"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">m2</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"std"</span>)</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 </div>
 <div id="bayesian-models-fitted-with-stan" class="section level2">
@@ -287,26 +297,26 @@
 <p>First, of course, there are no <em>confidence intervals</em>, but <em>uncertainty intervals</em> - high density intervals, to be precise.</p>
 <p>Second, there’s not just one interval range, but an <em>inner</em> and <em>outer</em> probability. By default, the inner probability is fixed to <code>.5</code> (50%), while the outer probability is specified via <code>ci.lvl</code> (which defaults to <code>.89</code> (89%) for Bayesian models). However, you can also use the arguments <code>prob.inner</code> and <code>prob.outer</code> to define the intervals boundaries.</p>
 <p>Third, the point estimate is by default the <em>median</em>, but can also be another value, like mean. This can be specified with the <code>bpe</code>-argument.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"rstanarm"</span>, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)) {</span>
-<span id="cb16-2"><a href="#cb16-2"></a>  <span class="co"># make sure we apply a nice theme</span></span>
-<span id="cb16-3"><a href="#cb16-3"></a>  <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</span>
-<span id="cb16-4"><a href="#cb16-4"></a>  <span class="kw">theme_set</span>(<span class="kw"><a href="../reference/sjPlot-themes.html">theme_sjplot</a></span>())</span>
-<span id="cb16-5"><a href="#cb16-5"></a>  </span>
-<span id="cb16-6"><a href="#cb16-6"></a>  <span class="kw"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(mtcars)</span>
-<span id="cb16-7"><a href="#cb16-7"></a>  m &lt;-<span class="st"> </span><span class="kw">stan_glm</span>(mpg <span class="op">~</span><span class="st"> </span>wt <span class="op">+</span><span class="st"> </span>am <span class="op">+</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>gear, <span class="dt">data =</span> mtcars, <span class="dt">chains =</span> <span class="dv">1</span>)</span>
-<span id="cb16-8"><a href="#cb16-8"></a>  </span>
-<span id="cb16-9"><a href="#cb16-9"></a>  <span class="co"># default model</span></span>
-<span id="cb16-10"><a href="#cb16-10"></a>  <span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(m)</span>
-<span id="cb16-11"><a href="#cb16-11"></a>  <span class="co"># same model, with mean point estimate, dot-style for point estimate</span></span>
-<span id="cb16-12"><a href="#cb16-12"></a>  <span class="co"># and different inner/outer probabilities of the HDI</span></span>
-<span id="cb16-13"><a href="#cb16-13"></a>  <span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(</span>
-<span id="cb16-14"><a href="#cb16-14"></a>    m, </span>
-<span id="cb16-15"><a href="#cb16-15"></a>    <span class="dt">bpe =</span> <span class="st">"mean"</span>,</span>
-<span id="cb16-16"><a href="#cb16-16"></a>    <span class="dt">bpe.style =</span> <span class="st">"dot"</span>,</span>
-<span id="cb16-17"><a href="#cb16-17"></a>    <span class="dt">prob.inner =</span> <span class="fl">.4</span>,</span>
-<span id="cb16-18"><a href="#cb16-18"></a>    <span class="dt">prob.outer =</span> <span class="fl">.8</span></span>
-<span id="cb16-19"><a href="#cb16-19"></a>  )</span>
-<span id="cb16-20"><a href="#cb16-20"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="kw">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"rstanarm"</span>, <span class="kw">quietly</span> <span class="kw">=</span> <span class="fl">TRUE</span>)) {
+  <span class="co"># make sure we apply a nice theme</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ggplot2</span>)
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span>(<span class="fu"><a href="../reference/sjPlot-themes.html">theme_sjplot</a></span>())
+
+  <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">mtcars</span>)
+  <span class="no">m</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://mc-stan.org/rstanarm/reference/stan_glm.html">stan_glm</a></span>(<span class="no">mpg</span> ~ <span class="no">wt</span> + <span class="no">am</span> + <span class="no">cyl</span> + <span class="no">gear</span>, <span class="kw">data</span> <span class="kw">=</span> <span class="no">mtcars</span>, <span class="kw">chains</span> <span class="kw">=</span> <span class="fl">1</span>)
+
+  <span class="co"># default model</span>
+  <span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(<span class="no">m</span>)
+  <span class="co"># same model, with mean point estimate, dot-style for point estimate</span>
+  <span class="co"># and different inner/outer probabilities of the HDI</span>
+  <span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(
+    <span class="no">m</span>,
+    <span class="kw">bpe</span> <span class="kw">=</span> <span class="st">"mean"</span>,
+    <span class="kw">bpe.style</span> <span class="kw">=</span> <span class="st">"dot"</span>,
+    <span class="kw">prob.inner</span> <span class="kw">=</span> <span class="fl">.4</span>,
+    <span class="kw">prob.outer</span> <span class="kw">=</span> <span class="fl">.8</span>
+  )
+}</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
 </div>
 <div id="tweaking-plot-appearance" class="section level2">
@@ -322,19 +332,19 @@
 <li>
 <code>vline.color</code> changes the neutral “intercept” line.</li>
 <li>
-<code>width</code>, <code>alpha</code> and <code>scale</code> are passed down to certain ggplot-geoms, like <code>geom_errorbar()</code> or <code>geom_density_ridges()</code>.</li>
+<code>width</code>, <code>alpha</code> and <code>scale</code> are passed down to certain ggplot-geoms, like <code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html">geom_errorbar()</a></code> or <code>geom_density_ridges()</code>.</li>
 </ul>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw"><a href="../reference/plot_model.html">plot_model</a></span>(</span>
-<span id="cb17-2"><a href="#cb17-2"></a>  m1, </span>
-<span id="cb17-3"><a href="#cb17-3"></a>  <span class="dt">colors =</span> <span class="st">"Accent"</span>, </span>
-<span id="cb17-4"><a href="#cb17-4"></a>  <span class="dt">show.values =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb17-5"><a href="#cb17-5"></a>  <span class="dt">value.offset =</span> <span class="fl">.4</span>,</span>
-<span id="cb17-6"><a href="#cb17-6"></a>  <span class="dt">value.size =</span> <span class="dv">4</span>,</span>
-<span id="cb17-7"><a href="#cb17-7"></a>  <span class="dt">dot.size =</span> <span class="dv">3</span>,</span>
-<span id="cb17-8"><a href="#cb17-8"></a>  <span class="dt">line.size =</span> <span class="fl">1.5</span>,</span>
-<span id="cb17-9"><a href="#cb17-9"></a>  <span class="dt">vline.color =</span> <span class="st">"blue"</span>,</span>
-<span id="cb17-10"><a href="#cb17-10"></a>  <span class="dt">width =</span> <span class="fl">1.5</span></span>
-<span id="cb17-11"><a href="#cb17-11"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span>(
+  <span class="no">m1</span>,
+  <span class="kw">colors</span> <span class="kw">=</span> <span class="st">"Accent"</span>,
+  <span class="kw">show.values</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
+  <span class="kw">value.offset</span> <span class="kw">=</span> <span class="fl">.4</span>,
+  <span class="kw">value.size</span> <span class="kw">=</span> <span class="fl">4</span>,
+  <span class="kw">dot.size</span> <span class="kw">=</span> <span class="fl">3</span>,
+  <span class="kw">line.size</span> <span class="kw">=</span> <span class="fl">1.5</span>,
+  <span class="kw">vline.color</span> <span class="kw">=</span> <span class="st">"blue"</span>,
+  <span class="kw">width</span> <span class="kw">=</span> <span class="fl">1.5</span>
+)</pre></body></html></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 </div>
 <div id="references" class="section level1">
@@ -344,26 +354,11 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#fitting-a-logistic-regression-model">Fitting a logistic regression model</a></li>
-      <li><a href="#plotting-estimates-of-generalized-linear-models">Plotting estimates of generalized linear models</a></li>
-      <li><a href="#sorting-estimates">Sorting estimates</a></li>
-      <li><a href="#estimates-on-the-untransformed-scale">Estimates on the untransformed scale</a></li>
-      <li><a href="#showing-value-labels">Showing value labels</a></li>
-      <li><a href="#labelling-the-plot">Labelling the plot</a></li>
-      <li><a href="#pick-or-remove-specific-terms-from-plot">Pick or remove specific terms from plot</a></li>
-      <li><a href="#standardized-estimates">Standardized estimates</a></li>
-      <li><a href="#bayesian-models-fitted-with-stan">Bayesian models (fitted with Stan)</a></li>
-      <li><a href="#tweaking-plot-appearance">Tweaking plot appearance</a></li>
-      <li><a href="#references">References</a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -374,7 +369,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

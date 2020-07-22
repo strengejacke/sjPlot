@@ -62,30 +62,33 @@
 #'
 #' # plot stacked frequencies of 5 (ordered) item-scales
 #' \dontrun{
-#' tab_stackfrq(likert_4, value.labels = levels_4, var.labels = items)
+#' if (interactive()) {
+#'   tab_stackfrq(likert_4, value.labels = levels_4, var.labels = items)
 #'
-#' # -------------------------------
-#' # Data from the EUROFAMCARE sample dataset
-#' # Auto-detection of labels
-#' # -------------------------------
-#' data(efc)
-#' # recveive first item of COPE-index scale
-#' start <- which(colnames(efc) == "c82cop1")
-#' # recveive first item of COPE-index scale
-#' end <- which(colnames(efc) == "c90cop9")
+#'   # -------------------------------
+#'   # Data from the EUROFAMCARE sample dataset
+#'   #  Auto-detection of labels
+#'   # -------------------------------
+#'   data(efc)
+#'   # recveive first item of COPE-index scale
+#'   start <- which(colnames(efc) == "c82cop1")
+#'   # recveive first item of COPE-index scale
+#'   end <- which(colnames(efc) == "c90cop9")
 #'
-#' tab_stackfrq(efc[, c(start:end)], alternate.rows = TRUE)
+#'   tab_stackfrq(efc[, c(start:end)], alternate.rows = TRUE)
 #'
-#' tab_stackfrq(efc[, c(start:end)], alternate.rows = TRUE,
-#'              show.n = TRUE, show.na = TRUE)
+#'   tab_stackfrq(efc[, c(start:end)], alternate.rows = TRUE,
+#'                show.n = TRUE, show.na = TRUE)
 #'
-#' # --------------------------------
-#' # User defined style sheet
-#' # --------------------------------
-#' tab_stackfrq(efc[, c(start:end)], alternate.rows = TRUE,
-#'              show.total = TRUE, show.skew = TRUE, show.kurtosis = TRUE,
-#'              CSS = list(css.ncol = "border-left:1px dotted black;",
-#'                         css.summary = "font-style:italic;"))}
+#'   # --------------------------------
+#'   # User defined style sheet
+#'   # --------------------------------
+#'   tab_stackfrq(efc[, c(start:end)], alternate.rows = TRUE,
+#'                show.total = TRUE, show.skew = TRUE, show.kurtosis = TRUE,
+#'                CSS = list(css.ncol = "border-left:1px dotted black;",
+#'                           css.summary = "font-style:italic;"))
+#' }
+#' }
 #' @importFrom parameters skewness kurtosis
 #' @importFrom sjmisc frq
 #' @export

@@ -1,0 +1,163 @@
+---
+title: "Robust Estimation of Standard Errors, Confidence Intervals and p-values"
+output: rmarkdown::html_vignette
+params:
+    EVAL: !r identical(Sys.getenv("NOT_CRAN"), "true")
+---
+
+<!--
+vignette: >
+  %\VignetteIndexEntry{Robust Estimation of Standard Errors}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+-->
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE, 
+  comment = "#>", 
+  message = FALSE
+)
+
+if (!requireNamespace("dplyr", quietly = TRUE) ||
+    !requireNamespace("sandwich", quietly = TRUE) ||
+    !requireNamespace("lme4", quietly = TRUE) ||
+    !requireNamespace("clubSandwich", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+} else {
+  knitr::opts_chunk$set(eval = TRUE)
+  library(sjPlot)
+  library(dplyr)
+}
+
+set.seed(333)
+```
+
+The `tab_model()` function also allows the computation of standard errors, confidence intervals and p-values based on robust covariance matrix estimation from model parameters. Robust estimation is based on the packages **sandwich** and **clubSandwich**, so all models supported by either of these packages work with `tab_model()`.
+
+## Classical Regression Models
+
+### Robust Covariance Matrix Estimation from Model Parameters
+
+There are three arguments that allow for choosing different methods and options of robust estimation: `vcov.fun`, `vcov.type` and `vcov.args`. Let us start with a simple example, which uses a heteroskedasticity-consistent covariance matrix estimation with estimation-type "HC3" (i.e. `sandwich::vcovHC(type = "HC3")` is called):
+
+```{r}
+data(iris)
+model <- lm(Petal.Length ~ Sepal.Length * Species + Sepal.Width, data = iris)
+
+# model parameters, where SE, CI and p-values are based on robust estimation
+tab_model(model, vcov.fun = "HC", show.se = TRUE)
+
+# compare standard errors to result from sandwich-package
+unname(sqrt(diag(sandwich::vcovHC(model))))
+```
+
+### Cluster-Robust Covariance Matrix Estimation (sandwich)
+
+If another covariance matrix estimation is required, use the `vcov.fun`-argument. This argument needs the suffix for the related `vcov*()`-functions as value, i.e. `vcov.fun = "CL"` would call `sandwich::vcovCL()`, or `vcov.fun = "HAC"` would call `sandwich::vcovHAC()`.
+
+The specific estimation type can be changed with `vcov.type`. E.g., `sandwich::vcovCL()` accepts estimation types HC0 to HC3. In the next example, we use a clustered covariance matrix estimation with HC1-estimation type.
+
+```{r}
+# change estimation-type
+tab_model(model, vcov.fun = "CL", vcov.type = "HC1", show.se = TRUE)
+
+# compare standard errors to result from sandwich-package
+unname(sqrt(diag(sandwich::vcovCL(model))))
+```
+
+Usually, clustered covariance matrix estimation is used when there is a cluster-structure in the data. The variable indicating the cluster-structure can be defined in `sandwich::vcovCL()` with the `cluster`-argument. In `tab_model()`, additional arguments that should be passed down to functions from the **sandwich** package can be specified in `vcov.args`:
+
+```{r}
+iris$cluster <- factor(rep(LETTERS[1:8], length.out = nrow(iris)))
+# change estimation-type, defining additional arguments
+tab_model(
+  model, 
+  vcov.fun = "CL", 
+  vcov.type = "HC1",
+  vcov.args = list(cluster = iris$cluster),
+  show.se = TRUE
+)
+
+# compare standard errors to result from sandwich-package
+unname(sqrt(diag(sandwich::vcovCL(model, cluster = iris$cluster))))
+```
+
+### Cluster-Robust Covariance Matrix Estimation (clubSandwich)
+
+Cluster-robust estimation of the variance-covariance matrix can also be achieved using `clubSandwich::vcovCR()`. Thus, when `vcov.fun = "CR"`, the related function from the **clubSandwich** package is called. Note that this function _requires_ the specification of the `cluster`-argument.
+
+```{r}
+# create fake-cluster-variable, to demonstrate cluster robust standard errors
+iris$cluster <- factor(rep(LETTERS[1:8], length.out = nrow(iris)))
+
+# cluster-robust estimation
+tab_model(
+  model, 
+  vcov.fun = "CR", 
+  vcov.type = "CR1",
+  vcov.args = list(cluster = iris$cluster),
+  show.se = TRUE
+)
+
+# compare standard errors to result from clubSsandwich-package
+unname(sqrt(diag(clubSandwich::vcovCR(model, type = "CR1", cluster = iris$cluster))))
+```
+
+### Robust Covariance Matrix Estimation on Standardized Model Parameters
+
+Finally, robust estimation can be combined with standardization. However, robust covariance matrix estimation only works for `show.std = "std"`.
+
+```{r}
+# model parameters, robust estimation on standardized model
+tab_model(
+  model, 
+  show.std = "std",
+  vcov.fun = "HC"
+)
+```
+
+## Mixed Models
+
+### Robust Covariance Matrix Estimation for Mixed Models
+
+For linear mixed models, that by definition have a clustered ("hierarchical" or multilevel) structure in the data, it is also possible to estimate a cluster-robust covariance matrix. This is possible due to the **clubSandwich** package, thus we need to define the same arguments as in the above example.
+
+```{r}
+library(lme4)
+data(iris)
+set.seed(1234)
+iris$grp <- as.factor(sample(1:3, nrow(iris), replace = TRUE))
+
+# fit example model
+model <- lme4::lmer(
+  Sepal.Length ~ Species * Sepal.Width + Petal.Length + (1 | grp),
+  data = iris
+)
+
+# normal model parameters, like from 'summary()'
+tab_model(model)
+
+# model parameters, cluster robust estimation for mixed models
+tab_model(
+  model, 
+  vcov.fun = "CR", 
+  vcov.type = "CR1", 
+  vcov.args = list(cluster = iris$grp)
+)
+```
+
+### Robust Covariance Matrix Estimation on Standardized Mixed Model Parameters
+
+Again, robust estimation can be combined with standardization for linear mixed models as well, which in such cases also only works for `show.std = "std"`.
+
+```{r}
+# model parameters, cluster robust estimation on standardized mixed model
+tab_model(
+  model, 
+  show.std = "std",
+  vcov.fun = "CR", 
+  vcov.type = "CR1", 
+  vcov.args = list(cluster = iris$grp)
+)
+```

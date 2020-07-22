@@ -1,5 +1,5 @@
 #' @title Summary of principal component analysis as HTML table
-#' @name sjt.pca
+#' @name tab_pca
 #'
 #' @description Performes a principle component analysis on a data frame or matrix
 #'                (with varimax or oblimin rotation) and displays the factor solution as HTML
@@ -39,7 +39,7 @@
 #' @inheritParams tab_df
 #' @inheritParams tab_xtab
 #' @inheritParams plot_grpfrq
-#' @inheritParams sjt.corr
+#' @inheritParams tab_corr
 #'
 #' @return Invisibly returns
 #'          \itemize{
@@ -63,11 +63,13 @@
 #' # recveive last item of COPE-index scale
 #' end <- which(colnames(efc) == "c90cop9")
 #' # auto-detection of labels
-#' sjt.pca(efc[, start:end])}
+#' if (interactive()) {
+#'   tab_pca(efc[, start:end])
+#' }}
 #' @importFrom stats prcomp
 #' @importFrom performance cronbachs_alpha
 #' @export
-sjt.pca <- function(data,
+tab_pca <- function(data,
                     rotation = c("varimax", "quartimax", "promax", "oblimin", "simplimax", "cluster", "none"),
                     nmbr.fctr = NULL,
                     fctr.load.tlrn = 0.1,

@@ -241,6 +241,7 @@ plot_xtab <- function(x,
   # tidy data
   #---------------------------------------------------
   mydf <- .gather(myptab, names_to = "group", values_to = "prc", columns = 2:(grpcount + 1))
+  mydf$group <- factor(mydf$group, levels = unique(mydf$group))
   # -----------------------------------------------
   # add total column and row to n-values
   #---------------------------------------------------

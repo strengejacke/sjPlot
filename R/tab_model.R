@@ -102,6 +102,7 @@
 #' @param emph.p Logical, if \code{TRUE}, significant p-values are shown bold faced.
 #' @param digits Amount of decimals for estimates
 #' @param digits.p Amount of decimals for p-values
+#' @param digits.re Amount of decimals for random effects part of the summary table.
 #' @param collapse.ci Logical, if \code{FALSE}, the CI values are shown in
 #'    a separate table column.
 #' @param collapse.se Logical, if \code{FALSE}, the SE values are shown in
@@ -132,7 +133,7 @@
 #'    are only shown in the table when the related argument (like \code{show.est}
 #'    for \code{"estimate"}) is set to \code{TRUE} or another valid value.
 #'    Table columns are printed in the order as they appear in \code{col.order}.
-#' @param p.val Character, for mixed models, indicates how p-values are computed.
+#' @param df.method,p.val Character, for mixed models, indicates how p-values are computed.
 #'   Use \code{p.val = "wald"} for a faster, but less precise computation. For
 #'   \code{p.val = "kenward"} (or \code{p.val = "kr"}), computation of p-values
 #'   is based on conditional F-tests with Kenward-Roger approximation for the
@@ -142,8 +143,9 @@
 #'   \code{show.df = TRUE} to show the approximated degrees of freedom
 #'   for each coefficient.
 #' @param p.style Character, indicating if p-values should be printed as
-#'   numeric value (\code{"numeric"}), as asterisks (\code{"asterisk"})
-#'   or both (\code{"both"}). May be abbreviated.
+#'   numeric value (\code{"numeric"}), as 'stars' (asterisks) only (\code{"stars"}),
+#'   or scientific (\code{"scientific"}). Scientific and numeric style can be
+#'   combined with "stars", e.g. \code{"numeric_stars"}
 #' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions,
 #'    according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
 #'    See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.
@@ -153,8 +155,6 @@
 #' @param use.viewer Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 #'    viewer pane. If \code{FALSE} or no viewer available, the HTML table is
 #'    opened in a web browser.
-#' @param p.adjust Character vector, if not \code{NULL}, indicates the method
-#'   to adjust p-values. See \code{\link[stats]{p.adjust}} for details.
 #'
 #' @inheritParams plot_models
 #' @inheritParams plot_model
@@ -267,7 +267,7 @@ tab_model <- function(
 
   robust = FALSE,
   vcov.fun = NULL,
-  vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
+  vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5", "CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3"),
   vcov.args = NULL,
 
   string.pred = "Predictors",
@@ -308,9 +308,11 @@ tab_model <- function(
 
   digits = 2,
   digits.p = 3,
+  digits.re = 2,
   emph.p = TRUE,
-  p.val = c("wald", "kenward", "kr", "satterthwaite", "ml1", "betwithin"),
-  p.style = c("numeric", "asterisk", "both"),
+  p.val = NULL,
+  df.method = NULL,
+  p.style = c("numeric", "stars", "numeric_stars", "scientific", "scientific_stars"),
   p.threshold = c(0.05, 0.01, 0.001),
   p.adjust = NULL,
 
@@ -323,7 +325,13 @@ tab_model <- function(
   use.viewer = TRUE
 ) {
 
-  p.val <- match.arg(p.val)
+  if (!missing(df.method)) {
+    p.val <- df.method
+  }
+
+  if (!is.null(p.val)) {
+    p.val <- match.arg(p.val, choices = c("wald", "profile", "kenward", "kr", "satterthwaite", "ml1", "betwithin"))
+  }
   p.style <- match.arg(p.style)
   prefix.labels <- match.arg(prefix.labels)
   vcov.type <- match.arg(vcov.type)
@@ -339,7 +347,7 @@ tab_model <- function(
       case <- NULL
   }
 
-  if (p.style == "asterisk") show.p <- FALSE
+  if (p.style == "stars") show.p <- FALSE
 
   # default robust?
   if (isTRUE(robust)) {
@@ -377,7 +385,7 @@ tab_model <- function(
   if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.estimate"
 
   copos <- which("std.se" == col.order)
-  if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.std.error"
+  if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.se"
 
   copos <- which("std.ci" == col.order)
   if (!sjmisc::is_empty(copos)) col.order[copos] <- "std.conf.int"
@@ -470,9 +478,14 @@ tab_model <- function(
         dplyr::select(-.data$conf.low, -.data$conf.high) %>%
         dplyr::mutate(
           p.stars = get_p_stars(.data$p.value, p.threshold),
-          p.sig = .data$p.value < .05,
-          p.value = sprintf("%.*f", digits.p, .data$p.value)
+          p.sig = .data$p.value < .05
         )
+
+      if (grepl("scientific", p.style)) {
+        dat$p.value <- formatC(dat$p.value, format = "e", digits = digits.p)
+      } else {
+        dat$p.value <- sprintf("%.*f", digits.p, dat$p.value)
+      }
 
 
       # emphasize p-values ----
@@ -521,6 +534,7 @@ tab_model <- function(
           facets = FALSE,
           show.zeroinf = show.zeroinf,
           p.val = p.val,
+          p_adjust = p.adjust,
           standardize = std_method,
           bootstrap = bootstrap,
           iterations = iterations,
@@ -548,7 +562,7 @@ tab_model <- function(
 
       # add asterisks to estimates ----
 
-      if (p.style %in% c("asterisk", "both")) {
+      if (grepl("stars", p.style)) {
         if (obj_has_name(dat, "estimate"))
           dat$estimate <- sprintf("%.*f <sup>%s</sup>", digits, dat$estimate, dat$p.stars)
         if (!show.est && obj_has_name(dat, "std.estimate"))
@@ -1175,7 +1189,7 @@ tab_model <- function(
   })
 
 
-  if (p.style %in% c("asterisk", "both"))
+  if (grepl("stars", p.style))
     footnote <- sprintf(
       "* p&lt;%s&nbsp;&nbsp;&nbsp;** p&lt;%s&nbsp;&nbsp;&nbsp;*** p&lt;%s",
       format(p.threshold[1]),
@@ -1208,7 +1222,8 @@ tab_model <- function(
     CSS = CSS,
     file = file,
     use.viewer = use.viewer,
-    footnote = footnote
+    footnote = footnote,
+    digits.re = digits.re
   )
 }
 

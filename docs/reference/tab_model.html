@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -45,7 +49,6 @@
 <meta property="og:title" content="Print regression models as HTML table — tab_model" />
 <meta property="og:description" content="tab_model() creates HTML tables from regression models." />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -63,7 +66,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -77,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.4</span>
       </span>
     </div>
 
@@ -110,6 +113,9 @@
     </li>
     <li>
       <a href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_robust.html">Robust Estimation of Standard Errors</a>
     </li>
   </ul>
 </li>
@@ -163,7 +169,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/strengejacke/sjPlot/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -178,7 +189,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Print regression models as HTML table</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/R/tab_model.R'><code>R/tab_model.R</code></a></small>
     <div class="hidden name"><code>tab_model.Rd</code></div>
     </div>
 
@@ -222,7 +233,8 @@
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>robust</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>vcov.fun</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HC3"</span>, <span class='st'>"const"</span>, <span class='st'>"HC"</span>, <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>, <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>, <span class='st'>"HC5"</span>),
+  <span class='kw'>vcov.type</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HC3"</span>, <span class='st'>"const"</span>, <span class='st'>"HC"</span>, <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>, <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>, <span class='st'>"HC5"</span>, <span class='st'>"CR0"</span>,
+    <span class='st'>"CR1"</span>, <span class='st'>"CR1p"</span>, <span class='st'>"CR1S"</span>, <span class='st'>"CR2"</span>, <span class='st'>"CR3"</span>),
   <span class='kw'>vcov.args</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>string.pred</span> <span class='kw'>=</span> <span class='st'>"Predictors"</span>,
   <span class='kw'>string.est</span> <span class='kw'>=</span> <span class='st'>"Estimate"</span>,
@@ -246,9 +258,10 @@
     <span class='st'>"ci.outer"</span>, <span class='st'>"stat"</span>, <span class='st'>"p"</span>, <span class='st'>"df.error"</span>, <span class='st'>"response.level"</span>),
   <span class='kw'>digits</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>digits.p</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>digits.re</span> <span class='kw'>=</span> <span class='fl'>2</span>,
   <span class='kw'>emph.p</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wald"</span>, <span class='st'>"kenward"</span>, <span class='st'>"kr"</span>, <span class='st'>"satterthwaite"</span>),
-  <span class='kw'>p.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"numeric"</span>, <span class='st'>"asterisk"</span>, <span class='st'>"both"</span>),
+  <span class='kw'>p.val</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"wald"</span>, <span class='st'>"kenward"</span>, <span class='st'>"kr"</span>, <span class='st'>"satterthwaite"</span>, <span class='st'>"ml1"</span>, <span class='st'>"betwithin"</span>),
+  <span class='kw'>p.style</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"numeric"</span>, <span class='st'>"stars"</span>, <span class='st'>"numeric_stars"</span>, <span class='st'>"scientific"</span>, <span class='st'>"scientific_stars"</span>),
   <span class='kw'>p.threshold</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span>),
   <span class='kw'>p.adjust</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>case</span> <span class='kw'>=</span> <span class='st'>"parsed"</span>,
@@ -407,7 +420,7 @@ use <code>terms = "Species [versicolor,virginica]"</code>.</p></td>
 be removed from the output Counterpart to <code>terms</code>. <code>rm.terms =
 "t_name"</code> would remove the term <em>t_name</em>. Default is <code>NULL</code>, i.e.
 all terms are used. For factors, levels that should be removed from the plot
-need to be explicitely indicated in square brackets, and match the model's
+need to be explicitly indicated in square brackets, and match the model's
 coefficient names, e.g. <code>rm.terms = "t_name [2,3]"</code> would remove the terms
 <code>"t_name2"</code> and <code>"t_name3"</code> (assuming that the variable <code>t_name</code>
 was categorical and has at least the factor levels <code>2</code> and <code>3</code>).</p></td>
@@ -428,7 +441,7 @@ should be plotted. See examples in
 If not <code>NULL</code>, <code>pred.labels</code> will be used in the first
 table column with the predictors' names. By default, if <code>auto.label = TRUE</code>
 and <a href='https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html'>data is labelled</a>,
-<code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>get_term_labels</a></code> is called to retrieve the labels
+<code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>term_labels</a></code> is called to retrieve the labels
 of the coefficients, which will be used as predictor labels. If data is
 not labelled, <a href='https://easystats.github.io/parameters/reference/format_parameters.html'>format_parameters()</a>
 is used to create pretty labels. If <code>pred.labels = ""</code> or <code>auto.label = FALSE</code>, the raw
@@ -455,7 +468,7 @@ or axis labels are displayed in one line and when a line break is inserted.</p><
     </tr>
     <tr>
       <th>iterations</th>
-      <td><p>Numeric, number of bootsrap iterations (default is 1000).</p></td>
+      <td><p>Numeric, number of bootstrap iterations (default is 1000).</p></td>
     </tr>
     <tr>
       <th>seed</th>
@@ -473,14 +486,14 @@ for further details).</p></td>
     <tr>
       <th>vcov.fun</th>
       <td><p>Character vector, indicating the name of the <code>vcov*()</code>-function
-from the <span class="pkg">sandwich</span>-package, e.g. <code>vcov.fun = "vcovCL"</code>, if robust
-standard errors are required.</p></td>
+from the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span> package, e.g. <code>vcov.fun = "vcovCL"</code>,
+if robust standard errors are required.</p></td>
     </tr>
     <tr>
       <th>vcov.type</th>
       <td><p>Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC</a></code>
-for details).</p></td>
+robust covariance matrix estimation (see <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC()</a></code>
+or <code><a href='https://rdrr.io/pkg/clubSandwich/man/vcovCR.html'>vcovCR()</a></code> for details).</p></td>
     </tr>
     <tr>
       <th>vcov.args</th>
@@ -543,7 +556,7 @@ Default is based on the response scale, e.g. for logistic regression models,
       <th>strings</th>
       <td><p>Named character vector, as alternative to arguments like <code>string.ci</code>
 or <code>string.p</code> etc. The name (lhs) must be one of the string-indicator from
-the forementioned arguments, while the value (rhs) is the string that is used
+the aforementioned arguments, while the value (rhs) is the string that is used
 as column heading. E.g., <code>strings = c(ci = "Conf.Int.", se = "std. Err")</code>
 would be equivalent to setting <code>string.ci = "Conf.Int.", string.se = "std. Err"</code>.</p></td>
     </tr>
@@ -592,6 +605,10 @@ Table columns are printed in the order as they appear in <code>col.order</code>.
       <td><p>Amount of decimals for p-values</p></td>
     </tr>
     <tr>
+      <th>digits.re</th>
+      <td><p>Amount of decimals for random effects part of the summary table.</p></td>
+    </tr>
+    <tr>
       <th>emph.p</th>
       <td><p>Logical, if <code>TRUE</code>, significant p-values are shown bold faced.</p></td>
     </tr>
@@ -602,15 +619,17 @@ Use <code>p.val = "wald"</code> for a faster, but less precise computation. For
 <code>p.val = "kenward"</code> (or <code>p.val = "kr"</code>), computation of p-values
 is based on conditional F-tests with Kenward-Roger approximation for the
 degrees of freedom. <code>p.val = "satterthwaite"</code> uses Satterthwaite's
-approximation (see <code><a href='https://rdrr.io/pkg/parameters/man/p_value_kenward.html'>dof_kenward</a></code> and <code><a href='https://rdrr.io/pkg/parameters/man/p_value_satterthwaite.html'>dof_satterthwaite</a></code>
-for details). In the latter cases, use <code>show.df = TRUE</code> to show the
-approximated degrees of freedom for each coefficient.</p></td>
+approximation and <code>"ml1"</code> uses a "m-l-1" heuristic (see
+<code><a href='https://rdrr.io/pkg/parameters/man/degrees_of_freedom.html'>degrees_of_freedom</a></code> for details). Use
+<code>show.df = TRUE</code> to show the approximated degrees of freedom
+for each coefficient.</p></td>
     </tr>
     <tr>
       <th>p.style</th>
       <td><p>Character, indicating if p-values should be printed as
-numeric value (<code>"numeric"</code>), as asterisks (<code>"asterisk"</code>)
-or both (<code>"both"</code>). May be abbreviated.</p></td>
+numeric value (<code>"numeric"</code>), as 'stars' (asterisks) only (<code>"stars"</code>),
+or scientific (<code>"scientific"</code>). Scientific and numeric style can be
+combined with "stars", e.g. <code>"numeric_stars"</code></p></td>
     </tr>
     <tr>
       <th>p.threshold</th>
@@ -638,7 +657,7 @@ default when prefixing labels.</p></td>
       <th>auto.label</th>
       <td><p>Logical, if <code>TRUE</code> (the default),
  and <a href='https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html'>data is labelled</a>,
- <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>get_term_labels</a></code> is called to retrieve the labels
+ <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>term_labels</a></code> is called to retrieve the labels
  of the coefficients, which will be used as predictor labels. If data is
  not labelled, <a href='https://easystats.github.io/parameters/reference/format_parameters.html'>format_parameters()</a>
  is used to create pretty labels. If <code>auto.label = FALSE</code>,
@@ -648,7 +667,7 @@ original variable names and value labels (factor levels) are used.</p></td>
       <th>prefix.labels</th>
       <td><p>Indicates whether the value labels of categorical variables
 should be prefixed, e.g. with the variable name or variable label. See
-argument <code>prefix</code> in <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>get_term_labels</a></code> for
+argument <code>prefix</code> in <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>term_labels</a></code> for
 details.</p></td>
     </tr>
     <tr>
@@ -737,15 +756,10 @@ opened in a web browser.</p></td>
         <a href='https://strengejacke.github.io/sjPlot/articles/tab_bayes.html'>Summary of Bayesian Models as HTML Table</a>.</p>
 
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#note">Note</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -756,7 +770,7 @@ opened in a web browser.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

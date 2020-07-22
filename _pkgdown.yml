@@ -33,13 +33,12 @@ reference:
   - plot_grpfrq
   - plot_xtab
   - sjp.chi2
-  - sjp.corr
 
 - title: "Descriptive Statistics Tables"
   contents:
   - tab_stackfrq
   - tab_xtab
-  - sjt.corr
+  - tab_corr
 
 - title: "Generate Tables from Data Frames, Codebooks"
   contents:
@@ -48,8 +47,8 @@ reference:
 
 - title: "Variable/Feature Reduction"
   contents:
-  - sjt.fa
-  - sjt.pca
+  - tab_fa
+  - tab_pca
   - tab_itemscale
 
 - title: "Plot Customization"
@@ -86,6 +85,8 @@ navbar:
         href: articles/tab_mixed.html
       - text: 'Bayesian Models as HTML Table'
         href: articles/tab_bayes.html
+      - text: 'Robust Estimation of Standard Errors'
+        href: articles/tab_model_robust.html
   - text: Regression Plots
     menu:
       - text: 'Plotting Regression Coefficients'

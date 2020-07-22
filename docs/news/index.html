@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -44,7 +48,6 @@
 
 <meta property="og:title" content="Changelog" />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -62,7 +65,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -76,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.4</span>
       </span>
     </div>
 
@@ -109,6 +112,9 @@
     </li>
     <li>
       <a href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
+    </li>
+    <li>
+      <a href="../articles/tab_model_robust.html">Robust Estimation of Standard Errors</a>
     </li>
   </ul>
 </li>
@@ -162,7 +168,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/strengejacke/sjPlot/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -176,13 +187,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      
+      <h1 data-toc-skip>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="sjplot-284" class="section level1">
+<h1 class="page-header" data-toc-text="2.8.4">
+<a href="#sjplot-284" class="anchor"></a>sjPlot 2.8.4<small> 2020-05-24 </small>
+</h1>
+<div id="changes-to-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<ul>
+<li>The robust estimation (argument <code>vcov.fun</code> in <code><a href="../reference/tab_model.html">tab_model()</a></code> or <code><a href="../reference/plot_model.html">plot_model()</a></code>) now also uses and thus accepts estimation-types from package <em>clubSandwich</em>.</li>
+<li>
+<code><a href="../reference/tab_model.html">tab_model()</a></code> now accepts all options for <code>p.val</code> that are supported by <code><a href="https://rdrr.io/pkg/parameters/man/model_parameters.html">parameters::model_parameters()</a></code>.</li>
+<li>The <code>p.style</code> argument in <code><a href="../reference/tab_model.html">tab_model()</a></code> was slightly revised, and now also accepts <code>"scientific"</code> as option for scientific notation of p-values.</li>
+<li>
+<code><a href="../reference/tab_model.html">tab_model()</a></code> gets a <code>digits.re</code> argument to define decimal part of the random effects summary.</li>
+<li>
+<code><a href="../reference/plot_models.html">plot_models()</a></code> gains <code>value.size</code> and <code>line.size</code> arguments, similar to <code><a href="../reference/plot_model.html">plot_model()</a></code>.</li>
+<li>
+<code><a href="../reference/plot_models.html">plot_models()</a></code> should sort coefficients in their natural order now.</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li>Fixed bug in <code><a href="../reference/plot_xtab.html">plot_xtab()</a></code> with wrong order of legend labels.</li>
+<li>Fixed bug in <code><a href="../reference/plot_models.html">plot_models()</a></code> with wrong axis title for exponentiated coefficients.</li>
+<li>Fixed bug in <code><a href="../reference/tab_model.html">tab_model()</a></code> that did not show standard error of standardized coefficients when <code>show.se = TRUE</code>.</li>
+</ul>
+</div>
+</div>
     <div id="sjplot-283" class="section level1">
-<h1 class="page-header">
-<a href="#sjplot-283" class="anchor"></a>sjPlot 2.8.3<small> Unreleased </small>
+<h1 class="page-header" data-toc-text="2.8.3">
+<a href="#sjplot-283" class="anchor"></a>sjPlot 2.8.3<small> 2020-03-09 </small>
 </h1>
 <div id="general" class="section level2">
 <h2 class="hasAnchor">
@@ -192,9 +233,9 @@
 <code><a href="../reference/tab_model.html">tab_model()</a></code> and <code><a href="../reference/plot_model.html">plot_model()</a></code> now support <em>clogit</em> models (requires latest update of package <strong>insight</strong>).</li>
 </ul>
 </div>
-<div id="changes-to-functions" class="section level2">
+<div id="changes-to-functions-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> gets a <code>p.adjust</code> argument to adjust p-values for multiple comparisons.</li>
@@ -202,11 +243,12 @@
 <code><a href="../reference/tab_model.html">tab_model()</a></code>, <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/plot_models.html">plot_models()</a></code> get a <code>robust</code>-argument to easily compute standard errors, confidence intervals and p-values based on robust estimation of the variance-covariance matrix. <code>robust</code> is just a convenient shortcut for <code>vcov.fun</code> and <code>vcov.type</code>.</li>
 </ul>
 </div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> and <code><a href="../reference/plot_model.html">plot_model()</a></code> for certain cases when coefficients could not be estimated and were <code>NA</code>.</li>
+<li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> with <code>collapse.ci</code> for Bayesian models.</li>
 <li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> when <code>p.val="kr"</code> and <code>show.df=TRUE</code>.</li>
 <li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> with formatting issues of p-values when standardized coefficients where requested.</li>
 <li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> due to changes in other packages <em>sjPlot</em> depends on.</li>
@@ -214,7 +256,7 @@
 </div>
 </div>
     <div id="sjplot-282" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.8.2">
 <a href="#sjplot-282" class="anchor"></a>sjPlot 2.8.2<small> 2020-01-23 </small>
 </h1>
 <div id="function-renaming" class="section level2">
@@ -227,17 +269,17 @@
 <code><a href="../reference/tab_xtab.html">sjt.xtab()</a></code> is now named <code><a href="../reference/tab_xtab.html">tab_xtab()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-1" class="section level2">
+<div id="changes-to-functions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Improved handling for <code><a href="../reference/tab_model.html">tab_model()</a></code> of robust estimation in general and Kenward-Roger or Satterthwaite approximations in particular for linear mixed models.</li>
 <li>Revised code to cope with forthcoming <em>tidyselect</em>-update.</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Improved <code><a href="../reference/tab_df.html">tab_df()</a></code> now uses value labels for factors instead of numeric values.</li>
 <li>Fixed some issues related to the lates <em>brms</em>-update.</li>
@@ -245,20 +287,20 @@
 </div>
 </div>
     <div id="sjplot-281" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.8.1">
 <a href="#sjplot-281" class="anchor"></a>sjPlot 2.8.1<small> 2019-12-03 </small>
 </h1>
-<div id="changes-to-functions-2" class="section level2">
+<div id="changes-to-functions-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> gets arguments <code>bootstrap</code>, <code>iterations</code> and <code>seed</code> to return bootstrapped estimates.</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> with detecting labels when <code>auto.label = TRUE</code>.</li>
 <li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> for negative binomial hurdle mixed models (i.e. <em>glmmTMB</em> models with truncated negative-binomial family).</li>
@@ -268,7 +310,7 @@
 </div>
 </div>
     <div id="sjplot-280" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.8.0">
 <a href="#sjplot-280" class="anchor"></a>sjPlot 2.8.0<small> 2019-11-18 </small>
 </h1>
 <div id="breaking-changes" class="section level2">
@@ -285,9 +327,9 @@
 <li>Standardization of model parameters (in <code><a href="../reference/plot_model.html">plot_model()</a></code> or <code><a href="../reference/tab_model.html">tab_model()</a></code>) now uses standardization based on refitting the model (see <a href="https://easystats.github.io/effectsize/articles/standardize_parameters.html">vignette</a> for details).</li>
 </ul>
 </div>
-<div id="changes-to-functions-3" class="section level2">
+<div id="changes-to-functions-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> gets <code>type = "emm"</code> as marginal effects plot type, which is similar to <code>type = "eff"</code>. See <a href="https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html">Plotting Marginal Effects of Regression Models</a> for details.</li>
@@ -295,9 +337,9 @@
 <li>Updated and re-arranged internal color palette, especially to have a better behaviour when selecting colors from continuous palettes (see <code>show_pals()</code>).</li>
 </ul>
 </div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code>sort.est = NULL</code> in <code><a href="../reference/plot_model.html">plot_model()</a></code> now preserves original order of coefficients.</li>
@@ -308,7 +350,7 @@
 </div>
 </div>
     <div id="sjplot-272" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.7.2">
 <a href="#sjplot-272" class="anchor"></a>sjPlot 2.7.2<small> 2019-09-29 </small>
 </h1>
 <div id="general-2" class="section level2">
@@ -329,17 +371,17 @@
 <code>sjp.xtab()</code> is now names <code><a href="../reference/plot_xtab.html">plot_xtab()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-4" class="section level2">
+<div id="changes-to-functions-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/plot_grid.html">plot_grid()</a></code> gets a <code>tags</code>-argument to add tags to plot-panels.</li>
 </ul>
 </div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed bug in <code><a href="../reference/plot_stackfrq.html">plot_stackfrq()</a></code> for data frames with many missing values.</li>
 <li>Fixed bug with sorting frequencies in <code><a href="../reference/plot_frq.html">plot_frq()</a></code> when vector had more labels than values.</li>
@@ -348,7 +390,7 @@
 </div>
 </div>
     <div id="sjplot-271" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.7.1">
 <a href="#sjplot-271" class="anchor"></a>sjPlot 2.7.1<small> 2019-09-07 </small>
 </h1>
 <div id="general-3" class="section level2">
@@ -359,9 +401,9 @@
 <li>new color palettes were added (see <code><a href="../reference/sjPlot-themes.html">show_sjplot_pals()</a></code>).</li>
 </ul>
 </div>
-<div id="changes-to-functions-5" class="section level2">
+<div id="changes-to-functions-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-6" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> now supports <em>gamlss</em> models.</li>
@@ -369,9 +411,9 @@
 <code><a href="../reference/tab_df.html">tab_df()</a></code> gets a <code>digits</code> argument, to round numeric values in output.</li>
 </ul>
 </div>
-<div id="bug-fixes-5" class="section level2">
+<div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed bug in <code><a href="../reference/tab_model.html">tab_model()</a></code> with <code>show.df = TRUE</code> for <em>lmerModLmerTest</em>.</li>
 <li>Fixed bug in <code><a href="../reference/tab_stackfrq.html">tab_stackfrq()</a></code> when items had different amount of valid values.</li>
@@ -379,7 +421,7 @@
 </div>
 </div>
     <div id="sjplot-270" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.7.0">
 <a href="#sjplot-270" class="anchor"></a>sjPlot 2.7.0<small> 2019-08-02 </small>
 </h1>
 <div id="renamed-functions" class="section level2">
@@ -392,9 +434,9 @@
 <code>sjt.stackfrq()</code> was renamed to <code><a href="../reference/tab_stackfrq.html">tab_stackfrq()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-6" class="section level2">
+<div id="changes-to-functions-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-6" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-7" class="anchor"></a>Changes to functions</h2>
 <div id="plot_likert" class="section level3">
 <h3 class="hasAnchor">
 <a href="#plot_likert" class="anchor"></a><code>plot_likert()</code>
@@ -450,9 +492,9 @@
 </ul>
 </div>
 </div>
-<div id="bug-fixes-6" class="section level2">
+<div id="bug-fixes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-7" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/plot_model.html">plot_model(type = "int")</a></code> now also recognized interaction terms with <code>:</code> in formula.</li>
@@ -469,7 +511,7 @@
 </div>
 </div>
     <div id="sjplot-263" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.6.3">
 <a href="#sjplot-263" class="anchor"></a>sjPlot 2.6.3<small> 2019-04-27 </small>
 </h1>
 <div id="general-4" class="section level2">
@@ -491,9 +533,9 @@
 <code>sjp.frq()</code> was renamed to <code><a href="../reference/plot_frq.html">plot_frq()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-7" class="section level2">
+<div id="changes-to-functions-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-7" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-8" class="anchor"></a>Changes to functions</h2>
 <div id="tab_model-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tab_model-1" class="anchor"></a>tab_model()</h3>
@@ -533,9 +575,9 @@
 </ul>
 </div>
 </div>
-<div id="bug-fixes-7" class="section level2">
+<div id="bug-fixes-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-7" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-8" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Legend labels were inverted for <strong>brms</strong>-models in <code><a href="../reference/plot_model.html">plot_model(..., type = "diag")</a></code>.</li>
 <li>Legend labels were duplicated for marginal effects plots when <code>color ="bw"</code> and <code>legend.title</code> was specified.</li>
@@ -548,7 +590,7 @@
 </div>
 </div>
     <div id="sjplot-262" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.6.2">
 <a href="#sjplot-262" class="anchor"></a>sjPlot 2.6.2<small> 2018-12-18 </small>
 </h1>
 <div id="general-5" class="section level2">
@@ -567,20 +609,20 @@
 <code>sjt.lm()</code>, <code>sjt.glm()</code>, <code>sjt.lmer()</code> and <code>sjt.glmer()</code>. Please use <code><a href="../reference/tab_model.html">tab_model()</a></code> instead.</li>
 </ul>
 </div>
-<div id="changes-to-functions-8" class="section level2">
+<div id="changes-to-functions-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-8" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-9" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> supports printing simplex parameters of monotonic effects of <strong>brms</strong> models.</li>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> gets a <code>prefix.labels</code>-argument to add a prefix to the labels of categorical terms.</li>
-<li>The <code>rotation</code>-argument in <code><a href="../reference/sjt.pca.html">sjt.pca()</a></code> and <code><a href="../reference/sjp.pca.html">sjp.pca()</a></code> now supports all rotations from <code><a href="https://rdrr.io/pkg/psych/man/principal.html">psych::principal()</a></code>.</li>
+<li>The <code>rotation</code>-argument in <code>sjt.pca()</code> and <code>sjp.pca()</code> now supports all rotations from <code><a href="https://rdrr.io/pkg/psych/man/principal.html">psych::principal()</a></code>.</li>
 </ul>
 </div>
-<div id="bug-fixes-8" class="section level2">
+<div id="bug-fixes-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-8" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-9" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> no longer automatically changes the plot-type to <code>"slope"</code> for models with only one predictor that is categorical and has more than two levels.</li>
@@ -594,7 +636,7 @@
 </div>
 </div>
     <div id="sjplot-261" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.6.1">
 <a href="#sjplot-261" class="anchor"></a>sjPlot 2.6.1<small> 2018-10-14 </small>
 </h1>
 <div id="general-6" class="section level2">
@@ -612,9 +654,9 @@
 <code>sjt.lm()</code>, <code>sjt.glm()</code>, <code>sjt.lmer()</code> and <code>sjt.glmer()</code> are now deprecated. Please use <code><a href="../reference/tab_model.html">tab_model()</a></code> instead.</li>
 </ul>
 </div>
-<div id="changes-to-functions-9" class="section level2">
+<div id="changes-to-functions-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-9" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-10" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Arguments <code>dot.size</code> and <code>line.size</code> in <code><a href="../reference/plot_model.html">plot_model()</a></code> now also apply to marginal effects and diagnostic plots.</li>
 <li>
@@ -627,9 +669,9 @@
 <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/plot_models.html">plot_models()</a></code> get a <code>p.threshold</code> argument to determine the threshold for which an estimate is considered as significant.</li>
 </ul>
 </div>
-<div id="bug-fixes-9" class="section level2">
+<div id="bug-fixes-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-9" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-10" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed bug from the last update that made value labels disappear for <code><a href="../reference/plot_likert.html">plot_likert()</a></code>.</li>
 <li>
@@ -640,7 +682,7 @@
 </div>
 </div>
     <div id="sjplot-260" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.6.0">
 <a href="#sjplot-260" class="anchor"></a>sjPlot 2.6.0<small> 2018-08-23 </small>
 </h1>
 <div id="general-7" class="section level2">
@@ -668,9 +710,9 @@
 <code>sjp.resid()</code> was renamed to <code><a href="../reference/plot_residuals.html">plot_residuals()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-10" class="section level2">
+<div id="changes-to-functions-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-10" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-11" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Improved support for <code>brmsfit</code>-objects with categorical-family for <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/tab_model.html">tab_model()</a></code>.</li>
 <li>
@@ -692,9 +734,9 @@
 <code>sjt.frq()</code>. Please use <code><a href="https://rdrr.io/pkg/sjmisc/man/frq.html">sjmisc::frq(out = "v")</a></code> instead.</li>
 </ul>
 </div>
-<div id="bug-fixes-10" class="section level2">
+<div id="bug-fixes-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-10" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-11" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Due to changes in the <em>broom</em> and <em>lmerTest</em> packages, tidiers did no longer work for <code>lmerModLmerTest</code> objects.</li>
 <li>Fix issue with standardized coefficient (argument <code>show.std</code>) in <code><a href="../reference/tab_model.html">tab_model()</a></code>.</li>
@@ -702,7 +744,7 @@
 </div>
 </div>
     <div id="sjplot-250" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.5.0">
 <a href="#sjplot-250" class="anchor"></a>sjPlot 2.5.0<small> 2018-07-12 </small>
 </h1>
 <div id="new-functions" class="section level2">
@@ -738,9 +780,9 @@
 <code>sjt.grpmean()</code>, <code>sjt.mwu()</code> and <code>sjt.df()</code>. The replacements are <code><a href="https://rdrr.io/pkg/sjstats/man/means_by_group.html">sjstats::grpmean()</a></code>, <code><a href="https://rdrr.io/pkg/sjstats/man/mwu.html">sjstats::mwu()</a></code> and <code><a href="../reference/tab_df.html">tab_df()</a></code> resp. <code><a href="../reference/tab_df.html">tab_dfs()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-11" class="section level2">
+<div id="changes-to-functions-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-11" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-12" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/plot_models.html">plot_models()</a></code> get a <code>prefix.labels</code>-argument, to prefix automatically retrieved term labels with either the related variable name or label.</li>
@@ -768,9 +810,9 @@
 <code><a href="../reference/plot_model.html">plot_model(type = "diag")</a></code> now also shows random-effects QQ-plots for <code>glmmTMB</code>-models, and also plots random-effects QQ-plots for all random effects (if model has more than one random effect term).</li>
 </ul>
 </div>
-<div id="bug-fixes-11" class="section level2">
+<div id="bug-fixes-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-11" class="anchor"></a>Bug fixes</h2>
+<a href="#bug-fixes-12" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>
 <code><a href="../reference/plot_model.html">plot_model(type = "re")</a></code> now supports standard errors and confidence intervals for <code>glmmTMB</code>-objects.</li>
@@ -789,24 +831,10 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#sjplot-283">2.8.3</a></li>
-        <li><a href="#sjplot-282">2.8.2</a></li>
-        <li><a href="#sjplot-281">2.8.1</a></li>
-        <li><a href="#sjplot-280">2.8.0</a></li>
-        <li><a href="#sjplot-272">2.7.2</a></li>
-        <li><a href="#sjplot-271">2.7.1</a></li>
-        <li><a href="#sjplot-270">2.7.0</a></li>
-        <li><a href="#sjplot-263">2.6.3</a></li>
-        <li><a href="#sjplot-262">2.6.2</a></li>
-        <li><a href="#sjplot-261">2.6.1</a></li>
-        <li><a href="#sjplot-260">2.6.0</a></li>
-        <li><a href="#sjplot-250">2.5.0</a></li>
-      </ul>
-    </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
@@ -818,7 +846,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

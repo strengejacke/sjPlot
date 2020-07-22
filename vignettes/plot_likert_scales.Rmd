@@ -12,12 +12,20 @@ vignette: >
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 6, message = FALSE, warning = FALSE)
 options(width = 800, tibble.width = Inf)
+if (!requireNamespace("dplyr", quietly = TRUE) ||
+    !requireNamespace("sjmisc", quietly = TRUE) ||
+    !requireNamespace("parameters", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+} else {
+  knitr::opts_chunk$set(eval = TRUE)
+}
 ```
 
 ```{r fig.height = 5.5}
 library(dplyr)
 library(sjPlot)
 library(sjmisc)
+library(parameters)
 data(efc)
 # find all variables from COPE-Index, which all have a "cop" in their
 # variable name, and then plot that subset as likert-plot
@@ -41,7 +49,8 @@ plot_likert(mydf, groups = c(2, 1, 1, 1, 1, 2, 2, 2, 1))
 ```
 
 ```{r fig.height = 6.5}
-groups <- sjt.pca(mydf)$factor.index
+pca <- parameters::principal_components(mydf)
+groups <- parameters::closest_component(pca)
 plot_likert(mydf, groups = groups)
 ```
 

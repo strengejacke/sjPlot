@@ -22,7 +22,7 @@
 #'                }
 #'                If \code{factor.groups} is not \code{NULL}, the data frame \code{df} will be
 #'                splitted into groups, assuming that \code{factor.groups} indicate those columns
-#'                of the data frame that belong to a certain factor (see return value of function \code{\link{sjt.pca}}
+#'                of the data frame that belong to a certain factor (see return value of function \code{\link{tab_pca}}
 #'                as example for retrieving factor groups for a scale and see examples for more details).
 #'
 #' @param df A data frame with items.
@@ -107,23 +107,24 @@
 #' colnames(mydf) <- varlabs[start:end]
 #'
 #' \dontrun{
-#' tab_itemscale(mydf)
+#' if (interactive()) {
+#'   tab_itemscale(mydf)
 #'
-#' # auto-detection of labels
-#' tab_itemscale(efc[, start:end])
+#'   # auto-detection of labels
+#'   tab_itemscale(efc[, start:end])
 #'
-#' # Compute PCA on Cope-Index, and perform a
-#' # item analysis for each extracted factor.
-#' indices <- sjt.pca(mydf)$factor.index
-#' tab_itemscale(mydf, factor.groups = indices)
+#'   # Compute PCA on Cope-Index, and perform a
+#'   # item analysis for each extracted factor.
+#'   indices <- tab_pca(mydf)$factor.index
+#'   tab_itemscale(mydf, factor.groups = indices)
 #'
-#' # or, equivalent
-#' tab_itemscale(mydf, factor.groups = "auto")}
-#'
+#'   # or, equivalent
+#'   tab_itemscale(mydf, factor.groups = "auto")
+#' }}
 #' @importFrom stats shapiro.test na.omit
 #' @importFrom sjstats mean_n
 #' @importFrom performance item_reliability cronbachs_alpha item_intercor
-#' @importFrom parameters principal_components kurtosis
+#' @importFrom parameters principal_components kurtosis closest_component
 #' @importFrom sjmisc std descr
 #' @importFrom sjlabelled set_label
 #' @export
@@ -164,11 +165,11 @@ tab_itemscale <- function(df,
   # for data frame
   if (is.null(factor.groups))
     factor.groups <- rep(1, length.out = ncol(df))
-  else if (inherits(factor.groups, "perf_pca_rotate"))
-    factor.groups <- apply(factor.groups, 1, function(i) which.max(abs(i)))
+  else if (inherits(factor.groups, "parameters_pca"))
+    factor.groups <- parameters::closest_component(factor.groups)
   else if (length(factor.groups) == 1 && factor.groups == "auto") {
     pr <- parameters::principal_components(df, rotation = "varimax")
-    factor.groups <- apply(pr, 1, function(i) which.max(abs(i)))
+    factor.groups <- parameters::closest_component(pr)
   }
 
   # data frame with data from item-analysis-output-table
@@ -331,7 +332,7 @@ tab_itemscale <- function(df,
       colnames(df.cc) <- sprintf("Component %i", seq_len(ncol(df.cc)))
 
       # compute correlation table, store html result
-      html2 <- sjt.corr(
+      html2 <- tab_corr(
         df.cc,
         na.deletion = "listwise",
         p.numeric = TRUE,

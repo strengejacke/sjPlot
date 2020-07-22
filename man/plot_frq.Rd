@@ -251,6 +251,7 @@ if (require("dplyr") && require("gridExtra")) {
     plot_grid()
 }
 
+\donttest{
 library(sjmisc)
 # grouped variable
 ageGrp <- group_var(efc$e17age)
@@ -267,4 +268,5 @@ plot_frq(
 plot_frq(efc$c160age, type = "h", show.mean = TRUE, show.mean.val = TRUE,
         normal.curve = TRUE, show.sd = TRUE, normal.curve.color = "blue",
         normal.curve.size = 3, ylim = c(0,50))
+}
 }

@@ -40,7 +40,8 @@ tab_model(
   seed = NULL,
   robust = FALSE,
   vcov.fun = NULL,
-  vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
+  vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5", "CR0",
+    "CR1", "CR1p", "CR1S", "CR2", "CR3"),
   vcov.args = NULL,
   string.pred = "Predictors",
   string.est = "Estimate",
@@ -64,9 +65,11 @@ tab_model(
     "ci.outer", "stat", "p", "df.error", "response.level"),
   digits = 2,
   digits.p = 3,
+  digits.re = 2,
   emph.p = TRUE,
-  p.val = c("wald", "kenward", "kr", "satterthwaite", "ml1", "betwithin"),
-  p.style = c("numeric", "asterisk", "both"),
+  p.val = NULL,
+  df.method = NULL,
+  p.style = c("numeric", "stars", "numeric_stars", "scientific", "scientific_stars"),
   p.threshold = c(0.05, 0.01, 0.001),
   p.adjust = NULL,
   case = "parsed",
@@ -219,12 +222,12 @@ default, that is, \code{\link[sandwich]{vcovHC}} with default-type is called
 for further details).}
 
 \item{vcov.fun}{Character vector, indicating the name of the \code{vcov*()}-function
-from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust
-standard errors are required.}
+from the \pkg{sandwich} or \pkg{clubSandwich} package, e.g. \code{vcov.fun = "vcovCL"},
+if robust standard errors are required.}
 
 \item{vcov.type}{Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
-for details).}
+robust covariance matrix estimation (see \code{\link[sandwich:vcovHC]{vcovHC()}}
+or \code{\link[clubSandwich:vcovCR]{vcovCR()}} for details).}
 
 \item{vcov.args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov.fun}.}
@@ -291,9 +294,11 @@ Table columns are printed in the order as they appear in \code{col.order}.}
 
 \item{digits.p}{Amount of decimals for p-values}
 
+\item{digits.re}{Amount of decimals for random effects part of the summary table.}
+
 \item{emph.p}{Logical, if \code{TRUE}, significant p-values are shown bold faced.}
 
-\item{p.val}{Character, for mixed models, indicates how p-values are computed.
+\item{df.method, p.val}{Character, for mixed models, indicates how p-values are computed.
 Use \code{p.val = "wald"} for a faster, but less precise computation. For
 \code{p.val = "kenward"} (or \code{p.val = "kr"}), computation of p-values
 is based on conditional F-tests with Kenward-Roger approximation for the
@@ -304,8 +309,9 @@ approximation and \code{"ml1"} uses a "m-l-1" heuristic (see
 for each coefficient.}
 
 \item{p.style}{Character, indicating if p-values should be printed as
-numeric value (\code{"numeric"}), as asterisks (\code{"asterisk"})
-or both (\code{"both"}). May be abbreviated.}
+numeric value (\code{"numeric"}), as 'stars' (asterisks) only (\code{"stars"}),
+or scientific (\code{"scientific"}). Scientific and numeric style can be
+combined with "stars", e.g. \code{"numeric_stars"}}
 
 \item{p.threshold}{Numeric vector of length 3, indicating the treshold for
 annotating p-values with asterisks. Only applies if

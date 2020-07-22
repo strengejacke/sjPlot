@@ -1,10 +1,21 @@
 #' @title Summary of correlations as HTML table
-#' @name sjt.corr
+#' @name tab_corr
 #'
 #' @description Shows the results of a computed correlation as HTML table. Requires either
 #'                a \code{\link{data.frame}} or a matrix with correlation coefficients
 #'                as returned by the \code{\link{cor}}-function.
 #'
+#' @param data Matrix with correlation coefficients as returned by the
+#'          \code{\link{cor}}-function, or a \code{data.frame} of variables where
+#'          correlations between columns should be computed.
+#' @param na.deletion Indicates how missing values are treated. May be either
+#'          \code{"listwise"} (default) or \code{"pairwise"}. May be
+#'          abbreviated.
+#' @param corr.method Indicates the correlation computation method. May be one of
+#'          \code{"pearson"} (default), \code{"spearman"} or \code{"kendall"}.
+#'          May be abbreviated.
+#' @param p.numeric Logical, if \code{TRUE}, the p-values are printed
+#'          as numbers. If \code{FALSE} (default), asterisks are used.
 #' @param fade.ns Logical, if \code{TRUE} (default), non-significant correlation-values
 #'          appear faded (by using a lighter grey text color). See 'Note'.
 #' @param triangle Indicates whether only the upper right (use \code{"upper"}), lower left (use \code{"lower"})
@@ -26,7 +37,7 @@
 #' @inheritParams tab_model
 #' @inheritParams tab_xtab
 #' @inheritParams plot_grpfrq
-#' @inheritParams sjp.corr
+#' @inheritParams plot_gpt
 #'
 #' @return Invisibly returns
 #'          \itemize{
@@ -44,44 +55,42 @@
 #'
 #' @examples
 #' \dontrun{
-#' # plot correlation matrix using circles
-#' sjt.corr(mydf)
+#' if (interactive()) {
+#'   # Data from the EUROFAMCARE sample dataset
+#'   library(sjmisc)
+#'   data(efc)
 #'
-#' # Data from the EUROFAMCARE sample dataset
-#' library(sjmisc)
-#' data(efc)
+#'   # retrieve variable and value labels
+#'   varlabs <- get_label(efc)
 #'
-#' # retrieve variable and value labels
-#' varlabs <- get_label(efc)
+#'   # recveive first item of COPE-index scale
+#'   start <- which(colnames(efc) == "c83cop2")
+#'   # recveive last item of COPE-index scale
+#'   end <- which(colnames(efc) == "c88cop7")
 #'
-#' # recveive first item of COPE-index scale
-#' start <- which(colnames(efc) == "c83cop2")
-#' # recveive last item of COPE-index scale
-#' end <- which(colnames(efc) == "c88cop7")
+#'   # create data frame with COPE-index scale
+#'   mydf <- data.frame(efc[, c(start:end)])
+#'   colnames(mydf) <- varlabs[c(start:end)]
 #'
-#' # create data frame with COPE-index scale
-#' mydf <- data.frame(efc[, c(start:end)])
-#' colnames(mydf) <- varlabs[c(start:end)]
+#'   # we have high correlations here, because all items
+#'   # belong to one factor.
+#'   tab_corr(mydf, p.numeric = TRUE)
 #'
-#' # we have high correlations here, because all items
-#' # belong to one factor. See example from "sjp.pca".
-#' sjt.corr(mydf, p.numeric = TRUE)
+#'   # auto-detection of labels, only lower triangle
+#'   tab_corr(efc[, c(start:end)], triangle = "lower")
 #'
-#' # auto-detection of labels, only lower triangle
-#' sjt.corr(efc[, c(start:end)], triangle = "lower")
+#'   # auto-detection of labels, only lower triangle, all correlation
+#'   # values smaller than 0.3 are not shown in the table
+#'   tab_corr(efc[, c(start:end)], triangle = "lower", val.rm = 0.3)
 #'
-#' # auto-detection of labels, only lower triangle, all correlation
-#' # values smaller than 0.3 are not shown in the table
-#' sjt.corr(efc[, c(start:end)], triangle = "lower", val.rm = 0.3)
-#'
-#' # auto-detection of labels, only lower triangle, all correlation
-#' # values smaller than 0.3 are printed in blue
-#' sjt.corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3,
-#'          CSS = list(css.valueremove = 'color:blue;'))}
-#'
+#'   # auto-detection of labels, only lower triangle, all correlation
+#'   # values smaller than 0.3 are printed in blue
+#'   tab_corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3,
+#'            CSS = list(css.valueremove = 'color:blue;'))
+#' }}
 #' @importFrom stats na.omit cor cor.test
 #' @export
-sjt.corr <- function(data,
+tab_corr <- function(data,
                      na.deletion = c("listwise", "pairwise"),
                      corr.method = c("pearson", "spearman", "kendall"),
                      title = NULL,

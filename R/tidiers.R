@@ -21,7 +21,13 @@ tidy_model <- function(
     }
     component <- ifelse(show.zeroinf & insight::model_info(model)$is_zero_inflated, "all", "conditional")
 
-    if (is.null(p.val)) p.val <- "wald"
+    if (is.null(p.val)) {
+      if (inherits(model, c("glm", "polr"))) {
+        p.val <- "profile"
+      } else {
+        p.val <- "wald"
+      }
+    }
 
     df_method <- switch(
       p.val,
@@ -29,18 +35,28 @@ tidy_model <- function(
       "kr" = ,
       "kenward" = "kenward",
       "s" = ,
-      "satterthwaite" = "satterthwaite"
+      "satterthwaite" = "satterthwaite",
+      "profile" = "profile"
     )
 
     if (!is.null(robust) && !is.null(robust$vcov.fun)) {
       if (grepl("^vcov", robust$vcov.fun)) {
         robust$vcov.fun <- sub("^vcov", "", robust$vcov.fun)
       }
-      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, robust = TRUE, vcov_estimation = robust$vcov.fun, vcov_type = robust$vcov.type, vcov_args = robust$vcov.args, df_method = df_method, p_adjust = p_adjust, ...)
+      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, robust = TRUE, vcov_estimation = robust$vcov.fun, vcov_type = robust$vcov.type, vcov_args = robust$vcov.args, df_method = df_method, p_adjust = p_adjust)
     } else {
       model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, df_method = df_method, p_adjust = p_adjust)
     }
     out <- parameters::standardize_names(model_params, style = "broom")
+
+    # warning for p-values?
+    tryCatch({
+      if (insight::model_info(model)$is_mixed && df_method == "kenward" && insight::find_algorithm(model)$algorithm != "REML") {
+        warning("Model was not fitted by REML. Re-fitting model using REML, but p-values, df, etc. still might be unreliable.", call. = FALSE)
+      }
+    },
+    error = function(e) { NULL }
+    )
 
     column <- which(colnames(out) == "response")
     if (length(column)) colnames(out)[column] <- ifelse(isTRUE(facets), "facet", "response.level")

@@ -47,6 +47,7 @@ plot_model(
   line.size = NULL,
   vline.color = NULL,
   p.threshold = c(0.05, 0.01, 0.001),
+  p.adjust = NULL,
   grid,
   case,
   auto.label = TRUE,
@@ -299,12 +300,12 @@ default, that is, \code{\link[sandwich]{vcovHC}} with default-type is called
 for further details).}
 
 \item{vcov.fun}{Character vector, indicating the name of the \code{vcov*()}-function
-from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust
-standard errors are required.}
+from the \pkg{sandwich} or \pkg{clubSandwich} package, e.g. \code{vcov.fun = "vcovCL"},
+if robust standard errors are required.}
 
 \item{vcov.type}{Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
-for details).}
+robust covariance matrix estimation (see \code{\link[sandwich:vcovHC]{vcovHC()}}
+or \code{\link[clubSandwich:vcovCR]{vcovCR()}} for details).}
 
 \item{vcov.args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov.fun}.}
@@ -365,6 +366,9 @@ inherited from the current theme.}
 \item{p.threshold}{Numeric vector of length 3, indicating the treshold for
 annotating p-values with asterisks. Only applies if
 \code{p.style = "asterisk"}.}
+
+\item{p.adjust}{Character vector, if not \code{NULL}, indicates the method
+to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
 
 \item{grid}{Logical, if \code{TRUE}, multiple plots are plotted as grid
 layout.}

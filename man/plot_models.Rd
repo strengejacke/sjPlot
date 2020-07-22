@@ -21,6 +21,8 @@ plot_models(
   wrap.legend.title = 20,
   grid.breaks = NULL,
   dot.size = 3,
+  line.size = NULL,
+  value.size = NULL,
   spacing = 0.4,
   colors = "Set1",
   show.values = FALSE,
@@ -29,6 +31,7 @@ plot_models(
   show.p = TRUE,
   p.shape = FALSE,
   p.threshold = c(0.05, 0.01, 0.001),
+  p.adjust = NULL,
   ci.lvl = 0.95,
   robust = FALSE,
   vcov.fun = NULL,
@@ -125,6 +128,12 @@ axis positions of the major grid lines.}
 
 \item{dot.size}{Numeric, size of the dots that indicate the point estimates.}
 
+\item{line.size}{Numeric, size of the lines that indicate the error bars.}
+
+\item{value.size}{Numeric, indicates the size of value labels. Can be used
+for all plot types where the argument \code{show.values} is applicable,
+e.g. \code{value.size = 4}.}
+
 \item{spacing}{Numeric, spacing between the dots and error bars of the
 plotted fitted models. Default is 0.3.}
 
@@ -161,6 +170,9 @@ is \code{FALSE}.}
 annotating p-values with asterisks. Only applies if
 \code{p.style = "asterisk"}.}
 
+\item{p.adjust}{Character vector, if not \code{NULL}, indicates the method
+to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
+
 \item{ci.lvl}{Numeric, the level of the confidence intervals (error bars).
 Use \code{ci.lvl = NA} to remove error bars. For \code{stanreg}-models,
 \code{ci.lvl} defines the (outer) probability for the \emph{credible interval}
@@ -179,12 +191,12 @@ default, that is, \code{\link[sandwich]{vcovHC}} with default-type is called
 for further details).}
 
 \item{vcov.fun}{Character vector, indicating the name of the \code{vcov*()}-function
-from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust
-standard errors are required.}
+from the \pkg{sandwich} or \pkg{clubSandwich} package, e.g. \code{vcov.fun = "vcovCL"},
+if robust standard errors are required.}
 
 \item{vcov.type}{Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
-for details).}
+robust covariance matrix estimation (see \code{\link[sandwich:vcovHC]{vcovHC()}}
+or \code{\link[clubSandwich:vcovCR]{vcovCR()}} for details).}
 
 \item{vcov.args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov.fun}.}

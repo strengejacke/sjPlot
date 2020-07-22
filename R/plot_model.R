@@ -213,11 +213,11 @@
 #'   \href{https://easystats.github.io/parameters/articles/model_parameters_robust.html}{this vignette}
 #'   for further details).
 #' @param vcov.fun Character vector, indicating the name of the \code{vcov*()}-function
-#'    from the \pkg{sandwich}-package, e.g. \code{vcov.fun = "vcovCL"}, if robust
-#'    standard errors are required.
+#'    from the \pkg{sandwich} or \pkg{clubSandwich} package, e.g. \code{vcov.fun = "vcovCL"},
+#'    if robust standard errors are required.
 #' @param vcov.type Character vector, specifying the estimation type for the
-#'    robust covariance matrix estimation (see \code{\link[sandwich]{vcovHC}}
-#'    for details).
+#'    robust covariance matrix estimation (see \code{\link[sandwich:vcovHC]{vcovHC()}}
+#'    or \code{\link[clubSandwich:vcovCR]{vcovCR()}} for details).
 #' @param vcov.args List of named vectors, used as additional arguments that
 #'    are passed down to \code{vcov.fun}.
 #' @param value.offset Numeric, offset for text labels to adjust their position
@@ -269,6 +269,8 @@
 #'   will be occupied by the jittered values.
 #' @param digits Numeric, amount of digits after decimal point when rounding
 #'   estimates or values.
+#' @param p.adjust Character vector, if not \code{NULL}, indicates the method
+#'   to adjust p-values. See \code{\link[stats]{p.adjust}} for details.
 #' @param value.size Numeric, indicates the size of value labels. Can be used
 #'   for all plot types where the argument \code{show.values} is applicable,
 #'   e.g. \code{value.size = 4}.
@@ -512,6 +514,7 @@ plot_model <- function(model,
                        line.size = NULL,
                        vline.color = NULL,
                        p.threshold = c(0.05, 0.01, 0.001),
+                       p.adjust = NULL,
                        grid,
                        case,
                        auto.label = TRUE,
@@ -663,6 +666,7 @@ plot_model <- function(model,
       vcov.type = vcov.type,
       vcov.args = vcov.args,
       ci.style = ci.style,
+      p_adjust = p.adjust,
       ...
     )
 

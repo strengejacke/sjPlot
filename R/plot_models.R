@@ -88,6 +88,8 @@ plot_models <- function(...,
                         wrap.legend.title = 20,
                         grid.breaks = NULL,
                         dot.size = 3,
+                        line.size = NULL,
+                        value.size = NULL,
                         spacing = 0.4,
                         colors = "Set1",
                         show.values = FALSE,
@@ -96,6 +98,7 @@ plot_models <- function(...,
                         show.p = TRUE,
                         p.shape = FALSE,
                         p.threshold = c(0.05, 0.01, 0.001),
+                        p.adjust = NULL,
                         ci.lvl = .95,
                         robust = FALSE,
                         vcov.fun = NULL,
@@ -119,6 +122,9 @@ plot_models <- function(...,
 
   # check se-argument
   vcov.fun <- check_se_argument(se = vcov.fun, type = "est")
+
+  if (missing(line.size) || is.null(line.size)) line.size <- .7
+  if (missing(value.size) || is.null(value.size)) value.size <- 4
 
   # check length. if we have a list of fitted model, we need to "unlist" them
   if (length(input_list) == 1 && class(input_list[[1]]) == "list")
@@ -172,6 +178,7 @@ plot_models <- function(...,
       bootstrap = FALSE,
       iterations = 1000,
       seed = NULL,
+      p_adjust = p.adjust,
       ...
     )
   )
@@ -181,7 +188,11 @@ plot_models <- function(...,
   if (!show.intercept) {
     fl <- purrr::map(fl, function(x) {
       rm.i <- string_ends_with("(Intercept)", x = x$term)
-      dplyr::slice(x, !! -rm.i)
+      if (length(rm.i)) {
+        dplyr::slice(x, !! -rm.i)
+      } else {
+        x
+      }
     })
   }
 
@@ -260,6 +271,8 @@ plot_models <- function(...,
   yintercept <- if (isTRUE(tf == "exp")) 1 else 0
   layer_vertical_line <- geom_intercept_line(yintercept, axis.scaling, vline.color)
 
+  # reorder terms
+  ff$term <- factor(ff$term, levels = rev(unique(ff$term)))
 
   # set up base plot
 
@@ -275,7 +288,8 @@ plot_models <- function(...,
     geom_errorbar(
       aes_string(ymin = "conf.low", ymax = "conf.high"),
       position = position_dodge(spacing),
-      width = 0
+      width = 0,
+      size = line.size
     ) +
     coord_flip() +
     guides(colour = guide_legend(reverse = TRUE))
@@ -298,7 +312,8 @@ plot_models <- function(...,
       position = position_dodge(spacing),
       vjust = spacing * -1.5,
       hjust = -.1,
-      show.legend = FALSE
+      show.legend = FALSE,
+      size = value.size
     )
 
 
@@ -344,7 +359,7 @@ plot_models <- function(...,
   p <-
     p + labs(
       x = NULL,
-      y = sjmisc::word_wrap(estimate_axis_title(input_list[[1]], axis.title, type = "est"), wrap = wrap.title),
+      y = sjmisc::word_wrap(estimate_axis_title(input_list[[1]], axis.title, type = "est", transform = !is.null(tf)), wrap = wrap.title),
       title = sjmisc::word_wrap(title, wrap = wrap.title),
       colour = sjmisc::word_wrap(legend.title, wrap = wrap.legend.title),
       shape = sjmisc::word_wrap(legend.pval.title, wrap = wrap.legend.title)

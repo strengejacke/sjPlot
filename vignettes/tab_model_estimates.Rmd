@@ -240,12 +240,18 @@ To show variable names, categories and include the reference level, also set `pr
 tab_model(model, show.reflvl = TRUE, prefix.labels = "varname")
 ```
 
-## Show asterisks instead of numeric p-values
+## Style of p-values
 
-You can change the style of how p-values are displayed with the argument `p.style`. With `p.style = "asterisk"`, the p-values are indicated as `*` in the table. 
+You can change the style of how p-values are displayed with the argument `p.style`. With `p.style = "stars"`, the p-values are indicated as `*` in the table. 
 
 ```{r}
-tab_model(m1, m2, p.style = "a")
+tab_model(m1, m2, p.style = "stars")
+``` 
+
+Another option would be scientific notation, using `p.style = "scientific"`, which also can be combined with `digits.p`.
+
+```{r}
+tab_model(m1, m2, p.style = "scientific", digits.p = 2)
 ``` 
 
 

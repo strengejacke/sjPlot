@@ -5,10 +5,9 @@ if (suppressWarnings(
   require("sjPlot") &&
   require("sjmisc") &&
   require("lme4") &&
-  require("glmmTMB")
+  require("glmmTMB") &&
+  interactive()
 )) {
-
-  context("sjPlot, tab_model type std")
 
   data(sleepstudy)
   data(Salamanders)
