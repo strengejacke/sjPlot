@@ -1309,7 +1309,8 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
   }
 
   if (show.stat == FALSE) {
-    dat <- dplyr::select(dat, -string_starts_with("statistic|std.statistic", x = colnames(dat)))
+    dat <- dplyr::select(dat, -string_starts_with("statistic", x = colnames(dat)),
+                         -string_starts_with("std.statistic", x = colnames(dat)))
   }
 
   if (show.response == FALSE) {
@@ -1317,7 +1318,8 @@ remove_unwanted <- function(dat, show.intercept, show.est, show.std, show.ci, sh
   }
 
   if (show.p == FALSE) {
-    dat <- dplyr::select(dat, -string_starts_with("p.value|std.p.value", x = colnames(dat)))
+    dat <- dplyr::select(dat, -string_starts_with("p.value", x = colnames(dat)),
+                         -string_starts_with("std.p.value", x = colnames(dat)))
   }
 
   if (show.df == FALSE) {
