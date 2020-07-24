@@ -188,7 +188,11 @@ plot_models <- function(...,
   if (!show.intercept) {
     fl <- purrr::map(fl, function(x) {
       rm.i <- string_ends_with("(Intercept)", x = x$term)
-      dplyr::slice(x, !! -rm.i)
+      if (length(rm.i)) {
+        dplyr::slice(x, !! -rm.i)
+      } else {
+        x
+      }
     })
   }
 

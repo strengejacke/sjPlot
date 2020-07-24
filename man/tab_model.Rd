@@ -69,7 +69,8 @@ tab_model(
   digits.p = 3,
   digits.re = 2,
   emph.p = TRUE,
-  p.val = c("wald", "kenward", "kr", "satterthwaite", "ml1", "betwithin"),
+  p.val = NULL,
+  df.method = NULL,
   p.style = c("numeric", "stars", "numeric_stars", "scientific", "scientific_stars"),
   p.threshold = c(0.05, 0.01, 0.001),
   p.adjust = NULL,
@@ -303,7 +304,7 @@ Table columns are printed in the order as they appear in \code{col.order}.}
 
 \item{emph.p}{Logical, if \code{TRUE}, significant p-values are shown bold faced.}
 
-\item{p.val}{Character, for mixed models, indicates how p-values are computed.
+\item{df.method, p.val}{Character, for mixed models, indicates how p-values are computed.
 Use \code{p.val = "wald"} for a faster, but less precise computation. For
 \code{p.val = "kenward"} (or \code{p.val = "kr"}), computation of p-values
 is based on conditional F-tests with Kenward-Roger approximation for the

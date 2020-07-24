@@ -21,7 +21,13 @@ tidy_model <- function(
     }
     component <- ifelse(show.zeroinf & insight::model_info(model)$is_zero_inflated, "all", "conditional")
 
-    if (is.null(p.val)) p.val <- "wald"
+    if (is.null(p.val)) {
+      if (inherits(model, c("glm", "polr"))) {
+        p.val <- "profile"
+      } else {
+        p.val <- "wald"
+      }
+    }
 
     df_method <- switch(
       p.val,
@@ -29,7 +35,8 @@ tidy_model <- function(
       "kr" = ,
       "kenward" = "kenward",
       "s" = ,
-      "satterthwaite" = "satterthwaite"
+      "satterthwaite" = "satterthwaite",
+      "profile" = "profile"
     )
 
     if (!is.null(robust) && !is.null(robust$vcov.fun)) {

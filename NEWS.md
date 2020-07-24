@@ -1,3 +1,9 @@
+# sjPlot 2.8.5
+
+## Bug fixes
+
+* Fixed issue in `plot_models()` for models without intercept.
+
 # sjPlot 2.8.4
 
 ## Changes to functions
