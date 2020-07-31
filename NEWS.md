@@ -3,6 +3,7 @@
 ## Bug fixes
 
 * Fixed issue in `plot_models()` for models without intercept.
+* Fixed issue in `plot_model()` with `type = "int"` in detecting interaction terms when these were partly in parenthesis (like `a * (b + c)`).
 
 # sjPlot 2.8.4
 
