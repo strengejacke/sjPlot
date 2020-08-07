@@ -135,13 +135,13 @@
 #'    are only shown in the table when the related argument (like \code{show.est}
 #'    for \code{"estimate"}) is set to \code{TRUE} or another valid value.
 #'    Table columns are printed in the order as they appear in \code{col.order}.
-#' @param df.method,p.val Character, for mixed models, indicates how p-values are computed.
-#'   Use \code{p.val = "wald"} for a faster, but less precise computation. For
-#'   \code{p.val = "kenward"} (or \code{p.val = "kr"}), computation of p-values
-#'   is based on conditional F-tests with Kenward-Roger approximation for the
-#'   degrees of freedom. \code{p.val = "satterthwaite"} uses Satterthwaite's
-#'   approximation and \code{"ml1"} uses a "m-l-1" heuristic (see
-#'   \code{\link[parameters]{degrees_of_freedom}} for details). Use
+#' @param df.method,p.val Method for computing degrees of freedom for p-values,
+#'   standard errors and confidence intervals (CI). Only applies to mixed models.
+#'   Use \code{df.method = "wald"} for a faster, but less precise computation.
+#'   \code{df.method = "kenward"} (or \code{df.method = "kr"}) uses Kenward-Roger
+#'   approximation for the degrees of freedom. \code{df.method = "satterthwaite"}
+#'   uses Satterthwaite's approximation and \code{"ml1"} uses a "m-l-1" heuristic
+#'   see \code{\link[parameters]{degrees_of_freedom}} for details). Use
 #'   \code{show.df = TRUE} to show the approximated degrees of freedom
 #'   for each coefficient.
 #' @param p.style Character, indicating if p-values should be printed as

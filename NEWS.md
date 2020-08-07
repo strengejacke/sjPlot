@@ -1,8 +1,13 @@
 # sjPlot 2.8.5
 
+## Changes to functions
+
+* `tab_model()` gains an argument `df.method`, which will replace the less generic `p.val` argument in the future. Currently, `df.method` is an alias of `p.val`.
+
 ## Bug fixes
 
 * Fixed issue in `plot_models()` for models without intercept.
+* Fixed issue in `plot_model(type = "int")` when model formula contained interaction term within parenthesis.
 
 # sjPlot 2.8.4
 
