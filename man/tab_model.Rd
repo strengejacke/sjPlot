@@ -51,8 +51,10 @@ tab_model(
   string.std_se = "standardized std. Error",
   string.std_ci = "standardized CI",
   string.p = "p",
+  string.std.p = "std. p",
   string.df = "df",
   string.stat = "Statistic",
+  string.std.stat = "std. Statistic",
   string.resp = "Response",
   string.intercept = "(Intercept)",
   strings = NULL,
@@ -62,7 +64,7 @@ tab_model(
   collapse.se = FALSE,
   linebreak = TRUE,
   col.order = c("est", "se", "std.est", "std.se", "ci", "std.ci", "ci.inner",
-    "ci.outer", "stat", "p", "df.error", "response.level"),
+    "ci.outer", "stat", "std.stat", "p", "std.p", "df.error", "response.level"),
   digits = 2,
   digits.p = 3,
   digits.re = 2,
@@ -252,9 +254,13 @@ Default is based on the response scale, e.g. for logistic regression models,
 
 \item{string.p}{Character vector, used for the column heading of p values. Default is \code{"p"}.}
 
+\item{string.std.p}{Character vector, used for the column heading of p values. Default is \code{"std. p"}.}
+
 \item{string.df}{Character vector, used for the column heading of degrees of freedom. Default is \code{"df"}.}
 
 \item{string.stat}{Character vector, used for the test statistic. Default is \code{"Statistic"}.}
+
+\item{string.std.stat}{Character vector, used for the test statistic. Default is \code{"std. Statistic"}.}
 
 \item{string.resp}{Character vector, used for the column heading of of the response level for multinominal or categorical models. Default is \code{"Response"}.}
 
@@ -298,13 +304,13 @@ Table columns are printed in the order as they appear in \code{col.order}.}
 
 \item{emph.p}{Logical, if \code{TRUE}, significant p-values are shown bold faced.}
 
-\item{df.method, p.val}{Character, for mixed models, indicates how p-values are computed.
-Use \code{p.val = "wald"} for a faster, but less precise computation. For
-\code{p.val = "kenward"} (or \code{p.val = "kr"}), computation of p-values
-is based on conditional F-tests with Kenward-Roger approximation for the
-degrees of freedom. \code{p.val = "satterthwaite"} uses Satterthwaite's
-approximation and \code{"ml1"} uses a "m-l-1" heuristic (see
-\code{\link[parameters]{degrees_of_freedom}} for details). Use
+\item{df.method, p.val}{Method for computing degrees of freedom for p-values,
+standard errors and confidence intervals (CI). Only applies to mixed models.
+Use \code{df.method = "wald"} for a faster, but less precise computation.
+\code{df.method = "kenward"} (or \code{df.method = "kr"}) uses Kenward-Roger
+approximation for the degrees of freedom. \code{df.method = "satterthwaite"}
+uses Satterthwaite's approximation and \code{"ml1"} uses a "m-l-1" heuristic
+see \code{\link[parameters]{degrees_of_freedom}} for details). Use
 \code{show.df = TRUE} to show the approximated degrees of freedom
 for each coefficient.}
 
