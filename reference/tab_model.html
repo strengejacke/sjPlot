@@ -244,8 +244,10 @@
   string.std_se = <span class='st'>"standardized std. Error"</span>,
   string.std_ci = <span class='st'>"standardized CI"</span>,
   string.p = <span class='st'>"p"</span>,
+  string.std.p = <span class='st'>"std. p"</span>,
   string.df = <span class='st'>"df"</span>,
   string.stat = <span class='st'>"Statistic"</span>,
+  string.std.stat = <span class='st'>"std. Statistic"</span>,
   string.resp = <span class='st'>"Response"</span>,
   string.intercept = <span class='st'>"(Intercept)"</span>,
   strings = <span class='kw'>NULL</span>,
@@ -255,7 +257,7 @@
   collapse.se = <span class='fl'>FALSE</span>,
   linebreak = <span class='fl'>TRUE</span>,
   col.order = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"est"</span>, <span class='st'>"se"</span>, <span class='st'>"std.est"</span>, <span class='st'>"std.se"</span>, <span class='st'>"ci"</span>, <span class='st'>"std.ci"</span>, <span class='st'>"ci.inner"</span>,
-    <span class='st'>"ci.outer"</span>, <span class='st'>"stat"</span>, <span class='st'>"p"</span>, <span class='st'>"df.error"</span>, <span class='st'>"response.level"</span>),
+    <span class='st'>"ci.outer"</span>, <span class='st'>"stat"</span>, <span class='st'>"std.stat"</span>, <span class='st'>"p"</span>, <span class='st'>"std.p"</span>, <span class='st'>"df.error"</span>, <span class='st'>"response.level"</span>),
   digits = <span class='fl'>2</span>,
   digits.p = <span class='fl'>3</span>,
   digits.re = <span class='fl'>2</span>,
@@ -538,12 +540,20 @@ Default is based on the response scale, e.g. for logistic regression models,
       <td><p>Character vector, used for the column heading of p values. Default is <code>"p"</code>.</p></td>
     </tr>
     <tr>
+      <th>string.std.p</th>
+      <td><p>Character vector, used for the column heading of p values. Default is <code>"std. p"</code>.</p></td>
+    </tr>
+    <tr>
       <th>string.df</th>
       <td><p>Character vector, used for the column heading of degrees of freedom. Default is <code>"df"</code>.</p></td>
     </tr>
     <tr>
       <th>string.stat</th>
       <td><p>Character vector, used for the test statistic. Default is <code>"Statistic"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>string.std.stat</th>
+      <td><p>Character vector, used for the test statistic. Default is <code>"std. Statistic"</code>.</p></td>
     </tr>
     <tr>
       <th>string.resp</th>
@@ -615,13 +625,13 @@ Table columns are printed in the order as they appear in <code>col.order</code>.
     </tr>
     <tr>
       <th>df.method, p.val</th>
-      <td><p>Character, for mixed models, indicates how p-values are computed.
-Use <code>p.val = "wald"</code> for a faster, but less precise computation. For
-<code>p.val = "kenward"</code> (or <code>p.val = "kr"</code>), computation of p-values
-is based on conditional F-tests with Kenward-Roger approximation for the
-degrees of freedom. <code>p.val = "satterthwaite"</code> uses Satterthwaite's
-approximation and <code>"ml1"</code> uses a "m-l-1" heuristic (see
-<code><a href='https://rdrr.io/pkg/parameters/man/degrees_of_freedom.html'>degrees_of_freedom</a></code> for details). Use
+      <td><p>Method for computing degrees of freedom for p-values,
+standard errors and confidence intervals (CI). Only applies to mixed models.
+Use <code>df.method = "wald"</code> for a faster, but less precise computation.
+<code>df.method = "kenward"</code> (or <code>df.method = "kr"</code>) uses Kenward-Roger
+approximation for the degrees of freedom. <code>df.method = "satterthwaite"</code>
+uses Satterthwaite's approximation and <code>"ml1"</code> uses a "m-l-1" heuristic
+see <code><a href='https://rdrr.io/pkg/parameters/man/degrees_of_freedom.html'>degrees_of_freedom</a></code> for details). Use
 <code>show.df = TRUE</code> to show the approximated degrees of freedom
 for each coefficient.</p></td>
     </tr>
