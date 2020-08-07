@@ -8,7 +8,8 @@
 
 * Fixed issue in `plot_models()` for models without intercept.
 * Fixed issue in `plot_model()` with `type = "int"` in detecting interaction terms when these were partly in parenthesis (like `a * (b + c)`).
-* Fixed issue in `tab_model()` with arguments `show.stat = TRUE` and `show.std = TRUE`, where the related statistic and CI colums for standardized coefficients were not shown.
+* Fixed issue in `tab_model()` with arguments `show.stat = TRUE` and `show.std = TRUE`, where the related statistic and CI columns for standardized coefficients were not shown.
+* Fixed issue in `tab_model()` for *brmsfit* models that did no longer show random effects information after the last update from the *performance*  package.
 
 # sjPlot 2.8.4
 

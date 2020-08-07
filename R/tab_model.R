@@ -222,7 +222,7 @@
 #' @importFrom sjlabelled response_labels term_labels
 #' @importFrom sjmisc word_wrap var_rename add_columns add_case
 #' @importFrom insight model_info is_multivariate find_random get_data find_predictors
-#' @importFrom performance r2 icc
+#' @importFrom performance r2 variance_decomposition
 #' @importFrom stats nobs setNames
 #' @importFrom rlang .data
 #' @importFrom utils packageVersion
@@ -563,7 +563,7 @@ tab_model <- function(
       if (grepl("stars", p.style)) {
         if (obj_has_name(dat, "estimate"))
           dat$estimate <- sprintf("%.*f <sup>%s</sup>", digits, dat$estimate, dat$p.stars)
-        if (!show.est && obj_has_name(dat, "std.estimate")){
+        if (!show.est && obj_has_name(dat, "std.estimate")) {
           dat$std.estimate <- sprintf("%.*f <sup>%s</sup>", digits, dat$std.estimate, dat$std.p.stars)
           dat <- dplyr::select(dat, -.data$std.p.stars)
         }
@@ -675,15 +675,18 @@ tab_model <- function(
       }
 
 
-      vars <- NULL
+      vars <- vars_brms <- NULL
 
       # extract variance components ----
 
       if ((show.icc || show.re.var || show.r2) && is_mixed_model(model)) {
         if (inherits(model, "brmsfit")) {
-          vars_brms <- performance::icc(model)
-          vars$var.intercept <- attr(vars_brms, "var_rand_intercept")
-          vars$var.residual <- attr(vars_brms, "var_residual")
+          vars <- suppressWarnings(insight::get_variance(model))
+          if (is.null(vars)) {
+            vars_brms <- performance::variance_decomposition(model)
+            vars$var.intercept <- attr(vars_brms, "var_rand_intercept")
+            vars$var.residual <- attr(vars_brms, "var_residual")
+          }
         } else {
           vars <- suppressWarnings(insight::get_variance(model))
         }
@@ -699,7 +702,7 @@ tab_model <- function(
       icc <- NULL
 
       if (show.icc && is_mixed_model(model) && !is.null(vars) && !all(is.na(vars))) {
-        if (inherits(model, "brmsfit")) {
+        if (inherits(model, "brmsfit") && !is.null(vars_brms)) {
           icc <- list(icc.adjusted = vars_brms$ICC_decomposed)
         } else {
           icc <- list(icc.adjusted = vars$var.random / (vars$var.random + vars$var.residual))
