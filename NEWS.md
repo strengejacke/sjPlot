@@ -8,6 +8,7 @@
 
 * Fixed issue in `plot_models()` for models without intercept.
 * Fixed issue in `plot_model(type = "int")` when model formula contained interaction term within parenthesis.
+* Fixed issue in `tab_model()` with arguments `show.stat = TRUE` and `show.std = TRUE`, where the related statistic and CI colums for standardized coefficients were not shown.
 
 # sjPlot 2.8.4
 
