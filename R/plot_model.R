@@ -859,10 +859,11 @@ get_model_data <- function(model,
 }
 
 
+#' @importFrom insight has_intercept
 one_par <- function(model) {
   tryCatch(
     {
-      length(stats::coef(model)) <= 2
+      length(stats::coef(model)) < 2 & !insight::has_intercept(model)
     },
     error = function(x) { FALSE }
   )
