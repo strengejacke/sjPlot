@@ -105,17 +105,17 @@ function, a legend is added to the plot.}
 \item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared
 statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc.
 is shown. If a cell contains expected values lower than five (or lower than 10
-if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is
+if df is 1), the Fisher's exact test (see \code{\link{fisher.test}}) is
 computed instead of chi-squared test. If the table's matrix is larger
-than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
+than 2x2, Fisher's exact test with Monte Carlo simulation is computed.}
 
 \item{summary.pos}{position of the model summary which is printed when \code{show.summary}
 is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner.
 Use \code{"l"} for upper left corner.}
 
-\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labelled,
+\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labeled,
 values that have no observations are still printed in the table (with
-frequency \code{0}). If \code{FALSE}, values / factor levels with no occurence
+frequency \code{0}). If \code{FALSE}, values / factor levels with no occurrence
 in the data are omitted from the output.}
 
 \item{string.total}{String for the legend label when a total-column is added. Only applies

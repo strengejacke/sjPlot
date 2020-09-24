@@ -151,13 +151,13 @@ are added to the output.}
 \item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared
 statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc.
 is shown. If a cell contains expected values lower than five (or lower than 10
-if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is
+if df is 1), the Fisher's exact test (see \code{\link{fisher.test}}) is
 computed instead of chi-squared test. If the table's matrix is larger
-than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
+than 2x2, Fisher's exact test with Monte Carlo simulation is computed.}
 
-\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labelled,
+\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labeled,
 values that have no observations are still printed in the table (with
-frequency \code{0}). If \code{FALSE}, values / factor levels with no occurence
+frequency \code{0}). If \code{FALSE}, values / factor levels with no occurrence
 in the data are omitted from the output.}
 
 \item{auto.group}{numeric value, indicating the minimum amount of unique values
@@ -224,7 +224,7 @@ Plot grouped or stacked frequencies of variables as bar/dot,
 \details{
 \code{geom.colors} may be a character vector of color values
          in hex-format, valid color value names (see \code{demo("colors")} or
-         a name of a \href{http://colorbrewer2.org}{color brewer} palette.
+         a name of a \href{ https://colorbrewer2.org/}{color brewer} palette.
          Following options are valid for the \code{geom.colors} argument:
          \itemize{
            \item If not specified, a default color brewer palette will be used, which is suitable for the plot style (i.e. diverging for likert scales, qualitative for grouped bars etc.).

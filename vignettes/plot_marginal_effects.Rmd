@@ -42,7 +42,7 @@ To plot marginal effects of regression models, at least one model term needs to 
 
 `plot_model()` supports [labelled data](https://cran.r-project.org/package=sjlabelled) and automatically uses variable and value labels to annotate the plot. This works with most regression modelling functions.
 
-***Note:** For marginal effects plots, **sjPlot** calls functions from the [**ggeffects-package**](http://strengejacke.github.io/ggeffects). If you need more flexibility when creating marginal effects plots, consider directly using the **ggeffects**-package.*
+***Note:** For marginal effects plots, **sjPlot** calls functions from the [**ggeffects-package**](https://strengejacke.github.io/ggeffects/). If you need more flexibility when creating marginal effects plots, consider directly using the **ggeffects**-package.*
 
 # Marginal effects
 

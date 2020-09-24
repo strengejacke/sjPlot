@@ -156,9 +156,9 @@ mean. Only applies to histogram-charts.}
 is annotated as shaded rectangle around the mean intercept
 line. Only applies to histogram-charts.}
 
-\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labelled,
+\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labeled,
 values that have no observations are still printed in the table (with
-frequency \code{0}). If \code{FALSE}, values / factor levels with no occurence
+frequency \code{0}). If \code{FALSE}, values / factor levels with no occurrence
 in the data are omitted from the output.}
 
 \item{mean.line.type}{Numeric value, indicating the linetype of the mean

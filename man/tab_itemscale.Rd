@@ -196,6 +196,6 @@ if (interactive()) {
              \item Jorion N, Self B, James K, Schroeder L, DiBello L, Pellegrino J (2013) Classical Test Theory Analysis of the Dynamics Concept Inventory. (\href{https://www.academia.edu/4104752/Classical_Test_Theory_Analysis_of_the_Dynamics_Concept_Inventory}{web})
              \item Briggs SR, Cheek JM (1986) The role of factor analysis in the development and evaluation of personality scales. Journal of Personality, 54(1), 106-148. doi: 10.1111/j.1467-6494.1986.tb00391.x
              \item McLean S et al. (2013) Stigmatizing attitudes and beliefs about bulimia nervosa: Gender, age, education and income variability in a community sample. International Journal of Eating Disorders. doi: 10.1002/eat.22227
-             \item Trochim WMK (2008) Types of Reliability. (\href{http://www.socialresearchmethods.net/kb/reltypes.php}{web})
+             \item Trochim WMK (2008) Types of Reliability. (\href{https://conjointly.com/kb/types-of-reliability/}{web})
             }
 }

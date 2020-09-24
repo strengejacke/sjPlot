@@ -214,7 +214,7 @@ variable (following the convention suggested by Cohen and Cohen and
 popularized by Aiken and West (1991), i.e. using the mean, the value one
 standard deviation above, and the value one standard deviation below the
 mean as values of the moderator, see
-\href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin
+\href{https://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin
 K: 3 Tips to Make Interpreting Moderation Effects Easier}).}
 \item{\code{"zeromax"}}{is similar to the \code{"minmax"} option, however,
 \code{0} is always used as minimum value for the moderator. This may be

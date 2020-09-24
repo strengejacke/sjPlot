@@ -56,7 +56,7 @@ plot_grpfrq(
 
 ## Using the Color Brewer palettes
 
-All plotting functions support the usage of the [Colorbrewer](http://colorbrewer2.org) palettes. To apply a color brewer palette, use specify the palette as `geom.colors`. Any valid color brewer palette is recognized automatically.
+All plotting functions support the usage of the [Colorbrewer]( https://colorbrewer2.org/) palettes. To apply a color brewer palette, use specify the palette as `geom.colors`. Any valid color brewer palette is recognized automatically.
 
 ```{r}
 # blank theme

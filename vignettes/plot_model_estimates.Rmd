@@ -174,7 +174,7 @@ if (require("rstanarm", quietly = TRUE)) {
 
 There are several options to customize the plot appearance:
 
-  * The `colors`-argument either takes the name of a valid [colorbrewer palette](http://colorbrewer2.org) (see also the related [vignette](custplot.html)), `"bw"` or `"gs"` for black/white or greyscaled colors, or a string with a color name.
+  * The `colors`-argument either takes the name of a valid [colorbrewer palette](https://colorbrewer2.org/) (see also the related [vignette](custplot.html)), `"bw"` or `"gs"` for black/white or greyscaled colors, or a string with a color name.
   * `value.offset` and `value.size` adjust the positioning and size of value labels, if shown.
   * `dot.size` and `line.size` change the size of dots and error bars.
   * `vline.color` changes the neutral "intercept" line.

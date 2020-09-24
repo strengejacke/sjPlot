@@ -1,8 +1,6 @@
 #' @title Plot Pearson's Chi2-Test of multiple contingency tables
 #' @name sjp.chi2
 #'
-#' @seealso \href{http://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
-#'
 #' @description Plot p-values of Pearson's Chi2-tests for multiple contingency tables as ellipses or tiles.
 #'                Requires a data frame with dichotomous (dummy) variables.
 #'                Calculation of Chi2-matrix taken from
