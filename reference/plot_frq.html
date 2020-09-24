@@ -504,9 +504,12 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>iris</span>)
 
 <span class='co'># simple plots, two different notations</span>
-<span class='fu'>plot_frq</span>(<span class='kw'>iris</span>, <span class='kw'>Species</span>)</div><div class='img'><img src='plot_frq-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot_frq</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>tot_sc_e</span>)</div><div class='img'><img src='plot_frq-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_frq</span>(<span class='kw'>iris</span>, <span class='kw'>Species</span>)
+</div><div class='img'><img src='plot_frq-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plot_frq</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>tot_sc_e</span>)
+</div><div class='img'><img src='plot_frq-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># boxplot</span>
-<span class='fu'>plot_frq</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e17age</span>, type = <span class='st'>"box"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `fun.y` is deprecated. Use `fun` instead.</span></div><div class='img'><img src='plot_frq-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_frq</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e17age</span>, type = <span class='st'>"box"</span>)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: `fun.y` is deprecated. Use `fun` instead.</span></div><div class='img'><img src='plot_frq-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'><a href='https://dplyr.tidyverse.org'>"dplyr"</a></span>)) {
   <span class='co'># histogram, pipe-workflow</span>
   <span class='kw'>efc</span> <span class='op'>%&gt;%</span>
@@ -515,7 +518,8 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 
   <span class='co'># bar plot(s)</span>
   <span class='fu'>plot_frq</span>(<span class='kw'>efc</span>, <span class='kw'>e42dep</span>, <span class='kw'>c172code</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Loading required package: dplyr</span></div><div class='output co'>#&gt; <span class='message'></span>
+}
+</div><div class='output co'>#&gt; <span class='message'>Loading required package: dplyr</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:sjlabelled’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    as_label</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
@@ -530,27 +534,33 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
     <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>e42dep</span>) <span class='op'>%&gt;%</span>
     <span class='fu'>plot_frq</span>(<span class='kw'>c161sex</span>) <span class='op'>%&gt;%</span>
     <span class='fu'><a href='plot_grid.html'>plot_grid</a></span>()
-}</div><div class='output co'>#&gt; <span class='message'>Loading required package: gridExtra</span></div><div class='output co'>#&gt; <span class='message'></span>
+}
+</div><div class='output co'>#&gt; <span class='message'>Loading required package: gridExtra</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘gridExtra’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:dplyr’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    combine</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Not enough tags labels in list. Using letters instead.</span></div><div class='img'><img src='plot_frq-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span>)</div><div class='output co'>#&gt; <span class='message'></span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span>)
+</div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘sjmisc’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:sjlabelled’:</span>
 #&gt; <span class='message'></span>
 #&gt; <span class='message'>    to_character, to_factor, to_label, to_numeric</span></div><div class='input'><span class='co'># grouped variable</span>
 <span class='kw'>ageGrp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjmisc/man/group_var.html'>group_var</a></span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e17age</span>)
 <span class='kw'>ageGrpLab</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjmisc/man/group_var.html'>group_labels</a></span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e17age</span>)
-<span class='fu'>plot_frq</span>(<span class='kw'>ageGrp</span>, title = <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/get_label.html'>get_label</a></span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e17age</span>), axis.labels = <span class='kw'>ageGrpLab</span>)</div><div class='img'><img src='plot_frq-7.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_frq</span>(<span class='kw'>ageGrp</span>, title = <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/get_label.html'>get_label</a></span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e17age</span>), axis.labels = <span class='kw'>ageGrpLab</span>)
+</div><div class='img'><img src='plot_frq-7.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plotting confidence intervals. expand grid and v/hjust for text labels</span>
 <span class='fu'>plot_frq</span>(
   <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e15relat</span>, type = <span class='st'>"dot"</span>, show.ci = <span class='fl'>TRUE</span>, sort.frq = <span class='st'>"desc"</span>,
   coord.flip = <span class='fl'>TRUE</span>, expand.grid = <span class='fl'>TRUE</span>, vjust = <span class='st'>"bottom"</span>, hjust = <span class='st'>"left"</span>
-)</div><div class='img'><img src='plot_frq-8.png' alt='' width='700' height='433' /></div><div class='input'>
+)
+</div><div class='img'><img src='plot_frq-8.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># histogram with overlayed normal curve</span>
 <span class='fu'>plot_frq</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c160age</span>, type = <span class='st'>"h"</span>, show.mean = <span class='fl'>TRUE</span>, show.mean.val = <span class='fl'>TRUE</span>,
         normal.curve = <span class='fl'>TRUE</span>, show.sd = <span class='fl'>TRUE</span>, normal.curve.color = <span class='st'>"blue"</span>,
-        normal.curve.size = <span class='fl'>3</span>, ylim = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>50</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 4 rows containing missing values (geom_bar).</span></div><div class='img'><img src='plot_frq-9.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span></div></pre>
+        normal.curve.size = <span class='fl'>3</span>, ylim = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>50</span>))
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 4 rows containing missing values (geom_bar).</span></div><div class='img'><img src='plot_frq-9.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -566,7 +576,7 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

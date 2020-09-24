@@ -372,13 +372,15 @@ away from the center of the plot respectively.</p></td>
 <span class='co'># recveive first item of COPE-index scale</span>
 <span class='kw'>end</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>efc</span>) <span class='op'>==</span> <span class='st'>"c90cop9"</span>)
 <span class='co'># auto-detection of labels</span>
-<span class='fu'>plot_stackfrq</span>(<span class='kw'>efc</span>[, <span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>])</div><div class='img'><img src='plot_stackfrq-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_stackfrq</span>(<span class='kw'>efc</span>[, <span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>])
+</div><div class='img'><img src='plot_stackfrq-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># works on grouped data frames as well</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
 <span class='kw'>efc</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>c161sex</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>plot_stackfrq</span>()</div><div class='output co'>#&gt; <span class='message'>Note: Using an external vector in selections is ambiguous.</span>
+  <span class='fu'>plot_stackfrq</span>()
+</div><div class='output co'>#&gt; <span class='message'>Note: Using an external vector in selections is ambiguous.</span>
 #&gt; <span class='message'><span style='color: #0000BB;'>ℹ</span><span> Use `all_of(start)` instead of `start` to silence this message.</span>
 #&gt; <span class='message'></span><span style='color: #0000BB;'>ℹ</span><span> See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</span>
 #&gt; <span class='message'></span><span style='color: #555555;'>This message is displayed once per session.</span><span></span></div><div class='output co'>#&gt; <span class='message'>Note: Using an external vector in selections is ambiguous.</span>
@@ -390,7 +392,8 @@ away from the center of the plot respectively.</p></td>
 #&gt; 
 #&gt; [[1]][[2]]</div><div class='img'><img src='plot_stackfrq-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
 #&gt; 
-#&gt; [[2]]</div><div class='img'><img src='plot_stackfrq-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'></div></span></pre>
+#&gt; [[2]]</div><div class='img'><img src='plot_stackfrq-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -406,7 +409,7 @@ away from the center of the plot respectively.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

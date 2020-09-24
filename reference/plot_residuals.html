@@ -275,9 +275,12 @@ medians are considered to be significantly different.</p></td>
 <span class='kw'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>neg_c_7</span> <span class='op'>~</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>e17age</span> <span class='op'>+</span> <span class='kw'>e42dep</span>, data = <span class='kw'>efc</span>)
 
 <span class='co'># plot residuals for all independent variables</span>
-<span class='fu'>plot_residuals</span>(<span class='kw'>fit</span>)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='plot_residuals-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_residuals</span>(<span class='kw'>fit</span>)
+</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='plot_residuals-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># remove some independent variables from output</span>
-<span class='fu'>plot_residuals</span>(<span class='kw'>fit</span>, remove.estimates = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"e17age"</span>, <span class='st'>"e42dep"</span>))</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='plot_residuals-2.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+<span class='fu'>plot_residuals</span>(<span class='kw'>fit</span>, remove.estimates = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"e17age"</span>, <span class='st'>"e42dep"</span>))
+</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='plot_residuals-2.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -293,7 +296,7 @@ medians are considered to be significantly different.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

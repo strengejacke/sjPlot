@@ -207,7 +207,10 @@
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
+<li>Fixed issue with wrong n’s in <code><a href="../reference/plot_stackfrq.html">plot_stackfrq()</a></code> when weights were applied.</li>
+<li>Fixed issue <code><a href="../reference/plot_stackfrq.html">plot_stackfrq()</a></code> when weights were applied and items should be sorted.</li>
 <li>Fixed issue in <code><a href="../reference/plot_models.html">plot_models()</a></code> for models without intercept.</li>
+<li>Fixed issue for wrong legend labelling in <code><a href="../reference/plot_models.html">plot_models()</a></code> when showing p-stars.</li>
 <li>Fixed issue in <code><a href="../reference/plot_model.html">plot_model()</a></code> with <code>type = "int"</code> in detecting interaction terms when these were partly in parenthesis (like <code>a * (b + c)</code>).</li>
 <li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> with arguments <code>show.stat = TRUE</code> and <code>show.std = TRUE</code>, where the related statistic and CI columns for standardized coefficients were not shown.</li>
 <li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> for <em>brmsfit</em> models that did no longer show random effects information after the last update from the <em>performance</em> package.</li>
@@ -870,7 +873,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

@@ -368,24 +368,30 @@ layout.</p></td>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
 
 <span class='co'># simple scatter plot</span>
-<span class='fu'>plot_scatter</span>(<span class='kw'>efc</span>, <span class='kw'>e16sex</span>, <span class='kw'>neg_c_7</span>)</div><div class='img'><img src='plot_scatter-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_scatter</span>(<span class='kw'>efc</span>, <span class='kw'>e16sex</span>, <span class='kw'>neg_c_7</span>)
+</div><div class='img'><img src='plot_scatter-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># simple scatter plot, increased jittering</span>
-<span class='fu'>plot_scatter</span>(<span class='kw'>efc</span>, <span class='kw'>e16sex</span>, <span class='kw'>neg_c_7</span>, jitter = <span class='fl'>.4</span>)</div><div class='img'><img src='plot_scatter-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_scatter</span>(<span class='kw'>efc</span>, <span class='kw'>e16sex</span>, <span class='kw'>neg_c_7</span>, jitter = <span class='fl'>.4</span>)
+</div><div class='img'><img src='plot_scatter-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># grouped scatter plot</span>
-<span class='fu'>plot_scatter</span>(<span class='kw'>efc</span>, <span class='kw'>c160age</span>, <span class='kw'>e17age</span>, <span class='kw'>e42dep</span>)</div><div class='img'><img src='plot_scatter-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_scatter</span>(<span class='kw'>efc</span>, <span class='kw'>c160age</span>, <span class='kw'>e17age</span>, <span class='kw'>e42dep</span>)
+</div><div class='img'><img src='plot_scatter-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># grouped scatter plot with marginal rug plot</span>
 <span class='co'># and add fitted line for complete data</span>
 <span class='fu'>plot_scatter</span>(
   <span class='kw'>efc</span>, <span class='kw'>c12hour</span>, <span class='kw'>c160age</span>, <span class='kw'>c172code</span>,
   show.rug = <span class='fl'>TRUE</span>, fit.line = <span class='st'>"lm"</span>
-)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='plot_scatter-4.png' alt='' width='700' height='433' /></div><div class='input'>
+)
+</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='plot_scatter-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># grouped scatter plot with marginal rug plot</span>
 <span class='co'># and add fitted line for each group</span>
 <span class='fu'>plot_scatter</span>(
   <span class='kw'>efc</span>, <span class='kw'>c12hour</span>, <span class='kw'>c160age</span>, <span class='kw'>c172code</span>,
   show.rug = <span class='fl'>TRUE</span>, fit.grps = <span class='st'>"loess"</span>,
   grid = <span class='fl'>TRUE</span>
-)</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='plot_scatter-5.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+)
+</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='plot_scatter-5.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -401,7 +407,7 @@ layout.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

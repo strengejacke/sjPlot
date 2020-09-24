@@ -456,20 +456,24 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 <span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='fl'>100</span>, replace = <span class='fl'>TRUE</span>)
 
 <span class='co'># plot "cross tablulation" of x and grp</span>
-<span class='fu'>plot_xtab</span>(<span class='kw'>x</span>, <span class='kw'>grp</span>)</div><div class='img'><img src='plot_xtab-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_xtab</span>(<span class='kw'>x</span>, <span class='kw'>grp</span>)
+</div><div class='img'><img src='plot_xtab-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot "cross tablulation" of x and y, including labels</span>
 <span class='fu'>plot_xtab</span>(<span class='kw'>x</span>, <span class='kw'>grp</span>, axis.labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"low"</span>, <span class='st'>"mid"</span>, <span class='st'>"high"</span>),
-         legend.labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Grp 1"</span>, <span class='st'>"Grp 2"</span>, <span class='st'>"Grp 3"</span>, <span class='st'>"Grp 4"</span>))</div><div class='img'><img src='plot_xtab-2.png' alt='' width='700' height='433' /></div><div class='input'>
+         legend.labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Grp 1"</span>, <span class='st'>"Grp 2"</span>, <span class='st'>"Grp 3"</span>, <span class='st'>"Grp 4"</span>))
+</div><div class='img'><img src='plot_xtab-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot "cross tablulation" of x and grp</span>
 <span class='co'># as stacked proportional bars</span>
 <span class='fu'>plot_xtab</span>(<span class='kw'>x</span>, <span class='kw'>grp</span>, margin = <span class='st'>"row"</span>, bar.pos = <span class='st'>"stack"</span>,
-         show.summary = <span class='fl'>TRUE</span>, coord.flip = <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot_xtab-3.png' alt='' width='700' height='433' /></div><div class='input'>
+         show.summary = <span class='fl'>TRUE</span>, coord.flip = <span class='fl'>TRUE</span>)
+</div><div class='img'><img src='plot_xtab-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># example with vertical labels</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span>)
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjlabelled'>sjlabelled</a></span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
 <span class='fu'><a href='set_theme.html'>set_theme</a></span>(geom.label.angle = <span class='fl'>90</span>)
-<span class='fu'>plot_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, vjust = <span class='st'>"center"</span>, hjust = <span class='st'>"bottom"</span>)</div><div class='img'><img src='plot_xtab-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, vjust = <span class='st'>"center"</span>, hjust = <span class='st'>"bottom"</span>)
+</div><div class='img'><img src='plot_xtab-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># grouped bars with EUROFAMCARE sample dataset</span>
 <span class='co'># dataset was importet from an SPSS-file,</span>
 <span class='co'># see ?sjmisc::read_spss</span>
@@ -479,18 +483,23 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 
 <span class='fu'>plot_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, title = <span class='kw'>efc.var</span>[<span class='st'>'e42dep'</span>],
          axis.labels = <span class='kw'>efc.val</span>[[<span class='st'>'e42dep'</span>]], legend.title = <span class='kw'>efc.var</span>[<span class='st'>'e16sex'</span>],
-         legend.labels = <span class='kw'>efc.val</span>[[<span class='st'>'e16sex'</span>]])</div><div class='img'><img src='plot_xtab-5.png' alt='' width='700' height='433' /></div><div class='input'>
+         legend.labels = <span class='kw'>efc.val</span>[[<span class='st'>'e16sex'</span>]])
+</div><div class='img'><img src='plot_xtab-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>plot_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, title = <span class='kw'>efc.var</span>[<span class='st'>'e16sex'</span>],
          axis.labels = <span class='kw'>efc.val</span>[[<span class='st'>'e16sex'</span>]], legend.title = <span class='kw'>efc.var</span>[<span class='st'>'e42dep'</span>],
-         legend.labels = <span class='kw'>efc.val</span>[[<span class='st'>'e42dep'</span>]])</div><div class='img'><img src='plot_xtab-6.png' alt='' width='700' height='433' /></div><div class='input'>
+         legend.labels = <span class='kw'>efc.val</span>[[<span class='st'>'e42dep'</span>]])
+</div><div class='img'><img src='plot_xtab-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># -------------------------------</span>
 <span class='co'># auto-detection of labels works here</span>
 <span class='co'># so no need to specify labels. For</span>
 <span class='co'># title-auto-detection, use NULL</span>
 <span class='co'># -------------------------------</span>
-<span class='fu'>plot_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, title = <span class='kw'>NULL</span>)</div><div class='img'><img src='plot_xtab-7.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, title = <span class='kw'>NULL</span>)
+</div><div class='img'><img src='plot_xtab-7.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>plot_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, margin = <span class='st'>"row"</span>,
-         bar.pos = <span class='st'>"stack"</span>, coord.flip = <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot_xtab-8.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+         bar.pos = <span class='st'>"stack"</span>, coord.flip = <span class='fl'>TRUE</span>)
+</div><div class='img'><img src='plot_xtab-8.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -506,7 +515,7 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

@@ -347,8 +347,10 @@ than 2x2, Fisher's excact test with Monte Carlo simulation is computed.</p></td>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
 <span class='co'># note: "var.grp" does not need to be a factor.</span>
 <span class='co'># coercion to factor is done by the function</span>
-<span class='fu'>sjp.aov1</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c12hour</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Continuous limits supplied to discrete scale.</span>
+<span class='fu'>sjp.aov1</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c12hour</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Continuous limits supplied to discrete scale.</span>
 #&gt; <span class='warning'>Did you mean `limits = factor(...)` or `scale_*_continuous()`?</span></div><div class='img'><img src='sjp.aov1-1.png' alt='' width='700' height='433' /></div><div class='input'>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -365,7 +367,7 @@ than 2x2, Fisher's excact test with Monte Carlo simulation is computed.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

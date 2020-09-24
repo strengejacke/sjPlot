@@ -508,7 +508,8 @@ details.</p></td>
 <span class='kw'>fit3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>tot_sc_e</span> <span class='op'>~</span> <span class='kw'>c160age</span> <span class='op'>+</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>c161sex</span> <span class='op'>+</span> <span class='kw'>c172code</span>, data = <span class='kw'>efc</span>)
 
 <span class='co'># plot multiple models</span>
-<span class='fu'>plot_models</span>(<span class='kw'>fit1</span>, <span class='kw'>fit2</span>, <span class='kw'>fit3</span>, grid = <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot_models-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_models</span>(<span class='kw'>fit1</span>, <span class='kw'>fit2</span>, <span class='kw'>fit3</span>, grid = <span class='fl'>TRUE</span>)
+</div><div class='img'><img src='plot_models-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot multiple models with legend labels and</span>
 <span class='co'># point shapes instead of value labels</span>
 <span class='fu'>plot_models</span>(
@@ -518,21 +519,25 @@ details.</p></td>
   ),
   m.labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Barthel Index"</span>, <span class='st'>"Negative Impact"</span>, <span class='st'>"Services used"</span>),
   show.values = <span class='fl'>FALSE</span>, show.p = <span class='fl'>FALSE</span>, p.shape = <span class='fl'>TRUE</span>
-)</div><div class='img'><img src='plot_models-2.png' alt='' width='700' height='433' /></div><div class='input'>
+)
+</div><div class='img'><img src='plot_models-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot multiple models from nested lists argument</span>
 <span class='kw'>all.models</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
 <span class='kw'>all.models</span>[[<span class='fl'>1</span>]] <span class='op'>&lt;-</span> <span class='kw'>fit1</span>
 <span class='kw'>all.models</span>[[<span class='fl'>2</span>]] <span class='op'>&lt;-</span> <span class='kw'>fit2</span>
 <span class='kw'>all.models</span>[[<span class='fl'>3</span>]] <span class='op'>&lt;-</span> <span class='kw'>fit3</span>
 
-<span class='fu'>plot_models</span>(<span class='kw'>all.models</span>)</div><div class='img'><img src='plot_models-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>plot_models</span>(<span class='kw'>all.models</span>)
+</div><div class='img'><img src='plot_models-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot multiple models with different predictors (stepwise inclusion),</span>
 <span class='co'># standardized estimates</span>
 <span class='kw'>fit1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>mpg</span> <span class='op'>~</span> <span class='kw'>wt</span> <span class='op'>+</span> <span class='kw'>cyl</span> <span class='op'>+</span> <span class='kw'>disp</span> <span class='op'>+</span> <span class='kw'>gear</span>, data = <span class='kw'>mtcars</span>)
 <span class='kw'>fit2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='kw'>fit1</span>, <span class='kw'>.</span> <span class='op'>~</span> <span class='kw'>.</span> <span class='op'>+</span> <span class='kw'>hp</span>)
 <span class='kw'>fit3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='kw'>fit2</span>, <span class='kw'>.</span> <span class='op'>~</span> <span class='kw'>.</span> <span class='op'>+</span> <span class='kw'>am</span>)
 
-<span class='fu'>plot_models</span>(<span class='kw'>fit1</span>, <span class='kw'>fit2</span>, <span class='kw'>fit3</span>, std.est = <span class='st'>"std2"</span>)</div><div class='img'><img src='plot_models-4.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+<span class='fu'>plot_models</span>(<span class='kw'>fit1</span>, <span class='kw'>fit2</span>, <span class='kw'>fit3</span>, std.est = <span class='st'>"std2"</span>)
+</div><div class='img'><img src='plot_models-4.png' alt='' width='700' height='433' /></div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -548,7 +553,7 @@ details.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
