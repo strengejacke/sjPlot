@@ -274,6 +274,10 @@ plot_models <- function(...,
   # reorder terms
   ff$term <- factor(ff$term, levels = rev(unique(ff$term)))
 
+  # ensure correct legend labels
+  ff$p.stars[ff$p.stars == ""] <- "n.s."
+  ff$p.stars <- factor(ff$p.stars, levels = c("n.s.", "*", "**", "***"))
+
   # set up base plot
 
   if (p.shape)
@@ -297,11 +301,7 @@ plot_models <- function(...,
 
   # show different shapes depending on p-value
 
-  if (p.shape) p <- p +
-    scale_shape_manual(
-      values = c(1, 16, 17, 15),
-      labels = c("n.s.", "*", "**", "***")
-    )
+  if (p.shape) p <- p + scale_shape_manual(values = c(1, 16, 17, 15))
 
 
   # add value labels
