@@ -218,7 +218,8 @@ plot_stackfrq <- function(items,
     dummy <- lapply(dummy, function(.i) .i[-nrow(.i), ])
   } else {
     items$weights <- weight.by
-    dummy <- sjmisc::frq(items, weights = items$weights)
+    dummy <- sjmisc::frq(items, weights = items$weights, show.na = TRUE)
+    dummy <- lapply(dummy, function(.i) .i[-nrow(.i), ])
   }
 
   dummy <- lapply(1:length(dummy), function(.i) {
@@ -228,6 +229,8 @@ plot_stackfrq <- function(items,
   })
 
   mydat <- do.call(rbind, dummy)
+  # remove NA row
+  mydat <- mydat[!is.na(mydat$ypos), ]
 
   mydat$grp <- as.factor(mydat$grp)
   mydat$cat <- as.factor(mydat$val)

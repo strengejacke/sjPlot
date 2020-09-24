@@ -7,6 +7,7 @@
 ## Bug fixes
 
 * Fixed issue with wrong n's in `plot_stackfrq()` when weights were applied.
+* Fixed issue `plot_stackfrq()` when weights were applied and items should be sorted.
 * Fixed issue in `plot_models()` for models without intercept.
 * Fixed issue for wrong legend labelling in `plot_models()` when showing p-stars.
 * Fixed issue in `plot_model()` with `type = "int"` in detecting interaction terms when these were partly in parenthesis (like `a * (b + c)`).
