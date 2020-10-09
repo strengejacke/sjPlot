@@ -1,6 +1,7 @@
 #' @importFrom stats qnorm pnorm
 #' @importFrom effectsize standardize
-#' @importFrom parameters model_parameters standardize_names
+#' @importFrom parameters model_parameters
+#' @importFrom insight standardize_names
 tidy_model <- function(
   model, ci.lvl, tf, type, bpe, robust, facets, show.zeroinf, p.val,
   standardize = FALSE, bootstrap = FALSE, iterations = 1000, seed = NULL, p_adjust = NULL, ...) {
@@ -46,7 +47,7 @@ tidy_model <- function(
     } else {
       model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, df_method = df_method, p_adjust = p_adjust)
     }
-    out <- parameters::standardize_names(model_params, style = "broom")
+    out <- insight::standardize_names(model_params, style = "broom")
 
     # warning for p-values?
     tryCatch({
