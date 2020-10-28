@@ -37,6 +37,7 @@ jobs:
           install.packages("remotes")
           # To get links for homepage
           remotes::install_cran("devtools")
+          remotes::install_version("clubSandwich", version = "0.5.1")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_dev("pkgdown")
         shell: Rscript {0}
