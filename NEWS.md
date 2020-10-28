@@ -7,6 +7,7 @@
 ## Bug fixes
 
 * Fix CRAN check issues (removed cross-references to archived packages).
+* The `minus.sign` argument in `tab_model()` now works.
 
 # sjPlot 2.8.5
 

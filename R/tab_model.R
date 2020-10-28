@@ -648,6 +648,10 @@ tab_model <- function(
       }
 
 
+      # replace minus signs
+      dat[] <- lapply(dat, function(i) gsub("-(\\d)(.*)", paste0(minus.sign, "\\1\\2"), i))
+
+
       # handle zero-inflation part ----
 
       zidat <- NULL
