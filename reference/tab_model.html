@@ -197,84 +197,84 @@
     <p><code>tab_model()</code> creates HTML tables from regression models.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tab_model</span>(
-  <span class='kw'>...</span>,
-  <span class='kw'>transform</span>,
-  show.intercept = <span class='fl'>TRUE</span>,
-  show.est = <span class='fl'>TRUE</span>,
-  show.ci = <span class='fl'>0.95</span>,
-  show.ci50 = <span class='fl'>FALSE</span>,
-  show.se = <span class='kw'>NULL</span>,
-  show.std = <span class='kw'>NULL</span>,
-  show.p = <span class='fl'>TRUE</span>,
-  show.stat = <span class='fl'>FALSE</span>,
-  show.df = <span class='fl'>FALSE</span>,
-  show.zeroinf = <span class='fl'>TRUE</span>,
-  show.r2 = <span class='fl'>TRUE</span>,
-  show.icc = <span class='fl'>TRUE</span>,
-  show.re.var = <span class='fl'>TRUE</span>,
-  show.ngroups = <span class='fl'>TRUE</span>,
-  show.fstat = <span class='fl'>FALSE</span>,
-  show.aic = <span class='fl'>FALSE</span>,
-  show.aicc = <span class='fl'>FALSE</span>,
-  show.dev = <span class='fl'>FALSE</span>,
-  show.loglik = <span class='fl'>FALSE</span>,
-  show.obs = <span class='fl'>TRUE</span>,
-  show.reflvl = <span class='fl'>FALSE</span>,
-  terms = <span class='kw'>NULL</span>,
-  rm.terms = <span class='kw'>NULL</span>,
-  order.terms = <span class='kw'>NULL</span>,
-  title = <span class='kw'>NULL</span>,
-  pred.labels = <span class='kw'>NULL</span>,
-  dv.labels = <span class='kw'>NULL</span>,
-  wrap.labels = <span class='fl'>25</span>,
-  bootstrap = <span class='fl'>FALSE</span>,
-  iterations = <span class='fl'>1000</span>,
-  seed = <span class='kw'>NULL</span>,
-  robust = <span class='fl'>FALSE</span>,
-  vcov.fun = <span class='kw'>NULL</span>,
-  vcov.type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HC3"</span>, <span class='st'>"const"</span>, <span class='st'>"HC"</span>, <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>, <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>, <span class='st'>"HC5"</span>, <span class='st'>"CR0"</span>,
-    <span class='st'>"CR1"</span>, <span class='st'>"CR1p"</span>, <span class='st'>"CR1S"</span>, <span class='st'>"CR2"</span>, <span class='st'>"CR3"</span>),
-  vcov.args = <span class='kw'>NULL</span>,
-  string.pred = <span class='st'>"Predictors"</span>,
-  string.est = <span class='st'>"Estimate"</span>,
-  string.std = <span class='st'>"std. Beta"</span>,
-  string.ci = <span class='st'>"CI"</span>,
-  string.se = <span class='st'>"std. Error"</span>,
-  string.std_se = <span class='st'>"standardized std. Error"</span>,
-  string.std_ci = <span class='st'>"standardized CI"</span>,
-  string.p = <span class='st'>"p"</span>,
-  string.std.p = <span class='st'>"std. p"</span>,
-  string.df = <span class='st'>"df"</span>,
-  string.stat = <span class='st'>"Statistic"</span>,
-  string.std.stat = <span class='st'>"std. Statistic"</span>,
-  string.resp = <span class='st'>"Response"</span>,
-  string.intercept = <span class='st'>"(Intercept)"</span>,
-  strings = <span class='kw'>NULL</span>,
-  ci.hyphen = <span class='st'>"&amp;nbsp;&amp;ndash;&amp;nbsp;"</span>,
-  minus.sign = <span class='st'>"&amp;#45;"</span>,
-  collapse.ci = <span class='fl'>FALSE</span>,
-  collapse.se = <span class='fl'>FALSE</span>,
-  linebreak = <span class='fl'>TRUE</span>,
-  col.order = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"est"</span>, <span class='st'>"se"</span>, <span class='st'>"std.est"</span>, <span class='st'>"std.se"</span>, <span class='st'>"ci"</span>, <span class='st'>"std.ci"</span>, <span class='st'>"ci.inner"</span>,
-    <span class='st'>"ci.outer"</span>, <span class='st'>"stat"</span>, <span class='st'>"std.stat"</span>, <span class='st'>"p"</span>, <span class='st'>"std.p"</span>, <span class='st'>"df.error"</span>, <span class='st'>"response.level"</span>),
-  digits = <span class='fl'>2</span>,
-  digits.p = <span class='fl'>3</span>,
-  digits.re = <span class='fl'>2</span>,
-  emph.p = <span class='fl'>TRUE</span>,
-  p.val = <span class='kw'>NULL</span>,
-  df.method = <span class='kw'>NULL</span>,
-  p.style = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"numeric"</span>, <span class='st'>"stars"</span>, <span class='st'>"numeric_stars"</span>, <span class='st'>"scientific"</span>, <span class='st'>"scientific_stars"</span>),
-  p.threshold = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span>),
-  p.adjust = <span class='kw'>NULL</span>,
-  case = <span class='st'>"parsed"</span>,
-  auto.label = <span class='fl'>TRUE</span>,
-  prefix.labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>),
-  bpe = <span class='st'>"median"</span>,
-  CSS = <span class='fu'><a href='sjPlot-themes.html'>css_theme</a></span>(<span class='st'>"regression"</span>),
-  file = <span class='kw'>NULL</span>,
-  use.viewer = <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tab_model</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  <span class='va'>transform</span>,
+  show.intercept <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.est <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.ci <span class='op'>=</span> <span class='fl'>0.95</span>,
+  show.ci50 <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.se <span class='op'>=</span> <span class='cn'>NULL</span>,
+  show.std <span class='op'>=</span> <span class='cn'>NULL</span>,
+  show.p <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.stat <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.df <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.zeroinf <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.r2 <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.icc <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.re.var <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.ngroups <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.fstat <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.aic <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.aicc <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.dev <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.loglik <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.obs <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.reflvl <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  terms <span class='op'>=</span> <span class='cn'>NULL</span>,
+  rm.terms <span class='op'>=</span> <span class='cn'>NULL</span>,
+  order.terms <span class='op'>=</span> <span class='cn'>NULL</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pred.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dv.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  wrap.labels <span class='op'>=</span> <span class='fl'>25</span>,
+  bootstrap <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  iterations <span class='op'>=</span> <span class='fl'>1000</span>,
+  seed <span class='op'>=</span> <span class='cn'>NULL</span>,
+  robust <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  vcov.fun <span class='op'>=</span> <span class='cn'>NULL</span>,
+  vcov.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HC3"</span>, <span class='st'>"const"</span>, <span class='st'>"HC"</span>, <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>, <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>, <span class='st'>"HC5"</span>, <span class='st'>"CR0"</span>,
+    <span class='st'>"CR1"</span>, <span class='st'>"CR1p"</span>, <span class='st'>"CR1S"</span>, <span class='st'>"CR2"</span>, <span class='st'>"CR3"</span><span class='op'>)</span>,
+  vcov.args <span class='op'>=</span> <span class='cn'>NULL</span>,
+  string.pred <span class='op'>=</span> <span class='st'>"Predictors"</span>,
+  string.est <span class='op'>=</span> <span class='st'>"Estimate"</span>,
+  string.std <span class='op'>=</span> <span class='st'>"std. Beta"</span>,
+  string.ci <span class='op'>=</span> <span class='st'>"CI"</span>,
+  string.se <span class='op'>=</span> <span class='st'>"std. Error"</span>,
+  string.std_se <span class='op'>=</span> <span class='st'>"standardized std. Error"</span>,
+  string.std_ci <span class='op'>=</span> <span class='st'>"standardized CI"</span>,
+  string.p <span class='op'>=</span> <span class='st'>"p"</span>,
+  string.std.p <span class='op'>=</span> <span class='st'>"std. p"</span>,
+  string.df <span class='op'>=</span> <span class='st'>"df"</span>,
+  string.stat <span class='op'>=</span> <span class='st'>"Statistic"</span>,
+  string.std.stat <span class='op'>=</span> <span class='st'>"std. Statistic"</span>,
+  string.resp <span class='op'>=</span> <span class='st'>"Response"</span>,
+  string.intercept <span class='op'>=</span> <span class='st'>"(Intercept)"</span>,
+  strings <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ci.hyphen <span class='op'>=</span> <span class='st'>"&amp;nbsp;&amp;ndash;&amp;nbsp;"</span>,
+  minus.sign <span class='op'>=</span> <span class='st'>"&amp;#45;"</span>,
+  collapse.ci <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  collapse.se <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  linebreak <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  col.order <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"est"</span>, <span class='st'>"se"</span>, <span class='st'>"std.est"</span>, <span class='st'>"std.se"</span>, <span class='st'>"ci"</span>, <span class='st'>"std.ci"</span>, <span class='st'>"ci.inner"</span>,
+    <span class='st'>"ci.outer"</span>, <span class='st'>"stat"</span>, <span class='st'>"std.stat"</span>, <span class='st'>"p"</span>, <span class='st'>"std.p"</span>, <span class='st'>"df.error"</span>, <span class='st'>"response.level"</span><span class='op'>)</span>,
+  digits <span class='op'>=</span> <span class='fl'>2</span>,
+  digits.p <span class='op'>=</span> <span class='fl'>3</span>,
+  digits.re <span class='op'>=</span> <span class='fl'>2</span>,
+  emph.p <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  p.val <span class='op'>=</span> <span class='cn'>NULL</span>,
+  df.method <span class='op'>=</span> <span class='cn'>NULL</span>,
+  p.style <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"numeric"</span>, <span class='st'>"stars"</span>, <span class='st'>"numeric_stars"</span>, <span class='st'>"scientific"</span>, <span class='st'>"scientific_stars"</span><span class='op'>)</span>,
+  p.threshold <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span><span class='op'>)</span>,
+  p.adjust <span class='op'>=</span> <span class='cn'>NULL</span>,
+  case <span class='op'>=</span> <span class='st'>"parsed"</span>,
+  auto.label <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  prefix.labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span><span class='op'>)</span>,
+  bpe <span class='op'>=</span> <span class='st'>"median"</span>,
+  CSS <span class='op'>=</span> <span class='fu'><a href='sjPlot-themes.html'>css_theme</a></span><span class='op'>(</span><span class='st'>"regression"</span><span class='op'>)</span>,
+  file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -318,7 +318,7 @@ credible interval is added to the table output.</p></td>
       <td><p>Logical, if <code>TRUE</code>, the standard errors are
 also printed. If robust standard errors are required, use arguments
 <code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code> (see
-<code><a href='https://rdrr.io/pkg/parameters/man/standard_error_robust.html'>standard_error_robust</a></code> and
+<code><a href='https://easystats.github.io/parameters/reference/standard_error_robust.html'>standard_error_robust</a></code> and
 <a href='https://easystats.github.io/parameters/articles/model_parameters_robust.html'>this vignette</a>
 for details).</p></td>
     </tr>
@@ -341,7 +341,7 @@ is also printed.</p></td>
       <th>show.df</th>
       <td><p>Logical, if <code>TRUE</code> and <code>p.val = "kr"</code>, the p-values
 for linear mixed models are based on df with Kenward-Rogers approximation.
-These df-values are printed. See <code><a href='https://rdrr.io/pkg/parameters/man/p_value.html'>p_value</a></code> for details.</p></td>
+These df-values are printed. See <code><a href='https://easystats.github.io/parameters/reference/p_value.html'>p_value</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>show.zeroinf</th>
@@ -352,17 +352,17 @@ model part, this is also printed to the table.</p></td>
       <th>show.r2</th>
       <td><p>Logical, if <code>TRUE</code>, the r-squared value is also printed.
 Depending on the model, these might be pseudo-r-squared values, or Bayesian
-r-squared etc. See <code><a href='https://rdrr.io/pkg/performance/man/r2.html'>r2</a></code> for details.</p></td>
+r-squared etc. See <code><a href='https://easystats.github.io/performance/reference/r2.html'>r2</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>show.icc</th>
       <td><p>Logical, if <code>TRUE</code>, prints the intraclass correlation
-coefficient for mixed models. See <code><a href='https://rdrr.io/pkg/performance/man/icc.html'>icc</a></code> for details.</p></td>
+coefficient for mixed models. See <code><a href='https://easystats.github.io/performance/reference/icc.html'>icc</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>show.re.var</th>
       <td><p>Logical, if <code>TRUE</code>, prints the random effect variances
-for mixed models. See <code><a href='https://rdrr.io/pkg/insight/man/get_variance.html'>get_variance</a></code> for details.</p></td>
+for mixed models. See <code><a href='https://easystats.github.io/insight/reference/get_variance.html'>get_variance</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>show.ngroups</th>
@@ -444,7 +444,7 @@ should be plotted. See examples in
 If not <code>NULL</code>, <code>pred.labels</code> will be used in the first
 table column with the predictors' names. By default, if <code>auto.label = TRUE</code>
 and <a href='https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html'>data is labelled</a>,
-<code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>term_labels</a></code> is called to retrieve the labels
+<code><a href='https://strengejacke.github.io/sjlabelled/reference/term_labels.html'>term_labels</a></code> is called to retrieve the labels
 of the coefficients, which will be used as predictor labels. If data is
 not labelled, <a href='https://easystats.github.io/parameters/reference/format_parameters.html'>format_parameters()</a>
 is used to create pretty labels. If <code>pred.labels = ""</code> or <code>auto.label = FALSE</code>, the raw
@@ -458,7 +458,8 @@ are sorted. See 'Examples'.</p></td>
     <tr>
       <th>dv.labels</th>
       <td><p>Character vector with labels of dependent variables of all
-fitted models. See 'Examples'.</p></td>
+fitted models. If <code>dv.labels = ""</code>, the row with names of dependent
+variables is omitted from the table.</p></td>
     </tr>
     <tr>
       <th>wrap.labels</th>
@@ -481,8 +482,8 @@ or axis labels are displayed in one line and when a line break is inserted.</p><
       <th>robust</th>
       <td><p>Logical, shortcut for arguments <code>vcov.fun</code> and <code>vcov.type</code>.
 If <code>TRUE</code>, uses <code>vcov.fun = "vcovHC"</code> and <code>vcov.type = "HC3"</code> as
-default, that is, <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC</a></code> with default-type is called
-(see <code><a href='https://rdrr.io/pkg/parameters/man/standard_error_robust.html'>standard_error_robust</a></code> and
+default, that is, <code><a href='http://sandwich.R-Forge.R-project.org//reference/vcovHC.html'>vcovHC</a></code> with default-type is called
+(see <code><a href='https://easystats.github.io/parameters/reference/standard_error_robust.html'>standard_error_robust</a></code> and
 <a href='https://easystats.github.io/parameters/articles/model_parameters_robust.html'>this vignette</a>
 for further details).</p></td>
     </tr>
@@ -495,8 +496,8 @@ if robust standard errors are required.</p></td>
     <tr>
       <th>vcov.type</th>
       <td><p>Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC()</a></code>
-or <code><a href='https://rdrr.io/pkg/clubSandwich/man/vcovCR.html'>vcovCR()</a></code> for details).</p></td>
+robust covariance matrix estimation (see <code><a href='http://sandwich.R-Forge.R-project.org//reference/vcovHC.html'>vcovHC()</a></code>
+or <code>clubSandwich::vcovCR()</code> for details).</p></td>
     </tr>
     <tr>
       <th>vcov.args</th>
@@ -631,7 +632,7 @@ Use <code>df.method = "wald"</code> for a faster, but less precise computation.
 <code>df.method = "kenward"</code> (or <code>df.method = "kr"</code>) uses Kenward-Roger
 approximation for the degrees of freedom. <code>df.method = "satterthwaite"</code>
 uses Satterthwaite's approximation and <code>"ml1"</code> uses a "m-l-1" heuristic
-see <code><a href='https://rdrr.io/pkg/parameters/man/degrees_of_freedom.html'>degrees_of_freedom</a></code> for details). Use
+see <code><a href='https://easystats.github.io/parameters/reference/degrees_of_freedom.html'>degrees_of_freedom</a></code> for details). Use
 <code>show.df = TRUE</code> to show the approximated degrees of freedom
 for each coefficient.</p></td>
     </tr>
@@ -668,7 +669,7 @@ default when prefixing labels.</p></td>
       <th>auto.label</th>
       <td><p>Logical, if <code>TRUE</code> (the default),
  and <a href='https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html'>data is labelled</a>,
- <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>term_labels</a></code> is called to retrieve the labels
+ <code><a href='https://strengejacke.github.io/sjlabelled/reference/term_labels.html'>term_labels</a></code> is called to retrieve the labels
  of the coefficients, which will be used as predictor labels. If data is
  not labelled, <a href='https://easystats.github.io/parameters/reference/format_parameters.html'>format_parameters()</a>
  is used to create pretty labels. If <code>auto.label = FALSE</code>,
@@ -678,7 +679,7 @@ original variable names and value labels (factor levels) are used.</p></td>
       <th>prefix.labels</th>
       <td><p>Indicates whether the value labels of categorical variables
 should be prefixed, e.g. with the variable name or variable label. See
-argument <code>prefix</code> in <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>term_labels</a></code> for
+argument <code>prefix</code> in <code><a href='https://strengejacke.github.io/sjlabelled/reference/term_labels.html'>term_labels</a></code> for
 details.</p></td>
     </tr>
     <tr>
@@ -688,7 +689,7 @@ details.</p></td>
 of the posterior distribution. Use <code>bpe</code> to define other functions to
 calculate the Bayesian point estimate. <code>bpe</code> needs to be a character
 naming the specific function, which is passed to the <code>fun</code>-argument in
-<code><a href='https://rdrr.io/pkg/sjmisc/man/typical_value.html'>typical_value</a></code>. So, <code>bpe = "mean"</code> would
+<code><a href='https://strengejacke.github.io/sjmisc/reference/typical_value.html'>typical_value</a></code>. So, <code>bpe = "mean"</code> would
 calculate the mean value of the posterior distribution.</p></td>
     </tr>
     <tr>

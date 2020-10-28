@@ -201,26 +201,26 @@
                as returned by the <code><a href='https://rdrr.io/r/stats/cor.html'>cor</a></code>-function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tab_corr</span>(
-  <span class='kw'>data</span>,
-  na.deletion = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"listwise"</span>, <span class='st'>"pairwise"</span>),
-  corr.method = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"pearson"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>),
-  title = <span class='kw'>NULL</span>,
-  var.labels = <span class='kw'>NULL</span>,
-  wrap.labels = <span class='fl'>40</span>,
-  show.p = <span class='fl'>TRUE</span>,
-  p.numeric = <span class='fl'>FALSE</span>,
-  fade.ns = <span class='fl'>TRUE</span>,
-  val.rm = <span class='kw'>NULL</span>,
-  digits = <span class='fl'>3</span>,
-  triangle = <span class='st'>"both"</span>,
-  string.diag = <span class='kw'>NULL</span>,
-  CSS = <span class='kw'>NULL</span>,
-  encoding = <span class='kw'>NULL</span>,
-  file = <span class='kw'>NULL</span>,
-  use.viewer = <span class='fl'>TRUE</span>,
-  remove.spaces = <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tab_corr</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  na.deletion <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"listwise"</span>, <span class='st'>"pairwise"</span><span class='op'>)</span>,
+  corr.method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pearson"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span><span class='op'>)</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  var.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  wrap.labels <span class='op'>=</span> <span class='fl'>40</span>,
+  show.p <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  p.numeric <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  fade.ns <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  val.rm <span class='op'>=</span> <span class='cn'>NULL</span>,
+  digits <span class='op'>=</span> <span class='fl'>3</span>,
+  triangle <span class='op'>=</span> <span class='st'>"both"</span>,
+  string.diag <span class='op'>=</span> <span class='cn'>NULL</span>,
+  CSS <span class='op'>=</span> <span class='cn'>NULL</span>,
+  encoding <span class='op'>=</span> <span class='cn'>NULL</span>,
+  file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  remove.spaces <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -348,40 +348,40 @@ may look less pretty, but it may help when exporting html-tables to office tools
       only have an effect if <code>data</code> is a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='co'># Data from the EUROFAMCARE sample dataset</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span>)
-  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
+  <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
 
   <span class='co'># retrieve variable and value labels</span>
-  <span class='kw'>varlabs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/get_label.html'>get_label</a></span>(<span class='kw'>efc</span>)
+  <span class='va'>varlabs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjlabelled/reference/get_label.html'>get_label</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
 
   <span class='co'># recveive first item of COPE-index scale</span>
-  <span class='kw'>start</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>efc</span>) <span class='op'>==</span> <span class='st'>"c83cop2"</span>)
+  <span class='va'>start</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c83cop2"</span><span class='op'>)</span>
   <span class='co'># recveive last item of COPE-index scale</span>
-  <span class='kw'>end</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>efc</span>) <span class='op'>==</span> <span class='st'>"c88cop7"</span>)
+  <span class='va'>end</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c88cop7"</span><span class='op'>)</span>
 
   <span class='co'># create data frame with COPE-index scale</span>
-  <span class='kw'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>efc</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>)])
-  <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>mydf</span>) <span class='op'>&lt;-</span> <span class='kw'>varlabs</span>[<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>)]
+  <span class='va'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>varlabs</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>
 
   <span class='co'># we have high correlations here, because all items</span>
   <span class='co'># belong to one factor.</span>
-  <span class='fu'>tab_corr</span>(<span class='kw'>mydf</span>, p.numeric = <span class='fl'>TRUE</span>)
+  <span class='fu'>tab_corr</span><span class='op'>(</span><span class='va'>mydf</span>, p.numeric <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
   <span class='co'># auto-detection of labels, only lower triangle</span>
-  <span class='fu'>tab_corr</span>(<span class='kw'>efc</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>)], triangle = <span class='st'>"lower"</span>)
+  <span class='fu'>tab_corr</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>, triangle <span class='op'>=</span> <span class='st'>"lower"</span><span class='op'>)</span>
 
   <span class='co'># auto-detection of labels, only lower triangle, all correlation</span>
   <span class='co'># values smaller than 0.3 are not shown in the table</span>
-  <span class='fu'>tab_corr</span>(<span class='kw'>efc</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>)], triangle = <span class='st'>"lower"</span>, val.rm = <span class='fl'>0.3</span>)
+  <span class='fu'>tab_corr</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>, triangle <span class='op'>=</span> <span class='st'>"lower"</span>, val.rm <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span>
 
   <span class='co'># auto-detection of labels, only lower triangle, all correlation</span>
   <span class='co'># values smaller than 0.3 are printed in blue</span>
-  <span class='fu'>tab_corr</span>(<span class='kw'>efc</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>)], triangle = <span class='st'>"lower"</span>,val.rm = <span class='fl'>0.3</span>,
-           CSS = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(css.valueremove = <span class='st'>'color:blue;'</span>))
-}}
+  <span class='fu'>tab_corr</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>, triangle <span class='op'>=</span> <span class='st'>"lower"</span>,val.rm <span class='op'>=</span> <span class='fl'>0.3</span>,
+           CSS <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>css.valueremove <span class='op'>=</span> <span class='st'>'color:blue;'</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

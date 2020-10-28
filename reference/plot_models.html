@@ -199,45 +199,45 @@
   intervals of multiple regression models in one plot.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_models</span>(
-  <span class='kw'>...</span>,
-  <span class='kw'>transform</span>,
-  std.est = <span class='kw'>NULL</span>,
-  rm.terms = <span class='kw'>NULL</span>,
-  title = <span class='kw'>NULL</span>,
-  m.labels = <span class='kw'>NULL</span>,
-  legend.title = <span class='st'>"Dependent Variables"</span>,
-  legend.pval.title = <span class='st'>"p-level"</span>,
-  axis.labels = <span class='kw'>NULL</span>,
-  axis.title = <span class='kw'>NULL</span>,
-  axis.lim = <span class='kw'>NULL</span>,
-  wrap.title = <span class='fl'>50</span>,
-  wrap.labels = <span class='fl'>25</span>,
-  wrap.legend.title = <span class='fl'>20</span>,
-  grid.breaks = <span class='kw'>NULL</span>,
-  dot.size = <span class='fl'>3</span>,
-  line.size = <span class='kw'>NULL</span>,
-  value.size = <span class='kw'>NULL</span>,
-  spacing = <span class='fl'>0.4</span>,
-  colors = <span class='st'>"Set1"</span>,
-  show.values = <span class='fl'>FALSE</span>,
-  show.legend = <span class='fl'>TRUE</span>,
-  show.intercept = <span class='fl'>FALSE</span>,
-  show.p = <span class='fl'>TRUE</span>,
-  p.shape = <span class='fl'>FALSE</span>,
-  p.threshold = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span>),
-  p.adjust = <span class='kw'>NULL</span>,
-  ci.lvl = <span class='fl'>0.95</span>,
-  robust = <span class='fl'>FALSE</span>,
-  vcov.fun = <span class='kw'>NULL</span>,
-  vcov.type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HC3"</span>, <span class='st'>"const"</span>, <span class='st'>"HC"</span>, <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>, <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>, <span class='st'>"HC5"</span>),
-  vcov.args = <span class='kw'>NULL</span>,
-  vline.color = <span class='kw'>NULL</span>,
-  digits = <span class='fl'>2</span>,
-  grid = <span class='fl'>FALSE</span>,
-  auto.label = <span class='fl'>TRUE</span>,
-  prefix.labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>plot_models</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  <span class='va'>transform</span>,
+  std.est <span class='op'>=</span> <span class='cn'>NULL</span>,
+  rm.terms <span class='op'>=</span> <span class='cn'>NULL</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  m.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  legend.title <span class='op'>=</span> <span class='st'>"Dependent Variables"</span>,
+  legend.pval.title <span class='op'>=</span> <span class='st'>"p-level"</span>,
+  axis.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  axis.title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  axis.lim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  wrap.title <span class='op'>=</span> <span class='fl'>50</span>,
+  wrap.labels <span class='op'>=</span> <span class='fl'>25</span>,
+  wrap.legend.title <span class='op'>=</span> <span class='fl'>20</span>,
+  grid.breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dot.size <span class='op'>=</span> <span class='fl'>3</span>,
+  line.size <span class='op'>=</span> <span class='cn'>NULL</span>,
+  value.size <span class='op'>=</span> <span class='cn'>NULL</span>,
+  spacing <span class='op'>=</span> <span class='fl'>0.4</span>,
+  colors <span class='op'>=</span> <span class='st'>"Set1"</span>,
+  show.values <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.legend <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.intercept <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.p <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  p.shape <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  p.threshold <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span><span class='op'>)</span>,
+  p.adjust <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ci.lvl <span class='op'>=</span> <span class='fl'>0.95</span>,
+  robust <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  vcov.fun <span class='op'>=</span> <span class='cn'>NULL</span>,
+  vcov.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HC3"</span>, <span class='st'>"const"</span>, <span class='st'>"HC"</span>, <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>, <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>, <span class='st'>"HC5"</span><span class='op'>)</span>,
+  vcov.args <span class='op'>=</span> <span class='cn'>NULL</span>,
+  vline.color <span class='op'>=</span> <span class='cn'>NULL</span>,
+  digits <span class='op'>=</span> <span class='fl'>2</span>,
+  grid <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  auto.label <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  prefix.labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -280,7 +280,7 @@ Another example for the <em>iris</em> dataset would be
     <tr>
       <th>title</th>
       <td><p>Character vector, used as plot title. By default,
-<code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>response_labels</a></code> is called to retrieve the label of
+<code><a href='https://strengejacke.github.io/sjlabelled/reference/term_labels.html'>response_labels</a></code> is called to retrieve the label of
 the dependent variable, which will be used as title. Use <code>title = ""</code>
 to remove title.</p></td>
     </tr>
@@ -304,7 +304,7 @@ indicates the p-values. Default is <code>"p-level"</code>. Only applies if
     <tr>
       <th>axis.labels</th>
       <td><p>Character vector with labels for the model terms, used as
-axis labels. By default, <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>term_labels</a></code> is
+axis labels. By default, <code><a href='https://strengejacke.github.io/sjlabelled/reference/term_labels.html'>term_labels</a></code> is
 called to retrieve the labels of the coefficients, which will be used as
 axis labels. Use <code>axis.labels = ""</code> or <code>auto.label = FALSE</code> to
 use the variable names as labels instead. If <code>axis.labels</code> is a named
@@ -428,7 +428,7 @@ to adjust p-values. See <code><a href='https://rdrr.io/r/stats/p.adjust.html'>p.
       <td><p>Numeric, the level of the confidence intervals (error bars).
 Use <code>ci.lvl = NA</code> to remove error bars. For <code>stanreg</code>-models,
 <code>ci.lvl</code> defines the (outer) probability for the <em>credible interval</em>
-that is plotted (see <code><a href='https://rdrr.io/pkg/bayestestR/man/ci.html'>ci</a></code>). By
+that is plotted (see <code><a href='https://easystats.github.io/bayestestR/reference/ci.html'>ci</a></code>). By
 default, <code>stanreg</code>-models are printed with two intervals: the "inner"
 interval, which defaults to the 50%-CI; and the "outer" interval, which
 defaults to the 89%-CI. <code>ci.lvl</code> affects only the outer interval in
@@ -439,8 +439,8 @@ such cases. See <code>prob.inner</code> and <code>prob.outer</code> under the
       <th>robust</th>
       <td><p>Logical, shortcut for arguments <code>vcov.fun</code> and <code>vcov.type</code>.
 If <code>TRUE</code>, uses <code>vcov.fun = "vcovHC"</code> and <code>vcov.type = "HC3"</code> as
-default, that is, <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC</a></code> with default-type is called
-(see <code><a href='https://rdrr.io/pkg/parameters/man/standard_error_robust.html'>standard_error_robust</a></code> and
+default, that is, <code><a href='http://sandwich.R-Forge.R-project.org//reference/vcovHC.html'>vcovHC</a></code> with default-type is called
+(see <code><a href='https://easystats.github.io/parameters/reference/standard_error_robust.html'>standard_error_robust</a></code> and
 <a href='https://easystats.github.io/parameters/articles/model_parameters_robust.html'>this vignette</a>
 for further details).</p></td>
     </tr>
@@ -453,8 +453,8 @@ if robust standard errors are required.</p></td>
     <tr>
       <th>vcov.type</th>
       <td><p>Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC()</a></code>
-or <code><a href='https://rdrr.io/pkg/clubSandwich/man/vcovCR.html'>vcovCR()</a></code> for details).</p></td>
+robust covariance matrix estimation (see <code><a href='http://sandwich.R-Forge.R-project.org//reference/vcovHC.html'>vcovHC()</a></code>
+or <code>clubSandwich::vcovCR()</code> for details).</p></td>
     </tr>
     <tr>
       <th>vcov.args</th>
@@ -480,7 +480,7 @@ layout.</p></td>
       <th>auto.label</th>
       <td><p>Logical, if <code>TRUE</code> (the default),
  and <a href='https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html'>data is labelled</a>,
- <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>term_labels</a></code> is called to retrieve the labels
+ <code><a href='https://strengejacke.github.io/sjlabelled/reference/term_labels.html'>term_labels</a></code> is called to retrieve the labels
  of the coefficients, which will be used as predictor labels. If data is
  not labelled, <a href='https://easystats.github.io/parameters/reference/format_parameters.html'>format_parameters()</a>
  is used to create pretty labels. If <code>auto.label = FALSE</code>,
@@ -490,7 +490,7 @@ original variable names and value labels (factor levels) are used.</p></td>
       <th>prefix.labels</th>
       <td><p>Indicates whether the value labels of categorical variables
 should be prefixed, e.g. with the variable name or variable label. See
-argument <code>prefix</code> in <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>term_labels</a></code> for
+argument <code>prefix</code> in <code><a href='https://strengejacke.github.io/sjlabelled/reference/term_labels.html'>term_labels</a></code> for
 details.</p></td>
     </tr>
     </table>
@@ -500,42 +500,42 @@ details.</p></td>
     <p>A ggplot-object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
 
 <span class='co'># fit three models</span>
-<span class='kw'>fit1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>barthtot</span> <span class='op'>~</span> <span class='kw'>c160age</span> <span class='op'>+</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>c161sex</span> <span class='op'>+</span> <span class='kw'>c172code</span>, data = <span class='kw'>efc</span>)
-<span class='kw'>fit2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>neg_c_7</span> <span class='op'>~</span> <span class='kw'>c160age</span> <span class='op'>+</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>c161sex</span> <span class='op'>+</span> <span class='kw'>c172code</span>, data = <span class='kw'>efc</span>)
-<span class='kw'>fit3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>tot_sc_e</span> <span class='op'>~</span> <span class='kw'>c160age</span> <span class='op'>+</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>c161sex</span> <span class='op'>+</span> <span class='kw'>c172code</span>, data = <span class='kw'>efc</span>)
+<span class='va'>fit1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>barthtot</span> <span class='op'>~</span> <span class='va'>c160age</span> <span class='op'>+</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>c161sex</span> <span class='op'>+</span> <span class='va'>c172code</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span>
+<span class='va'>fit2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>neg_c_7</span> <span class='op'>~</span> <span class='va'>c160age</span> <span class='op'>+</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>c161sex</span> <span class='op'>+</span> <span class='va'>c172code</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span>
+<span class='va'>fit3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>tot_sc_e</span> <span class='op'>~</span> <span class='va'>c160age</span> <span class='op'>+</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>c161sex</span> <span class='op'>+</span> <span class='va'>c172code</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span>
 
 <span class='co'># plot multiple models</span>
-<span class='fu'>plot_models</span>(<span class='kw'>fit1</span>, <span class='kw'>fit2</span>, <span class='kw'>fit3</span>, grid = <span class='fl'>TRUE</span>)
+<span class='fu'>plot_models</span><span class='op'>(</span><span class='va'>fit1</span>, <span class='va'>fit2</span>, <span class='va'>fit3</span>, grid <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_models-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot multiple models with legend labels and</span>
 <span class='co'># point shapes instead of value labels</span>
-<span class='fu'>plot_models</span>(
-  <span class='kw'>fit1</span>, <span class='kw'>fit2</span>, <span class='kw'>fit3</span>,
-  axis.labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(
+<span class='fu'>plot_models</span><span class='op'>(</span>
+  <span class='va'>fit1</span>, <span class='va'>fit2</span>, <span class='va'>fit3</span>,
+  axis.labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>
     <span class='st'>"Carer's Age"</span>, <span class='st'>"Hours of Care"</span>, <span class='st'>"Carer's Sex"</span>, <span class='st'>"Educational Status"</span>
-  ),
-  m.labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Barthel Index"</span>, <span class='st'>"Negative Impact"</span>, <span class='st'>"Services used"</span>),
-  show.values = <span class='fl'>FALSE</span>, show.p = <span class='fl'>FALSE</span>, p.shape = <span class='fl'>TRUE</span>
-)
+  <span class='op'>)</span>,
+  m.labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Barthel Index"</span>, <span class='st'>"Negative Impact"</span>, <span class='st'>"Services used"</span><span class='op'>)</span>,
+  show.values <span class='op'>=</span> <span class='cn'>FALSE</span>, show.p <span class='op'>=</span> <span class='cn'>FALSE</span>, p.shape <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
 </div><div class='img'><img src='plot_models-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot multiple models from nested lists argument</span>
-<span class='kw'>all.models</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>()
-<span class='kw'>all.models</span>[[<span class='fl'>1</span>]] <span class='op'>&lt;-</span> <span class='kw'>fit1</span>
-<span class='kw'>all.models</span>[[<span class='fl'>2</span>]] <span class='op'>&lt;-</span> <span class='kw'>fit2</span>
-<span class='kw'>all.models</span>[[<span class='fl'>3</span>]] <span class='op'>&lt;-</span> <span class='kw'>fit3</span>
+<span class='va'>all.models</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>all.models</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>fit1</span>
+<span class='va'>all.models</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>fit2</span>
+<span class='va'>all.models</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>fit3</span>
 
-<span class='fu'>plot_models</span>(<span class='kw'>all.models</span>)
+<span class='fu'>plot_models</span><span class='op'>(</span><span class='va'>all.models</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_models-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot multiple models with different predictors (stepwise inclusion),</span>
 <span class='co'># standardized estimates</span>
-<span class='kw'>fit1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>mpg</span> <span class='op'>~</span> <span class='kw'>wt</span> <span class='op'>+</span> <span class='kw'>cyl</span> <span class='op'>+</span> <span class='kw'>disp</span> <span class='op'>+</span> <span class='kw'>gear</span>, data = <span class='kw'>mtcars</span>)
-<span class='kw'>fit2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='kw'>fit1</span>, <span class='kw'>.</span> <span class='op'>~</span> <span class='kw'>.</span> <span class='op'>+</span> <span class='kw'>hp</span>)
-<span class='kw'>fit3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span>(<span class='kw'>fit2</span>, <span class='kw'>.</span> <span class='op'>~</span> <span class='kw'>.</span> <span class='op'>+</span> <span class='kw'>am</span>)
+<span class='va'>fit1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>mpg</span> <span class='op'>~</span> <span class='va'>wt</span> <span class='op'>+</span> <span class='va'>cyl</span> <span class='op'>+</span> <span class='va'>disp</span> <span class='op'>+</span> <span class='va'>gear</span>, data <span class='op'>=</span> <span class='va'>mtcars</span><span class='op'>)</span>
+<span class='va'>fit2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span><span class='va'>fit1</span>, <span class='va'>.</span> <span class='op'>~</span> <span class='va'>.</span> <span class='op'>+</span> <span class='va'>hp</span><span class='op'>)</span>
+<span class='va'>fit3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/update.html'>update</a></span><span class='op'>(</span><span class='va'>fit2</span>, <span class='va'>.</span> <span class='op'>~</span> <span class='va'>.</span> <span class='op'>+</span> <span class='va'>am</span><span class='op'>)</span>
 
-<span class='fu'>plot_models</span>(<span class='kw'>fit1</span>, <span class='kw'>fit2</span>, <span class='kw'>fit3</span>, std.est = <span class='st'>"std2"</span>)
+<span class='fu'>plot_models</span><span class='op'>(</span><span class='va'>fit1</span>, <span class='va'>fit2</span>, <span class='va'>fit3</span>, std.est <span class='op'>=</span> <span class='st'>"std2"</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_models-4.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>

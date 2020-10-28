@@ -199,78 +199,78 @@
   estimates (as so-called forest or dot whisker plots) or marginal effects.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_model</span>(
-  <span class='kw'>model</span>,
-  type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"est"</span>, <span class='st'>"re"</span>, <span class='st'>"eff"</span>, <span class='st'>"emm"</span>, <span class='st'>"pred"</span>, <span class='st'>"int"</span>, <span class='st'>"std"</span>, <span class='st'>"std2"</span>, <span class='st'>"slope"</span>, <span class='st'>"resid"</span>,
-    <span class='st'>"diag"</span>),
-  <span class='kw'>transform</span>,
-  terms = <span class='kw'>NULL</span>,
-  sort.est = <span class='kw'>NULL</span>,
-  rm.terms = <span class='kw'>NULL</span>,
-  group.terms = <span class='kw'>NULL</span>,
-  order.terms = <span class='kw'>NULL</span>,
-  pred.type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>),
-  mdrt.values = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"minmax"</span>, <span class='st'>"meansd"</span>, <span class='st'>"zeromax"</span>, <span class='st'>"quart"</span>, <span class='st'>"all"</span>),
-  ri.nr = <span class='kw'>NULL</span>,
-  title = <span class='kw'>NULL</span>,
-  axis.title = <span class='kw'>NULL</span>,
-  axis.labels = <span class='kw'>NULL</span>,
-  legend.title = <span class='kw'>NULL</span>,
-  wrap.title = <span class='fl'>50</span>,
-  wrap.labels = <span class='fl'>25</span>,
-  axis.lim = <span class='kw'>NULL</span>,
-  grid.breaks = <span class='kw'>NULL</span>,
-  ci.lvl = <span class='kw'>NULL</span>,
-  se = <span class='kw'>NULL</span>,
-  robust = <span class='fl'>FALSE</span>,
-  vcov.fun = <span class='kw'>NULL</span>,
-  vcov.type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"HC3"</span>, <span class='st'>"const"</span>, <span class='st'>"HC"</span>, <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>, <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>, <span class='st'>"HC5"</span>),
-  vcov.args = <span class='kw'>NULL</span>,
-  colors = <span class='st'>"Set1"</span>,
-  show.intercept = <span class='fl'>FALSE</span>,
-  show.values = <span class='fl'>FALSE</span>,
-  show.p = <span class='fl'>TRUE</span>,
-  show.data = <span class='fl'>FALSE</span>,
-  show.legend = <span class='fl'>TRUE</span>,
-  show.zeroinf = <span class='fl'>TRUE</span>,
-  value.offset = <span class='kw'>NULL</span>,
-  <span class='kw'>value.size</span>,
-  jitter = <span class='kw'>NULL</span>,
-  digits = <span class='fl'>2</span>,
-  dot.size = <span class='kw'>NULL</span>,
-  line.size = <span class='kw'>NULL</span>,
-  vline.color = <span class='kw'>NULL</span>,
-  p.threshold = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span>),
-  p.adjust = <span class='kw'>NULL</span>,
-  <span class='kw'>grid</span>,
-  <span class='kw'>case</span>,
-  auto.label = <span class='fl'>TRUE</span>,
-  prefix.labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span>),
-  bpe = <span class='st'>"median"</span>,
-  bpe.style = <span class='st'>"line"</span>,
-  bpe.color = <span class='st'>"white"</span>,
-  ci.style = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"whisker"</span>, <span class='st'>"bar"</span>),
-  <span class='kw'>...</span>
-)
+    <pre class="usage"><span class='fu'>plot_model</span><span class='op'>(</span>
+  <span class='va'>model</span>,
+  type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"est"</span>, <span class='st'>"re"</span>, <span class='st'>"eff"</span>, <span class='st'>"emm"</span>, <span class='st'>"pred"</span>, <span class='st'>"int"</span>, <span class='st'>"std"</span>, <span class='st'>"std2"</span>, <span class='st'>"slope"</span>, <span class='st'>"resid"</span>,
+    <span class='st'>"diag"</span><span class='op'>)</span>,
+  <span class='va'>transform</span>,
+  terms <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sort.est <span class='op'>=</span> <span class='cn'>NULL</span>,
+  rm.terms <span class='op'>=</span> <span class='cn'>NULL</span>,
+  group.terms <span class='op'>=</span> <span class='cn'>NULL</span>,
+  order.terms <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pred.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"fe"</span>, <span class='st'>"re"</span><span class='op'>)</span>,
+  mdrt.values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"minmax"</span>, <span class='st'>"meansd"</span>, <span class='st'>"zeromax"</span>, <span class='st'>"quart"</span>, <span class='st'>"all"</span><span class='op'>)</span>,
+  ri.nr <span class='op'>=</span> <span class='cn'>NULL</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  axis.title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  axis.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  legend.title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  wrap.title <span class='op'>=</span> <span class='fl'>50</span>,
+  wrap.labels <span class='op'>=</span> <span class='fl'>25</span>,
+  axis.lim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  grid.breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ci.lvl <span class='op'>=</span> <span class='cn'>NULL</span>,
+  se <span class='op'>=</span> <span class='cn'>NULL</span>,
+  robust <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  vcov.fun <span class='op'>=</span> <span class='cn'>NULL</span>,
+  vcov.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HC3"</span>, <span class='st'>"const"</span>, <span class='st'>"HC"</span>, <span class='st'>"HC0"</span>, <span class='st'>"HC1"</span>, <span class='st'>"HC2"</span>, <span class='st'>"HC4"</span>, <span class='st'>"HC4m"</span>, <span class='st'>"HC5"</span><span class='op'>)</span>,
+  vcov.args <span class='op'>=</span> <span class='cn'>NULL</span>,
+  colors <span class='op'>=</span> <span class='st'>"Set1"</span>,
+  show.intercept <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.values <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.p <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.data <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.legend <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.zeroinf <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  value.offset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>value.size</span>,
+  jitter <span class='op'>=</span> <span class='cn'>NULL</span>,
+  digits <span class='op'>=</span> <span class='fl'>2</span>,
+  dot.size <span class='op'>=</span> <span class='cn'>NULL</span>,
+  line.size <span class='op'>=</span> <span class='cn'>NULL</span>,
+  vline.color <span class='op'>=</span> <span class='cn'>NULL</span>,
+  p.threshold <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.05</span>, <span class='fl'>0.01</span>, <span class='fl'>0.001</span><span class='op'>)</span>,
+  p.adjust <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>grid</span>,
+  <span class='va'>case</span>,
+  auto.label <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  prefix.labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"none"</span>, <span class='st'>"varname"</span>, <span class='st'>"label"</span><span class='op'>)</span>,
+  bpe <span class='op'>=</span> <span class='st'>"median"</span>,
+  bpe.style <span class='op'>=</span> <span class='st'>"line"</span>,
+  bpe.color <span class='op'>=</span> <span class='st'>"white"</span>,
+  ci.style <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"whisker"</span>, <span class='st'>"bar"</span><span class='op'>)</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>get_model_data</span>(
-  <span class='kw'>model</span>,
-  type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"est"</span>, <span class='st'>"re"</span>, <span class='st'>"eff"</span>, <span class='st'>"pred"</span>, <span class='st'>"int"</span>, <span class='st'>"std"</span>, <span class='st'>"std2"</span>, <span class='st'>"slope"</span>, <span class='st'>"resid"</span>, <span class='st'>"diag"</span>),
-  <span class='kw'>transform</span>,
-  terms = <span class='kw'>NULL</span>,
-  sort.est = <span class='kw'>NULL</span>,
-  rm.terms = <span class='kw'>NULL</span>,
-  group.terms = <span class='kw'>NULL</span>,
-  order.terms = <span class='kw'>NULL</span>,
-  pred.type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fe"</span>, <span class='st'>"re"</span>),
-  ri.nr = <span class='kw'>NULL</span>,
-  ci.lvl = <span class='kw'>NULL</span>,
-  colors = <span class='st'>"Set1"</span>,
-  <span class='kw'>grid</span>,
-  case = <span class='st'>"parsed"</span>,
-  digits = <span class='fl'>2</span>,
-  <span class='kw'>...</span>
-)</pre>
+<span class='fu'>get_model_data</span><span class='op'>(</span>
+  <span class='va'>model</span>,
+  type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"est"</span>, <span class='st'>"re"</span>, <span class='st'>"eff"</span>, <span class='st'>"pred"</span>, <span class='st'>"int"</span>, <span class='st'>"std"</span>, <span class='st'>"std2"</span>, <span class='st'>"slope"</span>, <span class='st'>"resid"</span>, <span class='st'>"diag"</span><span class='op'>)</span>,
+  <span class='va'>transform</span>,
+  terms <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sort.est <span class='op'>=</span> <span class='cn'>NULL</span>,
+  rm.terms <span class='op'>=</span> <span class='cn'>NULL</span>,
+  group.terms <span class='op'>=</span> <span class='cn'>NULL</span>,
+  order.terms <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pred.type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"fe"</span>, <span class='st'>"re"</span><span class='op'>)</span>,
+  ri.nr <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ci.lvl <span class='op'>=</span> <span class='cn'>NULL</span>,
+  colors <span class='op'>=</span> <span class='st'>"Set1"</span>,
+  <span class='va'>grid</span>,
+  case <span class='op'>=</span> <span class='st'>"parsed"</span>,
+  digits <span class='op'>=</span> <span class='fl'>2</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -296,12 +296,12 @@ kinds of models are supported, e.g. from packages like <span class="pkg">stats</
 
 </dl><p><em>Marginal Effects</em>  (<a href='https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html'>related vignette</a>)</p><dl>
   <dt><code>type = "pred"</code></dt><dd><p>Predicted values (marginal effects) for
-  specific model terms. See <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></code> for details.</p></dd>
+  specific model terms. See <code><a href='https://strengejacke.github.io/ggeffects/reference/ggpredict.html'>ggpredict</a></code> for details.</p></dd>
   <dt><code>type = "eff"</code></dt><dd><p>Similar to <code>type = "pred"</code>, however,
   discrete predictors are held constant at their proportions (not reference
-  level). See <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect</a></code> for details.</p></dd>
+  level). See <code><a href='https://strengejacke.github.io/ggeffects/reference/ggpredict.html'>ggeffect</a></code> for details.</p></dd>
   <dt><code>type = "emm"</code></dt><dd><p>Similar to <code>type = "eff"</code>, see
-  <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggemmeans</a></code> for details.</p></dd>
+  <code><a href='https://strengejacke.github.io/ggeffects/reference/ggpredict.html'>ggemmeans</a></code> for details.</p></dd>
   <dt><code>type = "int"</code></dt><dd><p>Marginal effects of interaction terms in
   <code>model</code>.</p></dd>
 
@@ -364,10 +364,10 @@ non-transformed estimates.</p></td>
      memory allocation problems for vectors with many unique values. If a
      numeric vector is specified as second or third term (i.e. if this vector
      represents a grouping structure), representative values (see
-     <code><a href='https://rdrr.io/pkg/ggeffects/man/values_at.html'>values_at</a></code>) are chosen. If all values for a
+     <code><a href='https://strengejacke.github.io/ggeffects/reference/values_at.html'>values_at</a></code>) are chosen. If all values for a
      numeric vector should be used to compute predictions, you may use
      e.g. terms = "age [all]". For more details, see
-     <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></code>.</p></dd>
+     <code><a href='https://strengejacke.github.io/ggeffects/reference/ggpredict.html'>ggpredict</a></code>.</p></dd>
 
 </dl></td>
     </tr>
@@ -411,7 +411,7 @@ should be plotted. See examples in
 with mixed effects models. Indicates whether predicted values should be
 conditioned on random effects (<code>pred.type = "re"</code>) or fixed effects
 only (<code>pred.type = "fe"</code>, the default). For details, see documentation
-of the <code>type</code>-argument in <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></code>.</p></td>
+of the <code>type</code>-argument in <code><a href='https://strengejacke.github.io/ggeffects/reference/ggpredict.html'>ggpredict</a></code>.</p></td>
     </tr>
     <tr>
       <th>mdrt.values</th>
@@ -448,7 +448,7 @@ random effects will be plotted.</p></td>
     <tr>
       <th>title</th>
       <td><p>Character vector, used as plot title. By default,
-<code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>response_labels</a></code> is called to retrieve the label of
+<code><a href='https://strengejacke.github.io/sjlabelled/reference/term_labels.html'>response_labels</a></code> is called to retrieve the label of
 the dependent variable, which will be used as title. Use <code>title = ""</code>
 to remove title.</p></td>
     </tr>
@@ -465,7 +465,7 @@ titles.</p></td>
     <tr>
       <th>axis.labels</th>
       <td><p>Character vector with labels for the model terms, used as
-axis labels. By default, <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>term_labels</a></code> is
+axis labels. By default, <code><a href='https://strengejacke.github.io/sjlabelled/reference/term_labels.html'>term_labels</a></code> is
 called to retrieve the labels of the coefficients, which will be used as
 axis labels. Use <code>axis.labels = ""</code> or <code>auto.label = FALSE</code> to
 use the variable names as labels instead. If <code>axis.labels</code> is a named
@@ -509,7 +509,7 @@ axis positions of the major grid lines.</p></td>
       <td><p>Numeric, the level of the confidence intervals (error bars).
 Use <code>ci.lvl = NA</code> to remove error bars. For <code>stanreg</code>-models,
 <code>ci.lvl</code> defines the (outer) probability for the <em>credible interval</em>
-that is plotted (see <code><a href='https://rdrr.io/pkg/bayestestR/man/ci.html'>ci</a></code>). By
+that is plotted (see <code><a href='https://easystats.github.io/bayestestR/reference/ci.html'>ci</a></code>). By
 default, <code>stanreg</code>-models are printed with two intervals: the "inner"
 interval, which defaults to the 50%-CI; and the "outer" interval, which
 defaults to the 89%-CI. <code>ci.lvl</code> affects only the outer interval in
@@ -521,7 +521,7 @@ such cases. See <code>prob.inner</code> and <code>prob.outer</code> under the
       <td><p>Logical, if <code>TRUE</code>, the standard errors are
 also printed. If robust standard errors are required, use arguments
 <code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code> (see
-<code><a href='https://rdrr.io/pkg/parameters/man/standard_error_robust.html'>standard_error_robust</a></code> and
+<code><a href='https://easystats.github.io/parameters/reference/standard_error_robust.html'>standard_error_robust</a></code> and
 <a href='https://easystats.github.io/parameters/articles/model_parameters_robust.html'>this vignette</a>
 for details), or use argument <code>robust</code> as shortcut. <code>se</code> overrides
 <code>ci.lvl</code>: if not <code>NULL</code>, arguments <code>ci.lvl</code> and <code>transform</code>
@@ -531,8 +531,8 @@ will be ignored. Currently, <code>se</code> only applies to <em>Coefficients</em
       <th>robust</th>
       <td><p>Logical, shortcut for arguments <code>vcov.fun</code> and <code>vcov.type</code>.
 If <code>TRUE</code>, uses <code>vcov.fun = "vcovHC"</code> and <code>vcov.type = "HC3"</code> as
-default, that is, <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC</a></code> with default-type is called
-(see <code><a href='https://rdrr.io/pkg/parameters/man/standard_error_robust.html'>standard_error_robust</a></code> and
+default, that is, <code><a href='http://sandwich.R-Forge.R-project.org//reference/vcovHC.html'>vcovHC</a></code> with default-type is called
+(see <code><a href='https://easystats.github.io/parameters/reference/standard_error_robust.html'>standard_error_robust</a></code> and
 <a href='https://easystats.github.io/parameters/articles/model_parameters_robust.html'>this vignette</a>
 for further details).</p></td>
     </tr>
@@ -545,8 +545,8 @@ if robust standard errors are required.</p></td>
     <tr>
       <th>vcov.type</th>
       <td><p>Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see <code><a href='https://rdrr.io/pkg/sandwich/man/vcovHC.html'>vcovHC()</a></code>
-or <code><a href='https://rdrr.io/pkg/clubSandwich/man/vcovCR.html'>vcovCR()</a></code> for details).</p></td>
+robust covariance matrix estimation (see <code><a href='http://sandwich.R-Forge.R-project.org//reference/vcovHC.html'>vcovHC()</a></code>
+or <code>clubSandwich::vcovCR()</code> for details).</p></td>
     </tr>
     <tr>
       <th>vcov.args</th>
@@ -664,7 +664,7 @@ default when prefixing labels.</p></td>
       <th>auto.label</th>
       <td><p>Logical, if <code>TRUE</code> (the default),
  and <a href='https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html'>data is labelled</a>,
- <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>term_labels</a></code> is called to retrieve the labels
+ <code><a href='https://strengejacke.github.io/sjlabelled/reference/term_labels.html'>term_labels</a></code> is called to retrieve the labels
  of the coefficients, which will be used as predictor labels. If data is
  not labelled, <a href='https://easystats.github.io/parameters/reference/format_parameters.html'>format_parameters()</a>
  is used to create pretty labels. If <code>auto.label = FALSE</code>,
@@ -674,7 +674,7 @@ original variable names and value labels (factor levels) are used.</p></td>
       <th>prefix.labels</th>
       <td><p>Indicates whether the value labels of categorical variables
 should be prefixed, e.g. with the variable name or variable label. See
-argument <code>prefix</code> in <code><a href='https://rdrr.io/pkg/sjlabelled/man/term_labels.html'>term_labels</a></code> for
+argument <code>prefix</code> in <code><a href='https://strengejacke.github.io/sjlabelled/reference/term_labels.html'>term_labels</a></code> for
 details.</p></td>
     </tr>
     <tr>
@@ -684,7 +684,7 @@ details.</p></td>
 of the posterior distribution. Use <code>bpe</code> to define other functions to
 calculate the Bayesian point estimate. <code>bpe</code> needs to be a character
 naming the specific function, which is passed to the <code>fun</code>-argument in
-<code><a href='https://rdrr.io/pkg/sjmisc/man/typical_value.html'>typical_value</a></code>. So, <code>bpe = "mean"</code> would
+<code><a href='https://strengejacke.github.io/sjmisc/reference/typical_value.html'>typical_value</a></code>. So, <code>bpe = "mean"</code> would
 calculate the mean value of the posterior distribution.</p></td>
     </tr>
     <tr>
@@ -726,13 +726,13 @@ of supported arguments and their description in detail.</p><dl>
     down to <code>geom_errorbar()</code> or <code>geom_density_ridges()</code>, for
     forest or diagnostic plots.</p></dd>
   <dt><code>width</code>, <code>alpha</code>, <code>dot.alpha</code>, <code>dodge</code> and <code>log.y</code></dt><dd><p>Passed
-    down to <code><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot.ggeffects</a></code> for <em>Marginal Effects</em>
+    down to <code><a href='https://strengejacke.github.io/ggeffects/reference/plot.html'>plot.ggeffects</a></code> for <em>Marginal Effects</em>
     plots.</p></dd>
   <dt><code>show.loess</code></dt><dd><p>Logical, for diagnostic plot-types <code>"slope"</code>
     and <code>"resid"</code>, adds (or hides) a loess-smoothed line to the plot.</p></dd>
   <dt><em>Marginal Effects</em> plot-types</dt><dd><p>When plotting marginal effects,
-    arguments are also passed down to <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></code>,
-    <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect</a></code> or <code><a href='https://rdrr.io/pkg/ggeffects/man/plot.html'>plot.ggeffects</a></code>.</p></dd>
+    arguments are also passed down to <code><a href='https://strengejacke.github.io/ggeffects/reference/ggpredict.html'>ggpredict</a></code>,
+    <code><a href='https://strengejacke.github.io/ggeffects/reference/ggpredict.html'>ggeffect</a></code> or <code><a href='https://strengejacke.github.io/ggeffects/reference/plot.html'>plot.ggeffects</a></code>.</p></dd>
   <dt>Case conversion of labels</dt><dd><p>For case conversion of labels (see argument
     <code>case</code>), arguments <code>sep_in</code> and <code>sep_out</code> will be passed
     down to <code>to_any_case</code>. This only
@@ -761,17 +761,17 @@ of supported arguments and their description in detail.</p><dl>
     Resulting coefficients are then directly comparable for untransformed
     binary predictors.</p></dd>
   <dt><code>type = "pred"</code></dt><dd><p>Plots estimated marginal means (or marginal effects).
-    Simply wraps <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></code>. See also
+    Simply wraps <code><a href='https://strengejacke.github.io/ggeffects/reference/ggpredict.html'>ggpredict</a></code>. See also
     <a href='https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html'>this package-vignette</a>.</p></dd>
   <dt><code>type = "eff"</code></dt><dd><p>Plots estimated marginal means (or marginal effects).
-    Simply wraps <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggeffect</a></code>. See also
+    Simply wraps <code><a href='https://strengejacke.github.io/ggeffects/reference/ggpredict.html'>ggeffect</a></code>. See also
     <a href='https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html'>this package-vignette</a>.</p></dd>
   <dt><code>type = "int"</code></dt><dd><p>A shortcut for marginal effects plots, where
     interaction terms are automatically detected and used as
     <code>terms</code>-argument. Furthermore, if the moderator variable (the second
     - and third - term in an interaction) is continuous, <code>type = "int"</code>
     automatically chooses useful values based on the <code>mdrt.values</code>-argument,
-    which are passed to <code>terms</code>. Then, <code><a href='https://rdrr.io/pkg/ggeffects/man/ggpredict.html'>ggpredict</a></code>
+    which are passed to <code>terms</code>. Then, <code><a href='https://strengejacke.github.io/ggeffects/reference/ggpredict.html'>ggpredict</a></code>
     is called. <code>type = "int"</code> plots the interaction term that appears
     first in the formula along the x-axis, while the second (and possibly
     third) variable in an interaction is used as grouping factor(s)

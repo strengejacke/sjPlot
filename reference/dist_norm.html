@@ -201,15 +201,15 @@
                is reached.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dist_norm</span>(
-  norm = <span class='kw'>NULL</span>,
-  mean = <span class='fl'>0</span>,
-  sd = <span class='fl'>1</span>,
-  p = <span class='kw'>NULL</span>,
-  xmax = <span class='kw'>NULL</span>,
-  geom.colors = <span class='kw'>NULL</span>,
-  geom.alpha = <span class='fl'>0.7</span>
-)</pre>
+    <pre class="usage"><span class='fu'>dist_norm</span><span class='op'>(</span>
+  norm <span class='op'>=</span> <span class='cn'>NULL</span>,
+  mean <span class='op'>=</span> <span class='fl'>0</span>,
+  sd <span class='op'>=</span> <span class='fl'>1</span>,
+  p <span class='op'>=</span> <span class='cn'>NULL</span>,
+  xmax <span class='op'>=</span> <span class='cn'>NULL</span>,
+  geom.colors <span class='op'>=</span> <span class='cn'>NULL</span>,
+  geom.alpha <span class='op'>=</span> <span class='fl'>0.7</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -255,18 +255,18 @@ ranges to a value where a p-level of 0.00001 is reached.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># a simple normal distribution</span>
-<span class='fu'>dist_norm</span>()
+<span class='fu'>dist_norm</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='img'><img src='dist_norm-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># a simple normal distribution with different mean and sd.</span>
 <span class='co'># note that curve looks similar to above plot, but axis range</span>
 <span class='co'># has changed.</span>
-<span class='fu'>dist_norm</span>(mean = <span class='fl'>2</span>, sd = <span class='fl'>4</span>)
+<span class='fu'>dist_norm</span><span class='op'>(</span>mean <span class='op'>=</span> <span class='fl'>2</span>, sd <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span>
 </div><div class='img'><img src='dist_norm-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># a simple normal distribution</span>
-<span class='fu'>dist_norm</span>(norm = <span class='fl'>1</span>)
+<span class='fu'>dist_norm</span><span class='op'>(</span>norm <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span>
 </div><div class='img'><img src='dist_norm-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># a simple normal distribution</span>
-<span class='fu'>dist_norm</span>(p = <span class='fl'>0.2</span>)
+<span class='fu'>dist_norm</span><span class='op'>(</span>p <span class='op'>=</span> <span class='fl'>0.2</span><span class='op'>)</span>
 </div><div class='img'><img src='dist_norm-4.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>

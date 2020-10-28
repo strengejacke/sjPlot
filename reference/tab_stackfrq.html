@@ -203,30 +203,30 @@
                when plotting scales like SF, Barthel-Index, Quality-of-Life-scales etc.).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tab_stackfrq</span>(
-  <span class='kw'>items</span>,
-  weight.by = <span class='kw'>NULL</span>,
-  title = <span class='kw'>NULL</span>,
-  var.labels = <span class='kw'>NULL</span>,
-  value.labels = <span class='kw'>NULL</span>,
-  wrap.labels = <span class='fl'>20</span>,
-  sort.frq = <span class='kw'>NULL</span>,
-  alternate.rows = <span class='fl'>FALSE</span>,
-  digits = <span class='fl'>2</span>,
-  string.total = <span class='st'>"N"</span>,
-  string.na = <span class='st'>"NA"</span>,
-  show.n = <span class='fl'>FALSE</span>,
-  show.total = <span class='fl'>FALSE</span>,
-  show.na = <span class='fl'>FALSE</span>,
-  show.skew = <span class='fl'>FALSE</span>,
-  show.kurtosis = <span class='fl'>FALSE</span>,
-  digits.stats = <span class='fl'>2</span>,
-  file = <span class='kw'>NULL</span>,
-  encoding = <span class='kw'>NULL</span>,
-  CSS = <span class='kw'>NULL</span>,
-  use.viewer = <span class='fl'>TRUE</span>,
-  remove.spaces = <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tab_stackfrq</span><span class='op'>(</span>
+  <span class='va'>items</span>,
+  weight.by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  var.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  value.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  wrap.labels <span class='op'>=</span> <span class='fl'>20</span>,
+  sort.frq <span class='op'>=</span> <span class='cn'>NULL</span>,
+  alternate.rows <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  digits <span class='op'>=</span> <span class='fl'>2</span>,
+  string.total <span class='op'>=</span> <span class='st'>"N"</span>,
+  string.na <span class='op'>=</span> <span class='st'>"NA"</span>,
+  show.n <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.total <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.na <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.skew <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.kurtosis <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  digits.stats <span class='op'>=</span> <span class='fl'>2</span>,
+  file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  encoding <span class='op'>=</span> <span class='cn'>NULL</span>,
+  CSS <span class='op'>=</span> <span class='cn'>NULL</span>,
+  use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  remove.spaces <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -371,50 +371,50 @@ may look less pretty, but it may help when exporting html-tables to office tools
 <span class='co'># random sample</span>
 <span class='co'># -------------------------------</span>
 <span class='co'># prepare data for 4-category likert scale, 5 items</span>
-<span class='kw'>likert_4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>500</span>, replace = <span class='fl'>TRUE</span>, prob = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.2</span>, <span class='fl'>0.3</span>, <span class='fl'>0.1</span>, <span class='fl'>0.4</span>))),
-  <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>500</span>, replace = <span class='fl'>TRUE</span>, prob = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.5</span>, <span class='fl'>0.25</span>, <span class='fl'>0.15</span>, <span class='fl'>0.1</span>))),
-  <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>500</span>, replace = <span class='fl'>TRUE</span>, prob = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.1</span>, <span class='fl'>0.4</span>, <span class='fl'>0.25</span>))),
-  <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>500</span>, replace = <span class='fl'>TRUE</span>, prob = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.1</span>, <span class='fl'>0.4</span>, <span class='fl'>0.4</span>, <span class='fl'>0.1</span>))),
-  <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>500</span>, replace = <span class='fl'>TRUE</span>, prob = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.35</span>, <span class='fl'>0.25</span>, <span class='fl'>0.15</span>, <span class='fl'>0.25</span>)))
-)
+<span class='va'>likert_4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>500</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span>, prob <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.2</span>, <span class='fl'>0.3</span>, <span class='fl'>0.1</span>, <span class='fl'>0.4</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>500</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span>, prob <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>0.25</span>, <span class='fl'>0.15</span>, <span class='fl'>0.1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>500</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span>, prob <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.25</span>, <span class='fl'>0.1</span>, <span class='fl'>0.4</span>, <span class='fl'>0.25</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>500</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span>, prob <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.1</span>, <span class='fl'>0.4</span>, <span class='fl'>0.4</span>, <span class='fl'>0.1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>,
+  <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>500</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span>, prob <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.35</span>, <span class='fl'>0.25</span>, <span class='fl'>0.15</span>, <span class='fl'>0.25</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span>
 
 <span class='co'># create labels</span>
-<span class='kw'>levels_4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Independent"</span>, <span class='st'>"Slightly dependent"</span>,
-              <span class='st'>"Dependent"</span>, <span class='st'>"Severely dependent"</span>)
+<span class='va'>levels_4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Independent"</span>, <span class='st'>"Slightly dependent"</span>,
+              <span class='st'>"Dependent"</span>, <span class='st'>"Severely dependent"</span><span class='op'>)</span>
 
 <span class='co'># create item labels</span>
-<span class='kw'>items</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Q1"</span>, <span class='st'>"Q2"</span>, <span class='st'>"Q3"</span>, <span class='st'>"Q4"</span>, <span class='st'>"Q5"</span>)
+<span class='va'>items</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Q1"</span>, <span class='st'>"Q2"</span>, <span class='st'>"Q3"</span>, <span class='st'>"Q4"</span>, <span class='st'>"Q5"</span><span class='op'>)</span>
 
 <span class='co'># plot stacked frequencies of 5 (ordered) item-scales</span>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
-  <span class='fu'>tab_stackfrq</span>(<span class='kw'>likert_4</span>, value.labels = <span class='kw'>levels_4</span>, var.labels = <span class='kw'>items</span>)
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>tab_stackfrq</span><span class='op'>(</span><span class='va'>likert_4</span>, value.labels <span class='op'>=</span> <span class='va'>levels_4</span>, var.labels <span class='op'>=</span> <span class='va'>items</span><span class='op'>)</span>
 
   <span class='co'># -------------------------------</span>
   <span class='co'># Data from the EUROFAMCARE sample dataset</span>
   <span class='co'>#  Auto-detection of labels</span>
   <span class='co'># -------------------------------</span>
-  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
+  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
   <span class='co'># recveive first item of COPE-index scale</span>
-  <span class='kw'>start</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>efc</span>) <span class='op'>==</span> <span class='st'>"c82cop1"</span>)
+  <span class='va'>start</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c82cop1"</span><span class='op'>)</span>
   <span class='co'># recveive first item of COPE-index scale</span>
-  <span class='kw'>end</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>efc</span>) <span class='op'>==</span> <span class='st'>"c90cop9"</span>)
+  <span class='va'>end</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c90cop9"</span><span class='op'>)</span>
 
-  <span class='fu'>tab_stackfrq</span>(<span class='kw'>efc</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>)], alternate.rows = <span class='fl'>TRUE</span>)
+  <span class='fu'>tab_stackfrq</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>, alternate.rows <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-  <span class='fu'>tab_stackfrq</span>(<span class='kw'>efc</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>)], alternate.rows = <span class='fl'>TRUE</span>,
-               show.n = <span class='fl'>TRUE</span>, show.na = <span class='fl'>TRUE</span>)
+  <span class='fu'>tab_stackfrq</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>, alternate.rows <span class='op'>=</span> <span class='cn'>TRUE</span>,
+               show.n <span class='op'>=</span> <span class='cn'>TRUE</span>, show.na <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
   <span class='co'># --------------------------------</span>
   <span class='co'># User defined style sheet</span>
   <span class='co'># --------------------------------</span>
-  <span class='fu'>tab_stackfrq</span>(<span class='kw'>efc</span>[, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>)], alternate.rows = <span class='fl'>TRUE</span>,
-               show.total = <span class='fl'>TRUE</span>, show.skew = <span class='fl'>TRUE</span>, show.kurtosis = <span class='fl'>TRUE</span>,
-               CSS = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(css.ncol = <span class='st'>"border-left:1px dotted black;"</span>,
-                          css.summary = <span class='st'>"font-style:italic;"</span>))
-}
-}
+  <span class='fu'>tab_stackfrq</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>, alternate.rows <span class='op'>=</span> <span class='cn'>TRUE</span>,
+               show.total <span class='op'>=</span> <span class='cn'>TRUE</span>, show.skew <span class='op'>=</span> <span class='cn'>TRUE</span>, show.kurtosis <span class='op'>=</span> <span class='cn'>TRUE</span>,
+               CSS <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>css.ncol <span class='op'>=</span> <span class='st'>"border-left:1px dotted black;"</span>,
+                          css.summary <span class='op'>=</span> <span class='st'>"font-style:italic;"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

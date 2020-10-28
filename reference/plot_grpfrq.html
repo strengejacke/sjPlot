@@ -199,52 +199,52 @@
                box or violin plots, or line plot.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_grpfrq</span>(
-  <span class='kw'>var.cnt</span>,
-  <span class='kw'>var.grp</span>,
-  type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bar"</span>, <span class='st'>"dot"</span>, <span class='st'>"line"</span>, <span class='st'>"boxplot"</span>, <span class='st'>"violin"</span>),
-  bar.pos = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"dodge"</span>, <span class='st'>"stack"</span>),
-  weight.by = <span class='kw'>NULL</span>,
-  intr.var = <span class='kw'>NULL</span>,
-  title = <span class='st'>""</span>,
-  title.wtd.suffix = <span class='kw'>NULL</span>,
-  legend.title = <span class='kw'>NULL</span>,
-  axis.titles = <span class='kw'>NULL</span>,
-  axis.labels = <span class='kw'>NULL</span>,
-  legend.labels = <span class='kw'>NULL</span>,
-  intr.var.labels = <span class='kw'>NULL</span>,
-  wrap.title = <span class='fl'>50</span>,
-  wrap.labels = <span class='fl'>15</span>,
-  wrap.legend.title = <span class='fl'>20</span>,
-  wrap.legend.labels = <span class='fl'>20</span>,
-  geom.size = <span class='kw'>NULL</span>,
-  geom.spacing = <span class='fl'>0.15</span>,
-  geom.colors = <span class='st'>"Paired"</span>,
-  show.values = <span class='fl'>TRUE</span>,
-  show.n = <span class='fl'>TRUE</span>,
-  show.prc = <span class='fl'>TRUE</span>,
-  show.axis.values = <span class='fl'>TRUE</span>,
-  show.ci = <span class='fl'>FALSE</span>,
-  show.grpcnt = <span class='fl'>FALSE</span>,
-  show.legend = <span class='fl'>TRUE</span>,
-  show.na = <span class='fl'>FALSE</span>,
-  show.summary = <span class='fl'>FALSE</span>,
-  drop.empty = <span class='fl'>TRUE</span>,
-  auto.group = <span class='kw'>NULL</span>,
-  ylim = <span class='kw'>NULL</span>,
-  grid.breaks = <span class='kw'>NULL</span>,
-  expand.grid = <span class='fl'>FALSE</span>,
-  inner.box.width = <span class='fl'>0.15</span>,
-  inner.box.dotsize = <span class='fl'>3</span>,
-  smooth.lines = <span class='fl'>FALSE</span>,
-  emph.dots = <span class='fl'>TRUE</span>,
-  summary.pos = <span class='st'>"r"</span>,
-  facet.grid = <span class='fl'>FALSE</span>,
-  coord.flip = <span class='fl'>FALSE</span>,
-  y.offset = <span class='kw'>NULL</span>,
-  vjust = <span class='st'>"bottom"</span>,
-  hjust = <span class='st'>"center"</span>
-)</pre>
+    <pre class="usage"><span class='fu'>plot_grpfrq</span><span class='op'>(</span>
+  <span class='va'>var.cnt</span>,
+  <span class='va'>var.grp</span>,
+  type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"bar"</span>, <span class='st'>"dot"</span>, <span class='st'>"line"</span>, <span class='st'>"boxplot"</span>, <span class='st'>"violin"</span><span class='op'>)</span>,
+  bar.pos <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dodge"</span>, <span class='st'>"stack"</span><span class='op'>)</span>,
+  weight.by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  intr.var <span class='op'>=</span> <span class='cn'>NULL</span>,
+  title <span class='op'>=</span> <span class='st'>""</span>,
+  title.wtd.suffix <span class='op'>=</span> <span class='cn'>NULL</span>,
+  legend.title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  axis.titles <span class='op'>=</span> <span class='cn'>NULL</span>,
+  axis.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  legend.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  intr.var.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  wrap.title <span class='op'>=</span> <span class='fl'>50</span>,
+  wrap.labels <span class='op'>=</span> <span class='fl'>15</span>,
+  wrap.legend.title <span class='op'>=</span> <span class='fl'>20</span>,
+  wrap.legend.labels <span class='op'>=</span> <span class='fl'>20</span>,
+  geom.size <span class='op'>=</span> <span class='cn'>NULL</span>,
+  geom.spacing <span class='op'>=</span> <span class='fl'>0.15</span>,
+  geom.colors <span class='op'>=</span> <span class='st'>"Paired"</span>,
+  show.values <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.n <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.prc <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.axis.values <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.ci <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.grpcnt <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.legend <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.na <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.summary <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  drop.empty <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  auto.group <span class='op'>=</span> <span class='cn'>NULL</span>,
+  ylim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  grid.breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  expand.grid <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  inner.box.width <span class='op'>=</span> <span class='fl'>0.15</span>,
+  inner.box.dotsize <span class='op'>=</span> <span class='fl'>3</span>,
+  smooth.lines <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  emph.dots <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  summary.pos <span class='op'>=</span> <span class='st'>"r"</span>,
+  facet.grid <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  coord.flip <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  y.offset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  vjust <span class='op'>=</span> <span class='st'>"bottom"</span>,
+  hjust <span class='op'>=</span> <span class='st'>"center"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -421,9 +421,9 @@ in the data are omitted from the output.</p></td>
       <th>auto.group</th>
       <td><p>numeric value, indicating the minimum amount of unique values
 in the count variable, at which automatic grouping into smaller units
-is done (see <code><a href='https://rdrr.io/pkg/sjmisc/man/group_var.html'>group_var</a></code>). Default value for
+is done (see <code><a href='https://strengejacke.github.io/sjmisc/reference/group_var.html'>group_var</a></code>). Default value for
 <code>auto.group</code> is <code>NULL</code>, i.e. auto-grouping is off.
-See <code><a href='https://rdrr.io/pkg/sjmisc/man/group_var.html'>group_var</a></code> for examples on grouping.</p></td>
+See <code><a href='https://strengejacke.github.io/sjmisc/reference/group_var.html'>group_var</a></code> for examples on grouping.</p></td>
     </tr>
     <tr>
       <th>ylim</th>
@@ -519,31 +519,31 @@ away from the center of the plot respectively.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
-<span class='fu'>plot_grpfrq</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e17age</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, show.values = <span class='fl'>FALSE</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
+<span class='fu'>plot_grpfrq</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e17age</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e16sex</span>, show.values <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_grpfrq-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># boxplot</span>
-<span class='fu'>plot_grpfrq</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e17age</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, type = <span class='st'>"box"</span>)
+<span class='fu'>plot_grpfrq</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e17age</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, type <span class='op'>=</span> <span class='st'>"box"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: `fun.y` is deprecated. Use `fun` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Solution may be nonunique</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Solution may be nonunique</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Solution may be nonunique</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Solution may be nonunique</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Solution may be nonunique</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Solution may be nonunique</span></div><div class='img'><img src='plot_grpfrq-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># grouped bars</span>
-<span class='fu'>plot_grpfrq</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, title = <span class='kw'>NULL</span>)
+<span class='fu'>plot_grpfrq</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e16sex</span>, title <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_grpfrq-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># box plots with interaction variable</span>
-<span class='fu'>plot_grpfrq</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e17age</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, intr.var = <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, type = <span class='st'>"box"</span>)
+<span class='fu'>plot_grpfrq</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e17age</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, intr.var <span class='op'>=</span> <span class='va'>efc</span><span class='op'>$</span><span class='va'>e16sex</span>, type <span class='op'>=</span> <span class='st'>"box"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: `fun.y` is deprecated. Use `fun` instead.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Solution may be nonunique</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Solution may be nonunique</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Solution may be nonunique</span></div><div class='img'><img src='plot_grpfrq-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Grouped bar plot</span>
-<span class='fu'>plot_grpfrq</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>neg_c_7</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, show.values = <span class='fl'>FALSE</span>)
+<span class='fu'>plot_grpfrq</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>neg_c_7</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, show.values <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_grpfrq-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># same data as line plot</span>
-<span class='fu'>plot_grpfrq</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>neg_c_7</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, type = <span class='st'>"line"</span>)
+<span class='fu'>plot_grpfrq</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>neg_c_7</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, type <span class='op'>=</span> <span class='st'>"line"</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_grpfrq-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># show ony categories where we have data (i.e. drop zero-counts)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
-<span class='kw'>efc</span> <span class='op'>&lt;-</span> <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span>(<span class='kw'>efc</span>, <span class='kw'>e42dep</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>))
-<span class='fu'>plot_grpfrq</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c161sex</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, drop.empty = <span class='fl'>TRUE</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='va'>efc</span> <span class='op'>&lt;-</span> <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>efc</span>, <span class='va'>e42dep</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>,<span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'>plot_grpfrq</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c161sex</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, drop.empty <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_grpfrq-7.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># show all categories, even if not in data</span>
-<span class='fu'>plot_grpfrq</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>c161sex</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, drop.empty = <span class='fl'>FALSE</span>)
+<span class='fu'>plot_grpfrq</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c161sex</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, drop.empty <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_grpfrq-8.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>

@@ -233,41 +233,41 @@ If factor.groups is not NULL, the data frame df will be
                as example for retrieving factor groups for a scale and see examples for more details).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tab_itemscale</span>(
-  <span class='kw'>df</span>,
-  factor.groups = <span class='kw'>NULL</span>,
-  factor.groups.titles = <span class='st'>"auto"</span>,
-  scale = <span class='fl'>FALSE</span>,
-  min.valid.rowmean = <span class='fl'>2</span>,
-  alternate.rows = <span class='fl'>TRUE</span>,
-  sort.column = <span class='kw'>NULL</span>,
-  show.shapiro = <span class='fl'>FALSE</span>,
-  show.kurtosis = <span class='fl'>FALSE</span>,
-  show.corr.matrix = <span class='fl'>TRUE</span>,
-  CSS = <span class='kw'>NULL</span>,
-  encoding = <span class='kw'>NULL</span>,
-  file = <span class='kw'>NULL</span>,
-  use.viewer = <span class='fl'>TRUE</span>,
-  remove.spaces = <span class='fl'>TRUE</span>
-)
+    <pre class="usage"><span class='fu'>tab_itemscale</span><span class='op'>(</span>
+  <span class='va'>df</span>,
+  factor.groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  factor.groups.titles <span class='op'>=</span> <span class='st'>"auto"</span>,
+  scale <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  min.valid.rowmean <span class='op'>=</span> <span class='fl'>2</span>,
+  alternate.rows <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  sort.column <span class='op'>=</span> <span class='cn'>NULL</span>,
+  show.shapiro <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.kurtosis <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.corr.matrix <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  CSS <span class='op'>=</span> <span class='cn'>NULL</span>,
+  encoding <span class='op'>=</span> <span class='cn'>NULL</span>,
+  file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  remove.spaces <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span>
 
-<span class='fu'>sjt.itemanalysis</span>(
-  <span class='kw'>df</span>,
-  factor.groups = <span class='kw'>NULL</span>,
-  factor.groups.titles = <span class='st'>"auto"</span>,
-  scale = <span class='fl'>FALSE</span>,
-  min.valid.rowmean = <span class='fl'>2</span>,
-  alternate.rows = <span class='fl'>TRUE</span>,
-  sort.column = <span class='kw'>NULL</span>,
-  show.shapiro = <span class='fl'>FALSE</span>,
-  show.kurtosis = <span class='fl'>FALSE</span>,
-  show.corr.matrix = <span class='fl'>TRUE</span>,
-  CSS = <span class='kw'>NULL</span>,
-  encoding = <span class='kw'>NULL</span>,
-  file = <span class='kw'>NULL</span>,
-  use.viewer = <span class='fl'>TRUE</span>,
-  remove.spaces = <span class='fl'>TRUE</span>
-)</pre>
+<span class='fu'>sjt.itemanalysis</span><span class='op'>(</span>
+  <span class='va'>df</span>,
+  factor.groups <span class='op'>=</span> <span class='cn'>NULL</span>,
+  factor.groups.titles <span class='op'>=</span> <span class='st'>"auto"</span>,
+  scale <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  min.valid.rowmean <span class='op'>=</span> <span class='fl'>2</span>,
+  alternate.rows <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  sort.column <span class='op'>=</span> <span class='cn'>NULL</span>,
+  show.shapiro <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.kurtosis <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.corr.matrix <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  CSS <span class='op'>=</span> <span class='cn'>NULL</span>,
+  encoding <span class='op'>=</span> <span class='cn'>NULL</span>,
+  file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  remove.spaces <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -295,7 +295,7 @@ Use <code>NULL</code> to suppress table captions.</p></td>
     <tr>
       <th>scale</th>
       <td><p>Logical, if <code>TRUE</code>, the data frame's vectors will be scaled when calculating the
-Cronbach's Alpha value (see <code><a href='https://rdrr.io/pkg/performance/man/item_reliability.html'>item_reliability</a></code>). Recommended, when
+Cronbach's Alpha value (see <code><a href='https://easystats.github.io/performance/reference/item_reliability.html'>item_reliability</a></code>). Recommended, when
 the variables have different measures / scales.</p></td>
     </tr>
     <tr>
@@ -390,8 +390,8 @@ may look less pretty, but it may help when exporting html-tables to office tools
 <ul>
 <li><p>The <em>Shapiro-Wilk Normality Test</em> (see column <code>W(p)</code>) tests if an item has a distribution that is significantly different from normal.</p></li>
 <li><p><em>Item difficulty</em> should range between 0.2 and 0.8. Ideal value is <code>p+(1-p)/2</code> (which mostly is between 0.5 and 0.8).</p></li>
-<li><p>For <em>item discrimination</em>, acceptable values are 0.20 or higher; the closer to 1.00 the better. See <code><a href='https://rdrr.io/pkg/performance/man/item_reliability.html'>item_reliability</a></code> for more details.</p></li>
-<li><p>In case the total <em>Cronbach's Alpha</em> value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the <em>mean inter-item-correlation</em> is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also <code><a href='https://rdrr.io/pkg/performance/man/item_intercor.html'>item_intercor</a></code>.</p></li>
+<li><p>For <em>item discrimination</em>, acceptable values are 0.20 or higher; the closer to 1.00 the better. See <code><a href='https://easystats.github.io/performance/reference/item_reliability.html'>item_reliability</a></code> for more details.</p></li>
+<li><p>In case the total <em>Cronbach's Alpha</em> value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the <em>mean inter-item-correlation</em> is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also <code><a href='https://easystats.github.io/performance/reference/item_intercor.html'>item_intercor</a></code>.</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -407,37 +407,37 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Data from the EUROFAMCARE sample dataset</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjlabelled'>sjlabelled</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjlabelled/'>sjlabelled</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
 
 <span class='co'># retrieve variable and value labels</span>
-<span class='kw'>varlabs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/get_label.html'>get_label</a></span>(<span class='kw'>efc</span>)
+<span class='va'>varlabs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjlabelled/reference/get_label.html'>get_label</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
 
 <span class='co'># recveive first item of COPE-index scale</span>
-<span class='kw'>start</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>efc</span>) <span class='op'>==</span> <span class='st'>"c82cop1"</span>)
+<span class='va'>start</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c82cop1"</span><span class='op'>)</span>
 <span class='co'># recveive last item of COPE-index scale</span>
-<span class='kw'>end</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>efc</span>) <span class='op'>==</span> <span class='st'>"c90cop9"</span>)
+<span class='va'>end</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c90cop9"</span><span class='op'>)</span>
 
 <span class='co'># create data frame with COPE-index scale</span>
-<span class='kw'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>efc</span>[, <span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>])
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>mydf</span>) <span class='op'>&lt;-</span> <span class='kw'>varlabs</span>[<span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>]
+<span class='va'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>]</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>varlabs</span><span class='op'>[</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>]</span>
 
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
-  <span class='fu'>tab_itemscale</span>(<span class='kw'>mydf</span>)
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>tab_itemscale</span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span>
 
   <span class='co'># auto-detection of labels</span>
-  <span class='fu'>tab_itemscale</span>(<span class='kw'>efc</span>[, <span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>])
+  <span class='fu'>tab_itemscale</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>]</span><span class='op'>)</span>
 
   <span class='co'># Compute PCA on Cope-Index, and perform a</span>
   <span class='co'># item analysis for each extracted factor.</span>
-  <span class='kw'>indices</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tab_pca.html'>tab_pca</a></span>(<span class='kw'>mydf</span>)<span class='op'>$</span><span class='kw'>factor.index</span>
-  <span class='fu'>tab_itemscale</span>(<span class='kw'>mydf</span>, factor.groups = <span class='kw'>indices</span>)
+  <span class='va'>indices</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tab_pca.html'>tab_pca</a></span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span><span class='op'>$</span><span class='va'>factor.index</span>
+  <span class='fu'>tab_itemscale</span><span class='op'>(</span><span class='va'>mydf</span>, factor.groups <span class='op'>=</span> <span class='va'>indices</span><span class='op'>)</span>
 
   <span class='co'># or, equivalent</span>
-  <span class='fu'>tab_itemscale</span>(<span class='kw'>mydf</span>, factor.groups = <span class='st'>"auto"</span>)
-}}
+  <span class='fu'>tab_itemscale</span><span class='op'>(</span><span class='va'>mydf</span>, factor.groups <span class='op'>=</span> <span class='st'>"auto"</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

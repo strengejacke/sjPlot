@@ -205,40 +205,40 @@
                considered as "codeplan" of the data frame.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>view_df</span>(
-  <span class='kw'>x</span>,
-  weight.by = <span class='kw'>NULL</span>,
-  alternate.rows = <span class='fl'>TRUE</span>,
-  show.id = <span class='fl'>TRUE</span>,
-  show.type = <span class='fl'>FALSE</span>,
-  show.values = <span class='fl'>TRUE</span>,
-  show.string.values = <span class='fl'>FALSE</span>,
-  show.labels = <span class='fl'>TRUE</span>,
-  show.frq = <span class='fl'>FALSE</span>,
-  show.prc = <span class='fl'>FALSE</span>,
-  show.wtd.frq = <span class='fl'>FALSE</span>,
-  show.wtd.prc = <span class='fl'>FALSE</span>,
-  show.na = <span class='fl'>FALSE</span>,
-  max.len = <span class='fl'>15</span>,
-  sort.by.name = <span class='fl'>FALSE</span>,
-  wrap.labels = <span class='fl'>50</span>,
-  verbose = <span class='fl'>FALSE</span>,
-  CSS = <span class='kw'>NULL</span>,
-  encoding = <span class='kw'>NULL</span>,
-  file = <span class='kw'>NULL</span>,
-  use.viewer = <span class='fl'>TRUE</span>,
-  remove.spaces = <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>view_df</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  weight.by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  alternate.rows <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.id <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.type <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.values <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.string.values <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.labels <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.frq <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.prc <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.wtd.frq <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.wtd.prc <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.na <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  max.len <span class='op'>=</span> <span class='fl'>15</span>,
+  sort.by.name <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  wrap.labels <span class='op'>=</span> <span class='fl'>50</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  CSS <span class='op'>=</span> <span class='cn'>NULL</span>,
+  encoding <span class='op'>=</span> <span class='cn'>NULL</span>,
+  file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  remove.spaces <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A (labelled) data frame, imported by <code><a href='https://rdrr.io/pkg/sjlabelled/man/read_spss.html'>read_spss</a></code>,
-<code><a href='https://rdrr.io/pkg/sjlabelled/man/read_spss.html'>read_sas</a></code> or <code><a href='https://rdrr.io/pkg/sjlabelled/man/read_spss.html'>read_stata</a></code> function,
-or any similar labelled data frame (see <code><a href='https://rdrr.io/pkg/sjlabelled/man/set_label.html'>set_label</a></code>
-and <code><a href='https://rdrr.io/pkg/sjlabelled/man/set_labels.html'>set_labels</a></code>).</p></td>
+      <td><p>A (labelled) data frame, imported by <code><a href='https://strengejacke.github.io/sjlabelled/reference/read_spss.html'>read_spss</a></code>,
+<code><a href='https://strengejacke.github.io/sjlabelled/reference/read_spss.html'>read_sas</a></code> or <code><a href='https://strengejacke.github.io/sjlabelled/reference/read_spss.html'>read_stata</a></code> function,
+or any similar labelled data frame (see <code><a href='https://strengejacke.github.io/sjlabelled/reference/set_label.html'>set_label</a></code>
+and <code><a href='https://strengejacke.github.io/sjlabelled/reference/set_labels.html'>set_labels</a></code>).</p></td>
     </tr>
     <tr>
       <th>weight.by</th>
@@ -368,24 +368,24 @@ may look less pretty, but it may help when exporting html-tables to office tools
 </ul><p>for further use.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># init dataset</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
 
 <span class='co'># view variables</span>
-<span class='fu'>view_df</span>(<span class='kw'>efc</span>)
+<span class='fu'>view_df</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
 
 <span class='co'># view variables w/o values and value labels</span>
-<span class='fu'>view_df</span>(<span class='kw'>efc</span>, show.values = <span class='fl'>FALSE</span>, show.labels = <span class='fl'>FALSE</span>)
+<span class='fu'>view_df</span><span class='op'>(</span><span class='va'>efc</span>, show.values <span class='op'>=</span> <span class='cn'>FALSE</span>, show.labels <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='co'># view variables including variable typed, orderd by name</span>
-<span class='fu'>view_df</span>(<span class='kw'>efc</span>, sort.by.name = <span class='fl'>TRUE</span>, show.type = <span class='fl'>TRUE</span>)
+<span class='fu'>view_df</span><span class='op'>(</span><span class='va'>efc</span>, sort.by.name <span class='op'>=</span> <span class='cn'>TRUE</span>, show.type <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># User defined style sheet</span>
-<span class='fu'>view_df</span>(<span class='kw'>efc</span>,
-        CSS = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(css.table = <span class='st'>"border: 2px solid;"</span>,
-                   css.tdata = <span class='st'>"border: 1px solid;"</span>,
-                   css.arc = <span class='st'>"color:blue;"</span>))}
+<span class='fu'>view_df</span><span class='op'>(</span><span class='va'>efc</span>,
+        CSS <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>css.table <span class='op'>=</span> <span class='st'>"border: 2px solid;"</span>,
+                   css.tdata <span class='op'>=</span> <span class='st'>"border: 1px solid;"</span>,
+                   css.arc <span class='op'>=</span> <span class='st'>"color:blue;"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>}</span>
 
 </div></pre>
   </div>

@@ -201,14 +201,14 @@
                is reached.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dist_t</span>(
-  t = <span class='kw'>NULL</span>,
-  deg.f = <span class='kw'>NULL</span>,
-  p = <span class='kw'>NULL</span>,
-  xmax = <span class='kw'>NULL</span>,
-  geom.colors = <span class='kw'>NULL</span>,
-  geom.alpha = <span class='fl'>0.7</span>
-)</pre>
+    <pre class="usage"><span class='fu'>dist_t</span><span class='op'>(</span>
+  t <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deg.f <span class='op'>=</span> <span class='cn'>NULL</span>,
+  p <span class='op'>=</span> <span class='cn'>NULL</span>,
+  xmax <span class='op'>=</span> <span class='cn'>NULL</span>,
+  geom.colors <span class='op'>=</span> <span class='cn'>NULL</span>,
+  geom.alpha <span class='op'>=</span> <span class='fl'>0.7</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -252,17 +252,17 @@ ranges to a value where a p-level of 0.00001 is reached.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># a simple t-distribution</span>
 <span class='co'># for 6 degrees of freedom</span>
-<span class='fu'>dist_t</span>(deg.f = <span class='fl'>6</span>)
+<span class='fu'>dist_t</span><span class='op'>(</span>deg.f <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
 </div><div class='img'><img src='dist_t-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># a t-distribution for 6 degrees of freedom,</span>
 <span class='co'># and a shaded area starting at t-value of one.</span>
 <span class='co'># With a df of 6, a t-value of 1.94 would be "significant".</span>
-<span class='fu'>dist_t</span>(t = <span class='fl'>1</span>, deg.f = <span class='fl'>6</span>)
+<span class='fu'>dist_t</span><span class='op'>(</span>t <span class='op'>=</span> <span class='fl'>1</span>, deg.f <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
 </div><div class='img'><img src='dist_t-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># a t-distribution for 6 degrees of freedom,</span>
 <span class='co'># and a shaded area starting at p-level of 0.4</span>
 <span class='co'># (t-value of about 0.26).</span>
-<span class='fu'>dist_t</span>(p = <span class='fl'>0.4</span>, deg.f = <span class='fl'>6</span>)
+<span class='fu'>dist_t</span><span class='op'>(</span>p <span class='op'>=</span> <span class='fl'>0.4</span>, deg.f <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
 </div><div class='img'><img src='dist_t-3.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>

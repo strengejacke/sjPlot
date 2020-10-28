@@ -143,13 +143,14 @@
 
       
 
-      </header><script src="plot_likert_scales_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="plot_likert_scales_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="plot_likert_scales_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="plot_likert_scales_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Plotting Likert Scales</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-09-24</h4>
+            <h4 class="date">2020-10-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/plot_likert_scales.Rmd"><code>vignettes/plot_likert_scales.Rmd</code></a></small>
       <div class="hidden name"><code>plot_likert_scales.Rmd</code></div>
@@ -159,74 +160,67 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dplyr.tidyverse.org">dplyr</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://strengejacke.github.io/sjPlot">sjPlot</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://strengejacke.github.io/sjmisc">sjmisc</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://easystats.github.io/parameters">parameters</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">efc</span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc">sjmisc</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/parameters/">parameters</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
 <span class="co"># find all variables from COPE-Index, which all have a "cop" in their</span>
 <span class="co"># variable name, and then plot that subset as likert-plot</span>
-<span class="kw">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sjmisc/man/find_var.html">find_var</a></span>(<span class="kw">efc</span>, pattern = <span class="st">"cop"</span>, out = <span class="st">"df"</span>)
-<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span>(<span class="kw">mydf</span>)
-</pre></div>
+<span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjmisc/reference/find_var.html">find_var</a></span><span class="op">(</span><span class="va">efc</span>, pattern <span class="op">=</span> <span class="st">"cop"</span>, out <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></pre></div>
 <p><img src="plot_likert_scales_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span>(
-  <span class="kw">mydf</span>,
-  grid.range = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1.2</span>, <span class="fl">1.4</span>),
-  expand.grid = <span class="fl">FALSE</span>,
-  values = <span class="st">"sum.outside"</span>,
-  show.prc.sign = <span class="fl">TRUE</span>
-)
-</pre></div>
+<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span><span class="op">(</span>
+  <span class="va">mydf</span>,
+  grid.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1.2</span>, <span class="fl">1.4</span><span class="op">)</span>,
+  expand.grid <span class="op">=</span> <span class="cn">FALSE</span>,
+  values <span class="op">=</span> <span class="st">"sum.outside"</span>,
+  show.prc.sign <span class="op">=</span> <span class="cn">TRUE</span>
+<span class="op">)</span></pre></div>
 <p><img src="plot_likert_scales_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="co"># Plot in groups</span>
-<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span>(<span class="kw">mydf</span>, groups = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1</span>))
-</pre></div>
+<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span><span class="op">(</span><span class="va">mydf</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="plot_likert_scales_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">pca</span> <span class="op">&lt;-</span> <span class="kw">parameters</span>::<span class="fu"><a href="https://rdrr.io/pkg/parameters/man/principal_components.html">principal_components</a></span>(<span class="kw">mydf</span>)
-<span class="kw">groups</span> <span class="op">&lt;-</span> <span class="kw">parameters</span>::<span class="fu"><a href="https://rdrr.io/pkg/parameters/man/principal_components.html">closest_component</a></span>(<span class="kw">pca</span>)
-<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span>(<span class="kw">mydf</span>, groups = <span class="kw">groups</span>)
-</pre></div>
+<span class="va">pca</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html">principal_components</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span>
+<span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html">closest_component</a></span><span class="op">(</span><span class="va">pca</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span><span class="op">(</span><span class="va">mydf</span>, groups <span class="op">=</span> <span class="va">groups</span><span class="op">)</span></pre></div>
 <p><img src="plot_likert_scales_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span>(
-  <span class="kw">mydf</span>,
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"B"</span>, <span class="fl">4</span>), <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"A"</span>, <span class="fl">5</span>)),
-  sort.groups = <span class="fl">FALSE</span>,
-  grid.range = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.9</span>, <span class="fl">1.1</span>),
-  geom.colors = <span class="st">"RdBu"</span>,
-  rel_heights = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">6</span>, <span class="fl">8</span>),
-  wrap.labels = <span class="fl">40</span>,
-  reverse.scale = <span class="fl">TRUE</span>
-)
-</pre></div>
+<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span><span class="op">(</span>
+  <span class="va">mydf</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>,
+  sort.groups <span class="op">=</span> <span class="cn">FALSE</span>,
+  grid.range <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.9</span>, <span class="fl">1.1</span><span class="op">)</span>,
+  geom.colors <span class="op">=</span> <span class="st">"RdBu"</span>,
+  rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">8</span><span class="op">)</span>,
+  wrap.labels <span class="op">=</span> <span class="fl">40</span>,
+  reverse.scale <span class="op">=</span> <span class="cn">TRUE</span>
+<span class="op">)</span></pre></div>
 <p><img src="plot_likert_scales_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
 <span class="co"># control legend items</span>
-<span class="kw">six_cat_example</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
-  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="fl">600</span>, replace = <span class="fl">TRUE</span>), ncol = <span class="fl">6</span>)
-)
+<span class="va">six_cat_example</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span>, <span class="fl">600</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>
+<span class="op">)</span>
 
-<span class="kw">six_cat_example</span> <span class="op">&lt;-</span>
-  <span class="kw">six_cat_example</span> <span class="op">%&gt;%</span>
-  <span class="kw">dplyr</span>::<span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_all</a></span>( <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">ordered</a></span>(<span class="kw">.</span>, labels = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"+++"</span>, <span class="st">"++"</span>, <span class="st">"+"</span>, <span class="st">"-"</span>, <span class="st">"--"</span>, <span class="st">"---"</span>)))
+<span class="va">six_cat_example</span> <span class="op">&lt;-</span>
+  <span class="va">six_cat_example</span> <span class="op">%&gt;%</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_all</a></span><span class="op">(</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">ordered</a></span><span class="op">(</span><span class="va">.</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"+++"</span>, <span class="st">"++"</span>, <span class="st">"+"</span>, <span class="st">"-"</span>, <span class="st">"--"</span>, <span class="st">"---"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Old default</span>
-<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span>(
-  <span class="kw">six_cat_example</span>,
-  groups = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>),
-  group.legend.options = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(nrow = <span class="fl">2</span>, byrow = <span class="fl">FALSE</span>)
-)
-</pre></div>
+<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span><span class="op">(</span>
+  <span class="va">six_cat_example</span>,
+  groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>,
+  group.legend.options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>nrow <span class="op">=</span> <span class="fl">2</span>, byrow <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="op">)</span></pre></div>
 <p><img src="plot_likert_scales_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit">
 
 <span class="co"># New default</span>
-<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span>(<span class="kw">six_cat_example</span>, groups = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span>))
-</pre></div>
+<span class="fu"><a href="../reference/plot_likert.html">plot_likert</a></span><span class="op">(</span><span class="va">six_cat_example</span>, groups <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></pre></div>
 <p><img src="plot_likert_scales_files/figure-html/unnamed-chunk-6-2.png" width="672"></p>
   </div>
 

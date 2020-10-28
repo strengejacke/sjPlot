@@ -201,14 +201,14 @@
                is reached.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dist_chisq</span>(
-  chi2 = <span class='kw'>NULL</span>,
-  deg.f = <span class='kw'>NULL</span>,
-  p = <span class='kw'>NULL</span>,
-  xmax = <span class='kw'>NULL</span>,
-  geom.colors = <span class='kw'>NULL</span>,
-  geom.alpha = <span class='fl'>0.7</span>
-)</pre>
+    <pre class="usage"><span class='fu'>dist_chisq</span><span class='op'>(</span>
+  chi2 <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deg.f <span class='op'>=</span> <span class='cn'>NULL</span>,
+  p <span class='op'>=</span> <span class='cn'>NULL</span>,
+  xmax <span class='op'>=</span> <span class='cn'>NULL</span>,
+  geom.colors <span class='op'>=</span> <span class='cn'>NULL</span>,
+  geom.alpha <span class='op'>=</span> <span class='fl'>0.7</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -252,7 +252,7 @@ ranges to a value where a p-level of 0.00001 is reached.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># a simple chi-squared distribution</span>
 <span class='co'># for 6 degrees of freedom</span>
-<span class='fu'>dist_chisq</span>(deg.f = <span class='fl'>6</span>)
+<span class='fu'>dist_chisq</span><span class='op'>(</span>deg.f <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
 </div><div class='img'><img src='dist_chisq-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># a chi-squared distribution for 6 degrees of freedom,</span>
 <span class='co'># and a shaded area starting at chi-squared value of ten.</span>
@@ -260,7 +260,7 @@ ranges to a value where a p-level of 0.00001 is reached.</p></td>
 <span class='co'># thus the shaded area from 10 to 12.58 is filled as "non-significant",</span>
 <span class='co'># while the area starting from chi-squared value 12.59 is filled as</span>
 <span class='co'># "significant"</span>
-<span class='fu'>dist_chisq</span>(chi2 = <span class='fl'>10</span>, deg.f = <span class='fl'>6</span>)
+<span class='fu'>dist_chisq</span><span class='op'>(</span>chi2 <span class='op'>=</span> <span class='fl'>10</span>, deg.f <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
 </div><div class='img'><img src='dist_chisq-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># a chi-squared distribution for 6 degrees of freedom,</span>
 <span class='co'># and a shaded area starting at that chi-squared value, which has</span>
@@ -269,7 +269,7 @@ ranges to a value where a p-level of 0.00001 is reached.</p></td>
 <span class='co'># thus the shaded area from 10 to 12.58 (p-level 0.125 to p-level 0.05)</span>
 <span class='co'># is filled as "non-significant", while the area starting from chi-squared</span>
 <span class='co'># value 12.59 (p-level &lt; 0.05) is filled as "significant".</span>
-<span class='fu'>dist_chisq</span>(p = <span class='fl'>0.125</span>, deg.f = <span class='fl'>6</span>)
+<span class='fu'>dist_chisq</span><span class='op'>(</span>p <span class='op'>=</span> <span class='fl'>0.125</span>, deg.f <span class='op'>=</span> <span class='fl'>6</span><span class='op'>)</span>
 </div><div class='img'><img src='dist_chisq-3.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>

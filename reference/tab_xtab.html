@@ -197,79 +197,79 @@
     <p>Shows contingency tables as HTML file in browser or viewer pane, or saves them as file.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tab_xtab</span>(
-  <span class='kw'>var.row</span>,
-  <span class='kw'>var.col</span>,
-  weight.by = <span class='kw'>NULL</span>,
-  title = <span class='kw'>NULL</span>,
-  var.labels = <span class='kw'>NULL</span>,
-  value.labels = <span class='kw'>NULL</span>,
-  wrap.labels = <span class='fl'>20</span>,
-  show.obs = <span class='fl'>TRUE</span>,
-  show.cell.prc = <span class='fl'>FALSE</span>,
-  show.row.prc = <span class='fl'>FALSE</span>,
-  show.col.prc = <span class='fl'>FALSE</span>,
-  show.exp = <span class='fl'>FALSE</span>,
-  show.legend = <span class='fl'>FALSE</span>,
-  show.na = <span class='fl'>FALSE</span>,
-  show.summary = <span class='fl'>TRUE</span>,
-  drop.empty = <span class='fl'>TRUE</span>,
-  statistics = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"cramer"</span>, <span class='st'>"phi"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>, <span class='st'>"pearson"</span>, <span class='st'>"fisher"</span>),
-  string.total = <span class='st'>"Total"</span>,
-  digits = <span class='fl'>1</span>,
-  tdcol.n = <span class='st'>"black"</span>,
-  tdcol.expected = <span class='st'>"#339999"</span>,
-  tdcol.cell = <span class='st'>"#993333"</span>,
-  tdcol.row = <span class='st'>"#333399"</span>,
-  tdcol.col = <span class='st'>"#339933"</span>,
-  emph.total = <span class='fl'>FALSE</span>,
-  emph.color = <span class='st'>"#f8f8f8"</span>,
-  prc.sign = <span class='st'>"&amp;nbsp;&amp;#37;"</span>,
-  hundret = <span class='st'>"100.0"</span>,
-  CSS = <span class='kw'>NULL</span>,
-  encoding = <span class='kw'>NULL</span>,
-  file = <span class='kw'>NULL</span>,
-  use.viewer = <span class='fl'>TRUE</span>,
-  remove.spaces = <span class='fl'>TRUE</span>,
-  <span class='kw'>...</span>
-)
+    <pre class="usage"><span class='fu'>tab_xtab</span><span class='op'>(</span>
+  <span class='va'>var.row</span>,
+  <span class='va'>var.col</span>,
+  weight.by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  var.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  value.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  wrap.labels <span class='op'>=</span> <span class='fl'>20</span>,
+  show.obs <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.cell.prc <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.row.prc <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.col.prc <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.exp <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.legend <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.na <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.summary <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  drop.empty <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  statistics <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"auto"</span>, <span class='st'>"cramer"</span>, <span class='st'>"phi"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>, <span class='st'>"pearson"</span>, <span class='st'>"fisher"</span><span class='op'>)</span>,
+  string.total <span class='op'>=</span> <span class='st'>"Total"</span>,
+  digits <span class='op'>=</span> <span class='fl'>1</span>,
+  tdcol.n <span class='op'>=</span> <span class='st'>"black"</span>,
+  tdcol.expected <span class='op'>=</span> <span class='st'>"#339999"</span>,
+  tdcol.cell <span class='op'>=</span> <span class='st'>"#993333"</span>,
+  tdcol.row <span class='op'>=</span> <span class='st'>"#333399"</span>,
+  tdcol.col <span class='op'>=</span> <span class='st'>"#339933"</span>,
+  emph.total <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  emph.color <span class='op'>=</span> <span class='st'>"#f8f8f8"</span>,
+  prc.sign <span class='op'>=</span> <span class='st'>"&amp;nbsp;&amp;#37;"</span>,
+  hundret <span class='op'>=</span> <span class='st'>"100.0"</span>,
+  CSS <span class='op'>=</span> <span class='cn'>NULL</span>,
+  encoding <span class='op'>=</span> <span class='cn'>NULL</span>,
+  file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  remove.spaces <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>sjt.xtab</span>(
-  <span class='kw'>var.row</span>,
-  <span class='kw'>var.col</span>,
-  weight.by = <span class='kw'>NULL</span>,
-  title = <span class='kw'>NULL</span>,
-  var.labels = <span class='kw'>NULL</span>,
-  value.labels = <span class='kw'>NULL</span>,
-  wrap.labels = <span class='fl'>20</span>,
-  show.obs = <span class='fl'>TRUE</span>,
-  show.cell.prc = <span class='fl'>FALSE</span>,
-  show.row.prc = <span class='fl'>FALSE</span>,
-  show.col.prc = <span class='fl'>FALSE</span>,
-  show.exp = <span class='fl'>FALSE</span>,
-  show.legend = <span class='fl'>FALSE</span>,
-  show.na = <span class='fl'>FALSE</span>,
-  show.summary = <span class='fl'>TRUE</span>,
-  drop.empty = <span class='fl'>TRUE</span>,
-  statistics = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"auto"</span>, <span class='st'>"cramer"</span>, <span class='st'>"phi"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>, <span class='st'>"pearson"</span>, <span class='st'>"fisher"</span>),
-  string.total = <span class='st'>"Total"</span>,
-  digits = <span class='fl'>1</span>,
-  tdcol.n = <span class='st'>"black"</span>,
-  tdcol.expected = <span class='st'>"#339999"</span>,
-  tdcol.cell = <span class='st'>"#993333"</span>,
-  tdcol.row = <span class='st'>"#333399"</span>,
-  tdcol.col = <span class='st'>"#339933"</span>,
-  emph.total = <span class='fl'>FALSE</span>,
-  emph.color = <span class='st'>"#f8f8f8"</span>,
-  prc.sign = <span class='st'>"&amp;nbsp;&amp;#37;"</span>,
-  hundret = <span class='st'>"100.0"</span>,
-  CSS = <span class='kw'>NULL</span>,
-  encoding = <span class='kw'>NULL</span>,
-  file = <span class='kw'>NULL</span>,
-  use.viewer = <span class='fl'>TRUE</span>,
-  remove.spaces = <span class='fl'>TRUE</span>,
-  <span class='kw'>...</span>
-)</pre>
+<span class='fu'>sjt.xtab</span><span class='op'>(</span>
+  <span class='va'>var.row</span>,
+  <span class='va'>var.col</span>,
+  weight.by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  var.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  value.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  wrap.labels <span class='op'>=</span> <span class='fl'>20</span>,
+  show.obs <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.cell.prc <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.row.prc <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.col.prc <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.exp <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.legend <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.na <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.summary <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  drop.empty <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  statistics <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"auto"</span>, <span class='st'>"cramer"</span>, <span class='st'>"phi"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span>, <span class='st'>"pearson"</span>, <span class='st'>"fisher"</span><span class='op'>)</span>,
+  string.total <span class='op'>=</span> <span class='st'>"Total"</span>,
+  digits <span class='op'>=</span> <span class='fl'>1</span>,
+  tdcol.n <span class='op'>=</span> <span class='st'>"black"</span>,
+  tdcol.expected <span class='op'>=</span> <span class='st'>"#339999"</span>,
+  tdcol.cell <span class='op'>=</span> <span class='st'>"#993333"</span>,
+  tdcol.row <span class='op'>=</span> <span class='st'>"#333399"</span>,
+  tdcol.col <span class='op'>=</span> <span class='st'>"#339933"</span>,
+  emph.total <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  emph.color <span class='op'>=</span> <span class='st'>"#f8f8f8"</span>,
+  prc.sign <span class='op'>=</span> <span class='st'>"&amp;nbsp;&amp;#37;"</span>,
+  hundret <span class='op'>=</span> <span class='st'>"100.0"</span>,
+  CSS <span class='op'>=</span> <span class='cn'>NULL</span>,
+  encoding <span class='op'>=</span> <span class='cn'>NULL</span>,
+  file <span class='op'>=</span> <span class='cn'>NULL</span>,
+  use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  remove.spaces <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -356,7 +356,7 @@ in the data are omitted from the output.</p></td>
       <td><p>Name of measure of association that should be computed. May
 be one of <code>"auto"</code>, <code>"cramer"</code>, <code>"phi"</code>, <code>"spearman"</code>,
 <code>"kendall"</code>, <code>"pearson"</code> or <code>"fisher"</code>. See
-<code><a href='https://rdrr.io/pkg/sjstats/man/crosstable_statistics.html'>xtab_statistics</a></code>.</p></td>
+<code><a href='https://strengejacke.github.io/sjstats/reference/crosstable_statistics.html'>xtab_statistics</a></code>.</p></td>
     </tr>
     <tr>
       <th>string.total</th>
@@ -456,44 +456,44 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># prepare sample data set</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
 
 <span class='co'># print simple cross table with labels</span>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='co'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span>()) {
-  <span class='fu'>tab_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>)
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'>tab_xtab</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e16sex</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span><span class='op'>)</span>
 
   <span class='co'># print cross table with manually set</span>
   <span class='co'># labels and expected values</span>
-  <span class='fu'>tab_xtab</span>(
-    <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>,
-    <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>,
-    var.labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Elder's gender"</span>, <span class='st'>"Elder's dependency"</span>),
-    show.exp = <span class='fl'>TRUE</span>
-  )
+  <span class='fu'>tab_xtab</span><span class='op'>(</span>
+    <span class='va'>efc</span><span class='op'>$</span><span class='va'>e16sex</span>,
+    <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>,
+    var.labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Elder's gender"</span>, <span class='st'>"Elder's dependency"</span><span class='op'>)</span>,
+    show.exp <span class='op'>=</span> <span class='cn'>TRUE</span>
+  <span class='op'>)</span>
 
   <span class='co'># print minimal cross table with labels, total col/row highlighted</span>
-  <span class='fu'>tab_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, show.cell.prc = <span class='fl'>FALSE</span>, emph.total = <span class='fl'>TRUE</span>)
+  <span class='fu'>tab_xtab</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e16sex</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, show.cell.prc <span class='op'>=</span> <span class='cn'>FALSE</span>, emph.total <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
   <span class='co'># User defined style sheet</span>
-  <span class='fu'>tab_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>,
-           CSS = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(css.table = <span class='st'>"border: 2px solid;"</span>,
-                      css.tdata = <span class='st'>"border: 1px solid;"</span>,
-                      css.horline = <span class='st'>"border-bottom: double blue;"</span>))
+  <span class='fu'>tab_xtab</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e16sex</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>,
+           CSS <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>css.table <span class='op'>=</span> <span class='st'>"border: 2px solid;"</span>,
+                      css.tdata <span class='op'>=</span> <span class='st'>"border: 1px solid;"</span>,
+                      css.horline <span class='op'>=</span> <span class='st'>"border-bottom: double blue;"</span><span class='op'>)</span><span class='op'>)</span>
 
   <span class='co'># ordinal data, use Kendall's tau</span>
-  <span class='fu'>tab_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>quol_5</span>, statistics = <span class='st'>"kendall"</span>)
+  <span class='fu'>tab_xtab</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>quol_5</span>, statistics <span class='op'>=</span> <span class='st'>"kendall"</span><span class='op'>)</span>
 
   <span class='co'># calculate Spearman's rho, with continuity correction</span>
-  <span class='fu'>tab_xtab</span>(
-    <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>,
-    <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>quol_5</span>,
-    statistics = <span class='st'>"spearman"</span>,
-    exact = <span class='fl'>FALSE</span>,
-    continuity = <span class='fl'>TRUE</span>
-  )
-}
-}
+  <span class='fu'>tab_xtab</span><span class='op'>(</span>
+    <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>,
+    <span class='va'>efc</span><span class='op'>$</span><span class='va'>quol_5</span>,
+    statistics <span class='op'>=</span> <span class='st'>"spearman"</span>,
+    exact <span class='op'>=</span> <span class='cn'>FALSE</span>,
+    continuity <span class='op'>=</span> <span class='cn'>TRUE</span>
+  <span class='op'>)</span>
+<span class='op'>}</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

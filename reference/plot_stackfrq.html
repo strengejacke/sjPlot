@@ -201,32 +201,32 @@
                should be plotted to compare the distribution of answers.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_stackfrq</span>(
-  <span class='kw'>items</span>,
-  title = <span class='kw'>NULL</span>,
-  legend.title = <span class='kw'>NULL</span>,
-  legend.labels = <span class='kw'>NULL</span>,
-  axis.titles = <span class='kw'>NULL</span>,
-  axis.labels = <span class='kw'>NULL</span>,
-  weight.by = <span class='kw'>NULL</span>,
-  sort.frq = <span class='kw'>NULL</span>,
-  wrap.title = <span class='fl'>50</span>,
-  wrap.labels = <span class='fl'>30</span>,
-  wrap.legend.title = <span class='fl'>30</span>,
-  wrap.legend.labels = <span class='fl'>28</span>,
-  geom.size = <span class='fl'>0.5</span>,
-  geom.colors = <span class='st'>"Blues"</span>,
-  show.prc = <span class='fl'>TRUE</span>,
-  show.n = <span class='fl'>FALSE</span>,
-  show.total = <span class='fl'>TRUE</span>,
-  show.axis.prc = <span class='fl'>TRUE</span>,
-  show.legend = <span class='fl'>TRUE</span>,
-  grid.breaks = <span class='fl'>0.2</span>,
-  expand.grid = <span class='fl'>FALSE</span>,
-  digits = <span class='fl'>1</span>,
-  vjust = <span class='st'>"center"</span>,
-  coord.flip = <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>plot_stackfrq</span><span class='op'>(</span>
+  <span class='va'>items</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  legend.title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  legend.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  axis.titles <span class='op'>=</span> <span class='cn'>NULL</span>,
+  axis.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  weight.by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  sort.frq <span class='op'>=</span> <span class='cn'>NULL</span>,
+  wrap.title <span class='op'>=</span> <span class='fl'>50</span>,
+  wrap.labels <span class='op'>=</span> <span class='fl'>30</span>,
+  wrap.legend.title <span class='op'>=</span> <span class='fl'>30</span>,
+  wrap.legend.labels <span class='op'>=</span> <span class='fl'>28</span>,
+  geom.size <span class='op'>=</span> <span class='fl'>0.5</span>,
+  geom.colors <span class='op'>=</span> <span class='st'>"Blues"</span>,
+  show.prc <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.n <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.total <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.axis.prc <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.legend <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  grid.breaks <span class='op'>=</span> <span class='fl'>0.2</span>,
+  expand.grid <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  digits <span class='op'>=</span> <span class='fl'>1</span>,
+  vjust <span class='op'>=</span> <span class='st'>"center"</span>,
+  coord.flip <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -365,21 +365,21 @@ away from the center of the plot respectively.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Data from the EUROFAMCARE sample dataset</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
 <span class='co'># recveive first item of COPE-index scale</span>
-<span class='kw'>start</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>efc</span>) <span class='op'>==</span> <span class='st'>"c82cop1"</span>)
+<span class='va'>start</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c82cop1"</span><span class='op'>)</span>
 <span class='co'># recveive first item of COPE-index scale</span>
-<span class='kw'>end</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='kw'>efc</span>) <span class='op'>==</span> <span class='st'>"c90cop9"</span>)
+<span class='va'>end</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c90cop9"</span><span class='op'>)</span>
 <span class='co'># auto-detection of labels</span>
-<span class='fu'>plot_stackfrq</span>(<span class='kw'>efc</span>[, <span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>])
+<span class='fu'>plot_stackfrq</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>]</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_stackfrq-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># works on grouped data frames as well</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://dplyr.tidyverse.org'>dplyr</a></span>)
-<span class='kw'>efc</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span>(<span class='kw'>c161sex</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span>(<span class='kw'>start</span><span class='op'>:</span><span class='kw'>end</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>plot_stackfrq</span>()
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='va'>efc</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>c161sex</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>plot_stackfrq</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Note: Using an external vector in selections is ambiguous.</span>
 #&gt; <span class='message'><span style='color: #0000BB;'>ℹ</span><span> Use `all_of(start)` instead of `start` to silence this message.</span>
 #&gt; <span class='message'></span><span style='color: #0000BB;'>ℹ</span><span> See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</span>

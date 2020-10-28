@@ -203,15 +203,15 @@
                <a href='https://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/'>Tales of R</a>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sjp.chi2</span>(
-  <span class='kw'>df</span>,
-  title = <span class='st'>"Pearson's Chi2-Test of Independence"</span>,
-  axis.labels = <span class='kw'>NULL</span>,
-  wrap.title = <span class='fl'>50</span>,
-  wrap.labels = <span class='fl'>20</span>,
-  show.legend = <span class='fl'>FALSE</span>,
-  legend.title = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>sjp.chi2</span><span class='op'>(</span>
+  <span class='va'>df</span>,
+  title <span class='op'>=</span> <span class='st'>"Pearson's Chi2-Test of Independence"</span>,
+  axis.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  wrap.title <span class='op'>=</span> <span class='fl'>50</span>,
+  wrap.labels <span class='op'>=</span> <span class='fl'>20</span>,
+  show.legend <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  legend.title <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -259,16 +259,16 @@ function, a legend is added to the plot.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># create data frame with 5 dichotomous (dummy) variables</span>
-<span class='kw'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, <span class='fl'>100</span>, replace=<span class='fl'>TRUE</span>)),
-                   <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, <span class='fl'>100</span>, replace=<span class='fl'>TRUE</span>)),
-                   <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, <span class='fl'>100</span>, replace=<span class='fl'>TRUE</span>)),
-                   <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, <span class='fl'>100</span>, replace=<span class='fl'>TRUE</span>)),
-                   <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, <span class='fl'>100</span>, replace=<span class='fl'>TRUE</span>)))
+<span class='va'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, <span class='fl'>100</span>, replace<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>,
+                   <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, <span class='fl'>100</span>, replace<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>,
+                   <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, <span class='fl'>100</span>, replace<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>,
+                   <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, <span class='fl'>100</span>, replace<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>,
+                   <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>as.factor</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>, <span class='fl'>100</span>, replace<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'># create variable labels</span>
-<span class='kw'>items</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Item 1"</span>, <span class='st'>"Item 2"</span>, <span class='st'>"Item 3"</span>, <span class='st'>"Item 4"</span>, <span class='st'>"Item 5"</span>))
+<span class='va'>items</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Item 1"</span>, <span class='st'>"Item 2"</span>, <span class='st'>"Item 3"</span>, <span class='st'>"Item 4"</span>, <span class='st'>"Item 5"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># plot Chi2-contingency-table</span>
-<span class='fu'>sjp.chi2</span>(<span class='kw'>mydf</span>, axis.labels = <span class='kw'>items</span>)
+<span class='fu'>sjp.chi2</span><span class='op'>(</span><span class='va'>mydf</span>, axis.labels <span class='op'>=</span> <span class='va'>items</span><span class='op'>)</span>
 </div><div class='img'><img src='sjp.chi2-1.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>

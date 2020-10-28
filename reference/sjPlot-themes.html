@@ -199,38 +199,38 @@
   plot or table appearance.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>theme_sjplot</span>(base_size = <span class='fl'>12</span>, base_family = <span class='st'>""</span>)
+    <pre class="usage"><span class='fu'>theme_sjplot</span><span class='op'>(</span>base_size <span class='op'>=</span> <span class='fl'>12</span>, base_family <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span>
 
-<span class='fu'>theme_sjplot2</span>(base_size = <span class='fl'>12</span>, base_family = <span class='st'>""</span>)
+<span class='fu'>theme_sjplot2</span><span class='op'>(</span>base_size <span class='op'>=</span> <span class='fl'>12</span>, base_family <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span>
 
-<span class='fu'>theme_blank</span>(base_size = <span class='fl'>12</span>, base_family = <span class='st'>""</span>)
+<span class='fu'>theme_blank</span><span class='op'>(</span>base_size <span class='op'>=</span> <span class='fl'>12</span>, base_family <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span>
 
-<span class='fu'>theme_538</span>(base_size = <span class='fl'>12</span>, base_family = <span class='st'>""</span>)
+<span class='fu'>theme_538</span><span class='op'>(</span>base_size <span class='op'>=</span> <span class='fl'>12</span>, base_family <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span>
 
-<span class='fu'>font_size</span>(
-  <span class='kw'>title</span>,
-  <span class='kw'>axis_title.x</span>,
-  <span class='kw'>axis_title.y</span>,
-  <span class='kw'>labels.x</span>,
-  <span class='kw'>labels.y</span>,
-  <span class='kw'>offset.x</span>,
-  <span class='kw'>offset.y</span>,
-  <span class='kw'>base.theme</span>
-)
+<span class='fu'>font_size</span><span class='op'>(</span>
+  <span class='va'>title</span>,
+  <span class='va'>axis_title.x</span>,
+  <span class='va'>axis_title.y</span>,
+  <span class='va'>labels.x</span>,
+  <span class='va'>labels.y</span>,
+  <span class='va'>offset.x</span>,
+  <span class='va'>offset.y</span>,
+  <span class='va'>base.theme</span>
+<span class='op'>)</span>
 
-<span class='fu'>label_angle</span>(<span class='kw'>angle.x</span>, <span class='kw'>angle.y</span>, <span class='kw'>base.theme</span>)
+<span class='fu'>label_angle</span><span class='op'>(</span><span class='va'>angle.x</span>, <span class='va'>angle.y</span>, <span class='va'>base.theme</span><span class='op'>)</span>
 
-<span class='fu'>legend_style</span>(<span class='kw'>inside</span>, <span class='kw'>pos</span>, <span class='kw'>justify</span>, <span class='kw'>base.theme</span>)
+<span class='fu'>legend_style</span><span class='op'>(</span><span class='va'>inside</span>, <span class='va'>pos</span>, <span class='va'>justify</span>, <span class='va'>base.theme</span><span class='op'>)</span>
 
-<span class='fu'>scale_color_sjplot</span>(palette = <span class='st'>"metro"</span>, discrete = <span class='fl'>TRUE</span>, reverse = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
+<span class='fu'>scale_color_sjplot</span><span class='op'>(</span>palette <span class='op'>=</span> <span class='st'>"metro"</span>, discrete <span class='op'>=</span> <span class='cn'>TRUE</span>, reverse <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>scale_fill_sjplot</span>(palette = <span class='st'>"metro"</span>, discrete = <span class='fl'>TRUE</span>, reverse = <span class='fl'>FALSE</span>, <span class='kw'>...</span>)
+<span class='fu'>scale_fill_sjplot</span><span class='op'>(</span>palette <span class='op'>=</span> <span class='st'>"metro"</span>, discrete <span class='op'>=</span> <span class='cn'>TRUE</span>, reverse <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>sjplot_pal</span>(palette = <span class='st'>"metro"</span>, n = <span class='kw'>NULL</span>)
+<span class='fu'>sjplot_pal</span><span class='op'>(</span>palette <span class='op'>=</span> <span class='st'>"metro"</span>, n <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>show_sjplot_pals</span>()
+<span class='fu'>show_sjplot_pals</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>css_theme</span>(css.theme = <span class='st'>"regression"</span>)</pre>
+<span class='fu'>css_theme</span><span class='op'>(</span>css.theme <span class='op'>=</span> <span class='st'>"regression"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -348,29 +348,29 @@ colour palette is returned.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># prepare data</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
-<span class='kw'>efc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjmisc/man/to_factor.html'>to_factor</a></span>(<span class='kw'>efc</span>, <span class='kw'>c161sex</span>, <span class='kw'>e42dep</span>, <span class='kw'>c172code</span>)
-<span class='kw'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='kw'>neg_c_7</span> <span class='op'>~</span> <span class='kw'>pos_v_4</span> <span class='op'>+</span> <span class='kw'>c12hour</span> <span class='op'>+</span> <span class='kw'>e42dep</span> <span class='op'>+</span> <span class='kw'>c172code</span>, data = <span class='kw'>efc</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
+<span class='va'>efc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjmisc/reference/to_factor.html'>to_factor</a></span><span class='op'>(</span><span class='va'>efc</span>, <span class='va'>c161sex</span>, <span class='va'>e42dep</span>, <span class='va'>c172code</span><span class='op'>)</span>
+<span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>neg_c_7</span> <span class='op'>~</span> <span class='va'>pos_v_4</span> <span class='op'>+</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>e42dep</span> <span class='op'>+</span> <span class='va'>c172code</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span>
 
 <span class='co'># create plot-object</span>
-<span class='kw'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='plot_model.html'>plot_model</a></span>(<span class='kw'>m</span>)
+<span class='va'>p</span> <span class='op'>&lt;-</span> <span class='fu'><a href='plot_model.html'>plot_model</a></span><span class='op'>(</span><span class='va'>m</span><span class='op'>)</span>
 
 <span class='co'># change theme</span>
-<span class='kw'>p</span> <span class='op'>+</span> <span class='fu'>theme_sjplot</span>()
+<span class='va'>p</span> <span class='op'>+</span> <span class='fu'>theme_sjplot</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='img'><img src='sjPlot-themes-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># change font-size</span>
-<span class='kw'>p</span> <span class='op'>+</span> <span class='fu'>font_size</span>(axis_title.x = <span class='fl'>30</span>)
+<span class='va'>p</span> <span class='op'>+</span> <span class='fu'>font_size</span><span class='op'>(</span>axis_title.x <span class='op'>=</span> <span class='fl'>30</span><span class='op'>)</span>
 </div><div class='img'><img src='sjPlot-themes-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># apply color theme</span>
-<span class='kw'>p</span> <span class='op'>+</span> <span class='fu'>scale_color_sjplot</span>()
+<span class='va'>p</span> <span class='op'>+</span> <span class='fu'>scale_color_sjplot</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Scale for 'colour' is already present. Adding another scale for 'colour',</span>
 #&gt; <span class='message'>which will replace the existing scale.</span></div><div class='img'><img src='sjPlot-themes-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># show all available colour palettes</span>
-<span class='fu'>show_sjplot_pals</span>()
+<span class='fu'>show_sjplot_pals</span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='img'><img src='sjPlot-themes-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># get colour values from specific palette</span>
-<span class='fu'>sjplot_pal</span>(pal = <span class='st'>"breakfast club"</span>)
+<span class='fu'>sjplot_pal</span><span class='op'>(</span>pal <span class='op'>=</span> <span class='st'>"breakfast club"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "#b6411a" "#4182dd" "#2d6328" "#eec3d8" "#ecf0c8"</div><div class='input'>
 </div></pre>
   </div>

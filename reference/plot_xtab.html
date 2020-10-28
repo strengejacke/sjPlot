@@ -197,46 +197,46 @@
     <p>Plot proportional crosstables (contingency tables) of two variables as ggplot diagram.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_xtab</span>(
-  <span class='kw'>x</span>,
-  <span class='kw'>grp</span>,
-  type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"bar"</span>, <span class='st'>"line"</span>),
-  margin = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"col"</span>, <span class='st'>"cell"</span>, <span class='st'>"row"</span>),
-  bar.pos = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"dodge"</span>, <span class='st'>"stack"</span>),
-  title = <span class='st'>""</span>,
-  title.wtd.suffix = <span class='kw'>NULL</span>,
-  axis.titles = <span class='kw'>NULL</span>,
-  axis.labels = <span class='kw'>NULL</span>,
-  legend.title = <span class='kw'>NULL</span>,
-  legend.labels = <span class='kw'>NULL</span>,
-  weight.by = <span class='kw'>NULL</span>,
-  rev.order = <span class='fl'>FALSE</span>,
-  show.values = <span class='fl'>TRUE</span>,
-  show.n = <span class='fl'>TRUE</span>,
-  show.prc = <span class='fl'>TRUE</span>,
-  show.total = <span class='fl'>TRUE</span>,
-  show.legend = <span class='fl'>TRUE</span>,
-  show.summary = <span class='fl'>FALSE</span>,
-  summary.pos = <span class='st'>"r"</span>,
-  drop.empty = <span class='fl'>TRUE</span>,
-  string.total = <span class='st'>"Total"</span>,
-  wrap.title = <span class='fl'>50</span>,
-  wrap.labels = <span class='fl'>15</span>,
-  wrap.legend.title = <span class='fl'>20</span>,
-  wrap.legend.labels = <span class='fl'>20</span>,
-  geom.size = <span class='fl'>0.7</span>,
-  geom.spacing = <span class='fl'>0.1</span>,
-  geom.colors = <span class='st'>"Paired"</span>,
-  dot.size = <span class='fl'>3</span>,
-  smooth.lines = <span class='fl'>FALSE</span>,
-  grid.breaks = <span class='fl'>0.2</span>,
-  expand.grid = <span class='fl'>FALSE</span>,
-  ylim = <span class='kw'>NULL</span>,
-  vjust = <span class='st'>"bottom"</span>,
-  hjust = <span class='st'>"center"</span>,
-  y.offset = <span class='kw'>NULL</span>,
-  coord.flip = <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>plot_xtab</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>grp</span>,
+  type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"bar"</span>, <span class='st'>"line"</span><span class='op'>)</span>,
+  margin <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"col"</span>, <span class='st'>"cell"</span>, <span class='st'>"row"</span><span class='op'>)</span>,
+  bar.pos <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dodge"</span>, <span class='st'>"stack"</span><span class='op'>)</span>,
+  title <span class='op'>=</span> <span class='st'>""</span>,
+  title.wtd.suffix <span class='op'>=</span> <span class='cn'>NULL</span>,
+  axis.titles <span class='op'>=</span> <span class='cn'>NULL</span>,
+  axis.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  legend.title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  legend.labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  weight.by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  rev.order <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  show.values <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.n <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.prc <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.total <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.legend <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  show.summary <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  summary.pos <span class='op'>=</span> <span class='st'>"r"</span>,
+  drop.empty <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  string.total <span class='op'>=</span> <span class='st'>"Total"</span>,
+  wrap.title <span class='op'>=</span> <span class='fl'>50</span>,
+  wrap.labels <span class='op'>=</span> <span class='fl'>15</span>,
+  wrap.legend.title <span class='op'>=</span> <span class='fl'>20</span>,
+  wrap.legend.labels <span class='op'>=</span> <span class='fl'>20</span>,
+  geom.size <span class='op'>=</span> <span class='fl'>0.7</span>,
+  geom.spacing <span class='op'>=</span> <span class='fl'>0.1</span>,
+  geom.colors <span class='op'>=</span> <span class='st'>"Paired"</span>,
+  dot.size <span class='op'>=</span> <span class='fl'>3</span>,
+  smooth.lines <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  grid.breaks <span class='op'>=</span> <span class='fl'>0.2</span>,
+  expand.grid <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  ylim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  vjust <span class='op'>=</span> <span class='st'>"bottom"</span>,
+  hjust <span class='op'>=</span> <span class='st'>"center"</span>,
+  y.offset <span class='op'>=</span> <span class='cn'>NULL</span>,
+  coord.flip <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -451,53 +451,53 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># create 4-category-items</span>
-<span class='kw'>grp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>100</span>, replace = <span class='fl'>TRUE</span>)
+<span class='va'>grp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, <span class='fl'>100</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># create 3-category-items</span>
-<span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='fl'>100</span>, replace = <span class='fl'>TRUE</span>)
+<span class='va'>x</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>3</span>, <span class='fl'>100</span>, replace <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># plot "cross tablulation" of x and grp</span>
-<span class='fu'>plot_xtab</span>(<span class='kw'>x</span>, <span class='kw'>grp</span>)
+<span class='fu'>plot_xtab</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>grp</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_xtab-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot "cross tablulation" of x and y, including labels</span>
-<span class='fu'>plot_xtab</span>(<span class='kw'>x</span>, <span class='kw'>grp</span>, axis.labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"low"</span>, <span class='st'>"mid"</span>, <span class='st'>"high"</span>),
-         legend.labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Grp 1"</span>, <span class='st'>"Grp 2"</span>, <span class='st'>"Grp 3"</span>, <span class='st'>"Grp 4"</span>))
+<span class='fu'>plot_xtab</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>grp</span>, axis.labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"low"</span>, <span class='st'>"mid"</span>, <span class='st'>"high"</span><span class='op'>)</span>,
+         legend.labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Grp 1"</span>, <span class='st'>"Grp 2"</span>, <span class='st'>"Grp 3"</span>, <span class='st'>"Grp 4"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_xtab-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># plot "cross tablulation" of x and grp</span>
 <span class='co'># as stacked proportional bars</span>
-<span class='fu'>plot_xtab</span>(<span class='kw'>x</span>, <span class='kw'>grp</span>, margin = <span class='st'>"row"</span>, bar.pos = <span class='st'>"stack"</span>,
-         show.summary = <span class='fl'>TRUE</span>, coord.flip = <span class='fl'>TRUE</span>)
+<span class='fu'>plot_xtab</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>grp</span>, margin <span class='op'>=</span> <span class='st'>"row"</span>, bar.pos <span class='op'>=</span> <span class='st'>"stack"</span>,
+         show.summary <span class='op'>=</span> <span class='cn'>TRUE</span>, coord.flip <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_xtab-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># example with vertical labels</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://strengejacke.github.io/sjlabelled'>sjlabelled</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
-<span class='fu'><a href='set_theme.html'>set_theme</a></span>(geom.label.angle = <span class='fl'>90</span>)
-<span class='fu'>plot_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, vjust = <span class='st'>"center"</span>, hjust = <span class='st'>"bottom"</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjmisc'>sjmisc</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjlabelled/'>sjlabelled</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
+<span class='fu'><a href='set_theme.html'>set_theme</a></span><span class='op'>(</span>geom.label.angle <span class='op'>=</span> <span class='fl'>90</span><span class='op'>)</span>
+<span class='fu'>plot_xtab</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e16sex</span>, vjust <span class='op'>=</span> <span class='st'>"center"</span>, hjust <span class='op'>=</span> <span class='st'>"bottom"</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_xtab-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># grouped bars with EUROFAMCARE sample dataset</span>
 <span class='co'># dataset was importet from an SPSS-file,</span>
 <span class='co'># see ?sjmisc::read_spss</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>efc</span>)
-<span class='kw'>efc.val</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/get_labels.html'>get_labels</a></span>(<span class='kw'>efc</span>)
-<span class='kw'>efc.var</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/sjlabelled/man/get_label.html'>get_label</a></span>(<span class='kw'>efc</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
+<span class='va'>efc.val</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjlabelled/reference/get_labels.html'>get_labels</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
+<span class='va'>efc.var</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjlabelled/reference/get_label.html'>get_label</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
 
-<span class='fu'>plot_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, title = <span class='kw'>efc.var</span>[<span class='st'>'e42dep'</span>],
-         axis.labels = <span class='kw'>efc.val</span>[[<span class='st'>'e42dep'</span>]], legend.title = <span class='kw'>efc.var</span>[<span class='st'>'e16sex'</span>],
-         legend.labels = <span class='kw'>efc.val</span>[[<span class='st'>'e16sex'</span>]])
+<span class='fu'>plot_xtab</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e16sex</span>, title <span class='op'>=</span> <span class='va'>efc.var</span><span class='op'>[</span><span class='st'>'e42dep'</span><span class='op'>]</span>,
+         axis.labels <span class='op'>=</span> <span class='va'>efc.val</span><span class='op'>[[</span><span class='st'>'e42dep'</span><span class='op'>]</span><span class='op'>]</span>, legend.title <span class='op'>=</span> <span class='va'>efc.var</span><span class='op'>[</span><span class='st'>'e16sex'</span><span class='op'>]</span>,
+         legend.labels <span class='op'>=</span> <span class='va'>efc.val</span><span class='op'>[[</span><span class='st'>'e16sex'</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_xtab-5.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>plot_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, title = <span class='kw'>efc.var</span>[<span class='st'>'e16sex'</span>],
-         axis.labels = <span class='kw'>efc.val</span>[[<span class='st'>'e16sex'</span>]], legend.title = <span class='kw'>efc.var</span>[<span class='st'>'e42dep'</span>],
-         legend.labels = <span class='kw'>efc.val</span>[[<span class='st'>'e42dep'</span>]])
+<span class='fu'>plot_xtab</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e16sex</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, title <span class='op'>=</span> <span class='va'>efc.var</span><span class='op'>[</span><span class='st'>'e16sex'</span><span class='op'>]</span>,
+         axis.labels <span class='op'>=</span> <span class='va'>efc.val</span><span class='op'>[[</span><span class='st'>'e16sex'</span><span class='op'>]</span><span class='op'>]</span>, legend.title <span class='op'>=</span> <span class='va'>efc.var</span><span class='op'>[</span><span class='st'>'e42dep'</span><span class='op'>]</span>,
+         legend.labels <span class='op'>=</span> <span class='va'>efc.val</span><span class='op'>[[</span><span class='st'>'e42dep'</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_xtab-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># -------------------------------</span>
 <span class='co'># auto-detection of labels works here</span>
 <span class='co'># so no need to specify labels. For</span>
 <span class='co'># title-auto-detection, use NULL</span>
 <span class='co'># -------------------------------</span>
-<span class='fu'>plot_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, title = <span class='kw'>NULL</span>)
+<span class='fu'>plot_xtab</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e16sex</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, title <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_xtab-7.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>plot_xtab</span>(<span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e16sex</span>, <span class='kw'>efc</span><span class='op'>$</span><span class='kw'>e42dep</span>, margin = <span class='st'>"row"</span>,
-         bar.pos = <span class='st'>"stack"</span>, coord.flip = <span class='fl'>TRUE</span>)
+<span class='fu'>plot_xtab</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e16sex</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span>, margin <span class='op'>=</span> <span class='st'>"row"</span>,
+         bar.pos <span class='op'>=</span> <span class='st'>"stack"</span>, coord.flip <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='img'><img src='plot_xtab-8.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
