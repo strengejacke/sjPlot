@@ -205,7 +205,8 @@ related predictor in the table, no matter in which way the predictors
 are sorted. See 'Examples'.}
 
 \item{dv.labels}{Character vector with labels of dependent variables of all
-fitted models. See 'Examples'.}
+fitted models. If \code{dv.labels = ""}, the row with names of dependent
+variabled is omitted from the table.}
 
 \item{wrap.labels}{Numeric, determines how many chars of the value, variable
 or axis labels are displayed in one line and when a line break is inserted.}
@@ -229,7 +230,7 @@ if robust standard errors are required.}
 
 \item{vcov.type}{Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see \code{\link[sandwich:vcovHC]{vcovHC()}}
-or \code{\link[clubSandwich:vcovCR]{vcovCR()}} for details).}
+or \code{clubSandwich::vcovCR()} for details).}
 
 \item{vcov.args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov.fun}.}

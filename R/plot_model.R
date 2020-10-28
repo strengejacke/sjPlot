@@ -217,7 +217,7 @@
 #'    if robust standard errors are required.
 #' @param vcov.type Character vector, specifying the estimation type for the
 #'    robust covariance matrix estimation (see \code{\link[sandwich:vcovHC]{vcovHC()}}
-#'    or \code{\link[clubSandwich:vcovCR]{vcovCR()}} for details).
+#'    or \code{clubSandwich::vcovCR()} for details).
 #' @param vcov.args List of named vectors, used as additional arguments that
 #'    are passed down to \code{vcov.fun}.
 #' @param value.offset Numeric, offset for text labels to adjust their position
