@@ -1,3 +1,13 @@
+# sjPlot 2.8.6
+
+## Changes to functions
+
+* When `dv.labels = ""` in `tab_model()`, the row with names of dependent variables is omitted.
+
+## Bug fixes
+
+* Fix CRAN check issues (removed cross-references to archived packages).
+
 # sjPlot 2.8.5
 
 ## Changes to functions

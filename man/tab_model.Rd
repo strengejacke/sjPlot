@@ -206,7 +206,7 @@ are sorted. See 'Examples'.}
 
 \item{dv.labels}{Character vector with labels of dependent variables of all
 fitted models. If \code{dv.labels = ""}, the row with names of dependent
-variabled is omitted from the table.}
+variables is omitted from the table.}
 
 \item{wrap.labels}{Numeric, determines how many chars of the value, variable
 or axis labels are displayed in one line and when a line break is inserted.}

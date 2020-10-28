@@ -272,6 +272,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   tag.firstsumrow <- "firstsumrow"
   tag.labelcellborder <- "labelcellborder"
   tag.depvarhead <- "depvarhead"
+  tag.depvarheadnodv <- "depvarheadnodv"
   tag.col1 <- "col1"
   tag.col2 <- "col2"
   tag.col3 <- "col3"
@@ -308,6 +309,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
   css.firstsumrow <- "border-top:1px solid;"
   css.labelcellborder <- "border-bottom:1px solid;"
   css.depvarhead <- "text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;"
+  css.depvarheadnodv <- "border-top: double; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;"
   css.col1 <- ""
   css.col2 <- ""
   css.col3 <- ""
@@ -353,6 +355,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     if (!is.null(CSS[['css.firstsumrow']])) css.firstsumrow <- ifelse(substring(CSS[['css.firstsumrow']], 1, 1) == '+', paste0(css.firstsumrow, substring(CSS[['css.firstsumrow']], 2)), CSS[['css.firstsumrow']])
     if (!is.null(CSS[['css.labelcellborder']])) css.labelcellborder <- ifelse(substring(CSS[['css.labelcellborder']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.labelcellborder']], 2)), CSS[['css.labelcellborder']])
     if (!is.null(CSS[['css.depvarhead']])) css.depvarhead <- ifelse(substring(CSS[['css.depvarhead']], 1, 1) == '+', paste0(css.depvarhead, substring(CSS[['css.depvarhead']], 2)), CSS[['css.depvarhead']])
+    if (!is.null(CSS[['css.depvarheadnodv']])) css.depvarheadnodv <- ifelse(substring(CSS[['css.depvarheadnodv']], 1, 1) == '+', paste0(css.depvarheadnodv, substring(CSS[['css.depvarheadnodv']], 2)), CSS[['css.depvarheadnodv']])
     if (!is.null(CSS[['css.modelcolumn1']])) css.modelcolumn1 <- ifelse(substring(CSS[['css.modelcolumn1']], 1, 1) == '+', paste0(css.modelcolumn1, substring(CSS[['css.modelcolumn1']], 2)), CSS[['css.modelcolumn1']])
     if (!is.null(CSS[['css.modelcolumn2']])) css.modelcolumn2 <- ifelse(substring(CSS[['css.modelcolumn2']], 1, 1) == '+', paste0(css.modelcolumn2, substring(CSS[['css.modelcolumn2']], 2)), CSS[['css.modelcolumn2']])
     if (!is.null(CSS[['css.modelcolumn3']])) css.modelcolumn3 <- ifelse(substring(CSS[['css.modelcolumn3']], 1, 1) == '+', paste0(css.modelcolumn3, substring(CSS[['css.modelcolumn3']], 2)), CSS[['css.modelcolumn3']])
@@ -367,7 +370,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
 
   if (task == 1) {
     content <- sprintf(
-      "<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
+      "<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
       tag.table, css.table,
       tag.caption, css.caption,
       tag.td, css.td,
@@ -385,6 +388,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
       tag.firstsumrow, css.firstsumrow,
       tag.labelcellborder, css.labelcellborder,
       tag.depvarhead, css.depvarhead,
+      tag.depvarheadnodv, css.depvarheadnodv,
       tag.leftalign, css.leftalign,
       tag.centeralign, css.centeralign,
       tag.firsttablecol, css.firsttablecol,
@@ -430,6 +434,7 @@ tab_df_prepare_style <- function(CSS = NULL, content = NULL, task, ...) {
     content <- gsub(sprintf("\"(.*)(%s)(.*)\"", tag.zeroparts), sprintf("\"\\1%s\\3\"", css.zeroparts), content, perl = TRUE)
     content <- gsub(sprintf("\"(.*)(%s)(.*)\"", tag.firstsumrow), sprintf("\"\\1%s\\3\"", css.firstsumrow), content, perl = TRUE)
     content <- gsub(sprintf("\"(.*)(%s)(.*)\"", tag.depvarhead), sprintf("\"\\1%s\\3\"", css.depvarhead), content, perl = TRUE)
+    content <- gsub(sprintf("\"(.*)(%s)(.*)\"", tag.depvarheadnodv), sprintf("\"\\1%s\\3\"", css.depvarheadnodv), content, perl = TRUE)
 
     content <- gsub(sprintf("\"(.*)(%s)(.*)\"", tag.col1), sprintf("\"\\1%s\\3\"", css.col1), content, perl = TRUE)
     content <- gsub(sprintf("\"(.*)(%s)(.*)\"", tag.col2), sprintf("\"\\1%s\\3\"", css.col2), content, perl = TRUE)

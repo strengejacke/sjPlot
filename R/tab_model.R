@@ -39,7 +39,8 @@
 #'    related predictor in the table, no matter in which way the predictors
 #'    are sorted. See 'Examples'.
 #' @param dv.labels Character vector with labels of dependent variables of all
-#'    fitted models. See 'Examples'.
+#'    fitted models. If \code{dv.labels = ""}, the row with names of dependent
+#'    variables is omitted from the table.
 #' @param show.intercept Logical, if \code{TRUE}, the intercepts are printed.
 #' @param show.est Logical, if \code{TRUE}, the estimates are printed.
 #' @param show.zeroinf Logical, if \code{TRUE} and model has a zero-inflated
@@ -1091,13 +1092,13 @@ tab_model <- function(
   }
 
 
-  if (isTRUE(auto.label) && sjmisc::is_empty(dv.labels)) {
+  if (isTRUE(auto.label) && is.null(dv.labels)) {
     dv.labels <- sjmisc::word_wrap(
       sjlabelled::response_labels(models, case = case),
       wrap = wrap.labels,
       linesep = "<br>"
     )
-  } else if (sjmisc::is_empty(dv.labels)) {
+  } else if (is.null(dv.labels)) {
     dv.labels <- purrr::map(models, insight::find_response) %>% purrr::flatten_chr()
   }
 

@@ -328,15 +328,29 @@ tab_model_df <- function(x,
     ...
   )
 
+  # do we have labels for dependent variables / models?
+
+  empty_dv <- is.null(dv.labels) | (length(dv.labels) == 1 && dv.labels == "")
+
   # replace CSS for first table row
 
-  page.content <- gsub(
-    pattern = "thead ",
-    replacement = "depvarhead ",
-    x = page.content,
-    fixed = TRUE,
-    useBytes = TRUE
-  )
+  if (!empty_dv) {
+    page.content <- gsub(
+      pattern = "thead ",
+      replacement = "depvarhead ",
+      x = page.content,
+      fixed = TRUE,
+      useBytes = TRUE
+    )
+  } else {
+    page.content <- gsub(
+      pattern = "thead ",
+      replacement = "depvarheadnodv ",
+      x = page.content,
+      fixed = TRUE,
+      useBytes = TRUE
+    )
+  }
 
   # replace HTML-Tag for first table row
 
@@ -359,19 +373,21 @@ tab_model_df <- function(x,
 
   # table column header, with label of dependent variables ----
 
-  dv.content <- "  <tr>\n"
-  dv.content <- paste0(dv.content, "    <th class=\"thead firsttablerow firsttablecol col1\">&nbsp;</th>\n")
+  if (!empty_dv) {
+    dv.content <- "  <tr>\n"
+    dv.content <- paste0(dv.content, "    <th class=\"thead firsttablerow firsttablecol col1\">&nbsp;</th>\n")
 
-  for (i in 1:length(dv.labels)) {
-    colspan <- length(string_ends_with(sprintf("_%i", i), x = colnames(x)))
-    dv.content <- paste0(
-      dv.content,
-      sprintf("    <th colspan=\"%i\" class=\"thead firsttablerow\">%s</th>\n", colspan, dv.labels[i])
-    )
+    for (i in 1:length(dv.labels)) {
+      colspan <- length(string_ends_with(sprintf("_%i", i), x = colnames(x)))
+      dv.content <- paste0(
+        dv.content,
+        sprintf("    <th colspan=\"%i\" class=\"thead firsttablerow\">%s</th>\n", colspan, dv.labels[i])
+      )
+    }
+
+    dv.content <- paste0(dv.content, "  </tr>\n")
+    page.content <- paste0(dv.content, page.content)
   }
-
-  dv.content <- paste0(dv.content, "  </tr>\n")
-  page.content <- paste0(dv.content, page.content)
 
 
   # simplex parameters here ----
