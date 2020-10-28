@@ -8,6 +8,7 @@
 
 * Fix CRAN check issues (removed cross-references to archived packages).
 * The `minus.sign` argument in `tab_model()` now works.
+* `show.std = TRUE` in `tab_model()` did not exponentiate standardized coefficients for non-Gaussian models.
 
 # sjPlot 2.8.5
 
