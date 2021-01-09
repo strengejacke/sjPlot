@@ -328,7 +328,7 @@ annotating p-values with asterisks. Only applies if
 to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
-specified character case. See \code{\link[snakecase]{to_any_case}} for more
+specified character case. See \code{snakecase::to_any_case()} for more
 details on this argument. By default, if \code{case} is not specified,
 it will be set to \code{"parsed"}, unless \code{prefix.labels} is not
 \code{"none"}. If \code{prefix.labels} is either \code{"label"} (or

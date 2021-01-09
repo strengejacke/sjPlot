@@ -17,7 +17,7 @@
 #'          only linear, poisson and negative binomial regression models are supported.
 #'
 #' @details This function, first, generates \code{k} cross-validated test-training
-#'            pairs (using the \code{\link[modelr]{crossv_kfold}}-function) and
+#'            pairs and
 #'            fits the same model, specified in the \code{formula}- or \code{fit}-
 #'            argument, over all training data sets. \cr \cr
 #'            Then, the test data is used to predict the outcome from all
