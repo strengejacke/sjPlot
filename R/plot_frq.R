@@ -13,7 +13,7 @@ utils::globalVariables("density")
 #'   further processing. Required, if \code{data} is a data frame (and no
 #'   vector) and only selected variables from \code{data} should be processed.
 #'   You may also use functions like \code{:} or tidyselect's
-#'   \code{\link[tidyselect]{select_helpers}}.
+#'   select_helpers.
 #' @param sort.frq Determines whether categories should be sorted
 #'          according to their frequencies or not. Default is \code{"none"}, so
 #'          categories are not sorted by frequency. Use \code{"asc"} or

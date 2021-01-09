@@ -55,7 +55,7 @@ plot_frq(
 further processing. Required, if \code{data} is a data frame (and no
 vector) and only selected variables from \code{data} should be processed.
 You may also use functions like \code{:} or tidyselect's
-\code{\link[tidyselect]{select_helpers}}.}
+select_helpers.}
 
 \item{title}{Character vector, used as plot title. By default,
 \code{\link[sjlabelled]{response_labels}} is called to retrieve the label of
