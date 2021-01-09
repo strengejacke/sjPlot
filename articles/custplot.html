@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -129,7 +129,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/strengejacke/sjPlot/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -143,14 +143,13 @@
 
       
 
-      </header><script src="custplot_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="custplot_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="custplot_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="custplot_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Customize Plot Appearance</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-10-28</h4>
+            <h4 class="date">2021-01-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/custplot.Rmd"><code>vignettes/custplot.Rmd</code></a></small>
       <div class="hidden name"><code>custplot.Rmd</code></div>
@@ -166,11 +165,11 @@
 <a href="#tweaking-plot-appearance" class="anchor"></a>Tweaking plot appearance</h2>
 <p>The base function to globally change theme option for all sjp-function is <code><a href="../reference/set_theme.html">set_theme()</a></code>. Except for geom-colors and geom-sizes, all theme-options can be set via this function. This new theme will be applied to all following plots created with the <strong>sjPlot</strong> package.</p>
 <p>There are various arguments to change colors, sizes, angles etc. of labels. Following example show changes to colors, sizes, angles, geom-outlines and theme.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># load libraries</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># load libraries</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span>  <span class="co"># for plotting</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc">sjmisc</a></span><span class="op">)</span>  <span class="co"># for sample data</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span> <span class="co"># to access ggplot-themes</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/">sjmisc</a></span><span class="op">)</span>  <span class="co"># for sample data</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span> <span class="co"># to access ggplot-themes</span>
 
 <span class="co"># load sample data set</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
@@ -193,15 +192,15 @@
   title <span class="op">=</span> <span class="cn">NULL</span>, 
   geom.colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"cadetblue"</span>, <span class="st">"coral"</span><span class="op">)</span>, 
   geom.size <span class="op">=</span> <span class="fl">0.4</span>
-<span class="op">)</span></pre></div>
+<span class="op">)</span></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
 <div id="using-the-color-brewer-palettes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-the-color-brewer-palettes" class="anchor"></a>Using the Color Brewer palettes</h2>
 <p>All plotting functions support the usage of the <a href="https://colorbrewer2.org/">Colorbrewer</a> palettes. To apply a color brewer palette, use specify the palette as <code>geom.colors</code>. Any valid color brewer palette is recognized automatically.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="co"># blank theme</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># blank theme</span>
 <span class="fu"><a href="../reference/set_theme.html">set_theme</a></span><span class="op">(</span>
   base <span class="op">=</span> <span class="fu"><a href="../reference/sjPlot-themes.html">theme_blank</a></span><span class="op">(</span><span class="op">)</span>,
   axis.title.size <span class="op">=</span> <span class="fl">.9</span>,
@@ -216,49 +215,49 @@
   <span class="va">efc</span><span class="op">$</span><span class="va">e15relat</span>, 
   geom.colors <span class="op">=</span> <span class="st">"PuRd"</span>, 
   show.values <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></pre></div>
+<span class="op">)</span></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 <p>An overview of all supported color codes can be obtained with <code><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html">display.brewer.all()</a></code> from the <code>RColorBrewer</code> package.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">RColorBrewer</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html">display.brewer.all</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">RColorBrewer</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html">display.brewer.all</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="plot-with-flipped-coordinates" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-with-flipped-coordinates" class="anchor"></a>Plot with flipped coordinates</h2>
 <p>The plot’s axes can be flipped using <code>coord.flip = TRUE</code>. If needed, labels can be placed inside the bars with the <code>vjust</code> or <code>hjust</code> arguments. In such cases, you might need to adjust the label colors with <code>geom.label.color = "white"</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="../reference/set_theme.html">set_theme</a></span><span class="op">(</span>geom.label.color <span class="op">=</span> <span class="st">"white"</span>, geom.label.size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/set_theme.html">set_theme</a></span><span class="op">(</span>geom.label.color <span class="op">=</span> <span class="st">"white"</span>, geom.label.size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 
 <span class="co"># labels appear very large due to export metrics</span>
-<span class="fu"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, coord.flip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, coord.flip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
 <div id="adding-plot-margins" class="section level2">
 <h2 class="hasAnchor">
 <a href="#adding-plot-margins" class="anchor"></a>Adding plot margins</h2>
 <p>Plots with no margins towards the axes may look strange to some people (not to me, though). To restore the ggplot-default behaviour, use the <code>expand.grid</code> argument:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, expand.grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, expand.grid <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </div>
 <div id="theme-options" class="section level2">
 <h2 class="hasAnchor">
 <a href="#theme-options" class="anchor"></a>Theme options</h2>
 <p>You can use any pre-defined theme from ggplot, like <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic()</a></code> or <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal()</a></code> as default theme.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="../reference/set_theme.html">set_theme</a></span><span class="op">(</span>base <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_light</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot_frq.html">plot_frq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/set_theme.html">set_theme</a></span><span class="op">(</span>base <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_light</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot_frq.html">plot_frq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
 <div id="pre-defined-themes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pre-defined-themes" class="anchor"></a>Pre-defined themes</h2>
 <p>There is a set of pre-defined themes from the sjPlot-package. See <code><a href="../reference/sjPlot-themes.html">?"sjPlot-themes"</a></code> for a complete list.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc">sjmisc</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/">sjmisc</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
-<span class="va">efc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjmisc/reference/to_factor.html">to_factor</a></span><span class="op">(</span><span class="va">efc</span>, <span class="va">e42dep</span>, <span class="va">c172code</span><span class="op">)</span>
+<span class="va">efc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html">to_factor</a></span><span class="op">(</span><span class="va">efc</span>, <span class="va">e42dep</span>, <span class="va">c172code</span><span class="op">)</span>
 <span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">pos_v_4</span> <span class="op">+</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
 
 <span class="co"># reset theme</span>
@@ -268,42 +267,42 @@
 <span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span>
 
 <span class="co"># default theme</span>
-<span class="va">p</span></pre></div>
+<span class="va">p</span></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="co"># pre-defined theme</span>
-<span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="../reference/sjPlot-themes.html">theme_sjplot</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># pre-defined theme</span>
+<span class="va">p</span> <span class="op">+</span> <span class="fu"><a href="../reference/sjPlot-themes.html">theme_sjplot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-9-2.png" width="672"></p>
 </div>
 <div id="pre-defined-scales" class="section level2">
 <h2 class="hasAnchor">
 <a href="#pre-defined-scales" class="anchor"></a>Pre-defined scales</h2>
 <p>There is also a new scale for <strong>ggplot</strong>-objects, <code><a href="../reference/sjPlot-themes.html">scale_color_sjplot()</a></code> and <code><a href="../reference/sjPlot-themes.html">scale_fill_sjplot()</a></code>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="va">p</span> <span class="op">+</span> 
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">p</span> <span class="op">+</span> 
   <span class="fu"><a href="../reference/sjPlot-themes.html">theme_sjplot2</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu"><a href="../reference/sjPlot-themes.html">scale_color_sjplot</a></span><span class="op">(</span><span class="st">"simply"</span><span class="op">)</span></pre></div>
+  <span class="fu"><a href="../reference/sjPlot-themes.html">scale_color_sjplot</a></span><span class="op">(</span><span class="st">"simply"</span><span class="op">)</span></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 <p>To see all currently available color sets, use <code><a href="../reference/sjPlot-themes.html">show_sjplot_pals()</a></code>.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="../reference/sjPlot-themes.html">show_sjplot_pals</a></span><span class="op">(</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/sjPlot-themes.html">show_sjplot_pals</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
 </div>
 <div id="set-up-own-themes-based-on-existing-themes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#set-up-own-themes-based-on-existing-themes" class="anchor"></a>Set up own themes based on existing themes</h2>
 <p>If you want to use a specific theme as base for building your own theme, use the <code>base</code> argument. When using <code>base</code> instead of <code>theme</code>, further arguments for settings colors etc. are not ignored.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="fu"><a href="../reference/set_theme.html">set_theme</a></span><span class="op">(</span>base <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span>, axis.linecolor <span class="op">=</span> <span class="st">"darkgreen"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/plot_frq.html">plot_frq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/set_theme.html">set_theme</a></span><span class="op">(</span>base <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span>, axis.linecolor <span class="op">=</span> <span class="st">"darkgreen"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/plot_frq.html">plot_frq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
 </div>
 <div id="further-customization-options" class="section level2">
 <h2 class="hasAnchor">
 <a href="#further-customization-options" class="anchor"></a>Further customization options</h2>
 <p>Each plotting function invisibly returns the ggplot-object. You can further add options to customize the appearance of the plot, like in the following example, where the count axis is hidden (color set to white):</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="fu"><a href="../reference/set_theme.html">set_theme</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/set_theme.html">set_theme</a></span><span class="op">(</span>
   base <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span>,
   axis.tickslen <span class="op">=</span> <span class="fl">0</span>, <span class="co"># hides tick marks</span>
   axis.title.size <span class="op">=</span> <span class="fl">.9</span>,
@@ -319,15 +318,15 @@
   coord.flip <span class="op">=</span> <span class="cn">TRUE</span>,
   show.axis.values <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.line.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">)</span></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>axis.line.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 </div>
 <div id="plot-legend" class="section level2">
 <h2 class="hasAnchor">
 <a href="#plot-legend" class="anchor"></a>Plot legend</h2>
 <p>The plot’s legend can be customized via various <code>legend.</code>-arguments, see following examples:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="fu"><a href="../reference/set_theme.html">set_theme</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/set_theme.html">set_theme</a></span><span class="op">(</span>
   base <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span>, 
   legend.title.face <span class="op">=</span> <span class="st">"italic"</span>, <span class="co"># title font face</span>
   legend.inside <span class="op">=</span> <span class="cn">TRUE</span>,         <span class="co"># legend inside plot</span>
@@ -340,10 +339,10 @@
   geom.label.size <span class="op">=</span> <span class="fl">3</span>
 <span class="op">)</span>
 
-<span class="fu"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, coord.flip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, coord.flip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-14-1.png" width="672"></p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="fu"><a href="../reference/set_theme.html">set_theme</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/set_theme.html">set_theme</a></span><span class="op">(</span>
   base <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span>, 
   axis.linecolor <span class="op">=</span> <span class="st">"white"</span>,     <span class="co"># "remove" axis lines</span>
   axis.textcolor.y <span class="op">=</span> <span class="st">"darkred"</span>, <span class="co"># set axis label text only for y axis</span>
@@ -358,7 +357,7 @@
   geom.label.size <span class="op">=</span> <span class="fl">3</span>
 <span class="op">)</span>
 
-<span class="fu"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span><span class="op">)</span></code></pre></div>
 <p><img src="custplot_files/figure-html/unnamed-chunk-15-1.png" width="672"></p>
 </div>
   </div>

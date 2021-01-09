@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -129,7 +129,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/strengejacke/sjPlot/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -143,14 +143,13 @@
 
       
 
-      </header><script src="sjtitemanalysis_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="sjtitemanalysis_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="sjtitemanalysis_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="sjtitemanalysis_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Item Analysis of a Scale or an Index</h1>
                         <h4 class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2020-10-28</h4>
+            <h4 class="date">2021-01-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/sjtitemanalysis.Rmd"><code>vignettes/sjtitemanalysis.Rmd</code></a></small>
       <div class="hidden name"><code>sjtitemanalysis.Rmd</code></div>
@@ -186,8 +185,8 @@
 <h2 class="hasAnchor">
 <a href="#index-score-with-one-component" class="anchor"></a>Index score with one component</h2>
 <p>The simplest function call is just passing the data frame as argument. In this case, the function assumes that all variables of the data frame belong to one factor only.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <caption style="font-weight: bold; text-align:left;">
 Component 1
@@ -469,21 +468,26 @@ Mean inter-item-correlation=0.092 · Cronbach’s α=0.459
 <h2 class="hasAnchor">
 <a href="#index-score-with-more-than-one-component" class="anchor"></a>Index score with more than one component</h2>
 <p>The items of the COPE index used for our example do not represent a single factor. We can check this, for instance, with a principle component analysis. If you know, which variable belongs to which factor (i.e. which variable is part of which component), you can pass a numeric vector with these group indices to the argument <code>factor.groups</code>. In this case, the data frame is divided into the components specified by <code>factor.groups</code>, and each component (or factor) is analysed.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/parameters/">parameters</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/parameters/">parameters</a></span><span class="op">)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Attaching package: 'parameters'</span>
+<span class="co">#&gt; The following object is masked from 'package:sjmisc':</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;     center</span>
 <span class="co"># Compute PCA on Cope-Index, and retrieve </span>
 <span class="co"># factor indices for each COPE index variable</span>
 <span class="va">pca</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html">principal_components</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span>
-<span class="va">factor.groups</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html">closest_component</a></span><span class="op">(</span><span class="va">pca</span><span class="op">)</span></pre></div>
+<span class="va">factor.groups</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html">closest_component</a></span><span class="op">(</span><span class="va">pca</span><span class="op">)</span></code></pre></div>
 <p>The PCA extracted two components. Now <code><a href="../reference/tab_itemscale.html">tab_itemscale()</a></code> …</p>
 <ol style="list-style-type: decimal">
 <li>performs an item analysis on both components, showing whether each of them is a reliable and useful scale or index score</li>
 <li>builds an index of each component, by standardizing each scale</li>
 <li>and adds a component-correlation-matrix, to see whether the index scores (which are based on the components) are highly correlated or not.</li>
 </ol>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="va">factor.groups</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Data frame needs at least three columns for reliability-test.</span></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="va">factor.groups</span><span class="op">)</span>
+<span class="co">#&gt; Warning: Data frame needs at least three columns for reliability-test.</span></code></pre></div>
 <table class="table">
 <caption style="font-weight: bold; text-align:left;">
 Component 1
@@ -840,9 +844,9 @@ Computed correlation used pearson-method with listwise-deletion.
 <div id="adding-further-statistics" class="section level2">
 <h2 class="hasAnchor">
 <a href="#adding-further-statistics" class="anchor"></a>Adding further statistics</h2>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="va">factor.groups</span>, show.shapiro <span class="op">=</span> <span class="cn">TRUE</span>, show.kurtosis <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Data frame needs at least three columns for reliability-test.</span></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="va">factor.groups</span>, show.shapiro <span class="op">=</span> <span class="cn">TRUE</span>, show.kurtosis <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Warning: Data frame needs at least three columns for reliability-test.</span></code></pre></div>
 <table class="table">
 <caption style="font-weight: bold; text-align:left;">
 Component 1
