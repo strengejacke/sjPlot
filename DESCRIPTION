@@ -2,7 +2,7 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 2.8.6
+Version: 2.8.7
 Authors@R: c(
     person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8895-3206")),
     person("Alexander", "Bartel", role = "ctb", comment = c(ORCID = "0000-0002-1280-6138")),
@@ -21,22 +21,22 @@ Description: Collection of plotting and table output functions for data
     labelled data.
 License: GPL-3
 Depends:
-    R (>= 3.2)
+    R (>= 3.6)
 Imports:
     graphics,
     grDevices,
     stats,
     utils,
-    bayestestR (>= 0.6.0),
-    dplyr (>= 0.8.1),
+    bayestestR,
+    dplyr,
     effectsize,
-    ggeffects (>= 0.14.3),
+    ggeffects,
     ggplot2 (>= 3.2.0),
     knitr,
-    insight (>= 0.8.0),
+    insight,
     MASS,
-    parameters (>= 0.7.0),
-    performance (>= 0.4.3),
+    parameters,
+    performance,
     purrr,
     rlang,
     scales,
@@ -56,7 +56,7 @@ Suggests:
     gridExtra,
     ggridges,
     httr,
-    lme4 (>= 1.1-12),
+    lme4,
     nFactors,
     pscl,
     psych,
