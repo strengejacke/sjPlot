@@ -78,10 +78,10 @@ this argument is \code{NULL} and the diagnal cells are empty.}
 according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
 See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.}
 
-\item{encoding}{String, indicating the charset encoding used for variable and
-value labels. Default is \code{NULL}, so encoding will be auto-detected
-depending on your platform (e.g., \code{"UTF-8"} for Unix and \code{"Windows-1252"} for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).}
+\item{encoding}{Character vector, indicating the charset encoding used
+for variable and value labels. Default is \code{"UTF-8"}. For Windows
+Systems, \code{encoding = "Windows-1252"} might be necessary for proper
+display of special characters.}
 
 \item{file}{Destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and

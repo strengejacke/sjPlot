@@ -80,7 +80,8 @@ tab_model(
   bpe = "median",
   CSS = css_theme("regression"),
   file = NULL,
-  use.viewer = TRUE
+  use.viewer = TRUE,
+  encoding = "UTF-8"
 )
 }
 \arguments{
@@ -368,6 +369,11 @@ openend either in the IDE's viewer pane or the default web browser.}
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 viewer pane. If \code{FALSE} or no viewer available, the HTML table is
 opened in a web browser.}
+
+\item{encoding}{Character vector, indicating the charset encoding used
+for variable and value labels. Default is \code{"UTF-8"}. For Windows
+Systems, \code{encoding = "Windows-1252"} might be necessary for proper
+display of special characters.}
 }
 \value{
 Invisibly returns

@@ -161,6 +161,7 @@
 #'
 #' @inheritParams plot_models
 #' @inheritParams plot_model
+#' @inheritParams tab_df
 #'
 #' @return Invisibly returns
 #'          \itemize{
@@ -329,7 +330,8 @@ tab_model <- function(
   bpe = "median",
   CSS = css_theme("regression"),
   file = NULL,
-  use.viewer = TRUE
+  use.viewer = TRUE,
+  encoding = "UTF-8"
 ) {
 
   if (!missing(df.method)) {
@@ -1259,7 +1261,8 @@ tab_model <- function(
     file = file,
     use.viewer = use.viewer,
     footnote = footnote,
-    digits.re = digits.re
+    digits.re = digits.re,
+    encoding = encoding
   )
 }
 

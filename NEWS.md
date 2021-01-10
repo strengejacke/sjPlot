@@ -2,6 +2,7 @@
 
 ## Changes to functions
 
+* `tab_model()` also gains an `encoding` argument.
 * `tab_df()` and `tab_dfs()` no longer set the argument `show.rownames` to `TRUE`. Therefore, both functions now use row numbers as row names, if no other rownames are present.
 * `tab_dfs()` also gains a `digits` argument.
 
