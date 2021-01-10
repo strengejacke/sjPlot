@@ -1,5 +1,9 @@
 # sjPlot 2.8.7
 
+## Changes to functions
+
+* `tab_dfs()` also gains a `digits` argument.
+
 ## Bug fixes
 
 * Argument `df.method` in `tab_model()` did not accept all available options that were documented.

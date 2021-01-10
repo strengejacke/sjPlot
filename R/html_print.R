@@ -189,6 +189,7 @@ tab_dfs <- function(x,
                     show.footnote = FALSE,
                     alternate.rows = FALSE,
                     sort.column = NULL,
+                    digits = 2,
                     encoding = "UTF-8",
                     CSS = NULL,
                     file = NULL,
@@ -216,6 +217,13 @@ tab_dfs <- function(x,
   # get HTML content
   page.content <- paste(
       purrr::flatten_chr(purrr::pmap(list(x, titles, footnotes), function(dat, title, footnote) {
+        dat[] <- lapply(dat, function(.i) {
+          if (is.numeric(.i) && sjmisc::is_float(.i))
+            sprintf("%.*f", digits, .i)
+          else
+            .i
+        })
+
         tab_df_content(
           mydf = dat,
           title = title,

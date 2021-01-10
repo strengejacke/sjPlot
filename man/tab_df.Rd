@@ -33,6 +33,7 @@ tab_dfs(
   show.footnote = FALSE,
   alternate.rows = FALSE,
   sort.column = NULL,
+  digits = 2,
   encoding = "UTF-8",
   CSS = NULL,
   file = NULL,
