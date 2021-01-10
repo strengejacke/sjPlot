@@ -36,7 +36,8 @@ tidy_model <- function(
       "kenward" = "kenward",
       "s" = ,
       "satterthwaite" = "satterthwaite",
-      "profile" = "profile"
+      "profile" = "profile",
+      p.val
     )
 
     if (!is.null(robust) && !is.null(robust$vcov.fun)) {

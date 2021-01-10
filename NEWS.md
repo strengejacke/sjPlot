@@ -1,3 +1,10 @@
+# sjPlot 2.8.7
+
+## Bug fixes
+
+* Argument `df.method` in `tab_model()` did not accept all available options that were documented.
+* Fix CRAN check issues (warnings in new R-devel).
+
 # sjPlot 2.8.6
 
 ## Changes to functions
