@@ -96,7 +96,7 @@ tab_df <- function(x,
                    footnote = NULL,
                    col.header = NULL,
                    show.type = FALSE,
-                   show.rownames = TRUE,
+                   show.rownames = FALSE,
                    show.footnote = FALSE,
                    alternate.rows = FALSE,
                    sort.column = NULL,
@@ -113,22 +113,12 @@ tab_df <- function(x,
   # get style definition
   style <- tab_df_style(CSS = CSS, ...)
 
-  if (obj_has_rownames(x)) {
-    rn <- rownames(x)
-  } else {
-    rn <- NULL
-  }
-
   x <- as.data.frame(lapply(x, function(.i) {
     if (is.numeric(.i) && sjmisc::is_float(.i))
       sprintf("%.*f", digits, .i)
     else
       .i
   }))
-
-  if (!is.null(rn)) {
-    rownames(x) <- rn
-  }
 
   # get HTML content
   page.content <- tab_df_content(
@@ -185,7 +175,7 @@ tab_dfs <- function(x,
                     footnotes = NULL,
                     col.header = NULL,
                     show.type = FALSE,
-                    show.rownames = TRUE,
+                    show.rownames = FALSE,
                     show.footnote = FALSE,
                     alternate.rows = FALSE,
                     sort.column = NULL,

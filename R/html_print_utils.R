@@ -76,7 +76,7 @@ tab_df_content <- function(
   # check if rownames should be shown and data has any rownames at all
   # if so, we need to update our information on column names
 
-  if (show.rownames && obj_has_rownames(mydf)) {
+  if (show.rownames && !is.null(rownames(mydf))) {
     mydf <- rownames_as_column(mydf)
     colcnt <- colcnt + 1
     cnames <- c("Row", cnames)
