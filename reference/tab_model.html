@@ -275,7 +275,8 @@
   bpe <span class='op'>=</span> <span class='st'>"median"</span>,
   CSS <span class='op'>=</span> <span class='fu'><a href='sjPlot-themes.html'>css_theme</a></span><span class='op'>(</span><span class='st'>"regression"</span><span class='op'>)</span>,
   file <span class='op'>=</span> <span class='cn'>NULL</span>,
-  use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>
+  use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  encoding <span class='op'>=</span> <span class='st'>"UTF-8"</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -711,6 +712,13 @@ openend either in the IDE's viewer pane or the default web browser.</p></td>
       <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
 viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
 opened in a web browser.</p></td>
+    </tr>
+    <tr>
+      <th>encoding</th>
+      <td><p>Character vector, indicating the charset encoding used
+for variable and value labels. Default is <code>"UTF-8"</code>. For Windows
+Systems, <code>encoding = "Windows-1252"</code> might be necessary for proper
+display of special characters.</p></td>
     </tr>
     </table>
 

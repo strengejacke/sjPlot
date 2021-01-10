@@ -309,10 +309,10 @@ See 'Details' or <a href='https://strengejacke.github.io/sjPlot/articles/table_c
     </tr>
     <tr>
       <th>encoding</th>
-      <td><p>String, indicating the charset encoding used for variable and
-value labels. Default is <code>NULL</code>, so encoding will be auto-detected
-depending on your platform (e.g., <code>"UTF-8"</code> for Unix and <code>"Windows-1252"</code> for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).</p></td>
+      <td><p>Character vector, indicating the charset encoding used
+for variable and value labels. Default is <code>"UTF-8"</code>. For Windows
+Systems, <code>encoding = "Windows-1252"</code> might be necessary for proper
+display of special characters.</p></td>
     </tr>
     <tr>
       <th>file</th>
