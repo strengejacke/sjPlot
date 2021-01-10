@@ -197,6 +197,14 @@
 <h1 class="page-header" data-toc-text="2.8.7">
 <a href="#sjplot-287" class="anchor"></a>sjPlot 2.8.7<small> Unreleased </small>
 </h1>
+<div id="changes-to-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<ul>
+<li>
+<code><a href="../reference/tab_df.html">tab_dfs()</a></code> also gains a <code>digits</code> argument.</li>
+</ul>
+</div>
 <div id="bug-fixes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
@@ -210,9 +218,9 @@
 <h1 class="page-header" data-toc-text="2.8.6">
 <a href="#sjplot-286" class="anchor"></a>sjPlot 2.8.6<small> 2020-10-28 </small>
 </h1>
-<div id="changes-to-functions" class="section level2">
+<div id="changes-to-functions-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>When <code>dv.labels = ""</code> in <code><a href="../reference/tab_model.html">tab_model()</a></code>, the row with names of dependent variables is omitted.</li>
 </ul>
@@ -232,9 +240,9 @@
 <h1 class="page-header" data-toc-text="2.8.5">
 <a href="#sjplot-285" class="anchor"></a>sjPlot 2.8.5<small> 2020-09-24 </small>
 </h1>
-<div id="changes-to-functions-1" class="section level2">
+<div id="changes-to-functions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-1" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> gains an argument <code>df.method</code>, which will replace the less generic <code>p.val</code> argument in the future. Currently, <code>df.method</code> is an alias of <code>p.val</code>.</li>
@@ -259,9 +267,9 @@
 <h1 class="page-header" data-toc-text="2.8.4">
 <a href="#sjplot-284" class="anchor"></a>sjPlot 2.8.4<small> 2020-05-24 </small>
 </h1>
-<div id="changes-to-functions-2" class="section level2">
+<div id="changes-to-functions-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-2" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>The robust estimation (argument <code>vcov.fun</code> in <code><a href="../reference/tab_model.html">tab_model()</a></code> or <code><a href="../reference/plot_model.html">plot_model()</a></code>) now also uses and thus accepts estimation-types from package <em>clubSandwich</em>.</li>
 <li>
@@ -297,9 +305,9 @@
 <code><a href="../reference/tab_model.html">tab_model()</a></code> and <code><a href="../reference/plot_model.html">plot_model()</a></code> now support <em>clogit</em> models (requires latest update of package <strong>insight</strong>).</li>
 </ul>
 </div>
-<div id="changes-to-functions-3" class="section level2">
+<div id="changes-to-functions-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-3" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> gets a <code>p.adjust</code> argument to adjust p-values for multiple comparisons.</li>
@@ -333,9 +341,9 @@
 <code><a href="../reference/tab_xtab.html">sjt.xtab()</a></code> is now named <code><a href="../reference/tab_xtab.html">tab_xtab()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-4" class="section level2">
+<div id="changes-to-functions-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-4" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Improved handling for <code><a href="../reference/tab_model.html">tab_model()</a></code> of robust estimation in general and Kenward-Roger or Satterthwaite approximations in particular for linear mixed models.</li>
 <li>Revised code to cope with forthcoming <em>tidyselect</em>-update.</li>
@@ -354,9 +362,9 @@
 <h1 class="page-header" data-toc-text="2.8.1">
 <a href="#sjplot-281" class="anchor"></a>sjPlot 2.8.1<small> 2019-12-03 </small>
 </h1>
-<div id="changes-to-functions-5" class="section level2">
+<div id="changes-to-functions-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-5" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-6" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> gets arguments <code>bootstrap</code>, <code>iterations</code> and <code>seed</code> to return bootstrapped estimates.</li>
@@ -391,9 +399,9 @@
 <li>Standardization of model parameters (in <code><a href="../reference/plot_model.html">plot_model()</a></code> or <code><a href="../reference/tab_model.html">tab_model()</a></code>) now uses standardization based on refitting the model (see <a href="https://easystats.github.io/effectsize/articles/standardize_parameters.html">vignette</a> for details).</li>
 </ul>
 </div>
-<div id="changes-to-functions-6" class="section level2">
+<div id="changes-to-functions-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-6" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-7" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> gets <code>type = "emm"</code> as marginal effects plot type, which is similar to <code>type = "eff"</code>. See <a href="https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html">Plotting Marginal Effects of Regression Models</a> for details.</li>
@@ -435,9 +443,9 @@
 <code>sjp.xtab()</code> is now names <code><a href="../reference/plot_xtab.html">plot_xtab()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-7" class="section level2">
+<div id="changes-to-functions-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-7" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-8" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/plot_grid.html">plot_grid()</a></code> gets a <code>tags</code>-argument to add tags to plot-panels.</li>
@@ -465,9 +473,9 @@
 <li>new color palettes were added (see <code><a href="../reference/sjPlot-themes.html">show_sjplot_pals()</a></code>).</li>
 </ul>
 </div>
-<div id="changes-to-functions-8" class="section level2">
+<div id="changes-to-functions-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-8" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-9" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> now supports <em>gamlss</em> models.</li>
@@ -498,9 +506,9 @@
 <code>sjt.stackfrq()</code> was renamed to <code><a href="../reference/tab_stackfrq.html">tab_stackfrq()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-9" class="section level2">
+<div id="changes-to-functions-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-9" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-10" class="anchor"></a>Changes to functions</h2>
 <div id="plot_likert" class="section level3">
 <h3 class="hasAnchor">
 <a href="#plot_likert" class="anchor"></a><code>plot_likert()</code>
@@ -597,9 +605,9 @@
 <code>sjp.frq()</code> was renamed to <code><a href="../reference/plot_frq.html">plot_frq()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-10" class="section level2">
+<div id="changes-to-functions-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-10" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-11" class="anchor"></a>Changes to functions</h2>
 <div id="tab_model-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tab_model-1" class="anchor"></a>tab_model()</h3>
@@ -673,9 +681,9 @@
 <code>sjt.lm()</code>, <code>sjt.glm()</code>, <code>sjt.lmer()</code> and <code>sjt.glmer()</code>. Please use <code><a href="../reference/tab_model.html">tab_model()</a></code> instead.</li>
 </ul>
 </div>
-<div id="changes-to-functions-11" class="section level2">
+<div id="changes-to-functions-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-11" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-12" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> supports printing simplex parameters of monotonic effects of <strong>brms</strong> models.</li>
@@ -718,9 +726,9 @@
 <code>sjt.lm()</code>, <code>sjt.glm()</code>, <code>sjt.lmer()</code> and <code>sjt.glmer()</code> are now deprecated. Please use <code><a href="../reference/tab_model.html">tab_model()</a></code> instead.</li>
 </ul>
 </div>
-<div id="changes-to-functions-12" class="section level2">
+<div id="changes-to-functions-13" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-12" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-13" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Arguments <code>dot.size</code> and <code>line.size</code> in <code><a href="../reference/plot_model.html">plot_model()</a></code> now also apply to marginal effects and diagnostic plots.</li>
 <li>
@@ -774,9 +782,9 @@
 <code>sjp.resid()</code> was renamed to <code><a href="../reference/plot_residuals.html">plot_residuals()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-13" class="section level2">
+<div id="changes-to-functions-14" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-13" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-14" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>Improved support for <code>brmsfit</code>-objects with categorical-family for <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/tab_model.html">tab_model()</a></code>.</li>
 <li>
@@ -844,9 +852,9 @@
 <code>sjt.grpmean()</code>, <code>sjt.mwu()</code> and <code>sjt.df()</code>. The replacements are <code><a href="https://strengejacke.github.io/sjstats/reference/means_by_group.html">sjstats::grpmean()</a></code>, <code><a href="https://strengejacke.github.io/sjstats/reference/mwu.html">sjstats::mwu()</a></code> and <code><a href="../reference/tab_df.html">tab_df()</a></code> resp. <code><a href="../reference/tab_df.html">tab_dfs()</a></code>.</li>
 </ul>
 </div>
-<div id="changes-to-functions-14" class="section level2">
+<div id="changes-to-functions-15" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes-to-functions-14" class="anchor"></a>Changes to functions</h2>
+<a href="#changes-to-functions-15" class="anchor"></a>Changes to functions</h2>
 <ul>
 <li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/plot_models.html">plot_models()</a></code> get a <code>prefix.labels</code>-argument, to prefix automatically retrieved term labels with either the related variable name or label.</li>
