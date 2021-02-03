@@ -1439,6 +1439,6 @@ format_p_values <- function(dat, p.style, digits.p, emph.p, p.threshold){
   dat$p.value[dat$p.value == pv] <- "&lt;0.001"
 
   pv <- paste0("<strong>0.", paste(rep("0", digits.p), collapse = ""), "</strong>")
-  dat$p.value[dat$p.value == pv] <- "<strong>&lt;0.001"
+  dat$p.value[dat$p.value == pv] <- "<strong>&lt;0.001</strong>"
   dat
 }
