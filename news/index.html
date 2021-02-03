@@ -195,7 +195,7 @@
 
     <div id="sjplot-287" class="section level1">
 <h1 class="page-header" data-toc-text="2.8.7">
-<a href="#sjplot-287" class="anchor"></a>sjPlot 2.8.7<small> Unreleased </small>
+<a href="#sjplot-287" class="anchor"></a>sjPlot 2.8.7<small> 2021-01-10 </small>
 </h1>
 <div id="changes-to-functions" class="section level2">
 <h2 class="hasAnchor">
@@ -379,7 +379,7 @@
 <a href="#bug-fixes-6" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> with detecting labels when <code>auto.label = TRUE</code>.</li>
-<li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> for negative binomial hurdle mixed models (i.e. <em>glmmTMB</em> models with truncated negative-binomial family).</li>
+<li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> for negative binomial hurdle mixed models (i.e. <em>glmmTMB</em> models with truncated negative-binomial family).</li>
 <li>Fixed bug in <code><a href="../reference/tab_model.html">tab_model()</a></code> with <code>show.reflvl = TRUE</code>.</li>
 <li>Fixed bug in <code><a href="../reference/tab_model.html">tab_model()</a></code> where labels for coefficients where not matching the correct coefficients.</li>
 </ul>
@@ -576,7 +576,7 @@
 <code><a href="../reference/plot_model.html">plot_model(type = "int")</a></code> now also recognized interaction terms with <code><a href="https://rdrr.io/r/base/Colon.html">:</a></code> in formula.</li>
 <li>Argument <code>string.est</code> in <code><a href="../reference/tab_model.html">tab_model()</a></code> did not overwrite the default label for the estimate-column-header.</li>
 <li>Minor fix in <code><a href="../reference/tab_model.html">tab_model()</a></code> for mixed models that can’t compute R2.</li>
-<li>Fix issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> when printing robust standard errors and CI (i.e. when using arguments <code>vcov*</code>).</li>
+<li>Fix issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> when printing robust standard errors and CI (i.e. when using arguments <code>vcov*</code>).</li>
 <li>The <code><a href="../reference/plot_likert.html">plot_likert()</a></code> option <code>reverse.scale = TRUE</code> resulted in <code>values = "sum.inside"</code> being outside and the other way around. This is fixed now.</li>
 <li>
 <code><a href="../reference/view_df.html">view_df()</a></code> mixed up labels and frequency values when value labels were present, but no such values were in the data.</li>
@@ -873,12 +873,12 @@
 <li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> now plots the zero-inflated part of the model for <code>brmsfit</code>-objects.</li>
 <li>
-<code><a href="../reference/plot_model.html">plot_model()</a></code> now plots multivariate response models, i.e. models with multiple outcomes.</li>
+<code><a href="../reference/plot_model.html">plot_model()</a></code> now plots multivariate response models, i.e. models with multiple outcomes.</li>
 <li>Diagnostic plots in <code><a href="../reference/plot_model.html">plot_model()</a></code> (<code>type = "diag"</code>) can now also be used with <code>brmsfit</code>-objects.</li>
 <li>Axis limits of diagnostic plots in <code><a href="../reference/plot_model.html">plot_model()</a></code> (<code>type = "diag"</code>) for Stan-models (<code>brmsfit</code> or <code>stanreg</code> resp. <code>stanfit</code>) can now be set with the <code>axis.lim</code>-argument.</li>
 <li>The <code>grid.breaks</code>-argument for <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/plot_models.html">plot_models()</a></code> now also takes a vector of values to directly define the grid breaks for the plot.</li>
 <li>Better default calculation for grid breaks in <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/plot_models.html">plot_models()</a></code> when the <code>grid.breaks</code>-argument is of length one.</li>
-<li>The <code>terms</code>-argument for <code><a href="../reference/plot_model.html">plot_model()</a></code> now also allows the specification of a range of numeric values in square brackets for marginal effects plots, e.g. <code>terms = "age [30:50]"</code> or <code>terms = "age [pretty]"</code>.</li>
+<li>The <code>terms</code>-argument for <code><a href="../reference/plot_model.html">plot_model()</a></code> now also allows the specification of a range of numeric values in square brackets for marginal effects plots, e.g. <code>terms = "age [30:50]"</code> or <code>terms = "age [pretty]"</code>.</li>
 <li>For coefficient-plots, the <code>terms</code>- and <code>rm.terms</code>-arguments for <code><a href="../reference/plot_model.html">plot_model()</a></code> now also allows specification of factor levels for categorical terms. Coefficients for the indicted factor levels are kept resp. removed (see <code><a href="../reference/plot_model.html">?plot_model</a></code> for details).</li>
 <li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> now supports <code>clmm</code>-objects (package <em>ordinal</em>).</li>

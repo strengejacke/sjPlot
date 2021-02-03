@@ -169,7 +169,7 @@ vignette: >
 <div id="robust-covariance-matrix-estimation-from-model-parameters" class="section level3">
 <h3 class="hasAnchor">
 <a href="#robust-covariance-matrix-estimation-from-model-parameters" class="anchor"></a>Robust Covariance Matrix Estimation from Model Parameters</h3>
-<p>There are three arguments that allow for choosing different methods and options of robust estimation: <code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code>. Let us start with a simple example, which uses a heteroskedasticity-consistent covariance matrix estimation with estimation-type “HC3” (i.e. <code><a href="http://sandwich.R-Forge.R-project.org//reference/vcovHC.html">sandwich::vcovHC(type = "HC3")</a></code> is called):</p>
+<p>There are three arguments that allow for choosing different methods and options of robust estimation: <code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code>. Let us start with a simple example, which uses a heteroskedasticity-consistent covariance matrix estimation with estimation-type “HC3” (i.e. <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html">sandwich::vcovHC(type = "HC3")</a></code> is called):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>
 <span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Petal.Length</span> <span class="op">~</span> <span class="va">Sepal.Length</span> <span class="op">*</span> <span class="va">Species</span> <span class="op">+</span> <span class="va">Sepal.Width</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span>
@@ -301,8 +301,7 @@ Sepal.Length * Species<br>[versicolor]
 0.35 – 0.87
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -319,8 +318,7 @@ Sepal.Length * Species<br>[virginica]
 0.45 – 0.91
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -343,14 +341,14 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># compare standard errors to result from sandwich-package</span>
-<span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fu">sandwich</span><span class="fu">::</span><span class="fu"><a href="http://sandwich.R-Forge.R-project.org//reference/vcovHC.html">vcovHC</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fu">sandwich</span><span class="fu">::</span><span class="fu"><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html">vcovHC</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.45382603 0.11884474 0.69296611 0.63031982 0.08318559 0.13045539 0.11841325</span></code></pre></div>
 </div>
 <div id="cluster-robust-covariance-matrix-estimation-sandwich" class="section level3">
 <h3 class="hasAnchor">
 <a href="#cluster-robust-covariance-matrix-estimation-sandwich" class="anchor"></a>Cluster-Robust Covariance Matrix Estimation (sandwich)</h3>
-<p>If another covariance matrix estimation is required, use the <code>vcov.fun</code>-argument. This argument needs the suffix for the related <code>vcov*()</code>-functions as value, i.e. <code>vcov.fun = "CL"</code> would call <code><a href="http://sandwich.R-Forge.R-project.org//reference/vcovCL.html">sandwich::vcovCL()</a></code>, or <code>vcov.fun = "HAC"</code> would call <code><a href="http://sandwich.R-Forge.R-project.org//reference/vcovHAC.html">sandwich::vcovHAC()</a></code>.</p>
-<p>The specific estimation type can be changed with <code>vcov.type</code>. E.g., <code><a href="http://sandwich.R-Forge.R-project.org//reference/vcovCL.html">sandwich::vcovCL()</a></code> accepts estimation types HC0 to HC3. In the next example, we use a clustered covariance matrix estimation with HC1-estimation type.</p>
+<p>If another covariance matrix estimation is required, use the <code>vcov.fun</code>-argument. This argument needs the suffix for the related <code>vcov*()</code>-functions as value, i.e. <code>vcov.fun = "CL"</code> would call <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovCL.html">sandwich::vcovCL()</a></code>, or <code>vcov.fun = "HAC"</code> would call <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHAC.html">sandwich::vcovHAC()</a></code>.</p>
+<p>The specific estimation type can be changed with <code>vcov.type</code>. E.g., <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovCL.html">sandwich::vcovCL()</a></code> accepts estimation types HC0 to HC3. In the next example, we use a clustered covariance matrix estimation with HC1-estimation type.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># change estimation-type</span>
 <span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">model</span>, vcov.fun <span class="op">=</span> <span class="st">"CL"</span>, vcov.type <span class="op">=</span> <span class="st">"HC1"</span>, show.se <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -479,8 +477,7 @@ Sepal.Length * Species<br>[versicolor]
 0.37 – 0.85
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -497,8 +494,7 @@ Sepal.Length * Species<br>[virginica]
 0.46 – 0.90
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -521,9 +517,9 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># compare standard errors to result from sandwich-package</span>
-<span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fu">sandwich</span><span class="fu">::</span><span class="fu"><a href="http://sandwich.R-Forge.R-project.org//reference/vcovCL.html">vcovCL</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fu">sandwich</span><span class="fu">::</span><span class="fu"><a href="https://sandwich.R-Forge.R-project.org//reference/vcovCL.html">vcovCL</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.42197635 0.11148130 0.65274212 0.58720711 0.07934029 0.12251570 0.11058144</span></code></pre></div>
-<p>Usually, clustered covariance matrix estimation is used when there is a cluster-structure in the data. The variable indicating the cluster-structure can be defined in <code><a href="http://sandwich.R-Forge.R-project.org//reference/vcovCL.html">sandwich::vcovCL()</a></code> with the <code>cluster</code>-argument. In <code><a href="../reference/tab_model.html">tab_model()</a></code>, additional arguments that should be passed down to functions from the <strong>sandwich</strong> package can be specified in <code>vcov.args</code>:</p>
+<p>Usually, clustered covariance matrix estimation is used when there is a cluster-structure in the data. The variable indicating the cluster-structure can be defined in <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovCL.html">sandwich::vcovCL()</a></code> with the <code>cluster</code>-argument. In <code><a href="../reference/tab_model.html">tab_model()</a></code>, additional arguments that should be passed down to functions from the <strong>sandwich</strong> package can be specified in <code>vcov.args</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">iris</span><span class="op">$</span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span>, length.out <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># change estimation-type, defining additional arguments</span>
@@ -659,8 +655,7 @@ Sepal.Length * Species<br>[versicolor]
 0.42 – 0.80
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -677,8 +672,7 @@ Sepal.Length * Species<br>[virginica]
 0.58 – 0.78
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -701,7 +695,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="co"># compare standard errors to result from sandwich-package</span>
-<span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fu">sandwich</span><span class="fu">::</span><span class="fu"><a href="http://sandwich.R-Forge.R-project.org//reference/vcovCL.html">vcovCL</a></span><span class="op">(</span><span class="va">model</span>, cluster <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/unname.html">unname</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span><span class="op">(</span><span class="fu">sandwich</span><span class="fu">::</span><span class="fu"><a href="https://sandwich.R-Forge.R-project.org//reference/vcovCL.html">vcovCL</a></span><span class="op">(</span><span class="va">model</span>, cluster <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 0.33714287 0.07192334 0.51893777 0.26415406 0.07201145 0.09661348 0.05123446</span></code></pre></div>
 </div>
 <div id="cluster-robust-covariance-matrix-estimation-clubsandwich" class="section level3">
@@ -845,8 +839,7 @@ Sepal.Length * Species<br>[versicolor]
 0.42 – 0.79
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -863,8 +856,7 @@ Sepal.Length * Species<br>[virginica]
 0.58 – 0.78
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -953,8 +945,7 @@ std. p
 0.059
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1000,8 +991,7 @@ Species [versicolor]
 0.265
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1024,8 +1014,7 @@ Species [virginica]
 0.513
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1068,12 +1057,10 @@ Sepal.Length * Species<br>[versicolor]
 0.16 – 0.41
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1093,12 +1080,10 @@ Sepal.Length * Species<br>[virginica]
 0.21 – 0.43
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1175,8 +1160,7 @@ p
 0.77 – 2.34
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1218,8 +1202,7 @@ Sepal.Width
 0.44 – 0.88
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1233,8 +1216,7 @@ Petal.Length
 0.69 – 0.95
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1362,8 +1344,7 @@ p
 0.76 – 2.35
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1405,8 +1386,7 @@ Sepal.Width
 0.46 – 0.86
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1420,8 +1400,7 @@ Petal.Length
 0.72 – 0.91
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1569,12 +1548,10 @@ std. p
 0.82 – 1.12
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1597,8 +1574,7 @@ Species [versicolor]
 0.608
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1621,8 +1597,7 @@ Species [virginica]
 <strong>0.033</strong>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1642,12 +1617,10 @@ Sepal.Width
 0.24 – 0.45
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
@@ -1667,12 +1640,10 @@ Petal.Length
 1.54 – 1.94
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
-<strong>&lt;0.001
-</strong>
+<strong>&lt;0.001</strong>
 </td>
 </tr>
 <tr>
