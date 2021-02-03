@@ -811,7 +811,7 @@ tab_model <- function(
       if (show.aic) aic <- model_aic(model)
 
       aicc <- NULL
-      if (show.aicc) aic <- model_aicc(model)
+      if (show.aicc) aicc <- model_aicc(model)
 
       loglik <- NULL
       if (show.loglik) loglik <- model_loglik(model)
