@@ -17,6 +17,9 @@
 #'         \code{"minchi"} will minimize the sample size weighted chi square
 #'         when treating pairwise correlations with different number of
 #'         subjects per pair. \code{"minrank"} will do a minimum rank factor analysis.
+#' @param sort logical, if \code{TRUE}, sort the loadings for each factors
+#'   (items will be sorted in terms of their greatest loading, in descending
+#'   order)
 #'
 #' @inheritParams tab_pca
 #' @inheritParams tab_model
@@ -61,6 +64,7 @@ tab_fa <- function(data,
                    method = c("ml", "minres", "wls", "gls", "pa", "minchi", "minrank"),
                    nmbr.fctr = NULL,
                    fctr.load.tlrn = 0.1,
+                   sort = FALSE,
                    title = "Factor Analysis",
                    var.labels = NULL,
                    wrap.labels = 40,
@@ -96,12 +100,12 @@ tab_fa <- function(data,
   # check if user has passed a data frame
   # or a pca object
   # ----------------------------
-  # ----------------------------
-  # check if user has passed a data frame
-  # or a pca object
-  # ----------------------------
   if (inherits(data, "fa")) {
-    fadata <- data
+    if (sort == TRUE) {
+      fadata <- psych::fa.sort(data) #resort loadings
+    } else {
+      fadata <- data
+    }
     dataframeparam <- FALSE
   } else if (is.data.frame(data)) {
 
@@ -109,11 +113,16 @@ tab_fa <- function(data,
       nr_factors <- psych::fa.parallel(data, fa = 'fa', fm = method)$nfact
       dev.off()
       fadata <- psych::fa(data, nfactors = nr_factors, fm = method, rotate = rotation)
+      if (sort == TRUE) {
+        fadata <- psych::fa.sort(fadata) #resort loadings
+      }
     }
     else {
 
       fadata <- psych::fa(data, nfactors = nmbr.fctr, fm = method, rotate = rotation)
-
+      if (sort == TRUE) {
+        fadata <- psych::fa.sort(fadata) #resort loadings
+      }
     }
     dataframeparam <- TRUE
   }
@@ -213,6 +222,10 @@ tab_fa <- function(data,
   if (!is.null(var.labels)) {
     # wrap long variable labels
     var.labels <- sjmisc::word_wrap(var.labels, wrap.labels, "<br>")
+    # resort labels when sort == TRUE
+    if (sort == TRUE) {
+      var.labels <- var.labels[fadata$order]
+    }
   }
   # --------------------------------------------------------
   # this function checks which items have unclear factor loadings,
