@@ -73,7 +73,7 @@
 #' @importFrom sjmisc word_wrap var_rename add_variables
 #' @export
 plot_models <- function(...,
-                        transform,
+                        transform = NULL,
                         std.est = NULL,
                         rm.terms = NULL,
                         title = NULL,
@@ -169,7 +169,7 @@ plot_models <- function(...,
       ci.lvl = ci.lvl,
       tf = transform,
       type = "est",
-      bpe = "line",
+      bpe = "median",
       robust = list(vcov.fun = vcov.fun, vcov.type = vcov.type, vcov.args = vcov.args),
       facets = TRUE,
       show.zeroinf = FALSE,
