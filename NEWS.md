@@ -1,3 +1,9 @@
+# sjPlot 2.8.8
+
+## Bug fixes
+
+* `plot_models()` did not work properly for Bayesian models.
+
 # sjPlot 2.8.7
 
 ## Changes to functions
