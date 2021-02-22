@@ -10,16 +10,16 @@ Collection of plotting and table output functions for data visualization. Result
 
 ### Latest development build
 
-To install the latest development snapshot (see latest changes below), type following commands into the R console:
+To install the latest development snapshot (see latest changes below), type the following commands into the R console:
 
 ```r
 library(devtools)
 devtools::install_github("strengejacke/sjPlot")
 ```
 
-### Officiale, stable release
+### Official, stable release
 
-To install the latest stable release from CRAN, type following command into the R console:
+To install the latest stable release from CRAN, type the following command into the R console:
 
 ```r
 install.packages("sjPlot")
