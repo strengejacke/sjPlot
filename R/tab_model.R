@@ -139,11 +139,13 @@
 #' @param df.method,p.val Method for computing degrees of freedom for p-values,
 #'   standard errors and confidence intervals (CI). Only applies to mixed models.
 #'   Use \code{df.method = "wald"} for a faster, but less precise computation.
-#'   \code{df.method = "kenward"} (or \code{df.method = "kr"}) uses Kenward-Roger
-#'   approximation for the degrees of freedom. \code{df.method = "satterthwaite"}
-#'   uses Satterthwaite's approximation and \code{"ml1"} uses a "m-l-1" heuristic
-#'   see \code{\link[parameters]{degrees_of_freedom}} for details). Use
-#'   \code{show.df = TRUE} to show the approximated degrees of freedom
+#'   This will use the residual degrees of freedom (as returned by \code{df.residual()})
+#'   for linear mixed models, and \code{Inf} degrees if freedom for all other
+#'   model families. \code{df.method = "kenward"} (or \code{df.method = "kr"})
+#'   uses Kenward-Roger approximation for the degrees of freedom.
+#'   \code{df.method = "satterthwaite"} uses Satterthwaite's approximation and
+#'   \code{"ml1"} uses a "m-l-1" heuristic see \code{\link[parameters]{degrees_of_freedom}}
+#'   for details). Use \code{show.df = TRUE} to show the approximated degrees of freedom
 #'   for each coefficient.
 #' @param p.style Character, indicating if p-values should be printed as
 #'   numeric value (\code{"numeric"}), as 'stars' (asterisks) only (\code{"stars"}),
@@ -154,7 +156,7 @@
 #'    See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.
 #' @param file Destination file, if the output should be saved as file.
 #'    If \code{NULL} (default), the output will be saved as temporary file and
-#'    openend either in the IDE's viewer pane or the default web browser.
+#'    opened either in the IDE's viewer pane or the default web browser.
 #' @param use.viewer Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 #'    viewer pane. If \code{FALSE} or no viewer available, the HTML table is
 #'    opened in a web browser.

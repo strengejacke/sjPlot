@@ -6,7 +6,7 @@
 \usage{
 plot_models(
   ...,
-  transform,
+  transform = NULL,
   std.est = NULL,
   rm.terms = NULL,
   title = NULL,

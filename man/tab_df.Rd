@@ -87,7 +87,7 @@ See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.
 
 \item{file}{Destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and
-openend either in the IDE's viewer pane or the default web browser.}
+opened either in the IDE's viewer pane or the default web browser.}
 
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 viewer pane. If \code{FALSE} or no viewer available, the HTML table is
