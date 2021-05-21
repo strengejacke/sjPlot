@@ -84,9 +84,16 @@ If factor.groups is not NULL, the data frame df will be
 
 
 
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -100,7 +107,7 @@ If factor.groups is not NULL, the data frame df will be
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.8</span>
       </span>
     </div>
 
@@ -235,7 +242,7 @@ If factor.groups is not NULL, the data frame df will be
                as example for retrieving factor groups for a scale and see examples for more details).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tab_itemscale</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>tab_itemscale</span><span class='op'>(</span>
   <span class='va'>df</span>,
   factor.groups <span class='op'>=</span> <span class='cn'>NULL</span>,
   factor.groups.titles <span class='op'>=</span> <span class='st'>"auto"</span>,
@@ -269,7 +276,7 @@ If factor.groups is not NULL, the data frame df will be
   file <span class='op'>=</span> <span class='cn'>NULL</span>,
   use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>,
   remove.spaces <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -282,7 +289,7 @@ If factor.groups is not NULL, the data frame df will be
       <th>factor.groups</th>
       <td><p>If not <code>NULL</code>, <code>df</code> will be splitted into sub-groups,
 where the item analysis is carried out for each of these groups. Must be a vector of same
-length as <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(df)</a></code>, where each item in this vector represents the group number of
+length as <code>ncol(df)</code>, where each item in this vector represents the group number of
 the related columns of <code>df</code>. If <code>factor.groups = "auto"</code>, a principal
 component analysis with Varimax rotation is performed, and the resulting
 groups for the components are used as group index. See 'Examples'.</p></td>
@@ -290,7 +297,7 @@ groups for the components are used as group index. See 'Examples'.</p></td>
     <tr>
       <th>factor.groups.titles</th>
       <td><p>Titles for each factor group that will be used as table caption for each
-component-table. Must be a character vector of same length as <code><a href='https://rdrr.io/r/base/length.html'>length(unique(factor.groups))</a></code>.
+component-table. Must be a character vector of same length as <code>length(unique(factor.groups))</code>.
 Default is <code>"auto"</code>, which means that each table has a standard caption <em>Component x</em>.
 Use <code>NULL</code> to suppress table captions.</p></td>
     </tr>
@@ -408,39 +415,39 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Data from the EUROFAMCARE sample dataset</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjmisc/'>sjmisc</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjlabelled/'>sjlabelled</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
-
-<span class='co'># retrieve variable and value labels</span>
-<span class='va'>varlabs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjlabelled/reference/get_label.html'>get_label</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
-
-<span class='co'># recveive first item of COPE-index scale</span>
-<span class='va'>start</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c82cop1"</span><span class='op'>)</span>
-<span class='co'># recveive last item of COPE-index scale</span>
-<span class='va'>end</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c90cop9"</span><span class='op'>)</span>
-
-<span class='co'># create data frame with COPE-index scale</span>
-<span class='va'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>]</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>varlabs</span><span class='op'>[</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>]</span>
-
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'>tab_itemscale</span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span>
-
-  <span class='co'># auto-detection of labels</span>
-  <span class='fu'>tab_itemscale</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>]</span><span class='op'>)</span>
-
-  <span class='co'># Compute PCA on Cope-Index, and perform a</span>
-  <span class='co'># item analysis for each extracted factor.</span>
-  <span class='va'>indices</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tab_pca.html'>tab_pca</a></span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span><span class='op'>$</span><span class='va'>factor.index</span>
-  <span class='fu'>tab_itemscale</span><span class='op'>(</span><span class='va'>mydf</span>, factor.groups <span class='op'>=</span> <span class='va'>indices</span><span class='op'>)</span>
-
-  <span class='co'># or, equivalent</span>
-  <span class='fu'>tab_itemscale</span><span class='op'>(</span><span class='va'>mydf</span>, factor.groups <span class='op'>=</span> <span class='st'>"auto"</span><span class='op'>)</span>
-<span class='op'>}</span><span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># Data from the EUROFAMCARE sample dataset</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjmisc/'>sjmisc</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjlabelled/'>sjlabelled</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># retrieve variable and value labels</span></span>
+<span class='r-in'><span class='va'>varlabs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjlabelled/reference/get_label.html'>get_label</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># recveive first item of COPE-index scale</span></span>
+<span class='r-in'><span class='va'>start</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c82cop1"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># recveive last item of COPE-index scale</span></span>
+<span class='r-in'><span class='va'>end</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c90cop9"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># create data frame with COPE-index scale</span></span>
+<span class='r-in'><span class='va'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>varlabs</span><span class='op'>[</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>]</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='fu'>tab_itemscale</span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># auto-detection of labels</span></span>
+<span class='r-in'>  <span class='fu'>tab_itemscale</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># Compute PCA on Cope-Index, and perform a</span></span>
+<span class='r-in'>  <span class='co'># item analysis for each extracted factor.</span></span>
+<span class='r-in'>  <span class='va'>indices</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tab_pca.html'>tab_pca</a></span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span><span class='op'>$</span><span class='va'>factor.index</span></span>
+<span class='r-in'>  <span class='fu'>tab_itemscale</span><span class='op'>(</span><span class='va'>mydf</span>, factor.groups <span class='op'>=</span> <span class='va'>indices</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># or, equivalent</span></span>
+<span class='r-in'>  <span class='fu'>tab_itemscale</span><span class='op'>(</span><span class='va'>mydf</span>, factor.groups <span class='op'>=</span> <span class='st'>"auto"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -452,11 +459,11 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://github.com/strengejacke'>Daniel Lüdecke</a>.</p>
+  <p><p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -464,6 +471,8 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
   
 
+
+  
 
   </body>
 </html>

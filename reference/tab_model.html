@@ -66,9 +66,16 @@
 
 
 
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -82,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.8</span>
       </span>
     </div>
 
@@ -199,7 +206,7 @@
     <p><code>tab_model()</code> creates HTML tables from regression models.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tab_model</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>tab_model</span><span class='op'>(</span>
   <span class='va'>...</span>,
   <span class='va'>transform</span>,
   show.intercept <span class='op'>=</span> <span class='cn'>TRUE</span>,
@@ -277,7 +284,7 @@
   file <span class='op'>=</span> <span class='cn'>NULL</span>,
   use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>,
   encoding <span class='op'>=</span> <span class='st'>"UTF-8"</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -733,7 +740,7 @@ display of special characters.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Standardized Estimates</h3>
+<h3 class='hasAnchor' id='standardized-estimates'><a class='anchor' aria-hidden='true' href='#standardized-estimates'></a>Standardized Estimates</h3>
 <p>Default standardization is done by completely refitting the model on the
   standardized data. Hence, this approach is equal to standardizing the
   variables before fitting the model, which is particularly recommended for
@@ -747,7 +754,39 @@ display of special characters.</p></td>
   estimates are printed (same effect as <code>show.std = "std"</code>). Use
   <code>show.std = NULL</code> (default) or <code>show.std = FALSE</code>, if no standardization
   is required.</p>
-<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>How do I use <code>CSS</code>-argument?</h3>
+<h3 class='hasAnchor' id='how-do-i-use-'><a class='anchor' aria-hidden='true' href='#how-do-i-use-'></a>How do I use <code>CSS</code>-argument?</h3>
+<p>With the <code>CSS</code>-argument, the visual appearance of the tables
+   can be modified. To get an overview of all style-sheet-classnames
+   that are used in this function, see return value <code>page.style</code> for details.
+   Arguments for this list have following syntax:</p><ol>
+<li><p>the class-names with <code>"css."</code>-prefix as argument name and</p></li>
+<li><p>each style-definition must end with a semicolon</p></li>
+</ol><p>You can add style information to the default styles by using a + (plus-sign) as
+   initial character for the argument attributes. Examples:</p><ul>
+<li><p><code>css.table = 'border:2px solid red;'</code> for a solid 2-pixel table border in red.</p></li>
+<li><p><code>css.summary = 'font-weight:bold;'</code> for a bold fontweight in the summary row.</p></li>
+<li><p><code>css.lasttablerow = 'border-bottom: 1px dotted blue;'</code> for a blue dotted border of the last table row.</p></li>
+<li><p><code>css.colnames = '+color:green'</code> to add green color formatting to column names.</p></li>
+<li><p><code>css.arc = 'color:blue;'</code> for a blue text color each 2nd row.</p></li>
+<li><p><code>css.caption = '+color:red;'</code> to add red font-color to the default table caption style.</p></li>
+</ul>
+<h3 class='hasAnchor' id='list-css-'><a class='anchor' aria-hidden='true' href='#list-css-'></a>How do I use <code>CSS</code>-argument?</h3>
+<p>With the <code>CSS</code>-argument, the visual appearance of the tables
+   can be modified. To get an overview of all style-sheet-classnames
+   that are used in this function, see return value <code>page.style</code> for details.
+   Arguments for this list have following syntax:</p><ol>
+<li><p>the class-names with <code>"css."</code>-prefix as argument name and</p></li>
+<li><p>each style-definition must end with a semicolon</p></li>
+</ol><p>You can add style information to the default styles by using a + (plus-sign) as
+   initial character for the argument attributes. Examples:</p><ul>
+<li><p><code>css.table = 'border:2px solid red;'</code> for a solid 2-pixel table border in red.</p></li>
+<li><p><code>css.summary = 'font-weight:bold;'</code> for a bold fontweight in the summary row.</p></li>
+<li><p><code>css.lasttablerow = 'border-bottom: 1px dotted blue;'</code> for a blue dotted border of the last table row.</p></li>
+<li><p><code>css.colnames = '+color:green'</code> to add green color formatting to column names.</p></li>
+<li><p><code>css.arc = 'color:blue;'</code> for a blue text color each 2nd row.</p></li>
+<li><p><code>css.caption = '+color:red;'</code> to add red font-color to the default table caption style.</p></li>
+</ul>
+<h3 class='hasAnchor' id='-argument-'><a class='anchor' aria-hidden='true' href='#-argument-'></a>How do I use <code>CSS</code>-argument?</h3>
 <p>With the <code>CSS</code>-argument, the visual appearance of the tables
    can be modified. To get an overview of all style-sheet-classnames
    that are used in this function, see return value <code>page.style</code> for details.
@@ -788,11 +827,11 @@ display of special characters.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://github.com/strengejacke'>Daniel Lüdecke</a>.</p>
+  <p><p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -800,6 +839,8 @@ display of special characters.</p></td>
 
   
 
+
+  
 
   </body>
 </html>

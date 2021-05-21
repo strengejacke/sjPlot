@@ -69,9 +69,16 @@
 
 
 
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -85,7 +92,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.8</span>
       </span>
     </div>
 
@@ -205,7 +212,7 @@
                the model summary.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sjp.aov1</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>sjp.aov1</span><span class='op'>(</span>
   <span class='va'>var.dep</span>,
   <span class='va'>var.grp</span>,
   meansums <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -225,7 +232,7 @@
   y.offset <span class='op'>=</span> <span class='fl'>0.15</span>,
   show.p <span class='op'>=</span> <span class='cn'>TRUE</span>,
   show.summary <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -233,7 +240,7 @@
     <tr>
       <th>var.dep</th>
       <td><p>Dependent variable. Will be used with following formula:
-<code><a href='https://rdrr.io/r/stats/aov.html'>aov(var.dep ~ var.grp)</a></code></p></td>
+<code>aov(var.dep ~ var.grp)</code></p></td>
     </tr>
     <tr>
       <th>var.grp</th>
@@ -346,14 +353,16 @@ than 2x2, Fisher's exact test with Monte Carlo simulation is computed.</p></td>
     <p>A ggplot-object.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
-<span class='co'># note: "var.grp" does not need to be a factor.</span>
-<span class='co'># coercion to factor is done by the function</span>
-<span class='fu'>sjp.aov1</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c12hour</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Continuous limits supplied to discrete scale.</span>
-#&gt; <span class='warning'>Did you mean `limits = factor(...)` or `scale_*_continuous()`?</span></div><div class='img'><img src='sjp.aov1-1.png' alt='' width='700' height='433' /></div><div class='input'>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># note: "var.grp" does not need to be a factor.</span></span>
+<span class='r-in'><span class='co'># coercion to factor is done by the function</span></span>
+<span class='r-in'><span class='fu'>sjp.aov1</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c12hour</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>e42dep</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Continuous limits supplied to discrete scale.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Did you mean `limits = factor(...)` or `scale_*_continuous()`?</span>
+<span class='r-plt'><img src='sjp.aov1-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -365,11 +374,11 @@ than 2x2, Fisher's exact test with Monte Carlo simulation is computed.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://github.com/strengejacke'>Daniel Lüdecke</a>.</p>
+  <p><p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -377,6 +386,8 @@ than 2x2, Fisher's exact test with Monte Carlo simulation is computed.</p></td>
 
   
 
+
+  
 
   </body>
 </html>

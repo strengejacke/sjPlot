@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.8</span>
       </span>
     </div>
 
@@ -128,7 +130,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/strengejacke/sjPlot/">
+  <a href="https://github.com/strengejacke/sjPlot/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -147,11 +149,11 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Plotting Interaction Effects of Regression Models</h1>
-                        <h4 class="author">Daniel Lüdecke</h4>
+                        <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2021-02-03</h4>
+            <h4 data-toc-skip class="date">2021-05-21</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/plot_interactions.Rmd"><code>vignettes/plot_interactions.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/plot_interactions.Rmd" class="external-link"><code>vignettes/plot_interactions.Rmd</code></a></small>
       <div class="hidden name"><code>plot_interactions.Rmd</code></div>
 
     </div>
@@ -170,28 +172,28 @@
 <li>
 <code>type = "int"</code> to plot marginal effects of interaction terms in a more convenient way.</li>
 </ul>
-<p><code><a href="../reference/plot_model.html">plot_model()</a></code> supports <a href="https://cran.r-project.org/package=sjlabelled">labelled data</a> and automatically uses variable and value labels to annotate the plot. This works with most regression modelling functions.</p>
-<p><em><strong>Note:</strong> For marginal effects plots, <strong>sjPlot</strong> calls functions from the <a href="https://strengejacke.github.io/ggeffects/"><strong>ggeffects-package</strong></a>. If you need more flexibility when creating marginal effects plots, consider directly using the <strong>ggeffects</strong>-package.</em></p>
+<p><code><a href="../reference/plot_model.html">plot_model()</a></code> supports <a href="https://cran.r-project.org/package=sjlabelled" class="external-link">labelled data</a> and automatically uses variable and value labels to annotate the plot. This works with most regression modelling functions.</p>
+<p><em><strong>Note:</strong> For marginal effects plots, <strong>sjPlot</strong> calls functions from the <a href="https://strengejacke.github.io/ggeffects/" class="external-link"><strong>ggeffects-package</strong></a>. If you need more flexibility when creating marginal effects plots, consider directly using the <strong>ggeffects</strong>-package.</em></p>
 <div id="two-way-interactions" class="section level1">
 <h1 class="hasAnchor">
-<a href="#two-way-interactions" class="anchor"></a>Two-Way-Interactions</h1>
+<a href="#two-way-interactions" class="anchor" aria-hidden="true"></a>Two-Way-Interactions</h1>
 <p><em>Note: To better understand the principle of plotting interaction terms, it might be helpful to read the vignette on <a href="plot_marginal_effects.html">marginal effects</a> first.</em></p>
 <p>To plot marginal effects of interaction terms, at least two model terms need to be specified (the terms that define the interaction) in the <code>terms</code>-argument, for which the effects are computed. To plot marginal effects for three-way-interactions, all three terms need to be specified in <code>terms</code>.</p>
 <p>A convenient way to automatically plot interactions is <code>type = "int"</code>, which scans the model formula for interaction terms and then uses these as <code>terms</code>-argument.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/">sjmisc</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="../reference/sjPlot-themes.html">theme_sjplot</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/" class="external-link">sjPlot</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html" class="external-link">theme_set</a></span><span class="op">(</span><span class="fu"><a href="../reference/sjPlot-themes.html">theme_sjplot</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># make categorical</span>
-<span class="va">efc</span><span class="op">$</span><span class="va">c161sex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html">to_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c161sex</span><span class="op">)</span>
+<span class="va">efc</span><span class="op">$</span><span class="va">c161sex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">to_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c161sex</span><span class="op">)</span>
 
 <span class="co"># fit model with interaction</span>
-<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">barthtot</span> <span class="op">*</span> <span class="va">c161sex</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">barthtot</span> <span class="op">*</span> <span class="va">c161sex</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
 
-<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"barthtot"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"barthtot"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_interactions_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
 <p>For <code>type = "int"</code>, no terms need to be specified. Note that this plot type automatically uses the first interaction term in the formula for the x-axis, while the second term is used as grouping factor. Furthermore, if continuous variables are used as second term, you can specify preset-values for this term with the <code>mdrt.values</code>-argument, which are then used as grouping levels.</p>
 <p>In this example, the second term is a factor with two levels (male/female), so there is no need for choosing specific values for the moderator.</p>
@@ -200,12 +202,12 @@
 <p><img src="plot_interactions_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 <p>To switch the terms, in this example <em>barthtot</em> and <em>c161sex</em>, simply switch the order of these terms on the <code>terms</code>-argument and use <code>type = "pred"</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"barthtot [0, 100]"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c161sex"</span>, <span class="st">"barthtot [0, 100]"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_interactions_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 <p>To switch the terms for plot-type <code>type = "int"</code>, you need to re-fit the model and change the formula accordingly, i.e. using <em>c161sex</em> as first term in the interaction.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># fit model with interaction, switching terms in formula</span>
-<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">*</span> <span class="va">barthtot</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">*</span> <span class="va">barthtot</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"int"</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_interactions_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 <p>By default, for continuous variables, the minimum and maximum values are chosen as grouping levels, which are 0 and 100 - that’s why the previous two plots are identical. You have other options as well, e.g. the mean-value and +/- 1 standard deviation (as suggested by Cohen and Cohen for continuous variables and popularized by Aiken and West 1991), which can be specified using <code>mdrt.values</code>.</p>
@@ -215,14 +217,14 @@
 </div>
 <div id="three-way-interactions" class="section level1">
 <h1 class="hasAnchor">
-<a href="#three-way-interactions" class="anchor"></a>Three-Way-Interactions</h1>
+<a href="#three-way-interactions" class="anchor" aria-hidden="true"></a>Three-Way-Interactions</h1>
 <p>Since the <code>terms</code>-argument accepts up to three model terms, you can also compute marginal effects for a 3-way-interaction.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># fit model with 3-way-interaction</span>
-<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">*</span> <span class="va">barthtot</span> <span class="op">*</span> <span class="va">c161sex</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">*</span> <span class="va">barthtot</span> <span class="op">*</span> <span class="va">c161sex</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
 
 <span class="co"># select only levels 30, 50 and 70 from continuous variable Barthel-Index</span>
-<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"barthtot [30,50,70]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"barthtot [30,50,70]"</span>, <span class="st">"c161sex"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_interactions_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>Again, <code>type = "int"</code> will automatically plot the interaction terms, however, using <code>mdrt.values = "minmax"</code> as default - in this case, the “levels” 0 and 100 from continuous variable <em>barthtot</em> are chosen by default.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -241,7 +243,7 @@
 </div>
 <div id="references" class="section level1">
 <h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
+<a href="#references" class="anchor" aria-hidden="true"></a>References</h1>
 <p>Aiken and West (1991). <em>Multiple Regression: Testing and Interpreting Interactions.</em></p>
 </div>
   </div>
@@ -257,11 +259,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://github.com/strengejacke">Daniel Lüdecke</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://github.com/strengejacke" class="external-link external-link">Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -269,6 +273,8 @@
 
   
 
+
+  
 
   </body>
 </html>

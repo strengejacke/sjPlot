@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.8</span>
       </span>
     </div>
 
@@ -128,7 +130,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/strengejacke/sjPlot/">
+  <a href="https://github.com/strengejacke/sjPlot/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -147,11 +149,11 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Black &amp; White Figures for Print Journals</h1>
-                        <h4 class="author">Daniel Lüdecke</h4>
+                        <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2021-02-03</h4>
+            <h4 data-toc-skip class="date">2021-05-21</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/blackwhitefigures.Rmd"><code>vignettes/blackwhitefigures.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/blackwhitefigures.Rmd" class="external-link"><code>vignettes/blackwhitefigures.Rmd</code></a></small>
       <div class="hidden name"><code>blackwhitefigures.Rmd</code></div>
 
     </div>
@@ -161,46 +163,46 @@
 <p>This document shows examples how to create b/w figures, e.g. if you don’t want colored figures for print-journals.</p>
 <div id="barplots-in-grey-scaled-colors" class="section level2">
 <h2 class="hasAnchor">
-<a href="#barplots-in-grey-scaled-colors" class="anchor"></a>Barplots in grey-scaled colors</h2>
-<p>There are two ways to create plots in black and white or greyscale. For bar plots, <code>geom.colors = "gs"</code> creates a plot using a greyscale (based on <code><a href="https://scales.r-lib.org//reference/grey_pal.html">scales::grey_pal()</a></code>).</p>
+<a href="#barplots-in-grey-scaled-colors" class="anchor" aria-hidden="true"></a>Barplots in grey-scaled colors</h2>
+<p>There are two ways to create plots in black and white or greyscale. For bar plots, <code>geom.colors = "gs"</code> creates a plot using a greyscale (based on <code><a href="https://scales.r-lib.org/reference/grey_pal.html" class="external-link">scales::grey_pal()</a></code>).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/">sjmisc</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/">sjlabelled</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/" class="external-link">sjPlot</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme_get.html" class="external-link">theme_set</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
 <span class="fu"><a href="../reference/plot_grpfrq.html">plot_grpfrq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">c172code</span>, geom.colors <span class="op">=</span> <span class="st">"gs"</span><span class="op">)</span></code></pre></div>
 <p><img src="blackwhitefigures_files/figure-html/unnamed-chunk-2-1.png" width="672"></p>
 </div>
 <div id="lineplots-in-bw-with-different-linetypes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#lineplots-in-bw-with-different-linetypes" class="anchor"></a>Lineplots in b/w with different linetypes</h2>
+<a href="#lineplots-in-bw-with-different-linetypes" class="anchor" aria-hidden="true"></a>Lineplots in b/w with different linetypes</h2>
 <p>Similar to barplots, lineplots - mostly from <code><a href="../reference/plot_model.html">plot_model()</a></code> - can be plotted in greyscale as well (with <code>colors = "gs"</code>). However, in most cases lines colored in greyscale are difficult to distinguish. In this case, <code><a href="../reference/plot_model.html">plot_model()</a></code> supports black &amp; white figures with different linetypes. Use <code>colors = "bw"</code> to create a b/w-plot.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create binrary response</span>
-<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span><span class="op">)</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>
+<span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span><span class="op">)</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>
 
 <span class="co"># create data frame for fitting model</span>
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
-  y <span class="op">=</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html">to_factor</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>,
-  sex <span class="op">=</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html">to_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c161sex</span><span class="op">)</span>,
-  dep <span class="op">=</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html">to_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span>,
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
+  y <span class="op">=</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">to_factor</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>,
+  sex <span class="op">=</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">to_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c161sex</span><span class="op">)</span>,
+  dep <span class="op">=</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">to_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span>,
   barthel <span class="op">=</span> <span class="va">efc</span><span class="op">$</span><span class="va">barthtot</span>,
-  education <span class="op">=</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html">to_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span><span class="op">)</span>
+  education <span class="op">=</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">to_factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c172code</span><span class="op">)</span>
 <span class="op">)</span>
 
 <span class="co"># set variable label for response</span>
-<span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/set_label.html">set_label</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">y</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"High Negative Impact"</span>
+<span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/set_label.html" class="external-link">set_label</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">y</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"High Negative Impact"</span>
 
 <span class="co"># fit model</span>
-<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">df</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span><span class="va">.</span>, data <span class="op">=</span> <span class="va">df</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># plot marginal effects</span>
 <span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span>
   <span class="va">fit</span>, 
   type <span class="op">=</span> <span class="st">"pred"</span>, 
-  terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"barthel"</span>, <span class="st">"sex"</span>,<span class="st">"dep"</span><span class="op">)</span>, 
+  terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"barthel"</span>, <span class="st">"sex"</span>,<span class="st">"dep"</span><span class="op">)</span>, 
   colors <span class="op">=</span> <span class="st">"bw"</span>,
   ci.lvl <span class="op">=</span> <span class="cn">NA</span>
 <span class="op">)</span></code></pre></div>
@@ -224,11 +226,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://github.com/strengejacke">Daniel Lüdecke</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://github.com/strengejacke" class="external-link external-link">Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -236,6 +240,8 @@
 
   
 
+
+  
 
   </body>
 </html>

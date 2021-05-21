@@ -70,9 +70,16 @@
 
 
 
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -86,7 +93,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.8</span>
       </span>
     </div>
 
@@ -207,7 +214,7 @@
                which of the polynomial curves fits best to the data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sjp.poly</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>sjp.poly</span><span class='op'>(</span>
   <span class='va'>x</span>,
   <span class='va'>poly.term</span>,
   <span class='va'>poly.degree</span>,
@@ -223,7 +230,7 @@
   point.alpha <span class='op'>=</span> <span class='fl'>0.2</span>,
   point.color <span class='op'>=</span> <span class='st'>"#404040"</span>,
   loess.color <span class='op'>=</span> <span class='st'>"#808080"</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -323,7 +330,7 @@ if <code>show.scatter = TRUE.</code></p></td>
     <p>For each polynomial degree, a simple linear regression on <code>x</code> (resp.
            the extracted response, if <code>x</code> is a fitted model) is performed,
            where only the polynomial term <code>poly.term</code> is included as independent variable.
-           Thus, <code><a href='https://rdrr.io/r/stats/lm.html'>lm(y ~ x + I(x^2) + ... + I(x^i))</a></code> is repeatedly computed
+           Thus, <code>lm(y ~ x + I(x^2) + ... + I(x^i))</code> is repeatedly computed
            for all values in <code>poly.degree</code>, and the predicted values of
            the reponse are plotted against the raw values of <code>poly.term</code>.
            If <code>x</code> is a fitted model, other covariates are ignored when
@@ -337,82 +344,101 @@ if <code>show.scatter = TRUE.</code></p></td>
            fit to the data.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjmisc/'>sjmisc</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
-<span class='co'># linear fit. loess-smoothed line indicates a more</span>
-<span class='co'># or less cubic curve</span>
-<span class='fu'>sjp.poly</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c160age</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>quol_5</span>, <span class='fl'>1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Polynomial degrees: 1
-#&gt; ---------------------
-#&gt; p(x^1): 0.000
-#&gt; </div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='sjp.poly-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># quadratic fit</span>
-<span class='fu'>sjp.poly</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c160age</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>quol_5</span>, <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Polynomial degrees: 2
-#&gt; ---------------------
-#&gt; p(x^1): 0.078
-#&gt; p(x^2): 0.533
-#&gt; </div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='sjp.poly-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># linear to cubic fit</span>
-<span class='fu'>sjp.poly</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c160age</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>quol_5</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, show.scatter <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Polynomial degrees: 1
-#&gt; ---------------------
-#&gt; p(x^1): 0.000
-#&gt; 
-#&gt; Polynomial degrees: 2
-#&gt; ---------------------
-#&gt; p(x^1): 0.078
-#&gt; p(x^2): 0.533
-#&gt; 
-#&gt; Polynomial degrees: 3
-#&gt; ---------------------
-#&gt; p(x^1): 0.012
-#&gt; p(x^2): 0.001
-#&gt; p(x^3): 0.000
-#&gt; 
-#&gt; Polynomial degrees: 4
-#&gt; ---------------------
-#&gt; p(x^1): 0.777
-#&gt; p(x^2): 0.913
-#&gt; p(x^3): 0.505
-#&gt; p(x^4): 0.254
-#&gt; </div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='sjp.poly-3.png' alt='' width='700' height='433' /></div><div class='input'>
-
-<span class='co'># fit sample model</span>
-<span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>tot_sc_e</span> <span class='op'>~</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>e17age</span> <span class='op'>+</span> <span class='va'>e42dep</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span>
-<span class='co'># inspect relationship between predictors and response</span>
-<span class='fu'><a href='plot_model.html'>plot_model</a></span><span class='op'>(</span><span class='va'>fit</span>, type <span class='op'>=</span> <span class='st'>"slope"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='output co'>#&gt; <span class='warning'>Warning: pseudoinverse used at 4.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: neighborhood radius 2.015</span></div><div class='output co'>#&gt; <span class='warning'>Warning: reciprocal condition number  2.8666e-15</span></div><div class='output co'>#&gt; <span class='warning'>Warning: There are other near singularities as well. 1</span></div><div class='img'><img src='sjp.poly-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># "e17age" does not seem to be linear correlated to response</span>
-<span class='co'># try to find appropiate polynomial. Grey line (loess smoothed)</span>
-<span class='co'># indicates best fit. Looks like x^4 has the best fit,</span>
-<span class='co'># however, only x^3 has significant p-values.</span>
-<span class='fu'>sjp.poly</span><span class='op'>(</span><span class='va'>fit</span>, <span class='st'>"e17age"</span>, <span class='fl'>2</span><span class='op'>:</span><span class='fl'>4</span>, show.scatter <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Polynomial degrees: 2
-#&gt; ---------------------
-#&gt; p(x^1): 0.734
-#&gt; p(x^2): 0.721
-#&gt; 
-#&gt; Polynomial degrees: 3
-#&gt; ---------------------
-#&gt; p(x^1): 0.010
-#&gt; p(x^2): 0.011
-#&gt; p(x^3): 0.011
-#&gt; 
-#&gt; Polynomial degrees: 4
-#&gt; ---------------------
-#&gt; p(x^1): 0.234
-#&gt; p(x^2): 0.267
-#&gt; p(x^3): 0.303
-#&gt; p(x^4): 0.343
-#&gt; </div><div class='output co'>#&gt; <span class='message'>`geom_smooth()` using formula 'y ~ x'</span></div><div class='img'><img src='sjp.poly-5.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># fit new model</span>
-<span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>tot_sc_e</span> <span class='op'>~</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>e42dep</span> <span class='op'>+</span> <span class='va'>e17age</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span><span class='op'>(</span><span class='va'>e17age</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span><span class='op'>(</span><span class='va'>e17age</span><span class='op'>^</span><span class='fl'>3</span><span class='op'>)</span>,
-          data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span>
-<span class='co'># plot marginal effects of polynomial term</span>
-<span class='fu'><a href='plot_model.html'>plot_model</a></span><span class='op'>(</span><span class='va'>fit</span>, type <span class='op'>=</span> <span class='st'>"pred"</span>, terms <span class='op'>=</span> <span class='st'>"e17age"</span><span class='op'>)</span><span class='op'>}</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjmisc/'>sjmisc</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># linear fit. loess-smoothed line indicates a more</span></span>
+<span class='r-in'><span class='co'># or less cubic curve</span></span>
+<span class='r-in'><span class='fu'>sjp.poly</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c160age</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>quol_5</span>, <span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Polynomial degrees: 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^1): 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
+<span class='r-plt'><img src='sjp.poly-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># quadratic fit</span></span>
+<span class='r-in'><span class='fu'>sjp.poly</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c160age</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>quol_5</span>, <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Polynomial degrees: 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^1): 0.078</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^2): 0.533</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
+<span class='r-plt'><img src='sjp.poly-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># linear to cubic fit</span></span>
+<span class='r-in'><span class='fu'>sjp.poly</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>c160age</span>, <span class='va'>efc</span><span class='op'>$</span><span class='va'>quol_5</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span>, show.scatter <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Polynomial degrees: 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^1): 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Polynomial degrees: 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^1): 0.078</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^2): 0.533</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Polynomial degrees: 3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^1): 0.012</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^2): 0.001</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^3): 0.000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Polynomial degrees: 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^1): 0.777</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^2): 0.913</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^3): 0.505</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^4): 0.254</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
+<span class='r-plt'><img src='sjp.poly-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># fit sample model</span></span>
+<span class='r-in'><span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>tot_sc_e</span> <span class='op'>~</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>e17age</span> <span class='op'>+</span> <span class='va'>e42dep</span>, data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># inspect relationship between predictors and response</span></span>
+<span class='r-in'><span class='fu'><a href='plot_model.html'>plot_model</a></span><span class='op'>(</span><span class='va'>fit</span>, type <span class='op'>=</span> <span class='st'>"slope"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>pseudoinverse used at 4.015</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>neighborhood radius 2.015</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>reciprocal condition number  2.8666e-15</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>There are other near singularities as well. 1</span>
+<span class='r-plt'><img src='sjp.poly-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='co'># "e17age" does not seem to be linear correlated to response</span></span>
+<span class='r-in'><span class='co'># try to find appropiate polynomial. Grey line (loess smoothed)</span></span>
+<span class='r-in'><span class='co'># indicates best fit. Looks like x^4 has the best fit,</span></span>
+<span class='r-in'><span class='co'># however, only x^3 has significant p-values.</span></span>
+<span class='r-in'><span class='fu'>sjp.poly</span><span class='op'>(</span><span class='va'>fit</span>, <span class='st'>"e17age"</span>, <span class='fl'>2</span><span class='op'>:</span><span class='fl'>4</span>, show.scatter <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Polynomial degrees: 2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^1): 0.734</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^2): 0.721</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Polynomial degrees: 3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^1): 0.010</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^2): 0.011</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^3): 0.011</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Polynomial degrees: 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> ---------------------</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^1): 0.234</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^2): 0.267</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^3): 0.303</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> p(x^4): 0.343</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
+<span class='r-plt'><img src='sjp.poly-5.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># fit new model</span></span>
+<span class='r-in'><span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>tot_sc_e</span> <span class='op'>~</span> <span class='va'>c12hour</span> <span class='op'>+</span> <span class='va'>e42dep</span> <span class='op'>+</span> <span class='va'>e17age</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span><span class='op'>(</span><span class='va'>e17age</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/AsIs.html'>I</a></span><span class='op'>(</span><span class='va'>e17age</span><span class='op'>^</span><span class='fl'>3</span><span class='op'>)</span>,</span>
+<span class='r-in'>          data <span class='op'>=</span> <span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># plot marginal effects of polynomial term</span></span>
+<span class='r-in'><span class='fu'><a href='plot_model.html'>plot_model</a></span><span class='op'>(</span><span class='va'>fit</span>, type <span class='op'>=</span> <span class='st'>"pred"</span>, terms <span class='op'>=</span> <span class='st'>"e17age"</span><span class='op'>)</span><span class='op'>}</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -424,11 +450,11 @@ if <code>show.scatter = TRUE.</code></p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://github.com/strengejacke'>Daniel Lüdecke</a>.</p>
+  <p><p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -436,6 +462,8 @@ if <code>show.scatter = TRUE.</code></p></td>
 
   
 
+
+  
 
   </body>
 </html>

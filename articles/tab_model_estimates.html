@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.8</span>
       </span>
     </div>
 
@@ -128,7 +130,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/strengejacke/sjPlot/">
+  <a href="https://github.com/strengejacke/sjPlot/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -147,11 +149,11 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Summary of Regression Models as HTML Table</h1>
-                        <h4 class="author">Daniel Lüdecke</h4>
+                        <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
-            <h4 class="date">2021-02-03</h4>
+            <h4 data-toc-skip class="date">2021-05-21</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/tab_model_estimates.Rmd"><code>vignettes/tab_model_estimates.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/tab_model_estimates.Rmd" class="external-link"><code>vignettes/tab_model_estimates.Rmd</code></a></small>
       <div class="hidden name"><code>tab_model_estimates.Rmd</code></div>
 
     </div>
@@ -164,24 +166,24 @@
 <p><strong>Note!</strong> Due to the custom CSS, the layout of the table inside a knitr-document differs from the output in the viewer-pane and web browser!</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># load package</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/">sjmisc</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/">sjlabelled</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/" class="external-link">sjPlot</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span>
 
 <span class="co"># sample data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"efc"</span><span class="op">)</span>
-<span class="va">efc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html">as_factor</a></span><span class="op">(</span><span class="va">efc</span>, <span class="va">c161sex</span>, <span class="va">c172code</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"efc"</span><span class="op">)</span>
+<span class="va">efc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">as_factor</a></span><span class="op">(</span><span class="va">efc</span>, <span class="va">c161sex</span>, <span class="va">c172code</span><span class="op">)</span></code></pre></div>
 <div id="a-simple-html-table-from-regression-results" class="section level2">
 <h2 class="hasAnchor">
-<a href="#a-simple-html-table-from-regression-results" class="anchor"></a>A simple HTML table from regression results</h2>
+<a href="#a-simple-html-table-from-regression-results" class="anchor" aria-hidden="true"></a>A simple HTML table from regression results</h2>
 <p>First, we fit two linear models to demonstrate the <code><a href="../reference/tab_model.html">tab_model()</a></code>-function.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
-<span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">e17age</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
+<span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">e17age</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></code></pre></div>
 <p>The simplest way of producing the table output is by passing the fitted model as parameter. By default, estimates, confidence intervals (<em>CI</em>) and p-values (<em>p</em>) are reported. As summary, the numbers of observations as well as the R-squared values are shown.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -308,13 +310,13 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 <div id="automatic-labelling" class="section level2">
 <h2 class="hasAnchor">
-<a href="#automatic-labelling" class="anchor"></a>Automatic labelling</h2>
-<p>As the <strong>sjPlot</strong>-packages features <a href="https://strengejacke.github.io/sjlabelled/">labelled data</a>, the coefficients in the table are already labelled in this example. The name of the dependent variable(s) is used as main column header for each model. For non-labelled data, the coefficient names are shown.</p>
+<a href="#automatic-labelling" class="anchor" aria-hidden="true"></a>Automatic labelling</h2>
+<p>As the <strong>sjPlot</strong>-packages features <a href="https://strengejacke.github.io/sjlabelled/" class="external-link">labelled data</a>, the coefficients in the table are already labelled in this example. The name of the dependent variable(s) is used as main column header for each model. For non-labelled data, the coefficient names are shown.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
-<span class="va">m.mtcars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">cyl</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
+<span class="va">m.mtcars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">mpg</span> <span class="op">~</span> <span class="va">cyl</span> <span class="op">+</span> <span class="va">hp</span> <span class="op">+</span> <span class="va">wt</span>, data <span class="op">=</span> <span class="va">mtcars</span><span class="op">)</span>
 <span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m.mtcars</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -410,18 +412,18 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </td>
 </tr>
 </table>
-<p>If factors are involved and <code>auto.label = TRUE</code>, “pretty” parameters names are used (see <a href="https://easystats.github.io/parameters/reference/format_parameters.html"><code>format_parameters()</code></a>.</p>
+<p>If factors are involved and <code>auto.label = TRUE</code>, “pretty” parameters names are used (see <a href="https://easystats.github.io/parameters/reference/format_parameters.html" class="external-link"><code>format_parameters()</code></a>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
-<span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
-  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span>,
-  drug <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"nonsense"</span>, <span class="st">"useful"</span>, <span class="st">"placebo"</span><span class="op">)</span>, <span class="fl">100</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,
-  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"control"</span>, <span class="st">"treatment"</span><span class="op">)</span>, <span class="fl">100</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>
+<span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>
+  y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span>, <span class="fl">100</span><span class="op">)</span>,
+  drug <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"nonsense"</span>, <span class="st">"useful"</span>, <span class="st">"placebo"</span><span class="op">)</span>, <span class="fl">100</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,
+  group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"control"</span>, <span class="st">"treatment"</span><span class="op">)</span>, <span class="fl">100</span>, <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
 <span class="op">)</span>
 
-<span class="va">pretty_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">drug</span> <span class="op">*</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span>
+<span class="va">pretty_names</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="va">drug</span> <span class="op">*</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">dat</span><span class="op">)</span>
 <span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">pretty_names</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -547,11 +549,11 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </table>
 <div id="turn-off-automatic-labelling" class="section level3">
 <h3 class="hasAnchor">
-<a href="#turn-off-automatic-labelling" class="anchor"></a>Turn off automatic labelling</h3>
+<a href="#turn-off-automatic-labelling" class="anchor" aria-hidden="true"></a>Turn off automatic labelling</h3>
 <p>To turn off automatic labelling, use <code>auto.label = FALSE</code>, or provide an empty character vector for <code>pred.labels</code> and <code>dv.labels</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, auto.label <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -678,7 +680,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <p>Same for models with non-labelled data and factors.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">pretty_names</span>, auto.label <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -806,11 +808,11 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 <div id="more-than-one-model" class="section level2">
 <h2 class="hasAnchor">
-<a href="#more-than-one-model" class="anchor"></a>More than one model</h2>
+<a href="#more-than-one-model" class="anchor" aria-hidden="true"></a>More than one model</h2>
 <p><code><a href="../reference/tab_model.html">tab_model()</a></code> can print multiple models at once, which are then printed side-by-side. Identical coefficients are matched in a row.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, <span class="va">m2</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -1023,24 +1025,24 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 <div id="generalized-linear-models" class="section level2">
 <h2 class="hasAnchor">
-<a href="#generalized-linear-models" class="anchor"></a>Generalized linear models</h2>
+<a href="#generalized-linear-models" class="anchor" aria-hidden="true"></a>Generalized linear models</h2>
 <p>For generalized linear models, the ouput is slightly adapted. Instead of <em>Estimates</em>, the column is named <em>Odds Ratios</em>, <em>Incidence Rate Ratios</em> etc., depending on the model. The coefficients are in this case automatically converted (exponentiated). Furthermore, pseudo R-squared statistics are shown in the summary.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">m3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">m3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span>
   <span class="va">tot_sc_e</span> <span class="op">~</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, 
   data <span class="op">=</span> <span class="va">efc</span>,
-  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">poisson</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span>
+  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"log"</span><span class="op">)</span>
 <span class="op">)</span>
 
-<span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html">median</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>
-<span class="va">m4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span>
+<span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>
+<span class="va">m4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span>
   <span class="va">neg_c_7d</span> <span class="op">~</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">barthtot</span> <span class="op">+</span> <span class="va">c172code</span>,
   data <span class="op">=</span> <span class="va">efc</span>,
-  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span>
+  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span>link <span class="op">=</span> <span class="st">"logit"</span><span class="op">)</span>
 <span class="op">)</span>
 
 <span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m3</span>, <span class="va">m4</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -1252,11 +1254,11 @@ R<sup>2</sup> Nagelkerke
 </table>
 <div id="untransformed-estimates-on-the-linear-scale" class="section level3">
 <h3 class="hasAnchor">
-<a href="#untransformed-estimates-on-the-linear-scale" class="anchor"></a>Untransformed estimates on the linear scale</h3>
+<a href="#untransformed-estimates-on-the-linear-scale" class="anchor" aria-hidden="true"></a>Untransformed estimates on the linear scale</h3>
 <p>To plot the estimates on the linear scale, use <code>transform = NULL</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m3</span>, <span class="va">m4</span>, transform <span class="op">=</span> <span class="cn">NULL</span>, auto.label <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -1470,15 +1472,15 @@ R<sup>2</sup> Nagelkerke
 </div>
 <div id="more-complex-models" class="section level2">
 <h2 class="hasAnchor">
-<a href="#more-complex-models" class="anchor"></a>More complex models</h2>
+<a href="#more-complex-models" class="anchor" aria-hidden="true"></a>More complex models</h2>
 <p>Other models, like hurdle- or zero-inflated models, also work with <code><a href="../reference/tab_model.html">tab_model()</a></code>. In this case, the zero inflation model is indicated in the table. Use <code>show.zeroinf = FALSE</code> to hide this part from the table.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/atahk/pscl">pscl</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"bioChemists"</span><span class="op">)</span>
-<span class="va">m5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pscl/man/zeroinfl.html">zeroinfl</a></span><span class="op">(</span><span class="va">art</span> <span class="op">~</span> <span class="va">fem</span> <span class="op">+</span> <span class="va">mar</span> <span class="op">+</span> <span class="va">kid5</span> <span class="op">+</span> <span class="va">ment</span> <span class="op">|</span> <span class="va">kid5</span> <span class="op">+</span> <span class="va">phd</span> <span class="op">+</span> <span class="va">ment</span>, data <span class="op">=</span> <span class="va">bioChemists</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/atahk/pscl" class="external-link">pscl</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"bioChemists"</span><span class="op">)</span>
+<span class="va">m5</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pscl/man/zeroinfl.html" class="external-link">zeroinfl</a></span><span class="op">(</span><span class="va">art</span> <span class="op">~</span> <span class="va">fem</span> <span class="op">+</span> <span class="va">mar</span> <span class="op">+</span> <span class="va">kid5</span> <span class="op">+</span> <span class="va">ment</span> <span class="op">|</span> <span class="va">kid5</span> <span class="op">+</span> <span class="va">phd</span> <span class="op">+</span> <span class="va">ment</span>, data <span class="op">=</span> <span class="va">bioChemists</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m5</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -1657,7 +1659,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <p>You can combine any model in one table.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, <span class="va">m3</span>, <span class="va">m5</span>, auto.label <span class="op">=</span> <span class="cn">FALSE</span>, show.ci <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -2029,7 +2031,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 <div id="show-or-hide-further-columns" class="section level2">
 <h2 class="hasAnchor">
-<a href="#show-or-hide-further-columns" class="anchor"></a>Show or hide further columns</h2>
+<a href="#show-or-hide-further-columns" class="anchor" aria-hidden="true"></a>Show or hide further columns</h2>
 <p><code><a href="../reference/tab_model.html">tab_model()</a></code> has some argument that allow to show or hide specific columns from the output:</p>
 <ul>
 <li>
@@ -2049,11 +2051,11 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </ul>
 <div id="adding-columns" class="section level3">
 <h3 class="hasAnchor">
-<a href="#adding-columns" class="anchor"></a>Adding columns</h3>
+<a href="#adding-columns" class="anchor" aria-hidden="true"></a>Adding columns</h3>
 <p>In the following example, standard errors, standardized coefficients and test statistics are also shown.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, show.se <span class="op">=</span> <span class="cn">TRUE</span>, show.std <span class="op">=</span> <span class="cn">TRUE</span>, show.stat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -2285,11 +2287,11 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 <div id="removing-columns" class="section level3">
 <h3 class="hasAnchor">
-<a href="#removing-columns" class="anchor"></a>Removing columns</h3>
+<a href="#removing-columns" class="anchor" aria-hidden="true"></a>Removing columns</h3>
 <p>In the following example, default columns are removed.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m3</span>, <span class="va">m4</span>, show.ci <span class="op">=</span> <span class="cn">FALSE</span>, show.p <span class="op">=</span> <span class="cn">FALSE</span>, auto.label <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -2412,16 +2414,16 @@ R<sup>2</sup> Nagelkerke
 </div>
 <div id="removing-and-sorting-columns" class="section level3">
 <h3 class="hasAnchor">
-<a href="#removing-and-sorting-columns" class="anchor"></a>Removing and sorting columns</h3>
+<a href="#removing-and-sorting-columns" class="anchor" aria-hidden="true"></a>Removing and sorting columns</h3>
 <p>Another way to remove columns, which also allows to reorder the columns, is the <code>col.order</code>-argument. This is a character vector, where each element indicates a column in the output. The value <code>"est"</code>, for instance, indicates the estimates, while <code>"std.est"</code> is the column for standardized estimates and so on.</p>
 <p>By default, <code>col.order</code> contains all possible columns. All columns that should shown (see previous tables, for example using <code>show.se = TRUE</code> to show standard errors, or <code>show.st = TRUE</code> to show standardized estimates) are then printed by default. Colums that are <em>excluded</em> from <code>col.order</code> are <em>not shown</em>, no matter if the <code>show*</code>-arguments are <code>TRUE</code> or <code>FALSE</code>. So if <code>show.se = TRUE</code>, but<code>col.order</code> does not contain the element <code>"se"</code>, standard errors are not shown. On the other hand, if <code>show.est = FALSE</code>, but <code>col.order</code> <em>does include</em> the element <code>"est"</code>, the columns with estimates are not shown.</p>
 <p>In summary, <code>col.order</code> can be used to <em>exclude</em> columns from the table and to change the order of colums.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span>
   <span class="va">m1</span>, show.se <span class="op">=</span> <span class="cn">TRUE</span>, show.std <span class="op">=</span> <span class="cn">TRUE</span>, show.stat <span class="op">=</span> <span class="cn">TRUE</span>,
-  col.order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"p"</span>, <span class="st">"stat"</span>, <span class="st">"est"</span>, <span class="st">"std.se"</span>, <span class="st">"se"</span>, <span class="st">"std.est"</span><span class="op">)</span>
+  col.order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"p"</span>, <span class="st">"stat"</span>, <span class="st">"est"</span>, <span class="st">"std.se"</span>, <span class="st">"se"</span>, <span class="st">"std.est"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -2611,11 +2613,11 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 <div id="collapsing-columns" class="section level3">
 <h3 class="hasAnchor">
-<a href="#collapsing-columns" class="anchor"></a>Collapsing columns</h3>
+<a href="#collapsing-columns" class="anchor" aria-hidden="true"></a>Collapsing columns</h3>
 <p>With <code>collapse.ci</code> and <code>collapse.se</code>, the columns for confidence intervals and standard errors can be collapsed into one column together with the estimates. Sometimes this table layout is required.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, collapse.ci <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -2722,7 +2724,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 <div id="defining-own-labels" class="section level2">
 <h2 class="hasAnchor">
-<a href="#defining-own-labels" class="anchor"></a>Defining own labels</h2>
+<a href="#defining-own-labels" class="anchor" aria-hidden="true"></a>Defining own labels</h2>
 <p>There are different options to change the labels of the column headers or coefficients, e.g. with:</p>
 <ul>
 <li>
@@ -2734,15 +2736,15 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span>
   <span class="va">m1</span>, <span class="va">m2</span>, 
-  pred.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Intercept"</span>, <span class="st">"Age (Carer)"</span>, <span class="st">"Hours per Week"</span>, <span class="st">"Gender (Carer)"</span>,
+  pred.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Intercept"</span>, <span class="st">"Age (Carer)"</span>, <span class="st">"Hours per Week"</span>, <span class="st">"Gender (Carer)"</span>,
                   <span class="st">"Education: middle (Carer)"</span>, <span class="st">"Education: high (Carer)"</span>, 
                   <span class="st">"Age (Older Person)"</span><span class="op">)</span>,
-  dv.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"First Model"</span>, <span class="st">"M2"</span><span class="op">)</span>,
+  dv.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"First Model"</span>, <span class="st">"M2"</span><span class="op">)</span>,
   string.pred <span class="op">=</span> <span class="st">"Coeffcient"</span>,
   string.ci <span class="op">=</span> <span class="st">"Conf. Int (95%)"</span>,
   string.p <span class="op">=</span> <span class="st">"P-Value"</span>
 <span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -2955,19 +2957,19 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 <div id="including-reference-level-of-categorical-predictors" class="section level2">
 <h2 class="hasAnchor">
-<a href="#including-reference-level-of-categorical-predictors" class="anchor"></a>Including reference level of categorical predictors</h2>
+<a href="#including-reference-level-of-categorical-predictors" class="anchor" aria-hidden="true"></a>Including reference level of categorical predictors</h2>
 <p>By default, for categorical predictors, the variable names and the categories for regression coefficients are shown in the table output.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/glmmTMB/glmmTMB">glmmTMB</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"Salamanders"</span><span class="op">)</span>
-<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/glmmTMB/glmmTMB" class="external-link">glmmTMB</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"Salamanders"</span><span class="op">)</span>
+<span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span>
   <span class="va">count</span> <span class="op">~</span> <span class="va">spp</span> <span class="op">+</span> <span class="va">Wtemp</span> <span class="op">+</span> <span class="va">mined</span> <span class="op">+</span> <span class="va">cover</span>,
-  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html">poisson</a></span><span class="op">(</span><span class="op">)</span>,
+  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">poisson</a></span><span class="op">(</span><span class="op">)</span>,
   data <span class="op">=</span> <span class="va">Salamanders</span>
 <span class="op">)</span>
 
 <span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -3150,7 +3152,7 @@ R<sup>2</sup> Nagelkerke
 <p>You can include the reference level for categorical predictors by setting <code>show.reflvl = TRUE</code>.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">model</span>, show.reflvl <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -3357,7 +3359,7 @@ R<sup>2</sup> Nagelkerke
 <p>To show variable names, categories and include the reference level, also set <code>prefix.labels = "varname"</code>.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">model</span>, show.reflvl <span class="op">=</span> <span class="cn">TRUE</span>, prefix.labels <span class="op">=</span> <span class="st">"varname"</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -3564,11 +3566,11 @@ R<sup>2</sup> Nagelkerke
 </div>
 <div id="style-of-p-values" class="section level2">
 <h2 class="hasAnchor">
-<a href="#style-of-p-values" class="anchor"></a>Style of p-values</h2>
-<p>You can change the style of how p-values are displayed with the argument <code>p.style</code>. With <code>p.style = "stars"</code>, the p-values are indicated as <code><a href="https://rdrr.io/r/base/Arithmetic.html">*</a></code> in the table.</p>
+<a href="#style-of-p-values" class="anchor" aria-hidden="true"></a>Style of p-values</h2>
+<p>You can change the style of how p-values are displayed with the argument <code>p.style</code>. With <code>p.style = "stars"</code>, the p-values are indicated as <code>*</code> in the table.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, <span class="va">m2</span>, p.style <span class="op">=</span> <span class="st">"stars"</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -3742,7 +3744,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <p>Another option would be scientific notation, using <code>p.style = "scientific"</code>, which also can be combined with <code>digits.p</code>.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, <span class="va">m2</span>, p.style <span class="op">=</span> <span class="st">"scientific"</span>, digits.p <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -3954,11 +3956,11 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </table>
 <div id="automatic-matching-for-named-vectors" class="section level3">
 <h3 class="hasAnchor">
-<a href="#automatic-matching-for-named-vectors" class="anchor"></a>Automatic matching for named vectors</h3>
-<p>Another way to easily assign labels are <em>named vectors</em>. In this case, it doesn’t matter if <code>pred.labels</code> has more labels than coefficients in the model(s), or in which order the labels are passed to <code><a href="../reference/tab_model.html">tab_model()</a></code>. The only requirement is that the labels’ names equal the coefficients names as they appear in the <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>-output.</p>
+<a href="#automatic-matching-for-named-vectors" class="anchor" aria-hidden="true"></a>Automatic matching for named vectors</h3>
+<p>Another way to easily assign labels are <em>named vectors</em>. In this case, it doesn’t matter if <code>pred.labels</code> has more labels than coefficients in the model(s), or in which order the labels are passed to <code><a href="../reference/tab_model.html">tab_model()</a></code>. The only requirement is that the labels’ names equal the coefficients names as they appear in the <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>-output.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># example, coefficients are "c161sex2" or "c172code3"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
 <span class="co">#&gt; lm(formula = barthtot ~ c160age + c12hour + c161sex + c172code, </span>
@@ -3984,7 +3986,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <span class="co">#&gt; Multiple R-squared:  0.2708, Adjusted R-squared:  0.2664 </span>
 <span class="co">#&gt; F-statistic: 60.54 on 5 and 815 DF,  p-value: &lt; 2.2e-16</span>
 
-<span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+<span class="va">pl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
   `(Intercept)` <span class="op">=</span> <span class="st">"Intercept"</span>,
   e17age <span class="op">=</span> <span class="st">"Age (Older Person)"</span>,
   c160age <span class="op">=</span> <span class="st">"Age (Carer)"</span>, 
@@ -3999,12 +4001,12 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span>
   <span class="va">m1</span>, <span class="va">m2</span>, <span class="va">m3</span>, <span class="va">m4</span>, 
   pred.labels <span class="op">=</span> <span class="va">pl</span>, 
-  dv.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Model1"</span>, <span class="st">"Model2"</span>, <span class="st">"Model3"</span>, <span class="st">"Model4"</span><span class="op">)</span>,
+  dv.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Model1"</span>, <span class="st">"Model2"</span>, <span class="st">"Model3"</span>, <span class="st">"Model4"</span><span class="op">)</span>,
   show.ci <span class="op">=</span> <span class="cn">FALSE</span>, 
   show.p <span class="op">=</span> <span class="cn">FALSE</span>, 
   transform <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
-<table class="table">
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -4204,11 +4206,11 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 <div id="keep-or-remove-coefficients-from-the-table" class="section level2">
 <h2 class="hasAnchor">
-<a href="#keep-or-remove-coefficients-from-the-table" class="anchor"></a>Keep or remove coefficients from the table</h2>
+<a href="#keep-or-remove-coefficients-from-the-table" class="anchor" aria-hidden="true"></a>Keep or remove coefficients from the table</h2>
 <p>Using the <code>terms</code>- or <code>rm.terms</code>-argument allows us to explicitly show or remove specific coefficients from the table output.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c160age"</span>, <span class="st">"c12hour"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c160age"</span>, <span class="st">"c12hour"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -4278,8 +4280,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </table>
 <p>Note that the names of terms to keep or remove should match the coefficients names. For categorical predictors, one example would be:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, rm.terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"c172code2"</span>, <span class="st">"c161sex2"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<table class="table">
+<code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, rm.terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c172code2"</span>, <span class="st">"c161sex2"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
  
@@ -4389,11 +4391,13 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="https://github.com/strengejacke">Daniel Lüdecke</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://github.com/strengejacke" class="external-link external-link">Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -4401,6 +4405,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 
   
 
+
+  
 
   </body>
 </html>

@@ -68,9 +68,16 @@
 
 
 
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -84,7 +91,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.8</span>
       </span>
     </div>
 
@@ -203,7 +210,7 @@
                as returned by the <code><a href='https://rdrr.io/r/stats/cor.html'>cor</a></code>-function.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tab_corr</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>tab_corr</span><span class='op'>(</span>
   <span class='va'>data</span>,
   na.deletion <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"listwise"</span>, <span class='st'>"pairwise"</span><span class='op'>)</span>,
   corr.method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pearson"</span>, <span class='st'>"spearman"</span>, <span class='st'>"kendall"</span><span class='op'>)</span>,
@@ -222,7 +229,7 @@
   file <span class='op'>=</span> <span class='cn'>NULL</span>,
   use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>,
   remove.spaces <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -296,7 +303,7 @@ is <code>"both"</code>. You can specifiy the inital letter only.</p></td>
     </tr>
     <tr>
       <th>string.diag</th>
-      <td><p>A vector with string values of the same length as <code><a href='https://rdrr.io/r/base/nrow.html'>ncol(data)</a></code> (number of
+      <td><p>A vector with string values of the same length as <code>ncol(data)</code> (number of
 correlated items) that can be used to display content in the diagonal cells
 where row and column item are identical (i.e. the "self-correlation"). By defauilt,
 this argument is <code>NULL</code> and the diagnal cells are empty.</p></td>
@@ -350,41 +357,41 @@ may look less pretty, but it may help when exporting html-tables to office tools
       only have an effect if <code>data</code> is a <code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='co'># Data from the EUROFAMCARE sample dataset</span>
-  <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjmisc/'>sjmisc</a></span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
-
-  <span class='co'># retrieve variable and value labels</span>
-  <span class='va'>varlabs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjlabelled/reference/get_label.html'>get_label</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
-
-  <span class='co'># recveive first item of COPE-index scale</span>
-  <span class='va'>start</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c83cop2"</span><span class='op'>)</span>
-  <span class='co'># recveive last item of COPE-index scale</span>
-  <span class='va'>end</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c88cop7"</span><span class='op'>)</span>
-
-  <span class='co'># create data frame with COPE-index scale</span>
-  <span class='va'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>varlabs</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>
-
-  <span class='co'># we have high correlations here, because all items</span>
-  <span class='co'># belong to one factor.</span>
-  <span class='fu'>tab_corr</span><span class='op'>(</span><span class='va'>mydf</span>, p.numeric <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-  <span class='co'># auto-detection of labels, only lower triangle</span>
-  <span class='fu'>tab_corr</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>, triangle <span class='op'>=</span> <span class='st'>"lower"</span><span class='op'>)</span>
-
-  <span class='co'># auto-detection of labels, only lower triangle, all correlation</span>
-  <span class='co'># values smaller than 0.3 are not shown in the table</span>
-  <span class='fu'>tab_corr</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>, triangle <span class='op'>=</span> <span class='st'>"lower"</span>, val.rm <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span>
-
-  <span class='co'># auto-detection of labels, only lower triangle, all correlation</span>
-  <span class='co'># values smaller than 0.3 are printed in blue</span>
-  <span class='fu'>tab_corr</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>, triangle <span class='op'>=</span> <span class='st'>"lower"</span>,val.rm <span class='op'>=</span> <span class='fl'>0.3</span>,
-           CSS <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>css.valueremove <span class='op'>=</span> <span class='st'>'color:blue;'</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span><span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='co'># Data from the EUROFAMCARE sample dataset</span></span>
+<span class='r-in'>  <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjmisc/'>sjmisc</a></span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># retrieve variable and value labels</span></span>
+<span class='r-in'>  <span class='va'>varlabs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjlabelled/reference/get_label.html'>get_label</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># recveive first item of COPE-index scale</span></span>
+<span class='r-in'>  <span class='va'>start</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c83cop2"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='co'># recveive last item of COPE-index scale</span></span>
+<span class='r-in'>  <span class='va'>end</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"c88cop7"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># create data frame with COPE-index scale</span></span>
+<span class='r-in'>  <span class='va'>mydf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>mydf</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>varlabs</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># we have high correlations here, because all items</span></span>
+<span class='r-in'>  <span class='co'># belong to one factor.</span></span>
+<span class='r-in'>  <span class='fu'>tab_corr</span><span class='op'>(</span><span class='va'>mydf</span>, p.numeric <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># auto-detection of labels, only lower triangle</span></span>
+<span class='r-in'>  <span class='fu'>tab_corr</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>, triangle <span class='op'>=</span> <span class='st'>"lower"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># auto-detection of labels, only lower triangle, all correlation</span></span>
+<span class='r-in'>  <span class='co'># values smaller than 0.3 are not shown in the table</span></span>
+<span class='r-in'>  <span class='fu'>tab_corr</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>, triangle <span class='op'>=</span> <span class='st'>"lower"</span>, val.rm <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'>  <span class='co'># auto-detection of labels, only lower triangle, all correlation</span></span>
+<span class='r-in'>  <span class='co'># values smaller than 0.3 are printed in blue</span></span>
+<span class='r-in'>  <span class='fu'>tab_corr</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>start</span><span class='op'>:</span><span class='va'>end</span><span class='op'>)</span><span class='op'>]</span>, triangle <span class='op'>=</span> <span class='st'>"lower"</span>,val.rm <span class='op'>=</span> <span class='fl'>0.3</span>,</span>
+<span class='r-in'>           CSS <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>css.valueremove <span class='op'>=</span> <span class='st'>'color:blue;'</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -396,11 +403,11 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://github.com/strengejacke'>Daniel Lüdecke</a>.</p>
+  <p><p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -408,6 +415,8 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
   
 
+
+  
 
   </body>
 </html>

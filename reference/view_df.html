@@ -70,9 +70,16 @@
 
 
 
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -86,7 +93,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.8</span>
       </span>
     </div>
 
@@ -207,7 +214,7 @@
                considered as "codeplan" of the data frame.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>view_df</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>view_df</span><span class='op'>(</span>
   <span class='va'>x</span>,
   weight.by <span class='op'>=</span> <span class='cn'>NULL</span>,
   alternate.rows <span class='op'>=</span> <span class='cn'>TRUE</span>,
@@ -230,7 +237,7 @@
   file <span class='op'>=</span> <span class='cn'>NULL</span>,
   use.viewer <span class='op'>=</span> <span class='cn'>TRUE</span>,
   remove.spaces <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -370,26 +377,26 @@ may look less pretty, but it may help when exporting html-tables to office tools
 </ul><p>for further use.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># init dataset</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
-
-<span class='co'># view variables</span>
-<span class='fu'>view_df</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span>
-
-<span class='co'># view variables w/o values and value labels</span>
-<span class='fu'>view_df</span><span class='op'>(</span><span class='va'>efc</span>, show.values <span class='op'>=</span> <span class='cn'>FALSE</span>, show.labels <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='co'># view variables including variable typed, orderd by name</span>
-<span class='fu'>view_df</span><span class='op'>(</span><span class='va'>efc</span>, sort.by.name <span class='op'>=</span> <span class='cn'>TRUE</span>, show.type <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># User defined style sheet</span>
-<span class='fu'>view_df</span><span class='op'>(</span><span class='va'>efc</span>,
-        CSS <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>css.table <span class='op'>=</span> <span class='st'>"border: 2px solid;"</span>,
-                   css.tdata <span class='op'>=</span> <span class='st'>"border: 1px solid;"</span>,
-                   css.arc <span class='op'>=</span> <span class='st'>"color:blue;"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>}</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># init dataset</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># view variables</span></span>
+<span class='r-in'><span class='fu'>view_df</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># view variables w/o values and value labels</span></span>
+<span class='r-in'><span class='fu'>view_df</span><span class='op'>(</span><span class='va'>efc</span>, show.values <span class='op'>=</span> <span class='cn'>FALSE</span>, show.labels <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># view variables including variable typed, orderd by name</span></span>
+<span class='r-in'><span class='fu'>view_df</span><span class='op'>(</span><span class='va'>efc</span>, sort.by.name <span class='op'>=</span> <span class='cn'>TRUE</span>, show.type <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># User defined style sheet</span></span>
+<span class='r-in'><span class='fu'>view_df</span><span class='op'>(</span><span class='va'>efc</span>,</span>
+<span class='r-in'>        CSS <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>css.table <span class='op'>=</span> <span class='st'>"border: 2px solid;"</span>,</span>
+<span class='r-in'>                   css.tdata <span class='op'>=</span> <span class='st'>"border: 1px solid;"</span>,</span>
+<span class='r-in'>                   css.arc <span class='op'>=</span> <span class='st'>"color:blue;"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>}</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -401,11 +408,11 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='https://github.com/strengejacke'>Daniel Lüdecke</a>.</p>
+  <p><p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -413,6 +420,8 @@ may look less pretty, but it may help when exporting html-tables to office tools
 
   
 
+
+  
 
   </body>
 </html>
