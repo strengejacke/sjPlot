@@ -44,9 +44,9 @@ tidy_model <- function(
       if (grepl("^vcov", robust$vcov.fun)) {
         robust$vcov.fun <- sub("^vcov", "", robust$vcov.fun)
       }
-      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, robust = TRUE, vcov_estimation = robust$vcov.fun, vcov_type = robust$vcov.type, vcov_args = robust$vcov.args, df_method = df_method, p_adjust = p_adjust)
+      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, robust = TRUE, vcov_estimation = robust$vcov.fun, vcov_type = robust$vcov.type, vcov_args = robust$vcov.args, df_method = df_method, p_adjust = p_adjust, effects = "fixed")
     } else {
-      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, df_method = df_method, p_adjust = p_adjust)
+      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, df_method = df_method, p_adjust = p_adjust, effects = "fixed")
     }
     out <- insight::standardize_names(model_params, style = "broom")
 
@@ -65,8 +65,18 @@ tidy_model <- function(
     column <- which(colnames(out) == "component")
     if (length(column)) colnames(out)[column] <- "wrap.facet"
 
+    if (!is.null(out$effect) && "random" %in% out$effect) {
+      out$group <- NULL
+    }
+
     column <- which(colnames(out) == "group")
     if (length(column)) colnames(out)[column] <- "wrap.facet"
+
+    # remove duplicated column names
+    dupl_cols <- duplicated(colnames(out))
+    if (any(dupl_cols)) {
+      out <- out[!dupl_cols]
+    }
 
     if ("component" %in% colnames(out)) {
       out$component[out$component == "zero_inflated"] <- "Zero-Inflated Model"
