@@ -57,7 +57,7 @@
 #' }}
 #' @export
 tab_fa <- function(data,
-                   rotation = c("promax", "varimax"),
+                   rotation = "promax",
                    method = c("ml", "minres", "wls", "gls", "pa", "minchi", "minrank"),
                    nmbr.fctr = NULL,
                    fctr.load.tlrn = 0.1,
@@ -79,7 +79,6 @@ tab_fa <- function(data,
   encoding <- get.encoding(encoding, data)
 
   # check arguments
-  rotation <- match.arg(rotation)
   method <- match.arg(method)
 
   if (!requireNamespace("psych", quietly = TRUE)) {

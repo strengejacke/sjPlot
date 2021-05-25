@@ -6,7 +6,7 @@
 \usage{
 tab_fa(
   data,
-  rotation = c("promax", "varimax"),
+  rotation = "promax",
   method = c("ml", "minres", "wls", "gls", "pa", "minchi", "minrank"),
   nmbr.fctr = NULL,
   fctr.load.tlrn = 0.1,
