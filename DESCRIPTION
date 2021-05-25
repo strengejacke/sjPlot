@@ -70,4 +70,3 @@ URL: https://strengejacke.github.io/sjPlot/
 BugReports: https://github.com/strengejacke/sjPlot/issues
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
-Remotes: easystats/parameters
