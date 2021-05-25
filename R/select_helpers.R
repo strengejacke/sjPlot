@@ -19,8 +19,13 @@ string_one_of <- function(pattern, x) {
   x[m]
 }
 
-rownames_as_column <- function(x, var = "rowname") {
-  rn <- data.frame(rn = rownames(x), stringsAsFactors = FALSE)
+rownames_as_column <- function(x, var = "rowname", rownames = NULL) {
+  if (is.null(rownames)) {
+    rn <- rownames(x)
+  } else {
+    rn <- rownames
+  }
+  rn <- data.frame(rn = rn, stringsAsFactors = FALSE)
   x <- cbind(rn, x)
   colnames(x)[1] <- var
   rownames(x) <- NULL

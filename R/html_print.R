@@ -113,6 +113,8 @@ tab_df <- function(x,
   # get style definition
   style <- tab_df_style(CSS = CSS, ...)
 
+  rnames <- row.names(x)
+
   x <- as.data.frame(lapply(x, function(.i) {
     if (is.numeric(.i) && sjmisc::is_float(.i))
       sprintf("%.*f", digits, .i)
@@ -132,6 +134,7 @@ tab_df <- function(x,
       altr.row.col = alternate.rows,
       sort.column = sort.column,
       include.table.tag = TRUE,
+      rnames = rnames,
       ...
     )
 

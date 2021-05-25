@@ -33,6 +33,7 @@ tab_df_content <- function(
   no.last.table.row = FALSE,
   show.header = TRUE,
   zeroinf = FALSE,
+  rnames = NULL,
   ...) {
 
   # save no of rows and columns
@@ -76,8 +77,8 @@ tab_df_content <- function(
   # check if rownames should be shown and data has any rownames at all
   # if so, we need to update our information on column names
 
-  if (show.rownames && !is.null(rownames(mydf))) {
-    mydf <- rownames_as_column(mydf)
+  if (show.rownames && !is.null(rnames)) {
+    mydf <- rownames_as_column(mydf, rownames = rnames)
     colcnt <- colcnt + 1
     cnames <- c("Row", cnames)
   }
