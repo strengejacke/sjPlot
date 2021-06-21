@@ -66,7 +66,6 @@
 
 
 
-
   
 
   
@@ -97,7 +96,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -514,8 +513,10 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># simple plots, two different notations</span></span>
 <span class='r-in'><span class='fu'>plot_frq</span><span class='op'>(</span><span class='va'>iris</span>, <span class='va'>Species</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
 <span class='r-plt'><img src='plot_frq-1.png' alt='' width='700' height='433' /></span>
 <span class='r-in'><span class='fu'>plot_frq</span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>tot_sc_e</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
 <span class='r-plt'><img src='plot_frq-2.png' alt='' width='700' height='433' /></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># boxplot</span></span>
@@ -544,6 +545,8 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The following objects are masked from ‘package:base’:</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span>     intersect, setdiff, setequal, union</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
 <span class='r-plt'><img src='plot_frq-4.png' alt='' width='700' height='433' /></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
@@ -564,6 +567,10 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> The following object is masked from ‘package:dplyr’:</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span>     combine</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
 <span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>Not enough tags labels in list. Using letters instead.</span>
 <span class='r-plt'><img src='plot_frq-6.png' alt='' width='700' height='433' /></span>
 <span class='r-in'></span>
@@ -573,6 +580,7 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 <span class='r-in'><span class='va'>ageGrp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjmisc/reference/group_var.html'>group_var</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e17age</span><span class='op'>)</span></span>
 <span class='r-in'><span class='va'>ageGrpLab</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://strengejacke.github.io/sjmisc/reference/group_var.html'>group_labels</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e17age</span><span class='op'>)</span></span>
 <span class='r-in'><span class='fu'>plot_frq</span><span class='op'>(</span><span class='va'>ageGrp</span>, title <span class='op'>=</span> <span class='fu'><a href='https://strengejacke.github.io/sjlabelled/reference/get_label.html'>get_label</a></span><span class='op'>(</span><span class='va'>efc</span><span class='op'>$</span><span class='va'>e17age</span><span class='op'>)</span>, axis.labels <span class='op'>=</span> <span class='va'>ageGrpLab</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
 <span class='r-plt'><img src='plot_frq-7.png' alt='' width='700' height='433' /></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># plotting confidence intervals. expand grid and v/hjust for text labels</span></span>
@@ -580,6 +588,7 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 <span class='r-in'>  <span class='va'>efc</span><span class='op'>$</span><span class='va'>e15relat</span>, type <span class='op'>=</span> <span class='st'>"dot"</span>, show.ci <span class='op'>=</span> <span class='cn'>TRUE</span>, sort.frq <span class='op'>=</span> <span class='st'>"desc"</span>,</span>
 <span class='r-in'>  coord.flip <span class='op'>=</span> <span class='cn'>TRUE</span>, expand.grid <span class='op'>=</span> <span class='cn'>TRUE</span>, vjust <span class='op'>=</span> <span class='st'>"bottom"</span>, hjust <span class='op'>=</span> <span class='st'>"left"</span></span>
 <span class='r-in'><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
 <span class='r-plt'><img src='plot_frq-8.png' alt='' width='700' height='433' /></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># histogram with overlayed normal curve</span></span>

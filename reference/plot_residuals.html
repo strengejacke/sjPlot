@@ -70,7 +70,6 @@
 
 
 
-
   
 
   
@@ -101,7 +100,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
+    <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -285,11 +284,13 @@ medians are considered to be significantly different.</p></td>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># plot residuals for all independent variables</span></span>
 <span class='r-in'><span class='fu'>plot_residuals</span><span class='op'>(</span><span class='va'>fit</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
 <span class='r-plt'><img src='plot_residuals-1.png' alt='' width='700' height='433' /></span>
 <span class='r-in'></span>
 <span class='r-in'><span class='co'># remove some independent variables from output</span></span>
 <span class='r-in'><span class='fu'>plot_residuals</span><span class='op'>(</span><span class='va'>fit</span>, remove.estimates <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"e17age"</span>, <span class='st'>"e42dep"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; = "none")` instead.</span>
 <span class='r-msg co'><span class='r-pr'>#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
 <span class='r-plt'><img src='plot_residuals-2.png' alt='' width='700' height='433' /></span>
 <span class='r-in'></span>
