@@ -28,6 +28,7 @@ Imports:
     stats,
     utils,
     bayestestR,
+    datawizard,
     dplyr,
     effectsize,
     ggeffects,

@@ -45,7 +45,7 @@
 #' plot_kfold_cv(efc, fit = fit)
 #'
 #' @import ggplot2
-#' @importFrom parameters data_partition
+#' @importFrom datawizard data_partition
 #' @importFrom dplyr mutate ungroup summarise
 #' @importFrom purrr map map2
 #' @importFrom tidyr unnest
@@ -89,7 +89,7 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
       # create cross-validated test-training pairs, run poisson-model on each
       # pair, get deviance residuals and response value
       kfolds <- do.call(rbind, lapply(1:k, function(i) {
-        out <- parameters::data_partition(data, training_proportion = .8)
+        out <- datawizard::data_partition(data, training_proportion = .8)
         data.frame(train = I(list(out$training)), test = I(list(out$test)))
       }))
       res <- kfolds %>%
@@ -101,7 +101,7 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
       # create cross-validated test-training pairs, run poisson-model on each
       # pair, get deviance residuals and response value
       kfolds <- do.call(rbind, lapply(1:k, function(i) {
-        out <- parameters::data_partition(data, training_proportion = .8)
+        out <- datawizard::data_partition(data, training_proportion = .8)
         data.frame(train = I(list(out$training)), test = I(list(out$test)))
       }))
       res <- kfolds %>%
@@ -118,7 +118,7 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
     # pair, get predicted values and quality measures for models fitted on the
     # train data
     kfolds <- do.call(rbind, lapply(1:k, function(i) {
-      out <- parameters::data_partition(data, training_proportion = .8)
+      out <- datawizard::data_partition(data, training_proportion = .8)
       data.frame(train = I(list(out$training)), test = I(list(out$test)))
     }))
     res <- kfolds %>%
