@@ -11,6 +11,18 @@ vignette: >
 
 ```{r echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", warning = FALSE, message = FALSE)
+
+if (!requireNamespace("sjlabelled", quietly = TRUE) ||
+    !requireNamespace("sjmisc", quietly = TRUE) ||
+    !requireNamespace("lme4", quietly = TRUE) ||
+    !requireNamespace("pscl", quietly = TRUE) ||
+    !requireNamespace("glmmTMB", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+} else {
+  knitr::opts_chunk$set(eval = TRUE)
+  library(sjPlot)
+}
+
 ```
 
 `tab_model()` is the pendant to `plot_model()`, however, instead of creating plots, `tab_model()` creates HTML-tables that will be displayed either in your IDE's viewer-pane, in a web browser or in a knitr-markdown-document (like this vignette).

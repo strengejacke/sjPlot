@@ -552,7 +552,7 @@ p <- plot_model(m, type = "diag")
 plot_grid(p)}
 
 # plot random effects
-if (require("lme4")) {
+if (require("lme4") && require("glmmTMB")) {
   m <- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
   plot_model(m, type = "re")
 

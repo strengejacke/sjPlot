@@ -1,3 +1,9 @@
+# sjPlot 2.8.9
+
+## Bug fixes
+
+* Fixed issues from CRAN checks.
+
 # sjPlot 2.8.8
 
 ## Changes to functions

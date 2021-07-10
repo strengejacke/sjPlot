@@ -10,6 +10,16 @@ vignette: >
 ---
 ```{r echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
+
+if (!requireNamespace("sjlabelled", quietly = TRUE) ||
+    !requireNamespace("sjmisc", quietly = TRUE) ||
+    !requireNamespace("ggplot2", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+} else {
+  knitr::opts_chunk$set(eval = TRUE)
+  library(sjPlot)
+}
+
 ```
 
 This document describes how to plot estimates as forest plots (or dot whisker plots) of various regression models, using the `plot_model()` function. `plot_model()` is a generic plot-function, which accepts many model-objects, like `lm`, `glm`, `lme`, `lmerMod` etc.
