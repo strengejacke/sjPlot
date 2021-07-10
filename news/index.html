@@ -87,7 +87,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.9</span>
       </span>
     </div>
 
@@ -199,6 +199,15 @@
       <small>Source: <a href='https://github.com/strengejacke/sjPlot/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="sjplot-289" class="section level1">
+<h1 class="page-header" data-toc-text="2.8.9">
+<a href="#sjplot-289" class="anchor" aria-hidden="true"></a>sjPlot 2.8.9<small> Unreleased </small></h1>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<ul><li>Fixed issues from CRAN checks.</li>
+</ul></div>
+</div>
     <div id="sjplot-288" class="section level1">
 <h1 class="page-header" data-toc-text="2.8.8">
 <a href="#sjplot-288" class="anchor" aria-hidden="true"></a>sjPlot 2.8.8<small> 2021-05-25 </small></h1>
@@ -208,9 +217,9 @@
 <ul><li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> now works properly with forthcoming <em>parameters</em> update.</li>
 </ul></div>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>
 <code><a href="../reference/plot_models.html">plot_models()</a></code> did not work properly for Bayesian models.</li>
 </ul></div>
@@ -228,9 +237,9 @@
 <li>
 <code><a href="../reference/tab_df.html">tab_dfs()</a></code> also gains a <code>digits</code> argument.</li>
 </ul></div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-2" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Argument <code>df.method</code> in <code><a href="../reference/tab_model.html">tab_model()</a></code> did not accept all available options that were documented.</li>
 <li>Fix CRAN check issues (warnings in new R-devel).</li>
 </ul></div>
@@ -243,9 +252,9 @@
 <a href="#changes-to-functions-2" class="anchor" aria-hidden="true"></a>Changes to functions</h2>
 <ul><li>When <code>dv.labels = ""</code> in <code><a href="../reference/tab_model.html">tab_model()</a></code>, the row with names of dependent variables is omitted.</li>
 </ul></div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-3" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Fix CRAN check issues (removed cross-references to archived packages).</li>
 <li>The <code>minus.sign</code> argument in <code><a href="../reference/tab_model.html">tab_model()</a></code> now works.</li>
 <li>
@@ -261,9 +270,9 @@
 <ul><li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> gains an argument <code>df.method</code>, which will replace the less generic <code>p.val</code> argument in the future. Currently, <code>df.method</code> is an alias of <code>p.val</code>.</li>
 </ul></div>
-<div id="bug-fixes-3" class="section level2">
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-4" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Fixed issue with wrong n’s in <code><a href="../reference/plot_stackfrq.html">plot_stackfrq()</a></code> when weights were applied.</li>
 <li>Fixed issue <code><a href="../reference/plot_stackfrq.html">plot_stackfrq()</a></code> when weights were applied and items should be sorted.</li>
 <li>Fixed issue in <code><a href="../reference/plot_models.html">plot_models()</a></code> for models without intercept.</li>
@@ -291,9 +300,9 @@
 <li>
 <code><a href="../reference/plot_models.html">plot_models()</a></code> should sort coefficients in their natural order now.</li>
 </ul></div>
-<div id="bug-fixes-4" class="section level2">
+<div id="bug-fixes-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-4" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-5" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Fixed bug in <code><a href="../reference/plot_xtab.html">plot_xtab()</a></code> with wrong order of legend labels.</li>
 <li>Fixed bug in <code><a href="../reference/plot_models.html">plot_models()</a></code> with wrong axis title for exponentiated coefficients.</li>
 <li>Fixed bug in <code><a href="../reference/tab_model.html">tab_model()</a></code> that did not show standard error of standardized coefficients when <code>show.se = TRUE</code>.</li>
@@ -316,9 +325,9 @@
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code>, <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/plot_models.html">plot_models()</a></code> get a <code>robust</code>-argument to easily compute standard errors, confidence intervals and p-values based on robust estimation of the variance-covariance matrix. <code>robust</code> is just a convenient shortcut for <code>vcov.fun</code> and <code>vcov.type</code>.</li>
 </ul></div>
-<div id="bug-fixes-5" class="section level2">
+<div id="bug-fixes-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-5" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-6" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> and <code><a href="../reference/plot_model.html">plot_model()</a></code> for certain cases when coefficients could not be estimated and were <code>NA</code>.</li>
 <li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> with <code>collapse.ci</code> for Bayesian models.</li>
 <li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> when <code>p.val="kr"</code> and <code>show.df=TRUE</code>.</li>
@@ -343,9 +352,9 @@
 <ul><li>Improved handling for <code><a href="../reference/tab_model.html">tab_model()</a></code> of robust estimation in general and Kenward-Roger or Satterthwaite approximations in particular for linear mixed models.</li>
 <li>Revised code to cope with forthcoming <em>tidyselect</em>-update.</li>
 </ul></div>
-<div id="bug-fixes-6" class="section level2">
+<div id="bug-fixes-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-6" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-7" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Improved <code><a href="../reference/tab_df.html">tab_df()</a></code> now uses value labels for factors instead of numeric values.</li>
 <li>Fixed some issues related to the lates <em>brms</em>-update.</li>
 </ul></div>
@@ -359,9 +368,9 @@
 <ul><li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> gets arguments <code>bootstrap</code>, <code>iterations</code> and <code>seed</code> to return bootstrapped estimates.</li>
 </ul></div>
-<div id="bug-fixes-7" class="section level2">
+<div id="bug-fixes-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-7" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-8" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> with detecting labels when <code>auto.label = TRUE</code>.</li>
 <li>Fixed issue in <code><a href="../reference/tab_model.html">tab_model()</a></code> for negative binomial hurdle mixed models (i.e. <em>glmmTMB</em> models with truncated negative-binomial family).</li>
 <li>Fixed bug in <code><a href="../reference/tab_model.html">tab_model()</a></code> with <code>show.reflvl = TRUE</code>.</li>
@@ -389,9 +398,9 @@
 <li>The <code>verbose</code>-argument in <code><a href="../reference/view_df.html">view_df()</a></code> now defaults to <code>FALSE</code>.</li>
 <li>Updated and re-arranged internal color palette, especially to have a better behaviour when selecting colors from continuous palettes (see <code><a href="https://strengejacke.github.io/ggeffects/reference/plot.html" class="external-link">show_pals()</a></code>).</li>
 </ul></div>
-<div id="bug-fixes-8" class="section level2">
+<div id="bug-fixes-9" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-8" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-9" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>
 <code>sort.est = NULL</code> in <code><a href="../reference/plot_model.html">plot_model()</a></code> now preserves original order of coefficients.</li>
 <li>Fixed bug in automatic axis labelling for <code><a href="../reference/plot_frq.html">plot_frq()</a></code> for non-labelled, numeric values.</li>
@@ -422,9 +431,9 @@
 <ul><li>
 <code><a href="../reference/plot_grid.html">plot_grid()</a></code> gets a <code>tags</code>-argument to add tags to plot-panels.</li>
 </ul></div>
-<div id="bug-fixes-9" class="section level2">
+<div id="bug-fixes-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-9" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-10" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Fixed bug in <code><a href="../reference/plot_stackfrq.html">plot_stackfrq()</a></code> for data frames with many missing values.</li>
 <li>Fixed bug with sorting frequencies in <code><a href="../reference/plot_frq.html">plot_frq()</a></code> when vector had more labels than values.</li>
 <li>Fixed bug in <code><a href="../reference/tab_model.html">tab_model()</a></code> where <code>show.reflvl = TRUE</code> did not insert the reference category in first place, but in alphabetical order.</li>
@@ -447,9 +456,9 @@
 <li>
 <code><a href="../reference/tab_df.html">tab_df()</a></code> gets a <code>digits</code> argument, to round numeric values in output.</li>
 </ul></div>
-<div id="bug-fixes-10" class="section level2">
+<div id="bug-fixes-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-10" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-11" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Fixed bug in <code><a href="../reference/tab_model.html">tab_model()</a></code> with <code>show.df = TRUE</code> for <em>lmerModLmerTest</em>.</li>
 <li>Fixed bug in <code><a href="../reference/tab_stackfrq.html">tab_stackfrq()</a></code> when items had different amount of valid values.</li>
 </ul></div>
@@ -513,9 +522,9 @@
 <code><a href="../reference/plot_model.html">plot_model()</a></code> now supports <code>wbm()</code>-models from the <em>panelr</em>-package.</li>
 </ul></div>
 </div>
-<div id="bug-fixes-11" class="section level2">
+<div id="bug-fixes-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-11" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-12" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>
 <code>plot_model(type = "int")</code> now also recognized interaction terms with <code>:</code> in formula.</li>
 <li>Argument <code>string.est</code> in <code><a href="../reference/tab_model.html">tab_model()</a></code> did not overwrite the default label for the estimate-column-header.</li>
@@ -583,9 +592,9 @@
 <code><a href="../reference/tab_xtab.html">sjt.xtab()</a></code>, <code>sjp.xtab()</code>, <code><a href="../reference/plot_frq.html">plot_frq()</a></code> and <code>sjp.grpfrq()</code> get a <code>drop.empty()</code>-argument, to drop values / factor levels with no observations from output.</li>
 </ul></div>
 </div>
-<div id="bug-fixes-12" class="section level2">
+<div id="bug-fixes-13" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-12" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-13" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Legend labels were inverted for <strong>brms</strong>-models in <code>plot_model(..., type = "diag")</code>.</li>
 <li>Legend labels were duplicated for marginal effects plots when <code>color ="bw"</code> and <code>legend.title</code> was specified.</li>
 <li>Fixed encoding issues with help-files.</li>
@@ -619,9 +628,9 @@
 <code><a href="../reference/tab_model.html">tab_model()</a></code> gets a <code>prefix.labels</code>-argument to add a prefix to the labels of categorical terms.</li>
 <li>The <code>rotation</code>-argument in <code>sjt.pca()</code> and <code>sjp.pca()</code> now supports all rotations from <code><a href="https://rdrr.io/pkg/psych/man/principal.html" class="external-link">psych::principal()</a></code>.</li>
 </ul></div>
-<div id="bug-fixes-13" class="section level2">
+<div id="bug-fixes-14" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-13" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-14" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> no longer automatically changes the plot-type to <code>"slope"</code> for models with only one predictor that is categorical and has more than two levels.</li>
 <li>
@@ -659,9 +668,9 @@
 <li>
 <code><a href="../reference/plot_model.html">plot_model()</a></code> and <code><a href="../reference/plot_models.html">plot_models()</a></code> get a <code>p.threshold</code> argument to determine the threshold for which an estimate is considered as significant.</li>
 </ul></div>
-<div id="bug-fixes-14" class="section level2">
+<div id="bug-fixes-15" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-14" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-15" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Fixed bug from the last update that made value labels disappear for <code><a href="../reference/plot_likert.html">plot_likert()</a></code>.</li>
 <li>
 <code><a href="../reference/tab_model.html">tab_model()</a></code> now also accepts multiple model-objects stored in a <code>list</code> as argument, as stated in the help-file.</li>
@@ -713,9 +722,9 @@
 <li>
 <code>sjt.frq()</code>. Please use <code>sjmisc::frq(out = "v")</code> instead.</li>
 </ul></div>
-<div id="bug-fixes-15" class="section level2">
+<div id="bug-fixes-16" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-15" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-16" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>Due to changes in the <em>broom</em> and <em>lmerTest</em> packages, tidiers did no longer work for <code>lmerModLmerTest</code> objects.</li>
 <li>Fix issue with standardized coefficient (argument <code>show.std</code>) in <code><a href="../reference/tab_model.html">tab_model()</a></code>.</li>
 </ul></div>
@@ -778,9 +787,9 @@
 <li>
 <code>plot_model(type = "diag")</code> now also shows random-effects QQ-plots for <code>glmmTMB</code>-models, and also plots random-effects QQ-plots for all random effects (if model has more than one random effect term).</li>
 </ul></div>
-<div id="bug-fixes-16" class="section level2">
+<div id="bug-fixes-17" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-16" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-17" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul><li>
 <code>plot_model(type = "re")</code> now supports standard errors and confidence intervals for <code>glmmTMB</code>-objects.</li>
 <li>Fixed typo for <code>glmmTMB</code>-tidier, which may have returned wrong data for zero-inflation part of model.</li>
