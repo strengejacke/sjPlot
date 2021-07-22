@@ -105,6 +105,7 @@
 #' @param emph.p Logical, if \code{TRUE}, significant p-values are shown bold faced.
 #' @param digits Amount of decimals for estimates
 #' @param digits.p Amount of decimals for p-values
+#' @param digits.rsq Amount of decimals for r-squared values
 #' @param digits.re Amount of decimals for random effects part of the summary table.
 #' @param collapse.ci Logical, if \code{FALSE}, the CI values are shown in
 #'    a separate table column.
@@ -318,6 +319,7 @@ tab_model <- function(
 
   digits = 2,
   digits.p = 3,
+  digits.rsq = 3,
   digits.re = 2,
   emph.p = TRUE,
   p.val = NULL,
@@ -1263,6 +1265,7 @@ tab_model <- function(
     file = file,
     use.viewer = use.viewer,
     footnote = footnote,
+    digits.rsq = digits.rsq,
     digits.re = digits.re,
     encoding = encoding
   )
