@@ -100,7 +100,7 @@ sjp.chi2 <- function(df,
   # ---------------------------------------------------------
   # hide legend?
   # ---------------------------------------------------------
-  if (!show.legend) chiPlot <- chiPlot + guides(fill = FALSE)
+  if (!show.legend) chiPlot <- chiPlot + guides(fill = "none")
 
   chiPlot
 }

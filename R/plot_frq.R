@@ -544,7 +544,7 @@ plot_frq_helper <- function(
       geob +
       yscale +
       # remove guide / legend
-      guides(fill = FALSE) +
+      guides(fill = "none") +
       # show absolute and percentage value of each bar.
       ggvaluelabels +
       # print value labels to the x-axis.

@@ -575,7 +575,7 @@ sj.setGeomColors <- function(plot,
         scale_fill_manual(values = geom.colors, guide = FALSE) +
         scale_colour_manual(values = geom.colors, guide = FALSE) +
         scale_linetype_manual(values = ltypes, guide = FALSE) +
-        guides(fill = FALSE, colour = FALSE, text = FALSE, linetype = FALSE)
+        guides(fill = "none", colour = "none", text = "none", linetype = "none")
     } else {
       plot <- plot +
         scale_fill_manual(values = geom.colors, labels = labels) +
@@ -583,9 +583,9 @@ sj.setGeomColors <- function(plot,
         scale_linetype_manual(values = ltypes)
       # for b/w figures, add linetype scale
       if (bw.figure) {
-        plot <- plot + guides(text = FALSE, colour = FALSE)
+        plot <- plot + guides(text = "none", colour = "none")
       } else {
-        plot <- plot + guides(text = FALSE, linetype = FALSE)
+        plot <- plot + guides(text = "none", linetype = "none")
       }
     }
 
@@ -601,7 +601,7 @@ sj.setGeomColors <- function(plot,
         scale_fill_discrete(guide = FALSE) +
         scale_colour_discrete(guide = FALSE) +
         scale_linetype_manual(values = ltypes, guide = FALSE) +
-        guides(fill = FALSE, colour = FALSE, text = FALSE, linetype = FALSE)
+        guides(fill = "none", colour = "none", text = "none", linetype = "none")
     } else {
       plot <- plot +
         scale_fill_discrete(labels = labels) +
@@ -609,9 +609,9 @@ sj.setGeomColors <- function(plot,
         scale_linetype_manual(values = ltypes)
       # for b/w figures, add linetype scale
       if (bw.figure) {
-        plot <- plot + guides(text = FALSE, colour = FALSE)
+        plot <- plot + guides(text = "none", colour = "none")
       } else {
-        plot <- plot + guides(text = FALSE, linetype = FALSE)
+        plot <- plot + guides(text = "none", linetype = "none")
       }
     }
 
