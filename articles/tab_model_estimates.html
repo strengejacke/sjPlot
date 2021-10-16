@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.9.1</span>
       </span>
     </div>
 
@@ -151,7 +151,7 @@
       <h1 data-toc-skip>Summary of Regression Models as HTML Table</h1>
                         <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2021-08-09</h4>
+            <h4 data-toc-skip class="date">2021-10-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/tab_model_estimates.Rmd" class="external-link"><code>vignettes/tab_model_estimates.Rmd</code></a></small>
       <div class="hidden name"><code>tab_model_estimates.Rmd</code></div>
@@ -160,19 +160,10 @@
 
     
     
-<pre><code>## Registered S3 methods overwritten by 'parameters':
-##   method                           from      
-##   as.double.parameters_kurtosis    datawizard
-##   as.double.parameters_skewness    datawizard
-##   as.double.parameters_smoothness  datawizard
-##   as.numeric.parameters_kurtosis   datawizard
-##   as.numeric.parameters_skewness   datawizard
-##   as.numeric.parameters_smoothness datawizard
-##   print.parameters_distribution    datawizard
-##   print.parameters_kurtosis        datawizard
-##   print.parameters_skewness        datawizard
-##   summary.parameters_kurtosis      datawizard
-##   summary.parameters_skewness      datawizard</code></pre>
+<pre><code>## Warning in checkDepPackageVersion(dep_pkg = "TMB"): Package version inconsistency detected.
+## glmmTMB was built with TMB version 1.7.21
+## Current TMB version is 1.7.22
+## Please re-install glmmTMB from source or restore original 'TMB' package (see '?reinstalling' for more information)</code></pre>
 <p><code><a href="../reference/tab_model.html">tab_model()</a></code> is the pendant to <code><a href="../reference/plot_model.html">plot_model()</a></code>, however, instead of creating plots, <code><a href="../reference/tab_model.html">tab_model()</a></code> creates HTML-tables that will be displayed either in your IDE’s viewer-pane, in a web browser or in a knitr-markdown-document (like this vignette).</p>
 <p>HTML is the only output-format, you can’t (directly) create a LaTex or PDF output from <code><a href="../reference/tab_model.html">tab_model()</a></code> and related table-functions. However, it is possible to easily export the tables into Microsoft Word or Libre Office Writer.</p>
 <p>This vignette shows how to create table from regression models with <code><a href="../reference/tab_model.html">tab_model()</a></code>. There’s a dedicated vignette that demonstrate how to change the <a href="table_css.html">table layout and appearance with CSS</a>.</p>
@@ -187,8 +178,8 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"efc"</span><span class="op">)</span>
 <span class="va">efc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">as_factor</a></span><span class="op">(</span><span class="va">efc</span>, <span class="va">c161sex</span>, <span class="va">c172code</span><span class="op">)</span></code></pre></div>
 <div id="a-simple-html-table-from-regression-results" class="section level2">
-<h2 class="hasAnchor">
-<a href="#a-simple-html-table-from-regression-results" class="anchor" aria-hidden="true"></a>A simple HTML table from regression results</h2>
+<h2>A simple HTML table from regression results<a class="anchor" aria-label="anchor" href="#a-simple-html-table-from-regression-results"></a>
+</h2>
 <p>First, we fit two linear models to demonstrate the <code><a href="../reference/tab_model.html">tab_model()</a></code>-function.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
@@ -322,8 +313,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </table>
 </div>
 <div id="automatic-labelling" class="section level2">
-<h2 class="hasAnchor">
-<a href="#automatic-labelling" class="anchor" aria-hidden="true"></a>Automatic labelling</h2>
+<h2>Automatic labelling<a class="anchor" aria-label="anchor" href="#automatic-labelling"></a>
+</h2>
 <p>As the <strong>sjPlot</strong>-packages features <a href="https://strengejacke.github.io/sjlabelled/" class="external-link">labelled data</a>, the coefficients in the table are already labelled in this example. The name of the dependent variable(s) is used as main column header for each model. For non-labelled data, the coefficient names are shown.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
@@ -561,8 +552,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </tr>
 </table>
 <div id="turn-off-automatic-labelling" class="section level3">
-<h3 class="hasAnchor">
-<a href="#turn-off-automatic-labelling" class="anchor" aria-hidden="true"></a>Turn off automatic labelling</h3>
+<h3>Turn off automatic labelling<a class="anchor" aria-label="anchor" href="#turn-off-automatic-labelling"></a>
+</h3>
 <p>To turn off automatic labelling, use <code>auto.label = FALSE</code>, or provide an empty character vector for <code>pred.labels</code> and <code>dv.labels</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, auto.label <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
@@ -820,8 +811,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 </div>
 <div id="more-than-one-model" class="section level2">
-<h2 class="hasAnchor">
-<a href="#more-than-one-model" class="anchor" aria-hidden="true"></a>More than one model</h2>
+<h2>More than one model<a class="anchor" aria-label="anchor" href="#more-than-one-model"></a>
+</h2>
 <p><code><a href="../reference/tab_model.html">tab_model()</a></code> can print multiple models at once, which are then printed side-by-side. Identical coefficients are matched in a row.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, <span class="va">m2</span><span class="op">)</span></code></pre></div>
@@ -1037,8 +1028,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </table>
 </div>
 <div id="generalized-linear-models" class="section level2">
-<h2 class="hasAnchor">
-<a href="#generalized-linear-models" class="anchor" aria-hidden="true"></a>Generalized linear models</h2>
+<h2>Generalized linear models<a class="anchor" aria-label="anchor" href="#generalized-linear-models"></a>
+</h2>
 <p>For generalized linear models, the ouput is slightly adapted. Instead of <em>Estimates</em>, the column is named <em>Odds Ratios</em>, <em>Incidence Rate Ratios</em> etc., depending on the model. The coefficients are in this case automatically converted (exponentiated). Furthermore, pseudo R-squared statistics are shown in the summary.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">m3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span>
@@ -1266,8 +1257,8 @@ R<sup>2</sup> Nagelkerke
 </tr>
 </table>
 <div id="untransformed-estimates-on-the-linear-scale" class="section level3">
-<h3 class="hasAnchor">
-<a href="#untransformed-estimates-on-the-linear-scale" class="anchor" aria-hidden="true"></a>Untransformed estimates on the linear scale</h3>
+<h3>Untransformed estimates on the linear scale<a class="anchor" aria-label="anchor" href="#untransformed-estimates-on-the-linear-scale"></a>
+</h3>
 <p>To plot the estimates on the linear scale, use <code>transform = NULL</code>.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m3</span>, <span class="va">m4</span>, transform <span class="op">=</span> <span class="cn">NULL</span>, auto.label <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
@@ -1484,8 +1475,8 @@ R<sup>2</sup> Nagelkerke
 </div>
 </div>
 <div id="more-complex-models" class="section level2">
-<h2 class="hasAnchor">
-<a href="#more-complex-models" class="anchor" aria-hidden="true"></a>More complex models</h2>
+<h2>More complex models<a class="anchor" aria-label="anchor" href="#more-complex-models"></a>
+</h2>
 <p>Other models, like hurdle- or zero-inflated models, also work with <code><a href="../reference/tab_model.html">tab_model()</a></code>. In this case, the zero inflation model is indicated in the table. Use <code>show.zeroinf = FALSE</code> to hide this part from the table.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/atahk/pscl" class="external-link">pscl</a></span><span class="op">)</span>
@@ -2043,8 +2034,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </table>
 </div>
 <div id="show-or-hide-further-columns" class="section level2">
-<h2 class="hasAnchor">
-<a href="#show-or-hide-further-columns" class="anchor" aria-hidden="true"></a>Show or hide further columns</h2>
+<h2>Show or hide further columns<a class="anchor" aria-label="anchor" href="#show-or-hide-further-columns"></a>
+</h2>
 <p><code><a href="../reference/tab_model.html">tab_model()</a></code> has some argument that allow to show or hide specific columns from the output:</p>
 <ul>
 <li>
@@ -2063,8 +2054,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <code>show.df</code> for linear mixed models, when p-values are based on degrees of freedom with Kenward-Rogers approximation, these degrees of freedom are shown.</li>
 </ul>
 <div id="adding-columns" class="section level3">
-<h3 class="hasAnchor">
-<a href="#adding-columns" class="anchor" aria-hidden="true"></a>Adding columns</h3>
+<h3>Adding columns<a class="anchor" aria-label="anchor" href="#adding-columns"></a>
+</h3>
 <p>In the following example, standard errors, standardized coefficients and test statistics are also shown.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, show.se <span class="op">=</span> <span class="cn">TRUE</span>, show.std <span class="op">=</span> <span class="cn">TRUE</span>, show.stat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -2299,8 +2290,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </table>
 </div>
 <div id="removing-columns" class="section level3">
-<h3 class="hasAnchor">
-<a href="#removing-columns" class="anchor" aria-hidden="true"></a>Removing columns</h3>
+<h3>Removing columns<a class="anchor" aria-label="anchor" href="#removing-columns"></a>
+</h3>
 <p>In the following example, default columns are removed.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m3</span>, <span class="va">m4</span>, show.ci <span class="op">=</span> <span class="cn">FALSE</span>, show.p <span class="op">=</span> <span class="cn">FALSE</span>, auto.label <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
@@ -2426,8 +2417,8 @@ R<sup>2</sup> Nagelkerke
 </table>
 </div>
 <div id="removing-and-sorting-columns" class="section level3">
-<h3 class="hasAnchor">
-<a href="#removing-and-sorting-columns" class="anchor" aria-hidden="true"></a>Removing and sorting columns</h3>
+<h3>Removing and sorting columns<a class="anchor" aria-label="anchor" href="#removing-and-sorting-columns"></a>
+</h3>
 <p>Another way to remove columns, which also allows to reorder the columns, is the <code>col.order</code>-argument. This is a character vector, where each element indicates a column in the output. The value <code>"est"</code>, for instance, indicates the estimates, while <code>"std.est"</code> is the column for standardized estimates and so on.</p>
 <p>By default, <code>col.order</code> contains all possible columns. All columns that should shown (see previous tables, for example using <code>show.se = TRUE</code> to show standard errors, or <code>show.st = TRUE</code> to show standardized estimates) are then printed by default. Colums that are <em>excluded</em> from <code>col.order</code> are <em>not shown</em>, no matter if the <code>show*</code>-arguments are <code>TRUE</code> or <code>FALSE</code>. So if <code>show.se = TRUE</code>, but<code>col.order</code> does not contain the element <code>"se"</code>, standard errors are not shown. On the other hand, if <code>show.est = FALSE</code>, but <code>col.order</code> <em>does include</em> the element <code>"est"</code>, the columns with estimates are not shown.</p>
 <p>In summary, <code>col.order</code> can be used to <em>exclude</em> columns from the table and to change the order of colums.</p>
@@ -2625,8 +2616,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </table>
 </div>
 <div id="collapsing-columns" class="section level3">
-<h3 class="hasAnchor">
-<a href="#collapsing-columns" class="anchor" aria-hidden="true"></a>Collapsing columns</h3>
+<h3>Collapsing columns<a class="anchor" aria-label="anchor" href="#collapsing-columns"></a>
+</h3>
 <p>With <code>collapse.ci</code> and <code>collapse.se</code>, the columns for confidence intervals and standard errors can be collapsed into one column together with the estimates. Sometimes this table layout is required.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, collapse.ci <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -2736,8 +2727,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 </div>
 <div id="defining-own-labels" class="section level2">
-<h2 class="hasAnchor">
-<a href="#defining-own-labels" class="anchor" aria-hidden="true"></a>Defining own labels</h2>
+<h2>Defining own labels<a class="anchor" aria-label="anchor" href="#defining-own-labels"></a>
+</h2>
 <p>There are different options to change the labels of the column headers or coefficients, e.g. with:</p>
 <ul>
 <li>
@@ -2969,8 +2960,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </table>
 </div>
 <div id="including-reference-level-of-categorical-predictors" class="section level2">
-<h2 class="hasAnchor">
-<a href="#including-reference-level-of-categorical-predictors" class="anchor" aria-hidden="true"></a>Including reference level of categorical predictors</h2>
+<h2>Including reference level of categorical predictors<a class="anchor" aria-label="anchor" href="#including-reference-level-of-categorical-predictors"></a>
+</h2>
 <p>By default, for categorical predictors, the variable names and the categories for regression coefficients are shown in the table output.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/glmmTMB/glmmTMB" class="external-link">glmmTMB</a></span><span class="op">)</span>
@@ -3578,8 +3569,8 @@ R<sup>2</sup> Nagelkerke
 </table>
 </div>
 <div id="style-of-p-values" class="section level2">
-<h2 class="hasAnchor">
-<a href="#style-of-p-values" class="anchor" aria-hidden="true"></a>Style of p-values</h2>
+<h2>Style of p-values<a class="anchor" aria-label="anchor" href="#style-of-p-values"></a>
+</h2>
 <p>You can change the style of how p-values are displayed with the argument <code>p.style</code>. With <code>p.style = "stars"</code>, the p-values are indicated as <code>*</code> in the table.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, <span class="va">m2</span>, p.style <span class="op">=</span> <span class="st">"stars"</span><span class="op">)</span></code></pre></div>
@@ -3968,8 +3959,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </tr>
 </table>
 <div id="automatic-matching-for-named-vectors" class="section level3">
-<h3 class="hasAnchor">
-<a href="#automatic-matching-for-named-vectors" class="anchor" aria-hidden="true"></a>Automatic matching for named vectors</h3>
+<h3>Automatic matching for named vectors<a class="anchor" aria-label="anchor" href="#automatic-matching-for-named-vectors"></a>
+</h3>
 <p>Another way to easily assign labels are <em>named vectors</em>. In this case, it doesn’t matter if <code>pred.labels</code> has more labels than coefficients in the model(s), or in which order the labels are passed to <code><a href="../reference/tab_model.html">tab_model()</a></code>. The only requirement is that the labels’ names equal the coefficients names as they appear in the <code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code>-output.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># example, coefficients are "c161sex2" or "c172code3"</span>
@@ -4218,8 +4209,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 </div>
 <div id="keep-or-remove-coefficients-from-the-table" class="section level2">
-<h2 class="hasAnchor">
-<a href="#keep-or-remove-coefficients-from-the-table" class="anchor" aria-hidden="true"></a>Keep or remove coefficients from the table</h2>
+<h2>Keep or remove coefficients from the table<a class="anchor" aria-label="anchor" href="#keep-or-remove-coefficients-from-the-table"></a>
+</h2>
 <p>Using the <code>terms</code>- or <code>rm.terms</code>-argument allows us to explicitly show or remove specific coefficients from the table output.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c160age"</span>, <span class="st">"c12hour"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -4410,7 +4401,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>

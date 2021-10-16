@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.9.1</span>
       </span>
     </div>
 
@@ -151,7 +151,7 @@
       <h1 data-toc-skip>Customizing HTML tables</h1>
                         <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2021-08-09</h4>
+            <h4 data-toc-skip class="date">2021-10-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/table_css.Rmd" class="external-link"><code>vignettes/table_css.Rmd</code></a></small>
       <div class="hidden name"><code>table_css.Rmd</code></div>
@@ -162,27 +162,27 @@
     
 <p>All <code>tab_*</code>-functions create a HTML page with the table output. This table, by default, is opened in the viewer pane of your IDE (in case you’re using an IDE that also supports the viewer pane). If a viewer pane is not available, the created HTML output is saved as temporary file and opened in your default web browser. The temporary files are deleted after your R session ends.</p>
 <div id="copying-table-output-to-office-or-word-processors" class="section level2">
-<h2 class="hasAnchor">
-<a href="#copying-table-output-to-office-or-word-processors" class="anchor" aria-hidden="true"></a>Copying table output to office or word processors</h2>
+<h2>Copying table output to office or word processors<a class="anchor" aria-label="anchor" href="#copying-table-output-to-office-or-word-processors"></a>
+</h2>
 <div id="export-table-as-html-file-to-open-in-word-processors" class="section level3">
-<h3 class="hasAnchor">
-<a href="#export-table-as-html-file-to-open-in-word-processors" class="anchor" aria-hidden="true"></a>Export table as HTML file to open in word processors</h3>
+<h3>Export table as HTML file to open in word processors<a class="anchor" aria-label="anchor" href="#export-table-as-html-file-to-open-in-word-processors"></a>
+</h3>
 <p>You can save the HTML page as file for further usage by specifying the <code>file</code>-argument The saved HTML file can be opened by word processors like LibreOffice or Microsoft Office.</p>
 </div>
 <div id="drag-and-drop-from-browser-or-rstudio-viewer-pane" class="section level3">
-<h3 class="hasAnchor">
-<a href="#drag-and-drop-from-browser-or-rstudio-viewer-pane" class="anchor" aria-hidden="true"></a>Drag and drop from browser or RStudio viewer pane</h3>
+<h3>Drag and drop from browser or RStudio viewer pane<a class="anchor" aria-label="anchor" href="#drag-and-drop-from-browser-or-rstudio-viewer-pane"></a>
+</h3>
 <p>You can directly drag and drop a table from the RStudio viewer pane or browser into your word processor. Simply select the complete table with your mouse and drag it into office.</p>
 </div>
 </div>
 <div id="customizing-table-output-with-the-css-parameter" class="section level2">
-<h2 class="hasAnchor">
-<a href="#customizing-table-output-with-the-css-parameter" class="anchor" aria-hidden="true"></a>Customizing table output with the CSS parameter</h2>
+<h2>Customizing table output with the CSS parameter<a class="anchor" aria-label="anchor" href="#customizing-table-output-with-the-css-parameter"></a>
+</h2>
 <p>The table output is in in HTML format. The table style (visual appearance) is formatted using <em>Cascading Style Sheets</em> (CSS). If you are a bit familiar with these topics, you can easily customize the appearance of the table output.</p>
 <p>Many table elements (header, row, column, cell, summary row, first row or column…) have CSS-class attributes, which can be used to change the table style. Since each <code>sjt.*</code> function as well as <code><a href="../reference/tab_model.html">tab_model()</a></code> has different table elements and thus different class attributes, you first need to know which styles can be customized.</p>
 <div id="retrieving-customizable-styles" class="section level3">
-<h3 class="hasAnchor">
-<a href="#retrieving-customizable-styles" class="anchor" aria-hidden="true"></a>Retrieving customizable styles</h3>
+<h3>Retrieving customizable styles<a class="anchor" aria-label="anchor" href="#retrieving-customizable-styles"></a>
+</h3>
 <p>The table functions invisibly return several values. The return value <code>page.style</code> contains the style information for the HTML table. You can print this style sheet to console using the <code><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat()</a></code>-function:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/" class="external-link">sjPlot</a></span><span class="op">)</span>
@@ -288,8 +288,8 @@
 </div>
 </div>
 <div id="customizing-table-output-with-the-css-parameter-1" class="section level2">
-<h2 class="hasAnchor">
-<a href="#customizing-table-output-with-the-css-parameter-1" class="anchor" aria-hidden="true"></a>Customizing table output with the CSS parameter</h2>
+<h2>Customizing table output with the CSS parameter<a class="anchor" aria-label="anchor" href="#customizing-table-output-with-the-css-parameter-1"></a>
+</h2>
 <p>You can customize the table output with the <code>CSS</code> parameter. This parameter requires a list of attributes, which follow a certain pattern:</p>
 <ol style="list-style-type: decimal">
 <li>each attributes needs a <code>css.</code> prefix</li>
@@ -534,8 +534,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </table>
 </div>
 <div id="pre-defined-table-layouts" class="section level2">
-<h2 class="hasAnchor">
-<a href="#pre-defined-table-layouts" class="anchor" aria-hidden="true"></a>Pre-defined Table-Layouts</h2>
+<h2>Pre-defined Table-Layouts<a class="anchor" aria-label="anchor" href="#pre-defined-table-layouts"></a>
+</h2>
 <p>There are a few pre-defined CSS-themes, which can be accessed with the <code><a href="../reference/sjPlot-themes.html">css_theme()</a></code>-function. There are more pre-defined themes planned for the future.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m</span>, CSS <span class="op">=</span> <span class="fu"><a href="../reference/sjPlot-themes.html">css_theme</a></span><span class="op">(</span><span class="st">"cells"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -669,7 +669,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>

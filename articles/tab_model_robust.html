@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.9.1</span>
       </span>
     </div>
 
@@ -166,11 +166,11 @@ vignette: >
 -->
 <p>The <code><a href="../reference/tab_model.html">tab_model()</a></code> function also allows the computation of standard errors, confidence intervals and p-values based on robust covariance matrix estimation from model parameters. Robust estimation is based on the packages <strong>sandwich</strong> and <strong>clubSandwich</strong>, so all models supported by either of these packages work with <code><a href="../reference/tab_model.html">tab_model()</a></code>.</p>
 <div id="classical-regression-models" class="section level2">
-<h2 class="hasAnchor">
-<a href="#classical-regression-models" class="anchor" aria-hidden="true"></a>Classical Regression Models</h2>
+<h2>Classical Regression Models<a class="anchor" aria-label="anchor" href="#classical-regression-models"></a>
+</h2>
 <div id="robust-covariance-matrix-estimation-from-model-parameters" class="section level3">
-<h3 class="hasAnchor">
-<a href="#robust-covariance-matrix-estimation-from-model-parameters" class="anchor" aria-hidden="true"></a>Robust Covariance Matrix Estimation from Model Parameters</h3>
+<h3>Robust Covariance Matrix Estimation from Model Parameters<a class="anchor" aria-label="anchor" href="#robust-covariance-matrix-estimation-from-model-parameters"></a>
+</h3>
 <p>There are three arguments that allow for choosing different methods and options of robust estimation: <code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code>. Let us start with a simple example, which uses a heteroskedasticity-consistent covariance matrix estimation with estimation-type “HC3” (i.e. <code>sandwich::vcovHC(type = "HC3")</code> is called):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>
@@ -223,7 +223,7 @@ p
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length
+Sepal Length
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.04
@@ -274,7 +274,7 @@ Species [virginica]
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Width
+Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.11
@@ -291,7 +291,7 @@ Sepal.Width
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length * Species<br>[versicolor]
+Sepal Length * Species<br>[versicolor]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.61
@@ -308,7 +308,7 @@ Sepal.Length * Species<br>[versicolor]
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length * Species<br>[virginica]
+Sepal Length * Species<br>[virginica]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.68
@@ -347,8 +347,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <span class="co">#&gt; [1] 0.45382603 0.11884474 0.69296611 0.63031982 0.08318559 0.13045539 0.11841325</span></code></pre></div>
 </div>
 <div id="cluster-robust-covariance-matrix-estimation-sandwich" class="section level3">
-<h3 class="hasAnchor">
-<a href="#cluster-robust-covariance-matrix-estimation-sandwich" class="anchor" aria-hidden="true"></a>Cluster-Robust Covariance Matrix Estimation (sandwich)</h3>
+<h3>Cluster-Robust Covariance Matrix Estimation (sandwich)<a class="anchor" aria-label="anchor" href="#cluster-robust-covariance-matrix-estimation-sandwich"></a>
+</h3>
 <p>If another covariance matrix estimation is required, use the <code>vcov.fun</code>-argument. This argument needs the suffix for the related <code>vcov*()</code>-functions as value, i.e. <code>vcov.fun = "CL"</code> would call <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovCL.html" class="external-link">sandwich::vcovCL()</a></code>, or <code>vcov.fun = "HAC"</code> would call <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHAC.html" class="external-link">sandwich::vcovHAC()</a></code>.</p>
 <p>The specific estimation type can be changed with <code>vcov.type</code>. E.g., <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovCL.html" class="external-link">sandwich::vcovCL()</a></code> accepts estimation types HC0 to HC3. In the next example, we use a clustered covariance matrix estimation with HC1-estimation type.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -399,7 +399,7 @@ p
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length
+Sepal Length
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.04
@@ -450,7 +450,7 @@ Species [virginica]
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Width
+Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.11
@@ -467,7 +467,7 @@ Sepal.Width
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length * Species<br>[versicolor]
+Sepal Length * Species<br>[versicolor]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.61
@@ -484,7 +484,7 @@ Sepal.Length * Species<br>[versicolor]
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length * Species<br>[virginica]
+Sepal Length * Species<br>[virginica]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.68
@@ -577,7 +577,7 @@ p
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length
+Sepal Length
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.04
@@ -628,7 +628,7 @@ Species [virginica]
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Width
+Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.11
@@ -645,7 +645,7 @@ Sepal.Width
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length * Species<br>[versicolor]
+Sepal Length * Species<br>[versicolor]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.61
@@ -662,7 +662,7 @@ Sepal.Length * Species<br>[versicolor]
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length * Species<br>[virginica]
+Sepal Length * Species<br>[virginica]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.68
@@ -701,8 +701,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <span class="co">#&gt; [1] 0.33714287 0.07192334 0.51893777 0.26415406 0.07201145 0.09661348 0.05123446</span></code></pre></div>
 </div>
 <div id="cluster-robust-covariance-matrix-estimation-clubsandwich" class="section level3">
-<h3 class="hasAnchor">
-<a href="#cluster-robust-covariance-matrix-estimation-clubsandwich" class="anchor" aria-hidden="true"></a>Cluster-Robust Covariance Matrix Estimation (clubSandwich)</h3>
+<h3>Cluster-Robust Covariance Matrix Estimation (clubSandwich)<a class="anchor" aria-label="anchor" href="#cluster-robust-covariance-matrix-estimation-clubsandwich"></a>
+</h3>
 <p>Cluster-robust estimation of the variance-covariance matrix can also be achieved using <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html" class="external-link">clubSandwich::vcovCR()</a></code>. Thus, when <code>vcov.fun = "CR"</code>, the related function from the <strong>clubSandwich</strong> package is called. Note that this function <em>requires</em> the specification of the <code>cluster</code>-argument.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create fake-cluster-variable, to demonstrate cluster robust standard errors</span>
@@ -761,7 +761,7 @@ p
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length
+Sepal Length
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.04
@@ -812,7 +812,7 @@ Species [virginica]
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Width
+Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.11
@@ -829,7 +829,7 @@ Sepal.Width
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length * Species<br>[versicolor]
+Sepal Length * Species<br>[versicolor]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.61
@@ -846,7 +846,7 @@ Sepal.Length * Species<br>[versicolor]
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length * Species<br>[virginica]
+Sepal Length * Species<br>[virginica]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.68
@@ -885,8 +885,8 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <span class="co">#&gt; [1] 0.33028501 0.07046034 0.50838200 0.25878087 0.07054666 0.09464825 0.05019229</span></code></pre></div>
 </div>
 <div id="robust-covariance-matrix-estimation-on-standardized-model-parameters" class="section level3">
-<h3 class="hasAnchor">
-<a href="#robust-covariance-matrix-estimation-on-standardized-model-parameters" class="anchor" aria-hidden="true"></a>Robust Covariance Matrix Estimation on Standardized Model Parameters</h3>
+<h3>Robust Covariance Matrix Estimation on Standardized Model Parameters<a class="anchor" aria-label="anchor" href="#robust-covariance-matrix-estimation-on-standardized-model-parameters"></a>
+</h3>
 <p>Finally, robust estimation can be combined with standardization. However, robust covariance matrix estimation only works for <code>show.std = "std"</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># model parameters, robust estimation on standardized model</span>
@@ -952,7 +952,7 @@ std. p
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length
+Sepal Length
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.04
@@ -1021,7 +1021,7 @@ Species [virginica]
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Width
+Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.11
@@ -1044,7 +1044,7 @@ Sepal.Width
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length * Species<br>[versicolor]
+Sepal Length * Species<br>[versicolor]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.61
@@ -1067,7 +1067,7 @@ Sepal.Length * Species<br>[versicolor]
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Length * Species<br>[virginica]
+Sepal Length * Species<br>[virginica]
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.68
@@ -1108,11 +1108,11 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </div>
 </div>
 <div id="mixed-models" class="section level2">
-<h2 class="hasAnchor">
-<a href="#mixed-models" class="anchor" aria-hidden="true"></a>Mixed Models</h2>
+<h2>Mixed Models<a class="anchor" aria-label="anchor" href="#mixed-models"></a>
+</h2>
 <div id="robust-covariance-matrix-estimation-for-mixed-models" class="section level3">
-<h3 class="hasAnchor">
-<a href="#robust-covariance-matrix-estimation-for-mixed-models" class="anchor" aria-hidden="true"></a>Robust Covariance Matrix Estimation for Mixed Models</h3>
+<h3>Robust Covariance Matrix Estimation for Mixed Models<a class="anchor" aria-label="anchor" href="#robust-covariance-matrix-estimation-for-mixed-models"></a>
+</h3>
 <p>For linear mixed models, that by definition have a clustered (“hierarchical” or multilevel) structure in the data, it is also possible to estimate a cluster-robust covariance matrix. This is possible due to the <strong>clubSandwich</strong> package, thus we need to define the same arguments as in the above example.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lme4/lme4/" class="external-link">lme4</a></span><span class="op">)</span>
@@ -1159,7 +1159,7 @@ p
 1.55
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.77 – 2.34
+0.76 – 2.35
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -1173,10 +1173,10 @@ Species [versicolor]
 0.41
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.66 – 1.49
+-0.67 – 1.50
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.453
+0.454
 </td>
 </tr>
 <tr>
@@ -1187,21 +1187,21 @@ Species [virginica]
 -0.41
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--1.55 – 0.73
+-1.56 – 0.74
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.482
+0.483
 </td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Width
+Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.66
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-0.44 – 0.88
+0.44 – 0.89
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 <strong>&lt;0.001</strong>
@@ -1209,7 +1209,7 @@ Sepal.Width
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Petal.Length
+Petal Length
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.82
@@ -1223,7 +1223,7 @@ Petal.Length
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Species [versicolor] *<br>Sepal.Width
+Species [versicolor] *<br>Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.48
@@ -1232,21 +1232,21 @@ Species [versicolor] *<br>Sepal.Width
 -0.85 – -0.12
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.009</strong>
+<strong>0.010</strong>
 </td>
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Species [virginica] *<br>Sepal.Width
+Species [virginica] *<br>Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.36
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
--0.71 – -0.01
+-0.71 – -0.00
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
-<strong>0.046</strong>
+<strong>0.048</strong>
 </td>
 </tr>
 <tr>
@@ -1379,7 +1379,7 @@ Species [virginica]
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Width
+Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.66
@@ -1393,7 +1393,7 @@ Sepal.Width
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Petal.Length
+Petal Length
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.82
@@ -1407,7 +1407,7 @@ Petal.Length
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Species [versicolor] *<br>Sepal.Width
+Species [versicolor] *<br>Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.48
@@ -1421,7 +1421,7 @@ Species [versicolor] *<br>Sepal.Width
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Species [virginica] *<br>Sepal.Width
+Species [virginica] *<br>Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.36
@@ -1489,8 +1489,8 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </table>
 </div>
 <div id="robust-covariance-matrix-estimation-on-standardized-mixed-model-parameters" class="section level3">
-<h3 class="hasAnchor">
-<a href="#robust-covariance-matrix-estimation-on-standardized-mixed-model-parameters" class="anchor" aria-hidden="true"></a>Robust Covariance Matrix Estimation on Standardized Mixed Model Parameters</h3>
+<h3>Robust Covariance Matrix Estimation on Standardized Mixed Model Parameters<a class="anchor" aria-label="anchor" href="#robust-covariance-matrix-estimation-on-standardized-mixed-model-parameters"></a>
+</h3>
 <p>Again, robust estimation can be combined with standardization for linear mixed models as well, which in such cases also only works for <code>show.std = "std"</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># model parameters, cluster robust estimation on standardized mixed model</span>
@@ -1604,7 +1604,7 @@ Species [virginica]
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Sepal.Width
+Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.66
@@ -1627,7 +1627,7 @@ Sepal.Width
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Petal.Length
+Petal Length
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 0.82
@@ -1650,7 +1650,7 @@ Petal.Length
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Species [versicolor] *<br>Sepal.Width
+Species [versicolor] *<br>Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.48
@@ -1673,7 +1673,7 @@ Species [versicolor] *<br>Sepal.Width
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
-Species [virginica] *<br>Sepal.Width
+Species [virginica] *<br>Sepal Width
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
 -0.36
@@ -1769,7 +1769,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>

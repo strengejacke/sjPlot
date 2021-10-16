@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.8.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.9.1</span>
       </span>
     </div>
 
@@ -151,7 +151,7 @@
       <h1 data-toc-skip>Plotting Marginal Effects of Regression Models</h1>
                         <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2021-08-09</h4>
+            <h4 data-toc-skip class="date">2021-10-16</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/plot_marginal_effects.Rmd" class="external-link"><code>vignettes/plot_marginal_effects.Rmd</code></a></small>
       <div class="hidden name"><code>plot_marginal_effects.Rmd</code></div>
@@ -182,8 +182,8 @@ vignette: >
 <p><code><a href="../reference/plot_model.html">plot_model()</a></code> supports <a href="https://cran.r-project.org/package=sjlabelled" class="external-link">labelled data</a> and automatically uses variable and value labels to annotate the plot. This works with most regression modelling functions.</p>
 <p><em><strong>Note:</strong> For marginal effects plots, <strong>sjPlot</strong> calls functions from the <a href="https://strengejacke.github.io/ggeffects/" class="external-link"><strong>ggeffects-package</strong></a>. If you need more flexibility when creating marginal effects plots, consider directly using the <strong>ggeffects</strong>-package.</em></p>
 <div id="marginal-effects" class="section level1">
-<h1 class="hasAnchor">
-<a href="#marginal-effects" class="anchor" aria-hidden="true"></a>Marginal effects</h1>
+<h1>Marginal effects<a class="anchor" aria-label="anchor" href="#marginal-effects"></a>
+</h1>
 <p><code>plot_model(type = "pred")</code> computes predicted values for all possible levels and values from a model’s predictors. In the simplest case, a fitted model is passed as first argument, followed by the <code>type</code> argument and the term in question as <code>terms</code> argument:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/" class="external-link">sjPlot</a></span><span class="op">)</span>
@@ -197,8 +197,8 @@ vignette: >
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-1-1.png" width="672"></p>
 <p>The plot shows the predicted values for the response at each value from the term <em>c12hour</em>.</p>
 <div id="marginal-effects-for-different-groups" class="section level2">
-<h2 class="hasAnchor">
-<a href="#marginal-effects-for-different-groups" class="anchor" aria-hidden="true"></a>Marginal effects for different groups</h2>
+<h2>Marginal effects for different groups<a class="anchor" aria-label="anchor" href="#marginal-effects-for-different-groups"></a>
+</h2>
 <p>The <code>terms</code>-argument accepts up to three model terms, where the second and third term indicate grouping levels. This allows predictions for the term in question at different levels for other model terms:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour"</span>, <span class="st">"c172code"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -209,8 +209,8 @@ vignette: >
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
 </div>
 <div id="marginal-effects-at-specific-values-or-levels" class="section level2">
-<h2 class="hasAnchor">
-<a href="#marginal-effects-at-specific-values-or-levels" class="anchor" aria-hidden="true"></a>Marginal effects at specific values or levels</h2>
+<h2>Marginal effects at specific values or levels<a class="anchor" aria-label="anchor" href="#marginal-effects-at-specific-values-or-levels"></a>
+</h2>
 <p>The <code>terms</code>-argument not only defines the model terms of interest, but each model term <em>that defines the grouping structure</em> can be limited to certain values. This allows to compute and plot marginal effects for terms at specific values only. To define these values, put them in square brackets directly after the term name: <code>terms = c("c12hour [30, 50, 80]", "c172code [1,3]")</code></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"c12hour [30, 50, 80]"</span>, <span class="st">"c172code [1,3]"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -236,8 +236,8 @@ vignette: >
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 </div>
 <div id="polynomial-terms-and-splines" class="section level2">
-<h2 class="hasAnchor">
-<a href="#polynomial-terms-and-splines" class="anchor" aria-hidden="true"></a>Polynomial terms and splines</h2>
+<h2>Polynomial terms and splines<a class="anchor" aria-label="anchor" href="#polynomial-terms-and-splines"></a>
+</h2>
 <p>The function also works for models with polynomial terms or splines. Following code reproduces the plot from <code><a href="https://rdrr.io/r/splines/bs.html" class="external-link">?splines::bs</a></code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">splines</span><span class="op">)</span>
@@ -248,8 +248,8 @@ vignette: >
 <p><img src="plot_marginal_effects_files/figure-html/unnamed-chunk-7-1.png" width="672"></p>
 </div>
 <div id="different-constant-values-for-factors" class="section level2">
-<h2 class="hasAnchor">
-<a href="#different-constant-values-for-factors" class="anchor" aria-hidden="true"></a>Different constant values for factors</h2>
+<h2>Different constant values for factors<a class="anchor" aria-label="anchor" href="#different-constant-values-for-factors"></a>
+</h2>
 <p>Model predictions are based on all possible combinations of the model terms, which are - roughly speaking - created using <code><a href="https://rdrr.io/r/base/expand.grid.html" class="external-link">expand.grid()</a></code>. For the terms in question, all values are used for combinations. All other model predictors that are <em>not</em> specified in the <code>terms</code>-argument, are held constant (which is achieved with <code><a href="https://strengejacke.github.io/sjmisc/reference/typical_value.html" class="external-link">sjstats::typical_value()</a></code>). By default, continuous variables are set to their mean, while factors are set to their reference level.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
@@ -270,8 +270,8 @@ vignette: >
 </div>
 </div>
 <div id="interaction-terms" class="section level1">
-<h1 class="hasAnchor">
-<a href="#interaction-terms" class="anchor" aria-hidden="true"></a>Interaction terms</h1>
+<h1>Interaction terms<a class="anchor" aria-label="anchor" href="#interaction-terms"></a>
+</h1>
 <p>Plotting interaction terms are described in a <a href="plot_interactions.html">separate vignette</a>.</p>
 </div>
   </div>
@@ -293,7 +293,7 @@ vignette: >
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>
