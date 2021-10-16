@@ -512,6 +512,8 @@ tab_model_df <- function(x,
 
       }
     }
+    page.content <- paste0(page.content, "  </tr>\n")
+
 
 
     # random effects: Between-group-variance: tau.00 ----
