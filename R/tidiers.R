@@ -4,7 +4,8 @@
 #' @importFrom insight standardize_names
 tidy_model <- function(
   model, ci.lvl, tf, type, bpe, robust, facets, show.zeroinf, p.val,
-  standardize = FALSE, bootstrap = FALSE, iterations = 1000, seed = NULL, p_adjust = NULL, ...) {
+  standardize = FALSE, bootstrap = FALSE, iterations = 1000, seed = NULL,
+  p_adjust = NULL, keep = NULL, drop = NULL, ...) {
 
   if (!is.logical(standardize) && standardize == "") standardize <- NULL
   if (is.logical(standardize) && standardize == FALSE) standardize <- NULL
@@ -31,11 +32,15 @@ tidy_model <- function(
 
     df_method <- switch(
       p.val,
+      "r" = ,
+      "residual" = "residual",
       "wald" = "wald",
       "kr" = ,
       "kenward" = "kenward",
       "s" = ,
       "satterthwaite" = "satterthwaite",
+      "n" = ,
+      "normal" = "normal",
       "profile" = "profile",
       p.val
     )
@@ -44,9 +49,9 @@ tidy_model <- function(
       if (grepl("^vcov", robust$vcov.fun)) {
         robust$vcov.fun <- sub("^vcov", "", robust$vcov.fun)
       }
-      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, robust = TRUE, vcov_estimation = robust$vcov.fun, vcov_type = robust$vcov.type, vcov_args = robust$vcov.args, df_method = df_method, p_adjust = p_adjust, effects = "fixed")
+      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, robust = TRUE, vcov_estimation = robust$vcov.fun, vcov_type = robust$vcov.type, vcov_args = robust$vcov.args, df_method = df_method, p_adjust = p_adjust, effects = "fixed", keep = keep, drop = drop)
     } else {
-      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, df_method = df_method, p_adjust = p_adjust, effects = "fixed")
+      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, df_method = df_method, p_adjust = p_adjust, effects = "fixed", keep = keep, drop = drop)
     }
     out <- insight::standardize_names(model_params, style = "broom")
 
