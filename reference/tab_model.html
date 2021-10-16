@@ -146,6 +146,8 @@
   terms <span class="op">=</span> <span class="cn">NULL</span>,
   rm.terms <span class="op">=</span> <span class="cn">NULL</span>,
   order.terms <span class="op">=</span> <span class="cn">NULL</span>,
+  keep <span class="op">=</span> <span class="cn">NULL</span>,
+  drop <span class="op">=</span> <span class="cn">NULL</span>,
   title <span class="op">=</span> <span class="cn">NULL</span>,
   pred.labels <span class="op">=</span> <span class="cn">NULL</span>,
   dv.labels <span class="op">=</span> <span class="cn">NULL</span>,
@@ -304,6 +306,15 @@ was categorical and has at least the factor levels <code>2</code> and <code>3</c
       <td><p>Numeric vector, indicating in which order the coefficients
 should be plotted. See examples in
 <a href="https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html">this package-vignette</a>.</p></td>
+    </tr><tr><th>keep, drop</th>
+      <td><p>Character containing a regular expression pattern that
+describes the parameters that should be included (for <code>keep</code>) or excluded
+(for <code>drop</code>) in the returned data frame. <code>keep</code> may also be a
+named list of regular expressions. All non-matching parameters will be
+removed from the output. If <code>keep</code> has more than one element, these
+will be merged with an <code>OR</code> operator into a regular expression pattern
+like this: <code>"(one|two|three)"</code>. See further details in
+<code><a href="https://easystats.github.io/parameters/reference/model_parameters.html">?parameters::model_parameters</a></code>.</p></td>
     </tr><tr><th>title</th>
       <td><p>String, will be used as table caption.</p></td>
     </tr><tr><th>pred.labels</th>
