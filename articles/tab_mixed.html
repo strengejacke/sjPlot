@@ -151,7 +151,7 @@
       <h1 data-toc-skip>Summary of Mixed Models as HTML Table</h1>
                         <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2021-10-16</h4>
+            <h4 data-toc-skip class="date">2021-10-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/tab_mixed.Rmd" class="external-link"><code>vignettes/tab_mixed.Rmd</code></a></small>
       <div class="hidden name"><code>tab_mixed.Rmd</code></div>
@@ -178,8 +178,8 @@ vignette: >
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"sleepstudy"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"efc"</span><span class="op">)</span>
 <span class="va">efc</span><span class="op">$</span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e15relat</span><span class="op">)</span></code></pre></div>
-<div id="mixed-models-summaries-as-html-table" class="section level2">
-<h2>Mixed models summaries as HTML table<a class="anchor" aria-label="anchor" href="#mixed-models-summaries-as-html-table"></a>
+<div class="section level2">
+<h2 id="mixed-models-summaries-as-html-table">Mixed models summaries as HTML table<a class="anchor" aria-label="anchor" href="#mixed-models-summaries-as-html-table"></a>
 </h2>
 <p>Unlike tables for <a href="tab_model_estimates.html">non-mixed models</a>, <code>tab_models()</code> adds additional information on the random effects to the table output for mixed models. You can hide these information with <code>show.icc = FALSE</code> and <code>show.re.var = FALSE</code>. Furthermore, the R-squared values are marginal and conditional R-squared statistics, based on <em>Nakagawa et al. 2017</em>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -572,8 +572,8 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </tr>
 </table>
 </div>
-<div id="generalized-linear-mixed-models" class="section level2">
-<h2>Generalized linear mixed models<a class="anchor" aria-label="anchor" href="#generalized-linear-mixed-models"></a>
+<div class="section level2">
+<h2 id="generalized-linear-mixed-models">Generalized linear mixed models<a class="anchor" aria-label="anchor" href="#generalized-linear-mixed-models"></a>
 </h2>
 <p><code><a href="../reference/tab_model.html">tab_model()</a></code> can also print and combine models with different link-functions.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -787,8 +787,8 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </tr>
 </table>
 </div>
-<div id="more-complex-models" class="section level2">
-<h2>More complex models<a class="anchor" aria-label="anchor" href="#more-complex-models"></a>
+<div class="section level2">
+<h2 id="more-complex-models">More complex models<a class="anchor" aria-label="anchor" href="#more-complex-models"></a>
 </h2>
 <p>Finally, an example from the <strong>glmmTMB</strong>-package to show how easy it is to print zero-inflated generalized linear mixed models as HTML table.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -1307,8 +1307,8 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </tr>
 </table>
 </div>
-<div id="references" class="section level2">
-<h2>References<a class="anchor" aria-label="anchor" href="#references"></a>
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <p>Nakagawa S, Johnson P, Schielzeth H (2017) <em>The coefficient of determination R2 and intra-class correlation coefficient from generalized linear mixed-effects models revisted and expanded.</em> J. R. Soc. Interface 14. doi: 10.1098/rsif.2017.0213</p>
 </div>
@@ -1326,12 +1326,12 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://github.com/strengejacke" class="external-link external-link">Daniel Lüdecke</a>.</p>
+<p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>

@@ -151,7 +151,7 @@
       <h1 data-toc-skip>Summary of Bayesian Models as HTML Table</h1>
                         <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2021-10-16</h4>
+            <h4 data-toc-skip class="date">2021-10-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/tab_bayes.Rmd" class="external-link"><code>vignettes/tab_bayes.Rmd</code></a></small>
       <div class="hidden name"><code>tab_bayes.Rmd</code></div>
@@ -195,8 +195,8 @@ vignette: >
 <span class="co"># f2 &lt;- bf(Base2 ~ zAge + Trt + (1 |ID| patient))</span>
 <span class="co"># m2 &lt;- brm(f1 + f2 + set_rescor(FALSE), data = epilepsy)</span>
 <span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu">insight</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/insight/reference/download_model.html" class="external-link">download_model</a></span><span class="op">(</span><span class="st">"brms_mv_3"</span><span class="op">)</span></code></pre></div>
-<div id="bayesian-models-summaries-as-html-table" class="section level2">
-<h2>Bayesian models summaries as HTML table<a class="anchor" aria-label="anchor" href="#bayesian-models-summaries-as-html-table"></a>
+<div class="section level2">
+<h2 id="bayesian-models-summaries-as-html-table">Bayesian models summaries as HTML table<a class="anchor" aria-label="anchor" href="#bayesian-models-summaries-as-html-table"></a>
 </h2>
 <p>For Bayesian regression models, some of the differences to the table output from <a href="tab_model_estimates.html">simple models</a> or <a href="tab_mixed.html">mixed models</a> of <code>tab_models()</code> are the use of <em>Highest Density Intervals</em> instead of confidence intervals, the Bayes-R-squared values, and a different “point estimate” (which is, by default, the median from the posterior draws).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -318,7 +318,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-5.18
+5.45
 </td>
 </tr>
 <tr>
@@ -326,7 +326,7 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-33.76
+33.79
 </td>
 </tr>
 <tr>
@@ -334,7 +334,7 @@ Random Effects
 ICC
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.13
+0.14
 </td>
 </tr>
 <tr>
@@ -363,8 +363,8 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </tr>
 </table>
 </div>
-<div id="multivariate-response-models" class="section level2">
-<h2>Multivariate response models<a class="anchor" aria-label="anchor" href="#multivariate-response-models"></a>
+<div class="section level2">
+<h2 id="multivariate-response-models">Multivariate response models<a class="anchor" aria-label="anchor" href="#multivariate-response-models"></a>
 </h2>
 <p>For multivariate response models, like mediator-analysis-models, it is recommended to print just one model in the table, as each regression is displayed as own “model” in the output.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -472,7 +472,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">
-55.62
+53.87
 </td>
 </tr>
 <tr>
@@ -480,7 +480,7 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">
-4.29
+3.90
 </td>
 </tr>
 <tr>
@@ -509,8 +509,8 @@ Observations
 </tr>
 </table>
 </div>
-<div id="show-two-credible-interval-column" class="section level2">
-<h2>Show two Credible Interval-column<a class="anchor" aria-label="anchor" href="#show-two-credible-interval-column"></a>
+<div class="section level2">
+<h2 id="show-two-credible-interval-column">Show two Credible Interval-column<a class="anchor" aria-label="anchor" href="#show-two-credible-interval-column"></a>
 </h2>
 <p>To show a second CI-column, use <code>show.ci50 = TRUE</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -646,7 +646,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="6">
-53.56
+54.93
 </td>
 </tr>
 <tr>
@@ -654,7 +654,7 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="6">
-4.60
+4.31
 </td>
 </tr>
 <tr>
@@ -683,8 +683,8 @@ Observations
 </tr>
 </table>
 </div>
-<div id="mixing-multivariate-and-univariate-response-models" class="section level2">
-<h2>Mixing multivariate and univariate response models<a class="anchor" aria-label="anchor" href="#mixing-multivariate-and-univariate-response-models"></a>
+<div class="section level2">
+<h2 id="mixing-multivariate-and-univariate-response-models">Mixing multivariate and univariate response models<a class="anchor" aria-label="anchor" href="#mixing-multivariate-and-univariate-response-models"></a>
 </h2>
 <p>When both multivariate and univariate response models are displayed in one table, a column <em>Response</em> is added for the multivariate response model, to indicate the different outcomes.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -950,10 +950,10 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-5.35
+5.46
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-55.38
+55.84
 </td>
 </tr>
 <tr>
@@ -961,10 +961,10 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-33.63
+33.78
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-4.02
+4.18
 </td>
 </tr>
 <tr>
@@ -1027,12 +1027,12 @@ NA
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://github.com/strengejacke" class="external-link external-link">Daniel Lüdecke</a>.</p>
+<p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>

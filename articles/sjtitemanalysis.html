@@ -151,7 +151,7 @@
       <h1 data-toc-skip>Item Analysis of a Scale or an Index</h1>
                         <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2021-10-16</h4>
+            <h4 data-toc-skip class="date">2021-10-21</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/sjtitemanalysis.Rmd" class="external-link"><code>vignettes/sjtitemanalysis.Rmd</code></a></small>
       <div class="hidden name"><code>sjtitemanalysis.Rmd</code></div>
@@ -161,8 +161,8 @@
     
     
 <p>This document shows examples for using the <code><a href="../reference/tab_itemscale.html">tab_itemscale()</a></code> function of the sjPlot package.</p>
-<div id="performing-an-item-analysis-of-a-scale-or-index" class="section level2">
-<h2>Performing an item analysis of a scale or index<a class="anchor" aria-label="anchor" href="#performing-an-item-analysis-of-a-scale-or-index"></a>
+<div class="section level2">
+<h2 id="performing-an-item-analysis-of-a-scale-or-index">Performing an item analysis of a scale or index<a class="anchor" aria-label="anchor" href="#performing-an-item-analysis-of-a-scale-or-index"></a>
 </h2>
 <p>This function performs an item analysis with certain statistics that are useful for scale or index development. Following statistics are computed for each variable (column) of a data frame:</p>
 <ul>
@@ -183,8 +183,8 @@
 <p>If the argument <code>factor.groups</code> is <em>not</em> <code>NULL</code>, the data frame df will be splitted into groups, assuming that <code>factor.groups</code> indicate those columns (variables) of the data frame that belong to a certain factor (see, for instance, return value of function <code><a href="../reference/tab_pca.html">tab_pca()</a></code> or <code><a href="https://easystats.github.io/parameters/reference/principal_components.html" class="external-link">parameters::principal_components()</a></code> as example for retrieving factor groups for a scale). This is useful when you have perfomed a principal component analysis or factor analysis as first step, and now want to see whether the found factors / components represent a scale or index score.</p>
 <p>To demonstrate this function, we first need some data:</p>
 </div>
-<div id="index-score-with-one-component" class="section level2">
-<h2>Index score with one component<a class="anchor" aria-label="anchor" href="#index-score-with-one-component"></a>
+<div class="section level2">
+<h2 id="index-score-with-one-component">Index score with one component<a class="anchor" aria-label="anchor" href="#index-score-with-one-component"></a>
 </h2>
 <p>The simplest function call is just passing the data frame as argument. In this case, the function assumes that all variables of the data frame belong to one factor only.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -436,8 +436,8 @@ Mean inter-item-correlation=0.092 · Cronbach’s α=0.459
 <li>in case the total Cronbach’s Alpha value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the mean inter-item-correlation is an alternative measure to indicate acceptability; satisfactory range lies between 0.2 and 0.4</li>
 </ul>
 </div>
-<div id="index-score-with-more-than-one-component" class="section level2">
-<h2>Index score with more than one component<a class="anchor" aria-label="anchor" href="#index-score-with-more-than-one-component"></a>
+<div class="section level2">
+<h2 id="index-score-with-more-than-one-component">Index score with more than one component<a class="anchor" aria-label="anchor" href="#index-score-with-more-than-one-component"></a>
 </h2>
 <p>The items of the COPE index used for our example do not represent a single factor. We can check this, for instance, with a principle component analysis. If you know, which variable belongs to which factor (i.e. which variable is part of which component), you can pass a numeric vector with these group indices to the argument <code>factor.groups</code>. In this case, the data frame is divided into the components specified by <code>factor.groups</code>, and each component (or factor) is analysed.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -780,8 +780,8 @@ Computed correlation used pearson-method with listwise-deletion.
 </tr>
 </table>
 </div>
-<div id="adding-further-statistics" class="section level2">
-<h2>Adding further statistics<a class="anchor" aria-label="anchor" href="#adding-further-statistics"></a>
+<div class="section level2">
+<h2 id="adding-further-statistics">Adding further statistics<a class="anchor" aria-label="anchor" href="#adding-further-statistics"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="va">factor.groups</span>, show.shapiro <span class="op">=</span> <span class="cn">TRUE</span>, show.kurtosis <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
@@ -1186,12 +1186,12 @@ Computed correlation used pearson-method with listwise-deletion.
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by <a href="https://github.com/strengejacke" class="external-link external-link">Daniel Lüdecke</a>.</p>
+<p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>

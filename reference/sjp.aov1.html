@@ -99,7 +99,7 @@
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/strengejacke/sjPlot/">
+  <a href="https://github.com/strengejacke/sjPlot/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -114,7 +114,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot One-Way-Anova tables</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotAnova.R"><code>R/sjPlotAnova.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotAnova.R" class="external-link"><code>R/sjPlotAnova.R</code></a></small>
     <div class="hidden name"><code>sjp.aov1.Rd</code></div>
     </div>
 
@@ -135,7 +135,7 @@
   string.interc <span class="op">=</span> <span class="st">"(Intercept)"</span>,
   axis.title <span class="op">=</span> <span class="st">""</span>,
   axis.lim <span class="op">=</span> <span class="cn">NULL</span>,
-  geom.colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"#3366a0"</span>, <span class="st">"#aa3333"</span><span class="op">)</span>,
+  geom.colors <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"#3366a0"</span>, <span class="st">"#aa3333"</span><span class="op">)</span>,
   geom.size <span class="op">=</span> <span class="fl">3</span>,
   wrap.title <span class="op">=</span> <span class="fl">50</span>,
   wrap.labels <span class="op">=</span> <span class="fl">25</span>,
@@ -148,7 +148,7 @@
 <span class="op">)</span></code></pre></div>
 
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <h2>Arguments</h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>var.dep</th>
       <td><p>Dependent variable. Will be used with following formula:
 <code>aov(var.dep ~ var.grp)</code></p></td>
@@ -178,7 +178,7 @@ plot function and type), used as title(s) for the x and y axis. If not
 specified, a default labelling  is chosen. <strong>Note:</strong> Some plot types
 may not support this argument sufficiently. In such cases, use the returned
 ggplot-object and add axis titles manually with
-<code><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></code>. Use <code>axis.title = ""</code> to remove axis
+<code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></code>. Use <code>axis.title = ""</code> to remove axis
 titles.</p></td>
     </tr><tr><th>axis.lim</th>
       <td><p>Numeric vector of length 2, defining the range of the plot axis.
@@ -215,21 +215,23 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 variable labels.</p></td>
     </tr><tr><th>show.summary</th>
       <td><p>logical, if <code>TRUE</code> (default), a summary with chi-squared
-statistics (see <code><a href="https://rdrr.io/r/stats/chisq.test.html">chisq.test</a></code>), Cramer's V or Phi-value etc.
+statistics (see <code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></code>), Cramer's V or Phi-value etc.
 is shown. If a cell contains expected values lower than five (or lower than 10
-if df is 1), the Fisher's exact test (see <code><a href="https://rdrr.io/r/stats/fisher.test.html">fisher.test</a></code>) is
+if df is 1), the Fisher's exact test (see <code><a href="https://rdrr.io/r/stats/fisher.test.html" class="external-link">fisher.test</a></code>) is
 computed instead of chi-squared test. If the table's matrix is larger
 than 2x2, Fisher's exact test with Monte Carlo simulation is computed.</p></td>
     </tr></table></div>
 
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p>A ggplot-object.</p>
+    </div>
     </div>
 
     <div id="examples">
-    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
+    <h2>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># note: "var.grp" does not need to be a factor.</span></span>
 <span class="r-in"><span class="co"># coercion to factor is done by the function</span></span>
 <span class="r-in"><span class="fu">sjp.aov1</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c12hour</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span></span>

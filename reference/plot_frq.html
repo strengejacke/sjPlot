@@ -96,7 +96,7 @@
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/strengejacke/sjPlot/">
+  <a href="https://github.com/strengejacke/sjPlot/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -111,7 +111,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot frequencies of variables</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/plot_frq.R"><code>R/plot_frq.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/plot_frq.R" class="external-link"><code>R/plot_frq.R</code></a></small>
     <div class="hidden name"><code>plot_frq.Rd</code></div>
     </div>
 
@@ -125,8 +125,8 @@
   title <span class="op">=</span> <span class="st">""</span>,
   weight.by <span class="op">=</span> <span class="cn">NULL</span>,
   title.wtd.suffix <span class="op">=</span> <span class="cn">NULL</span>,
-  sort.frq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"asc"</span>, <span class="st">"desc"</span><span class="op">)</span>,
-  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"bar"</span>, <span class="st">"dot"</span>, <span class="st">"histogram"</span>, <span class="st">"line"</span>, <span class="st">"density"</span>, <span class="st">"boxplot"</span>, <span class="st">"violin"</span><span class="op">)</span>,
+  sort.frq <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"asc"</span>, <span class="st">"desc"</span><span class="op">)</span>,
+  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bar"</span>, <span class="st">"dot"</span>, <span class="st">"histogram"</span>, <span class="st">"line"</span>, <span class="st">"density"</span>, <span class="st">"boxplot"</span>, <span class="st">"violin"</span><span class="op">)</span>,
   geom.size <span class="op">=</span> <span class="cn">NULL</span>,
   geom.colors <span class="op">=</span> <span class="st">"#336699"</span>,
   errorbar.color <span class="op">=</span> <span class="st">"darkred"</span>,
@@ -164,7 +164,7 @@
 <span class="op">)</span></code></pre></div>
 
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <h2>Arguments</h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>data</th>
       <td><p>A data frame, or a grouped data frame.</p></td>
     </tr><tr><th>...</th>
@@ -175,7 +175,7 @@ You may also use functions like <code>:</code> or tidyselect's
 select_helpers.</p></td>
     </tr><tr><th>title</th>
       <td><p>Character vector, used as plot title. By default,
-<code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html">response_labels</a></code> is called to retrieve the label of
+<code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">response_labels</a></code> is called to retrieve the label of
 the dependent variable, which will be used as title. Use <code>title = ""</code>
 to remove title.</p></td>
     </tr><tr><th>weight.by</th>
@@ -217,7 +217,7 @@ the plot function and type), used as title(s) for the x and y axis.
 If not specified, a default labelling  is chosen.
 <strong>Note:</strong> Some plot types do not support this argument. In such
 cases, use the return value and add axis titles manually with
-<code><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></code>, e.g.: <code>$plot.list[[1]] + labs(x = ...)</code></p></td>
+<code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></code>, e.g.: <code>$plot.list[[1]] + labs(x = ...)</code></p></td>
     </tr><tr><th>axis.labels</th>
       <td><p>character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.</p></td>
@@ -257,7 +257,7 @@ should be printed or not.</p></td>
 used to compare groups; if the notches of two boxes do not overlap,
 medians are considered to be significantly different.</p></td>
     </tr><tr><th>show.na</th>
-      <td><p>logical, if <code>TRUE</code>, <code><a href="https://rdrr.io/r/base/NA.html">NA</a></code>'s (missing values)
+      <td><p>logical, if <code>TRUE</code>, <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>'s (missing values)
 are added to the output.</p></td>
     </tr><tr><th>show.mean</th>
       <td><p>Logical, if <code>TRUE</code>, a vertical line in histograms
@@ -305,9 +305,9 @@ applies if <code>normal.curve = TRUE</code>.</p></td>
     </tr><tr><th>auto.group</th>
       <td><p>numeric value, indicating the minimum amount of unique values
 in the count variable, at which automatic grouping into smaller units
-is done (see <code><a href="https://strengejacke.github.io/sjmisc/reference/group_var.html">group_var</a></code>). Default value for
+is done (see <code><a href="https://strengejacke.github.io/sjmisc/reference/group_var.html" class="external-link">group_var</a></code>). Default value for
 <code>auto.group</code> is <code>NULL</code>, i.e. auto-grouping is off.
-See <code><a href="https://strengejacke.github.io/sjmisc/reference/group_var.html">group_var</a></code> for examples on grouping.</p></td>
+See <code><a href="https://strengejacke.github.io/sjmisc/reference/group_var.html" class="external-link">group_var</a></code> for examples on grouping.</p></td>
     </tr><tr><th>coord.flip</th>
       <td><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></td>
     </tr><tr><th>vjust</th>
@@ -327,22 +327,24 @@ away from the center of the plot respectively.</p></td>
 to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</p></td>
     </tr></table></div>
 
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p>A ggplot-object.</p>
     </div>
     <div id="note">
-    <h2>Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <h2>Note</h2>
     <p>This function only works with variables with integer values (or numeric
         factor levels), i.e. scales / centered variables
         with fractional part may result in unexpected behaviour.</p>
     </div>
+    </div>
 
     <div id="examples">
-    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/">sjlabelled</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
+    <h2>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># simple plots, two different notations</span></span>
 <span class="r-in"><span class="fu">plot_frq</span><span class="op">(</span><span class="va">iris</span>, <span class="va">Species</span><span class="op">)</span></span>
@@ -355,10 +357,10 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`fun.y` is deprecated. Use `fun` instead.</span>
 <span class="r-plt"><img src="plot_frq-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org">"dplyr"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">  <span class="co"># histogram, pipe-workflow</span></span>
-<span class="r-in">  <span class="va">efc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">e17age</span>, <span class="va">c160age</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span class="r-in">  <span class="va">efc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span class="r-in">    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">e17age</span>, <span class="va">c160age</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span class="r-in">    <span class="fu">plot_frq</span><span class="op">(</span>type <span class="op">=</span> <span class="st">"hist"</span>, show.mean <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in">  <span class="co"># bar plot(s)</span></span>
@@ -383,11 +385,11 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 <span class="r-plt"><img src="plot_frq-5.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org">"dplyr"</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st">"gridExtra"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org" class="external-link">"dplyr"</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">"gridExtra"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">  <span class="co"># grouped data frame, all panels in one plot</span></span>
-<span class="r-in">  <span class="va">efc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">e42dep</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span class="r-in">    <span class="fu">plot_frq</span><span class="op">(</span><span class="va">c161sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span class="r-in">  <span class="va">efc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span class="r-in">    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">e42dep</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span class="r-in">    <span class="fu">plot_frq</span><span class="op">(</span><span class="va">c161sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span class="r-in">    <span class="fu"><a href="plot_grid.html">plot_grid</a></span><span class="op">(</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: gridExtra</span>
@@ -400,12 +402,12 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 <span class="r-plt"><img src="plot_frq-6.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/">sjmisc</a></span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Learn more about sjmisc with 'browseVignettes("sjmisc")'.</span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!</span>
 <span class="r-in"><span class="co"># grouped variable</span></span>
-<span class="r-in"><span class="va">ageGrp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjmisc/reference/group_var.html">group_var</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e17age</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ageGrpLab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjmisc/reference/group_var.html">group_labels</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e17age</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">plot_frq</span><span class="op">(</span><span class="va">ageGrp</span>, title <span class="op">=</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/get_label.html">get_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e17age</span><span class="op">)</span>, axis.labels <span class="op">=</span> <span class="va">ageGrpLab</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">ageGrp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjmisc/reference/group_var.html" class="external-link">group_var</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e17age</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">ageGrpLab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjmisc/reference/group_var.html" class="external-link">group_labels</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e17age</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu">plot_frq</span><span class="op">(</span><span class="va">ageGrp</span>, title <span class="op">=</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/get_label.html" class="external-link">get_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e17age</span><span class="op">)</span>, axis.labels <span class="op">=</span> <span class="va">ageGrpLab</span><span class="op">)</span></span>
 <span class="r-plt"><img src="plot_frq-7.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># plotting confidence intervals. expand grid and v/hjust for text labels</span></span>
@@ -418,7 +420,7 @@ to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</
 <span class="r-in"><span class="co"># histogram with overlayed normal curve</span></span>
 <span class="r-in"><span class="fu">plot_frq</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c160age</span>, type <span class="op">=</span> <span class="st">"h"</span>, show.mean <span class="op">=</span> <span class="cn">TRUE</span>, show.mean.val <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">        normal.curve <span class="op">=</span> <span class="cn">TRUE</span>, show.sd <span class="op">=</span> <span class="cn">TRUE</span>, normal.curve.color <span class="op">=</span> <span class="st">"blue"</span>,</span>
-<span class="r-in">        normal.curve.size <span class="op">=</span> <span class="fl">3</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in">        normal.curve.size <span class="op">=</span> <span class="fl">3</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 4 rows containing missing values (geom_bar).</span>
 <span class="r-plt"><img src="plot_frq-9.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="co"># }</span></span>

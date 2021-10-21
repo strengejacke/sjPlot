@@ -98,7 +98,7 @@
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/strengejacke/sjPlot/">
+  <a href="https://github.com/strengejacke/sjPlot/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -113,7 +113,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot grouped proportional tables</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/plot_gpt.R"><code>R/plot_gpt.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/plot_gpt.R" class="external-link"><code>R/plot_gpt.R</code></a></small>
     <div class="hidden name"><code>plot_gpt.Rd</code></div>
     </div>
 
@@ -131,7 +131,7 @@
   colors <span class="op">=</span> <span class="st">"metro"</span>,
   geom.size <span class="op">=</span> <span class="fl">2.5</span>,
   shape.fill.color <span class="op">=</span> <span class="st">"#f0f0f0"</span>,
-  shapes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">16</span>, <span class="fl">17</span>, <span class="fl">18</span>, <span class="fl">21</span>, <span class="fl">22</span>, <span class="fl">23</span>, <span class="fl">24</span>, <span class="fl">25</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">10</span>, <span class="fl">12</span><span class="op">)</span>,
+  shapes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">16</span>, <span class="fl">17</span>, <span class="fl">18</span>, <span class="fl">21</span>, <span class="fl">22</span>, <span class="fl">23</span>, <span class="fl">24</span>, <span class="fl">25</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">10</span>, <span class="fl">12</span><span class="op">)</span>,
   title <span class="op">=</span> <span class="cn">NULL</span>,
   axis.labels <span class="op">=</span> <span class="cn">NULL</span>,
   axis.titles <span class="op">=</span> <span class="cn">NULL</span>,
@@ -150,7 +150,7 @@
 <span class="op">)</span></code></pre></div>
 
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <h2>Arguments</h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>data</th>
       <td><p>A data frame, or a grouped data frame.</p></td>
     </tr><tr><th>x</th>
@@ -168,8 +168,8 @@ category and all remaining categories.</p></td>
 color value names (see <code>demo("colors")</code>) or a name of a pre-defined
 color palette. Following options are valid for the <code>colors</code> argument:</p><ul><li><p>If not specified, a default color brewer palette will be used, which is suitable for the plot style.</p></li>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
-<li><p>If <code>"bw"</code>, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see <a href="https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html">this package-vignette</a>).</p></li>
-<li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html">RColorBrewer::display.brewer.all()</a></code> to view all available palette names.</p></li>
+<li><p>If <code>"bw"</code>, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see <a href="https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html" class="external-link">this package-vignette</a>).</p></li>
+<li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">RColorBrewer::display.brewer.all()</a></code> to view all available palette names.</p></li>
 <li><p>There are some pre-defined color palettes in this package, see <code><a href="sjPlot-themes.html">sjPlot-themes</a></code> for details.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = "#00ff00"</code> or <code>colors = c("firebrick", "blue")</code>).</p></li>
 </ul></td>
@@ -184,7 +184,7 @@ need smaller values than dot sizes.</p></td>
 categories of <code>x</code>.</p></td>
     </tr><tr><th>title</th>
       <td><p>Character vector, used as plot title. By default,
-<code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html">response_labels</a></code> is called to retrieve the label of
+<code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">response_labels</a></code> is called to retrieve the label of
 the dependent variable, which will be used as title. Use <code>title = ""</code>
 to remove title.</p></td>
     </tr><tr><th>axis.labels</th>
@@ -235,19 +235,21 @@ variable labels.</p></td>
 group or category to the labels.</p></td>
     </tr></table></div>
 
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p>A ggplot-object.</p>
     </div>
     <div id="details">
-    <h2>Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The p-values are based on <code><a href="https://rdrr.io/r/stats/chisq.test.html">chisq.test</a></code> of <code>x</code>
+    <h2>Details</h2>
+    <p>The p-values are based on <code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></code> of <code>x</code>
            and <code>y</code> for each <code>grp</code>.</p>
+    </div>
     </div>
 
     <div id="examples">
-    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
+    <h2>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># the proportion of dependency levels in female</span></span>
 <span class="r-in"><span class="co"># elderly, for each family carer's relationship</span></span>

@@ -101,7 +101,7 @@
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/strengejacke/sjPlot/">
+  <a href="https://github.com/strengejacke/sjPlot/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -116,7 +116,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Wrapper to create plots and tables within a pipe-workflow</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/sjplot.R"><code>R/sjplot.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/sjplot.R" class="external-link"><code>R/sjplot.R</code></a></small>
     <div class="hidden name"><code>sjplot.Rd</code></div>
     </div>
 
@@ -129,12 +129,12 @@
              Both <code>sjplot()</code> and <code>sjtab()</code> support grouped data frames.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">sjplot</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span>, fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"grpfrq"</span>, <span class="st">"xtab"</span>, <span class="st">"aov1"</span>, <span class="st">"likert"</span><span class="op">)</span><span class="op">)</span>
+    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">sjplot</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span>, fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grpfrq"</span>, <span class="st">"xtab"</span>, <span class="st">"aov1"</span>, <span class="st">"likert"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu">sjtab</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span>, fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"xtab"</span>, <span class="st">"stackfrq"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu">sjtab</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span>, fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"xtab"</span>, <span class="st">"stackfrq"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <h2>Arguments</h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>data</th>
       <td><p>A data frame. May also be a grouped data frame (see 'Note' and
 'Examples').</p></td>
@@ -146,12 +146,13 @@ arguments passed down to the <span class="pkg">sjPlot</span>-functions. See 'Exa
 See 'Details' and 'Examples'.</p></td>
     </tr></table></div>
 
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p>See related sjp. and sjt.-functions.</p>
     </div>
     <div id="details">
-    <h2>Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <h2>Details</h2>
     <p>Following <code>fun</code>-values are currently supported:</p><dl><dt><code>"aov1"</code></dt><dd><p>calls <code><a href="sjp.aov1.html">sjp.aov1</a></code>. The first
             two variables in <code>data</code> are used (and required) to create the plot.</p></dd>
             <dt><code>"grpfrq"</code></dt><dd><p>calls <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>. The first
@@ -166,17 +167,18 @@ See 'Details' and 'Examples'.</p></td>
          
 </dl></div>
     <div id="note">
-    <h2>Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <h2>Note</h2>
     <p>The <code>...</code>-argument is used, first, to specify the variables from <code>data</code>
       that should be plotted, and, second, to name further arguments that are
       used in the subsequent plotting functions. Refer to the online-help of
       supported plotting-functions to see valid arguments.
-      <br><br><code>data</code> may also be a grouped data frame (see <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></code>)
+      <br><br><code>data</code> may also be a grouped data frame (see <code><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></code>)
       with up to two grouping variables. Plots are created for each subgroup then.</p>
+    </div>
     </div>
 
     <div id="examples">
-    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    <h2>Examples</h2>
     <div class="ref-examples sourceCode"></div>
     </div>
   </div>

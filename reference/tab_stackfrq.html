@@ -99,7 +99,7 @@
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/strengejacke/sjPlot/">
+  <a href="https://github.com/strengejacke/sjPlot/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -114,7 +114,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summary of stacked frequencies as HTML table</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/tab_stackfrq.R"><code>R/tab_stackfrq.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/tab_stackfrq.R" class="external-link"><code>R/tab_stackfrq.R</code></a></small>
     <div class="hidden name"><code>tab_stackfrq.Rd</code></div>
     </div>
 
@@ -151,7 +151,7 @@
 <span class="op">)</span></code></pre></div>
 
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <h2>Arguments</h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>items</th>
       <td><p>Data frame, or a grouped data frame, with each column representing one item.</p></td>
     </tr><tr><th>weight.by</th>
@@ -198,15 +198,15 @@ group or category to the labels.</p></td>
       <td><p>logical, if <code>TRUE</code>, an additional column with each
 item's total N is printed.</p></td>
     </tr><tr><th>show.na</th>
-      <td><p>logical, if <code>TRUE</code>, <code><a href="https://rdrr.io/r/base/NA.html">NA</a></code>'s (missing values)
+      <td><p>logical, if <code>TRUE</code>, <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>'s (missing values)
 are added to the output.</p></td>
     </tr><tr><th>show.skew</th>
       <td><p>logical, if <code>TRUE</code>, an additional column with each item's skewness is printed.
-The skewness is retrieved from the <code><a href="https://rdrr.io/pkg/psych/man/describe.html">describe</a></code>-function
+The skewness is retrieved from the <code><a href="https://rdrr.io/pkg/psych/man/describe.html" class="external-link">describe</a></code>-function
 of the <span class="pkg">psych</span>-package.</p></td>
     </tr><tr><th>show.kurtosis</th>
-      <td><p>Logical, if <code>TRUE</code>, the kurtosis for each item will also be shown (see <code><a href="https://rdrr.io/pkg/psych/man/skew.html">kurtosi</a></code>
-and <code><a href="https://rdrr.io/pkg/psych/man/describe.html">describe</a></code> in the <code>psych</code>-package for more details.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, the kurtosis for each item will also be shown (see <code><a href="https://rdrr.io/pkg/psych/man/skew.html" class="external-link">kurtosi</a></code>
+and <code><a href="https://rdrr.io/pkg/psych/man/describe.html" class="external-link">describe</a></code> in the <code>psych</code>-package for more details.</p></td>
     </tr><tr><th>digits.stats</th>
       <td><p>amount of digits for rounding the skewness and kurtosis valuess.
 Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.</p></td>
@@ -220,9 +220,9 @@ for variable and value labels. Default is <code>"UTF-8"</code>. For Windows
 Systems, <code>encoding = "Windows-1252"</code> might be necessary for proper
 display of special characters.</p></td>
     </tr><tr><th>CSS</th>
-      <td><p>A <code><a href="https://rdrr.io/r/base/list.html">list</a></code> with user-defined style-sheet-definitions,
-according to the <a href="http://www.w3.org/Style/CSS/">official CSS syntax</a>.
-See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html">this package-vignette</a>.</p></td>
+      <td><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
+according to the <a href="http://www.w3.org/Style/CSS/" class="external-link">official CSS syntax</a>.
+See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></td>
     </tr><tr><th>use.viewer</th>
       <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
 viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
@@ -233,62 +233,64 @@ that contains the html-data. Use this, if you want to remove parantheses for htm
 may look less pretty, but it may help when exporting html-tables to office tools.</p></td>
     </tr></table></div>
 
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p>Invisibly returns</p><ul><li><p>the web page style sheet (<code>page.style</code>),</p></li>
 <li><p>the web page content (<code>page.content</code>),</p></li>
 <li><p>the complete html-output (<code>page.complete</code>) and</p></li>
 <li><p>the html-table with inline-css for use with knitr (<code>knitr</code>)</p></li>
 </ul><p>for further use.</p>
     </div>
+    </div>
 
     <div id="examples">
-    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># -------------------------------</span></span>
 <span class="r-in"><span class="co"># random sample</span></span>
 <span class="r-in"><span class="co"># -------------------------------</span></span>
 <span class="r-in"><span class="co"># prepare data for 4-category likert scale, 5 items</span></span>
-<span class="r-in"><span class="va">likert_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">500</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.1</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">500</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.15</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">500</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.1</span>, <span class="fl">0.4</span>, <span class="fl">0.25</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">500</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">500</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.35</span>, <span class="fl">0.25</span>, <span class="fl">0.15</span>, <span class="fl">0.25</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">likert_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">500</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.1</span>, <span class="fl">0.4</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">500</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">0.25</span>, <span class="fl">0.15</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">500</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.25</span>, <span class="fl">0.1</span>, <span class="fl">0.4</span>, <span class="fl">0.25</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">500</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.4</span>, <span class="fl">0.4</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">500</span>, replace <span class="op">=</span> <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.35</span>, <span class="fl">0.25</span>, <span class="fl">0.15</span>, <span class="fl">0.25</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># create labels</span></span>
-<span class="r-in"><span class="va">levels_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Independent"</span>, <span class="st">"Slightly dependent"</span>,</span>
+<span class="r-in"><span class="va">levels_4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Independent"</span>, <span class="st">"Slightly dependent"</span>,</span>
 <span class="r-in">              <span class="st">"Dependent"</span>, <span class="st">"Severely dependent"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># create item labels</span></span>
-<span class="r-in"><span class="va">items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Q1"</span>, <span class="st">"Q2"</span>, <span class="st">"Q3"</span>, <span class="st">"Q4"</span>, <span class="st">"Q5"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Q1"</span>, <span class="st">"Q2"</span>, <span class="st">"Q3"</span>, <span class="st">"Q4"</span>, <span class="st">"Q5"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># plot stacked frequencies of 5 (ordered) item-scales</span></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">  <span class="fu">tab_stackfrq</span><span class="op">(</span><span class="va">likert_4</span>, value.labels <span class="op">=</span> <span class="va">levels_4</span>, var.labels <span class="op">=</span> <span class="va">items</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in">  <span class="co"># -------------------------------</span></span>
 <span class="r-in">  <span class="co"># Data from the EUROFAMCARE sample dataset</span></span>
 <span class="r-in">  <span class="co">#  Auto-detection of labels</span></span>
 <span class="r-in">  <span class="co"># -------------------------------</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
+<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
 <span class="r-in">  <span class="co"># recveive first item of COPE-index scale</span></span>
-<span class="r-in">  <span class="va">start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span> <span class="op">==</span> <span class="st">"c82cop1"</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span> <span class="op">==</span> <span class="st">"c82cop1"</span><span class="op">)</span></span>
 <span class="r-in">  <span class="co"># recveive first item of COPE-index scale</span></span>
-<span class="r-in">  <span class="va">end</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span> <span class="op">==</span> <span class="st">"c90cop9"</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">end</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span> <span class="op">==</span> <span class="st">"c90cop9"</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in">  <span class="fu">tab_stackfrq</span><span class="op">(</span><span class="va">efc</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">)</span><span class="op">]</span>, alternate.rows <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in">  <span class="fu">tab_stackfrq</span><span class="op">(</span><span class="va">efc</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">)</span><span class="op">]</span>, alternate.rows <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in">  <span class="fu">tab_stackfrq</span><span class="op">(</span><span class="va">efc</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">)</span><span class="op">]</span>, alternate.rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">  <span class="fu">tab_stackfrq</span><span class="op">(</span><span class="va">efc</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">)</span><span class="op">]</span>, alternate.rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">               show.n <span class="op">=</span> <span class="cn">TRUE</span>, show.na <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in">  <span class="co"># --------------------------------</span></span>
 <span class="r-in">  <span class="co"># User defined style sheet</span></span>
 <span class="r-in">  <span class="co"># --------------------------------</span></span>
-<span class="r-in">  <span class="fu">tab_stackfrq</span><span class="op">(</span><span class="va">efc</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">)</span><span class="op">]</span>, alternate.rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span class="r-in">  <span class="fu">tab_stackfrq</span><span class="op">(</span><span class="va">efc</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">)</span><span class="op">]</span>, alternate.rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span class="r-in">               show.total <span class="op">=</span> <span class="cn">TRUE</span>, show.skew <span class="op">=</span> <span class="cn">TRUE</span>, show.kurtosis <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">               CSS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>css.ncol <span class="op">=</span> <span class="st">"border-left:1px dotted black;"</span>,</span>
+<span class="r-in">               CSS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>css.ncol <span class="op">=</span> <span class="st">"border-left:1px dotted black;"</span>,</span>
 <span class="r-in">                          css.summary <span class="op">=</span> <span class="st">"font-style:italic;"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 <span class="r-in"><span class="op">}</span></span>

@@ -114,7 +114,7 @@ If factor.groups is not NULL, the data frame df will be
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/strengejacke/sjPlot/">
+  <a href="https://github.com/strengejacke/sjPlot/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -129,7 +129,7 @@ If factor.groups is not NULL, the data frame df will be
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summary of item analysis of an item scale as HTML table</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/tab_itemscale.R"><code>R/tab_itemscale.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/tab_itemscale.R" class="external-link"><code>R/tab_itemscale.R</code></a></small>
     <div class="hidden name"><code>tab_itemscale.Rd</code></div>
     </div>
 
@@ -190,7 +190,7 @@ If factor.groups is not NULL, the data frame df will be
 <span class="op">)</span></code></pre></div>
 
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <h2>Arguments</h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>df</th>
       <td><p>A data frame with items.</p></td>
     </tr><tr><th>factor.groups</th>
@@ -207,7 +207,7 @@ Default is <code>"auto"</code>, which means that each table has a standard capti
 Use <code>NULL</code> to suppress table captions.</p></td>
     </tr><tr><th>scale</th>
       <td><p>Logical, if <code>TRUE</code>, the data frame's vectors will be scaled when calculating the
-Cronbach's Alpha value (see <code><a href="https://easystats.github.io/performance/reference/item_reliability.html">item_reliability</a></code>). Recommended, when
+Cronbach's Alpha value (see <code><a href="https://easystats.github.io/performance/reference/item_reliability.html" class="external-link">item_reliability</a></code>). Recommended, when
 the variables have different measures / scales.</p></td>
     </tr><tr><th>min.valid.rowmean</th>
       <td><p>Minimum amount of valid values to compute row means for index scores.
@@ -225,22 +225,22 @@ Use negative index for descending order, for instance,
 Note that the first column with rownames is not counted.</p></td>
     </tr><tr><th>show.shapiro</th>
       <td><p>Logical, if <code>TRUE</code>, a Shapiro-Wilk normality test is computed for each item.
-See <code><a href="https://rdrr.io/r/stats/shapiro.test.html">shapiro.test</a></code> for details.</p></td>
+See <code><a href="https://rdrr.io/r/stats/shapiro.test.html" class="external-link">shapiro.test</a></code> for details.</p></td>
     </tr><tr><th>show.kurtosis</th>
-      <td><p>Logical, if <code>TRUE</code>, the kurtosis for each item will also be shown (see <code><a href="https://rdrr.io/pkg/psych/man/skew.html">kurtosi</a></code>
-and <code><a href="https://rdrr.io/pkg/psych/man/describe.html">describe</a></code> in the <code>psych</code>-package for more details.</p></td>
+      <td><p>Logical, if <code>TRUE</code>, the kurtosis for each item will also be shown (see <code><a href="https://rdrr.io/pkg/psych/man/skew.html" class="external-link">kurtosi</a></code>
+and <code><a href="https://rdrr.io/pkg/psych/man/describe.html" class="external-link">describe</a></code> in the <code>psych</code>-package for more details.</p></td>
     </tr><tr><th>show.corr.matrix</th>
       <td><p>Logical, if <code>TRUE</code> (default), a correlation matrix of each component's
 index score is shown. Only applies if <code>factor.groups</code> is not <code>NULL</code> and <code>df</code> has
 more than one group. First, for each case (df's row), the sum of all variables (df's columns) is
-scaled (using the <code><a href="https://rdrr.io/r/base/scale.html">scale</a></code>-function) and represents a "total score" for
+scaled (using the <code><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></code>-function) and represents a "total score" for
 each component (a component is represented by each group of <code>factor.groups</code>).
 After that, each case (df's row) has a scales sum score for each component.
 Finally, a correlation of these "scale sum scores" is computed.</p></td>
     </tr><tr><th>CSS</th>
-      <td><p>A <code><a href="https://rdrr.io/r/base/list.html">list</a></code> with user-defined style-sheet-definitions,
-according to the <a href="http://www.w3.org/Style/CSS/">official CSS syntax</a>.
-See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html">this package-vignette</a>.</p></td>
+      <td><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
+according to the <a href="http://www.w3.org/Style/CSS/" class="external-link">official CSS syntax</a>.
+See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></td>
     </tr><tr><th>encoding</th>
       <td><p>Character vector, indicating the charset encoding used
 for variable and value labels. Default is <code>"UTF-8"</code>. For Windows
@@ -260,8 +260,9 @@ that contains the html-data. Use this, if you want to remove parantheses for htm
 may look less pretty, but it may help when exporting html-tables to office tools.</p></td>
     </tr></table></div>
 
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p>Invisibly returns</p><ul><li><p><code>df.list</code>: List of data frames with the item analysis for each sub.group (or complete, if <code>factor.groups</code> was <code>NULL</code>)</p></li>
 <li><p><code>index.scores</code>: A data frame with of standardized scale / index scores for each case (mean value of all scale items for each case) for each sub-group.</p></li>
 <li><p><code>ideal.item.diff</code>: List of vectors that indicate the ideal item difficulty for each item in each sub-group. Item difficulty only differs when items have different levels.</p></li>
@@ -274,43 +275,44 @@ may look less pretty, but it may help when exporting html-tables to office tools
          is a vector of group-index-values, the lists contain elements for each sub-group.</p>
     </div>
     <div id="note">
-    <h2>Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <h2>Note</h2>
     
 <ul><li><p>The <em>Shapiro-Wilk Normality Test</em> (see column <code>W(p)</code>) tests if an item has a distribution that is significantly different from normal.</p></li>
 <li><p><em>Item difficulty</em> should range between 0.2 and 0.8. Ideal value is <code>p+(1-p)/2</code> (which mostly is between 0.5 and 0.8).</p></li>
-<li><p>For <em>item discrimination</em>, acceptable values are 0.20 or higher; the closer to 1.00 the better. See <code><a href="https://easystats.github.io/performance/reference/item_reliability.html">item_reliability</a></code> for more details.</p></li>
-<li><p>In case the total <em>Cronbach's Alpha</em> value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the <em>mean inter-item-correlation</em> is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also <code><a href="https://easystats.github.io/performance/reference/item_intercor.html">item_intercor</a></code>.</p></li>
+<li><p>For <em>item discrimination</em>, acceptable values are 0.20 or higher; the closer to 1.00 the better. See <code><a href="https://easystats.github.io/performance/reference/item_reliability.html" class="external-link">item_reliability</a></code> for more details.</p></li>
+<li><p>In case the total <em>Cronbach's Alpha</em> value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the <em>mean inter-item-correlation</em> is an alternative measure to indicate acceptability. Satisfactory range lies between 0.2 and 0.4. See also <code><a href="https://easystats.github.io/performance/reference/item_intercor.html" class="external-link">item_intercor</a></code>.</p></li>
 </ul></div>
     <div id="references">
-    <h2>References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <h2>References</h2>
     
-<ul><li><p>Jorion N, Self B, James K, Schroeder L, DiBello L, Pellegrino J (2013) Classical Test Theory Analysis of the Dynamics Concept Inventory. (<a href="https://www.academia.edu/4104752/Classical_Test_Theory_Analysis_of_the_Dynamics_Concept_Inventory">web</a>)</p></li>
+<ul><li><p>Jorion N, Self B, James K, Schroeder L, DiBello L, Pellegrino J (2013) Classical Test Theory Analysis of the Dynamics Concept Inventory. (<a href="https://www.academia.edu/4104752/Classical_Test_Theory_Analysis_of_the_Dynamics_Concept_Inventory" class="external-link">web</a>)</p></li>
 <li><p>Briggs SR, Cheek JM (1986) The role of factor analysis in the development and evaluation of personality scales. Journal of Personality, 54(1), 106-148. doi: 10.1111/j.1467-6494.1986.tb00391.x</p></li>
 <li><p>McLean S et al. (2013) Stigmatizing attitudes and beliefs about bulimia nervosa: Gender, age, education and income variability in a community sample. International Journal of Eating Disorders. doi: 10.1002/eat.22227</p></li>
-<li><p>Trochim WMK (2008) Types of Reliability. (<a href="https://conjointly.com/kb/types-of-reliability/">web</a>)</p></li>
+<li><p>Trochim WMK (2008) Types of Reliability. (<a href="https://conjointly.com/kb/types-of-reliability/" class="external-link">web</a>)</p></li>
 </ul></div>
+    </div>
 
     <div id="examples">
-    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Data from the EUROFAMCARE sample dataset</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/">sjmisc</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/">sjlabelled</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># retrieve variable and value labels</span></span>
-<span class="r-in"><span class="va">varlabs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/get_label.html">get_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">varlabs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/get_label.html" class="external-link">get_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># recveive first item of COPE-index scale</span></span>
-<span class="r-in"><span class="va">start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span> <span class="op">==</span> <span class="st">"c82cop1"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span> <span class="op">==</span> <span class="st">"c82cop1"</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># recveive last item of COPE-index scale</span></span>
-<span class="r-in"><span class="va">end</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span> <span class="op">==</span> <span class="st">"c90cop9"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">end</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span> <span class="op">==</span> <span class="st">"c90cop9"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># create data frame with COPE-index scale</span></span>
-<span class="r-in"><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span><span class="va">efc</span><span class="op">[</span>, <span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">varlabs</span><span class="op">[</span><span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">]</span></span>
+<span class="r-in"><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">efc</span><span class="op">[</span>, <span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">varlabs</span><span class="op">[</span><span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">]</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">  <span class="fu">tab_itemscale</span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in">  <span class="co"># auto-detection of labels</span></span>

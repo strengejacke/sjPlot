@@ -100,7 +100,7 @@
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/strengejacke/sjPlot/">
+  <a href="https://github.com/strengejacke/sjPlot/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -115,7 +115,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot polynomials for (generalized) linear regression</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotPolynomials.R"><code>R/sjPlotPolynomials.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotPolynomials.R" class="external-link"><code>R/sjPlotPolynomials.R</code></a></small>
     <div class="hidden name"><code>sjp.poly.Rd</code></div>
     </div>
 
@@ -146,10 +146,10 @@
 <span class="op">)</span></code></pre></div>
 
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <h2>Arguments</h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>x</th>
       <td><p>A vector, representing the response variable of a linear (mixed) model; or
-a linear (mixed) model as returned by <code><a href="https://rdrr.io/r/stats/lm.html">lm</a></code> or <code><a href="https://rdrr.io/pkg/lme4/man/lmer.html">lmer</a></code>.</p></td>
+a linear (mixed) model as returned by <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></code> or <code><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></code>.</p></td>
     </tr><tr><th>poly.term</th>
       <td><p>If <code>x</code> is a vector, <code>poly.term</code> should also be a vector, representing
 the polynomial term (independent variabl) in the model; if <code>x</code> is a
@@ -175,7 +175,7 @@ plot function and type), used as title(s) for the x and y axis. If not
 specified, a default labelling  is chosen. <strong>Note:</strong> Some plot types
 may not support this argument sufficiently. In such cases, use the returned
 ggplot-object and add axis titles manually with
-<code><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></code>. Use <code>axis.title = ""</code> to remove axis
+<code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></code>. Use <code>axis.title = ""</code> to remove axis
 titles.</p></td>
     </tr><tr><th>geom.colors</th>
       <td><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></td>
@@ -204,12 +204,13 @@ if <code>show.scatter = TRUE.</code></p></td>
       <td><p>Color of the loess-smoothed line. Only applies, if <code>show.loess = TRUE</code>.</p></td>
     </tr></table></div>
 
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p>A ggplot-object.</p>
     </div>
     <div id="details">
-    <h2>Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <h2>Details</h2>
     <p>For each polynomial degree, a simple linear regression on <code>x</code> (resp.
            the extracted response, if <code>x</code> is a fitted model) is performed,
            where only the polynomial term <code>poly.term</code> is included as independent variable.
@@ -219,18 +220,19 @@ if <code>show.scatter = TRUE.</code></p></td>
            If <code>x</code> is a fitted model, other covariates are ignored when
            finding the best fitting polynomial. <br><br>
            This function evaluates raw polynomials, <em>not orthogonal</em> polynomials.
-           Polynomials are computed using the <code><a href="https://rdrr.io/r/stats/poly.html">poly</a></code> function,
+           Polynomials are computed using the <code><a href="https://rdrr.io/r/stats/poly.html" class="external-link">poly</a></code> function,
            with argument <code>raw = TRUE</code>. <br><br>
            To find out which polynomial degree fits best to the data, a loess-smoothed
            line (in dark grey) can be added (with <code>show.loess = TRUE</code>). The polynomial curves
            that comes closest to the loess-smoothed line should be the best
            fit to the data.</p>
     </div>
+    </div>
 
     <div id="examples">
-    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/">sjmisc</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
+    <h2>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># linear fit. loess-smoothed line indicates a more</span></span>
 <span class="r-in"><span class="co"># or less cubic curve</span></span>
 <span class="r-in"><span class="fu">sjp.poly</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c160age</span>, <span class="va">efc</span><span class="op">$</span><span class="va">quol_5</span>, <span class="fl">1</span><span class="op">)</span></span>
@@ -280,7 +282,7 @@ if <code>show.scatter = TRUE.</code></p></td>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># fit sample model</span></span>
-<span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">tot_sc_e</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">e17age</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">tot_sc_e</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">e17age</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># inspect relationship between predictors and response</span></span>
 <span class="r-in"><span class="fu"><a href="plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"slope"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
@@ -318,7 +320,7 @@ if <code>show.scatter = TRUE.</code></p></td>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="co"># fit new model</span></span>
-<span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">tot_sc_e</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">e17age</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">e17age</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">e17age</span><span class="op">^</span><span class="fl">3</span><span class="op">)</span>,</span>
+<span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">tot_sc_e</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">e17age</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">e17age</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">e17age</span><span class="op">^</span><span class="fl">3</span><span class="op">)</span>,</span>
 <span class="r-in">          data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># plot marginal effects of polynomial term</span></span>
 <span class="r-in"><span class="fu"><a href="plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">fit</span>, type <span class="op">=</span> <span class="st">"pred"</span>, terms <span class="op">=</span> <span class="st">"e17age"</span><span class="op">)</span><span class="op">}</span></span>

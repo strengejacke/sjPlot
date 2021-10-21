@@ -97,7 +97,7 @@
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/strengejacke/sjPlot/">
+  <a href="https://github.com/strengejacke/sjPlot/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -112,7 +112,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot regression models</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/plot_model.R"><code>R/plot_model.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/plot_model.R" class="external-link"><code>R/plot_model.R</code></a></small>
     <div class="hidden name"><code>plot_model.Rd</code></div>
     </div>
 
@@ -123,7 +123,7 @@
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_model</span><span class="op">(</span>
   <span class="va">model</span>,
-  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"est"</span>, <span class="st">"re"</span>, <span class="st">"eff"</span>, <span class="st">"emm"</span>, <span class="st">"pred"</span>, <span class="st">"int"</span>, <span class="st">"std"</span>, <span class="st">"std2"</span>, <span class="st">"slope"</span>, <span class="st">"resid"</span>,
+  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"est"</span>, <span class="st">"re"</span>, <span class="st">"eff"</span>, <span class="st">"emm"</span>, <span class="st">"pred"</span>, <span class="st">"int"</span>, <span class="st">"std"</span>, <span class="st">"std2"</span>, <span class="st">"slope"</span>, <span class="st">"resid"</span>,
     <span class="st">"diag"</span><span class="op">)</span>,
   <span class="va">transform</span>,
   terms <span class="op">=</span> <span class="cn">NULL</span>,
@@ -131,8 +131,8 @@
   rm.terms <span class="op">=</span> <span class="cn">NULL</span>,
   group.terms <span class="op">=</span> <span class="cn">NULL</span>,
   order.terms <span class="op">=</span> <span class="cn">NULL</span>,
-  pred.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"fe"</span>, <span class="st">"re"</span><span class="op">)</span>,
-  mdrt.values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"minmax"</span>, <span class="st">"meansd"</span>, <span class="st">"zeromax"</span>, <span class="st">"quart"</span>, <span class="st">"all"</span><span class="op">)</span>,
+  pred.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fe"</span>, <span class="st">"re"</span><span class="op">)</span>,
+  mdrt.values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"minmax"</span>, <span class="st">"meansd"</span>, <span class="st">"zeromax"</span>, <span class="st">"quart"</span>, <span class="st">"all"</span><span class="op">)</span>,
   ri.nr <span class="op">=</span> <span class="cn">NULL</span>,
   title <span class="op">=</span> <span class="cn">NULL</span>,
   axis.title <span class="op">=</span> <span class="cn">NULL</span>,
@@ -146,7 +146,7 @@
   se <span class="op">=</span> <span class="cn">NULL</span>,
   robust <span class="op">=</span> <span class="cn">FALSE</span>,
   vcov.fun <span class="op">=</span> <span class="cn">NULL</span>,
-  vcov.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"HC3"</span>, <span class="st">"const"</span>, <span class="st">"HC"</span>, <span class="st">"HC0"</span>, <span class="st">"HC1"</span>, <span class="st">"HC2"</span>, <span class="st">"HC4"</span>, <span class="st">"HC4m"</span>, <span class="st">"HC5"</span><span class="op">)</span>,
+  vcov.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HC3"</span>, <span class="st">"const"</span>, <span class="st">"HC"</span>, <span class="st">"HC0"</span>, <span class="st">"HC1"</span>, <span class="st">"HC2"</span>, <span class="st">"HC4"</span>, <span class="st">"HC4m"</span>, <span class="st">"HC5"</span><span class="op">)</span>,
   vcov.args <span class="op">=</span> <span class="cn">NULL</span>,
   colors <span class="op">=</span> <span class="st">"Set1"</span>,
   show.intercept <span class="op">=</span> <span class="cn">FALSE</span>,
@@ -162,29 +162,29 @@
   dot.size <span class="op">=</span> <span class="cn">NULL</span>,
   line.size <span class="op">=</span> <span class="cn">NULL</span>,
   vline.color <span class="op">=</span> <span class="cn">NULL</span>,
-  p.threshold <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.01</span>, <span class="fl">0.001</span><span class="op">)</span>,
+  p.threshold <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.01</span>, <span class="fl">0.001</span><span class="op">)</span>,
   p.adjust <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">grid</span>,
   <span class="va">case</span>,
   auto.label <span class="op">=</span> <span class="cn">TRUE</span>,
-  prefix.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"varname"</span>, <span class="st">"label"</span><span class="op">)</span>,
+  prefix.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"varname"</span>, <span class="st">"label"</span><span class="op">)</span>,
   bpe <span class="op">=</span> <span class="st">"median"</span>,
   bpe.style <span class="op">=</span> <span class="st">"line"</span>,
   bpe.color <span class="op">=</span> <span class="st">"white"</span>,
-  ci.style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"whisker"</span>, <span class="st">"bar"</span><span class="op">)</span>,
+  ci.style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"whisker"</span>, <span class="st">"bar"</span><span class="op">)</span>,
   <span class="va">...</span>
 <span class="op">)</span>
 
 <span class="fu">get_model_data</span><span class="op">(</span>
   <span class="va">model</span>,
-  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"est"</span>, <span class="st">"re"</span>, <span class="st">"eff"</span>, <span class="st">"pred"</span>, <span class="st">"int"</span>, <span class="st">"std"</span>, <span class="st">"std2"</span>, <span class="st">"slope"</span>, <span class="st">"resid"</span>, <span class="st">"diag"</span><span class="op">)</span>,
+  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"est"</span>, <span class="st">"re"</span>, <span class="st">"eff"</span>, <span class="st">"pred"</span>, <span class="st">"int"</span>, <span class="st">"std"</span>, <span class="st">"std2"</span>, <span class="st">"slope"</span>, <span class="st">"resid"</span>, <span class="st">"diag"</span><span class="op">)</span>,
   <span class="va">transform</span>,
   terms <span class="op">=</span> <span class="cn">NULL</span>,
   sort.est <span class="op">=</span> <span class="cn">NULL</span>,
   rm.terms <span class="op">=</span> <span class="cn">NULL</span>,
   group.terms <span class="op">=</span> <span class="cn">NULL</span>,
   order.terms <span class="op">=</span> <span class="cn">NULL</span>,
-  pred.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"fe"</span>, <span class="st">"re"</span><span class="op">)</span>,
+  pred.type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fe"</span>, <span class="st">"re"</span><span class="op">)</span>,
   ri.nr <span class="op">=</span> <span class="cn">NULL</span>,
   ci.lvl <span class="op">=</span> <span class="cn">NULL</span>,
   colors <span class="op">=</span> <span class="st">"Set1"</span>,
@@ -195,14 +195,14 @@
 <span class="op">)</span></code></pre></div>
 
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <h2>Arguments</h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>model</th>
       <td><p>A regression model object. Depending on the <code>type</code>, many
 kinds of models are supported, e.g. from packages like <span class="pkg">stats</span>,
 <span class="pkg">lme4</span>, <span class="pkg">nlme</span>, <span class="pkg">rstanarm</span>, <span class="pkg">survey</span>, <span class="pkg">glmmTMB</span>,
 <span class="pkg">MASS</span>, <span class="pkg">brms</span> etc.</p></td>
     </tr><tr><th>type</th>
-      <td><p>Type of plot. There are three groups of plot-types: <br><br><em>Coefficients</em> (<a href="https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html">related vignette</a>)</p><dl><dt><code>type = "est"</code></dt><dd><p>Forest-plot of estimates. If the fitted model
+      <td><p>Type of plot. There are three groups of plot-types: <br><br><em>Coefficients</em> (<a href="https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html" class="external-link">related vignette</a>)</p><dl><dt><code>type = "est"</code></dt><dd><p>Forest-plot of estimates. If the fitted model
   only contains one predictor, slope-line is plotted.</p></dd>
   <dt><code>type = "re"</code></dt><dd><p>For mixed effects models, plots the random
   effects.</p></dd>
@@ -210,13 +210,13 @@ kinds of models are supported, e.g. from packages like <span class="pkg">stats</
   <dt><code>type = "std2"</code></dt><dd><p>Forest-plot of standardized coefficients,
   however, standardization is done by dividing by two SD (see 'Details').</p></dd>
 
-</dl><p><em>Marginal Effects</em>  (<a href="https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html">related vignette</a>)</p><dl><dt><code>type = "pred"</code></dt><dd><p>Predicted values (marginal effects) for
-  specific model terms. See <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html">ggpredict</a></code> for details.</p></dd>
+</dl><p><em>Marginal Effects</em>  (<a href="https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html" class="external-link">related vignette</a>)</p><dl><dt><code>type = "pred"</code></dt><dd><p>Predicted values (marginal effects) for
+  specific model terms. See <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggpredict</a></code> for details.</p></dd>
   <dt><code>type = "eff"</code></dt><dd><p>Similar to <code>type = "pred"</code>, however,
   discrete predictors are held constant at their proportions (not reference
-  level). See <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html">ggeffect</a></code> for details.</p></dd>
+  level). See <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggeffect</a></code> for details.</p></dd>
   <dt><code>type = "emm"</code></dt><dd><p>Similar to <code>type = "eff"</code>, see
-  <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html">ggemmeans</a></code> for details.</p></dd>
+  <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggemmeans</a></code> for details.</p></dd>
   <dt><code>type = "int"</code></dt><dd><p>Marginal effects of interaction terms in
   <code>model</code>.</p></dd>
 
@@ -273,10 +273,10 @@ non-transformed estimates.</p></td>
      memory allocation problems for vectors with many unique values. If a
      numeric vector is specified as second or third term (i.e. if this vector
      represents a grouping structure), representative values (see
-     <code><a href="https://strengejacke.github.io/ggeffects/reference/values_at.html">values_at</a></code>) are chosen. If all values for a
+     <code><a href="https://strengejacke.github.io/ggeffects/reference/values_at.html" class="external-link">values_at</a></code>) are chosen. If all values for a
      numeric vector should be used to compute predictions, you may use
      e.g. terms = "age [all]". For more details, see
-     <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html">ggpredict</a></code>.</p></dd>
+     <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggpredict</a></code>.</p></dd>
 
 </dl></td>
     </tr><tr><th>sort.est</th>
@@ -303,13 +303,13 @@ Each group of coefficients gets its own color (see 'Examples').</p></td>
     </tr><tr><th>order.terms</th>
       <td><p>Numeric vector, indicating in which order the coefficients
 should be plotted. See examples in
-<a href="https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html">this package-vignette</a>.</p></td>
+<a href="https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html" class="external-link">this package-vignette</a>.</p></td>
     </tr><tr><th>pred.type</th>
       <td><p>Character, only applies for <em>Marginal Effects</em> plots
 with mixed effects models. Indicates whether predicted values should be
 conditioned on random effects (<code>pred.type = "re"</code>) or fixed effects
 only (<code>pred.type = "fe"</code>, the default). For details, see documentation
-of the <code>type</code>-argument in <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html">ggpredict</a></code>.</p></td>
+of the <code>type</code>-argument in <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggpredict</a></code>.</p></td>
     </tr><tr><th>mdrt.values</th>
       <td><p>Indicates which values of the moderator variable should be
 used when plotting interaction terms (i.e. <code>type = "int"</code>).</p><dl><dt><code>"minmax"</code></dt><dd><p>(default) minimum and maximum values (lower and
@@ -321,7 +321,7 @@ variable (following the convention suggested by Cohen and Cohen and
 popularized by Aiken and West (1991), i.e. using the mean, the value one
 standard deviation above, and the value one standard deviation below the
 mean as values of the moderator, see
-<a href="https://www.theanalysisfactor.com/3-tips-interpreting-moderation/">Grace-Martin
+<a href="https://www.theanalysisfactor.com/3-tips-interpreting-moderation/" class="external-link">Grace-Martin
 K: 3 Tips to Make Interpreting Moderation Effects Easier</a>).</p></dd>
 <dt><code>"zeromax"</code></dt><dd><p>is similar to the <code>"minmax"</code> option, however,
 <code>0</code> is always used as minimum value for the moderator. This may be
@@ -335,11 +335,11 @@ moderator variable.</p></dd>
       <td><p>Numeric vector. If <code>type = "re"</code> and fitted model has more
 than one random intercept, <code>ri.nr</code> indicates which random effects of
 which random intercept (or: which list elements of
-<code><a href="https://rdrr.io/pkg/lme4/man/ranef.html">ranef</a></code>) will be plotted. Default is <code>NULL</code>, so all
+<code><a href="https://rdrr.io/pkg/lme4/man/ranef.html" class="external-link">ranef</a></code>) will be plotted. Default is <code>NULL</code>, so all
 random effects will be plotted.</p></td>
     </tr><tr><th>title</th>
       <td><p>Character vector, used as plot title. By default,
-<code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html">response_labels</a></code> is called to retrieve the label of
+<code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">response_labels</a></code> is called to retrieve the label of
 the dependent variable, which will be used as title. Use <code>title = ""</code>
 to remove title.</p></td>
     </tr><tr><th>axis.title</th>
@@ -348,11 +348,11 @@ plot function and type), used as title(s) for the x and y axis. If not
 specified, a default labelling  is chosen. <strong>Note:</strong> Some plot types
 may not support this argument sufficiently. In such cases, use the returned
 ggplot-object and add axis titles manually with
-<code><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></code>. Use <code>axis.title = ""</code> to remove axis
+<code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></code>. Use <code>axis.title = ""</code> to remove axis
 titles.</p></td>
     </tr><tr><th>axis.labels</th>
       <td><p>Character vector with labels for the model terms, used as
-axis labels. By default, <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html">term_labels</a></code> is
+axis labels. By default, <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">term_labels</a></code> is
 called to retrieve the labels of the coefficients, which will be used as
 axis labels. Use <code>axis.labels = ""</code> or <code>auto.label = FALSE</code> to
 use the variable names as labels instead. If <code>axis.labels</code> is a named
@@ -384,7 +384,7 @@ axis positions of the major grid lines.</p></td>
       <td><p>Numeric, the level of the confidence intervals (error bars).
 Use <code>ci.lvl = NA</code> to remove error bars. For <code>stanreg</code>-models,
 <code>ci.lvl</code> defines the (outer) probability for the <em>credible interval</em>
-that is plotted (see <code><a href="https://easystats.github.io/bayestestR/reference/ci.html">ci</a></code>). By
+that is plotted (see <code><a href="https://easystats.github.io/bayestestR/reference/ci.html" class="external-link">ci</a></code>). By
 default, <code>stanreg</code>-models are printed with two intervals: the "inner"
 interval, which defaults to the 50%-CI; and the "outer" interval, which
 defaults to the 89%-CI. <code>ci.lvl</code> affects only the outer interval in
@@ -394,17 +394,17 @@ such cases. See <code>prob.inner</code> and <code>prob.outer</code> under the
       <td><p>Logical, if <code>TRUE</code>, the standard errors are
 also printed. If robust standard errors are required, use arguments
 <code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code> (see
-<code><a href="https://easystats.github.io/parameters/reference/standard_error_robust.html">standard_error_robust</a></code> and
-<a href="https://easystats.github.io/parameters/articles/model_parameters_robust.html">this vignette</a>
+<code><a href="https://easystats.github.io/parameters/reference/standard_error_robust.html" class="external-link">standard_error_robust</a></code> and
+<a href="https://easystats.github.io/parameters/articles/model_parameters_robust.html" class="external-link">this vignette</a>
 for details), or use argument <code>robust</code> as shortcut. <code>se</code> overrides
 <code>ci.lvl</code>: if not <code>NULL</code>, arguments <code>ci.lvl</code> and <code>transform</code>
 will be ignored. Currently, <code>se</code> only applies to <em>Coefficients</em> plots.</p></td>
     </tr><tr><th>robust</th>
       <td><p>Logical, shortcut for arguments <code>vcov.fun</code> and <code>vcov.type</code>.
 If <code>TRUE</code>, uses <code>vcov.fun = "vcovHC"</code> and <code>vcov.type = "HC3"</code> as
-default, that is, <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html">vcovHC</a></code> with default-type is called
-(see <code><a href="https://easystats.github.io/parameters/reference/standard_error_robust.html">standard_error_robust</a></code> and
-<a href="https://easystats.github.io/parameters/articles/model_parameters_robust.html">this vignette</a>
+default, that is, <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html" class="external-link">vcovHC</a></code> with default-type is called
+(see <code><a href="https://easystats.github.io/parameters/reference/standard_error_robust.html" class="external-link">standard_error_robust</a></code> and
+<a href="https://easystats.github.io/parameters/articles/model_parameters_robust.html" class="external-link">this vignette</a>
 for further details).</p></td>
     </tr><tr><th>vcov.fun</th>
       <td><p>Character vector, indicating the name of the <code>vcov*()</code>-function
@@ -412,8 +412,8 @@ from the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</sp
 if robust standard errors are required.</p></td>
     </tr><tr><th>vcov.type</th>
       <td><p>Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html">vcovHC()</a></code>
-or <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html">clubSandwich::vcovCR()</a></code> for details).</p></td>
+robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html" class="external-link">vcovHC()</a></code>
+or <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html" class="external-link">clubSandwich::vcovCR()</a></code> for details).</p></td>
     </tr><tr><th>vcov.args</th>
       <td><p>List of named vectors, used as additional arguments that
 are passed down to <code>vcov.fun</code>.</p></td>
@@ -422,8 +422,8 @@ are passed down to <code>vcov.fun</code>.</p></td>
 color value names (see <code>demo("colors")</code>) or a name of a pre-defined
 color palette. Following options are valid for the <code>colors</code> argument:</p><ul><li><p>If not specified, a default color brewer palette will be used, which is suitable for the plot style.</p></li>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
-<li><p>If <code>"bw"</code>, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see <a href="https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html">this package-vignette</a>).</p></li>
-<li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html">RColorBrewer::display.brewer.all()</a></code> to view all available palette names.</p></li>
+<li><p>If <code>"bw"</code>, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see <a href="https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html" class="external-link">this package-vignette</a>).</p></li>
+<li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">RColorBrewer::display.brewer.all()</a></code> to view all available palette names.</p></li>
 <li><p>There are some pre-defined color palettes in this package, see <code><a href="sjPlot-themes.html">sjPlot-themes</a></code> for details.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = "#00ff00"</code> or <code>colors = c("firebrick", "blue")</code>).</p></li>
 </ul></td>
@@ -474,7 +474,7 @@ annotating p-values with asterisks. Only applies if
 <code>p.style = "asterisk"</code>.</p></td>
     </tr><tr><th>p.adjust</th>
       <td><p>Character vector, if not <code>NULL</code>, indicates the method
-to adjust p-values. See <code><a href="https://rdrr.io/r/stats/p.adjust.html">p.adjust</a></code> for details.</p></td>
+to adjust p-values. See <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></code> for details.</p></td>
     </tr><tr><th>grid</th>
       <td><p>Logical, if <code>TRUE</code>, multiple plots are plotted as grid
 layout.</p></td>
@@ -489,16 +489,16 @@ specified, it will be set to <code>NULL</code> - this is a more convenient
 default when prefixing labels.</p></td>
     </tr><tr><th>auto.label</th>
       <td><p>Logical, if <code>TRUE</code> (the default),
- and <a href="https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html">data is labelled</a>,
- <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html">term_labels</a></code> is called to retrieve the labels
+ and <a href="https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html" class="external-link">data is labelled</a>,
+ <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">term_labels</a></code> is called to retrieve the labels
  of the coefficients, which will be used as predictor labels. If data is
- not labelled, <a href="https://easystats.github.io/parameters/reference/format_parameters.html">format_parameters()</a>
+ not labelled, <a href="https://easystats.github.io/parameters/reference/format_parameters.html" class="external-link">format_parameters()</a>
  is used to create pretty labels. If <code>auto.label = FALSE</code>,
 original variable names and value labels (factor levels) are used.</p></td>
     </tr><tr><th>prefix.labels</th>
       <td><p>Indicates whether the value labels of categorical variables
 should be prefixed, e.g. with the variable name or variable label. See
-argument <code>prefix</code> in <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html">term_labels</a></code> for
+argument <code>prefix</code> in <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">term_labels</a></code> for
 details.</p></td>
     </tr><tr><th>bpe</th>
       <td><p>For <strong>Stan</strong>-models (fitted with the <span class="pkg">rstanarm</span>- or
@@ -506,7 +506,7 @@ details.</p></td>
 of the posterior distribution. Use <code>bpe</code> to define other functions to
 calculate the Bayesian point estimate. <code>bpe</code> needs to be a character
 naming the specific function, which is passed to the <code>fun</code>-argument in
-<code><a href="https://strengejacke.github.io/sjmisc/reference/typical_value.html">typical_value</a></code>. So, <code>bpe = "mean"</code> would
+<code><a href="https://strengejacke.github.io/sjmisc/reference/typical_value.html" class="external-link">typical_value</a></code>. So, <code>bpe = "mean"</code> would
 calculate the mean value of the posterior distribution.</p></td>
     </tr><tr><th>bpe.style</th>
       <td><p>For <strong>Stan</strong>-models (fitted with the <span class="pkg">rstanarm</span>- or
@@ -539,13 +539,13 @@ of supported arguments and their description in detail.</p><dl><dt><code>prob.in
     down to <code>geom_errorbar()</code> or <code>geom_density_ridges()</code>, for
     forest or diagnostic plots.</p></dd>
   <dt><code>width</code>, <code>alpha</code>, <code>dot.alpha</code>, <code>dodge</code> and <code>log.y</code></dt><dd><p>Passed
-    down to <code><a href="https://strengejacke.github.io/ggeffects/reference/plot.html">plot.ggeffects</a></code> for <em>Marginal Effects</em>
+    down to <code><a href="https://strengejacke.github.io/ggeffects/reference/plot.html" class="external-link">plot.ggeffects</a></code> for <em>Marginal Effects</em>
     plots.</p></dd>
   <dt><code>show.loess</code></dt><dd><p>Logical, for diagnostic plot-types <code>"slope"</code>
     and <code>"resid"</code>, adds (or hides) a loess-smoothed line to the plot.</p></dd>
   <dt><em>Marginal Effects</em> plot-types</dt><dd><p>When plotting marginal effects,
-    arguments are also passed down to <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html">ggpredict</a></code>,
-    <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html">ggeffect</a></code> or <code><a href="https://strengejacke.github.io/ggeffects/reference/plot.html">plot.ggeffects</a></code>.</p></dd>
+    arguments are also passed down to <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggpredict</a></code>,
+    <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggeffect</a></code> or <code><a href="https://strengejacke.github.io/ggeffects/reference/plot.html" class="external-link">plot.ggeffects</a></code>.</p></dd>
   <dt>Case conversion of labels</dt><dd><p>For case conversion of labels (see argument
     <code>case</code>), arguments <code>sep_in</code> and <code>sep_out</code> will be passed
     down to <code>snakecase::to_any_case()</code>. This only
@@ -555,82 +555,44 @@ of supported arguments and their description in detail.</p><dl><dt><code>prob.in
 </dl></td>
     </tr></table></div>
 
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p>Depending on the plot-type, <code>plot_model()</code> returns a
   <code>ggplot</code>-object or a list of such objects. <code>get_model_data</code>
   returns the associated data with the plot-object as tidy data frame, or
   (depending on the plot-type) a list of such data frames.</p>
     </div>
     <div id="details">
-    <h2>Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <h2>Details</h2>
     
-<div id="different-plot-types">
-<h3></h3><p></p><dl><dt><code>type = "std"</code></dt><dd><p>Plots standardized estimates. See details below.</p></dd>
+<div class="section">
+<h3 id="different-plot-types">Different Plot Types<a class="anchor" aria-label="anchor" href="#different-plot-types"></a></h3>
+<p></p><dl><dt><code>type = "std"</code></dt><dd><p>Plots standardized estimates. See details below.</p></dd>
   <dt><code>type = "std2"</code></dt><dd><p>Plots standardized estimates, however,
     standardization follows Gelman's (2008) suggestion, rescaling the
     estimates by dividing them by two standard deviations instead of just one.
     Resulting coefficients are then directly comparable for untransformed
     binary predictors.</p></dd>
   <dt><code>type = "pred"</code></dt><dd><p>Plots estimated marginal means (or marginal effects).
-    Simply wraps <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html">ggpredict</a></code>. See also
-    <a href="https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html">this package-vignette</a>.</p></dd>
+    Simply wraps <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggpredict</a></code>. See also
+    <a href="https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html" class="external-link">this package-vignette</a>.</p></dd>
   <dt><code>type = "eff"</code></dt><dd><p>Plots estimated marginal means (or marginal effects).
-    Simply wraps <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html">ggeffect</a></code>. See also
-    <a href="https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html">this package-vignette</a>.</p></dd>
+    Simply wraps <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggeffect</a></code>. See also
+    <a href="https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html" class="external-link">this package-vignette</a>.</p></dd>
   <dt><code>type = "int"</code></dt><dd><p>A shortcut for marginal effects plots, where
     interaction terms are automatically detected and used as
     <code>terms</code>-argument. Furthermore, if the moderator variable (the second
     - and third - term in an interaction) is continuous, <code>type = "int"</code>
     automatically chooses useful values based on the <code>mdrt.values</code>-argument,
-    which are passed to <code>terms</code>. Then, <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html">ggpredict</a></code>
+    which are passed to <code>terms</code>. Then, <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggpredict</a></code>
     is called. <code>type = "int"</code> plots the interaction term that appears
     first in the formula along the x-axis, while the second (and possibly
     third) variable in an interaction is used as grouping factor(s)
     (moderating variable). Use <code>type = "pred"</code> or <code>type = "eff"</code>
     and specify a certain order in the <code>terms</code>-argument to indicate
     which variable(s) should be used as moderator. See also
-    <a href="https://strengejacke.github.io/sjPlot/articles/plot_interactions.html">this package-vignette</a>.</p></dd>
-  <dt><code>type = "slope"</code> and <code>type = "resid"</code></dt><dd><p>Simple diagnostic-plots,
-  where a linear model for each single predictor is plotted against the
-  response variable, or the model's residuals. Additionally, a loess-smoothed
-  line is added to the plot. The main purpose of these plots is to check whether
-  the relationship between outcome (or residuals) and a predictor is roughly
-  linear or not. Since the plots are based on a simple linear regression with
-  only one model predictor at the moment, the slopes (i.e. coefficients) may
-  differ from the coefficients of the complete model.</p></dd>
-  <dt><code>type = "diag"</code></dt><dd><p>For <strong>Stan-models</strong>, plots the prior versus
-  posterior samples. For <strong>linear (mixed) models</strong>, plots for
-  multicollinearity-check (Variance Inflation Factors), QQ-plots,
-  checks for normal distribution of residuals and homoscedasticity
-  (constant variance of residuals) are shown. For <strong>generalized
-  linear mixed models</strong>, returns the QQ-plot for random effects.</p></dd>
-  
-</dl><p></p><dl><dt><code>type = "std"</code></dt><dd><p>Plots standardized estimates. See details below.</p></dd>
-  <dt><code>type = "std2"</code></dt><dd><p>Plots standardized estimates, however,
-    standardization follows Gelman's (2008) suggestion, rescaling the
-    estimates by dividing them by two standard deviations instead of just one.
-    Resulting coefficients are then directly comparable for untransformed
-    binary predictors.</p></dd>
-  <dt><code>type = "pred"</code></dt><dd><p>Plots estimated marginal means (or marginal effects).
-    Simply wraps <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html">ggpredict</a></code>. See also
-    <a href="https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html">this package-vignette</a>.</p></dd>
-  <dt><code>type = "eff"</code></dt><dd><p>Plots estimated marginal means (or marginal effects).
-    Simply wraps <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html">ggeffect</a></code>. See also
-    <a href="https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html">this package-vignette</a>.</p></dd>
-  <dt><code>type = "int"</code></dt><dd><p>A shortcut for marginal effects plots, where
-    interaction terms are automatically detected and used as
-    <code>terms</code>-argument. Furthermore, if the moderator variable (the second
-    - and third - term in an interaction) is continuous, <code>type = "int"</code>
-    automatically chooses useful values based on the <code>mdrt.values</code>-argument,
-    which are passed to <code>terms</code>. Then, <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html">ggpredict</a></code>
-    is called. <code>type = "int"</code> plots the interaction term that appears
-    first in the formula along the x-axis, while the second (and possibly
-    third) variable in an interaction is used as grouping factor(s)
-    (moderating variable). Use <code>type = "pred"</code> or <code>type = "eff"</code>
-    and specify a certain order in the <code>terms</code>-argument to indicate
-    which variable(s) should be used as moderator. See also
-    <a href="https://strengejacke.github.io/sjPlot/articles/plot_interactions.html">this package-vignette</a>.</p></dd>
+    <a href="https://strengejacke.github.io/sjPlot/articles/plot_interactions.html" class="external-link">this package-vignette</a>.</p></dd>
   <dt><code>type = "slope"</code> and <code>type = "resid"</code></dt><dd><p>Simple diagnostic-plots,
   where a linear model for each single predictor is plotted against the
   response variable, or the model's residuals. Additionally, a loess-smoothed
@@ -647,22 +609,14 @@ of supported arguments and their description in detail.</p><dl><dt><code>prob.in
   linear mixed models</strong>, returns the QQ-plot for random effects.</p></dd>
   
 </dl></div>
-<div id="standardized-estimates">
-<h3></h3><p>Default standardization is done by completely refitting the model on the
-  standardized data. Hence, this approach is equal to standardizing the
-  variables before fitting the model, which is particularly recommended for
-  complex models that include interactions or transformations (e.g., polynomial
-  or spline terms). When <code>type = "std2"</code>, standardization of estimates
-  follows <a href="http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf">Gelman's (2008)</a>
-  suggestion, rescaling the estimates by dividing them by two standard deviations
-  instead of just one. Resulting coefficients are then directly comparable for
-  untransformed binary predictors.</p>
+<div class="section">
+<h3 id="standardized-estimates">Standardized Estimates<a class="anchor" aria-label="anchor" href="#standardized-estimates"></a></h3>
 <p>Default standardization is done by completely refitting the model on the
   standardized data. Hence, this approach is equal to standardizing the
   variables before fitting the model, which is particularly recommended for
   complex models that include interactions or transformations (e.g., polynomial
   or spline terms). When <code>type = "std2"</code>, standardization of estimates
-  follows <a href="http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf">Gelman's (2008)</a>
+  follows <a href="http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf" class="external-link">Gelman's (2008)</a>
   suggestion, rescaling the estimates by dividing them by two standard deviations
   instead of just one. Resulting coefficients are then directly comparable for
   untransformed binary predictors.</p>
@@ -670,16 +624,17 @@ of supported arguments and their description in detail.</p><dl><dt><code>prob.in
 
     </div>
     <div id="references">
-    <h2>References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <h2>References</h2>
     <p>Gelman A (2008) "Scaling regression inputs by dividing by two
   standard deviations." <em>Statistics in Medicine 27: 2865-2873.</em>
-  <a href="http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf">http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf</a>
+  <a href="http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf" class="external-link">http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf</a>
   <br><br>
   Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.</p>
     </div>
+    </div>
 
     <div id="examples">
-    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    <h2>Examples</h2>
     <div class="ref-examples sourceCode"></div>
     </div>
   </div>

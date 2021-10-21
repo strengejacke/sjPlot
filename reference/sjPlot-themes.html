@@ -97,7 +97,7 @@
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/strengejacke/sjPlot/">
+  <a href="https://github.com/strengejacke/sjPlot/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -112,7 +112,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Modify plot appearance</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/sjplot_themes.R"><code>R/sjplot_themes.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/sjplot_themes.R" class="external-link"><code>R/sjplot_themes.R</code></a></small>
     <div class="hidden name"><code>sjPlot-themes.Rd</code></div>
     </div>
 
@@ -155,7 +155,7 @@
 <span class="fu">css_theme</span><span class="op">(</span>css.theme <span class="op">=</span> <span class="st">"regression"</span><span class="op">)</span></code></pre></div>
 
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <h2>Arguments</h2>
     <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>base_size</th>
       <td><p>Base font size.</p></td>
     </tr><tr><th>base_family</th>
@@ -204,11 +204,11 @@ two-element numeric vector with values from 0-1.</p></td>
     </tr><tr><th>discrete</th>
       <td><p>Logical, if <code>TRUE</code>, a discrete colour palette is returned.
 Else, a gradient palette is returned, where colours of the requested palette
-are interpolated using <code><a href="https://rdrr.io/r/grDevices/colorRamp.html">colorRampPalette</a></code>.</p></td>
+are interpolated using <code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></code>.</p></td>
     </tr><tr><th>reverse</th>
       <td><p>Logical, if <code>TRUE</code>, order of returned colours is reversed.</p></td>
     </tr><tr><th>...</th>
-      <td><p>Further arguments passed down to ggplot's <code><a href="https://rdrr.io/r/base/scale.html">scale()</a></code>-functions.</p></td>
+      <td><p>Further arguments passed down to ggplot's <code><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale()</a></code>-functions.</p></td>
     </tr><tr><th>n</th>
       <td><p>Numeric, number of colors to be returned. By default, the complete
 colour palette is returned.</p></td>
@@ -216,22 +216,24 @@ colour palette is returned.</p></td>
       <td><p>Name of the CSS pre-set theme-style. Can be used for table-functions.</p></td>
     </tr></table></div>
 
+    <div id="ref-sections">
     <div id="details">
-    <h2>Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <h2>Details</h2>
     <p>When using the <code>colors</code> argument in function calls (e.g.
   <code><a href="plot_model.html">plot_model()</a></code>) or when calling one of the predefined scale-functions
   (e.g. <code>scale_color_sjplot()</code>), there are pre-defined colour palettes
   in this package. Use <code>show_sjplot_pals()</code> to show all available
   colour palettes.</p>
     </div>
+    </div>
 
     <div id="examples">
-    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># prepare data</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/">sjmisc</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">efc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html">to_factor</a></span><span class="op">(</span><span class="va">efc</span>, <span class="va">c161sex</span>, <span class="va">e42dep</span>, <span class="va">c172code</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">pos_v_4</span> <span class="op">+</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">efc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">to_factor</a></span><span class="op">(</span><span class="va">efc</span>, <span class="va">c161sex</span>, <span class="va">e42dep</span>, <span class="va">c172code</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">pos_v_4</span> <span class="op">+</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># create plot-object</span></span>
 <span class="r-in"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span>
