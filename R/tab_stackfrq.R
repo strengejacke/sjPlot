@@ -183,7 +183,7 @@ tab_stackfrq <- function(items,
   # additional statistics required from psych-package?
   # ----------------------------
   if (show.skew) pstat_skewness <- datawizard::skewness(items)
-  if (show.kurtosis) pstat_kurtosis <- parameters::kurtosis(items)
+  if (show.kurtosis) pstat_kurtosis <- datawizard::kurtosis(items)
   if (is.null(weight.by)) {
     dummy <- sjmisc::frq(items, show.strings = TRUE, show.na = show.na)
   } else {
