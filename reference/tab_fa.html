@@ -135,6 +135,7 @@
   method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ml"</span>, <span class="st">"minres"</span>, <span class="st">"wls"</span>, <span class="st">"gls"</span>, <span class="st">"pa"</span>, <span class="st">"minchi"</span>, <span class="st">"minrank"</span><span class="op">)</span>,
   nmbr.fctr <span class="op">=</span> <span class="cn">NULL</span>,
   fctr.load.tlrn <span class="op">=</span> <span class="fl">0.1</span>,
+  sort <span class="op">=</span> <span class="cn">FALSE</span>,
   title <span class="op">=</span> <span class="st">"Factor Analysis"</span>,
   var.labels <span class="op">=</span> <span class="cn">NULL</span>,
   wrap.labels <span class="op">=</span> <span class="fl">40</span>,
@@ -178,6 +179,10 @@ diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 fac
 on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
 from the principal component analysis. By default, the minimum difference of loading values
 between the highest and 2nd highest factor should be 0.1</p></dd>
+<dt>sort</dt>
+<dd><p>logical, if <code>TRUE</code>, sort the loadings for each factors
+(items will be sorted in terms of their greatest loading, in descending
+order)</p></dd>
 <dt>title</dt>
 <dd><p>String, will be used as table caption.</p></dd>
 <dt>var.labels</dt>
