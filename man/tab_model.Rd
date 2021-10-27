@@ -69,6 +69,7 @@ tab_model(
     "ci.outer", "stat", "std.stat", "p", "std.p", "df.error", "response.level"),
   digits = 2,
   digits.p = 3,
+  digits.rsq = 3,
   digits.re = 2,
   emph.p = TRUE,
   p.val = NULL,
@@ -312,6 +313,8 @@ Table columns are printed in the order as they appear in \code{col.order}.}
 \item{digits}{Amount of decimals for estimates}
 
 \item{digits.p}{Amount of decimals for p-values}
+
+\item{digits.rsq}{Amount of decimals for r-squared values}
 
 \item{digits.re}{Amount of decimals for random effects part of the summary table.}
 

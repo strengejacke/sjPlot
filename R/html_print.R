@@ -288,6 +288,7 @@ tab_model_df <- function(x,
                          col.header = NULL,
                          show.re.var = FALSE,
                          show.icc = FALSE,
+                         digits.rsq = 3,
                          digits.re = 2,
                          encoding = "UTF-8",
                          CSS = NULL,
@@ -721,10 +722,12 @@ tab_model_df <- function(x,
         page.content <- paste0(
           page.content,
           sprintf(
-            "    <td class=\"%s\" colspan=\"%i\">%.3f / %.3f</td>\n",
+            "    <td class=\"%s\" colspan=\"%i\">%.*f / %.*f</td>\n",
             s_css,
             as.integer(colspan),
+            digits.rsq,
             rsq.list[[i]][[1]],
+            digits.rsq,
             rsq.list[[i]][[2]]
           )
         )
@@ -734,9 +737,10 @@ tab_model_df <- function(x,
         page.content <- paste0(
           page.content,
           sprintf(
-            "    <td class=\"%s\" colspan=\"%i\">%.3f</td>\n",
+            "    <td class=\"%s\" colspan=\"%i\">%.*f</td>\n",
             s_css,
             as.integer(colspan),
+            digits.rsq,
             rsq.list[[i]][[1]]
           )
         )
