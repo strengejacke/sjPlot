@@ -10,6 +10,7 @@ tab_fa(
   method = c("ml", "minres", "wls", "gls", "pa", "minchi", "minrank"),
   nmbr.fctr = NULL,
   fctr.load.tlrn = 0.1,
+  sort = FALSE,
   title = "Factor Analysis",
   var.labels = NULL,
   wrap.labels = 40,
@@ -50,6 +51,10 @@ diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 fac
 on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
 from the principal component analysis. By default, the minimum difference of loading values
 between the highest and 2nd highest factor should be 0.1}
+
+\item{sort}{logical, if \code{TRUE}, sort the loadings for each factors
+(items will be sorted in terms of their greatest loading, in descending
+order)}
 
 \item{title}{String, will be used as table caption.}
 
