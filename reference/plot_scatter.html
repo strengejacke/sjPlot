@@ -113,7 +113,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot (grouped) scatter plots</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/plot_scatter.R" class="external-link"><code>R/plot_scatter.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/plot_scatter.R" class="external-link"><code>R/plot_scatter.R</code></a></small>
     <div class="hidden name"><code>plot_scatter.Rd</code></div>
     </div>
 
@@ -149,43 +149,44 @@
   grid <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>data</th>
-      <td><p>A data frame, or a grouped data frame.</p></td>
-    </tr><tr><th>x</th>
-      <td><p>Name of the variable for the x-axis.</p></td>
-    </tr><tr><th>y</th>
-      <td><p>Name of the variable for the y-axis.</p></td>
-    </tr><tr><th>grp</th>
-      <td><p>Optional, name of the grouping-variable. If not missing, the
-scatter plot will be grouped. See 'Examples'.</p></td>
-    </tr><tr><th>title</th>
-      <td><p>Character vector, used as plot title. By default,
+    <dl><dt>data</dt>
+<dd><p>A data frame, or a grouped data frame.</p></dd>
+<dt>x</dt>
+<dd><p>Name of the variable for the x-axis.</p></dd>
+<dt>y</dt>
+<dd><p>Name of the variable for the y-axis.</p></dd>
+<dt>grp</dt>
+<dd><p>Optional, name of the grouping-variable. If not missing, the
+scatter plot will be grouped. See 'Examples'.</p></dd>
+<dt>title</dt>
+<dd><p>Character vector, used as plot title. By default,
 <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">response_labels</a></code> is called to retrieve the label of
 the dependent variable, which will be used as title. Use <code>title = ""</code>
-to remove title.</p></td>
-    </tr><tr><th>legend.title</th>
-      <td><p>Character vector, used as legend title for plots that
-have a legend.</p></td>
-    </tr><tr><th>legend.labels</th>
-      <td><p>character vector with labels for the guide/legend.</p></td>
-    </tr><tr><th>dot.labels</th>
-      <td><p>Character vector with names for each coordinate pair given
+to remove title.</p></dd>
+<dt>legend.title</dt>
+<dd><p>Character vector, used as legend title for plots that
+have a legend.</p></dd>
+<dt>legend.labels</dt>
+<dd><p>character vector with labels for the guide/legend.</p></dd>
+<dt>dot.labels</dt>
+<dd><p>Character vector with names for each coordinate pair given
 by <code>x</code> and <code>y</code>, so text labels are added to the plot.
 Must be of same length as <code>x</code> and <code>y</code>.
 If <code>dot.labels</code> has a different length, data points will be trimmed
 to match <code>dot.labels</code>. If <code>dot.labels = NULL</code> (default),
-no labels are printed.</p></td>
-    </tr><tr><th>axis.titles</th>
-      <td><p>character vector of length one or two, defining the title(s)
-for the x-axis and y-axis.</p></td>
-    </tr><tr><th>dot.size</th>
-      <td><p>Numeric, size of the dots that indicate the point estimates.</p></td>
-    </tr><tr><th>label.size</th>
-      <td><p>Size of text labels if argument <code>dot.labels</code> is used.</p></td>
-    </tr><tr><th>colors</th>
-      <td><p>May be a character vector of color values in hex-format, valid
+no labels are printed.</p></dd>
+<dt>axis.titles</dt>
+<dd><p>character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.</p></dd>
+<dt>dot.size</dt>
+<dd><p>Numeric, size of the dots that indicate the point estimates.</p></dd>
+<dt>label.size</dt>
+<dd><p>Size of text labels if argument <code>dot.labels</code> is used.</p></dd>
+<dt>colors</dt>
+<dd><p>May be a character vector of color values in hex-format, valid
 color value names (see <code>demo("colors")</code>) or a name of a pre-defined
 color palette. Following options are valid for the <code>colors</code> argument:</p><ul><li><p>If not specified, a default color brewer palette will be used, which is suitable for the plot style.</p></li>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
@@ -193,46 +194,44 @@ color palette. Following options are valid for the <code>colors</code> argument:
 <li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">RColorBrewer::display.brewer.all()</a></code> to view all available palette names.</p></li>
 <li><p>There are some pre-defined color palettes in this package, see <code><a href="sjPlot-themes.html">sjPlot-themes</a></code> for details.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = "#00ff00"</code> or <code>colors = c("firebrick", "blue")</code>).</p></li>
-</ul></td>
-    </tr><tr><th>fit.line, fit.grps</th>
-      <td><p>Specifies the method to add a fitted line accross
+</ul></dd>
+<dt>fit.line, fit.grps</dt>
+<dd><p>Specifies the method to add a fitted line accross
 the data points. Possible values are for instance <code>"lm"</code>, <code>"glm"</code>,
 <code>"loess"</code> or <code>"auto"</code>. If <code>NULL</code>, no line is plotted.
 <code>fit.line</code> adds a fitted line for the complete data, while <code>fit.grps</code>
-adds a fitted line for each subgroup of <code>grp</code>.</p></td>
-    </tr><tr><th>show.rug</th>
-      <td><p>Logical, if <code>TRUE</code>, a marginal rug plot is displayed
-in the graph.</p></td>
-    </tr><tr><th>show.legend</th>
-      <td><p>For <em>Marginal Effects</em> plots, shows or hides the
-legend.</p></td>
-    </tr><tr><th>show.ci</th>
-      <td><p>Logical, if <code>TRUE)</code>, adds notches to the box plot, which are
+adds a fitted line for each subgroup of <code>grp</code>.</p></dd>
+<dt>show.rug</dt>
+<dd><p>Logical, if <code>TRUE</code>, a marginal rug plot is displayed
+in the graph.</p></dd>
+<dt>show.legend</dt>
+<dd><p>For <em>Marginal Effects</em> plots, shows or hides the
+legend.</p></dd>
+<dt>show.ci</dt>
+<dd><p>Logical, if <code>TRUE)</code>, adds notches to the box plot, which are
 used to compare groups; if the notches of two boxes do not overlap,
-medians are considered to be significantly different.</p></td>
-    </tr><tr><th>wrap.title</th>
-      <td><p>Numeric, determines how many chars of the plot title are
-displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.legend.title</th>
-      <td><p>numeric, determines how many chars of the legend's title
-are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.legend.labels</th>
-      <td><p>numeric, determines how many chars of the legend labels are
-displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>jitter</th>
-      <td><p>Numeric, between 0 and 1. If <code>show.data = TRUE</code>, you can
+medians are considered to be significantly different.</p></dd>
+<dt>wrap.title</dt>
+<dd><p>Numeric, determines how many chars of the plot title are
+displayed in one line and when a line break is inserted.</p></dd>
+<dt>wrap.legend.title</dt>
+<dd><p>numeric, determines how many chars of the legend's title
+are displayed in one line and when a line break is inserted.</p></dd>
+<dt>wrap.legend.labels</dt>
+<dd><p>numeric, determines how many chars of the legend labels are
+displayed in one line and when a line break is inserted.</p></dd>
+<dt>jitter</dt>
+<dd><p>Numeric, between 0 and 1. If <code>show.data = TRUE</code>, you can
 add a small amount of random variation to the location of each data point.
 <code>jitter</code> then indicates the width, i.e. how much of a bin's width
-will be occupied by the jittered values.</p></td>
-    </tr><tr><th>emph.dots</th>
-      <td><p>Logical, if <code>TRUE</code>, overlapping points at same coordinates
-will be becomme larger, so point size indicates amount of overlapping.</p></td>
-    </tr><tr><th>grid</th>
-      <td><p>Logical, if <code>TRUE</code>, multiple plots are plotted as grid
-layout.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+will be occupied by the jittered values.</p></dd>
+<dt>emph.dots</dt>
+<dd><p>Logical, if <code>TRUE</code>, overlapping points at same coordinates
+will be becomme larger, so point size indicates amount of overlapping.</p></dd>
+<dt>grid</dt>
+<dd><p>Logical, if <code>TRUE</code>, multiple plots are plotted as grid
+layout.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A ggplot-object. For grouped data frames, a list of ggplot-objects for

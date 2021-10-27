@@ -113,7 +113,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot t-distributions</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotDist.R" class="external-link"><code>R/sjPlotDist.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/sjPlotDist.R" class="external-link"><code>R/sjPlotDist.R</code></a></small>
     <div class="hidden name"><code>dist_t.Rd</code></div>
     </div>
 
@@ -132,32 +132,31 @@
   geom.alpha <span class="op">=</span> <span class="fl">0.7</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>t</th>
-      <td><p>Numeric, optional. If specified, a t-distribution with <code>deg.f</code> degrees
+    <dl><dt>t</dt>
+<dd><p>Numeric, optional. If specified, a t-distribution with <code>deg.f</code> degrees
 of freedom is plotted and a shaded area at <code>t</code> value position is plotted that
 indicates whether or not the specified value is significant or not.
 If both <code>t</code> and <code>p</code> are not specified, a distribution without shaded
-area is plotted.</p></td>
-    </tr><tr><th>deg.f</th>
-      <td><p>Numeric. The degrees of freedom for the t-distribution. Needs to
-be specified.</p></td>
-    </tr><tr><th>p</th>
-      <td><p>Numeric, optional. If specified, a t-distribution with <code>deg.f</code> degrees
+area is plotted.</p></dd>
+<dt>deg.f</dt>
+<dd><p>Numeric. The degrees of freedom for the t-distribution. Needs to
+be specified.</p></dd>
+<dt>p</dt>
+<dd><p>Numeric, optional. If specified, a t-distribution with <code>deg.f</code> degrees
 of freedom is plotted and a shaded area at the position where the specified p-level
 starts is plotted. If both <code>t</code> and <code>p</code> are not specified, a distribution
-without shaded area is plotted.</p></td>
-    </tr><tr><th>xmax</th>
-      <td><p>Numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
-ranges to a value where a p-level of 0.00001 is reached.</p></td>
-    </tr><tr><th>geom.colors</th>
-      <td><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></td>
-    </tr><tr><th>geom.alpha</th>
-      <td><p>Specifies the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+without shaded area is plotted.</p></dd>
+<dt>xmax</dt>
+<dd><p>Numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
+ranges to a value where a p-level of 0.00001 is reached.</p></dd>
+<dt>geom.colors</dt>
+<dd><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></dd>
+<dt>geom.alpha</dt>
+<dd><p>Specifies the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.</p></dd>
+</dl></div>
     </div>
 
     <div id="examples">

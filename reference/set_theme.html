@@ -111,7 +111,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Set global theme options for sjp-functions</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotSetTheme.R" class="external-link"><code>R/sjPlotSetTheme.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/sjPlotSetTheme.R" class="external-link"><code>R/sjPlotSetTheme.R</code></a></small>
     <div class="hidden name"><code>set_theme.Rd</code></div>
     </div>
 
@@ -189,174 +189,177 @@
   legend.item.bordercol <span class="op">=</span> <span class="st">"white"</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>base</th>
-      <td><p>base theme where theme is built on. By default, all
-metrics from <code>theme_gray()</code> are used. See 'Details'.</p></td>
-    </tr><tr><th>theme.font</th>
-      <td><p>base font family for the plot.</p></td>
-    </tr><tr><th>title.color</th>
-      <td><p>Color of plot title. Default is <code>"black"</code>.</p></td>
-    </tr><tr><th>title.size</th>
-      <td><p>size of plot title. Default is 1.3.</p></td>
-    </tr><tr><th>title.align</th>
-      <td><p>alignment of plot title. Must be one of <code>"left"</code> (default),
-<code>"center"</code> or <code>"right"</code>. You may use initial letter only.</p></td>
-    </tr><tr><th>title.vjust</th>
-      <td><p>numeric, vertical adjustment for plot title.</p></td>
-    </tr><tr><th>geom.outline.color</th>
-      <td><p>Color of geom outline. Only applies, if <code>geom.outline.size</code>
-is larger than 0.</p></td>
-    </tr><tr><th>geom.outline.size</th>
-      <td><p>size of bar outlines. Default is 0.1. Use
-size of <code>0</code> to remove geom outline.</p></td>
-    </tr><tr><th>geom.boxoutline.size</th>
-      <td><p>size of outlines and median bar especially for boxplots.
-Default is 0.5. Use size of <code>0</code> to remove boxplot outline.</p></td>
-    </tr><tr><th>geom.boxoutline.color</th>
-      <td><p>Color of outlines and median bar especially for boxplots.
-Only applies, if <code>geom.boxoutline.size</code> is larger than 0.</p></td>
-    </tr><tr><th>geom.alpha</th>
-      <td><p>specifies the transparancy (alpha value) of geoms</p></td>
-    </tr><tr><th>geom.linetype</th>
-      <td><p>linetype of line geoms. Default is <code>1</code> (solid line).</p></td>
-    </tr><tr><th>geom.errorbar.size</th>
-      <td><p>size (thickness) of error bars. Default is <code>0.8</code></p></td>
-    </tr><tr><th>geom.errorbar.linetype</th>
-      <td><p>linetype of error bars. Default is <code>1</code> (solid line).</p></td>
-    </tr><tr><th>geom.label.color</th>
-      <td><p>Color of geom's value and annotation labels</p></td>
-    </tr><tr><th>geom.label.size</th>
-      <td><p>size of geom's value and annotation labels</p></td>
-    </tr><tr><th>geom.label.alpha</th>
-      <td><p>alpha level of geom's value and annotation labels</p></td>
-    </tr><tr><th>geom.label.angle</th>
-      <td><p>angle of geom's value and annotation labels</p></td>
-    </tr><tr><th>axis.title.color</th>
-      <td><p>Color of x- and y-axis title labels</p></td>
-    </tr><tr><th>axis.title.size</th>
-      <td><p>size of x- and y-axis title labels</p></td>
-    </tr><tr><th>axis.title.x.vjust</th>
-      <td><p>numeric, vertical adjustment of x-axis-title.</p></td>
-    </tr><tr><th>axis.title.y.vjust</th>
-      <td><p>numeric, vertical adjustment of y-axis-title.</p></td>
-    </tr><tr><th>axis.angle.x</th>
-      <td><p>angle for x-axis labels</p></td>
-    </tr><tr><th>axis.angle.y</th>
-      <td><p>angle for y-axis labels</p></td>
-    </tr><tr><th>axis.angle</th>
-      <td><p>angle for x- and y-axis labels. If set, overrides both <code>axis.angle.x</code> and <code>axis.angle.y</code></p></td>
-    </tr><tr><th>axis.textcolor.x</th>
-      <td><p>Color for x-axis labels. If not specified, a default dark gray
-color palette will be used for the labels.</p></td>
-    </tr><tr><th>axis.textcolor.y</th>
-      <td><p>Color for y-axis labels. If not specified, a default dark gray
-color palette will be used for the labels.</p></td>
-    </tr><tr><th>axis.textcolor</th>
-      <td><p>Color for both x- and y-axis labels.
-If set, overrides both <code>axis.textcolor.x</code> and <code>axis.textcolor.y</code></p></td>
-    </tr><tr><th>axis.linecolor.x</th>
-      <td><p>Color of x-axis border</p></td>
-    </tr><tr><th>axis.linecolor.y</th>
-      <td><p>Color of y-axis border</p></td>
-    </tr><tr><th>axis.linecolor</th>
-      <td><p>Color for both x- and y-axis borders.
-If set, overrides both <code>axis.linecolor.x</code> and <code>axis.linecolor.y</code>.</p></td>
-    </tr><tr><th>axis.line.size</th>
-      <td><p>size (thickness) of axis lines. Only affected, if <code>axis.linecolor</code>
-is set.</p></td>
-    </tr><tr><th>axis.textsize.x</th>
-      <td><p>size of x-axis labels</p></td>
-    </tr><tr><th>axis.textsize.y</th>
-      <td><p>size of y-axis labels</p></td>
-    </tr><tr><th>axis.textsize</th>
-      <td><p>size for both x- and y-axis labels.
-If set, overrides both <code>axis.textsize.x</code> and <code>axis.textsize.y</code>.</p></td>
-    </tr><tr><th>axis.tickslen</th>
-      <td><p>length of axis tick marks</p></td>
-    </tr><tr><th>axis.tickscol</th>
-      <td><p>Color of axis tick marks</p></td>
-    </tr><tr><th>axis.ticksmar</th>
-      <td><p>margin between axis labels and tick marks</p></td>
-    </tr><tr><th>axis.ticksize.x</th>
-      <td><p>size of tick marks at x-axis.</p></td>
-    </tr><tr><th>axis.ticksize.y</th>
-      <td><p>size of tick marks at y-axis.</p></td>
-    </tr><tr><th>panel.backcol</th>
-      <td><p>Color of the diagram's background</p></td>
-    </tr><tr><th>panel.bordercol</th>
-      <td><p>Color of whole diagram border (panel border)</p></td>
-    </tr><tr><th>panel.col</th>
-      <td><p>Color of both diagram's border and background.
-If set, overrides both <code>panel.bordercol</code> and <code>panel.backcol</code>.</p></td>
-    </tr><tr><th>panel.major.gridcol</th>
-      <td><p>Color of the major grid lines of the diagram background</p></td>
-    </tr><tr><th>panel.minor.gridcol</th>
-      <td><p>Color of the minor grid lines of the diagram background</p></td>
-    </tr><tr><th>panel.gridcol</th>
-      <td><p>Color for both minor and major grid lines of the diagram background.
-If set, overrides both <code>panel.major.gridcol</code> and <code>panel.minor.gridcol</code>.</p></td>
-    </tr><tr><th>panel.gridcol.x</th>
-      <td><p>See <code>panel.gridcol</code>.</p></td>
-    </tr><tr><th>panel.gridcol.y</th>
-      <td><p>See <code>panel.gridcol</code>.</p></td>
-    </tr><tr><th>panel.major.linetype</th>
-      <td><p>line type for major grid lines</p></td>
-    </tr><tr><th>panel.minor.linetype</th>
-      <td><p>line type for minor grid lines</p></td>
-    </tr><tr><th>plot.backcol</th>
-      <td><p>Color of the plot's background</p></td>
-    </tr><tr><th>plot.bordercol</th>
-      <td><p>Color of whole plot's border (panel border)</p></td>
-    </tr><tr><th>plot.col</th>
-      <td><p>Color of both plot's region border and background.
-If set, overrides both <code>plot.backcol</code> and <code>plot.bordercol</code>.</p></td>
-    </tr><tr><th>plot.margins</th>
-      <td><p>numeric vector of length 4, indicating the top, right,
-bottom and left margin of the plot region.</p></td>
-    </tr><tr><th>legend.pos</th>
-      <td><p>position of the legend, if a legend is drawn.</p><dl><dt><em>legend outside plot</em></dt><dd><p>Use <code>"bottom"</code>, <code>"top"</code>, <code>"left"</code> or <code>"right"</code>
+    <dl><dt>base</dt>
+<dd><p>base theme where theme is built on. By default, all
+metrics from <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_gray()</a></code> are used. See 'Details'.</p></dd>
+<dt>theme.font</dt>
+<dd><p>base font family for the plot.</p></dd>
+<dt>title.color</dt>
+<dd><p>Color of plot title. Default is <code>"black"</code>.</p></dd>
+<dt>title.size</dt>
+<dd><p>size of plot title. Default is 1.3.</p></dd>
+<dt>title.align</dt>
+<dd><p>alignment of plot title. Must be one of <code>"left"</code> (default),
+<code>"center"</code> or <code>"right"</code>. You may use initial letter only.</p></dd>
+<dt>title.vjust</dt>
+<dd><p>numeric, vertical adjustment for plot title.</p></dd>
+<dt>geom.outline.color</dt>
+<dd><p>Color of geom outline. Only applies, if <code>geom.outline.size</code>
+is larger than 0.</p></dd>
+<dt>geom.outline.size</dt>
+<dd><p>size of bar outlines. Default is 0.1. Use
+size of <code>0</code> to remove geom outline.</p></dd>
+<dt>geom.boxoutline.size</dt>
+<dd><p>size of outlines and median bar especially for boxplots.
+Default is 0.5. Use size of <code>0</code> to remove boxplot outline.</p></dd>
+<dt>geom.boxoutline.color</dt>
+<dd><p>Color of outlines and median bar especially for boxplots.
+Only applies, if <code>geom.boxoutline.size</code> is larger than 0.</p></dd>
+<dt>geom.alpha</dt>
+<dd><p>specifies the transparancy (alpha value) of geoms</p></dd>
+<dt>geom.linetype</dt>
+<dd><p>linetype of line geoms. Default is <code>1</code> (solid line).</p></dd>
+<dt>geom.errorbar.size</dt>
+<dd><p>size (thickness) of error bars. Default is <code>0.8</code></p></dd>
+<dt>geom.errorbar.linetype</dt>
+<dd><p>linetype of error bars. Default is <code>1</code> (solid line).</p></dd>
+<dt>geom.label.color</dt>
+<dd><p>Color of geom's value and annotation labels</p></dd>
+<dt>geom.label.size</dt>
+<dd><p>size of geom's value and annotation labels</p></dd>
+<dt>geom.label.alpha</dt>
+<dd><p>alpha level of geom's value and annotation labels</p></dd>
+<dt>geom.label.angle</dt>
+<dd><p>angle of geom's value and annotation labels</p></dd>
+<dt>axis.title.color</dt>
+<dd><p>Color of x- and y-axis title labels</p></dd>
+<dt>axis.title.size</dt>
+<dd><p>size of x- and y-axis title labels</p></dd>
+<dt>axis.title.x.vjust</dt>
+<dd><p>numeric, vertical adjustment of x-axis-title.</p></dd>
+<dt>axis.title.y.vjust</dt>
+<dd><p>numeric, vertical adjustment of y-axis-title.</p></dd>
+<dt>axis.angle.x</dt>
+<dd><p>angle for x-axis labels</p></dd>
+<dt>axis.angle.y</dt>
+<dd><p>angle for y-axis labels</p></dd>
+<dt>axis.angle</dt>
+<dd><p>angle for x- and y-axis labels. If set, overrides both <code>axis.angle.x</code> and <code>axis.angle.y</code></p></dd>
+<dt>axis.textcolor.x</dt>
+<dd><p>Color for x-axis labels. If not specified, a default dark gray
+color palette will be used for the labels.</p></dd>
+<dt>axis.textcolor.y</dt>
+<dd><p>Color for y-axis labels. If not specified, a default dark gray
+color palette will be used for the labels.</p></dd>
+<dt>axis.textcolor</dt>
+<dd><p>Color for both x- and y-axis labels.
+If set, overrides both <code>axis.textcolor.x</code> and <code>axis.textcolor.y</code></p></dd>
+<dt>axis.linecolor.x</dt>
+<dd><p>Color of x-axis border</p></dd>
+<dt>axis.linecolor.y</dt>
+<dd><p>Color of y-axis border</p></dd>
+<dt>axis.linecolor</dt>
+<dd><p>Color for both x- and y-axis borders.
+If set, overrides both <code>axis.linecolor.x</code> and <code>axis.linecolor.y</code>.</p></dd>
+<dt>axis.line.size</dt>
+<dd><p>size (thickness) of axis lines. Only affected, if <code>axis.linecolor</code>
+is set.</p></dd>
+<dt>axis.textsize.x</dt>
+<dd><p>size of x-axis labels</p></dd>
+<dt>axis.textsize.y</dt>
+<dd><p>size of y-axis labels</p></dd>
+<dt>axis.textsize</dt>
+<dd><p>size for both x- and y-axis labels.
+If set, overrides both <code>axis.textsize.x</code> and <code>axis.textsize.y</code>.</p></dd>
+<dt>axis.tickslen</dt>
+<dd><p>length of axis tick marks</p></dd>
+<dt>axis.tickscol</dt>
+<dd><p>Color of axis tick marks</p></dd>
+<dt>axis.ticksmar</dt>
+<dd><p>margin between axis labels and tick marks</p></dd>
+<dt>axis.ticksize.x</dt>
+<dd><p>size of tick marks at x-axis.</p></dd>
+<dt>axis.ticksize.y</dt>
+<dd><p>size of tick marks at y-axis.</p></dd>
+<dt>panel.backcol</dt>
+<dd><p>Color of the diagram's background</p></dd>
+<dt>panel.bordercol</dt>
+<dd><p>Color of whole diagram border (panel border)</p></dd>
+<dt>panel.col</dt>
+<dd><p>Color of both diagram's border and background.
+If set, overrides both <code>panel.bordercol</code> and <code>panel.backcol</code>.</p></dd>
+<dt>panel.major.gridcol</dt>
+<dd><p>Color of the major grid lines of the diagram background</p></dd>
+<dt>panel.minor.gridcol</dt>
+<dd><p>Color of the minor grid lines of the diagram background</p></dd>
+<dt>panel.gridcol</dt>
+<dd><p>Color for both minor and major grid lines of the diagram background.
+If set, overrides both <code>panel.major.gridcol</code> and <code>panel.minor.gridcol</code>.</p></dd>
+<dt>panel.gridcol.x</dt>
+<dd><p>See <code>panel.gridcol</code>.</p></dd>
+<dt>panel.gridcol.y</dt>
+<dd><p>See <code>panel.gridcol</code>.</p></dd>
+<dt>panel.major.linetype</dt>
+<dd><p>line type for major grid lines</p></dd>
+<dt>panel.minor.linetype</dt>
+<dd><p>line type for minor grid lines</p></dd>
+<dt>plot.backcol</dt>
+<dd><p>Color of the plot's background</p></dd>
+<dt>plot.bordercol</dt>
+<dd><p>Color of whole plot's border (panel border)</p></dd>
+<dt>plot.col</dt>
+<dd><p>Color of both plot's region border and background.
+If set, overrides both <code>plot.backcol</code> and <code>plot.bordercol</code>.</p></dd>
+<dt>plot.margins</dt>
+<dd><p>numeric vector of length 4, indicating the top, right,
+bottom and left margin of the plot region.</p></dd>
+<dt>legend.pos</dt>
+<dd><p>position of the legend, if a legend is drawn.</p><dl><dt><em>legend outside plot</em></dt>
+<dd><p>Use <code>"bottom"</code>, <code>"top"</code>, <code>"left"</code> or <code>"right"</code>
     to position the legend above, below, on the left or right side
     of the diagram. Right positioning is default.</p></dd>
-  <dt><em>legend inside plot</em></dt><dd><p>If <code>legend.inside = TRUE</code>, legend can be placed inside
+
+  <dt><em>legend inside plot</em></dt>
+<dd><p>If <code>legend.inside = TRUE</code>, legend can be placed inside
     plot. Use <code>"top left"</code>, <code>"top right"</code>, <code>"bottom left"</code>
     and <code>"bottom right"</code> to position legend in any of these corners,
     or a two-element numeric vector with values from 0-1. See also
     <code>legend.inside</code>.</p></dd>
 
-</dl></td>
-    </tr><tr><th>legend.just</th>
-      <td><p>justification of legend, relative to its position (<code>"center"</code> or
+
+</dl></dd>
+<dt>legend.just</dt>
+<dd><p>justification of legend, relative to its position (<code>"center"</code> or
 two-element numeric vector with values from 0-1. By default (outside legend),
 justification is centered. If legend is inside and justification not specified,
-legend justification is set according to legend position.</p></td>
-    </tr><tr><th>legend.inside</th>
-      <td><p>logical, use <code>TRUE</code> to put legend inside the plotting area. See <code>legend.pos</code>.</p></td>
-    </tr><tr><th>legend.size</th>
-      <td><p>text size of the legend. Default is 1. Relative size, so
-recommended values are from 0.3 to 2.5</p></td>
-    </tr><tr><th>legend.color</th>
-      <td><p>Color of the legend labels</p></td>
-    </tr><tr><th>legend.title.size</th>
-      <td><p>text size of the legend title</p></td>
-    </tr><tr><th>legend.title.color</th>
-      <td><p>Color of the legend title</p></td>
-    </tr><tr><th>legend.title.face</th>
-      <td><p>font face of the legend title. By default, <code>"bold"</code> face is used.</p></td>
-    </tr><tr><th>legend.backgroundcol</th>
-      <td><p>fill color of the legend's background. Default is <code>"white"</code>, so no visible background is drawn.</p></td>
-    </tr><tr><th>legend.bordercol</th>
-      <td><p>Color of the legend's border. Default is <code>"white"</code>, so no visible border is drawn.</p></td>
-    </tr><tr><th>legend.item.size</th>
-      <td><p>size of legend's item (legend key), in centimetres.</p></td>
-    </tr><tr><th>legend.item.backcol</th>
-      <td><p>fill color of the legend's item-background. Default is <code>"grey90"</code>.</p></td>
-    </tr><tr><th>legend.item.bordercol</th>
-      <td><p>Color of the legend's item-border. Default is <code>"white"</code>.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+legend justification is set according to legend position.</p></dd>
+<dt>legend.inside</dt>
+<dd><p>logical, use <code>TRUE</code> to put legend inside the plotting area. See <code>legend.pos</code>.</p></dd>
+<dt>legend.size</dt>
+<dd><p>text size of the legend. Default is 1. Relative size, so
+recommended values are from 0.3 to 2.5</p></dd>
+<dt>legend.color</dt>
+<dd><p>Color of the legend labels</p></dd>
+<dt>legend.title.size</dt>
+<dd><p>text size of the legend title</p></dd>
+<dt>legend.title.color</dt>
+<dd><p>Color of the legend title</p></dd>
+<dt>legend.title.face</dt>
+<dd><p>font face of the legend title. By default, <code>"bold"</code> face is used.</p></dd>
+<dt>legend.backgroundcol</dt>
+<dd><p>fill color of the legend's background. Default is <code>"white"</code>, so no visible background is drawn.</p></dd>
+<dt>legend.bordercol</dt>
+<dd><p>Color of the legend's border. Default is <code>"white"</code>, so no visible border is drawn.</p></dd>
+<dt>legend.item.size</dt>
+<dd><p>size of legend's item (legend key), in centimetres.</p></dd>
+<dt>legend.item.backcol</dt>
+<dd><p>fill color of the legend's item-background. Default is <code>"grey90"</code>.</p></dd>
+<dt>legend.item.bordercol</dt>
+<dd><p>Color of the legend's item-border. Default is <code>"white"</code>.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>The customized theme object, or <code>NULL</code>, if a ggplot-theme was used.</p>

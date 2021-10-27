@@ -113,7 +113,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot model fit from k-fold cross-validation</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/plot_kfold_cv.R" class="external-link"><code>R/plot_kfold_cv.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/plot_kfold_cv.R" class="external-link"><code>R/plot_kfold_cv.R</code></a></small>
     <div class="hidden name"><code>plot_kfold_cv.Rd</code></div>
     </div>
 
@@ -125,25 +125,24 @@
 
     <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_kfold_cv</span><span class="op">(</span><span class="va">data</span>, <span class="va">formula</span>, k <span class="op">=</span> <span class="fl">5</span>, <span class="va">fit</span><span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>data</th>
-      <td><p>A data frame, used to split the data into <code>k</code> trainig-test-pairs.</p></td>
-    </tr><tr><th>formula</th>
-      <td><p>A model formula, used to fit linear models (<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></code>)
+    <dl><dt>data</dt>
+<dd><p>A data frame, used to split the data into <code>k</code> trainig-test-pairs.</p></dd>
+<dt>formula</dt>
+<dd><p>A model formula, used to fit linear models (<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></code>)
 over all <code>k</code> training data sets. Use <code>fit</code> to specify a
 fitted model (also other models than linear models), which will be used
 to compute cross validation. If <code>fit</code> is not missing, <code>formula</code>
-will be ignored.</p></td>
-    </tr><tr><th>k</th>
-      <td><p>Number of folds.</p></td>
-    </tr><tr><th>fit</th>
-      <td><p>Model object, which will be used to compute cross validation. If
+will be ignored.</p></dd>
+<dt>k</dt>
+<dd><p>Number of folds.</p></dd>
+<dt>fit</dt>
+<dd><p>Model object, which will be used to compute cross validation. If
 <code>fit</code> is not missing, <code>formula</code> will be ignored. Currently,
-only linear, poisson and negative binomial regression models are supported.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+only linear, poisson and negative binomial regression models are supported.</p></dd>
+</dl></div>
     <div id="details">
     <h2>Details</h2>
     <p>This function, first, generates <code>k</code> cross-validated test-training
@@ -170,8 +169,8 @@ only linear, poisson and negative binomial regression models are supported.</p><
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">plot_kfold_cv</span><span class="op">(</span><span class="va">efc</span>, <span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">c172code</span> <span class="op">+</span> <span class="va">c12hour</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 65 rows containing non-finite values (stat_smooth).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 65 rows containing missing values (geom_point).</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 73 rows containing non-finite values (stat_smooth).</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 73 rows containing missing values (geom_point).</span>
 <span class="r-plt"><img src="plot_kfold_cv-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu">plot_kfold_cv</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mpg</span> <span class="op">~</span><span class="va">.</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
@@ -183,11 +182,11 @@ only linear, poisson and negative binomial regression models are supported.</p><
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.045</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.045</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  1.6861e-29</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  3.0291e-28</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.045</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.045</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  1.6861e-29</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  3.0291e-28</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1</span>
 <span class="r-plt"><img src="plot_kfold_cv-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
@@ -197,11 +196,11 @@ only linear, poisson and negative binomial regression models are supported.</p><
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.045</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.045</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  1.6018e-28</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  4.9902e-29</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.045</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.045</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  1.6018e-28</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  4.9902e-29</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1</span>
 <span class="r-plt"><img src="plot_kfold_cv-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>

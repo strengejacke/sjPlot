@@ -114,7 +114,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot Pearson's Chi2-Test of multiple contingency tables</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotPearsonsChi2Test.R" class="external-link"><code>R/sjPlotPearsonsChi2Test.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/sjPlotPearsonsChi2Test.R" class="external-link"><code>R/sjPlotPearsonsChi2Test.R</code></a></small>
     <div class="hidden name"><code>sjp.chi2.Rd</code></div>
     </div>
 
@@ -135,32 +135,31 @@
   legend.title <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>df</th>
-      <td><p>A data frame with (dichotomous) factor variables.</p></td>
-    </tr><tr><th>title</th>
-      <td><p>character vector, used as plot title. Depending on plot type and function,
+    <dl><dt>df</dt>
+<dd><p>A data frame with (dichotomous) factor variables.</p></dd>
+<dt>title</dt>
+<dd><p>character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If <code>title = ""</code>, no title is printed.
 For effect-plots, may also be a character vector of length &gt; 1,
-to define titles for each sub-plot or facet.</p></td>
-    </tr><tr><th>axis.labels</th>
-      <td><p>character vector with labels used as axis labels. Optional
-argument, since in most cases, axis labels are set automatically.</p></td>
-    </tr><tr><th>wrap.title</th>
-      <td><p>numeric, determines how many chars of the plot title are displayed in
-one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.labels</th>
-      <td><p>numeric, determines how many chars of the value, variable or axis
-labels are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>show.legend</th>
-      <td><p>logical, if <code>TRUE</code>, and depending on plot type and
-function, a legend is added to the plot.</p></td>
-    </tr><tr><th>legend.title</th>
-      <td><p>character vector, used as title for the plot legend.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+to define titles for each sub-plot or facet.</p></dd>
+<dt>axis.labels</dt>
+<dd><p>character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.</p></dd>
+<dt>wrap.title</dt>
+<dd><p>numeric, determines how many chars of the plot title are displayed in
+one line and when a line break is inserted.</p></dd>
+<dt>wrap.labels</dt>
+<dd><p>numeric, determines how many chars of the value, variable or axis
+labels are displayed in one line and when a line break is inserted.</p></dd>
+<dt>show.legend</dt>
+<dd><p>logical, if <code>TRUE</code>, and depending on plot type and
+function, a legend is added to the plot.</p></dd>
+<dt>legend.title</dt>
+<dd><p>character vector, used as title for the plot legend.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A ggplot-object.</p>

@@ -112,7 +112,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Forest plot of multiple regression models</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/plot_models.R" class="external-link"><code>R/plot_models.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/plot_models.R" class="external-link"><code>R/plot_models.R</code></a></small>
     <div class="hidden name"><code>plot_models.Rd</code></div>
     </div>
 
@@ -161,25 +161,26 @@
   prefix.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"none"</span>, <span class="st">"varname"</span>, <span class="st">"label"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>...</th>
-      <td><p>One or more regression models, including glm's or mixed models.
-May also be a <code>list</code> with fitted models. See 'Examples'.</p></td>
-    </tr><tr><th>transform</th>
-      <td><p>A character vector, naming a function that will be applied
+    <dl><dt>...</dt>
+<dd><p>One or more regression models, including glm's or mixed models.
+May also be a <code>list</code> with fitted models. See 'Examples'.</p></dd>
+<dt>transform</dt>
+<dd><p>A character vector, naming a function that will be applied
 on estimates and confidence intervals. By default, <code>transform</code> will
 automatically use <code>"exp"</code> as transformation for applicable classes of
 <code>model</code> (e.g. logistic or poisson regression). Estimates of linear
 models remain untransformed. Use <code>NULL</code> if you want the raw,
-non-transformed estimates.</p></td>
-    </tr><tr><th>std.est</th>
-      <td><p>Choose whether standardized coefficients should be used
+non-transformed estimates.</p></dd>
+<dt>std.est</dt>
+<dd><p>Choose whether standardized coefficients should be used
 for plotting. Default is no standardization (<code>std.est = NULL</code>).
 May be <code>"std"</code> for standardized beta values or <code>"std2"</code>, where
-standardization is done by rescaling estimates by dividing them by two sd.</p></td>
-    </tr><tr><th>rm.terms</th>
-      <td><p>Character vector with names that indicate which terms should
+standardization is done by rescaling estimates by dividing them by two sd.</p></dd>
+<dt>rm.terms</dt>
+<dd><p>Character vector with names that indicate which terms should
 be removed from the plot. Counterpart to <code>terms</code>. <code>rm.terms =
 "t_name"</code> would remove the term <em>t_name</em>. Default is <code>NULL</code>, i.e.
 all terms are used. For factors, levels that should be removed from the plot
@@ -189,25 +190,25 @@ coefficient names, e.g. <code>rm.terms = "t_name [2,3]"</code> would remove the 
 was categorical and has at least the factor levels <code>2</code> and <code>3</code>).
 Another example for the <em>iris</em> dataset would be
 <code>rm.terms = "Species [versicolor,virginica]"</code>. Note that the
-<code>rm.terms</code>-argument does not apply to <em>Marginal Effects</em> plots.</p></td>
-    </tr><tr><th>title</th>
-      <td><p>Character vector, used as plot title. By default,
+<code>rm.terms</code>-argument does not apply to <em>Marginal Effects</em> plots.</p></dd>
+<dt>title</dt>
+<dd><p>Character vector, used as plot title. By default,
 <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">response_labels</a></code> is called to retrieve the label of
 the dependent variable, which will be used as title. Use <code>title = ""</code>
-to remove title.</p></td>
-    </tr><tr><th>m.labels</th>
-      <td><p>Character vector, used to indicate the different models
+to remove title.</p></dd>
+<dt>m.labels</dt>
+<dd><p>Character vector, used to indicate the different models
 in the plot's legend. If not specified, the labels of the dependent
-variables for each model are used.</p></td>
-    </tr><tr><th>legend.title</th>
-      <td><p>Character vector, used as legend title for plots that
-have a legend.</p></td>
-    </tr><tr><th>legend.pval.title</th>
-      <td><p>Character vector, used as title of the plot legend that
+variables for each model are used.</p></dd>
+<dt>legend.title</dt>
+<dd><p>Character vector, used as legend title for plots that
+have a legend.</p></dd>
+<dt>legend.pval.title</dt>
+<dd><p>Character vector, used as title of the plot legend that
 indicates the p-values. Default is <code>"p-level"</code>. Only applies if
-<code>p.shape = TRUE</code>.</p></td>
-    </tr><tr><th>axis.labels</th>
-      <td><p>Character vector with labels for the model terms, used as
+<code>p.shape = TRUE</code>.</p></dd>
+<dt>axis.labels</dt>
+<dd><p>Character vector with labels for the model terms, used as
 axis labels. By default, <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">term_labels</a></code> is
 called to retrieve the labels of the coefficients, which will be used as
 axis labels. Use <code>axis.labels = ""</code> or <code>auto.label = FALSE</code> to
@@ -215,48 +216,48 @@ use the variable names as labels instead. If <code>axis.labels</code> is a named
 vector, axis labels (by default, the names of the model's coefficients)
 will be matched with the names of <code>axis.label</code>. This ensures that
 labels always match the related axis value, no matter in which way
-axis labels are sorted.</p></td>
-    </tr><tr><th>axis.title</th>
-      <td><p>Character vector of length one or two (depending on the
+axis labels are sorted.</p></dd>
+<dt>axis.title</dt>
+<dd><p>Character vector of length one or two (depending on the
 plot function and type), used as title(s) for the x and y axis. If not
 specified, a default labelling  is chosen. <strong>Note:</strong> Some plot types
 may not support this argument sufficiently. In such cases, use the returned
 ggplot-object and add axis titles manually with
 <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></code>. Use <code>axis.title = ""</code> to remove axis
-titles.</p></td>
-    </tr><tr><th>axis.lim</th>
-      <td><p>Numeric vector of length 2, defining the range of the plot
+titles.</p></dd>
+<dt>axis.lim</dt>
+<dd><p>Numeric vector of length 2, defining the range of the plot
 axis. Depending on plot-type, may effect either x- or y-axis. For
 <em>Marginal Effects</em> plots, <code>axis.lim</code> may also be a list of two
-vectors of length 2, defining axis limits for both the x and y axis.</p></td>
-    </tr><tr><th>wrap.title</th>
-      <td><p>Numeric, determines how many chars of the plot title are
-displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.labels</th>
-      <td><p>Numeric, determines how many chars of the value, variable
-or axis labels are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.legend.title</th>
-      <td><p>numeric, determines how many chars of the legend's title
-are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>grid.breaks</th>
-      <td><p>Numeric value or vector; if <code>grid.breaks</code> is a
+vectors of length 2, defining axis limits for both the x and y axis.</p></dd>
+<dt>wrap.title</dt>
+<dd><p>Numeric, determines how many chars of the plot title are
+displayed in one line and when a line break is inserted.</p></dd>
+<dt>wrap.labels</dt>
+<dd><p>Numeric, determines how many chars of the value, variable
+or axis labels are displayed in one line and when a line break is inserted.</p></dd>
+<dt>wrap.legend.title</dt>
+<dd><p>numeric, determines how many chars of the legend's title
+are displayed in one line and when a line break is inserted.</p></dd>
+<dt>grid.breaks</dt>
+<dd><p>Numeric value or vector; if <code>grid.breaks</code> is a
 single value, sets the distance between breaks for the axis at every
 <code>grid.breaks</code>'th position, where a major grid line is plotted. If
 <code>grid.breaks</code> is a vector, values will be used to define the
-axis positions of the major grid lines.</p></td>
-    </tr><tr><th>dot.size</th>
-      <td><p>Numeric, size of the dots that indicate the point estimates.</p></td>
-    </tr><tr><th>line.size</th>
-      <td><p>Numeric, size of the lines that indicate the error bars.</p></td>
-    </tr><tr><th>value.size</th>
-      <td><p>Numeric, indicates the size of value labels. Can be used
+axis positions of the major grid lines.</p></dd>
+<dt>dot.size</dt>
+<dd><p>Numeric, size of the dots that indicate the point estimates.</p></dd>
+<dt>line.size</dt>
+<dd><p>Numeric, size of the lines that indicate the error bars.</p></dd>
+<dt>value.size</dt>
+<dd><p>Numeric, indicates the size of value labels. Can be used
 for all plot types where the argument <code>show.values</code> is applicable,
-e.g. <code>value.size = 4</code>.</p></td>
-    </tr><tr><th>spacing</th>
-      <td><p>Numeric, spacing between the dots and error bars of the
-plotted fitted models. Default is 0.3.</p></td>
-    </tr><tr><th>colors</th>
-      <td><p>May be a character vector of color values in hex-format, valid
+e.g. <code>value.size = 4</code>.</p></dd>
+<dt>spacing</dt>
+<dd><p>Numeric, spacing between the dots and error bars of the
+plotted fitted models. Default is 0.3.</p></dd>
+<dt>colors</dt>
+<dd><p>May be a character vector of color values in hex-format, valid
 color value names (see <code>demo("colors")</code>) or a name of a pre-defined
 color palette. Following options are valid for the <code>colors</code> argument:</p><ul><li><p>If not specified, a default color brewer palette will be used, which is suitable for the plot style.</p></li>
 <li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
@@ -264,33 +265,33 @@ color palette. Following options are valid for the <code>colors</code> argument:
 <li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">RColorBrewer::display.brewer.all()</a></code> to view all available palette names.</p></li>
 <li><p>There are some pre-defined color palettes in this package, see <code><a href="sjPlot-themes.html">sjPlot-themes</a></code> for details.</p></li>
 <li><p>Else specify own color values or names as vector (e.g. <code>colors = "#00ff00"</code> or <code>colors = c("firebrick", "blue")</code>).</p></li>
-</ul></td>
-    </tr><tr><th>show.values</th>
-      <td><p>Logical, whether values should be plotted or not.</p></td>
-    </tr><tr><th>show.legend</th>
-      <td><p>For <em>Marginal Effects</em> plots, shows or hides the
-legend.</p></td>
-    </tr><tr><th>show.intercept</th>
-      <td><p>Logical, if <code>TRUE</code>, the intercept of the fitted
+</ul></dd>
+<dt>show.values</dt>
+<dd><p>Logical, whether values should be plotted or not.</p></dd>
+<dt>show.legend</dt>
+<dd><p>For <em>Marginal Effects</em> plots, shows or hides the
+legend.</p></dd>
+<dt>show.intercept</dt>
+<dd><p>Logical, if <code>TRUE</code>, the intercept of the fitted
 model is also plotted. Default is <code>FALSE</code>. If <code>transform =
 "exp"</code>, please note that due to exponential transformation of estimates,
-the intercept in some cases is non-finite and the plot can not be created.</p></td>
-    </tr><tr><th>show.p</th>
-      <td><p>Logical, adds asterisks that indicate the significance level of
-estimates to the value labels.</p></td>
-    </tr><tr><th>p.shape</th>
-      <td><p>Logical, if <code>TRUE</code>, significant levels are distinguished by
+the intercept in some cases is non-finite and the plot can not be created.</p></dd>
+<dt>show.p</dt>
+<dd><p>Logical, adds asterisks that indicate the significance level of
+estimates to the value labels.</p></dd>
+<dt>p.shape</dt>
+<dd><p>Logical, if <code>TRUE</code>, significant levels are distinguished by
 different point shapes and a related legend is plotted. Default
-is <code>FALSE</code>.</p></td>
-    </tr><tr><th>p.threshold</th>
-      <td><p>Numeric vector of length 3, indicating the treshold for
+is <code>FALSE</code>.</p></dd>
+<dt>p.threshold</dt>
+<dd><p>Numeric vector of length 3, indicating the treshold for
 annotating p-values with asterisks. Only applies if
-<code>p.style = "asterisk"</code>.</p></td>
-    </tr><tr><th>p.adjust</th>
-      <td><p>Character vector, if not <code>NULL</code>, indicates the method
-to adjust p-values. See <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></code> for details.</p></td>
-    </tr><tr><th>ci.lvl</th>
-      <td><p>Numeric, the level of the confidence intervals (error bars).
+<code>p.style = "asterisk"</code>.</p></dd>
+<dt>p.adjust</dt>
+<dd><p>Character vector, if not <code>NULL</code>, indicates the method
+to adjust p-values. See <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></code> for details.</p></dd>
+<dt>ci.lvl</dt>
+<dd><p>Numeric, the level of the confidence intervals (error bars).
 Use <code>ci.lvl = NA</code> to remove error bars. For <code>stanreg</code>-models,
 <code>ci.lvl</code> defines the (outer) probability for the <em>credible interval</em>
 that is plotted (see <code><a href="https://easystats.github.io/bayestestR/reference/ci.html" class="external-link">ci</a></code>). By
@@ -298,50 +299,48 @@ default, <code>stanreg</code>-models are printed with two intervals: the "inner"
 interval, which defaults to the 50%-CI; and the "outer" interval, which
 defaults to the 89%-CI. <code>ci.lvl</code> affects only the outer interval in
 such cases. See <code>prob.inner</code> and <code>prob.outer</code> under the
-<code>...</code>-argument for more details.</p></td>
-    </tr><tr><th>robust</th>
-      <td><p>Logical, shortcut for arguments <code>vcov.fun</code> and <code>vcov.type</code>.
+<code>...</code>-argument for more details.</p></dd>
+<dt>robust</dt>
+<dd><p>Logical, shortcut for arguments <code>vcov.fun</code> and <code>vcov.type</code>.
 If <code>TRUE</code>, uses <code>vcov.fun = "vcovHC"</code> and <code>vcov.type = "HC3"</code> as
 default, that is, <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html" class="external-link">vcovHC</a></code> with default-type is called
 (see <code><a href="https://easystats.github.io/parameters/reference/standard_error_robust.html" class="external-link">standard_error_robust</a></code> and
 <a href="https://easystats.github.io/parameters/articles/model_parameters_robust.html" class="external-link">this vignette</a>
-for further details).</p></td>
-    </tr><tr><th>vcov.fun</th>
-      <td><p>Character vector, indicating the name of the <code>vcov*()</code>-function
+for further details).</p></dd>
+<dt>vcov.fun</dt>
+<dd><p>Character vector, indicating the name of the <code>vcov*()</code>-function
 from the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span> package, e.g. <code>vcov.fun = "vcovCL"</code>,
-if robust standard errors are required.</p></td>
-    </tr><tr><th>vcov.type</th>
-      <td><p>Character vector, specifying the estimation type for the
+if robust standard errors are required.</p></dd>
+<dt>vcov.type</dt>
+<dd><p>Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html" class="external-link">vcovHC()</a></code>
-or <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html" class="external-link">clubSandwich::vcovCR()</a></code> for details).</p></td>
-    </tr><tr><th>vcov.args</th>
-      <td><p>List of named vectors, used as additional arguments that
-are passed down to <code>vcov.fun</code>.</p></td>
-    </tr><tr><th>vline.color</th>
-      <td><p>Color of the vertical "zero effect" line. Default color is
-inherited from the current theme.</p></td>
-    </tr><tr><th>digits</th>
-      <td><p>Numeric, amount of digits after decimal point when rounding
-estimates or values.</p></td>
-    </tr><tr><th>grid</th>
-      <td><p>Logical, if <code>TRUE</code>, multiple plots are plotted as grid
-layout.</p></td>
-    </tr><tr><th>auto.label</th>
-      <td><p>Logical, if <code>TRUE</code> (the default),
+or <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html" class="external-link">clubSandwich::vcovCR()</a></code> for details).</p></dd>
+<dt>vcov.args</dt>
+<dd><p>List of named vectors, used as additional arguments that
+are passed down to <code>vcov.fun</code>.</p></dd>
+<dt>vline.color</dt>
+<dd><p>Color of the vertical "zero effect" line. Default color is
+inherited from the current theme.</p></dd>
+<dt>digits</dt>
+<dd><p>Numeric, amount of digits after decimal point when rounding
+estimates or values.</p></dd>
+<dt>grid</dt>
+<dd><p>Logical, if <code>TRUE</code>, multiple plots are plotted as grid
+layout.</p></dd>
+<dt>auto.label</dt>
+<dd><p>Logical, if <code>TRUE</code> (the default),
  and <a href="https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html" class="external-link">data is labelled</a>,
  <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">term_labels</a></code> is called to retrieve the labels
  of the coefficients, which will be used as predictor labels. If data is
  not labelled, <a href="https://easystats.github.io/parameters/reference/format_parameters.html" class="external-link">format_parameters()</a>
  is used to create pretty labels. If <code>auto.label = FALSE</code>,
-original variable names and value labels (factor levels) are used.</p></td>
-    </tr><tr><th>prefix.labels</th>
-      <td><p>Indicates whether the value labels of categorical variables
+original variable names and value labels (factor levels) are used.</p></dd>
+<dt>prefix.labels</dt>
+<dd><p>Indicates whether the value labels of categorical variables
 should be prefixed, e.g. with the variable name or variable label. See
 argument <code>prefix</code> in <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">term_labels</a></code> for
-details.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+details.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A ggplot-object.</p>

@@ -115,7 +115,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot polynomials for (generalized) linear regression</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotPolynomials.R" class="external-link"><code>R/sjPlotPolynomials.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/sjPlotPolynomials.R" class="external-link"><code>R/sjPlotPolynomials.R</code></a></small>
     <div class="hidden name"><code>sjp.poly.Rd</code></div>
     </div>
 
@@ -145,66 +145,65 @@
   loess.color <span class="op">=</span> <span class="st">"#808080"</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>x</th>
-      <td><p>A vector, representing the response variable of a linear (mixed) model; or
-a linear (mixed) model as returned by <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></code> or <code><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></code>.</p></td>
-    </tr><tr><th>poly.term</th>
-      <td><p>If <code>x</code> is a vector, <code>poly.term</code> should also be a vector, representing
+    <dl><dt>x</dt>
+<dd><p>A vector, representing the response variable of a linear (mixed) model; or
+a linear (mixed) model as returned by <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></code> or <code><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></code>.</p></dd>
+<dt>poly.term</dt>
+<dd><p>If <code>x</code> is a vector, <code>poly.term</code> should also be a vector, representing
 the polynomial term (independent variabl) in the model; if <code>x</code> is a
 fitted model, <code>poly.term</code> should be the polynomial term's name as character string.
-See 'Examples'.</p></td>
-    </tr><tr><th>poly.degree</th>
-      <td><p>Numeric, or numeric vector, indicating the degree of the polynomial.
+See 'Examples'.</p></dd>
+<dt>poly.degree</dt>
+<dd><p>Numeric, or numeric vector, indicating the degree of the polynomial.
 If <code>poly.degree</code> is a numeric vector, multiple polynomial curves for
-each degree are plotted. See 'Examples'.</p></td>
-    </tr><tr><th>poly.scale</th>
-      <td><p>Logical, if <code>TRUE</code>, <code>poly.term</code> will be scaled before
+each degree are plotted. See 'Examples'.</p></dd>
+<dt>poly.scale</dt>
+<dd><p>Logical, if <code>TRUE</code>, <code>poly.term</code> will be scaled before
 linear regression is computed. Default is <code>FALSE</code>. Scaling the polynomial
-term may have an impact on the resulting p-values.</p></td>
-    </tr><tr><th>fun</th>
-      <td><p>Linear function when modelling polynomial terms. Use <code>fun = "lm"</code>
+term may have an impact on the resulting p-values.</p></dd>
+<dt>fun</dt>
+<dd><p>Linear function when modelling polynomial terms. Use <code>fun = "lm"</code>
 for linear models, or <code>fun = "glm"</code> for generalized linear models.
 When <code>x</code> is not a vector, but a fitted model object, the function
 is detected automatically. If <code>x</code> is a vector, <code>fun</code> defaults
-to <code>"lm"</code>.</p></td>
-    </tr><tr><th>axis.title</th>
-      <td><p>Character vector of length one or two (depending on the
+to <code>"lm"</code>.</p></dd>
+<dt>axis.title</dt>
+<dd><p>Character vector of length one or two (depending on the
 plot function and type), used as title(s) for the x and y axis. If not
 specified, a default labelling  is chosen. <strong>Note:</strong> Some plot types
 may not support this argument sufficiently. In such cases, use the returned
 ggplot-object and add axis titles manually with
 <code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></code>. Use <code>axis.title = ""</code> to remove axis
-titles.</p></td>
-    </tr><tr><th>geom.colors</th>
-      <td><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></td>
-    </tr><tr><th>geom.size</th>
-      <td><p>size resp. width of the geoms (bar width, line thickness or point size,
+titles.</p></dd>
+<dt>geom.colors</dt>
+<dd><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></dd>
+<dt>geom.size</dt>
+<dd><p>size resp. width of the geoms (bar width, line thickness or point size,
 depending on plot type and function). Note that bar and bin widths mostly
-need smaller values than dot sizes.</p></td>
-    </tr><tr><th>show.loess</th>
-      <td><p>Logical, if <code>TRUE</code>, an additional loess-smoothed line is plotted.</p></td>
-    </tr><tr><th>show.loess.ci</th>
-      <td><p>Logical, if <code>TRUE</code>, a confidence region for the loess-smoothed line
-will be plotted.</p></td>
-    </tr><tr><th>show.p</th>
-      <td><p>Logical, if <code>TRUE</code> (default), p-values for polynomial terms are
-printed to the console.</p></td>
-    </tr><tr><th>show.scatter</th>
-      <td><p>Logical, if TRUE (default), adds a scatter plot of data
-points to the plot.</p></td>
-    </tr><tr><th>point.alpha</th>
-      <td><p>Alpha value of point-geoms in the scatter plots. Only
-applies, if <code>show.scatter = TRUE</code>.</p></td>
-    </tr><tr><th>point.color</th>
-      <td><p>Color of of point-geoms in the scatter plots. Only applies,
-if <code>show.scatter = TRUE.</code></p></td>
-    </tr><tr><th>loess.color</th>
-      <td><p>Color of the loess-smoothed line. Only applies, if <code>show.loess = TRUE</code>.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+need smaller values than dot sizes.</p></dd>
+<dt>show.loess</dt>
+<dd><p>Logical, if <code>TRUE</code>, an additional loess-smoothed line is plotted.</p></dd>
+<dt>show.loess.ci</dt>
+<dd><p>Logical, if <code>TRUE</code>, a confidence region for the loess-smoothed line
+will be plotted.</p></dd>
+<dt>show.p</dt>
+<dd><p>Logical, if <code>TRUE</code> (default), p-values for polynomial terms are
+printed to the console.</p></dd>
+<dt>show.scatter</dt>
+<dd><p>Logical, if TRUE (default), adds a scatter plot of data
+points to the plot.</p></dd>
+<dt>point.alpha</dt>
+<dd><p>Alpha value of point-geoms in the scatter plots. Only
+applies, if <code>show.scatter = TRUE</code>.</p></dd>
+<dt>point.color</dt>
+<dd><p>Color of of point-geoms in the scatter plots. Only applies,
+if <code>show.scatter = TRUE.</code></p></dd>
+<dt>loess.color</dt>
+<dd><p>Color of the loess-smoothed line. Only applies, if <code>show.loess = TRUE</code>.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A ggplot-object.</p>

@@ -114,7 +114,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summary of stacked frequencies as HTML table</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/tab_stackfrq.R" class="external-link"><code>R/tab_stackfrq.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/tab_stackfrq.R" class="external-link"><code>R/tab_stackfrq.R</code></a></small>
     <div class="hidden name"><code>tab_stackfrq.Rd</code></div>
     </div>
 
@@ -150,90 +150,89 @@
   remove.spaces <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>items</th>
-      <td><p>Data frame, or a grouped data frame, with each column representing one item.</p></td>
-    </tr><tr><th>weight.by</th>
-      <td><p>Vector of weights that will be applied to weight all cases.
+    <dl><dt>items</dt>
+<dd><p>Data frame, or a grouped data frame, with each column representing one item.</p></dd>
+<dt>weight.by</dt>
+<dd><p>Vector of weights that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is
-<code>NULL</code>, so no weights are used.</p></td>
-    </tr><tr><th>title</th>
-      <td><p>Character vector with table
+<code>NULL</code>, so no weights are used.</p></dd>
+<dt>title</dt>
+<dd><p>Character vector with table
 caption(s) resp. footnote(s). For  <code><a href="tab_df.html">tab_df()</a></code>, must be a character
 of length 1; for <code><a href="tab_df.html">tab_dfs()</a></code>, a character vector of same length as
-<code>x</code> (i.e. one title or footnote per data frame).</p></td>
-    </tr><tr><th>var.labels</th>
-      <td><p>Character vector with variable names, which will be used
-to label variables in the output.</p></td>
-    </tr><tr><th>value.labels</th>
-      <td><p>Character vector (or <code>list</code> of character vectors)
+<code>x</code> (i.e. one title or footnote per data frame).</p></dd>
+<dt>var.labels</dt>
+<dd><p>Character vector with variable names, which will be used
+to label variables in the output.</p></dd>
+<dt>value.labels</dt>
+<dd><p>Character vector (or <code>list</code> of character vectors)
 with value labels of the supplied variables, which will be used
-to label variable values in the output.</p></td>
-    </tr><tr><th>wrap.labels</th>
-      <td><p>Numeric, determines how many chars of the value, variable
-or axis labels are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>sort.frq</th>
-      <td><p>logical, indicates whether the <code>items</code> should be ordered by
+to label variable values in the output.</p></dd>
+<dt>wrap.labels</dt>
+<dd><p>Numeric, determines how many chars of the value, variable
+or axis labels are displayed in one line and when a line break is inserted.</p></dd>
+<dt>sort.frq</dt>
+<dd><p>logical, indicates whether the <code>items</code> should be ordered by
 by highest count of first or last category of <code>items</code>.</p><ul><li><p>Use <code>"first.asc"</code> to order ascending by lowest count of first category,</p></li>
 <li><p><code>"first.desc"</code> to order descending by lowest count of first category,</p></li>
 <li><p><code>"last.asc"</code> to order ascending by lowest count of last category,</p></li>
 <li><p><code>"last.desc"</code> to order descending by lowest count of last category,</p></li>
 <li><p>or <code>NULL</code> (default) for no sorting.</p></li>
-</ul></td>
-    </tr><tr><th>alternate.rows</th>
-      <td><p>Logical, if <code>TRUE</code>, rows are printed in
-alternatig colors (white and light grey by default).</p></td>
-    </tr><tr><th>digits</th>
-      <td><p>Numeric, amount of digits after decimal point when rounding
-values.</p></td>
-    </tr><tr><th>string.total</th>
-      <td><p>label for the total N column.</p></td>
-    </tr><tr><th>string.na</th>
-      <td><p>label for the missing column/row.</p></td>
-    </tr><tr><th>show.n</th>
-      <td><p>logical, if <code>TRUE</code>, adds total number of cases for each
-group or category to the labels.</p></td>
-    </tr><tr><th>show.total</th>
-      <td><p>logical, if <code>TRUE</code>, an additional column with each
-item's total N is printed.</p></td>
-    </tr><tr><th>show.na</th>
-      <td><p>logical, if <code>TRUE</code>, <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>'s (missing values)
-are added to the output.</p></td>
-    </tr><tr><th>show.skew</th>
-      <td><p>logical, if <code>TRUE</code>, an additional column with each item's skewness is printed.
+</ul></dd>
+<dt>alternate.rows</dt>
+<dd><p>Logical, if <code>TRUE</code>, rows are printed in
+alternatig colors (white and light grey by default).</p></dd>
+<dt>digits</dt>
+<dd><p>Numeric, amount of digits after decimal point when rounding
+values.</p></dd>
+<dt>string.total</dt>
+<dd><p>label for the total N column.</p></dd>
+<dt>string.na</dt>
+<dd><p>label for the missing column/row.</p></dd>
+<dt>show.n</dt>
+<dd><p>logical, if <code>TRUE</code>, adds total number of cases for each
+group or category to the labels.</p></dd>
+<dt>show.total</dt>
+<dd><p>logical, if <code>TRUE</code>, an additional column with each
+item's total N is printed.</p></dd>
+<dt>show.na</dt>
+<dd><p>logical, if <code>TRUE</code>, <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>'s (missing values)
+are added to the output.</p></dd>
+<dt>show.skew</dt>
+<dd><p>logical, if <code>TRUE</code>, an additional column with each item's skewness is printed.
 The skewness is retrieved from the <code><a href="https://rdrr.io/pkg/psych/man/describe.html" class="external-link">describe</a></code>-function
-of the <span class="pkg">psych</span>-package.</p></td>
-    </tr><tr><th>show.kurtosis</th>
-      <td><p>Logical, if <code>TRUE</code>, the kurtosis for each item will also be shown (see <code><a href="https://rdrr.io/pkg/psych/man/skew.html" class="external-link">kurtosi</a></code>
-and <code><a href="https://rdrr.io/pkg/psych/man/describe.html" class="external-link">describe</a></code> in the <code>psych</code>-package for more details.</p></td>
-    </tr><tr><th>digits.stats</th>
-      <td><p>amount of digits for rounding the skewness and kurtosis valuess.
-Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.</p></td>
-    </tr><tr><th>file</th>
-      <td><p>Destination file, if the output should be saved as file.
+of the <span class="pkg">psych</span>-package.</p></dd>
+<dt>show.kurtosis</dt>
+<dd><p>Logical, if <code>TRUE</code>, the kurtosis for each item will also be shown (see <code><a href="https://rdrr.io/pkg/psych/man/skew.html" class="external-link">kurtosi</a></code>
+and <code><a href="https://rdrr.io/pkg/psych/man/describe.html" class="external-link">describe</a></code> in the <code>psych</code>-package for more details.</p></dd>
+<dt>digits.stats</dt>
+<dd><p>amount of digits for rounding the skewness and kurtosis valuess.
+Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal point.</p></dd>
+<dt>file</dt>
+<dd><p>Destination file, if the output should be saved as file.
 If <code>NULL</code> (default), the output will be saved as temporary file and
-opened either in the IDE's viewer pane or the default web browser.</p></td>
-    </tr><tr><th>encoding</th>
-      <td><p>Character vector, indicating the charset encoding used
+opened either in the IDE's viewer pane or the default web browser.</p></dd>
+<dt>encoding</dt>
+<dd><p>Character vector, indicating the charset encoding used
 for variable and value labels. Default is <code>"UTF-8"</code>. For Windows
 Systems, <code>encoding = "Windows-1252"</code> might be necessary for proper
-display of special characters.</p></td>
-    </tr><tr><th>CSS</th>
-      <td><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
+display of special characters.</p></dd>
+<dt>CSS</dt>
+<dd><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
 according to the <a href="http://www.w3.org/Style/CSS/" class="external-link">official CSS syntax</a>.
-See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></td>
-    </tr><tr><th>use.viewer</th>
-      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
+See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></dd>
+<dt>use.viewer</dt>
+<dd><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
 viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
-opened in a web browser.</p></td>
-    </tr><tr><th>remove.spaces</th>
-      <td><p>Logical, if <code>TRUE</code>, leading spaces are removed from all lines in the final string
+opened in a web browser.</p></dd>
+<dt>remove.spaces</dt>
+<dd><p>Logical, if <code>TRUE</code>, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
-may look less pretty, but it may help when exporting html-tables to office tools.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+may look less pretty, but it may help when exporting html-tables to office tools.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>Invisibly returns</p><ul><li><p>the web page style sheet (<code>page.style</code>),</p></li>

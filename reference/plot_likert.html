@@ -111,7 +111,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot likert scales as centered stacked bars</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/plot_likert.R" class="external-link"><code>R/plot_likert.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/plot_likert.R" class="external-link"><code>R/plot_likert.R</code></a></small>
     <div class="hidden name"><code>plot_likert.Rd</code></div>
     </div>
 
@@ -159,142 +159,159 @@
   cowplot.options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>label_x <span class="op">=</span> <span class="fl">0.01</span>, hjust <span class="op">=</span> <span class="fl">0</span>, align <span class="op">=</span> <span class="st">"v"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>items</th>
-      <td><p>Data frame, or a grouped data frame, with each column representing one item.</p></td>
-    </tr><tr><th>groups</th>
-      <td><p>(optional) Must be a vector of same length as <code>ncol(items)</code>,
+    <dl><dt>items</dt>
+<dd><p>Data frame, or a grouped data frame, with each column representing one item.</p></dd>
+<dt>groups</dt>
+<dd><p>(optional) Must be a vector of same length as <code>ncol(items)</code>,
 where each item in this vector represents the group number
-of the related columns of <code>items</code>. See 'Examples'.</p></td>
-    </tr><tr><th>groups.titles</th>
-      <td><p>(optional, only used if groups are supplied) Titles for each factor group that will be used as table caption for each
+of the related columns of <code>items</code>. See 'Examples'.</p></dd>
+<dt>groups.titles</dt>
+<dd><p>(optional, only used if groups are supplied) Titles for each factor group that will be used as table caption for each
 component-table. Must be a character vector of same length as <code>length(unique(groups))</code>.
 Default is <code>"auto"</code>, which means that each table has a standard caption <em>Component x</em>.
-Use <code>NULL</code> to use names as supplied to <code>groups</code> and use <code>FALSE</code> to suppress table captions.</p></td>
-    </tr><tr><th>title</th>
-      <td><p>character vector, used as plot title. Depending on plot type and function,
+Use <code>NULL</code> to use names as supplied to <code>groups</code> and use <code>FALSE</code> to suppress table captions.</p></dd>
+<dt>title</dt>
+<dd><p>character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If <code>title = ""</code>, no title is printed.
 For effect-plots, may also be a character vector of length &gt; 1,
-to define titles for each sub-plot or facet.</p></td>
-    </tr><tr><th>legend.title</th>
-      <td><p>character vector, used as title for the plot legend.</p></td>
-    </tr><tr><th>legend.labels</th>
-      <td><p>character vector with labels for the guide/legend.</p></td>
-    </tr><tr><th>axis.titles</th>
-      <td><p>character vector of length one or two, defining the title(s)
-for the x-axis and y-axis.</p></td>
-    </tr><tr><th>axis.labels</th>
-      <td><p>character vector with labels used as axis labels. Optional
-argument, since in most cases, axis labels are set automatically.</p></td>
-    </tr><tr><th>catcount</th>
-      <td><p>optional, amount of categories of <code>items</code> (e.g. <em>"strongly disagree",
+to define titles for each sub-plot or facet.</p></dd>
+<dt>legend.title</dt>
+<dd><p>character vector, used as title for the plot legend.</p></dd>
+<dt>legend.labels</dt>
+<dd><p>character vector with labels for the guide/legend.</p></dd>
+<dt>axis.titles</dt>
+<dd><p>character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.</p></dd>
+<dt>axis.labels</dt>
+<dd><p>character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.</p></dd>
+<dt>catcount</dt>
+<dd><p>optional, amount of categories of <code>items</code> (e.g. <em>"strongly disagree",
 "disagree", "agree"</em> and <em>"strongly agree"</em> would be <code>catcount = 4</code>).
 Note that this argument only applies to "valid" answers, i.e. if you
 have an additional neutral category (see <code>cat.neutral</code>) like <em>"don't know"</em>,
 this won't count for <code>catcount</code> (e.g. "strongly disagree",
 "disagree", "agree", "strongly agree" and neutral category "don't know"
-would still mean that <code>catcount = 4</code>). See 'Note'.</p></td>
-    </tr><tr><th>cat.neutral</th>
-      <td><p>If there's a neutral category (like "don't know" etc.), specify
+would still mean that <code>catcount = 4</code>). See 'Note'.</p></dd>
+<dt>cat.neutral</dt>
+<dd><p>If there's a neutral category (like "don't know" etc.), specify
 the index number (value) for this category. Else, set <code>cat.neutral = NULL</code> (default).
 The proportions of neutral category answers are plotted as grey bars on the left side of
-the figure.</p></td>
-    </tr><tr><th>sort.frq</th>
-      <td><p>Indicates whether the items of <code>items</code> should be ordered by
-total sum of positive or negative answers.</p><dl><dt><code>"pos.asc"</code></dt><dd><p>to order ascending by sum of positive answers</p></dd>
-  <dt><code>"pos.desc"</code></dt><dd><p>to order descending by sum of positive answers</p></dd>
-  <dt><code>"neg.asc"</code></dt><dd><p>for sorting ascending negative answers</p></dd>
-  <dt><code>"neg.desc"</code></dt><dd><p>for sorting descending negative answers</p></dd>
-  <dt><code>NULL</code></dt><dd><p>(default) for no sorting</p></dd>
+the figure.</p></dd>
+<dt>sort.frq</dt>
+<dd><p>Indicates whether the items of <code>items</code> should be ordered by
+total sum of positive or negative answers.</p><dl><dt><code>"pos.asc"</code></dt>
+<dd><p>to order ascending by sum of positive answers</p></dd>
 
-</dl></td>
-    </tr><tr><th>weight.by</th>
-      <td><p>Vector of weights that will be applied to weight all cases.
+  <dt><code>"pos.desc"</code></dt>
+<dd><p>to order descending by sum of positive answers</p></dd>
+
+  <dt><code>"neg.asc"</code></dt>
+<dd><p>for sorting ascending negative answers</p></dd>
+
+  <dt><code>"neg.desc"</code></dt>
+<dd><p>for sorting descending negative answers</p></dd>
+
+  <dt><code>NULL</code></dt>
+<dd><p>(default) for no sorting</p></dd>
+
+
+</dl></dd>
+<dt>weight.by</dt>
+<dd><p>Vector of weights that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is
-<code>NULL</code>, so no weights are used.</p></td>
-    </tr><tr><th>title.wtd.suffix</th>
-      <td><p>Suffix (as string) for the title, if <code>weight.by</code> is specified,
+<code>NULL</code>, so no weights are used.</p></dd>
+<dt>title.wtd.suffix</dt>
+<dd><p>Suffix (as string) for the title, if <code>weight.by</code> is specified,
 e.g. <code>title.wtd.suffix=" (weighted)"</code>. Default is <code>NULL</code>, so
-title will not have a suffix when cases are weighted.</p></td>
-    </tr><tr><th>wrap.title</th>
-      <td><p>numeric, determines how many chars of the plot title are displayed in
-one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.labels</th>
-      <td><p>numeric, determines how many chars of the value, variable or axis
-labels are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.legend.title</th>
-      <td><p>numeric, determines how many chars of the legend's title
-are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.legend.labels</th>
-      <td><p>numeric, determines how many chars of the legend labels are
-displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>geom.size</th>
-      <td><p>size resp. width of the geoms (bar width, line thickness or point size,
+title will not have a suffix when cases are weighted.</p></dd>
+<dt>wrap.title</dt>
+<dd><p>numeric, determines how many chars of the plot title are displayed in
+one line and when a line break is inserted.</p></dd>
+<dt>wrap.labels</dt>
+<dd><p>numeric, determines how many chars of the value, variable or axis
+labels are displayed in one line and when a line break is inserted.</p></dd>
+<dt>wrap.legend.title</dt>
+<dd><p>numeric, determines how many chars of the legend's title
+are displayed in one line and when a line break is inserted.</p></dd>
+<dt>wrap.legend.labels</dt>
+<dd><p>numeric, determines how many chars of the legend labels are
+displayed in one line and when a line break is inserted.</p></dd>
+<dt>geom.size</dt>
+<dd><p>size resp. width of the geoms (bar width, line thickness or point size,
 depending on plot type and function). Note that bar and bin widths mostly
-need smaller values than dot sizes.</p></td>
-    </tr><tr><th>geom.colors</th>
-      <td><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></td>
-    </tr><tr><th>cat.neutral.color</th>
-      <td><p>Color of the neutral category, if plotted (see <code>cat.neutral</code>).</p></td>
-    </tr><tr><th>intercept.line.color</th>
-      <td><p>Color of the vertical intercept line that divides positive and negative values.</p></td>
-    </tr><tr><th>reverse.colors</th>
-      <td><p>logical, if <code>TRUE</code>, the color scale from <code>geom.colors</code> will be reversed,
-so positive and negative values switch colors.</p></td>
-    </tr><tr><th>values</th>
-      <td><p>Determines style and position of percentage value labels on the bars:</p><dl><dt><code>"show"</code></dt><dd><p>(default) shows percentage value labels in the middle of each category bar</p></dd>
-  <dt><code>"hide"</code></dt><dd><p>hides the value labels, so no percentage values on the bars are printed</p></dd>
-  <dt><code>"sum.inside"</code></dt><dd><p>shows the sums of percentage values for both negative and positive values and prints them inside the end of each bar</p></dd>
-  <dt><code>"sum.outside"</code></dt><dd><p>shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar</p></dd>
+need smaller values than dot sizes.</p></dd>
+<dt>geom.colors</dt>
+<dd><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></dd>
+<dt>cat.neutral.color</dt>
+<dd><p>Color of the neutral category, if plotted (see <code>cat.neutral</code>).</p></dd>
+<dt>intercept.line.color</dt>
+<dd><p>Color of the vertical intercept line that divides positive and negative values.</p></dd>
+<dt>reverse.colors</dt>
+<dd><p>logical, if <code>TRUE</code>, the color scale from <code>geom.colors</code> will be reversed,
+so positive and negative values switch colors.</p></dd>
+<dt>values</dt>
+<dd><p>Determines style and position of percentage value labels on the bars:</p><dl><dt><code>"show"</code></dt>
+<dd><p>(default) shows percentage value labels in the middle of each category bar</p></dd>
 
-</dl></td>
-    </tr><tr><th>show.n</th>
-      <td><p>logical, if <code>TRUE</code>, adds total number of cases for each
-group or category to the labels.</p></td>
-    </tr><tr><th>show.legend</th>
-      <td><p>logical, if <code>TRUE</code>, and depending on plot type and
-function, a legend is added to the plot.</p></td>
-    </tr><tr><th>show.prc.sign</th>
-      <td><p>logical, if <code>TRUE</code>, %-signs for value labels are shown.</p></td>
-    </tr><tr><th>grid.range</th>
-      <td><p>Numeric, limits of the x-axis-range, as proportion of 100.
+  <dt><code>"hide"</code></dt>
+<dd><p>hides the value labels, so no percentage values on the bars are printed</p></dd>
+
+  <dt><code>"sum.inside"</code></dt>
+<dd><p>shows the sums of percentage values for both negative and positive values and prints them inside the end of each bar</p></dd>
+
+  <dt><code>"sum.outside"</code></dt>
+<dd><p>shows the sums of percentage values for both negative and positive values and prints them outside the end of each bar</p></dd>
+
+
+</dl></dd>
+<dt>show.n</dt>
+<dd><p>logical, if <code>TRUE</code>, adds total number of cases for each
+group or category to the labels.</p></dd>
+<dt>show.legend</dt>
+<dd><p>logical, if <code>TRUE</code>, and depending on plot type and
+function, a legend is added to the plot.</p></dd>
+<dt>show.prc.sign</dt>
+<dd><p>logical, if <code>TRUE</code>, %-signs for value labels are shown.</p></dd>
+<dt>grid.range</dt>
+<dd><p>Numeric, limits of the x-axis-range, as proportion of 100.
 Default is 1, so the x-scale ranges from zero to 100% on both sides from the center.
 Can alternatively be supplied as a vector of 2 positive numbers (e.g. <code>grid.range = c(1, .8)</code>)
 to set the left and right limit separately. You can use values beyond 1 (100%) in case bar labels are not printed because
 they exceed the axis range. E.g. <code>grid.range = 1.4</code> will set the axis from -140 to +140%, however, only
-(valid) axis labels from -100 to +100% are printed. Neutral categories are adjusted to the most left limit.</p></td>
-    </tr><tr><th>grid.breaks</th>
-      <td><p>numeric; sets the distance between breaks for the axis,
-i.e. at every <code>grid.breaks</code>'th position a major grid is being printed.</p></td>
-    </tr><tr><th>expand.grid</th>
-      <td><p>logical, if <code>TRUE</code>, the plot grid is expanded, i.e. there is a small margin between
-axes and plotting region. Default is <code>FALSE</code>.</p></td>
-    </tr><tr><th>digits</th>
-      <td><p>Numeric, amount of digits after decimal point when rounding
-estimates or values.</p></td>
-    </tr><tr><th>reverse.scale</th>
-      <td><p>logical, if <code>TRUE</code>, the ordering of the categories is reversed, so positive and negative values switch position.</p></td>
-    </tr><tr><th>coord.flip</th>
-      <td><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></td>
-    </tr><tr><th>sort.groups</th>
-      <td><p>(optional, only used if groups are supplied) logical, if groups should be sorted according to the values supplied to <code>groups</code>. Defaults to <code>TRUE</code>.</p></td>
-    </tr><tr><th>legend.pos</th>
-      <td><p>(optional, only used if groups are supplied) Defines the legend position. Possible values are <code>c("bottom", "top", "both", "all", "none")</code>.
-If the is only one group or this option is set to <code>"all"</code> legends will be printed as defined with <code><a href="set_theme.html">set_theme</a></code>.</p></td>
-    </tr><tr><th>rel_heights</th>
-      <td><p>(optional, only used if groups are supplied) This option can be used to adjust the height of the subplots. The bars in subplots can have different heights due to a differing number of items
+(valid) axis labels from -100 to +100% are printed. Neutral categories are adjusted to the most left limit.</p></dd>
+<dt>grid.breaks</dt>
+<dd><p>numeric; sets the distance between breaks for the axis,
+i.e. at every <code>grid.breaks</code>'th position a major grid is being printed.</p></dd>
+<dt>expand.grid</dt>
+<dd><p>logical, if <code>TRUE</code>, the plot grid is expanded, i.e. there is a small margin between
+axes and plotting region. Default is <code>FALSE</code>.</p></dd>
+<dt>digits</dt>
+<dd><p>Numeric, amount of digits after decimal point when rounding
+estimates or values.</p></dd>
+<dt>reverse.scale</dt>
+<dd><p>logical, if <code>TRUE</code>, the ordering of the categories is reversed, so positive and negative values switch position.</p></dd>
+<dt>coord.flip</dt>
+<dd><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></dd>
+<dt>sort.groups</dt>
+<dd><p>(optional, only used if groups are supplied) logical, if groups should be sorted according to the values supplied to <code>groups</code>. Defaults to <code>TRUE</code>.</p></dd>
+<dt>legend.pos</dt>
+<dd><p>(optional, only used if groups are supplied) Defines the legend position. Possible values are <code>c("bottom", "top", "both", "all", "none")</code>.
+If the is only one group or this option is set to <code>"all"</code> legends will be printed as defined with <code><a href="set_theme.html">set_theme</a></code>.</p></dd>
+<dt>rel_heights</dt>
+<dd><p>(optional, only used if groups are supplied) This option can be used to adjust the height of the subplots. The bars in subplots can have different heights due to a differing number of items
 or due to legend placement. This can be adjusted here. Takes a vector of numbers, one
-for each plot. Values are evaluated relative to each other.</p></td>
-    </tr><tr><th>group.legend.options</th>
-      <td><p>(optional, only used if groups are supplied) List of options to be passed to <code><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html" class="external-link">guide_legend</a></code>.
+for each plot. Values are evaluated relative to each other.</p></dd>
+<dt>group.legend.options</dt>
+<dd><p>(optional, only used if groups are supplied) List of options to be passed to <code><a href="https://ggplot2.tidyverse.org/reference/guide_legend.html" class="external-link">guide_legend</a></code>.
 The most notable options are <code>byrow=T</code> (default), this will order the categories row wise.
-And with <code>group.legend.options = list(nrow = 1)</code> all categories can be forced to be on a single row.</p></td>
-    </tr><tr><th>cowplot.options</th>
-      <td><p>(optional, only used if groups are supplied) List of label options to be passed to <code><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></code>.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+And with <code>group.legend.options = list(nrow = 1)</code> all categories can be forced to be on a single row.</p></dd>
+<dt>cowplot.options</dt>
+<dd><p>(optional, only used if groups are supplied) List of label options to be passed to <code><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></code>.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A ggplot-object.</p>

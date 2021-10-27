@@ -111,7 +111,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot correlation matrix</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/sjPlotCorr.R" class="external-link"><code>R/sjPlotCorr.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/sjPlotCorr.R" class="external-link"><code>R/sjPlotCorr.R</code></a></small>
     <div class="hidden name"><code>sjp.corr.Rd</code></div>
     </div>
 
@@ -137,61 +137,60 @@
   p.numeric <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>data</th>
-      <td><p>Matrix with correlation coefficients as returned by the
+    <dl><dt>data</dt>
+<dd><p>Matrix with correlation coefficients as returned by the
 <code><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></code>-function, or a <code>data.frame</code> of variables where
-correlations between columns should be computed.</p></td>
-    </tr><tr><th>title</th>
-      <td><p>character vector, used as plot title. Depending on plot type and function,
+correlations between columns should be computed.</p></dd>
+<dt>title</dt>
+<dd><p>character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If <code>title = ""</code>, no title is printed.
 For effect-plots, may also be a character vector of length &gt; 1,
-to define titles for each sub-plot or facet.</p></td>
-    </tr><tr><th>axis.labels</th>
-      <td><p>character vector with labels used as axis labels. Optional
-argument, since in most cases, axis labels are set automatically.</p></td>
-    </tr><tr><th>sort.corr</th>
-      <td><p>Logical, if <code>TRUE</code> (default), the axis labels are sorted
+to define titles for each sub-plot or facet.</p></dd>
+<dt>axis.labels</dt>
+<dd><p>character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.</p></dd>
+<dt>sort.corr</dt>
+<dd><p>Logical, if <code>TRUE</code> (default), the axis labels are sorted
 according to the correlation strength. If <code>FALSE</code>, axis labels
 appear in order of how variables were included in the cor-computation or
-data frame.</p></td>
-    </tr><tr><th>decimals</th>
-      <td><p>Indicates how many decimal values after comma are printed when
+data frame.</p></dd>
+<dt>decimals</dt>
+<dd><p>Indicates how many decimal values after comma are printed when
 the values labels are shown. Default is 3. Only applies when
-<code>show.values = TRUE</code>.</p></td>
-    </tr><tr><th>na.deletion</th>
-      <td><p>Indicates how missing values are treated. May be either
+<code>show.values = TRUE</code>.</p></dd>
+<dt>na.deletion</dt>
+<dd><p>Indicates how missing values are treated. May be either
 <code>"listwise"</code> (default) or <code>"pairwise"</code>. May be
-abbreviated.</p></td>
-    </tr><tr><th>corr.method</th>
-      <td><p>Indicates the correlation computation method. May be one of
+abbreviated.</p></dd>
+<dt>corr.method</dt>
+<dd><p>Indicates the correlation computation method. May be one of
 <code>"pearson"</code> (default), <code>"spearman"</code> or <code>"kendall"</code>.
-May be abbreviated.</p></td>
-    </tr><tr><th>geom.colors</th>
-      <td><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></td>
-    </tr><tr><th>wrap.title</th>
-      <td><p>numeric, determines how many chars of the plot title are displayed in
-one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.labels</th>
-      <td><p>numeric, determines how many chars of the value, variable or axis
-labels are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>show.legend</th>
-      <td><p>logical, if <code>TRUE</code>, and depending on plot type and
-function, a legend is added to the plot.</p></td>
-    </tr><tr><th>legend.title</th>
-      <td><p>character vector, used as title for the plot legend.</p></td>
-    </tr><tr><th>show.values</th>
-      <td><p>Logical, whether values should be plotted or not.</p></td>
-    </tr><tr><th>show.p</th>
-      <td><p>Logical, adds significance levels to values, or value and
-variable labels.</p></td>
-    </tr><tr><th>p.numeric</th>
-      <td><p>Logical, if <code>TRUE</code>, the p-values are printed
-as numbers. If <code>FALSE</code> (default), asterisks are used.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+May be abbreviated.</p></dd>
+<dt>geom.colors</dt>
+<dd><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></dd>
+<dt>wrap.title</dt>
+<dd><p>numeric, determines how many chars of the plot title are displayed in
+one line and when a line break is inserted.</p></dd>
+<dt>wrap.labels</dt>
+<dd><p>numeric, determines how many chars of the value, variable or axis
+labels are displayed in one line and when a line break is inserted.</p></dd>
+<dt>show.legend</dt>
+<dd><p>logical, if <code>TRUE</code>, and depending on plot type and
+function, a legend is added to the plot.</p></dd>
+<dt>legend.title</dt>
+<dd><p>character vector, used as title for the plot legend.</p></dd>
+<dt>show.values</dt>
+<dd><p>Logical, whether values should be plotted or not.</p></dd>
+<dt>show.p</dt>
+<dd><p>Logical, adds significance levels to values, or value and
+variable labels.</p></dd>
+<dt>p.numeric</dt>
+<dd><p>Logical, if <code>TRUE</code>, the p-values are printed
+as numbers. If <code>FALSE</code> (default), asterisks are used.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>(Insisibily) returns the ggplot-object with the complete plot (<code>plot</code>) as well as the data frame that

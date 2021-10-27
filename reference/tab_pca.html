@@ -116,7 +116,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summary of principal component analysis as HTML table</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/tab_pca.R" class="external-link"><code>R/tab_pca.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/tab_pca.R" class="external-link"><code>R/tab_pca.R</code></a></small>
     <div class="hidden name"><code>tab_pca.Rd</code></div>
     </div>
 
@@ -152,79 +152,78 @@
   remove.spaces <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>data</th>
-      <td><p>A data frame that should be used to compute a PCA, or a <code><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></code> object.</p></td>
-    </tr><tr><th>rotation</th>
-      <td><p>Rotation of the factor loadings. May be one of
+    <dl><dt>data</dt>
+<dd><p>A data frame that should be used to compute a PCA, or a <code><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></code> object.</p></dd>
+<dt>rotation</dt>
+<dd><p>Rotation of the factor loadings. May be one of
 <code>"varimax", "quartimax", "promax", "oblimin", "simplimax", "cluster"</code>
-or <code>"none"</code>.</p></td>
-    </tr><tr><th>nmbr.fctr</th>
-      <td><p>Number of factors used for calculating the rotation. By
+or <code>"none"</code>.</p></dd>
+<dt>nmbr.fctr</dt>
+<dd><p>Number of factors used for calculating the rotation. By
 default, this value is <code>NULL</code> and the amount of factors is
-calculated according to the Kaiser-criteria.</p></td>
-    </tr><tr><th>fctr.load.tlrn</th>
-      <td><p>Specifies the minimum difference a variable needs to have between
+calculated according to the Kaiser-criteria.</p></dd>
+<dt>fctr.load.tlrn</dt>
+<dd><p>Specifies the minimum difference a variable needs to have between
 factor loadings (components) in order to indicate a clear loading on just one factor and not
 diffusing over all factors. For instance, a variable with 0.8, 0.82 and 0.84 factor loading
 on 3 possible factors can not be clearly assigned to just one factor and thus would be removed
 from the principal component analysis. By default, the minimum difference of loading values
-between the highest and 2nd highest factor should be 0.1</p></td>
-    </tr><tr><th>title</th>
-      <td><p>String, will be used as table caption.</p></td>
-    </tr><tr><th>var.labels</th>
-      <td><p>Character vector with variable names, which will be used
-to label variables in the output.</p></td>
-    </tr><tr><th>wrap.labels</th>
-      <td><p>Numeric, determines how many chars of the value, variable
-or axis labels are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>show.cronb</th>
-      <td><p>Logical, if <code>TRUE</code> (default), the cronbach's alpha value for each factor scale will be calculated,
+between the highest and 2nd highest factor should be 0.1</p></dd>
+<dt>title</dt>
+<dd><p>String, will be used as table caption.</p></dd>
+<dt>var.labels</dt>
+<dd><p>Character vector with variable names, which will be used
+to label variables in the output.</p></dd>
+<dt>wrap.labels</dt>
+<dd><p>Numeric, determines how many chars of the value, variable
+or axis labels are displayed in one line and when a line break is inserted.</p></dd>
+<dt>show.cronb</dt>
+<dd><p>Logical, if <code>TRUE</code> (default), the cronbach's alpha value for each factor scale will be calculated,
 i.e. all variables with the highest loading for a factor are taken for the
 reliability test. The result is an alpha value for each factor dimension.
-Only applies when <code>data</code> is a data frame.</p></td>
-    </tr><tr><th>show.msa</th>
-      <td><p>Logical, if <code>TRUE</code>, shows an additional column with the measure of sampling adequacy according
-dor each component.</p></td>
-    </tr><tr><th>show.var</th>
-      <td><p>Logical, if <code>TRUE</code>, the proportions of variances for each component as well as cumulative
-variance are shown in the table footer.</p></td>
-    </tr><tr><th>alternate.rows</th>
-      <td><p>Logical, if <code>TRUE</code>, rows are printed in
-alternatig colors (white and light grey by default).</p></td>
-    </tr><tr><th>digits</th>
-      <td><p>Amount of decimals for estimates</p></td>
-    </tr><tr><th>string.pov</th>
-      <td><p>String for the table row that contains the proportions of variances. By default,
-<em>"Proportion of Variance"</em> will be used.</p></td>
-    </tr><tr><th>string.cpov</th>
-      <td><p>String for the table row that contains the cumulative variances. By default,
-<em>"Cumulative Proportion"</em> will be used.</p></td>
-    </tr><tr><th>CSS</th>
-      <td><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
+Only applies when <code>data</code> is a data frame.</p></dd>
+<dt>show.msa</dt>
+<dd><p>Logical, if <code>TRUE</code>, shows an additional column with the measure of sampling adequacy according
+dor each component.</p></dd>
+<dt>show.var</dt>
+<dd><p>Logical, if <code>TRUE</code>, the proportions of variances for each component as well as cumulative
+variance are shown in the table footer.</p></dd>
+<dt>alternate.rows</dt>
+<dd><p>Logical, if <code>TRUE</code>, rows are printed in
+alternatig colors (white and light grey by default).</p></dd>
+<dt>digits</dt>
+<dd><p>Amount of decimals for estimates</p></dd>
+<dt>string.pov</dt>
+<dd><p>String for the table row that contains the proportions of variances. By default,
+<em>"Proportion of Variance"</em> will be used.</p></dd>
+<dt>string.cpov</dt>
+<dd><p>String for the table row that contains the cumulative variances. By default,
+<em>"Cumulative Proportion"</em> will be used.</p></dd>
+<dt>CSS</dt>
+<dd><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
 according to the <a href="http://www.w3.org/Style/CSS/" class="external-link">official CSS syntax</a>.
-See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></td>
-    </tr><tr><th>encoding</th>
-      <td><p>Character vector, indicating the charset encoding used
+See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></dd>
+<dt>encoding</dt>
+<dd><p>Character vector, indicating the charset encoding used
 for variable and value labels. Default is <code>"UTF-8"</code>. For Windows
 Systems, <code>encoding = "Windows-1252"</code> might be necessary for proper
-display of special characters.</p></td>
-    </tr><tr><th>file</th>
-      <td><p>Destination file, if the output should be saved as file.
+display of special characters.</p></dd>
+<dt>file</dt>
+<dd><p>Destination file, if the output should be saved as file.
 If <code>NULL</code> (default), the output will be saved as temporary file and
-opened either in the IDE's viewer pane or the default web browser.</p></td>
-    </tr><tr><th>use.viewer</th>
-      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
+opened either in the IDE's viewer pane or the default web browser.</p></dd>
+<dt>use.viewer</dt>
+<dd><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
 viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
-opened in a web browser.</p></td>
-    </tr><tr><th>remove.spaces</th>
-      <td><p>Logical, if <code>TRUE</code>, leading spaces are removed from all lines in the final string
+opened in a web browser.</p></dd>
+<dt>remove.spaces</dt>
+<dd><p>Logical, if <code>TRUE</code>, leading spaces are removed from all lines in the final string
 that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
-may look less pretty, but it may help when exporting html-tables to office tools.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+may look less pretty, but it may help when exporting html-tables to office tools.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>Invisibly returns</p><ul><li><p>the web page style sheet (<code>page.style</code>),</p></li>

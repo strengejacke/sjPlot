@@ -112,7 +112,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Print data frames as HTML table.</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/html_print.R" class="external-link"><code>R/html_print.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/html_print.R" class="external-link"><code>R/html_print.R</code></a></small>
     <div class="hidden name"><code>tab_df.Rd</code></div>
     </div>
 
@@ -157,64 +157,63 @@
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>x</th>
-      <td><p>For <code>tab_df()</code>, a data frame; and for <code>tab_dfs()</code>, a
-list of data frames.</p></td>
-    </tr><tr><th>title, titles, footnote, footnotes</th>
-      <td><p>Character vector with table
+    <dl><dt>x</dt>
+<dd><p>For <code>tab_df()</code>, a data frame; and for <code>tab_dfs()</code>, a
+list of data frames.</p></dd>
+<dt>title, titles, footnote, footnotes</dt>
+<dd><p>Character vector with table
 caption(s) resp. footnote(s). For  <code>tab_df()</code>, must be a character
 of length 1; for <code>tab_dfs()</code>, a character vector of same length as
-<code>x</code> (i.e. one title or footnote per data frame).</p></td>
-    </tr><tr><th>col.header</th>
-      <td><p>Character vector with elements used as column header for
+<code>x</code> (i.e. one title or footnote per data frame).</p></dd>
+<dt>col.header</dt>
+<dd><p>Character vector with elements used as column header for
 the table. If <code>NULL</code>, column names from <code>x</code> are used as
-column header.</p></td>
-    </tr><tr><th>show.type</th>
-      <td><p>Logical, if <code>TRUE</code>, adds information about the
-variable type to the variable column.</p></td>
-    </tr><tr><th>show.rownames</th>
-      <td><p>Logical, if <code>TRUE</code>, adds a column with the
-data frame's rowname to the table output.</p></td>
-    </tr><tr><th>show.footnote</th>
-      <td><p>Logical, if <code>TRUE</code>,adds a summary footnote below
+column header.</p></dd>
+<dt>show.type</dt>
+<dd><p>Logical, if <code>TRUE</code>, adds information about the
+variable type to the variable column.</p></dd>
+<dt>show.rownames</dt>
+<dd><p>Logical, if <code>TRUE</code>, adds a column with the
+data frame's rowname to the table output.</p></dd>
+<dt>show.footnote</dt>
+<dd><p>Logical, if <code>TRUE</code>,adds a summary footnote below
 the table. For <code>tab_df()</code>, specify the string in <code>footnote</code>,
-for <code>tab_dfs()</code> provide a character vector in <code>footnotes</code>.</p></td>
-    </tr><tr><th>alternate.rows</th>
-      <td><p>Logical, if <code>TRUE</code>, rows are printed in
-alternatig colors (white and light grey by default).</p></td>
-    </tr><tr><th>sort.column</th>
-      <td><p>Numeric vector, indicating the index of the column
+for <code>tab_dfs()</code> provide a character vector in <code>footnotes</code>.</p></dd>
+<dt>alternate.rows</dt>
+<dd><p>Logical, if <code>TRUE</code>, rows are printed in
+alternatig colors (white and light grey by default).</p></dd>
+<dt>sort.column</dt>
+<dd><p>Numeric vector, indicating the index of the column
 that should sorted. by default, the column is sorted in ascending order.
 Use negative index for descending order, for instance,
 <code>sort.column = -3</code> would sort the third column in descending order.
-Note that the first column with rownames is not counted.</p></td>
-    </tr><tr><th>digits</th>
-      <td><p>Numeric, amount of digits after decimal point when rounding
-values.</p></td>
-    </tr><tr><th>encoding</th>
-      <td><p>Character vector, indicating the charset encoding used
+Note that the first column with rownames is not counted.</p></dd>
+<dt>digits</dt>
+<dd><p>Numeric, amount of digits after decimal point when rounding
+values.</p></dd>
+<dt>encoding</dt>
+<dd><p>Character vector, indicating the charset encoding used
 for variable and value labels. Default is <code>"UTF-8"</code>. For Windows
 Systems, <code>encoding = "Windows-1252"</code> might be necessary for proper
-display of special characters.</p></td>
-    </tr><tr><th>CSS</th>
-      <td><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
+display of special characters.</p></dd>
+<dt>CSS</dt>
+<dd><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
 according to the <a href="http://www.w3.org/Style/CSS/" class="external-link">official CSS syntax</a>.
-See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></td>
-    </tr><tr><th>file</th>
-      <td><p>Destination file, if the output should be saved as file.
+See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></dd>
+<dt>file</dt>
+<dd><p>Destination file, if the output should be saved as file.
 If <code>NULL</code> (default), the output will be saved as temporary file and
-opened either in the IDE's viewer pane or the default web browser.</p></td>
-    </tr><tr><th>use.viewer</th>
-      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
+opened either in the IDE's viewer pane or the default web browser.</p></dd>
+<dt>use.viewer</dt>
+<dd><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
 viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
-opened in a web browser.</p></td>
-    </tr><tr><th>...</th>
-      <td><p>Currently not used.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+opened in a web browser.</p></dd>
+<dt>...</dt>
+<dd><p>Currently not used.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A list with following items:</p><ul><li><p>the web page style sheet (<code>page.style</code>),</p></li>

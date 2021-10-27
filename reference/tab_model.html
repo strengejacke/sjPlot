@@ -111,7 +111,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Print regression models as HTML table</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/tab_model.R" class="external-link"><code>R/tab_model.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/tab_model.R" class="external-link"><code>R/tab_model.R</code></a></small>
     <div class="hidden name"><code>tab_model.Rd</code></div>
     </div>
 
@@ -201,88 +201,89 @@
   encoding <span class="op">=</span> <span class="st">"UTF-8"</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>...</th>
-      <td><p>One or more regression models, including glm's or mixed models.
-May also be a <code>list</code> with fitted models. See 'Examples'.</p></td>
-    </tr><tr><th>transform</th>
-      <td><p>A character vector, naming a function that will be applied
+    <dl><dt>...</dt>
+<dd><p>One or more regression models, including glm's or mixed models.
+May also be a <code>list</code> with fitted models. See 'Examples'.</p></dd>
+<dt>transform</dt>
+<dd><p>A character vector, naming a function that will be applied
 on estimates and confidence intervals. By default, <code>transform</code> will
 automatically use <code>"exp"</code> as transformation for applicable classes of
 <code>model</code> (e.g. logistic or poisson regression). Estimates of linear
 models remain untransformed. Use <code>NULL</code> if you want the raw,
-non-transformed estimates.</p></td>
-    </tr><tr><th>show.intercept</th>
-      <td><p>Logical, if <code>TRUE</code>, the intercepts are printed.</p></td>
-    </tr><tr><th>show.est</th>
-      <td><p>Logical, if <code>TRUE</code>, the estimates are printed.</p></td>
-    </tr><tr><th>show.ci</th>
-      <td><p>Either logical, and if <code>TRUE</code>, the confidence intervals
+non-transformed estimates.</p></dd>
+<dt>show.intercept</dt>
+<dd><p>Logical, if <code>TRUE</code>, the intercepts are printed.</p></dd>
+<dt>show.est</dt>
+<dd><p>Logical, if <code>TRUE</code>, the estimates are printed.</p></dd>
+<dt>show.ci</dt>
+<dd><p>Either logical, and if <code>TRUE</code>, the confidence intervals
 is printed to the table; if <code>FALSE</code>, confidence intervals are
 omitted. Or numeric, between 0 and 1, indicating the range of the
-confidence intervals.</p></td>
-    </tr><tr><th>show.ci50</th>
-      <td><p>Logical, if <code>TRUE</code>, for Bayesian models, a second
-credible interval is added to the table output.</p></td>
-    </tr><tr><th>show.se</th>
-      <td><p>Logical, if <code>TRUE</code>, the standard errors are
+confidence intervals.</p></dd>
+<dt>show.ci50</dt>
+<dd><p>Logical, if <code>TRUE</code>, for Bayesian models, a second
+credible interval is added to the table output.</p></dd>
+<dt>show.se</dt>
+<dd><p>Logical, if <code>TRUE</code>, the standard errors are
 also printed. If robust standard errors are required, use arguments
 <code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code> (see
 <code><a href="https://easystats.github.io/parameters/reference/standard_error_robust.html" class="external-link">standard_error_robust</a></code> and
 <a href="https://easystats.github.io/parameters/articles/model_parameters_robust.html" class="external-link">this vignette</a>
-for details).</p></td>
-    </tr><tr><th>show.std</th>
-      <td><p>Indicates whether standardized beta-coefficients should
+for details).</p></dd>
+<dt>show.std</dt>
+<dd><p>Indicates whether standardized beta-coefficients should
 also printed, and if yes, which type of standardization is done.
-See 'Details'.</p></td>
-    </tr><tr><th>show.p</th>
-      <td><p>Logical, if <code>TRUE</code>, p-values are also printed.</p></td>
-    </tr><tr><th>show.stat</th>
-      <td><p>Logical, if <code>TRUE</code>, the coefficients' test statistic
-is also printed.</p></td>
-    </tr><tr><th>show.df</th>
-      <td><p>Logical, if <code>TRUE</code> and <code>p.val = "kr"</code>, the p-values
+See 'Details'.</p></dd>
+<dt>show.p</dt>
+<dd><p>Logical, if <code>TRUE</code>, p-values are also printed.</p></dd>
+<dt>show.stat</dt>
+<dd><p>Logical, if <code>TRUE</code>, the coefficients' test statistic
+is also printed.</p></dd>
+<dt>show.df</dt>
+<dd><p>Logical, if <code>TRUE</code> and <code>p.val = "kr"</code>, the p-values
 for linear mixed models are based on df with Kenward-Rogers approximation.
-These df-values are printed. See <code><a href="https://easystats.github.io/parameters/reference/p_value.html" class="external-link">p_value</a></code> for details.</p></td>
-    </tr><tr><th>show.zeroinf</th>
-      <td><p>Logical, if <code>TRUE</code> and model has a zero-inflated
-model part, this is also printed to the table.</p></td>
-    </tr><tr><th>show.r2</th>
-      <td><p>Logical, if <code>TRUE</code>, the r-squared value is also printed.
+These df-values are printed. See <code><a href="https://easystats.github.io/parameters/reference/p_value.html" class="external-link">p_value</a></code> for details.</p></dd>
+<dt>show.zeroinf</dt>
+<dd><p>Logical, if <code>TRUE</code> and model has a zero-inflated
+model part, this is also printed to the table.</p></dd>
+<dt>show.r2</dt>
+<dd><p>Logical, if <code>TRUE</code>, the r-squared value is also printed.
 Depending on the model, these might be pseudo-r-squared values, or Bayesian
-r-squared etc. See <code><a href="https://easystats.github.io/performance/reference/r2.html" class="external-link">r2</a></code> for details.</p></td>
-    </tr><tr><th>show.icc</th>
-      <td><p>Logical, if <code>TRUE</code>, prints the intraclass correlation
-coefficient for mixed models. See <code><a href="https://easystats.github.io/performance/reference/icc.html" class="external-link">icc</a></code> for details.</p></td>
-    </tr><tr><th>show.re.var</th>
-      <td><p>Logical, if <code>TRUE</code>, prints the random effect variances
-for mixed models. See <code><a href="https://easystats.github.io/insight/reference/get_variance.html" class="external-link">get_variance</a></code> for details.</p></td>
-    </tr><tr><th>show.ngroups</th>
-      <td><p>Logical, if <code>TRUE</code>, shows number of random effects groups
-for mixed models.</p></td>
-    </tr><tr><th>show.fstat</th>
-      <td><p>Logical, if <code>TRUE</code>, the F-statistics for each model is
-printed in the table summary. This option is not supported by all model types.</p></td>
-    </tr><tr><th>show.aic</th>
-      <td><p>Logical, if <code>TRUE</code>, the AIC value for each model is printed
-in the table summary.</p></td>
-    </tr><tr><th>show.aicc</th>
-      <td><p>Logical, if <code>TRUE</code>, the second-order AIC value for each model
-is printed in the table summary.</p></td>
-    </tr><tr><th>show.dev</th>
-      <td><p>Logical, if <code>TRUE</code>, shows the deviance of the model.</p></td>
-    </tr><tr><th>show.loglik</th>
-      <td><p>Logical, if <code>TRUE</code>, shows the log-Likelihood of the model.</p></td>
-    </tr><tr><th>show.obs</th>
-      <td><p>Logical, if <code>TRUE</code>, the number of observations per model is
-printed in the table summary.</p></td>
-    </tr><tr><th>show.reflvl</th>
-      <td><p>Logical, if <code>TRUE</code>, an additional row is inserted to
+r-squared etc. See <code><a href="https://easystats.github.io/performance/reference/r2.html" class="external-link">r2</a></code> for details.</p></dd>
+<dt>show.icc</dt>
+<dd><p>Logical, if <code>TRUE</code>, prints the intraclass correlation
+coefficient for mixed models. See <code><a href="https://easystats.github.io/performance/reference/icc.html" class="external-link">icc</a></code> for details.</p></dd>
+<dt>show.re.var</dt>
+<dd><p>Logical, if <code>TRUE</code>, prints the random effect variances
+for mixed models. See <code><a href="https://easystats.github.io/insight/reference/get_variance.html" class="external-link">get_variance</a></code> for details.</p></dd>
+<dt>show.ngroups</dt>
+<dd><p>Logical, if <code>TRUE</code>, shows number of random effects groups
+for mixed models.</p></dd>
+<dt>show.fstat</dt>
+<dd><p>Logical, if <code>TRUE</code>, the F-statistics for each model is
+printed in the table summary. This option is not supported by all model types.</p></dd>
+<dt>show.aic</dt>
+<dd><p>Logical, if <code>TRUE</code>, the AIC value for each model is printed
+in the table summary.</p></dd>
+<dt>show.aicc</dt>
+<dd><p>Logical, if <code>TRUE</code>, the second-order AIC value for each model
+is printed in the table summary.</p></dd>
+<dt>show.dev</dt>
+<dd><p>Logical, if <code>TRUE</code>, shows the deviance of the model.</p></dd>
+<dt>show.loglik</dt>
+<dd><p>Logical, if <code>TRUE</code>, shows the log-Likelihood of the model.</p></dd>
+<dt>show.obs</dt>
+<dd><p>Logical, if <code>TRUE</code>, the number of observations per model is
+printed in the table summary.</p></dd>
+<dt>show.reflvl</dt>
+<dd><p>Logical, if <code>TRUE</code>, an additional row is inserted to
 the table before each predictor of type <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></code>, which will
-indicate the reference level of the related factor.</p></td>
-    </tr><tr><th>terms</th>
-      <td><p>Character vector with names of those terms (variables) that should
+indicate the reference level of the related factor.</p></dd>
+<dt>terms</dt>
+<dd><p>Character vector with names of those terms (variables) that should
 be printed in the table. All other terms are removed from the output. If
 <code>NULL</code>, all terms are printed. Note that the term names must match
 the names of the model's coefficients. For factors, this means that
@@ -292,33 +293,33 @@ would remove the terms <code>"t_name2"</code> and <code>"t_name3"</code> (assumi
 that the variable <code>t_name</code> is categorical and has at least
 the factor levels <code>2</code> and <code>3</code>). Another example for the
 <em>iris</em>-dataset: <code>terms = "Species"</code> would not work, instead
-use <code>terms = "Species [versicolor,virginica]"</code>.</p></td>
-    </tr><tr><th>rm.terms</th>
-      <td><p>Character vector with names that indicate which terms should
+use <code>terms = "Species [versicolor,virginica]"</code>.</p></dd>
+<dt>rm.terms</dt>
+<dd><p>Character vector with names that indicate which terms should
 be removed from the output Counterpart to <code>terms</code>. <code>rm.terms =
 "t_name"</code> would remove the term <em>t_name</em>. Default is <code>NULL</code>, i.e.
 all terms are used. For factors, levels that should be removed from the plot
 need to be explicitly indicated in square brackets, and match the model's
 coefficient names, e.g. <code>rm.terms = "t_name [2,3]"</code> would remove the terms
 <code>"t_name2"</code> and <code>"t_name3"</code> (assuming that the variable <code>t_name</code>
-was categorical and has at least the factor levels <code>2</code> and <code>3</code>).</p></td>
-    </tr><tr><th>order.terms</th>
-      <td><p>Numeric vector, indicating in which order the coefficients
+was categorical and has at least the factor levels <code>2</code> and <code>3</code>).</p></dd>
+<dt>order.terms</dt>
+<dd><p>Numeric vector, indicating in which order the coefficients
 should be plotted. See examples in
-<a href="https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html" class="external-link">this package-vignette</a>.</p></td>
-    </tr><tr><th>keep, drop</th>
-      <td><p>Character containing a regular expression pattern that
+<a href="https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html" class="external-link">this package-vignette</a>.</p></dd>
+<dt>keep, drop</dt>
+<dd><p>Character containing a regular expression pattern that
 describes the parameters that should be included (for <code>keep</code>) or excluded
 (for <code>drop</code>) in the returned data frame. <code>keep</code> may also be a
 named list of regular expressions. All non-matching parameters will be
 removed from the output. If <code>keep</code> has more than one element, these
 will be merged with an <code>OR</code> operator into a regular expression pattern
 like this: <code>"(one|two|three)"</code>. See further details in
-<code><a href="https://easystats.github.io/parameters/reference/model_parameters.html" class="external-link">?parameters::model_parameters</a></code>.</p></td>
-    </tr><tr><th>title</th>
-      <td><p>String, will be used as table caption.</p></td>
-    </tr><tr><th>pred.labels</th>
-      <td><p>Character vector with labels of predictor variables.
+<code><a href="https://easystats.github.io/parameters/reference/model_parameters.html" class="external-link">?parameters::model_parameters</a></code>.</p></dd>
+<dt>title</dt>
+<dd><p>String, will be used as table caption.</p></dd>
+<dt>pred.labels</dt>
+<dd><p>Character vector with labels of predictor variables.
 If not <code>NULL</code>, <code>pred.labels</code> will be used in the first
 table column with the predictors' names. By default, if <code>auto.label = TRUE</code>
 and <a href="https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html" class="external-link">data is labelled</a>,
@@ -331,110 +332,110 @@ labels. If <code>pred.labels</code> is a named vector, predictor labels (by
 default, the names of the model's coefficients) will be matched with the
 names of <code>pred.labels</code>. This ensures that labels always match the
 related predictor in the table, no matter in which way the predictors
-are sorted. See 'Examples'.</p></td>
-    </tr><tr><th>dv.labels</th>
-      <td><p>Character vector with labels of dependent variables of all
+are sorted. See 'Examples'.</p></dd>
+<dt>dv.labels</dt>
+<dd><p>Character vector with labels of dependent variables of all
 fitted models. If <code>dv.labels = ""</code>, the row with names of dependent
-variables is omitted from the table.</p></td>
-    </tr><tr><th>wrap.labels</th>
-      <td><p>Numeric, determines how many chars of the value, variable
-or axis labels are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>bootstrap</th>
-      <td><p>Logical, if <code>TRUE</code>, returns bootstrapped estimates..</p></td>
-    </tr><tr><th>iterations</th>
-      <td><p>Numeric, number of bootstrap iterations (default is 1000).</p></td>
-    </tr><tr><th>seed</th>
-      <td><p>Numeric, the number of the seed to replicate bootstrapped estimates. If <code>NULL</code>, uses random seed.</p></td>
-    </tr><tr><th>robust</th>
-      <td><p>Logical, shortcut for arguments <code>vcov.fun</code> and <code>vcov.type</code>.
+variables is omitted from the table.</p></dd>
+<dt>wrap.labels</dt>
+<dd><p>Numeric, determines how many chars of the value, variable
+or axis labels are displayed in one line and when a line break is inserted.</p></dd>
+<dt>bootstrap</dt>
+<dd><p>Logical, if <code>TRUE</code>, returns bootstrapped estimates..</p></dd>
+<dt>iterations</dt>
+<dd><p>Numeric, number of bootstrap iterations (default is 1000).</p></dd>
+<dt>seed</dt>
+<dd><p>Numeric, the number of the seed to replicate bootstrapped estimates. If <code>NULL</code>, uses random seed.</p></dd>
+<dt>robust</dt>
+<dd><p>Logical, shortcut for arguments <code>vcov.fun</code> and <code>vcov.type</code>.
 If <code>TRUE</code>, uses <code>vcov.fun = "vcovHC"</code> and <code>vcov.type = "HC3"</code> as
 default, that is, <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html" class="external-link">vcovHC</a></code> with default-type is called
 (see <code><a href="https://easystats.github.io/parameters/reference/standard_error_robust.html" class="external-link">standard_error_robust</a></code> and
 <a href="https://easystats.github.io/parameters/articles/model_parameters_robust.html" class="external-link">this vignette</a>
-for further details).</p></td>
-    </tr><tr><th>vcov.fun</th>
-      <td><p>Character vector, indicating the name of the <code>vcov*()</code>-function
+for further details).</p></dd>
+<dt>vcov.fun</dt>
+<dd><p>Character vector, indicating the name of the <code>vcov*()</code>-function
 from the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span> package, e.g. <code>vcov.fun = "vcovCL"</code>,
-if robust standard errors are required.</p></td>
-    </tr><tr><th>vcov.type</th>
-      <td><p>Character vector, specifying the estimation type for the
+if robust standard errors are required.</p></dd>
+<dt>vcov.type</dt>
+<dd><p>Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html" class="external-link">vcovHC()</a></code>
-or <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html" class="external-link">clubSandwich::vcovCR()</a></code> for details).</p></td>
-    </tr><tr><th>vcov.args</th>
-      <td><p>List of named vectors, used as additional arguments that
-are passed down to <code>vcov.fun</code>.</p></td>
-    </tr><tr><th>string.pred</th>
-      <td><p>Character vector,used as headline for the predictor column.
-Default is <code>"Predictors"</code>.</p></td>
-    </tr><tr><th>string.est</th>
-      <td><p>Character vector, used for the column heading of coefficients.
+or <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html" class="external-link">clubSandwich::vcovCR()</a></code> for details).</p></dd>
+<dt>vcov.args</dt>
+<dd><p>List of named vectors, used as additional arguments that
+are passed down to <code>vcov.fun</code>.</p></dd>
+<dt>string.pred</dt>
+<dd><p>Character vector,used as headline for the predictor column.
+Default is <code>"Predictors"</code>.</p></dd>
+<dt>string.est</dt>
+<dd><p>Character vector, used for the column heading of coefficients.
 Default is based on the response scale, e.g. for logistic regression models,
 <code>"Odds Ratios"</code> will be chosen, while for Poisson models it is
-<code>"Incidence Rate Ratios"</code> etc. Default if not specified is <code>"Estimate"</code>.</p></td>
-    </tr><tr><th>string.std</th>
-      <td><p>Character vector, used for the column heading of standardized beta coefficients. Default is <code>"std. Beta"</code>.</p></td>
-    </tr><tr><th>string.ci</th>
-      <td><p>Character vector, used for the column heading of confidence interval values. Default is <code>"CI"</code>.</p></td>
-    </tr><tr><th>string.se</th>
-      <td><p>Character vector, used for the column heading of standard error values. Default is <code>"std. Error"</code>.</p></td>
-    </tr><tr><th>string.std_se</th>
-      <td><p>Character vector, used for the column heading of standard error of standardized coefficients. Default is <code>"standardized std. Error"</code>.</p></td>
-    </tr><tr><th>string.std_ci</th>
-      <td><p>Character vector, used for the column heading of confidence intervals of standardized coefficients. Default is <code>"standardized std. Error"</code>.</p></td>
-    </tr><tr><th>string.p</th>
-      <td><p>Character vector, used for the column heading of p values. Default is <code>"p"</code>.</p></td>
-    </tr><tr><th>string.std.p</th>
-      <td><p>Character vector, used for the column heading of p values. Default is <code>"std. p"</code>.</p></td>
-    </tr><tr><th>string.df</th>
-      <td><p>Character vector, used for the column heading of degrees of freedom. Default is <code>"df"</code>.</p></td>
-    </tr><tr><th>string.stat</th>
-      <td><p>Character vector, used for the test statistic. Default is <code>"Statistic"</code>.</p></td>
-    </tr><tr><th>string.std.stat</th>
-      <td><p>Character vector, used for the test statistic. Default is <code>"std. Statistic"</code>.</p></td>
-    </tr><tr><th>string.resp</th>
-      <td><p>Character vector, used for the column heading of of the response level for multinominal or categorical models. Default is <code>"Response"</code>.</p></td>
-    </tr><tr><th>string.intercept</th>
-      <td><p>Character vector, used as name for the intercept parameter. Default is <code>"(Intercept)"</code>.</p></td>
-    </tr><tr><th>strings</th>
-      <td><p>Named character vector, as alternative to arguments like <code>string.ci</code>
+<code>"Incidence Rate Ratios"</code> etc. Default if not specified is <code>"Estimate"</code>.</p></dd>
+<dt>string.std</dt>
+<dd><p>Character vector, used for the column heading of standardized beta coefficients. Default is <code>"std. Beta"</code>.</p></dd>
+<dt>string.ci</dt>
+<dd><p>Character vector, used for the column heading of confidence interval values. Default is <code>"CI"</code>.</p></dd>
+<dt>string.se</dt>
+<dd><p>Character vector, used for the column heading of standard error values. Default is <code>"std. Error"</code>.</p></dd>
+<dt>string.std_se</dt>
+<dd><p>Character vector, used for the column heading of standard error of standardized coefficients. Default is <code>"standardized std. Error"</code>.</p></dd>
+<dt>string.std_ci</dt>
+<dd><p>Character vector, used for the column heading of confidence intervals of standardized coefficients. Default is <code>"standardized std. Error"</code>.</p></dd>
+<dt>string.p</dt>
+<dd><p>Character vector, used for the column heading of p values. Default is <code>"p"</code>.</p></dd>
+<dt>string.std.p</dt>
+<dd><p>Character vector, used for the column heading of p values. Default is <code>"std. p"</code>.</p></dd>
+<dt>string.df</dt>
+<dd><p>Character vector, used for the column heading of degrees of freedom. Default is <code>"df"</code>.</p></dd>
+<dt>string.stat</dt>
+<dd><p>Character vector, used for the test statistic. Default is <code>"Statistic"</code>.</p></dd>
+<dt>string.std.stat</dt>
+<dd><p>Character vector, used for the test statistic. Default is <code>"std. Statistic"</code>.</p></dd>
+<dt>string.resp</dt>
+<dd><p>Character vector, used for the column heading of of the response level for multinominal or categorical models. Default is <code>"Response"</code>.</p></dd>
+<dt>string.intercept</dt>
+<dd><p>Character vector, used as name for the intercept parameter. Default is <code>"(Intercept)"</code>.</p></dd>
+<dt>strings</dt>
+<dd><p>Named character vector, as alternative to arguments like <code>string.ci</code>
 or <code>string.p</code> etc. The name (lhs) must be one of the string-indicator from
 the aforementioned arguments, while the value (rhs) is the string that is used
 as column heading. E.g., <code>strings = c(ci = "Conf.Int.", se = "std. Err")</code>
-would be equivalent to setting <code>string.ci = "Conf.Int.", string.se = "std. Err"</code>.</p></td>
-    </tr><tr><th>ci.hyphen</th>
-      <td><p>Character vector, indicating the hyphen for confidence interval range.
-May be an HTML entity. See 'Examples'.</p></td>
-    </tr><tr><th>minus.sign</th>
-      <td><p>string, indicating the minus sign for negative numbers.
-May be an HTML entity. See 'Examples'.</p></td>
-    </tr><tr><th>collapse.ci</th>
-      <td><p>Logical, if <code>FALSE</code>, the CI values are shown in
-a separate table column.</p></td>
-    </tr><tr><th>collapse.se</th>
-      <td><p>Logical, if <code>FALSE</code>, the SE values are shown in
-a separate table column.</p></td>
-    </tr><tr><th>linebreak</th>
-      <td><p>Logical, if <code>TRUE</code> and <code>collapse.ci = FALSE</code> or
+would be equivalent to setting <code>string.ci = "Conf.Int.", string.se = "std. Err"</code>.</p></dd>
+<dt>ci.hyphen</dt>
+<dd><p>Character vector, indicating the hyphen for confidence interval range.
+May be an HTML entity. See 'Examples'.</p></dd>
+<dt>minus.sign</dt>
+<dd><p>string, indicating the minus sign for negative numbers.
+May be an HTML entity. See 'Examples'.</p></dd>
+<dt>collapse.ci</dt>
+<dd><p>Logical, if <code>FALSE</code>, the CI values are shown in
+a separate table column.</p></dd>
+<dt>collapse.se</dt>
+<dd><p>Logical, if <code>FALSE</code>, the SE values are shown in
+a separate table column.</p></dd>
+<dt>linebreak</dt>
+<dd><p>Logical, if <code>TRUE</code> and <code>collapse.ci = FALSE</code> or
 <code>collapse.se = FALSE</code>, inserts a line break between estimate and
 CI resp. SE values. If <code>FALSE</code>, values are printed in the same line
-as estimate values.</p></td>
-    </tr><tr><th>col.order</th>
-      <td><p>Character vector, indicating which columns should be printed
+as estimate values.</p></dd>
+<dt>col.order</dt>
+<dd><p>Character vector, indicating which columns should be printed
 and in which order. Column names that are excluded from <code>col.order</code>
 are not shown in the table output. However, column names that are included,
 are only shown in the table when the related argument (like <code>show.est</code>
 for <code>"estimate"</code>) is set to <code>TRUE</code> or another valid value.
-Table columns are printed in the order as they appear in <code>col.order</code>.</p></td>
-    </tr><tr><th>digits</th>
-      <td><p>Amount of decimals for estimates</p></td>
-    </tr><tr><th>digits.p</th>
-      <td><p>Amount of decimals for p-values</p></td>
-    </tr><tr><th>digits.re</th>
-      <td><p>Amount of decimals for random effects part of the summary table.</p></td>
-    </tr><tr><th>emph.p</th>
-      <td><p>Logical, if <code>TRUE</code>, significant p-values are shown bold faced.</p></td>
-    </tr><tr><th>df.method, p.val</th>
-      <td><p>Method for computing degrees of freedom for p-values,
+Table columns are printed in the order as they appear in <code>col.order</code>.</p></dd>
+<dt>digits</dt>
+<dd><p>Amount of decimals for estimates</p></dd>
+<dt>digits.p</dt>
+<dd><p>Amount of decimals for p-values</p></dd>
+<dt>digits.re</dt>
+<dd><p>Amount of decimals for random effects part of the summary table.</p></dd>
+<dt>emph.p</dt>
+<dd><p>Logical, if <code>TRUE</code>, significant p-values are shown bold faced.</p></dd>
+<dt>df.method, p.val</dt>
+<dd><p>Method for computing degrees of freedom for p-values,
 standard errors and confidence intervals (CI). Only applies to mixed models.
 Use <code>df.method = "wald"</code> for a faster, but less precise computation.
 This will use the residual degrees of freedom (as returned by <code><a href="https://rdrr.io/r/stats/df.residual.html" class="external-link">df.residual()</a></code>)
@@ -444,69 +445,67 @@ uses Kenward-Roger approximation for the degrees of freedom.
 <code>df.method = "satterthwaite"</code> uses Satterthwaite's approximation and
 <code>"ml1"</code> uses a "m-l-1" heuristic see <code><a href="https://easystats.github.io/parameters/reference/degrees_of_freedom.html" class="external-link">degrees_of_freedom</a></code>
 for details). Use <code>show.df = TRUE</code> to show the approximated degrees of freedom
-for each coefficient.</p></td>
-    </tr><tr><th>p.style</th>
-      <td><p>Character, indicating if p-values should be printed as
+for each coefficient.</p></dd>
+<dt>p.style</dt>
+<dd><p>Character, indicating if p-values should be printed as
 numeric value (<code>"numeric"</code>), as 'stars' (asterisks) only (<code>"stars"</code>),
 or scientific (<code>"scientific"</code>). Scientific and numeric style can be
-combined with "stars", e.g. <code>"numeric_stars"</code></p></td>
-    </tr><tr><th>p.threshold</th>
-      <td><p>Numeric vector of length 3, indicating the treshold for
+combined with "stars", e.g. <code>"numeric_stars"</code></p></dd>
+<dt>p.threshold</dt>
+<dd><p>Numeric vector of length 3, indicating the treshold for
 annotating p-values with asterisks. Only applies if
-<code>p.style = "asterisk"</code>.</p></td>
-    </tr><tr><th>p.adjust</th>
-      <td><p>Character vector, if not <code>NULL</code>, indicates the method
-to adjust p-values. See <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></code> for details.</p></td>
-    </tr><tr><th>case</th>
-      <td><p>Desired target case. Labels will automatically converted into the
+<code>p.style = "asterisk"</code>.</p></dd>
+<dt>p.adjust</dt>
+<dd><p>Character vector, if not <code>NULL</code>, indicates the method
+to adjust p-values. See <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></code> for details.</p></dd>
+<dt>case</dt>
+<dd><p>Desired target case. Labels will automatically converted into the
 specified character case. See <code>snakecase::to_any_case()</code> for more
 details on this argument. By default, if <code>case</code> is not specified,
 it will be set to <code>"parsed"</code>, unless <code>prefix.labels</code> is not
 <code>"none"</code>. If <code>prefix.labels</code> is either <code>"label"</code> (or
 <code>"l"</code>) or <code>"varname"</code> (or <code>"v"</code>) and <code>case</code> is not
 specified, it will be set to <code>NULL</code> - this is a more convenient
-default when prefixing labels.</p></td>
-    </tr><tr><th>auto.label</th>
-      <td><p>Logical, if <code>TRUE</code> (the default),
+default when prefixing labels.</p></dd>
+<dt>auto.label</dt>
+<dd><p>Logical, if <code>TRUE</code> (the default),
  and <a href="https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html" class="external-link">data is labelled</a>,
  <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">term_labels</a></code> is called to retrieve the labels
  of the coefficients, which will be used as predictor labels. If data is
  not labelled, <a href="https://easystats.github.io/parameters/reference/format_parameters.html" class="external-link">format_parameters()</a>
  is used to create pretty labels. If <code>auto.label = FALSE</code>,
-original variable names and value labels (factor levels) are used.</p></td>
-    </tr><tr><th>prefix.labels</th>
-      <td><p>Indicates whether the value labels of categorical variables
+original variable names and value labels (factor levels) are used.</p></dd>
+<dt>prefix.labels</dt>
+<dd><p>Indicates whether the value labels of categorical variables
 should be prefixed, e.g. with the variable name or variable label. See
 argument <code>prefix</code> in <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">term_labels</a></code> for
-details.</p></td>
-    </tr><tr><th>bpe</th>
-      <td><p>For <strong>Stan</strong>-models (fitted with the <span class="pkg">rstanarm</span>- or
+details.</p></dd>
+<dt>bpe</dt>
+<dd><p>For <strong>Stan</strong>-models (fitted with the <span class="pkg">rstanarm</span>- or
 <span class="pkg">brms</span>-package), the Bayesian point estimate is, by default, the median
 of the posterior distribution. Use <code>bpe</code> to define other functions to
 calculate the Bayesian point estimate. <code>bpe</code> needs to be a character
 naming the specific function, which is passed to the <code>fun</code>-argument in
 <code><a href="https://strengejacke.github.io/sjmisc/reference/typical_value.html" class="external-link">typical_value</a></code>. So, <code>bpe = "mean"</code> would
-calculate the mean value of the posterior distribution.</p></td>
-    </tr><tr><th>CSS</th>
-      <td><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
+calculate the mean value of the posterior distribution.</p></dd>
+<dt>CSS</dt>
+<dd><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
 according to the <a href="http://www.w3.org/Style/CSS/" class="external-link">official CSS syntax</a>.
-See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></td>
-    </tr><tr><th>file</th>
-      <td><p>Destination file, if the output should be saved as file.
+See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></dd>
+<dt>file</dt>
+<dd><p>Destination file, if the output should be saved as file.
 If <code>NULL</code> (default), the output will be saved as temporary file and
-opened either in the IDE's viewer pane or the default web browser.</p></td>
-    </tr><tr><th>use.viewer</th>
-      <td><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
+opened either in the IDE's viewer pane or the default web browser.</p></dd>
+<dt>use.viewer</dt>
+<dd><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
 viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
-opened in a web browser.</p></td>
-    </tr><tr><th>encoding</th>
-      <td><p>Character vector, indicating the charset encoding used
+opened in a web browser.</p></dd>
+<dt>encoding</dt>
+<dd><p>Character vector, indicating the charset encoding used
 for variable and value labels. Default is <code>"UTF-8"</code>. For Windows
 Systems, <code>encoding = "Windows-1252"</code> might be necessary for proper
-display of special characters.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+display of special characters.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>Invisibly returns</p><ul><li><p>the web page style sheet (<code>page.style</code>),</p></li>

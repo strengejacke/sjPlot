@@ -112,7 +112,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot grouped or stacked frequencies</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/plot_grpfrq.R" class="external-link"><code>R/plot_grpfrq.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/plot_grpfrq.R" class="external-link"><code>R/plot_grpfrq.R</code></a></small>
     <div class="hidden name"><code>plot_grpfrq.Rd</code></div>
     </div>
 
@@ -168,172 +168,185 @@
   hjust <span class="op">=</span> <span class="st">"center"</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>var.cnt</th>
-      <td><p>Vector of counts, for which frequencies or means will be plotted or printed.</p></td>
-    </tr><tr><th>var.grp</th>
-      <td><p>Factor with the cross-classifying variable, where <code>var.cnt</code>
-is grouped into the categories represented by <code>var.grp</code>.</p></td>
-    </tr><tr><th>type</th>
-      <td><p>Specifies the plot type. May be abbreviated.</p><dl><dt><code>"bar"</code></dt><dd><p>for simple bars (default)</p></dd>
-  <dt><code>"dot"</code></dt><dd><p>for a dot plot</p></dd>
-  <dt><code>"histogram"</code></dt><dd><p>for a histogram (does not apply to grouped frequencies)</p></dd>
-  <dt><code>"line"</code></dt><dd><p>for a line-styled histogram with filled area</p></dd>
-  <dt><code>"density"</code></dt><dd><p>for a density plot (does not apply to grouped frequencies)</p></dd>
-  <dt><code>"boxplot"</code></dt><dd><p>for box plot</p></dd>
-  <dt><code>"violin"</code></dt><dd><p>for violin plots</p></dd>
+    <dl><dt>var.cnt</dt>
+<dd><p>Vector of counts, for which frequencies or means will be plotted or printed.</p></dd>
+<dt>var.grp</dt>
+<dd><p>Factor with the cross-classifying variable, where <code>var.cnt</code>
+is grouped into the categories represented by <code>var.grp</code>.</p></dd>
+<dt>type</dt>
+<dd><p>Specifies the plot type. May be abbreviated.</p><dl><dt><code>"bar"</code></dt>
+<dd><p>for simple bars (default)</p></dd>
+
+  <dt><code>"dot"</code></dt>
+<dd><p>for a dot plot</p></dd>
+
+  <dt><code>"histogram"</code></dt>
+<dd><p>for a histogram (does not apply to grouped frequencies)</p></dd>
+
+  <dt><code>"line"</code></dt>
+<dd><p>for a line-styled histogram with filled area</p></dd>
+
+  <dt><code>"density"</code></dt>
+<dd><p>for a density plot (does not apply to grouped frequencies)</p></dd>
+
+  <dt><code>"boxplot"</code></dt>
+<dd><p>for box plot</p></dd>
+
+  <dt><code>"violin"</code></dt>
+<dd><p>for violin plots</p></dd>
+
   
-</dl></td>
-    </tr><tr><th>bar.pos</th>
-      <td><p>Indicates whether bars should be positioned side-by-side (default),
-or stacked (<code>bar.pos = "stack"</code>). May be abbreviated.</p></td>
-    </tr><tr><th>weight.by</th>
-      <td><p>Vector of weights that will be applied to weight all cases.
+</dl></dd>
+<dt>bar.pos</dt>
+<dd><p>Indicates whether bars should be positioned side-by-side (default),
+or stacked (<code>bar.pos = "stack"</code>). May be abbreviated.</p></dd>
+<dt>weight.by</dt>
+<dd><p>Vector of weights that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is
-<code>NULL</code>, so no weights are used.</p></td>
-    </tr><tr><th>intr.var</th>
-      <td><p>An interaction variable which can be used for box plots. Divides each category indicated
+<code>NULL</code>, so no weights are used.</p></dd>
+<dt>intr.var</dt>
+<dd><p>An interaction variable which can be used for box plots. Divides each category indicated
 by <code>var.grp</code> into the factors of <code>intr.var</code>, so that each category of <code>var.grp</code>
 is subgrouped into <code>intr.var</code>'s categories. Only applies when
-<code>type = "boxplot"</code> or <code>type = "violin"</code>.</p></td>
-    </tr><tr><th>title</th>
-      <td><p>character vector, used as plot title. Depending on plot type and function,
+<code>type = "boxplot"</code> or <code>type = "violin"</code>.</p></dd>
+<dt>title</dt>
+<dd><p>character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If <code>title = ""</code>, no title is printed.
 For effect-plots, may also be a character vector of length &gt; 1,
-to define titles for each sub-plot or facet.</p></td>
-    </tr><tr><th>title.wtd.suffix</th>
-      <td><p>Suffix (as string) for the title, if <code>weight.by</code> is specified,
+to define titles for each sub-plot or facet.</p></dd>
+<dt>title.wtd.suffix</dt>
+<dd><p>Suffix (as string) for the title, if <code>weight.by</code> is specified,
 e.g. <code>title.wtd.suffix=" (weighted)"</code>. Default is <code>NULL</code>, so
-title will not have a suffix when cases are weighted.</p></td>
-    </tr><tr><th>legend.title</th>
-      <td><p>character vector, used as title for the plot legend.</p></td>
-    </tr><tr><th>axis.titles</th>
-      <td><p>character vector of length one or two, defining the title(s)
-for the x-axis and y-axis.</p></td>
-    </tr><tr><th>axis.labels</th>
-      <td><p>character vector with labels used as axis labels. Optional
-argument, since in most cases, axis labels are set automatically.</p></td>
-    </tr><tr><th>legend.labels</th>
-      <td><p>character vector with labels for the guide/legend.</p></td>
-    </tr><tr><th>intr.var.labels</th>
-      <td><p>a character vector with labels for the x-axis breaks
+title will not have a suffix when cases are weighted.</p></dd>
+<dt>legend.title</dt>
+<dd><p>character vector, used as title for the plot legend.</p></dd>
+<dt>axis.titles</dt>
+<dd><p>character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.</p></dd>
+<dt>axis.labels</dt>
+<dd><p>character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.</p></dd>
+<dt>legend.labels</dt>
+<dd><p>character vector with labels for the guide/legend.</p></dd>
+<dt>intr.var.labels</dt>
+<dd><p>a character vector with labels for the x-axis breaks
 when having interaction variables included.
 These labels replace the <code>axis.labels</code>. Only applies, when using box or violin plots
-(i.e. <code>type = "boxplot"</code> or <code>"violin"</code>) and <code>intr.var</code> is not <code>NULL</code>.</p></td>
-    </tr><tr><th>wrap.title</th>
-      <td><p>numeric, determines how many chars of the plot title are displayed in
-one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.labels</th>
-      <td><p>numeric, determines how many chars of the value, variable or axis
-labels are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.legend.title</th>
-      <td><p>numeric, determines how many chars of the legend's title
-are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.legend.labels</th>
-      <td><p>numeric, determines how many chars of the legend labels are
-displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>geom.size</th>
-      <td><p>size resp. width of the geoms (bar width, line thickness or point size,
+(i.e. <code>type = "boxplot"</code> or <code>"violin"</code>) and <code>intr.var</code> is not <code>NULL</code>.</p></dd>
+<dt>wrap.title</dt>
+<dd><p>numeric, determines how many chars of the plot title are displayed in
+one line and when a line break is inserted.</p></dd>
+<dt>wrap.labels</dt>
+<dd><p>numeric, determines how many chars of the value, variable or axis
+labels are displayed in one line and when a line break is inserted.</p></dd>
+<dt>wrap.legend.title</dt>
+<dd><p>numeric, determines how many chars of the legend's title
+are displayed in one line and when a line break is inserted.</p></dd>
+<dt>wrap.legend.labels</dt>
+<dd><p>numeric, determines how many chars of the legend labels are
+displayed in one line and when a line break is inserted.</p></dd>
+<dt>geom.size</dt>
+<dd><p>size resp. width of the geoms (bar width, line thickness or point size,
 depending on plot type and function). Note that bar and bin widths mostly
-need smaller values than dot sizes.</p></td>
-    </tr><tr><th>geom.spacing</th>
-      <td><p>the spacing between geoms (i.e. bar spacing)</p></td>
-    </tr><tr><th>geom.colors</th>
-      <td><p>user defined color for geoms. See 'Details' in <code>plot_grpfrq</code>.</p></td>
-    </tr><tr><th>show.values</th>
-      <td><p>Logical, whether values should be plotted or not.</p></td>
-    </tr><tr><th>show.n</th>
-      <td><p>logical, if <code>TRUE</code>, adds total number of cases for each
-group or category to the labels.</p></td>
-    </tr><tr><th>show.prc</th>
-      <td><p>logical, if <code>TRUE</code> (default), percentage values are plotted to each bar
-If <code>FALSE</code>, percentage values are removed.</p></td>
-    </tr><tr><th>show.axis.values</th>
-      <td><p>logical, whether category, count or percentage values for the axis
-should be printed or not.</p></td>
-    </tr><tr><th>show.ci</th>
-      <td><p>Logical, if <code>TRUE)</code>, adds notches to the box plot, which are
+need smaller values than dot sizes.</p></dd>
+<dt>geom.spacing</dt>
+<dd><p>the spacing between geoms (i.e. bar spacing)</p></dd>
+<dt>geom.colors</dt>
+<dd><p>user defined color for geoms. See 'Details' in <code>plot_grpfrq</code>.</p></dd>
+<dt>show.values</dt>
+<dd><p>Logical, whether values should be plotted or not.</p></dd>
+<dt>show.n</dt>
+<dd><p>logical, if <code>TRUE</code>, adds total number of cases for each
+group or category to the labels.</p></dd>
+<dt>show.prc</dt>
+<dd><p>logical, if <code>TRUE</code> (default), percentage values are plotted to each bar
+If <code>FALSE</code>, percentage values are removed.</p></dd>
+<dt>show.axis.values</dt>
+<dd><p>logical, whether category, count or percentage values for the axis
+should be printed or not.</p></dd>
+<dt>show.ci</dt>
+<dd><p>Logical, if <code>TRUE)</code>, adds notches to the box plot, which are
 used to compare groups; if the notches of two boxes do not overlap,
-medians are considered to be significantly different.</p></td>
-    </tr><tr><th>show.grpcnt</th>
-      <td><p>logical, if <code>TRUE</code>, the count within each group is added
-to the category labels (e.g. <code>"Cat 1 (n=87)"</code>). Default value is <code>FALSE</code>.</p></td>
-    </tr><tr><th>show.legend</th>
-      <td><p>logical, if <code>TRUE</code>, and depending on plot type and
-function, a legend is added to the plot.</p></td>
-    </tr><tr><th>show.na</th>
-      <td><p>logical, if <code>TRUE</code>, <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>'s (missing values)
-are added to the output.</p></td>
-    </tr><tr><th>show.summary</th>
-      <td><p>logical, if <code>TRUE</code> (default), a summary with chi-squared
+medians are considered to be significantly different.</p></dd>
+<dt>show.grpcnt</dt>
+<dd><p>logical, if <code>TRUE</code>, the count within each group is added
+to the category labels (e.g. <code>"Cat 1 (n=87)"</code>). Default value is <code>FALSE</code>.</p></dd>
+<dt>show.legend</dt>
+<dd><p>logical, if <code>TRUE</code>, and depending on plot type and
+function, a legend is added to the plot.</p></dd>
+<dt>show.na</dt>
+<dd><p>logical, if <code>TRUE</code>, <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>'s (missing values)
+are added to the output.</p></dd>
+<dt>show.summary</dt>
+<dd><p>logical, if <code>TRUE</code> (default), a summary with chi-squared
 statistics (see <code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></code>), Cramer's V or Phi-value etc.
 is shown. If a cell contains expected values lower than five (or lower than 10
 if df is 1), the Fisher's exact test (see <code><a href="https://rdrr.io/r/stats/fisher.test.html" class="external-link">fisher.test</a></code>) is
 computed instead of chi-squared test. If the table's matrix is larger
-than 2x2, Fisher's exact test with Monte Carlo simulation is computed.</p></td>
-    </tr><tr><th>drop.empty</th>
-      <td><p>Logical, if <code>TRUE</code> and the variable's values are labeled,
+than 2x2, Fisher's exact test with Monte Carlo simulation is computed.</p></dd>
+<dt>drop.empty</dt>
+<dd><p>Logical, if <code>TRUE</code> and the variable's values are labeled,
 values that have no observations are still printed in the table (with
 frequency <code>0</code>). If <code>FALSE</code>, values / factor levels with no occurrence
-in the data are omitted from the output.</p></td>
-    </tr><tr><th>auto.group</th>
-      <td><p>numeric value, indicating the minimum amount of unique values
+in the data are omitted from the output.</p></dd>
+<dt>auto.group</dt>
+<dd><p>numeric value, indicating the minimum amount of unique values
 in the count variable, at which automatic grouping into smaller units
 is done (see <code><a href="https://strengejacke.github.io/sjmisc/reference/group_var.html" class="external-link">group_var</a></code>). Default value for
 <code>auto.group</code> is <code>NULL</code>, i.e. auto-grouping is off.
-See <code><a href="https://strengejacke.github.io/sjmisc/reference/group_var.html" class="external-link">group_var</a></code> for examples on grouping.</p></td>
-    </tr><tr><th>ylim</th>
-      <td><p>numeric vector of length two, defining lower and upper axis limits
+See <code><a href="https://strengejacke.github.io/sjmisc/reference/group_var.html" class="external-link">group_var</a></code> for examples on grouping.</p></dd>
+<dt>ylim</dt>
+<dd><p>numeric vector of length two, defining lower and upper axis limits
 of the y scale. By default, this argument is set to <code>NULL</code>, i.e. the
-y-axis fits to the required range of the data.</p></td>
-    </tr><tr><th>grid.breaks</th>
-      <td><p>numeric; sets the distance between breaks for the axis,
-i.e. at every <code>grid.breaks</code>'th position a major grid is being printed.</p></td>
-    </tr><tr><th>expand.grid</th>
-      <td><p>logical, if <code>TRUE</code>, the plot grid is expanded, i.e. there is a small margin between
-axes and plotting region. Default is <code>FALSE</code>.</p></td>
-    </tr><tr><th>inner.box.width</th>
-      <td><p>width of the inner box plot that is plotted inside of violin plots. Only applies
-if <code>type = "violin"</code>. Default value is 0.15</p></td>
-    </tr><tr><th>inner.box.dotsize</th>
-      <td><p>size of mean dot insie a violin or box plot. Applies only
-when <code>type = "violin"</code> or <code>"boxplot"</code>.</p></td>
-    </tr><tr><th>smooth.lines</th>
-      <td><p>prints a smooth line curve. Only applies, when argument <code>type = "line"</code>.</p></td>
-    </tr><tr><th>emph.dots</th>
-      <td><p>logical, if <code>TRUE</code>, the groups of dots in a dot-plot are highlighted
-with a shaded rectangle.</p></td>
-    </tr><tr><th>summary.pos</th>
-      <td><p>position of the model summary which is printed when <code>show.summary</code>
+y-axis fits to the required range of the data.</p></dd>
+<dt>grid.breaks</dt>
+<dd><p>numeric; sets the distance between breaks for the axis,
+i.e. at every <code>grid.breaks</code>'th position a major grid is being printed.</p></dd>
+<dt>expand.grid</dt>
+<dd><p>logical, if <code>TRUE</code>, the plot grid is expanded, i.e. there is a small margin between
+axes and plotting region. Default is <code>FALSE</code>.</p></dd>
+<dt>inner.box.width</dt>
+<dd><p>width of the inner box plot that is plotted inside of violin plots. Only applies
+if <code>type = "violin"</code>. Default value is 0.15</p></dd>
+<dt>inner.box.dotsize</dt>
+<dd><p>size of mean dot insie a violin or box plot. Applies only
+when <code>type = "violin"</code> or <code>"boxplot"</code>.</p></dd>
+<dt>smooth.lines</dt>
+<dd><p>prints a smooth line curve. Only applies, when argument <code>type = "line"</code>.</p></dd>
+<dt>emph.dots</dt>
+<dd><p>logical, if <code>TRUE</code>, the groups of dots in a dot-plot are highlighted
+with a shaded rectangle.</p></dd>
+<dt>summary.pos</dt>
+<dd><p>position of the model summary which is printed when <code>show.summary</code>
 is <code>TRUE</code>. Default is <code>"r"</code>, i.e. it's printed to the upper right corner.
-Use <code>"l"</code> for upper left corner.</p></td>
-    </tr><tr><th>facet.grid</th>
-      <td><p><code>TRUE</code> to arrange the lay out of of multiple plots
+Use <code>"l"</code> for upper left corner.</p></dd>
+<dt>facet.grid</dt>
+<dd><p><code>TRUE</code> to arrange the lay out of of multiple plots
 in a grid of an integrated single plot. This argument calls
 <code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></code> or <code><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html" class="external-link">facet_grid</a></code>
 to arrange plots. Use <code><a href="plot_grid.html">plot_grid</a></code> to plot multiple plot-objects
-as an arranged grid with <code><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></code>.</p></td>
-    </tr><tr><th>coord.flip</th>
-      <td><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></td>
-    </tr><tr><th>y.offset</th>
-      <td><p>numeric, offset for text labels when their alignment is adjusted
-to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</p></td>
-    </tr><tr><th>vjust</th>
-      <td><p>character vector, indicating the vertical position of value
+as an arranged grid with <code><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html" class="external-link">grid.arrange</a></code>.</p></dd>
+<dt>coord.flip</dt>
+<dd><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></dd>
+<dt>y.offset</dt>
+<dd><p>numeric, offset for text labels when their alignment is adjusted
+to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</p></dd>
+<dt>vjust</dt>
+<dd><p>character vector, indicating the vertical position of value
 labels. Allowed are same values as for <code>vjust</code> aesthetics from
 <code>ggplot2</code>: "left", "center", "right", "bottom", "middle", "top" and
 new options like "inward" and "outward", which align text towards and
-away from the center of the plot respectively.</p></td>
-    </tr><tr><th>hjust</th>
-      <td><p>character vector, indicating the horizontal position of value
+away from the center of the plot respectively.</p></dd>
+<dt>hjust</dt>
+<dd><p>character vector, indicating the horizontal position of value
 labels. Allowed are same values as for <code>vjust</code> aesthetics from
 <code>ggplot2</code>: "left", "center", "right", "bottom", "middle", "top" and
 new options like "inward" and "outward", which align text towards and
-away from the center of the plot respectively.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+away from the center of the plot respectively.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A ggplot-object.</p>

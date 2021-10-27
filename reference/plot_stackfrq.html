@@ -113,7 +113,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Plot stacked proportional bars</h1>
-    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/R/plot_stackfrq.R" class="external-link"><code>R/plot_stackfrq.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/R/plot_stackfrq.R" class="external-link"><code>R/plot_stackfrq.R</code></a></small>
     <div class="hidden name"><code>plot_stackfrq.Rd</code></div>
     </div>
 
@@ -150,88 +150,97 @@
   coord.flip <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>items</th>
-      <td><p>Data frame, or a grouped data frame, with each column representing one item.</p></td>
-    </tr><tr><th>title</th>
-      <td><p>character vector, used as plot title. Depending on plot type and function,
+    <dl><dt>items</dt>
+<dd><p>Data frame, or a grouped data frame, with each column representing one item.</p></dd>
+<dt>title</dt>
+<dd><p>character vector, used as plot title. Depending on plot type and function,
 will be set automatically. If <code>title = ""</code>, no title is printed.
 For effect-plots, may also be a character vector of length &gt; 1,
-to define titles for each sub-plot or facet.</p></td>
-    </tr><tr><th>legend.title</th>
-      <td><p>character vector, used as title for the plot legend.</p></td>
-    </tr><tr><th>legend.labels</th>
-      <td><p>character vector with labels for the guide/legend.</p></td>
-    </tr><tr><th>axis.titles</th>
-      <td><p>character vector of length one or two, defining the title(s)
-for the x-axis and y-axis.</p></td>
-    </tr><tr><th>axis.labels</th>
-      <td><p>character vector with labels used as axis labels. Optional
-argument, since in most cases, axis labels are set automatically.</p></td>
-    </tr><tr><th>weight.by</th>
-      <td><p>Vector of weights that will be applied to weight all cases.
+to define titles for each sub-plot or facet.</p></dd>
+<dt>legend.title</dt>
+<dd><p>character vector, used as title for the plot legend.</p></dd>
+<dt>legend.labels</dt>
+<dd><p>character vector with labels for the guide/legend.</p></dd>
+<dt>axis.titles</dt>
+<dd><p>character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.</p></dd>
+<dt>axis.labels</dt>
+<dd><p>character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.</p></dd>
+<dt>weight.by</dt>
+<dd><p>Vector of weights that will be applied to weight all cases.
 Must be a vector of same length as the input vector. Default is
-<code>NULL</code>, so no weights are used.</p></td>
-    </tr><tr><th>sort.frq</th>
-      <td><p>Indicates whether the <code>items</code> should be ordered by
-by highest count of first or last category of <code>items</code>.</p><dl><dt><code>"first.asc"</code></dt><dd><p>to order ascending by lowest count of first category,</p></dd>
-  <dt><code>"first.desc"</code></dt><dd><p>to order descending by lowest count of first category,</p></dd>
-  <dt><code>"last.asc"</code></dt><dd><p>to order ascending by lowest count of last category,</p></dd>
-  <dt><code>"last.desc"</code></dt><dd><p>to order descending by lowest count of last category,</p></dd>
-  <dt><code>NULL</code></dt><dd><p>(default) for no sorting.</p></dd>
+<code>NULL</code>, so no weights are used.</p></dd>
+<dt>sort.frq</dt>
+<dd><p>Indicates whether the <code>items</code> should be ordered by
+by highest count of first or last category of <code>items</code>.</p><dl><dt><code>"first.asc"</code></dt>
+<dd><p>to order ascending by lowest count of first category,</p></dd>
 
-</dl></td>
-    </tr><tr><th>wrap.title</th>
-      <td><p>numeric, determines how many chars of the plot title are displayed in
-one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.labels</th>
-      <td><p>numeric, determines how many chars of the value, variable or axis
-labels are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.legend.title</th>
-      <td><p>numeric, determines how many chars of the legend's title
-are displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>wrap.legend.labels</th>
-      <td><p>numeric, determines how many chars of the legend labels are
-displayed in one line and when a line break is inserted.</p></td>
-    </tr><tr><th>geom.size</th>
-      <td><p>size resp. width of the geoms (bar width, line thickness or point size,
+  <dt><code>"first.desc"</code></dt>
+<dd><p>to order descending by lowest count of first category,</p></dd>
+
+  <dt><code>"last.asc"</code></dt>
+<dd><p>to order ascending by lowest count of last category,</p></dd>
+
+  <dt><code>"last.desc"</code></dt>
+<dd><p>to order descending by lowest count of last category,</p></dd>
+
+  <dt><code>NULL</code></dt>
+<dd><p>(default) for no sorting.</p></dd>
+
+
+</dl></dd>
+<dt>wrap.title</dt>
+<dd><p>numeric, determines how many chars of the plot title are displayed in
+one line and when a line break is inserted.</p></dd>
+<dt>wrap.labels</dt>
+<dd><p>numeric, determines how many chars of the value, variable or axis
+labels are displayed in one line and when a line break is inserted.</p></dd>
+<dt>wrap.legend.title</dt>
+<dd><p>numeric, determines how many chars of the legend's title
+are displayed in one line and when a line break is inserted.</p></dd>
+<dt>wrap.legend.labels</dt>
+<dd><p>numeric, determines how many chars of the legend labels are
+displayed in one line and when a line break is inserted.</p></dd>
+<dt>geom.size</dt>
+<dd><p>size resp. width of the geoms (bar width, line thickness or point size,
 depending on plot type and function). Note that bar and bin widths mostly
-need smaller values than dot sizes.</p></td>
-    </tr><tr><th>geom.colors</th>
-      <td><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></td>
-    </tr><tr><th>show.prc</th>
-      <td><p>Logical, whether percentage values should be plotted or not.</p></td>
-    </tr><tr><th>show.n</th>
-      <td><p>Logical, whether count values hould be plotted or not.</p></td>
-    </tr><tr><th>show.total</th>
-      <td><p>logical, if <code>TRUE</code>, adds total number of cases for each
-group or category to the labels.</p></td>
-    </tr><tr><th>show.axis.prc</th>
-      <td><p>Logical, if <code>TRUE</code> (default), the percentage values at the x-axis are shown.</p></td>
-    </tr><tr><th>show.legend</th>
-      <td><p>logical, if <code>TRUE</code>, and depending on plot type and
-function, a legend is added to the plot.</p></td>
-    </tr><tr><th>grid.breaks</th>
-      <td><p>numeric; sets the distance between breaks for the axis,
-i.e. at every <code>grid.breaks</code>'th position a major grid is being printed.</p></td>
-    </tr><tr><th>expand.grid</th>
-      <td><p>logical, if <code>TRUE</code>, the plot grid is expanded, i.e. there is a small margin between
-axes and plotting region. Default is <code>FALSE</code>.</p></td>
-    </tr><tr><th>digits</th>
-      <td><p>Numeric, amount of digits after decimal point when rounding
-estimates or values.</p></td>
-    </tr><tr><th>vjust</th>
-      <td><p>character vector, indicating the vertical position of value
+need smaller values than dot sizes.</p></dd>
+<dt>geom.colors</dt>
+<dd><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></dd>
+<dt>show.prc</dt>
+<dd><p>Logical, whether percentage values should be plotted or not.</p></dd>
+<dt>show.n</dt>
+<dd><p>Logical, whether count values hould be plotted or not.</p></dd>
+<dt>show.total</dt>
+<dd><p>logical, if <code>TRUE</code>, adds total number of cases for each
+group or category to the labels.</p></dd>
+<dt>show.axis.prc</dt>
+<dd><p>Logical, if <code>TRUE</code> (default), the percentage values at the x-axis are shown.</p></dd>
+<dt>show.legend</dt>
+<dd><p>logical, if <code>TRUE</code>, and depending on plot type and
+function, a legend is added to the plot.</p></dd>
+<dt>grid.breaks</dt>
+<dd><p>numeric; sets the distance between breaks for the axis,
+i.e. at every <code>grid.breaks</code>'th position a major grid is being printed.</p></dd>
+<dt>expand.grid</dt>
+<dd><p>logical, if <code>TRUE</code>, the plot grid is expanded, i.e. there is a small margin between
+axes and plotting region. Default is <code>FALSE</code>.</p></dd>
+<dt>digits</dt>
+<dd><p>Numeric, amount of digits after decimal point when rounding
+estimates or values.</p></dd>
+<dt>vjust</dt>
+<dd><p>character vector, indicating the vertical position of value
 labels. Allowed are same values as for <code>vjust</code> aesthetics from
 <code>ggplot2</code>: "left", "center", "right", "bottom", "middle", "top" and
 new options like "inward" and "outward", which align text towards and
-away from the center of the plot respectively.</p></td>
-    </tr><tr><th>coord.flip</th>
-      <td><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+away from the center of the plot respectively.</p></dd>
+<dt>coord.flip</dt>
+<dd><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A ggplot-object.</p>
