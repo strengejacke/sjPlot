@@ -339,7 +339,7 @@ And with <code>group.legend.options = list(nrow = 1)</code> all categories can b
 <span class="r-in"><span class="va">mydf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjmisc/reference/find_var.html" class="external-link">find_var</a></span><span class="op">(</span><span class="va">efc</span>, pattern <span class="op">=</span> <span class="st">"cop"</span>, out <span class="op">=</span> <span class="st">"df"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">plot_likert</span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span>
-<span class="r-plt"><img src="plot_likert-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="plot_likert-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">plot_likert</span><span class="op">(</span></span>
 <span class="r-in">  <span class="va">mydf</span>,</span>
@@ -348,12 +348,12 @@ And with <code>group.legend.options = list(nrow = 1)</code> all categories can b
 <span class="r-in">  values <span class="op">=</span> <span class="st">"sum.outside"</span>,</span>
 <span class="r-in">  show.prc.sign <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span class="r-in"><span class="op">)</span></span>
-<span class="r-plt"><img src="plot_likert-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="plot_likert-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Plot in groups</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">plot_likert</span><span class="op">(</span><span class="va">mydf</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-plt"><img src="plot_likert-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="plot_likert-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://easystats.github.io/parameters/" class="external-link">"parameters"</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">"nFactors"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">  <span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html" class="external-link">principal_components</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span>
@@ -372,7 +372,7 @@ And with <code>group.legend.options = list(nrow = 1)</code> all categories can b
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:lattice’:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     parallel</span>
-<span class="r-plt"><img src="plot_likert-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="plot_likert-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">plot_likert</span><span class="op">(</span><span class="va">mydf</span>,</span>
 <span class="r-in">            <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"B"</span>, <span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -382,7 +382,7 @@ And with <code>group.legend.options = list(nrow = 1)</code> all categories can b
 <span class="r-in">            rel_heights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">8</span><span class="op">)</span>,</span>
 <span class="r-in">            wrap.labels <span class="op">=</span> <span class="fl">40</span>,</span>
 <span class="r-in">            reverse.scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-plt"><img src="plot_likert-5.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="plot_likert-5.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># control legend items</span></span>
 <span class="r-in"><span class="va">six_cat_example</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>

@@ -129,7 +129,7 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>data</dt>
-<dd><p>A data frame, used to split the data into <code>k</code> trainig-test-pairs.</p></dd>
+<dd><p>A data frame, used to split the data into <code>k</code> training-test-pairs.</p></dd>
 <dt>formula</dt>
 <dd><p>A model formula, used to fit linear models (<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></code>)
 over all <code>k</code> training data sets. Use <code>fit</code> to specify a
@@ -169,12 +169,12 @@ only linear, poisson and negative binomial regression models are supported.</p><
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">plot_kfold_cv</span><span class="op">(</span><span class="va">efc</span>, <span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">c172code</span> <span class="op">+</span> <span class="va">c12hour</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 69 rows containing non-finite values (stat_smooth).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 69 rows containing missing values (geom_point).</span>
-<span class="r-plt"><img src="plot_kfold_cv-1.png" alt="" width="700" height="433"></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 66 rows containing non-finite values (stat_smooth).</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 66 rows containing missing values (geom_point).</span>
+<span class="r-plt img"><img src="plot_kfold_cv-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu">plot_kfold_cv</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mpg</span> <span class="op">~</span><span class="va">.</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
-<span class="r-plt"><img src="plot_kfold_cv-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="plot_kfold_cv-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># for poisson models. need to fit a model and use 'fit'-argument</span></span>
 <span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">tot_sc_e</span> <span class="op">~</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span>, family <span class="op">=</span> <span class="va">poisson</span><span class="op">)</span></span>
@@ -182,13 +182,13 @@ only linear, poisson and negative binomial regression models are supported.</p><
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.045</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.045</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  7.9998e-30</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.045</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.045</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  7.9998e-30</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  0</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1</span>
-<span class="r-plt"><img src="plot_kfold_cv-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="plot_kfold_cv-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># and for negative binomial models</span></span>
 <span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">MASS</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MASS/man/glm.nb.html" class="external-link">glm.nb</a></span><span class="op">(</span><span class="va">tot_sc_e</span> <span class="op">~</span> <span class="va">neg_c_7</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
@@ -196,13 +196,13 @@ only linear, poisson and negative binomial regression models are supported.</p><
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.045</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.045</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  1.3132e-28</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  1.5136e-28</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.045</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.045</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  1.3132e-28</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  1.5136e-28</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1</span>
-<span class="r-plt"><img src="plot_kfold_cv-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="plot_kfold_cv-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
