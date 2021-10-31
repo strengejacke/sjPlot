@@ -7,7 +7,7 @@
 plot_kfold_cv(data, formula, k = 5, fit)
 }
 \arguments{
-\item{data}{A data frame, used to split the data into \code{k} trainig-test-pairs.}
+\item{data}{A data frame, used to split the data into \code{k} training-test-pairs.}
 
 \item{formula}{A model formula, used to fit linear models (\code{\link[stats]{lm}})
 over all \code{k} training data sets. Use \code{fit} to specify a

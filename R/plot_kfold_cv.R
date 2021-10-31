@@ -5,7 +5,7 @@
 #'                models against the outcome. This allows to evaluate how the model performs
 #'                according over- or underestimation of the outcome.
 #'
-#' @param data A data frame, used to split the data into \code{k} trainig-test-pairs.
+#' @param data A data frame, used to split the data into \code{k} training-test-pairs.
 #' @param formula A model formula, used to fit linear models (\code{\link[stats]{lm}})
 #'          over all \code{k} training data sets. Use \code{fit} to specify a
 #'          fitted model (also other models than linear models), which will be used
