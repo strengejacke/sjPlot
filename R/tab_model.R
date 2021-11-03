@@ -459,7 +459,7 @@ tab_model <- function(
       # check whether estimates should be transformed or not
 
       if (auto.transform) {
-        if (fam.info$is_linear)
+        if (fam.info$is_linear || identical(fam.info$link_function, "identity"))
           transform <- NULL
         else
           transform <- "exp"
