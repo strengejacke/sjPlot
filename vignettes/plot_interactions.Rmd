@@ -12,6 +12,12 @@ vignette: >
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 3.5, message = FALSE, warning = FALSE)
 options(width = 800, tibble.width = Inf)
+
+if (!requireNamespace("sjmisc", quietly = TRUE) ||
+    !requireNamespace("ggplot2", quietly = TRUE) ||
+    !requireNamespace("sjlabelled", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
 ```
 
 This document describes how to plot marginal effects of interaction terms from various regression models, using the `plot_model()` function. `plot_model()` is a generic plot-function, which accepts many model-objects, like `lm`, `glm`, `lme`, `lmerMod` etc.

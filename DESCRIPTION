@@ -65,6 +65,7 @@ Suggests:
     rmarkdown,
     rstanarm,
     sandwich,
+    splines,
     survey,
     TMB,
     testthat
