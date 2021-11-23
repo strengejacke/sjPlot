@@ -4,6 +4,8 @@ if (suppressWarnings(
   require("testthat") &&
   require("sjPlot") &&
   require("sjmisc") &&
+  require("sjlabelled") &&
+  require("haven") &&
   require("lme4")
 )) {
   context("sjPlot, tab_model type std")

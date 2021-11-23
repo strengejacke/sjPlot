@@ -51,6 +51,7 @@ Suggests:
     clubSandwich,
     cluster,
     cowplot,
+    haven,
     GPArotation,
     ggrepel,
     glmmTMB,
