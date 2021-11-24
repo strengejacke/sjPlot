@@ -178,8 +178,7 @@ plot_models <- function(...,
       bootstrap = FALSE,
       iterations = 1000,
       seed = NULL,
-      p_adjust = p.adjust,
-      ...
+      p_adjust = p.adjust
     )
   )
 
