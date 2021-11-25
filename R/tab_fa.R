@@ -1,7 +1,7 @@
 #' @title Summary of factor analysis as HTML table
 #' @name tab_fa
 #'
-#' @description Performes a factor analysis on a data frame or matrix
+#' @description Performs a factor analysis on a data frame or matrix
 #'                and displays the factors as HTML
 #'                table, or saves them as file. \cr \cr In case a data frame is used as
 #'                parameter, the Cronbach's Alpha value for each factor scale will be calculated,
