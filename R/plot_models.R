@@ -49,6 +49,7 @@
 #'   show.values = FALSE, show.p = FALSE, p.shape = TRUE
 #' )
 #'
+#' \dontrun{
 #' # plot multiple models from nested lists argument
 #' all.models <- list()
 #' all.models[[1]] <- fit1
@@ -64,7 +65,7 @@
 #' fit3 <- update(fit2, . ~ . + am)
 #'
 #' plot_models(fit1, fit2, fit3, std.est = "std2")
-#'
+#' }
 #' @import ggplot2
 #' @importFrom purrr map map_df map2
 #' @importFrom dplyr slice bind_rows filter

@@ -5,6 +5,7 @@
 
 ^doc$
 ^docs$
+^revdep$
 ^Meta$
 ^pkgdown$
 ^.github$

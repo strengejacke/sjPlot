@@ -252,6 +252,7 @@ plot_models(
   show.values = FALSE, show.p = FALSE, p.shape = TRUE
 )
 
+\dontrun{
 # plot multiple models from nested lists argument
 all.models <- list()
 all.models[[1]] <- fit1
@@ -267,5 +268,5 @@ fit2 <- update(fit1, . ~ . + hp)
 fit3 <- update(fit2, . ~ . + am)
 
 plot_models(fit1, fit2, fit3, std.est = "std2")
-
+}
 }
