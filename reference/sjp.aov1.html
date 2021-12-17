@@ -125,7 +125,8 @@
                the model summary.</p>
     </div>
 
-    <div class="ref-usage sourceCode">Usage,<pre class="sourceCode r"><code><span class="fu">sjp.aov1</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sjp.aov1</span><span class="op">(</span>
   <span class="va">var.dep</span>,
   <span class="va">var.grp</span>,
   meansums <span class="op">=</span> <span class="cn">FALSE</span>,
@@ -146,8 +147,8 @@
   show.p <span class="op">=</span> <span class="cn">TRUE</span>,
   show.summary <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>var.dep</dt>
@@ -226,11 +227,10 @@ than 2x2, Fisher's exact test with Monte Carlo simulation is computed.</p></dd>
     <h2>Value</h2>
     <p>A ggplot-object.</p>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># note: "var.grp" does not need to be a factor.</span></span>
 <span class="r-in"><span class="co"># coercion to factor is done by the function</span></span>
 <span class="r-in"><span class="fu">sjp.aov1</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">c12hour</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span></span>
@@ -253,7 +253,7 @@ than 2x2, Fisher's exact test with Monte Carlo simulation is computed.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
 </div>
 
       </footer></div>

@@ -129,7 +129,8 @@
                reliability test. The result is an alpha value for each factor dimension.</p>
     </div>
 
-    <div class="ref-usage sourceCode">Usage,<pre class="sourceCode r"><code><span class="fu">tab_fa</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tab_fa</span><span class="op">(</span>
   <span class="va">data</span>,
   rotation <span class="op">=</span> <span class="st">"promax"</span>,
   method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ml"</span>, <span class="st">"minres"</span>, <span class="st">"wls"</span>, <span class="st">"gls"</span>, <span class="st">"pa"</span>, <span class="st">"minchi"</span>, <span class="st">"minrank"</span><span class="op">)</span>,
@@ -149,8 +150,8 @@
   use.viewer <span class="op">=</span> <span class="cn">TRUE</span>,
   remove.spaces <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>data</dt>
@@ -240,11 +241,10 @@ may look less pretty, but it may help when exporting html-tables to office tools
     <p>This method for factor analysis relies on the functions
       <code><a href="https://rdrr.io/pkg/psych/man/fa.html" class="external-link">fa</a></code> and <code><a href="https://rdrr.io/pkg/psych/man/fa.parallel.html" class="external-link">fa.parallel</a></code> from the psych package.</p>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="co"># Data from the EUROFAMCARE sample dataset</span></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stat.ucla.edu/research/gpa" class="external-link">GPArotation</a></span><span class="op">)</span></span>
@@ -272,7 +272,7 @@ may look less pretty, but it may help when exporting html-tables to office tools
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
 </div>
 
       </footer></div>
