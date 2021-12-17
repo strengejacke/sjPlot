@@ -215,7 +215,7 @@ tab_itemscale <- function(df,
 
     # ideal item difficulty
     fun.diff.ideal <- function(x) {
-      p <- 1 / max(x, na.rm = T)
+      p <- 1 / max(x, na.rm = TRUE)
       round(p + (1 - p) / 2, 2)
     }
 
