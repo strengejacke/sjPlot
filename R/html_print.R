@@ -187,6 +187,7 @@ tab_dfs <- function(x,
                     CSS = NULL,
                     file = NULL,
                     use.viewer = TRUE,
+                    rnames = NULL,
                     ...) {
 
   # make sure list elements in CSS argument have proper name attribute
@@ -217,6 +218,14 @@ tab_dfs <- function(x,
             .i
         })
 
+        if (isTRUE(show.rownames)) {
+          if (!is.null(rnames)) {
+            tmp_rnames <- rnames
+          } else {
+            tmp_rnames <- row.names(dat)
+          }
+        }
+
         tab_df_content(
           mydf = dat,
           title = title,
@@ -228,6 +237,7 @@ tab_dfs <- function(x,
           altr.row.col = alternate.rows,
           sort.column = sort.column,
           include.table.tag = TRUE,
+          rnames = tmp_rnames,
           ...
         )
       })),
