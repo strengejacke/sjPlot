@@ -466,9 +466,9 @@ tab_xtab <- function(var.row,
         xt_stat$method.html,
         xt_stat$estimate,
         pstring,
-        xt_stat$p.value,
-        sep = ""
-      )
+        xt_stat$p.value
+      ),
+      sep = ""
     )
     # close table row
     page.content <- paste(page.content, "\n  </tr>\n")

@@ -1,5 +1,7 @@
 if (suppressWarnings(
   require("testthat") &&
+  require("sjlabelled") &&
+  require("haven") &&
   require("sjPlot")
 )) {
 

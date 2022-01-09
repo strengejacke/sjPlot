@@ -96,7 +96,7 @@ tab_df <- function(x,
                    footnote = NULL,
                    col.header = NULL,
                    show.type = FALSE,
-                   show.rownames = TRUE,
+                   show.rownames = FALSE,
                    show.footnote = FALSE,
                    alternate.rows = FALSE,
                    sort.column = NULL,
@@ -113,12 +113,14 @@ tab_df <- function(x,
   # get style definition
   style <- tab_df_style(CSS = CSS, ...)
 
-  x <- purrr::map_df(x, function(.i) {
+  rnames <- row.names(x)
+
+  x <- as.data.frame(lapply(x, function(.i) {
     if (is.numeric(.i) && sjmisc::is_float(.i))
       sprintf("%.*f", digits, .i)
     else
       .i
-  })
+  }))
 
   # get HTML content
   page.content <- tab_df_content(
@@ -132,6 +134,7 @@ tab_df <- function(x,
       altr.row.col = alternate.rows,
       sort.column = sort.column,
       include.table.tag = TRUE,
+      rnames = rnames,
       ...
     )
 
@@ -175,14 +178,16 @@ tab_dfs <- function(x,
                     footnotes = NULL,
                     col.header = NULL,
                     show.type = FALSE,
-                    show.rownames = TRUE,
+                    show.rownames = FALSE,
                     show.footnote = FALSE,
                     alternate.rows = FALSE,
                     sort.column = NULL,
+                    digits = 2,
                     encoding = "UTF-8",
                     CSS = NULL,
                     file = NULL,
                     use.viewer = TRUE,
+                    rnames = NULL,
                     ...) {
 
   # make sure list elements in CSS argument have proper name attribute
@@ -206,6 +211,21 @@ tab_dfs <- function(x,
   # get HTML content
   page.content <- paste(
       purrr::flatten_chr(purrr::pmap(list(x, titles, footnotes), function(dat, title, footnote) {
+        dat[] <- lapply(dat, function(.i) {
+          if (is.numeric(.i) && sjmisc::is_float(.i))
+            sprintf("%.*f", digits, .i)
+          else
+            .i
+        })
+
+        if (isTRUE(show.rownames)) {
+          if (!is.null(rnames)) {
+            tmp_rnames <- rnames
+          } else {
+            tmp_rnames <- row.names(dat)
+          }
+        }
+
         tab_df_content(
           mydf = dat,
           title = title,
@@ -217,6 +237,7 @@ tab_dfs <- function(x,
           altr.row.col = alternate.rows,
           sort.column = sort.column,
           include.table.tag = TRUE,
+          rnames = tmp_rnames,
           ...
         )
       })),
@@ -277,6 +298,7 @@ tab_model_df <- function(x,
                          col.header = NULL,
                          show.re.var = FALSE,
                          show.icc = FALSE,
+                         digits.rsq = 3,
                          digits.re = 2,
                          encoding = "UTF-8",
                          CSS = NULL,
@@ -318,15 +340,29 @@ tab_model_df <- function(x,
     ...
   )
 
+  # do we have labels for dependent variables / models?
+
+  empty_dv <- is.null(dv.labels) | (length(dv.labels) == 1 && dv.labels == "")
+
   # replace CSS for first table row
 
-  page.content <- gsub(
-    pattern = "thead ",
-    replacement = "depvarhead ",
-    x = page.content,
-    fixed = TRUE,
-    useBytes = TRUE
-  )
+  if (!empty_dv) {
+    page.content <- gsub(
+      pattern = "thead ",
+      replacement = "depvarhead ",
+      x = page.content,
+      fixed = TRUE,
+      useBytes = TRUE
+    )
+  } else {
+    page.content <- gsub(
+      pattern = "thead ",
+      replacement = "depvarheadnodv ",
+      x = page.content,
+      fixed = TRUE,
+      useBytes = TRUE
+    )
+  }
 
   # replace HTML-Tag for first table row
 
@@ -349,19 +385,21 @@ tab_model_df <- function(x,
 
   # table column header, with label of dependent variables ----
 
-  dv.content <- "  <tr>\n"
-  dv.content <- paste0(dv.content, "    <th class=\"thead firsttablerow firsttablecol col1\">&nbsp;</th>\n")
+  if (!empty_dv) {
+    dv.content <- "  <tr>\n"
+    dv.content <- paste0(dv.content, "    <th class=\"thead firsttablerow firsttablecol col1\">&nbsp;</th>\n")
 
-  for (i in 1:length(dv.labels)) {
-    colspan <- length(string_ends_with(sprintf("_%i", i), x = colnames(x)))
-    dv.content <- paste0(
-      dv.content,
-      sprintf("    <th colspan=\"%i\" class=\"thead firsttablerow\">%s</th>\n", colspan, dv.labels[i])
-    )
+    for (i in 1:length(dv.labels)) {
+      colspan <- length(string_ends_with(sprintf("_%i", i), x = colnames(x)))
+      dv.content <- paste0(
+        dv.content,
+        sprintf("    <th colspan=\"%i\" class=\"thead firsttablerow\">%s</th>\n", colspan, dv.labels[i])
+      )
+    }
+
+    dv.content <- paste0(dv.content, "  </tr>\n")
+    page.content <- paste0(dv.content, page.content)
   }
-
-  dv.content <- paste0(dv.content, "  </tr>\n")
-  page.content <- paste0(dv.content, page.content)
 
 
   # simplex parameters here ----
@@ -485,6 +523,8 @@ tab_model_df <- function(x,
 
       }
     }
+    page.content <- paste0(page.content, "  </tr>\n")
+
 
 
     # random effects: Between-group-variance: tau.00 ----
@@ -692,10 +732,12 @@ tab_model_df <- function(x,
         page.content <- paste0(
           page.content,
           sprintf(
-            "    <td class=\"%s\" colspan=\"%i\">%.3f / %.3f</td>\n",
+            "    <td class=\"%s\" colspan=\"%i\">%.*f / %.*f</td>\n",
             s_css,
             as.integer(colspan),
+            digits.rsq,
             rsq.list[[i]][[1]],
+            digits.rsq,
             rsq.list[[i]][[2]]
           )
         )
@@ -705,9 +747,10 @@ tab_model_df <- function(x,
         page.content <- paste0(
           page.content,
           sprintf(
-            "    <td class=\"%s\" colspan=\"%i\">%.3f</td>\n",
+            "    <td class=\"%s\" colspan=\"%i\">%.*f</td>\n",
             s_css,
             as.integer(colspan),
+            digits.rsq,
             rsq.list[[i]][[1]]
           )
         )

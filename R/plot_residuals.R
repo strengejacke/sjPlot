@@ -99,7 +99,7 @@ plot_residuals <- function(fit, geom.size = 2, remove.estimates = NULL, show.lin
   res.plot <- res.plot +
     facet_grid(~grp, scales = "free") +
     scale_fill_gradient2(low = "#003399", mid = "white", high = "#993300") +
-    guides(color = FALSE, fill = FALSE) +
+    guides(color = "none", fill = "none") +
     labs(x = NULL, y = sjlabelled::get_label(mydat[[1]], def.value = rv))
 
   res.plot

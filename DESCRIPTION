@@ -2,14 +2,14 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 2.8.4.9000
+Version: 2.8.10.1
 Authors@R: c(
     person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8895-3206")),
     person("Alexander", "Bartel", role = "ctb", comment = c(ORCID = "0000-0002-1280-6138")),
     person("Carsten", "Schwemmer", email = "carsten.schwemmer@uni-bamberg.de", role = "ctb"),
     person(given = "Chuck", family = "Powell", role = "ctb", email = "ibecav@gmail.com", comment = c(ORCID = "0000-0002-3606-2188")), 
-    person(given = "Amir", family = "Djalovski", role = "ctb", email = "Amir.DJV@gmail.com")
-          )
+    person(given = "Amir", family = "Djalovski", role = "ctb", email = "Amir.DJV@gmail.com"),
+    person(given = "Johannes", family = "Titz", role = "ctb", email = "johannes@titz.science", comment = c(ORCID = "0000-0002-1102-5719")))
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
 Description: Collection of plotting and table output functions for data
     visualization. Results of various statistical analyses (that are commonly used
@@ -21,22 +21,23 @@ Description: Collection of plotting and table output functions for data
     labelled data.
 License: GPL-3
 Depends:
-    R (>= 3.2)
+    R (>= 3.6)
 Imports:
     graphics,
     grDevices,
     stats,
     utils,
-    bayestestR (>= 0.6.0),
-    dplyr (>= 0.8.1),
+    bayestestR,
+    datawizard,
+    dplyr,
     effectsize,
-    ggeffects (>= 0.14.3),
+    ggeffects,
     ggplot2 (>= 3.2.0),
     knitr,
-    insight (>= 0.8.0),
+    insight,
     MASS,
-    parameters (>= 0.7.0),
-    performance (>= 0.4.3),
+    parameters,
+    performance,
     purrr,
     rlang,
     scales,
@@ -50,23 +51,25 @@ Suggests:
     clubSandwich,
     cluster,
     cowplot,
+    haven,
     GPArotation,
     ggrepel,
     glmmTMB,
     gridExtra,
     ggridges,
     httr,
-    lme4 (>= 1.1-12),
+    lme4,
     nFactors,
     pscl,
     psych,
     rmarkdown,
     rstanarm,
     sandwich,
+    splines,
     survey,
     TMB,
     testthat
 URL: https://strengejacke.github.io/sjPlot/
 BugReports: https://github.com/strengejacke/sjPlot/issues
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr

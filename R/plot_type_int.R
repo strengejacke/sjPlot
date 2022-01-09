@@ -1,4 +1,4 @@
-#' @importFrom insight get_data
+#' @importFrom insight get_data find_interactions
 #' @importFrom stats formula sd quantile
 #' @importFrom purrr map map_lgl map_chr
 #' @importFrom sjmisc trim is_empty str_contains is_float
@@ -23,22 +23,18 @@ plot_type_int <- function(model,
                           line.size,
                           ...) {
 
-  # find right hand side of formula, to extract interaction terms
-  rhs <- unlist(strsplit(as.character(stats::formula(model))[3], "+", fixed = TRUE))
-
   # interaction terms are separated with ":"
-  int.terms <- purrr::map_lgl(rhs, ~ sjmisc::str_contains(x = .x, pattern = c("*", ":"), logic = "|"))
-
+  int.terms <- insight::find_interactions(model, component = "conditional", flatten = TRUE)
 
   # stop if no interaction found
 
-  if (!any(int.terms))
+  if (is.null(int.terms))
     stop("No interaction term found in model.", call. = F)
 
 
   # get interaction terms and model frame
 
-  ia.terms <- purrr::map(rhs[int.terms], ~ sjmisc::trim(unlist(strsplit(.x, "[\\*:]"))))
+  ia.terms <- purrr::map(int.terms, ~ sjmisc::trim(unlist(strsplit(.x, "[\\*:]"))))
   mf <- insight::get_data(model)
 
   pl <- list()

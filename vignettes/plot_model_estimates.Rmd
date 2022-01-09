@@ -10,6 +10,16 @@ vignette: >
 ---
 ```{r echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
+
+if (!requireNamespace("sjlabelled", quietly = TRUE) ||
+    !requireNamespace("sjmisc", quietly = TRUE) ||
+    !requireNamespace("ggplot2", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+} else {
+  knitr::opts_chunk$set(eval = TRUE)
+  library(sjPlot)
+}
+
 ```
 
 This document describes how to plot estimates as forest plots (or dot whisker plots) of various regression models, using the `plot_model()` function. `plot_model()` is a generic plot-function, which accepts many model-objects, like `lm`, `glm`, `lme`, `lmerMod` etc.
@@ -174,7 +184,7 @@ if (require("rstanarm", quietly = TRUE)) {
 
 There are several options to customize the plot appearance:
 
-  * The `colors`-argument either takes the name of a valid [colorbrewer palette](http://colorbrewer2.org) (see also the related [vignette](custplot.html)), `"bw"` or `"gs"` for black/white or greyscaled colors, or a string with a color name.
+  * The `colors`-argument either takes the name of a valid [colorbrewer palette](https://colorbrewer2.org/) (see also the related [vignette](custplot.html)), `"bw"` or `"gs"` for black/white or greyscaled colors, or a string with a color name.
   * `value.offset` and `value.size` adjust the positioning and size of value labels, if shown.
   * `dot.size` and `line.size` change the size of dots and error bars.
   * `vline.color` changes the neutral "intercept" line.

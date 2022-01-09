@@ -5,7 +5,7 @@
 #'                models against the outcome. This allows to evaluate how the model performs
 #'                according over- or underestimation of the outcome.
 #'
-#' @param data A data frame, used to split the data into \code{k} trainig-test-pairs.
+#' @param data A data frame, used to split the data into \code{k} training-test-pairs.
 #' @param formula A model formula, used to fit linear models (\code{\link[stats]{lm}})
 #'          over all \code{k} training data sets. Use \code{fit} to specify a
 #'          fitted model (also other models than linear models), which will be used
@@ -17,7 +17,7 @@
 #'          only linear, poisson and negative binomial regression models are supported.
 #'
 #' @details This function, first, generates \code{k} cross-validated test-training
-#'            pairs (using the \code{\link[modelr]{crossv_kfold}}-function) and
+#'            pairs and
 #'            fits the same model, specified in the \code{formula}- or \code{fit}-
 #'            argument, over all training data sets. \cr \cr
 #'            Then, the test data is used to predict the outcome from all
@@ -45,7 +45,7 @@
 #' plot_kfold_cv(efc, fit = fit)
 #'
 #' @import ggplot2
-#' @importFrom parameters data_partition
+#' @importFrom datawizard data_partition
 #' @importFrom dplyr mutate ungroup summarise
 #' @importFrom purrr map map2
 #' @importFrom tidyr unnest
@@ -89,7 +89,7 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
       # create cross-validated test-training pairs, run poisson-model on each
       # pair, get deviance residuals and response value
       kfolds <- do.call(rbind, lapply(1:k, function(i) {
-        out <- parameters::data_partition(data, training_proportion = .8)
+        out <- datawizard::data_partition(data, training_proportion = .8)
         data.frame(train = I(list(out$training)), test = I(list(out$test)))
       }))
       res <- kfolds %>%
@@ -101,7 +101,7 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
       # create cross-validated test-training pairs, run poisson-model on each
       # pair, get deviance residuals and response value
       kfolds <- do.call(rbind, lapply(1:k, function(i) {
-        out <- parameters::data_partition(data, training_proportion = .8)
+        out <- datawizard::data_partition(data, training_proportion = .8)
         data.frame(train = I(list(out$training)), test = I(list(out$test)))
       }))
       res <- kfolds %>%
@@ -118,7 +118,7 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
     # pair, get predicted values and quality measures for models fitted on the
     # train data
     kfolds <- do.call(rbind, lapply(1:k, function(i) {
-      out <- parameters::data_partition(data, training_proportion = .8)
+      out <- datawizard::data_partition(data, training_proportion = .8)
       data.frame(train = I(list(out$training)), test = I(list(out$test)))
     }))
     res <- kfolds %>%

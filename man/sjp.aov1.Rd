@@ -94,9 +94,9 @@ variable labels.}
 \item{show.summary}{logical, if \code{TRUE} (default), a summary with chi-squared
 statistics (see \code{\link{chisq.test}}), Cramer's V or Phi-value etc.
 is shown. If a cell contains expected values lower than five (or lower than 10
-if df is 1), the Fisher's excact test (see \code{\link{fisher.test}}) is
+if df is 1), the Fisher's exact test (see \code{\link{fisher.test}}) is
 computed instead of chi-squared test. If the table's matrix is larger
-than 2x2, Fisher's excact test with Monte Carlo simulation is computed.}
+than 2x2, Fisher's exact test with Monte Carlo simulation is computed.}
 }
 \value{
 A ggplot-object.

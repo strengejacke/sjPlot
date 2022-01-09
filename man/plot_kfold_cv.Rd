@@ -7,7 +7,7 @@
 plot_kfold_cv(data, formula, k = 5, fit)
 }
 \arguments{
-\item{data}{A data frame, used to split the data into \code{k} trainig-test-pairs.}
+\item{data}{A data frame, used to split the data into \code{k} training-test-pairs.}
 
 \item{formula}{A model formula, used to fit linear models (\code{\link[stats]{lm}})
 over all \code{k} training data sets. Use \code{fit} to specify a
@@ -28,7 +28,7 @@ This function plots the aggregated residuals of k-fold cross-validated
 }
 \details{
 This function, first, generates \code{k} cross-validated test-training
-           pairs (using the \code{\link[modelr]{crossv_kfold}}-function) and
+           pairs and
            fits the same model, specified in the \code{formula}- or \code{fit}-
            argument, over all training data sets. \cr \cr
            Then, the test data is used to predict the outcome from all

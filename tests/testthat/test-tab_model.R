@@ -3,6 +3,8 @@
 if (suppressWarnings(
   require("testthat") &&
   require("sjPlot") &&
+  require("sjlabelled") &&
+  require("haven") &&
   require("sjmisc") &&
   require("lme4") &&
   require("glmmTMB") &&

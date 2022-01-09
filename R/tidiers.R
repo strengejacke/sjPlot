@@ -1,10 +1,11 @@
-#' @importFrom sjstats robust
 #' @importFrom stats qnorm pnorm
 #' @importFrom effectsize standardize
-#' @importFrom parameters model_parameters standardize_names
+#' @importFrom parameters model_parameters
+#' @importFrom insight standardize_names
 tidy_model <- function(
   model, ci.lvl, tf, type, bpe, robust, facets, show.zeroinf, p.val,
-  standardize = FALSE, bootstrap = FALSE, iterations = 1000, seed = NULL, p_adjust = NULL, ...) {
+  standardize = FALSE, bootstrap = FALSE, iterations = 1000, seed = NULL,
+  p_adjust = NULL, keep = NULL, drop = NULL, ...) {
 
   if (!is.logical(standardize) && standardize == "") standardize <- NULL
   if (is.logical(standardize) && standardize == FALSE) standardize <- NULL
@@ -29,29 +30,34 @@ tidy_model <- function(
       }
     }
 
-    df_method <- switch(
+    ci_method <- switch(
       p.val,
+      "r" = ,
+      "residual" = "residual",
       "wald" = "wald",
       "kr" = ,
       "kenward" = "kenward",
       "s" = ,
       "satterthwaite" = "satterthwaite",
-      "profile" = "profile"
+      "n" = ,
+      "normal" = "normal",
+      "profile" = "profile",
+      p.val
     )
 
     if (!is.null(robust) && !is.null(robust$vcov.fun)) {
       if (grepl("^vcov", robust$vcov.fun)) {
         robust$vcov.fun <- sub("^vcov", "", robust$vcov.fun)
       }
-      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, robust = TRUE, vcov_estimation = robust$vcov.fun, vcov_type = robust$vcov.type, vcov_args = robust$vcov.args, df_method = df_method, p_adjust = p_adjust)
+      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, robust = TRUE, vcov_estimation = robust$vcov.fun, vcov_type = robust$vcov.type, vcov_args = robust$vcov.args, ci_method = ci_method, p_adjust = p_adjust, effects = "fixed", keep = keep, drop = drop)
     } else {
-      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, df_method = df_method, p_adjust = p_adjust)
+      model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, ci_method = ci_method, p_adjust = p_adjust, effects = "fixed", keep = keep, drop = drop)
     }
-    out <- parameters::standardize_names(model_params, style = "broom")
+    out <- insight::standardize_names(model_params, style = "broom")
 
     # warning for p-values?
     tryCatch({
-      if (insight::model_info(model)$is_mixed && df_method == "kenward" && insight::find_algorithm(model)$algorithm != "REML") {
+      if (insight::model_info(model)$is_mixed && ci_method == "kenward" && insight::find_algorithm(model)$algorithm != "REML") {
         warning("Model was not fitted by REML. Re-fitting model using REML, but p-values, df, etc. still might be unreliable.", call. = FALSE)
       }
     },
@@ -64,8 +70,18 @@ tidy_model <- function(
     column <- which(colnames(out) == "component")
     if (length(column)) colnames(out)[column] <- "wrap.facet"
 
+    if (!is.null(out$effect) && "random" %in% out$effect) {
+      out$group <- NULL
+    }
+
     column <- which(colnames(out) == "group")
     if (length(column)) colnames(out)[column] <- "wrap.facet"
+
+    # remove duplicated column names
+    dupl_cols <- duplicated(colnames(out))
+    if (any(dupl_cols)) {
+      out <- out[!dupl_cols]
+    }
 
     if ("component" %in% colnames(out)) {
       out$component[out$component == "zero_inflated"] <- "Zero-Inflated Model"

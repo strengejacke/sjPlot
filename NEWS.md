@@ -1,8 +1,60 @@
-# sjPlot 2.8.5
+# sjPlot 2.8.9
 
 ## Bug fixes
 
+* Fixed issues from CRAN checks.
+
+# sjPlot 2.8.8
+
+## Changes to functions
+
+* `tab_model()` now works properly with forthcoming *parameters* update.
+
+## Bug fixes
+
+* `plot_models()` did not work properly for Bayesian models.
+
+# sjPlot 2.8.7
+
+## Changes to functions
+
+* `tab_model()` also gains an `encoding` argument.
+* `tab_df()` and `tab_dfs()` no longer set the argument `show.rownames` to `TRUE`. Therefore, both functions now use row numbers as row names, if no other rownames are present.
+* `tab_dfs()` also gains a `digits` argument.
+
+## Bug fixes
+
+* Argument `df.method` in `tab_model()` did not accept all available options that were documented.
+* Fix CRAN check issues (warnings in new R-devel).
+
+# sjPlot 2.8.6
+
+## Changes to functions
+
+* When `dv.labels = ""` in `tab_model()`, the row with names of dependent variables is omitted.
+
+## Bug fixes
+
+* Fix CRAN check issues (removed cross-references to archived packages).
+* The `minus.sign` argument in `tab_model()` now works.
+* `show.std = TRUE` in `tab_model()` did not exponentiate standardized coefficients for non-Gaussian models.
+
+# sjPlot 2.8.5
+
+## Changes to functions
+
+* `tab_model()` gains an argument `df.method`, which will replace the less generic `p.val` argument in the future. Currently, `df.method` is an alias of `p.val`.
+
+## Bug fixes
+
+* Fixed issue with wrong n's in `plot_stackfrq()` when weights were applied.
+* Fixed issue `plot_stackfrq()` when weights were applied and items should be sorted.
 * Fixed issue in `plot_models()` for models without intercept.
+* Fixed issue for wrong legend labelling in `plot_models()` when showing p-stars.
+* Fixed issue in `plot_model()` with `type = "int"` in detecting interaction terms when these were partly in parenthesis (like `a * (b + c)`).
+* Fixed issue in `tab_model()` with arguments `show.stat = TRUE` and `show.std = TRUE`, where the related statistic and CI columns for standardized coefficients were not shown.
+* Fixed issue in `tab_model()` for *brmsfit* models that did no longer show random effects information after the last update from the *performance*  package.
+* Fixed issue with argument `show.rownames` in `tab_df()`.
 
 # sjPlot 2.8.4
 

@@ -6,7 +6,7 @@
 \usage{
 plot_models(
   ...,
-  transform,
+  transform = NULL,
   std.est = NULL,
   rm.terms = NULL,
   title = NULL,
@@ -144,7 +144,7 @@ color palette. Following options are valid for the \code{colors} argument:
   \item If not specified, a default color brewer palette will be used, which is suitable for the plot style.
   \item If \code{"gs"}, a greyscale will be used.
   \item If \code{"bw"}, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see \href{https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html}{this package-vignette}).
-  \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
+  \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{RColorBrewer::display.brewer.all()} to view all available palette names.
   \item There are some pre-defined color palettes in this package, see \code{\link{sjPlot-themes}} for details.
   \item Else specify own color values or names as vector (e.g. \code{colors = "#00ff00"} or \code{colors = c("firebrick", "blue")}).
 }}
@@ -196,7 +196,7 @@ if robust standard errors are required.}
 
 \item{vcov.type}{Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see \code{\link[sandwich:vcovHC]{vcovHC()}}
-or \code{\link[clubSandwich:vcovCR]{vcovCR()}} for details).}
+or \code{clubSandwich::vcovCR()} for details).}
 
 \item{vcov.args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov.fun}.}
@@ -252,6 +252,7 @@ plot_models(
   show.values = FALSE, show.p = FALSE, p.shape = TRUE
 )
 
+\dontrun{
 # plot multiple models from nested lists argument
 all.models <- list()
 all.models[[1]] <- fit1
@@ -267,5 +268,5 @@ fit2 <- update(fit1, . ~ . + hp)
 fit3 <- update(fit2, . ~ . + am)
 
 plot_models(fit1, fit2, fit3, std.est = "std2")
-
+}
 }

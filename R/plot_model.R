@@ -131,7 +131,7 @@
 #'   popularized by Aiken and West (1991), i.e. using the mean, the value one
 #'   standard deviation above, and the value one standard deviation below the
 #'   mean as values of the moderator, see
-#'   \href{http://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin
+#'   \href{https://www.theanalysisfactor.com/3-tips-interpreting-moderation/}{Grace-Martin
 #'   K: 3 Tips to Make Interpreting Moderation Effects Easier}).}
 #'   \item{\code{"zeromax"}}{is similar to the \code{"minmax"} option, however,
 #'   \code{0} is always used as minimum value for the moderator. This may be
@@ -217,7 +217,7 @@
 #'    if robust standard errors are required.
 #' @param vcov.type Character vector, specifying the estimation type for the
 #'    robust covariance matrix estimation (see \code{\link[sandwich:vcovHC]{vcovHC()}}
-#'    or \code{\link[clubSandwich:vcovCR]{vcovCR()}} for details).
+#'    or \code{clubSandwich::vcovCR()} for details).
 #' @param vcov.args List of named vectors, used as additional arguments that
 #'    are passed down to \code{vcov.fun}.
 #' @param value.offset Numeric, offset for text labels to adjust their position
@@ -231,7 +231,7 @@
 #'     \item If not specified, a default color brewer palette will be used, which is suitable for the plot style.
 #'     \item If \code{"gs"}, a greyscale will be used.
 #'     \item If \code{"bw"}, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see \href{https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html}{this package-vignette}).
-#'     \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{\link[RColorBrewer]{display.brewer.all}} to view all available palette names.
+#'     \item If \code{colors} is any valid color brewer palette name, the related palette will be used. Use \code{RColorBrewer::display.brewer.all()} to view all available palette names.
 #'     \item There are some pre-defined color palettes in this package, see \code{\link{sjPlot-themes}} for details.
 #'     \item Else specify own color values or names as vector (e.g. \code{colors = "#00ff00"} or \code{colors = c("firebrick", "blue")}).
 #'   }
@@ -245,7 +245,7 @@
 #' @param wrap.labels Numeric, determines how many chars of the value, variable
 #'   or axis labels are displayed in one line and when a line break is inserted.
 #' @param case Desired target case. Labels will automatically converted into the
-#'   specified character case. See \code{\link[snakecase]{to_any_case}} for more
+#'   specified character case. See \code{snakecase::to_any_case()} for more
 #'   details on this argument. By default, if \code{case} is not specified,
 #'   it will be set to \code{"parsed"}, unless \code{prefix.labels} is not
 #'   \code{"none"}. If \code{prefix.labels} is either \code{"label"} (or
@@ -327,7 +327,7 @@
 #'     }
 #'     \item{Case conversion of labels}{For case conversion of labels (see argument
 #'       \code{case}), arguments \code{sep_in} and \code{sep_out} will be passed
-#'       down to \code{\link[snakecase]{to_any_case}}. This only
+#'       down to \code{snakecase::to_any_case()}. This only
 #'       applies to automatically retrieved term labels, \emph{not} if
 #'       term labels are provided by the \code{axis.labels}-argument.
 #'     }
@@ -432,7 +432,7 @@
 #' plot_grid(p)}
 #'
 #' # plot random effects
-#' if (require("lme4")) {
+#' if (require("lme4") && require("glmmTMB")) {
 #'   m <- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
 #'   plot_model(m, type = "re")
 #'
@@ -859,10 +859,11 @@ get_model_data <- function(model,
 }
 
 
+#' @importFrom insight has_intercept
 one_par <- function(model) {
   tryCatch(
     {
-      length(stats::coef(model)) <= 2
+      length(stats::coef(model)) < 2 & !insight::has_intercept(model)
     },
     error = function(x) { FALSE }
   )

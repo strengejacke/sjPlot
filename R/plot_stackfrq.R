@@ -204,17 +204,6 @@ plot_stackfrq <- function(items,
       apply(items, 2, function(x) unique(stats::na.omit(x)))))))
   }
 
-  # Check whether N of each item should be included into
-  # axis labels
-
-  if (show.total) {
-    for (i in seq_len(length(axis.labels))) {
-      axis.labels[i] <- paste(axis.labels[i],
-                              sprintf(" (n=%i)", length(stats::na.omit(items[[i]]))),
-                              sep = "")
-    }
-  }
-
   # if we have legend labels, we know the exact
   # amount of groups
 
@@ -229,7 +218,8 @@ plot_stackfrq <- function(items,
     dummy <- lapply(dummy, function(.i) .i[-nrow(.i), ])
   } else {
     items$weights <- weight.by
-    dummy <- sjmisc::frq(items, weights = items$weights)
+    dummy <- sjmisc::frq(items, weights = items$weights, show.na = TRUE)
+    dummy <- lapply(dummy, function(.i) .i[-nrow(.i), ])
   }
 
   dummy <- lapply(1:length(dummy), function(.i) {
@@ -239,10 +229,23 @@ plot_stackfrq <- function(items,
   })
 
   mydat <- do.call(rbind, dummy)
+  # remove NA row
+  mydat <- mydat[!is.na(mydat$ypos), ]
 
   mydat$grp <- as.factor(mydat$grp)
   mydat$cat <- as.factor(mydat$val)
   mydat$prc <- mydat$valid.prc / 100
+
+  # Check whether N of each item should be included into
+  # axis labels
+
+  if (show.total) {
+    for (i in seq_len(length(axis.labels))) {
+      axis.labels[i] <- paste(axis.labels[i],
+                              sprintf(" (n=%i)", sum(dummy[[i]]$frq, na.rm = TRUE)),
+                              sep = "")
+    }
+  }
 
   # Prepare and trim legend labels to appropriate size
 

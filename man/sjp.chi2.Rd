@@ -59,6 +59,3 @@ items <- list(c("Item 1", "Item 2", "Item 3", "Item 4", "Item 5"))
 sjp.chi2(mydf, axis.labels = items)
 
 }
-\seealso{
-\href{http://talesofr.wordpress.com/2013/05/05/ridiculously-photogenic-factors-heatmap-with-p-values/}{Tales of R}.
-}

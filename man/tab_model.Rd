@@ -31,6 +31,8 @@ tab_model(
   terms = NULL,
   rm.terms = NULL,
   order.terms = NULL,
+  keep = NULL,
+  drop = NULL,
   title = NULL,
   pred.labels = NULL,
   dv.labels = NULL,
@@ -51,8 +53,10 @@ tab_model(
   string.std_se = "standardized std. Error",
   string.std_ci = "standardized CI",
   string.p = "p",
+  string.std.p = "std. p",
   string.df = "df",
   string.stat = "Statistic",
+  string.std.stat = "std. Statistic",
   string.resp = "Response",
   string.intercept = "(Intercept)",
   strings = NULL,
@@ -62,9 +66,10 @@ tab_model(
   collapse.se = FALSE,
   linebreak = TRUE,
   col.order = c("est", "se", "std.est", "std.se", "ci", "std.ci", "ci.inner",
-    "ci.outer", "stat", "p", "df.error", "response.level"),
+    "ci.outer", "stat", "std.stat", "p", "std.p", "df.error", "response.level"),
   digits = 2,
   digits.p = 3,
+  digits.rsq = 3,
   digits.re = 2,
   emph.p = TRUE,
   p.val = NULL,
@@ -78,7 +83,8 @@ tab_model(
   bpe = "median",
   CSS = css_theme("regression"),
   file = NULL,
-  use.viewer = TRUE
+  use.viewer = TRUE,
+  encoding = "UTF-8"
 )
 }
 \arguments{
@@ -185,6 +191,15 @@ was categorical and has at least the factor levels \code{2} and \code{3}).}
 should be plotted. See examples in
 \href{https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html}{this package-vignette}.}
 
+\item{keep, drop}{Character containing a regular expression pattern that
+describes the parameters that should be included (for \code{keep}) or excluded
+(for \code{drop}) in the returned data frame. \code{keep} may also be a
+named list of regular expressions. All non-matching parameters will be
+removed from the output. If \code{keep} has more than one element, these
+will be merged with an \code{OR} operator into a regular expression pattern
+like this: \code{"(one|two|three)"}. See further details in
+\code{?parameters::model_parameters}.}
+
 \item{title}{String, will be used as table caption.}
 
 \item{pred.labels}{Character vector with labels of predictor variables.
@@ -203,7 +218,8 @@ related predictor in the table, no matter in which way the predictors
 are sorted. See 'Examples'.}
 
 \item{dv.labels}{Character vector with labels of dependent variables of all
-fitted models. See 'Examples'.}
+fitted models. If \code{dv.labels = ""}, the row with names of dependent
+variables is omitted from the table.}
 
 \item{wrap.labels}{Numeric, determines how many chars of the value, variable
 or axis labels are displayed in one line and when a line break is inserted.}
@@ -227,7 +243,7 @@ if robust standard errors are required.}
 
 \item{vcov.type}{Character vector, specifying the estimation type for the
 robust covariance matrix estimation (see \code{\link[sandwich:vcovHC]{vcovHC()}}
-or \code{\link[clubSandwich:vcovCR]{vcovCR()}} for details).}
+or \code{clubSandwich::vcovCR()} for details).}
 
 \item{vcov.args}{List of named vectors, used as additional arguments that
 are passed down to \code{vcov.fun}.}
@@ -252,9 +268,13 @@ Default is based on the response scale, e.g. for logistic regression models,
 
 \item{string.p}{Character vector, used for the column heading of p values. Default is \code{"p"}.}
 
+\item{string.std.p}{Character vector, used for the column heading of p values. Default is \code{"std. p"}.}
+
 \item{string.df}{Character vector, used for the column heading of degrees of freedom. Default is \code{"df"}.}
 
 \item{string.stat}{Character vector, used for the test statistic. Default is \code{"Statistic"}.}
+
+\item{string.std.stat}{Character vector, used for the test statistic. Default is \code{"std. Statistic"}.}
 
 \item{string.resp}{Character vector, used for the column heading of of the response level for multinominal or categorical models. Default is \code{"Response"}.}
 
@@ -294,18 +314,22 @@ Table columns are printed in the order as they appear in \code{col.order}.}
 
 \item{digits.p}{Amount of decimals for p-values}
 
+\item{digits.rsq}{Amount of decimals for r-squared values}
+
 \item{digits.re}{Amount of decimals for random effects part of the summary table.}
 
 \item{emph.p}{Logical, if \code{TRUE}, significant p-values are shown bold faced.}
 
-\item{df.method, p.val}{Character, for mixed models, indicates how p-values are computed.
-Use \code{p.val = "wald"} for a faster, but less precise computation. For
-\code{p.val = "kenward"} (or \code{p.val = "kr"}), computation of p-values
-is based on conditional F-tests with Kenward-Roger approximation for the
-degrees of freedom. \code{p.val = "satterthwaite"} uses Satterthwaite's
-approximation and \code{"ml1"} uses a "m-l-1" heuristic (see
-\code{\link[parameters]{degrees_of_freedom}} for details). Use
-\code{show.df = TRUE} to show the approximated degrees of freedom
+\item{df.method, p.val}{Method for computing degrees of freedom for p-values,
+standard errors and confidence intervals (CI). Only applies to mixed models.
+Use \code{df.method = "wald"} for a faster, but less precise computation.
+This will use the residual degrees of freedom (as returned by \code{df.residual()})
+for linear mixed models, and \code{Inf} degrees if freedom for all other
+model families. \code{df.method = "kenward"} (or \code{df.method = "kr"})
+uses Kenward-Roger approximation for the degrees of freedom.
+\code{df.method = "satterthwaite"} uses Satterthwaite's approximation and
+\code{"ml1"} uses a "m-l-1" heuristic see \code{\link[parameters]{degrees_of_freedom}}
+for details). Use \code{show.df = TRUE} to show the approximated degrees of freedom
 for each coefficient.}
 
 \item{p.style}{Character, indicating if p-values should be printed as
@@ -321,7 +345,7 @@ annotating p-values with asterisks. Only applies if
 to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
-specified character case. See \code{\link[snakecase]{to_any_case}} for more
+specified character case. See \code{snakecase::to_any_case()} for more
 details on this argument. By default, if \code{case} is not specified,
 it will be set to \code{"parsed"}, unless \code{prefix.labels} is not
 \code{"none"}. If \code{prefix.labels} is either \code{"label"} (or
@@ -356,11 +380,16 @@ See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.
 
 \item{file}{Destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and
-openend either in the IDE's viewer pane or the default web browser.}
+opened either in the IDE's viewer pane or the default web browser.}
 
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 viewer pane. If \code{FALSE} or no viewer available, the HTML table is
 opened in a web browser.}
+
+\item{encoding}{Character vector, indicating the charset encoding used
+for variable and value labels. Default is \code{"UTF-8"}. For Windows
+Systems, \code{encoding = "Windows-1252"} might be necessary for proper
+display of special characters.}
 }
 \value{
 Invisibly returns

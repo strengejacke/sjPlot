@@ -92,7 +92,7 @@ Default is 2, i.e. skewness and kurtosis values have 2 digits after decimal poin
 
 \item{file}{Destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and
-openend either in the IDE's viewer pane or the default web browser.}
+opened either in the IDE's viewer pane or the default web browser.}
 
 \item{encoding}{Character vector, indicating the charset encoding used
 for variable and value labels. Default is \code{"UTF-8"}. For Windows

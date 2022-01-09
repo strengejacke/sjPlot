@@ -120,9 +120,9 @@ are added to the output.}
 chi-squared statistics, degrees of freedom and Cramer's V or Phi
 coefficient and p-value for the chi-squared statistics.}
 
-\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labelled,
+\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labeled,
 values that have no observations are still printed in the table (with
-frequency \code{0}). If \code{FALSE}, values / factor levels with no occurence
+frequency \code{0}). If \code{FALSE}, values / factor levels with no occurrence
 in the data are omitted from the output.}
 
 \item{statistics}{Name of measure of association that should be computed. May
@@ -168,7 +168,7 @@ Windows OS). Change encoding if specific chars are not properly displayed (e.g. 
 
 \item{file}{Destination file, if the output should be saved as file.
 If \code{NULL} (default), the output will be saved as temporary file and
-openend either in the IDE's viewer pane or the default web browser.}
+opened either in the IDE's viewer pane or the default web browser.}
 
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's
 viewer pane. If \code{FALSE} or no viewer available, the HTML table is

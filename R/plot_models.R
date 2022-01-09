@@ -49,6 +49,7 @@
 #'   show.values = FALSE, show.p = FALSE, p.shape = TRUE
 #' )
 #'
+#' \dontrun{
 #' # plot multiple models from nested lists argument
 #' all.models <- list()
 #' all.models[[1]] <- fit1
@@ -64,7 +65,7 @@
 #' fit3 <- update(fit2, . ~ . + am)
 #'
 #' plot_models(fit1, fit2, fit3, std.est = "std2")
-#'
+#' }
 #' @import ggplot2
 #' @importFrom purrr map map_df map2
 #' @importFrom dplyr slice bind_rows filter
@@ -73,7 +74,7 @@
 #' @importFrom sjmisc word_wrap var_rename add_variables
 #' @export
 plot_models <- function(...,
-                        transform,
+                        transform = NULL,
                         std.est = NULL,
                         rm.terms = NULL,
                         title = NULL,
@@ -169,7 +170,7 @@ plot_models <- function(...,
       ci.lvl = ci.lvl,
       tf = transform,
       type = "est",
-      bpe = "line",
+      bpe = "median",
       robust = list(vcov.fun = vcov.fun, vcov.type = vcov.type, vcov.args = vcov.args),
       facets = TRUE,
       show.zeroinf = FALSE,
@@ -178,8 +179,7 @@ plot_models <- function(...,
       bootstrap = FALSE,
       iterations = 1000,
       seed = NULL,
-      p_adjust = p.adjust,
-      ...
+      p_adjust = p.adjust
     )
   )
 
@@ -274,6 +274,10 @@ plot_models <- function(...,
   # reorder terms
   ff$term <- factor(ff$term, levels = rev(unique(ff$term)))
 
+  # ensure correct legend labels
+  ff$p.stars[ff$p.stars == ""] <- "n.s."
+  ff$p.stars <- factor(ff$p.stars, levels = c("n.s.", "*", "**", "***"))
+
   # set up base plot
 
   if (p.shape)
@@ -297,11 +301,7 @@ plot_models <- function(...,
 
   # show different shapes depending on p-value
 
-  if (p.shape) p <- p +
-    scale_shape_manual(
-      values = c(1, 16, 17, 15),
-      labels = c("n.s.", "*", "**", "***")
-    )
+  if (p.shape) p <- p + scale_shape_manual(values = c(1, 16, 17, 15))
 
 
   # add value labels

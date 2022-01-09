@@ -10,6 +10,13 @@ vignette: >
 ---
 ```{r echo = FALSE}
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 7, fig.height = 5, message = FALSE, warning = FALSE)
+
+if (!requireNamespace("sjmisc", quietly = TRUE) ||
+    !requireNamespace("haven", quietly = TRUE) ||
+    !requireNamespace("ggplot2", quietly = TRUE) ||
+    !requireNamespace("sjlabelled", quietly = TRUE)) {
+  knitr::opts_chunk$set(eval = FALSE)
+}
 ```
 
 This document shows examples how to create b/w figures, e.g. if you don't want colored figures for print-journals.
