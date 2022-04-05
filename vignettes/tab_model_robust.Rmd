@@ -39,14 +39,14 @@ The `tab_model()` function also allows the computation of standard errors, confi
 
 ### Robust Covariance Matrix Estimation from Model Parameters
 
-There are three arguments that allow for choosing different methods and options of robust estimation: `vcov.fun`, `vcov.type` and `vcov.args`. Let us start with a simple example, which uses a heteroskedasticity-consistent covariance matrix estimation with estimation-type "HC3" (i.e. `sandwich::vcovHC(type = "HC3")` is called):
+There are two arguments that allow for choosing different methods and options of robust estimation: `vcov.fun` and `vcov.args`. Let us start with a simple example, which uses a heteroskedasticity-consistent covariance matrix estimation with estimation-type "HC3" (i.e. `sandwich::vcovHC(type = "HC3")` is called):
 
 ```{r}
 data(iris)
 model <- lm(Petal.Length ~ Sepal.Length * Species + Sepal.Width, data = iris)
 
 # model parameters, where SE, CI and p-values are based on robust estimation
-tab_model(model, vcov.fun = "HC", show.se = TRUE)
+tab_model(model, vcov.fun = "HC3", show.se = TRUE)
 
 # compare standard errors to result from sandwich-package
 unname(sqrt(diag(sandwich::vcovHC(model))))
@@ -56,11 +56,11 @@ unname(sqrt(diag(sandwich::vcovHC(model))))
 
 If another covariance matrix estimation is required, use the `vcov.fun`-argument. This argument needs the suffix for the related `vcov*()`-functions as value, i.e. `vcov.fun = "CL"` would call `sandwich::vcovCL()`, or `vcov.fun = "HAC"` would call `sandwich::vcovHAC()`.
 
-The specific estimation type can be changed with `vcov.type`. E.g., `sandwich::vcovCL()` accepts estimation types HC0 to HC3. In the next example, we use a clustered covariance matrix estimation with HC1-estimation type.
+The specific estimation type can be changed with `vcov.args`. E.g., `sandwich::vcovCL()` accepts estimation types HC0 to HC3. In the next example, we use a clustered covariance matrix estimation with HC1-estimation type.
 
 ```{r}
 # change estimation-type
-tab_model(model, vcov.fun = "CL", vcov.type = "HC1", show.se = TRUE)
+tab_model(model, vcov.fun = "CL", vcov.args = list(type = "HC1"), show.se = TRUE)
 
 # compare standard errors to result from sandwich-package
 unname(sqrt(diag(sandwich::vcovCL(model))))
@@ -74,8 +74,7 @@ iris$cluster <- factor(rep(LETTERS[1:8], length.out = nrow(iris)))
 tab_model(
   model, 
   vcov.fun = "CL", 
-  vcov.type = "HC1",
-  vcov.args = list(cluster = iris$cluster),
+  vcov.args = list(type = "HC1", cluster = iris$cluster),
   show.se = TRUE
 )
 
@@ -94,8 +93,7 @@ iris$cluster <- factor(rep(LETTERS[1:8], length.out = nrow(iris)))
 # cluster-robust estimation
 tab_model(
   model, 
-  vcov.fun = "CR", 
-  vcov.type = "CR1",
+  vcov.fun = "CR1", 
   vcov.args = list(cluster = iris$cluster),
   show.se = TRUE
 )
@@ -141,8 +139,7 @@ tab_model(model)
 # model parameters, cluster robust estimation for mixed models
 tab_model(
   model, 
-  vcov.fun = "CR", 
-  vcov.type = "CR1", 
+  vcov.fun = "CR1", 
   vcov.args = list(cluster = iris$grp)
 )
 ```
@@ -156,8 +153,7 @@ Again, robust estimation can be combined with standardization for linear mixed m
 tab_model(
   model, 
   show.std = "std",
-  vcov.fun = "CR", 
-  vcov.type = "CR1", 
+  vcov.fun = "CR1", 
   vcov.args = list(cluster = iris$grp)
 )
 ```

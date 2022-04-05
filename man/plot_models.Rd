@@ -183,23 +183,23 @@ defaults to the 89\%-CI. \code{ci.lvl} affects only the outer interval in
 such cases. See \code{prob.inner} and \code{prob.outer} under the
 \code{...}-argument for more details.}
 
-\item{robust}{Logical, shortcut for arguments \code{vcov.fun} and \code{vcov.type}.
-If \code{TRUE}, uses \code{vcov.fun = "vcovHC"} and \code{vcov.type = "HC3"} as
-default, that is, \code{\link[sandwich]{vcovHC}} with default-type is called
-(see \code{\link[parameters]{standard_error_robust}} and
-\href{https://easystats.github.io/parameters/articles/model_parameters_robust.html}{this vignette}
-for further details).}
+\item{robust}{Deprecated. Please use \code{vcov.fun} directly to specify
+the estimation of the variance-covariance matrix.}
 
-\item{vcov.fun}{Character vector, indicating the name of the \code{vcov*()}-function
-from the \pkg{sandwich} or \pkg{clubSandwich} package, e.g. \code{vcov.fun = "vcovCL"},
-if robust standard errors are required.}
+\item{vcov.fun}{Variance-covariance matrix used to compute uncertainty
+estimates (e.g., for robust standard errors). This argument accepts a
+covariance matrix, a function which returns a covariance matrix, or a
+string which identifies the function to be used to compute the covariance
+matrix. See \code{\link[parameters:model_parameters]{model_parameters()}}.}
 
-\item{vcov.type}{Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see \code{\link[sandwich:vcovHC]{vcovHC()}}
-or \code{clubSandwich::vcovCR()} for details).}
+\item{vcov.type}{Deprecated. The \code{type}-argument is now included in
+\code{vcov.args}.}
 
-\item{vcov.args}{List of named vectors, used as additional arguments that
-are passed down to \code{vcov.fun}.}
+\item{vcov.args}{List of arguments to be passed to the function identified by
+the \code{vcov.fun} argument. This function is typically supplied by the
+\pkg{sandwich} or \pkg{clubSandwich} packages. Please refer to their
+documentation (e.g., \code{?sandwich::vcovHAC}) to see the list of
+available arguments.}
 
 \item{vline.color}{Color of the vertical "zero effect" line. Default color is
 inherited from the current theme.}

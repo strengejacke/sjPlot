@@ -38,6 +38,7 @@ tab_dfs(
   CSS = NULL,
   file = NULL,
   use.viewer = TRUE,
+  rnames = NULL,
   ...
 )
 }

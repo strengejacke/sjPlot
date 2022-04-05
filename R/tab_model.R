@@ -284,7 +284,7 @@ tab_model <- function(
 
   robust = FALSE,
   vcov.fun = NULL,
-  vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5", "CR0", "CR1", "CR1p", "CR1S", "CR2", "CR3"),
+  vcov.type = NULL,
   vcov.args = NULL,
 
   string.pred = "Predictors",
@@ -353,11 +353,10 @@ tab_model <- function(
   }
 
   if (!is.null(p.val)) {
-    p.val <- match.arg(p.val, choices = c("wald", "profile", "kenward", "kr", "satterthwaite", "ml1", "betwithin"))
+    p.val <- match.arg(p.val, choices = c("wald", "profile", "kenward", "kr", "satterthwaite", "ml1", "betwithin", "residual", "normal"))
   }
   p.style <- match.arg(p.style)
   prefix.labels <- match.arg(prefix.labels)
-  vcov.type <- match.arg(vcov.type)
 
   change_string_est <- !missing(string.est)
 
@@ -374,13 +373,8 @@ tab_model <- function(
 
   # default robust?
   if (isTRUE(robust)) {
-    vcov.type <- "HC3"
-    vcov.fun <- "vcovHC"
+    vcov.fun <- "HC3"
   }
-
-  # check se-argument
-  vcov.fun <- check_se_argument(se = vcov.fun, type = NULL)
-
 
   models <- list(...)
 
