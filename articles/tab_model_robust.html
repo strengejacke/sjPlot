@@ -59,7 +59,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Regression Tables
      
     <span class="caret"></span>
@@ -80,7 +80,7 @@
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Regression Plots
      
     <span class="caret"></span>
@@ -98,7 +98,7 @@
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plot and Table Customization
      
     <span class="caret"></span>
@@ -116,7 +116,7 @@
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Other Articles
      
     <span class="caret"></span>
@@ -171,13 +171,13 @@ vignette: >
 <div class="section level3">
 <h3 id="robust-covariance-matrix-estimation-from-model-parameters">Robust Covariance Matrix Estimation from Model Parameters<a class="anchor" aria-label="anchor" href="#robust-covariance-matrix-estimation-from-model-parameters"></a>
 </h3>
-<p>There are three arguments that allow for choosing different methods and options of robust estimation: <code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code>. Let us start with a simple example, which uses a heteroskedasticity-consistent covariance matrix estimation with estimation-type “HC3” (i.e. <code>sandwich::vcovHC(type = "HC3")</code> is called):</p>
+<p>There are two arguments that allow for choosing different methods and options of robust estimation: <code>vcov.fun</code> and <code>vcov.args</code>. Let us start with a simple example, which uses a heteroskedasticity-consistent covariance matrix estimation with estimation-type “HC3” (i.e. <code>sandwich::vcovHC(type = "HC3")</code> is called):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>
 <span class="va">model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Petal.Length</span> <span class="op">~</span> <span class="va">Sepal.Length</span> <span class="op">*</span> <span class="va">Species</span> <span class="op">+</span> <span class="va">Sepal.Width</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span>
 
 <span class="co"># model parameters, where SE, CI and p-values are based on robust estimation</span>
-<span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">model</span>, vcov.fun <span class="op">=</span> <span class="st">"HC"</span>, show.se <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">model</span>, vcov.fun <span class="op">=</span> <span class="st">"HC3"</span>, show.se <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -350,10 +350,10 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <h3 id="cluster-robust-covariance-matrix-estimation-sandwich">Cluster-Robust Covariance Matrix Estimation (sandwich)<a class="anchor" aria-label="anchor" href="#cluster-robust-covariance-matrix-estimation-sandwich"></a>
 </h3>
 <p>If another covariance matrix estimation is required, use the <code>vcov.fun</code>-argument. This argument needs the suffix for the related <code>vcov*()</code>-functions as value, i.e. <code>vcov.fun = "CL"</code> would call <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovCL.html" class="external-link">sandwich::vcovCL()</a></code>, or <code>vcov.fun = "HAC"</code> would call <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHAC.html" class="external-link">sandwich::vcovHAC()</a></code>.</p>
-<p>The specific estimation type can be changed with <code>vcov.type</code>. E.g., <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovCL.html" class="external-link">sandwich::vcovCL()</a></code> accepts estimation types HC0 to HC3. In the next example, we use a clustered covariance matrix estimation with HC1-estimation type.</p>
+<p>The specific estimation type can be changed with <code>vcov.args</code>. E.g., <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovCL.html" class="external-link">sandwich::vcovCL()</a></code> accepts estimation types HC0 to HC3. In the next example, we use a clustered covariance matrix estimation with HC1-estimation type.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># change estimation-type</span>
-<span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">model</span>, vcov.fun <span class="op">=</span> <span class="st">"CL"</span>, vcov.type <span class="op">=</span> <span class="st">"HC1"</span>, show.se <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">model</span>, vcov.fun <span class="op">=</span> <span class="st">"CL"</span>, vcov.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"HC1"</span><span class="op">)</span>, show.se <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
@@ -528,8 +528,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span>
   <span class="va">model</span>, 
   vcov.fun <span class="op">=</span> <span class="st">"CL"</span>, 
-  vcov.type <span class="op">=</span> <span class="st">"HC1"</span>,
-  vcov.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span>,
+  vcov.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"HC1"</span>, cluster <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span>,
   show.se <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
@@ -711,8 +710,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 <span class="co"># cluster-robust estimation</span>
 <span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span>
   <span class="va">model</span>, 
-  vcov.fun <span class="op">=</span> <span class="st">"CR"</span>, 
-  vcov.type <span class="op">=</span> <span class="st">"CR1"</span>,
+  vcov.fun <span class="op">=</span> <span class="st">"CR1"</span>, 
   vcov.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">cluster</span><span class="op">)</span>,
   show.se <span class="op">=</span> <span class="cn">TRUE</span>
 <span class="op">)</span></code></pre></div>
@@ -1308,8 +1306,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 <span class="co"># model parameters, cluster robust estimation for mixed models</span>
 <span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span>
   <span class="va">model</span>, 
-  vcov.fun <span class="op">=</span> <span class="st">"CR"</span>, 
-  vcov.type <span class="op">=</span> <span class="st">"CR1"</span>, 
+  vcov.fun <span class="op">=</span> <span class="st">"CR1"</span>, 
   vcov.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">grp</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
@@ -1497,8 +1494,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 <span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span>
   <span class="va">model</span>, 
   show.std <span class="op">=</span> <span class="st">"std"</span>,
-  vcov.fun <span class="op">=</span> <span class="st">"CR"</span>, 
-  vcov.type <span class="op">=</span> <span class="st">"CR1"</span>, 
+  vcov.fun <span class="op">=</span> <span class="st">"CR1"</span>, 
   vcov.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cluster <span class="op">=</span> <span class="va">iris</span><span class="op">$</span><span class="va">grp</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
@@ -1769,7 +1765,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
       </footer>

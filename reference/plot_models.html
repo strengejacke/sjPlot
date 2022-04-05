@@ -36,7 +36,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Regression Tables
      
     <span class="caret"></span>
@@ -55,7 +55,7 @@
     </li>
   </ul></li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Regression Plots
      
     <span class="caret"></span>
@@ -71,7 +71,7 @@
     </li>
   </ul></li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Plot and Table Customization
      
     <span class="caret"></span>
@@ -87,7 +87,7 @@
     </li>
   </ul></li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Other Articles
      
     <span class="caret"></span>
@@ -302,23 +302,23 @@ defaults to the 89%-CI. <code>ci.lvl</code> affects only the outer interval in
 such cases. See <code>prob.inner</code> and <code>prob.outer</code> under the
 <code>...</code>-argument for more details.</p></dd>
 <dt>robust</dt>
-<dd><p>Logical, shortcut for arguments <code>vcov.fun</code> and <code>vcov.type</code>.
-If <code>TRUE</code>, uses <code>vcov.fun = "vcovHC"</code> and <code>vcov.type = "HC3"</code> as
-default, that is, <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html" class="external-link">vcovHC</a></code> with default-type is called
-(see <code><a href="https://easystats.github.io/parameters/reference/standard_error_robust.html" class="external-link">standard_error_robust</a></code> and
-<a href="https://easystats.github.io/parameters/articles/model_parameters_robust.html" class="external-link">this vignette</a>
-for further details).</p></dd>
+<dd><p>Deprecated. Please use <code>vcov.fun</code> directly to specify
+the estimation of the variance-covariance matrix.</p></dd>
 <dt>vcov.fun</dt>
-<dd><p>Character vector, indicating the name of the <code>vcov*()</code>-function
-from the <span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span> package, e.g. <code>vcov.fun = "vcovCL"</code>,
-if robust standard errors are required.</p></dd>
+<dd><p>Variance-covariance matrix used to compute uncertainty
+estimates (e.g., for robust standard errors). This argument accepts a
+covariance matrix, a function which returns a covariance matrix, or a
+string which identifies the function to be used to compute the covariance
+matrix. See <code><a href="https://easystats.github.io/parameters/reference/model_parameters.html" class="external-link">model_parameters()</a></code>.</p></dd>
 <dt>vcov.type</dt>
-<dd><p>Character vector, specifying the estimation type for the
-robust covariance matrix estimation (see <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHC.html" class="external-link">vcovHC()</a></code>
-or <code><a href="https://rdrr.io/pkg/clubSandwich/man/vcovCR.html" class="external-link">clubSandwich::vcovCR()</a></code> for details).</p></dd>
+<dd><p>Deprecated. The <code>type</code>-argument is now included in
+<code>vcov.args</code>.</p></dd>
 <dt>vcov.args</dt>
-<dd><p>List of named vectors, used as additional arguments that
-are passed down to <code>vcov.fun</code>.</p></dd>
+<dd><p>List of arguments to be passed to the function identified by
+the <code>vcov.fun</code> argument. This function is typically supplied by the
+<span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span> packages. Please refer to their
+documentation (e.g., <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHAC.html" class="external-link">?sandwich::vcovHAC</a></code>) to see the list of
+available arguments.</p></dd>
 <dt>vline.color</dt>
 <dd><p>Color of the vertical "zero effect" line. Default color is
 inherited from the current theme.</p></dd>
@@ -403,7 +403,7 @@ details.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
       </footer></div>
