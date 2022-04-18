@@ -45,6 +45,10 @@ tidy_model <- function(
       p.val
     )
 
+    if (isTRUE(bootstrap)) {
+      ci_method <- "eti"
+    }
+
     if (!is.null(robust)) {
       if (!is.null(robust$vcov.type)) {
         robust$vcov.args[["type"]] <- robust$vcov.type
