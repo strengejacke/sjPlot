@@ -3,7 +3,7 @@
 #' @importFrom parameters model_parameters
 #' @importFrom insight standardize_names
 tidy_model <- function(
-  model, ci.lvl, tf, type, bpe, robust, facets, show.zeroinf, p.val,
+  model, ci.lvl, tf, type, bpe, robust, facets, show.zeroinf, p.val = NULL,
   standardize = FALSE, bootstrap = FALSE, iterations = 1000, seed = NULL,
   p_adjust = NULL, keep = NULL, drop = NULL, ...) {
 
