@@ -49,7 +49,7 @@ tidy_model <- function(
       ci_method <- "eti"
     }
 
-    if (!is.null(robust)) {
+    if (!insight::is_empty_object(insight::compact_list(robust))) {
       if (!is.null(robust$vcov.type)) {
         robust$vcov.args[["type"]] <- robust$vcov.type
       }
