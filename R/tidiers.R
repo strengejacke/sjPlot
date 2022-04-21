@@ -20,7 +20,13 @@ tidy_model <- function(
     if (!is.null(seed)) {
       set.seed(seed)
     }
-    component <- ifelse(show.zeroinf & insight::model_info(model)$is_zero_inflated, "all", "conditional")
+
+    minfo <- insight::model_info(model)
+    if ((show.zeroinf && minfo$is_zero_inflated) || minfo$is_dispersion) {
+      component <- "all"
+    } else {
+      component <- "conditional"
+    }
 
     if (is.null(p.val)) {
       if (inherits(model, c("glm", "polr"))) {
