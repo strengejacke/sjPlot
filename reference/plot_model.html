@@ -164,6 +164,7 @@
   line.size <span class="op">=</span> <span class="cn">NULL</span>,
   vline.color <span class="op">=</span> <span class="cn">NULL</span>,
   p.threshold <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.01</span>, <span class="fl">0.001</span><span class="op">)</span>,
+  p.val <span class="op">=</span> <span class="cn">NULL</span>,
   p.adjust <span class="op">=</span> <span class="cn">NULL</span>,
   <span class="va">grid</span>,
   <span class="va">case</span>,
@@ -510,6 +511,9 @@ inherited from the current theme.</p></dd>
 <dd><p>Numeric vector of length 3, indicating the treshold for
 annotating p-values with asterisks. Only applies if
 <code>p.style = "asterisk"</code>.</p></dd>
+<dt>p.val</dt>
+<dd><p>Character specifying method to be used to calculate p-values.
+Defaults to "profile" for glm/polr models, otherwise "wald".</p></dd>
 <dt>p.adjust</dt>
 <dd><p>Character vector, if not <code>NULL</code>, indicates the method
 to adjust p-values. See <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></code> for details.</p></dd>
