@@ -240,6 +240,8 @@
 #' @param p.threshold Numeric vector of length 3, indicating the treshold for
 #'   annotating p-values with asterisks. Only applies if
 #'   \code{p.style = "asterisk"}.
+#' @param p.val Character specifying method to be used to calculate p-values.
+#'   Defaults to "profile" for glm/polr models, otherwise "wald".
 #' @param wrap.title Numeric, determines how many chars of the plot title are
 #'   displayed in one line and when a line break is inserted.
 #' @param wrap.labels Numeric, determines how many chars of the value, variable
@@ -514,6 +516,7 @@ plot_model <- function(model,
                        line.size = NULL,
                        vline.color = NULL,
                        p.threshold = c(0.05, 0.01, 0.001),
+                       p.val = NULL,
                        p.adjust = NULL,
                        grid,
                        case,
@@ -656,6 +659,7 @@ plot_model <- function(model,
       facets = grid,
       show.zeroinf = show.zeroinf,
       p.threshold = p.threshold,
+      p.val = p.val,
       vcov.fun = vcov.fun,
       vcov.type = vcov.type,
       vcov.args = vcov.args,

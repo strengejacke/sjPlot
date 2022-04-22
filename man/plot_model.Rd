@@ -47,6 +47,7 @@ plot_model(
   line.size = NULL,
   vline.color = NULL,
   p.threshold = c(0.05, 0.01, 0.001),
+  p.val = NULL,
   p.adjust = NULL,
   grid,
   case,
@@ -366,6 +367,9 @@ inherited from the current theme.}
 \item{p.threshold}{Numeric vector of length 3, indicating the treshold for
 annotating p-values with asterisks. Only applies if
 \code{p.style = "asterisk"}.}
+
+\item{p.val}{Character specifying method to be used to calculate p-values.
+Defaults to "profile" for glm/polr models, otherwise "wald".}
 
 \item{p.adjust}{Character vector, if not \code{NULL}, indicates the method
 to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
