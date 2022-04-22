@@ -1449,9 +1449,9 @@ format_p_values <- function(dat, p.style, digits.p, emph.p, p.threshold){
   # indicate p <0.001 ----
 
   pv <- paste0("0.", paste(rep("0", digits.p), collapse = ""))
-  dat$p.value[dat$p.value == pv] <- "&lt;0.001"
+  dat$p.value[dat$p.value == pv] <- paste("&lt;", format(10^(-digits.p), scientific = FALSE), sep = "")
 
   pv <- paste0("<strong>0.", paste(rep("0", digits.p), collapse = ""), "</strong>")
-  dat$p.value[dat$p.value == pv] <- "<strong>&lt;0.001</strong>"
+  dat$p.value[dat$p.value == pv] <- paste("<strong>&lt;", format(10^(-digits.p), scientific = FALSE), "</strong>", sep = "")
   dat
 }
