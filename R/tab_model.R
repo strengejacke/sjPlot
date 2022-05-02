@@ -230,15 +230,7 @@
 #'    }
 #' }
 #
-#' @importFrom dplyr full_join select if_else mutate
-#' @importFrom purrr reduce map2 map_if map_df compact map_lgl map_chr flatten_chr
-#' @importFrom sjlabelled response_labels term_labels
-#' @importFrom sjmisc word_wrap var_rename add_columns add_case
-#' @importFrom insight model_info is_multivariate find_random get_data find_predictors
-#' @importFrom performance r2 variance_decomposition
-#' @importFrom stats nobs setNames
 #' @importFrom rlang .data
-#' @importFrom utils packageVersion
 #' @export
 tab_model <- function(
   ...,

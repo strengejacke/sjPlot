@@ -1,7 +1,3 @@
-#' @importFrom dplyr n_distinct if_else
-#' @importFrom sjmisc is_empty
-#' @importFrom sjlabelled as_numeric
-#' @importFrom insight find_response
 plot_point_estimates <- function(model,
                                  dat,
                                  tf,

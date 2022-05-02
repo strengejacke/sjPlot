@@ -1,4 +1,3 @@
-#' @importFrom sjmisc is_empty str_start
 check_css_param <- function(CSS) {
   if (sjmisc::is_empty(CSS)) return(CSS)
 

@@ -1,10 +1,3 @@
-#' @importFrom insight get_data find_interactions
-#' @importFrom stats formula sd quantile
-#' @importFrom purrr map map_lgl map_chr
-#' @importFrom sjmisc trim is_empty str_contains is_float
-#' @importFrom dplyr select n_distinct
-#' @importFrom ggeffects ggpredict
-#' @importFrom graphics plot
 plot_type_int <- function(model,
                           mdrt.values,
                           ci.lvl,

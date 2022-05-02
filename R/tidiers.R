@@ -1,7 +1,3 @@
-#' @importFrom stats qnorm pnorm
-#' @importFrom effectsize standardize
-#' @importFrom parameters model_parameters
-#' @importFrom insight standardize_names
 tidy_model <- function(
   model, ci.lvl, tf, type, bpe, robust, facets, show.zeroinf, p.val = NULL,
   standardize = FALSE, bootstrap = FALSE, iterations = 1000, seed = NULL,
@@ -109,12 +105,6 @@ tidy_model <- function(
 
 
 
-#' @importFrom stats mad formula
-#' @importFrom bayestestR ci
-#' @importFrom insight is_multivariate model_info
-#' @importFrom sjmisc var_rename add_columns is_empty typical_value
-#' @importFrom dplyr select filter slice inner_join n_distinct
-#' @importFrom purrr map_dbl
 #' @importFrom rlang .data
 tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, ...) {
 

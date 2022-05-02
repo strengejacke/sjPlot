@@ -139,11 +139,6 @@
 #'   group.legend.options = list(nrow = 1)
 #' )}
 #' @import ggplot2
-#' @importFrom stats na.omit xtabs
-#' @importFrom sjmisc is_odd set_na is_empty
-#' @importFrom sjlabelled as_numeric
-#' @importFrom purrr map flatten_dbl
-#' @importFrom dplyr between
 #' @export
 plot_likert <- function(items,
                         groups = NULL,

@@ -1,6 +1,3 @@
-#' @importFrom stats update
-#' @importFrom dplyr bind_rows select mutate
-#' @importFrom tidyr gather
 plot_diag_stan <- function(model, geom.colors, axis.lim, facets, axis.labels, ...) {
 
   # check some defaults

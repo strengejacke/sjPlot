@@ -63,8 +63,6 @@
 #'   grid = TRUE
 #' )
 #'
-#' @importFrom sjlabelled copy_labels
-#' @importFrom dplyr n_distinct
 #' @import ggplot2
 #' @export
 plot_scatter <- function(

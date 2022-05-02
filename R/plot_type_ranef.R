@@ -1,8 +1,3 @@
-#' @importFrom purrr map map_df map2
-#' @importFrom stats qnorm
-#' @importFrom dplyr if_else
-#' @importFrom sjmisc remove_var
-#' @importFrom insight find_random
 plot_type_ranef <- function(model,
                             dat,
                             ri.nr,

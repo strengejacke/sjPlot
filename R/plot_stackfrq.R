@@ -46,10 +46,6 @@
 #'   plot_stackfrq()
 #'
 #' @import ggplot2
-#' @importFrom sjmisc frq
-#' @importFrom scales percent
-#' @importFrom stats na.omit
-#' @importFrom rlang .data
 #' @export
 plot_stackfrq <- function(items,
                          title = NULL,

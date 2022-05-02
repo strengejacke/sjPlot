@@ -1,8 +1,3 @@
-#' @importFrom sjlabelled get_label
-#' @importFrom insight get_response find_response get_data find_predictors
-#' @importFrom sjmisc str_contains is_empty
-#' @importFrom stats formula residuals
-#' @importFrom dplyr filter
 plot_type_slope <- function(model,
                             terms,
                             rm.terms,

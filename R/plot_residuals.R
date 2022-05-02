@@ -43,7 +43,6 @@
 #' plot_residuals(fit, remove.estimates = c("e17age", "e42dep"))
 #'
 #' @importFrom rlang .data
-#' @importFrom insight get_data
 #' @export
 plot_residuals <- function(fit, geom.size = 2, remove.estimates = NULL, show.lines = TRUE,
                       show.resid = TRUE, show.pred = TRUE, show.ci = FALSE) {

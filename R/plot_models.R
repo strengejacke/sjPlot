@@ -67,11 +67,7 @@
 #' plot_models(fit1, fit2, fit3, std.est = "std2")
 #' }
 #' @import ggplot2
-#' @importFrom purrr map map_df map2
-#' @importFrom dplyr slice bind_rows filter
-#' @importFrom sjlabelled response_labels term_labels
 #' @importFrom rlang .data
-#' @importFrom sjmisc word_wrap var_rename add_variables
 #' @export
 plot_models <- function(...,
                         transform = NULL,

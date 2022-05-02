@@ -45,14 +45,6 @@
 #' plot_kfold_cv(efc, fit = fit)
 #'
 #' @import ggplot2
-#' @importFrom datawizard data_partition
-#' @importFrom dplyr mutate ungroup summarise
-#' @importFrom purrr map map2
-#' @importFrom tidyr unnest
-#' @importFrom graphics plot
-#' @importFrom stats as.formula formula family poisson glm lm predict
-#' @importFrom purrr map
-#' @importFrom MASS glm.nb
 #' @export
 plot_kfold_cv <- function(data, formula, k = 5, fit) {
   # make sure that data is a data frame

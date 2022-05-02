@@ -29,7 +29,6 @@ get_dot_data <- function(data, dots) {
 dot_names <- function(dots) unname(unlist(lapply(dots, as.character)))
 
 
-#' @importFrom dplyr quos select
 get_dplyr_dot_data <- function(x, qs) {
   if (sjmisc::is_empty(qs))
     x
@@ -294,7 +293,6 @@ crosstabsum <- function(x, grp, weight.by) {
 #         (prcomp(myData...))
 # - factors: the amount of factors. can be calculated from the
 #            below function "factorcount"
-#' @importFrom stats varimax
 varimaxrota <- function(data, factors) {
   # Faktorladungen berechnen
   # Die Faktorladungen erhält man durch Multiplikation der Eigenvektoren

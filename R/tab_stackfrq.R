@@ -89,9 +89,6 @@
 #'                           css.summary = "font-style:italic;"))
 #' }
 #' }
-#' @importFrom parameters kurtosis
-#' @importFrom datawizard skewness
-#' @importFrom sjmisc frq
 #' @export
 tab_stackfrq <- function(items,
                          weight.by = NULL,

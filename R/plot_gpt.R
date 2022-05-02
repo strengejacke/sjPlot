@@ -54,10 +54,6 @@ utils::globalVariables("n")
 #' plot_gpt(efc, c172code, e42dep, n4pstu)
 #'
 #' @import ggplot2
-#' @importFrom dplyr group_by summarise bind_rows "%>%" n
-#' @importFrom scales percent
-#' @importFrom sjmisc to_factor rec
-#' @importFrom stats na.omit chisq.test
 #' @export
 plot_gpt <- function(
   data,

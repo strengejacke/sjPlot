@@ -101,8 +101,6 @@ axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, expon
 }
 
 
-#' @importFrom insight model_info
-#' @importFrom dplyr case_when
 estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.resp = NULL, include.zeroinf = FALSE) {
 
   # no automatic title for effect-plots
@@ -383,8 +381,6 @@ tidy_label <- function(labs, sep = ".") {
 }
 
 
-#' @importFrom purrr map_df
-#' @importFrom insight find_random
 se_ranef <- function(object) {
   if (!requireNamespace("lme4", quietly = TRUE)) {
     stop("Package 'lme4' required for this function to work, please install it.")
@@ -430,7 +426,6 @@ se_ranef <- function(object) {
 }
 
 
-#' @importFrom insight n_obs
 get_observations <- function(model) {
   tryCatch(
     {
@@ -441,7 +436,6 @@ get_observations <- function(model) {
 }
 
 
-#' @importFrom insight find_predictors get_data
 .labelled_model_data <- function(models) {
   # to be generic, make sure argument is a list
   if (!inherits(models, "list")) models <- list(models)

@@ -1,7 +1,3 @@
-#' @importFrom dplyr slice filter if_else
-#' @importFrom rlang .data
-#' @importFrom sjmisc remove_var
-#' @importFrom purrr pmap
 plot_model_estimates <- function(model,
                                  dat,
                                  tf,

@@ -1,4 +1,3 @@
-#' @importFrom scales brewer_pal grey_pal
 col_check2 <- function(geom.colors, collen) {
   # --------------------------------------------
   # check color argument

@@ -88,8 +88,6 @@
 #' # sort 2nd column descending
 #' tab_df(iris[1:5, ], sort.column = -2)}
 #'
-#' @importFrom sjmisc var_type is_even is_float
-#' @importFrom purrr flatten_chr map
 #' @export
 tab_df <- function(x,
                    title = NULL,
@@ -276,9 +274,6 @@ tab_dfs <- function(x,
 
 
 # this function is used from tab_model()
-#' @importFrom dplyr slice full_join
-#' @importFrom sjmisc replace_na
-#' @importFrom purrr map map_dbl
 tab_model_df <- function(x,
                          zeroinf,
                          is.zeroinf,

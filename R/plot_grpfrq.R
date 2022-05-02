@@ -165,10 +165,6 @@
 #' plot_grpfrq(efc$c161sex, efc$e42dep, drop.empty = FALSE)
 #'
 #' @import ggplot2
-#' @importFrom sjstats weight2
-#' @importFrom tidyr gather
-#' @importFrom dplyr group_by mutate arrange summarise
-#' @importFrom stats na.omit xtabs wilcox.test sd
 #' @importFrom rlang .data
 #' @export
 plot_grpfrq <- function(var.cnt,

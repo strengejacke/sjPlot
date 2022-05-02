@@ -121,12 +121,6 @@
 #'   # or, equivalent
 #'   tab_itemscale(mydf, factor.groups = "auto")
 #' }}
-#' @importFrom stats shapiro.test na.omit
-#' @importFrom sjstats mean_n
-#' @importFrom performance item_reliability cronbachs_alpha item_intercor
-#' @importFrom parameters principal_components kurtosis closest_component
-#' @importFrom sjmisc std descr
-#' @importFrom sjlabelled set_label
 #' @export
 tab_itemscale <- function(df,
                              factor.groups = NULL,

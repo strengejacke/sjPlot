@@ -467,14 +467,6 @@
 #'   plot_model(m, bpe.style = "dot")
 #' }}
 #'
-#' @importFrom insight model_info find_predictors
-#' @importFrom sjmisc word_wrap str_contains
-#' @importFrom sjlabelled response_labels term_labels
-#' @importFrom dplyr if_else n_distinct
-#' @importFrom graphics plot
-#' @importFrom ggeffects ggpredict ggeffect
-#' @importFrom stats terms
-#'
 #' @export
 plot_model <- function(model,
                        type = c("est", "re", "eff", "emm", "pred", "int", "std", "std2", "slope", "resid", "diag"),
