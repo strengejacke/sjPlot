@@ -272,7 +272,7 @@ tab_dfs <- function(x,
   )
 }
 
-
+#' @importFrom dplyr "%>%"
 # this function is used from tab_model()
 tab_model_df <- function(x,
                          zeroinf,
