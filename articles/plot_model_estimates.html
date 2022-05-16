@@ -169,10 +169,9 @@
 <span class="co">##   standardize.mediate datawizard</span>
 <span class="co">##   standardize.wbgee   datawizard</span>
 <span class="co">##   standardize.wbm     datawizard</span></code></pre>
-<pre><code><span class="co">## Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!</span></code></pre>
 <p>This document describes how to plot estimates as forest plots (or dot whisker plots) of various regression models, using the <code><a href="../reference/plot_model.html">plot_model()</a></code> function. <code><a href="../reference/plot_model.html">plot_model()</a></code> is a generic plot-function, which accepts many model-objects, like <code>lm</code>, <code>glm</code>, <code>lme</code>, <code>lmerMod</code> etc.</p>
 <p><code><a href="../reference/plot_model.html">plot_model()</a></code> allows to create various plot tyes, which can be defined via the <code>type</code>-argument. The default is <code>type = "fe"</code>, which means that fixed effects (model coefficients) are plotted. For mixed effects models, only fixed effects are plotted by default as well.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/" class="external-link">sjPlot</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span>
@@ -184,7 +183,7 @@
 <h3 id="fitting-a-logistic-regression-model">Fitting a logistic regression model<a class="anchor" aria-label="anchor" href="#fitting-a-logistic-regression-model"></a>
 </h3>
 <p>First, we fit a model that will be used in the following examples. The examples work in the same way for any other model as well.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># create binary response</span>
 <span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span><span class="op">)</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span>
 
@@ -207,11 +206,11 @@
 <h3 id="plotting-estimates-of-generalized-linear-models">Plotting estimates of generalized linear models<a class="anchor" aria-label="anchor" href="#plotting-estimates-of-generalized-linear-models"></a>
 </h3>
 <p>The simplest function call is just passing the model object as argument. By default, estimates are sorted in descending order, with the highest effect at the top.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 <p>The “neutral” line, i.e. the vertical intercept that indicates no effect (x-axis position 1 for most glm’s and position 0 for most linear models), is drawn slightly thicker than the other grid lines. You can change the line color with the <code>vline.color</code>-argument.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, vline.color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
@@ -219,11 +218,11 @@
 <h3 id="sorting-estimates">Sorting estimates<a class="anchor" aria-label="anchor" href="#sorting-estimates"></a>
 </h3>
 <p>By default, the estimates are sorted in the same order as they were introduced into the model. Use <code>sort.est = TRUE</code> to sort estimates in descending order, from highest to lowest value.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, sort.est <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>Another way to sort estimates is to use the <code>order.terms</code>-argument. This is a numeric vector, indicating the order of estimates in the plot. In the summary, we see that “sex2” is the first term, followed by the three dependency-categories (position 2-4), the Barthel-Index (5) and two levels for intermediate and high level of education (6 and 7).</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Call:</span>
@@ -255,7 +254,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></code></pre></div>
 <p>Now we want the educational levels (6 and 7) first, than gender (1), followed by dependency (2-4)and finally the Barthel-Index (5). Use this order as numeric vector for the <code>order.terms</code>-argument.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, order.terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
@@ -263,10 +262,10 @@
 <h3 id="estimates-on-the-untransformed-scale">Estimates on the untransformed scale<a class="anchor" aria-label="anchor" href="#estimates-on-the-untransformed-scale"></a>
 </h3>
 <p>By default, <code><a href="../reference/plot_model.html">plot_model()</a></code> automatically exponentiates coefficients, if appropriate (e.g. for models with log or logit link). You can explicitley prevent transformation by setting the <code>transform</code>-argument to <code>NULL</code>, or apply any transformation by using a character vector with the function name.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, transform <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, transform <span class="op">=</span> <span class="st">"plogis"</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-9-2.png" width="672"></p>
 </div>
@@ -274,7 +273,7 @@
 <h3 id="showing-value-labels">Showing value labels<a class="anchor" aria-label="anchor" href="#showing-value-labels"></a>
 </h3>
 <p>By default, just the dots and error bars are plotted. Use <code>show.values = TRUE</code> to show the value labels with the estimates values, and use <code>show.p = FALSE</code> to suppress the asterisks that indicate the significance level of the p-values. Use <code>value.offset</code> to adjust the relative positioning of value labels to the dots and lines.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, show.values <span class="op">=</span> <span class="cn">TRUE</span>, value.offset <span class="op">=</span> <span class="fl">.3</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 </div>
@@ -283,7 +282,7 @@
 </h3>
 <p>As seen in the above examples, by default, the plotting-functions of <strong>sjPlot</strong> retrieve value and variable labels if the data is <em>labelled</em>, using the <a href="https://cran.r-project.org/package=sjlabelled" class="external-link">sjlabelled-package</a>. If the data is not labelled, the variable names are used. In such cases, use the arguments <code>title</code>, <code>axis.labels</code> and <code>axis.title</code> to annotate the plot title and axes. If you want variable names instead of labels, even for labelled data, use <code>""</code> as argument-value, e.g. <code>axis.labels = ""</code>, or set <code>auto.label</code> to <code>FALSE</code>.</p>
 <p>Furthermore, <code><a href="../reference/plot_model.html">plot_model()</a></code> applies case-conversion to all labels by default, using the <a href="https://cran.r-project.org/package=snakecase" class="external-link">snakecase-package</a>. This converts labels into human-readable versions. Use <code>case = NULL</code> to turn case-conversion off, or refer to the package-vignette of the <strong>snakecase</strong>-package for further options.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span>
 <span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Length</span> <span class="op">~</span> <span class="va">Sepal.Width</span> <span class="op">+</span> <span class="va">Petal.Length</span> <span class="op">+</span> <span class="va">Species</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span>
 
@@ -291,7 +290,7 @@
 <span class="co"># separating dots are removed</span>
 <span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># to use variable names even for labelled data</span>
 <span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, axis.labels <span class="op">=</span> <span class="st">""</span>, title <span class="op">=</span> <span class="st">"my own title"</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-11-2.png" width="672"></p>
@@ -300,11 +299,11 @@
 <h3 id="pick-or-remove-specific-terms-from-plot">Pick or remove specific terms from plot<a class="anchor" aria-label="anchor" href="#pick-or-remove-specific-terms-from-plot"></a>
 </h3>
 <p>Use <code>terms</code> resp. <code>rm.terms</code> to select specific terms that should (not) be plotted.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># keep only coefficients sex2, dep2 and dep3</span>
 <span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sex2"</span>, <span class="st">"dep2"</span>, <span class="st">"dep3"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># remove coefficients sex2, dep2 and dep3</span>
 <span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, rm.terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sex2"</span>, <span class="st">"dep2"</span>, <span class="st">"dep3"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-12-2.png" width="672"></p>
@@ -313,7 +312,7 @@
 <h3 id="standardized-estimates">Standardized estimates<a class="anchor" aria-label="anchor" href="#standardized-estimates"></a>
 </h3>
 <p>For linear models, you can also plot standardized beta coefficients, using <code>type = "std"</code> or <code>type = "std2"</code>. These two options differ in the way how coefficients are standardized. <code>type = "std2"</code> plots standardized beta values, however, standardization follows Gelman’s (2008) suggestion, rescaling the estimates by dividing them by two standard deviations instead of just one.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m2</span>, type <span class="op">=</span> <span class="st">"std"</span><span class="op">)</span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 </div>
@@ -324,7 +323,7 @@
 <p>First, of course, there are no <em>confidence intervals</em>, but <em>uncertainty intervals</em> - high density intervals, to be precise.</p>
 <p>Second, there’s not just one interval range, but an <em>inner</em> and <em>outer</em> probability. By default, the inner probability is fixed to <code>.5</code> (50%), while the outer probability is specified via <code>ci.lvl</code> (which defaults to <code>.89</code> (89%) for Bayesian models). However, you can also use the arguments <code>prob.inner</code> and <code>prob.outer</code> to define the intervals boundaries.</p>
 <p>Third, the point estimate is by default the <em>median</em>, but can also be another value, like mean. This can be specified with the <code>bpe</code>-argument.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://mc-stan.org/rstanarm/" class="external-link">"rstanarm"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   <span class="co"># make sure we apply a nice theme</span>
   <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
@@ -362,7 +361,7 @@
 <li>
 <code>width</code>, <code>alpha</code> and <code>scale</code> are passed down to certain ggplot-geoms, like <code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_errorbar()</a></code> or <code>geom_density_ridges()</code>.</li>
 </ul>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span>
   <span class="va">m1</span>, 
   colors <span class="op">=</span> <span class="st">"Accent"</span>, 
