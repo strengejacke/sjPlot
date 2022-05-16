@@ -33,6 +33,7 @@
 #'   alternatig colors (white and light grey by default).
 #' @param digits Numeric, amount of digits after decimal point when rounding
 #'   values.
+#' @param rnames Character vector, can be used to set row names when \code{show.rownames=TRUE}.
 #' @param ... Currently not used.
 #'
 #' @inheritParams tab_model

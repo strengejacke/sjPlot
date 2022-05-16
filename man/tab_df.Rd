@@ -95,6 +95,8 @@ viewer pane. If \code{FALSE} or no viewer available, the HTML table is
 opened in a web browser.}
 
 \item{...}{Currently not used.}
+
+\item{rnames}{Character vector, can be used to set row names when \code{show.rownames=TRUE}.}
 }
 \value{
 A list with following items:
