@@ -277,8 +277,8 @@ view_df <- function(x,
           sprintf(
             "    <td class=\"tdata%s\">%i (%.2f%%)</td>\n",
             arcstring,
-            sum(is.na(x[[index]]), na.rm = T),
-            100 * sum(is.na(x[[index]]), na.rm = T) / nrow(x)
+            sum(is.na(x[[index]]), na.rm = TRUE),
+            100 * sum(is.na(x[[index]]), na.rm = TRUE) / nrow(x)
           )
         )
       }
@@ -291,9 +291,9 @@ view_df <- function(x,
     if (is.numeric(x[[index]]) && !has_value_labels(x[[index]])) {
       if (show.values || show.labels) {
         if (sjmisc::is_float(x[[index]]))
-          valstring <- paste0(sprintf("%.1f", range(x[[index]], na.rm = T)), collapse = "-")
+          valstring <- paste0(sprintf("%.1f", range(x[[index]], na.rm = TRUE)), collapse = "-")
         else
-          valstring <- paste0(sprintf("%i", as.integer(range(x[[index]], na.rm = T))), collapse = "-")
+          valstring <- paste0(sprintf("%i", as.integer(range(x[[index]], na.rm = TRUE))), collapse = "-")
 
         if (show.values && show.labels) {
           colsp <- " colspan=\"2\""
