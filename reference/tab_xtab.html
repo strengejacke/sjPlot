@@ -197,111 +197,48 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>var.row</dt>
-<dd><p>Variable that should be displayed in the table rows.</p></dd>
-<dt>var.col</dt>
-<dd><p>Cariable that should be displayed in the table columns.</p></dd>
-<dt>weight.by</dt>
-<dd><p>Vector of weights that will be applied to weight all cases.
-Must be a vector of same length as the input vector. Default is
-<code>NULL</code>, so no weights are used.</p></dd>
-<dt>title</dt>
-<dd><p>String, will be used as table caption.</p></dd>
-<dt>var.labels</dt>
-<dd><p>Character vector with variable names, which will be used
-to label variables in the output.</p></dd>
-<dt>value.labels</dt>
-<dd><p>Character vector (or <code>list</code> of character vectors)
-with value labels of the supplied variables, which will be used
-to label variable values in the output.</p></dd>
-<dt>wrap.labels</dt>
-<dd><p>Numeric, determines how many chars of the value, variable
-or axis labels are displayed in one line and when a line break is inserted.</p></dd>
-<dt>show.obs</dt>
-<dd><p>Logical, if <code>TRUE</code>, observed values are shown</p></dd>
-<dt>show.cell.prc</dt>
-<dd><p>Logical, if <code>TRUE</code>, cell percentage values are shown</p></dd>
-<dt>show.row.prc</dt>
-<dd><p>Logical, if <code>TRUE</code>, row percentage values are shown</p></dd>
-<dt>show.col.prc</dt>
-<dd><p>Logical, if <code>TRUE</code>, column percentage values are shown</p></dd>
-<dt>show.exp</dt>
-<dd><p>Logical, if <code>TRUE</code>, expected values are also shown</p></dd>
-<dt>show.legend</dt>
-<dd><p>logical, if <code>TRUE</code>, and depending on plot type and
-function, a legend is added to the plot.</p></dd>
-<dt>show.na</dt>
-<dd><p>logical, if <code>TRUE</code>, <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>'s (missing values)
-are added to the output.</p></dd>
-<dt>show.summary</dt>
-<dd><p>Logical, if <code>TRUE</code>, a summary row with
-chi-squared statistics, degrees of freedom and Cramer's V or Phi
-coefficient and p-value for the chi-squared statistics.</p></dd>
-<dt>drop.empty</dt>
-<dd><p>Logical, if <code>TRUE</code> and the variable's values are labeled,
-values that have no observations are still printed in the table (with
-frequency <code>0</code>). If <code>FALSE</code>, values / factor levels with no occurrence
-in the data are omitted from the output.</p></dd>
-<dt>statistics</dt>
-<dd><p>Name of measure of association that should be computed. May
-be one of <code>"auto"</code>, <code>"cramer"</code>, <code>"phi"</code>, <code>"spearman"</code>,
-<code>"kendall"</code>, <code>"pearson"</code> or <code>"fisher"</code>. See
-<code><a href="https://strengejacke.github.io/sjstats/reference/crosstable_statistics.html" class="external-link">xtab_statistics</a></code>.</p></dd>
-<dt>string.total</dt>
-<dd><p>Character label for the total column / row header</p></dd>
-<dt>digits</dt>
-<dd><p>Amount of decimals for estimates</p></dd>
-<dt>tdcol.n</dt>
-<dd><p>Color for highlighting count (observed) values in table cells. Default is black.</p></dd>
-<dt>tdcol.expected</dt>
-<dd><p>Color for highlighting expected values in table cells. Default is cyan.</p></dd>
-<dt>tdcol.cell</dt>
-<dd><p>Color for highlighting cell percentage values in table cells. Default is red.</p></dd>
-<dt>tdcol.row</dt>
-<dd><p>Color for highlighting row percentage values in table cells. Default is blue.</p></dd>
-<dt>tdcol.col</dt>
-<dd><p>Color for highlighting column percentage values in table cells. Default is green.</p></dd>
-<dt>emph.total</dt>
-<dd><p>Logical, if <code>TRUE</code>, the total column and row will be emphasized with a
-different background color. See <code>emph.color</code>.</p></dd>
-<dt>emph.color</dt>
-<dd><p>Logical, if <code>emph.total = TRUE</code>, this color value will be used
-for painting the background of the total column and row. Default is a light grey.</p></dd>
-<dt>prc.sign</dt>
-<dd><p>The percentage sign that is printed in the table cells, in HTML-format.
-Default is <code>"&amp;nbsp;%"</code>, hence the percentage sign has a non-breaking-space after
-the percentage value.</p></dd>
-<dt>hundret</dt>
-<dd><p>Default value that indicates the 100-percent column-sums (since rounding values
-may lead to non-exact results). Default is <code>"100.0"</code>.</p></dd>
-<dt>CSS</dt>
-<dd><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
-according to the <a href="http://www.w3.org/Style/CSS/" class="external-link">official CSS syntax</a>.
-See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></dd>
-<dt>encoding</dt>
-<dd><p>String, indicating the charset encoding used for variable and
-value labels. Default is <code>NULL</code>, so encoding will be auto-detected
-depending on your platform (e.g., <code>"UTF-8"</code> for Unix and <code>"Windows-1252"</code> for
-Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).</p></dd>
-<dt>file</dt>
-<dd><p>Destination file, if the output should be saved as file.
-If <code>NULL</code> (default), the output will be saved as temporary file and
-opened either in the IDE's viewer pane or the default web browser.</p></dd>
-<dt>use.viewer</dt>
-<dd><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
-viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
-opened in a web browser.</p></dd>
-<dt>remove.spaces</dt>
-<dd><p>Logical, if <code>TRUE</code>, leading spaces are removed from all lines in the final string
-that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
-may look less pretty, but it may help when exporting html-tables to office tools.</p></dd>
-<dt>...</dt>
-<dd><p>Other arguments, currently passed down to the test statistics functions
-<code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test()</a></code> or <code><a href="https://rdrr.io/r/stats/fisher.test.html" class="external-link">fisher.test()</a></code>.</p></dd>
-</dl></div>
+    <p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+    </div>
     <div id="value">
     <h2>Value</h2>
-    <p>Invisibly returns</p><ul><li><p>the web page style sheet (<code>page.style</code>),</p></li>
+    
+
+<p>Invisibly returns</p>
+<p></p>
+<ul><li><p>the web page style sheet (<code>page.style</code>),</p></li>
 <li><p>the web page content (<code>page.content</code>),</p></li>
 <li><p>the complete html-output (<code>page.complete</code>) and</p></li>
 <li><p>the html-table with inline-css for use with knitr (<code>knitr</code>)</p></li>

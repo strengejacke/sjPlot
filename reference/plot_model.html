@@ -199,421 +199,68 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>model</dt>
-<dd><p>A regression model object. Depending on the <code>type</code>, many
-kinds of models are supported, e.g. from packages like <span class="pkg">stats</span>,
-<span class="pkg">lme4</span>, <span class="pkg">nlme</span>, <span class="pkg">rstanarm</span>, <span class="pkg">survey</span>, <span class="pkg">glmmTMB</span>,
-<span class="pkg">MASS</span>, <span class="pkg">brms</span> etc.</p></dd>
-<dt>type</dt>
-<dd><p>Type of plot. There are three groups of plot-types: <br><br><em>Coefficients</em> (<a href="https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html" class="external-link">related vignette</a>)</p><dl><dt><code>type = "est"</code></dt>
-<dd><p>Forest-plot of estimates. If the fitted model
-  only contains one predictor, slope-line is plotted.</p></dd>
-
-  <dt><code>type = "re"</code></dt>
-<dd><p>For mixed effects models, plots the random
-  effects.</p></dd>
-
-  <dt><code>type = "std"</code></dt>
-<dd><p>Forest-plot of standardized coefficients.</p></dd>
-
-  <dt><code>type = "std2"</code></dt>
-<dd><p>Forest-plot of standardized coefficients,
-  however, standardization is done by dividing by two SD (see 'Details').</p></dd>
-
-
-</dl><p><em>Marginal Effects</em>  (<a href="https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html" class="external-link">related vignette</a>)</p><dl><dt><code>type = "pred"</code></dt>
-<dd><p>Predicted values (marginal effects) for
-  specific model terms. See <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggpredict</a></code> for details.</p></dd>
-
-  <dt><code>type = "eff"</code></dt>
-<dd><p>Similar to <code>type = "pred"</code>, however,
-  discrete predictors are held constant at their proportions (not reference
-  level). See <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggeffect</a></code> for details.</p></dd>
-
-  <dt><code>type = "emm"</code></dt>
-<dd><p>Similar to <code>type = "eff"</code>, see
-  <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggemmeans</a></code> for details.</p></dd>
-
-  <dt><code>type = "int"</code></dt>
-<dd><p>Marginal effects of interaction terms in
-  <code>model</code>.</p></dd>
-
-
-</dl><p><em>Model diagnostics</em></p><dl><dt><code>type = "slope"</code></dt>
-<dd><p>Slope of coefficients for each single
-  predictor, against the response (linear relationship between each model
-  term and response). See 'Details'.</p></dd>
-
-  <dt><code>type = "resid"</code></dt>
-<dd><p>Slope of coefficients for each single
-  predictor, against the residuals (linear relationship between each model
-  term and residuals). See 'Details'.</p></dd>
-
-  <dt><code>type = "diag"</code></dt>
-<dd><p>Check model assumptions. See 'Details'.</p></dd>
-
-
-</dl><p><strong>Note:</strong> For mixed models, the diagnostic plots like linear relationship
-or check for Homoscedasticity, do <strong>not</strong> take the uncertainty of
-random effects into account, but is only based on the fixed effects part
-of the model.</p></dd>
-<dt>transform</dt>
-<dd><p>A character vector, naming a function that will be applied
-on estimates and confidence intervals. By default, <code>transform</code> will
-automatically use <code>"exp"</code> as transformation for applicable classes of
-<code>model</code> (e.g. logistic or poisson regression). Estimates of linear
-models remain untransformed. Use <code>NULL</code> if you want the raw,
-non-transformed estimates.</p></dd>
-<dt>terms</dt>
-<dd><p>Character vector with the names of those terms from <code>model</code>
- that should be plotted. This argument depends on the plot-type:</p><dl><dt><em>Coefficients</em></dt>
-<dd><p>Select terms that should be plotted. All other
-     term are removed from the output. Note that the term names must match
-     the names of the model's coefficients. For factors, this means that
-     the variable name is suffixed with the related factor level, and each
-     category counts as one term. E.g. <code>rm.terms = "t_name [2,3]"</code>
-     would remove the terms <code>"t_name2"</code> and <code>"t_name3"</code> (assuming
-     that the variable <code>t_name</code> is categorical and has at least
-     the factor levels <code>2</code> and <code>3</code>). Another example for the
-     <em>iris</em>-dataset: <code>terms = "Species"</code> would not work, instead
-     you would write <code>terms = "Species [versicolor,virginica]"</code> to
-     remove these two levels, or <code>terms = "Speciesversicolor"</code> if you
-     just want to remove the level <em>versicolor</em> from the plot.</p></dd>
-
-   <dt><em>Marginal Effects</em></dt>
-<dd><p>Here <code>terms</code> indicates for which
-     terms marginal effects should be displayed. At least one term is
-     required to calculate effects, maximum length is three terms, where
-     the second and third term indicate the groups, i.e. predictions of
-     first term are grouped by the levels of the second (and third) term.
-     <code>terms</code> may also indicate higher order terms (e.g. interaction
-     terms). Indicating levels in square brackets allows for selecting only
-     specific groups. Term name and levels in brackets must be separated by
-     a whitespace character, e.g. <code>terms = c("age", "education [1,3]")</code>.
-     It is also possible to specify a range of numeric values for the
-     predictions with a colon, for instance <code>terms = c("education [1,3]",
-     "age [30:50]")</code>. Furthermore, it is possible to specify a function name.
-     Values for predictions will then be transformed, e.g.
-     <code>terms = "income [exp]"</code>. This is useful when model predictors were
-     transformed for fitting the model and should be back-transformed to the
-     original scale for predictions. Finally, numeric vectors for which no
-     specific values are given, a "pretty range" is calculated, to avoid
-     memory allocation problems for vectors with many unique values. If a
-     numeric vector is specified as second or third term (i.e. if this vector
-     represents a grouping structure), representative values (see
-     <code><a href="https://strengejacke.github.io/ggeffects/reference/values_at.html" class="external-link">values_at</a></code>) are chosen. If all values for a
-     numeric vector should be used to compute predictions, you may use
-     e.g. terms = "age [all]". For more details, see
-     <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggpredict</a></code>.</p></dd>
-
-
-</dl></dd>
-<dt>sort.est</dt>
-<dd><p>Determines in which way estimates are sorted in the plot:</p><ul><li><p>If <code>NULL</code> (default), no sorting is done and estimates are sorted in the same order as they appear in the model formula.</p></li>
-<li><p>If <code>TRUE</code>, estimates are sorted in descending order, with highest estimate at the top.</p></li>
-<li><p>If <code>sort.est = "sort.all"</code>, estimates are re-sorted for each coefficient (only applies if <code>type = "re"</code> and <code>grid = FALSE</code>), i.e. the estimates of the random effects for each predictor are sorted and plotted to an own plot.</p></li>
-<li><p>If <code>type = "re"</code>, specify a predictor's / coefficient's name to sort estimates according to this random effect.</p></li>
-</ul></dd>
-<dt>rm.terms</dt>
-<dd><p>Character vector with names that indicate which terms should
-be removed from the plot. Counterpart to <code>terms</code>. <code>rm.terms =
-"t_name"</code> would remove the term <em>t_name</em>. Default is <code>NULL</code>, i.e.
-all terms are used. For factors, levels that should be removed from the plot
-need to be explicitely indicated in square brackets, and match the model's
-coefficient names, e.g. <code>rm.terms = "t_name [2,3]"</code> would remove the terms
-<code>"t_name2"</code> and <code>"t_name3"</code> (assuming that the variable <code>t_name</code>
-was categorical and has at least the factor levels <code>2</code> and <code>3</code>).
-Another example for the <em>iris</em> dataset would be
-<code>rm.terms = "Species [versicolor,virginica]"</code>. Note that the
-<code>rm.terms</code>-argument does not apply to <em>Marginal Effects</em> plots.</p></dd>
-<dt>group.terms</dt>
-<dd><p>Numeric vector with group indices, to group coefficients.
-Each group of coefficients gets its own color (see 'Examples').</p></dd>
-<dt>order.terms</dt>
-<dd><p>Numeric vector, indicating in which order the coefficients
-should be plotted. See examples in
-<a href="https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html" class="external-link">this package-vignette</a>.</p></dd>
-<dt>pred.type</dt>
-<dd><p>Character, only applies for <em>Marginal Effects</em> plots
-with mixed effects models. Indicates whether predicted values should be
-conditioned on random effects (<code>pred.type = "re"</code>) or fixed effects
-only (<code>pred.type = "fe"</code>, the default). For details, see documentation
-of the <code>type</code>-argument in <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggpredict</a></code>.</p></dd>
-<dt>mdrt.values</dt>
-<dd><p>Indicates which values of the moderator variable should be
-used when plotting interaction terms (i.e. <code>type = "int"</code>).</p><dl><dt><code>"minmax"</code></dt>
-<dd><p>(default) minimum and maximum values (lower and
-upper bounds) of the moderator are used to plot the interaction between
-independent variable and moderator(s).</p></dd>
- <dt><code>"meansd"</code></dt>
-<dd><p>uses the
-mean value of the moderator as well as one standard deviation below and
-above mean value to plot the effect of the moderator on the independent
-variable (following the convention suggested by Cohen and Cohen and
-popularized by Aiken and West (1991), i.e. using the mean, the value one
-standard deviation above, and the value one standard deviation below the
-mean as values of the moderator, see
-<a href="https://www.theanalysisfactor.com/3-tips-interpreting-moderation/" class="external-link">Grace-Martin
-K: 3 Tips to Make Interpreting Moderation Effects Easier</a>).</p></dd>
-
-<dt><code>"zeromax"</code></dt>
-<dd><p>is similar to the <code>"minmax"</code> option, however,
-<code>0</code> is always used as minimum value for the moderator. This may be
-useful for predictors that don't have an empirical zero-value, but absence
-of moderation should be simulated by using 0 as minimum.</p></dd>
-
-<dt><code>"quart"</code></dt>
-<dd><p>calculates and uses the quartiles (lower, median and
-upper) of the moderator value.</p></dd>
- <dt><code>"all"</code></dt>
-<dd><p>uses all values of the
-moderator variable.</p></dd>
- 
-</dl></dd>
-<dt>ri.nr</dt>
-<dd><p>Numeric vector. If <code>type = "re"</code> and fitted model has more
-than one random intercept, <code>ri.nr</code> indicates which random effects of
-which random intercept (or: which list elements of
-<code><a href="https://rdrr.io/pkg/lme4/man/ranef.html" class="external-link">ranef</a></code>) will be plotted. Default is <code>NULL</code>, so all
-random effects will be plotted.</p></dd>
-<dt>title</dt>
-<dd><p>Character vector, used as plot title. By default,
-<code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">response_labels</a></code> is called to retrieve the label of
-the dependent variable, which will be used as title. Use <code>title = ""</code>
-to remove title.</p></dd>
-<dt>axis.title</dt>
-<dd><p>Character vector of length one or two (depending on the
-plot function and type), used as title(s) for the x and y axis. If not
-specified, a default labelling  is chosen. <strong>Note:</strong> Some plot types
-may not support this argument sufficiently. In such cases, use the returned
-ggplot-object and add axis titles manually with
-<code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></code>. Use <code>axis.title = ""</code> to remove axis
-titles.</p></dd>
-<dt>axis.labels</dt>
-<dd><p>Character vector with labels for the model terms, used as
-axis labels. By default, <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">term_labels</a></code> is
-called to retrieve the labels of the coefficients, which will be used as
-axis labels. Use <code>axis.labels = ""</code> or <code>auto.label = FALSE</code> to
-use the variable names as labels instead. If <code>axis.labels</code> is a named
-vector, axis labels (by default, the names of the model's coefficients)
-will be matched with the names of <code>axis.label</code>. This ensures that
-labels always match the related axis value, no matter in which way
-axis labels are sorted.</p></dd>
-<dt>legend.title</dt>
-<dd><p>Character vector, used as legend title for plots that
-have a legend.</p></dd>
-<dt>wrap.title</dt>
-<dd><p>Numeric, determines how many chars of the plot title are
-displayed in one line and when a line break is inserted.</p></dd>
-<dt>wrap.labels</dt>
-<dd><p>Numeric, determines how many chars of the value, variable
-or axis labels are displayed in one line and when a line break is inserted.</p></dd>
-<dt>axis.lim</dt>
-<dd><p>Numeric vector of length 2, defining the range of the plot
-axis. Depending on plot-type, may effect either x- or y-axis. For
-<em>Marginal Effects</em> plots, <code>axis.lim</code> may also be a list of two
-vectors of length 2, defining axis limits for both the x and y axis.</p></dd>
-<dt>grid.breaks</dt>
-<dd><p>Numeric value or vector; if <code>grid.breaks</code> is a
-single value, sets the distance between breaks for the axis at every
-<code>grid.breaks</code>'th position, where a major grid line is plotted. If
-<code>grid.breaks</code> is a vector, values will be used to define the
-axis positions of the major grid lines.</p></dd>
-<dt>ci.lvl</dt>
-<dd><p>Numeric, the level of the confidence intervals (error bars).
-Use <code>ci.lvl = NA</code> to remove error bars. For <code>stanreg</code>-models,
-<code>ci.lvl</code> defines the (outer) probability for the <em>credible interval</em>
-that is plotted (see <code><a href="https://easystats.github.io/bayestestR/reference/ci.html" class="external-link">ci</a></code>). By
-default, <code>stanreg</code>-models are printed with two intervals: the "inner"
-interval, which defaults to the 50%-CI; and the "outer" interval, which
-defaults to the 89%-CI. <code>ci.lvl</code> affects only the outer interval in
-such cases. See <code>prob.inner</code> and <code>prob.outer</code> under the
-<code>...</code>-argument for more details.</p></dd>
-<dt>se</dt>
-<dd><p>Logical, if <code>TRUE</code>, the standard errors are
-also printed. If robust standard errors are required, use arguments
-<code>vcov.fun</code>, <code>vcov.type</code> and <code>vcov.args</code> (see
-<code><a href="https://easystats.github.io/parameters/reference/standard_error_robust.html" class="external-link">standard_error_robust</a></code> and
-<a href="https://easystats.github.io/parameters/articles/model_parameters_robust.html" class="external-link">this vignette</a>
-for details), or use argument <code>robust</code> as shortcut. <code>se</code> overrides
-<code>ci.lvl</code>: if not <code>NULL</code>, arguments <code>ci.lvl</code> and <code>transform</code>
-will be ignored. Currently, <code>se</code> only applies to <em>Coefficients</em> plots.</p></dd>
-<dt>robust</dt>
-<dd><p>Deprecated. Please use <code>vcov.fun</code> directly to specify
-the estimation of the variance-covariance matrix.</p></dd>
-<dt>vcov.fun</dt>
-<dd><p>Variance-covariance matrix used to compute uncertainty
-estimates (e.g., for robust standard errors). This argument accepts a
-covariance matrix, a function which returns a covariance matrix, or a
-string which identifies the function to be used to compute the covariance
-matrix. See <code><a href="https://easystats.github.io/parameters/reference/model_parameters.html" class="external-link">model_parameters()</a></code>.</p></dd>
-<dt>vcov.type</dt>
-<dd><p>Deprecated. The <code>type</code>-argument is now included in
-<code>vcov.args</code>.</p></dd>
-<dt>vcov.args</dt>
-<dd><p>List of arguments to be passed to the function identified by
-the <code>vcov.fun</code> argument. This function is typically supplied by the
-<span class="pkg">sandwich</span> or <span class="pkg">clubSandwich</span> packages. Please refer to their
-documentation (e.g., <code><a href="https://sandwich.R-Forge.R-project.org//reference/vcovHAC.html" class="external-link">?sandwich::vcovHAC</a></code>) to see the list of
-available arguments.</p></dd>
-<dt>colors</dt>
-<dd><p>May be a character vector of color values in hex-format, valid
-color value names (see <code>demo("colors")</code>) or a name of a pre-defined
-color palette. Following options are valid for the <code>colors</code> argument:</p><ul><li><p>If not specified, a default color brewer palette will be used, which is suitable for the plot style.</p></li>
-<li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
-<li><p>If <code>"bw"</code>, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see <a href="https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html" class="external-link">this package-vignette</a>).</p></li>
-<li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">RColorBrewer::display.brewer.all()</a></code> to view all available palette names.</p></li>
-<li><p>There are some pre-defined color palettes in this package, see <code><a href="sjPlot-themes.html">sjPlot-themes</a></code> for details.</p></li>
-<li><p>Else specify own color values or names as vector (e.g. <code>colors = "#00ff00"</code> or <code>colors = c("firebrick", "blue")</code>).</p></li>
-</ul></dd>
-<dt>show.intercept</dt>
-<dd><p>Logical, if <code>TRUE</code>, the intercept of the fitted
-model is also plotted. Default is <code>FALSE</code>. If <code>transform =
-"exp"</code>, please note that due to exponential transformation of estimates,
-the intercept in some cases is non-finite and the plot can not be created.</p></dd>
-<dt>show.values</dt>
-<dd><p>Logical, whether values should be plotted or not.</p></dd>
-<dt>show.p</dt>
-<dd><p>Logical, adds asterisks that indicate the significance level of
-estimates to the value labels.</p></dd>
-<dt>show.data</dt>
-<dd><p>Logical, for <em>Marginal Effects</em> plots, also plots the
-raw data points.</p></dd>
-<dt>show.legend</dt>
-<dd><p>For <em>Marginal Effects</em> plots, shows or hides the
-legend.</p></dd>
-<dt>show.zeroinf</dt>
-<dd><p>Logical, if <code>TRUE</code>, shows the zero-inflation part of
-hurdle- or zero-inflated models.</p></dd>
-<dt>value.offset</dt>
-<dd><p>Numeric, offset for text labels to adjust their position
-relative to the dots or lines.</p></dd>
-<dt>value.size</dt>
-<dd><p>Numeric, indicates the size of value labels. Can be used
-for all plot types where the argument <code>show.values</code> is applicable,
-e.g. <code>value.size = 4</code>.</p></dd>
-<dt>jitter</dt>
-<dd><p>Numeric, between 0 and 1. If <code>show.data = TRUE</code>, you can
-add a small amount of random variation to the location of each data point.
-<code>jitter</code> then indicates the width, i.e. how much of a bin's width
-will be occupied by the jittered values.</p></dd>
-<dt>digits</dt>
-<dd><p>Numeric, amount of digits after decimal point when rounding
-estimates or values.</p></dd>
-<dt>dot.size</dt>
-<dd><p>Numeric, size of the dots that indicate the point estimates.</p></dd>
-<dt>line.size</dt>
-<dd><p>Numeric, size of the lines that indicate the error bars.</p></dd>
-<dt>vline.color</dt>
-<dd><p>Color of the vertical "zero effect" line. Default color is
-inherited from the current theme.</p></dd>
-<dt>p.threshold</dt>
-<dd><p>Numeric vector of length 3, indicating the treshold for
-annotating p-values with asterisks. Only applies if
-<code>p.style = "asterisk"</code>.</p></dd>
-<dt>p.val</dt>
-<dd><p>Character specifying method to be used to calculate p-values.
-Defaults to "profile" for glm/polr models, otherwise "wald".</p></dd>
-<dt>p.adjust</dt>
-<dd><p>Character vector, if not <code>NULL</code>, indicates the method
-to adjust p-values. See <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></code> for details.</p></dd>
-<dt>grid</dt>
-<dd><p>Logical, if <code>TRUE</code>, multiple plots are plotted as grid
-layout.</p></dd>
-<dt>case</dt>
-<dd><p>Desired target case. Labels will automatically converted into the
-specified character case. See <code>snakecase::to_any_case()</code> for more
-details on this argument. By default, if <code>case</code> is not specified,
-it will be set to <code>"parsed"</code>, unless <code>prefix.labels</code> is not
-<code>"none"</code>. If <code>prefix.labels</code> is either <code>"label"</code> (or
-<code>"l"</code>) or <code>"varname"</code> (or <code>"v"</code>) and <code>case</code> is not
-specified, it will be set to <code>NULL</code> - this is a more convenient
-default when prefixing labels.</p></dd>
-<dt>auto.label</dt>
-<dd><p>Logical, if <code>TRUE</code> (the default),
- and <a href="https://strengejacke.github.io/sjlabelled/articles/intro_sjlabelled.html" class="external-link">data is labelled</a>,
- <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">term_labels</a></code> is called to retrieve the labels
- of the coefficients, which will be used as predictor labels. If data is
- not labelled, <a href="https://easystats.github.io/parameters/reference/format_parameters.html" class="external-link">format_parameters()</a>
- is used to create pretty labels. If <code>auto.label = FALSE</code>,
-original variable names and value labels (factor levels) are used.</p></dd>
-<dt>prefix.labels</dt>
-<dd><p>Indicates whether the value labels of categorical variables
-should be prefixed, e.g. with the variable name or variable label. See
-argument <code>prefix</code> in <code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">term_labels</a></code> for
-details.</p></dd>
-<dt>bpe</dt>
-<dd><p>For <strong>Stan</strong>-models (fitted with the <span class="pkg">rstanarm</span>- or
-<span class="pkg">brms</span>-package), the Bayesian point estimate is, by default, the median
-of the posterior distribution. Use <code>bpe</code> to define other functions to
-calculate the Bayesian point estimate. <code>bpe</code> needs to be a character
-naming the specific function, which is passed to the <code>fun</code>-argument in
-<code><a href="https://strengejacke.github.io/sjmisc/reference/typical_value.html" class="external-link">typical_value</a></code>. So, <code>bpe = "mean"</code> would
-calculate the mean value of the posterior distribution.</p></dd>
-<dt>bpe.style</dt>
-<dd><p>For <strong>Stan</strong>-models (fitted with the <span class="pkg">rstanarm</span>- or
-<span class="pkg">brms</span>-package), the Bayesian point estimate is indicated as a small,
-vertical line by default. Use <code>bpe.style = "dot"</code> to plot a dot
-instead of a line for the point estimate.</p></dd>
-<dt>bpe.color</dt>
-<dd><p>Character vector, indicating the color of the Bayesian
-point estimate. Setting <code>bpe.color = NULL</code> will inherit the color
-from the mapped aesthetic to match it with the geom's color.</p></dd>
-<dt>ci.style</dt>
-<dd><p>Character vector, defining whether inner and outer intervals
-for Bayesion models are shown in boxplot-style (<code>"whisker"</code>) or in
-bars with different alpha-levels (<code>"bar"</code>).</p></dd>
-<dt>...</dt>
-<dd><p>Other arguments, passed down to various functions. Here is a list
-of supported arguments and their description in detail.</p><dl><dt><code>prob.inner</code> and <code>prob.outer</code></dt>
-<dd><p>For <strong>Stan</strong>-models
-    (fitted with the <span class="pkg">rstanarm</span>- or <span class="pkg">brms</span>-package) and coefficients
-    plot-types, you can specify numeric values between 0 and 1 for
-    <code>prob.inner</code> and <code>prob.outer</code>, which will then be used as inner
-    and outer probabilities for the uncertainty intervals (HDI). By default,
-    the inner probability is 0.5 and the outer probability is 0.89 (unless
-    <code>ci.lvl</code> is specified - in this case, <code>ci.lvl</code> is used as outer
-    probability).</p></dd>
-
-  <dt><code>size.inner</code></dt>
-<dd><p>For <strong>Stan</strong>-models and <em>Coefficients</em>
-    plot-types, you can specify the width of the bar for the inner
-    probabilities. Default is <code>0.1</code>. Setting <code>size.inner = 0</code>
-    removes the inner probability regions.</p></dd>
-
-  <dt><code>width</code>, <code>alpha</code>, and <code>scale</code></dt>
-<dd><p>Passed
-    down to <code>geom_errorbar()</code> or <code>geom_density_ridges()</code>, for
-    forest or diagnostic plots.</p></dd>
-
-  <dt><code>width</code>, <code>alpha</code>, <code>dot.alpha</code>, <code>dodge</code> and <code>log.y</code></dt>
-<dd><p>Passed
-    down to <code><a href="https://strengejacke.github.io/ggeffects/reference/plot.html" class="external-link">plot.ggeffects</a></code> for <em>Marginal Effects</em>
-    plots.</p></dd>
-
-  <dt><code>show.loess</code></dt>
-<dd><p>Logical, for diagnostic plot-types <code>"slope"</code>
-    and <code>"resid"</code>, adds (or hides) a loess-smoothed line to the plot.</p></dd>
-
-  <dt><em>Marginal Effects</em> plot-types</dt>
-<dd><p>When plotting marginal effects,
-    arguments are also passed down to <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggpredict</a></code>,
-    <code><a href="https://strengejacke.github.io/ggeffects/reference/ggpredict.html" class="external-link">ggeffect</a></code> or <code><a href="https://strengejacke.github.io/ggeffects/reference/plot.html" class="external-link">plot.ggeffects</a></code>.</p></dd>
-
-  <dt>Case conversion of labels</dt>
-<dd><p>For case conversion of labels (see argument
-    <code>case</code>), arguments <code>sep_in</code> and <code>sep_out</code> will be passed
-    down to <code>snakecase::to_any_case()</code>. This only
-    applies to automatically retrieved term labels, <em>not</em> if
-    term labels are provided by the <code>axis.labels</code>-argument.</p></dd>
-
-
-</dl></dd>
-</dl></div>
+    <p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+    </div>
     <div id="value">
     <h2>Value</h2>
-    <p>Depending on the plot-type, <code>plot_model()</code> returns a
-<code>ggplot</code>-object or a list of such objects. <code>get_model_data</code>  returns the associated data with the plot-object as tidy data frame, or
+    
+
+<p>Depending on the plot-type, <code>plot_model()</code> returns a</p>
+<p></p>
+<p><code>ggplot</code>-object or a list of such objects. <code>get_model_data</code></p>
+
+
+<p>returns the associated data with the plot-object as tidy data frame, or
   (depending on the plot-type) a list of such data frames.</p>
     </div>
     <div id="details">

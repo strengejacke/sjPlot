@@ -167,184 +167,53 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>data</dt>
-<dd><p>A data frame, or a grouped data frame.</p></dd>
-<dt>...</dt>
-<dd><p>Optional, unquoted names of variables that should be selected for
-further processing. Required, if <code>data</code> is a data frame (and no
-vector) and only selected variables from <code>data</code> should be processed.
-You may also use functions like <code>:</code> or tidyselect's
-select_helpers.</p></dd>
-<dt>title</dt>
-<dd><p>Character vector, used as plot title. By default,
-<code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">response_labels</a></code> is called to retrieve the label of
-the dependent variable, which will be used as title. Use <code>title = ""</code>
-to remove title.</p></dd>
-<dt>weight.by</dt>
-<dd><p>Vector of weights that will be applied to weight all cases.
-Must be a vector of same length as the input vector. Default is
-<code>NULL</code>, so no weights are used.</p></dd>
-<dt>title.wtd.suffix</dt>
-<dd><p>Suffix (as string) for the title, if <code>weight.by</code> is specified,
-e.g. <code>title.wtd.suffix=" (weighted)"</code>. Default is <code>NULL</code>, so
-title will not have a suffix when cases are weighted.</p></dd>
-<dt>sort.frq</dt>
-<dd><p>Determines whether categories should be sorted
-according to their frequencies or not. Default is <code>"none"</code>, so
-categories are not sorted by frequency. Use <code>"asc"</code> or
-<code>"desc"</code> for sorting categories ascending or descending order.</p></dd>
-<dt>type</dt>
-<dd><p>Specifies the plot type. May be abbreviated.</p><dl><dt><code>"bar"</code></dt>
-<dd><p>for simple bars (default)</p></dd>
-
-  <dt><code>"dot"</code></dt>
-<dd><p>for a dot plot</p></dd>
-
-  <dt><code>"histogram"</code></dt>
-<dd><p>for a histogram (does not apply to grouped frequencies)</p></dd>
-
-  <dt><code>"line"</code></dt>
-<dd><p>for a line-styled histogram with filled area</p></dd>
-
-  <dt><code>"density"</code></dt>
-<dd><p>for a density plot (does not apply to grouped frequencies)</p></dd>
-
-  <dt><code>"boxplot"</code></dt>
-<dd><p>for box plot</p></dd>
-
-  <dt><code>"violin"</code></dt>
-<dd><p>for violin plots</p></dd>
-
-  
-</dl></dd>
-<dt>geom.size</dt>
-<dd><p>size resp. width of the geoms (bar width, line thickness or point size,
-depending on plot type and function). Note that bar and bin widths mostly
-need smaller values than dot sizes.</p></dd>
-<dt>geom.colors</dt>
-<dd><p>User defined color for geoms, e.g. <code>geom.colors = "#0080ff"</code>.</p></dd>
-<dt>errorbar.color</dt>
-<dd><p>Color of confidence interval bars (error bars).
-Only applies to <code>type = "bar"</code>. In case of dot plots, error bars
-will have same colors as dots (see <code>geom.colors</code>).</p></dd>
-<dt>axis.title</dt>
-<dd><p>Character vector of length one or two (depending on
-the plot function and type), used as title(s) for the x and y axis.
-If not specified, a default labelling  is chosen.
-<strong>Note:</strong> Some plot types do not support this argument. In such
-cases, use the return value and add axis titles manually with
-<code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></code>, e.g.: <code>$plot.list[[1]] + labs(x = ...)</code></p></dd>
-<dt>axis.labels</dt>
-<dd><p>character vector with labels used as axis labels. Optional
-argument, since in most cases, axis labels are set automatically.</p></dd>
-<dt>xlim</dt>
-<dd><p>Numeric vector of length two, defining lower and upper axis limits
-of the x scale. By default, this argument is set to <code>NULL</code>, i.e. the
-x-axis fits to the required range of the data.</p></dd>
-<dt>ylim</dt>
-<dd><p>numeric vector of length two, defining lower and upper axis limits
-of the y scale. By default, this argument is set to <code>NULL</code>, i.e. the
-y-axis fits to the required range of the data.</p></dd>
-<dt>wrap.title</dt>
-<dd><p>Numeric, determines how many chars of the plot title are
-displayed in one line and when a line break is inserted.</p></dd>
-<dt>wrap.labels</dt>
-<dd><p>numeric, determines how many chars of the value, variable or axis
-labels are displayed in one line and when a line break is inserted.</p></dd>
-<dt>grid.breaks</dt>
-<dd><p>numeric; sets the distance between breaks for the axis,
-i.e. at every <code>grid.breaks</code>'th position a major grid is being printed.</p></dd>
-<dt>expand.grid</dt>
-<dd><p>logical, if <code>TRUE</code>, the plot grid is expanded, i.e. there is a small margin between
-axes and plotting region. Default is <code>FALSE</code>.</p></dd>
-<dt>show.values</dt>
-<dd><p>Logical, whether values should be plotted or not.</p></dd>
-<dt>show.n</dt>
-<dd><p>logical, if <code>TRUE</code>, adds total number of cases for each
-group or category to the labels.</p></dd>
-<dt>show.prc</dt>
-<dd><p>logical, if <code>TRUE</code> (default), percentage values are plotted to each bar
-If <code>FALSE</code>, percentage values are removed.</p></dd>
-<dt>show.axis.values</dt>
-<dd><p>logical, whether category, count or percentage values for the axis
-should be printed or not.</p></dd>
-<dt>show.ci</dt>
-<dd><p>Logical, if <code>TRUE)</code>, adds notches to the box plot, which are
-used to compare groups; if the notches of two boxes do not overlap,
-medians are considered to be significantly different.</p></dd>
-<dt>show.na</dt>
-<dd><p>logical, if <code>TRUE</code>, <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>'s (missing values)
-are added to the output.</p></dd>
-<dt>show.mean</dt>
-<dd><p>Logical, if <code>TRUE</code>, a vertical line in histograms
-is drawn to indicate the mean value of the variables. Only
-applies to histogram-charts.</p></dd>
-<dt>show.mean.val</dt>
-<dd><p>Logical, if <code>TRUE</code> (default), the mean value
-is printed to the vertical line that indicates the variable's
-mean. Only applies to histogram-charts.</p></dd>
-<dt>show.sd</dt>
-<dd><p>Logical, if <code>TRUE</code>, the standard deviation
-is annotated as shaded rectangle around the mean intercept
-line. Only applies to histogram-charts.</p></dd>
-<dt>drop.empty</dt>
-<dd><p>Logical, if <code>TRUE</code> and the variable's values are labeled,
-values that have no observations are still printed in the table (with
-frequency <code>0</code>). If <code>FALSE</code>, values / factor levels with no occurrence
-in the data are omitted from the output.</p></dd>
-<dt>mean.line.type</dt>
-<dd><p>Numeric value, indicating the linetype of the mean
-intercept line. Only applies to histogram-charts and
-when <code>show.mean = TRUE</code>.</p></dd>
-<dt>mean.line.size</dt>
-<dd><p>Numeric, size of the mean intercept line. Only
-applies to histogram-charts and when <code>show.mean = TRUE</code>.</p></dd>
-<dt>inner.box.width</dt>
-<dd><p>width of the inner box plot that is plotted inside of violin plots. Only applies
-if <code>type = "violin"</code>. Default value is 0.15</p></dd>
-<dt>inner.box.dotsize</dt>
-<dd><p>size of mean dot insie a violin or box plot. Applies only
-when <code>type = "violin"</code> or <code>"boxplot"</code>.</p></dd>
-<dt>normal.curve</dt>
-<dd><p>Logical, if <code>TRUE</code>, a normal curve, which is adjusted to the data,
-is plotted over the histogram or density plot. Default is
-<code>FALSE</code>. Only applies when histograms or density plots are plotted (see <code>type</code>).</p></dd>
-<dt>normal.curve.color</dt>
-<dd><p>Color of the normal curve line. Only
-applies if <code>normal.curve = TRUE</code>.</p></dd>
-<dt>normal.curve.size</dt>
-<dd><p>Numeric, size of the normal curve line. Only
-applies if <code>normal.curve = TRUE</code>.</p></dd>
-<dt>normal.curve.alpha</dt>
-<dd><p>Transparancy level (alpha value) of the normal curve. Only
-applies if <code>normal.curve = TRUE</code>.</p></dd>
-<dt>auto.group</dt>
-<dd><p>numeric value, indicating the minimum amount of unique values
-in the count variable, at which automatic grouping into smaller units
-is done (see <code><a href="https://strengejacke.github.io/sjmisc/reference/group_var.html" class="external-link">group_var</a></code>). Default value for
-<code>auto.group</code> is <code>NULL</code>, i.e. auto-grouping is off.
-See <code><a href="https://strengejacke.github.io/sjmisc/reference/group_var.html" class="external-link">group_var</a></code> for examples on grouping.</p></dd>
-<dt>coord.flip</dt>
-<dd><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></dd>
-<dt>vjust</dt>
-<dd><p>character vector, indicating the vertical position of value
-labels. Allowed are same values as for <code>vjust</code> aesthetics from
-<code>ggplot2</code>: "left", "center", "right", "bottom", "middle", "top" and
-new options like "inward" and "outward", which align text towards and
-away from the center of the plot respectively.</p></dd>
-<dt>hjust</dt>
-<dd><p>character vector, indicating the horizontal position of value
-labels. Allowed are same values as for <code>vjust</code> aesthetics from
-<code>ggplot2</code>: "left", "center", "right", "bottom", "middle", "top" and
-new options like "inward" and "outward", which align text towards and
-away from the center of the plot respectively.</p></dd>
-<dt>y.offset</dt>
-<dd><p>numeric, offset for text labels when their alignment is adjusted
-to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</p></dd>
-</dl></div>
+    <p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+    </div>
     <div id="value">
     <h2>Value</h2>
-    <p>A ggplot-object.</p>
+    
+
+<p>A ggplot-object.</p>
     </div>
     <div id="note">
     <h2>Note</h2>

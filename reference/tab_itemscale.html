@@ -193,77 +193,29 @@ If factor.groups is not NULL, the data frame df will be
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>df</dt>
-<dd><p>A data frame with items.</p></dd>
-<dt>factor.groups</dt>
-<dd><p>If not <code>NULL</code>, <code>df</code> will be splitted into sub-groups,
-where the item analysis is carried out for each of these groups. Must be a vector of same
-length as <code>ncol(df)</code>, where each item in this vector represents the group number of
-the related columns of <code>df</code>. If <code>factor.groups = "auto"</code>, a principal
-component analysis with Varimax rotation is performed, and the resulting
-groups for the components are used as group index. See 'Examples'.</p></dd>
-<dt>factor.groups.titles</dt>
-<dd><p>Titles for each factor group that will be used as table caption for each
-component-table. Must be a character vector of same length as <code>length(unique(factor.groups))</code>.
-Default is <code>"auto"</code>, which means that each table has a standard caption <em>Component x</em>.
-Use <code>NULL</code> to suppress table captions.</p></dd>
-<dt>scale</dt>
-<dd><p>Logical, if <code>TRUE</code>, the data frame's vectors will be scaled when calculating the
-Cronbach's Alpha value (see <code><a href="https://easystats.github.io/performance/reference/item_reliability.html" class="external-link">item_reliability</a></code>). Recommended, when
-the variables have different measures / scales.</p></dd>
-<dt>min.valid.rowmean</dt>
-<dd><p>Minimum amount of valid values to compute row means for index scores.
-Default is 2, i.e. the return values <code>index.scores</code> and <code>df.index.scores</code> are
-computed for those items that have at least <code>min.valid.rowmean</code> per case (observation, or
-technically, row). See <code>mean_n</code> for details.</p></dd>
-<dt>alternate.rows</dt>
-<dd><p>Logical, if <code>TRUE</code>, rows are printed in
-alternatig colors (white and light grey by default).</p></dd>
-<dt>sort.column</dt>
-<dd><p>Numeric vector, indicating the index of the column
-that should sorted. by default, the column is sorted in ascending order.
-Use negative index for descending order, for instance,
-<code>sort.column = -3</code> would sort the third column in descending order.
-Note that the first column with rownames is not counted.</p></dd>
-<dt>show.shapiro</dt>
-<dd><p>Logical, if <code>TRUE</code>, a Shapiro-Wilk normality test is computed for each item.
-See <code><a href="https://rdrr.io/r/stats/shapiro.test.html" class="external-link">shapiro.test</a></code> for details.</p></dd>
-<dt>show.kurtosis</dt>
-<dd><p>Logical, if <code>TRUE</code>, the kurtosis for each item will also be shown (see <code><a href="https://rdrr.io/pkg/psych/man/skew.html" class="external-link">kurtosi</a></code>
-and <code><a href="https://rdrr.io/pkg/psych/man/describe.html" class="external-link">describe</a></code> in the <code>psych</code>-package for more details.</p></dd>
-<dt>show.corr.matrix</dt>
-<dd><p>Logical, if <code>TRUE</code> (default), a correlation matrix of each component's
-index score is shown. Only applies if <code>factor.groups</code> is not <code>NULL</code> and <code>df</code> has
-more than one group. First, for each case (df's row), the sum of all variables (df's columns) is
-scaled (using the <code><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></code>-function) and represents a "total score" for
-each component (a component is represented by each group of <code>factor.groups</code>).
-After that, each case (df's row) has a scales sum score for each component.
-Finally, a correlation of these "scale sum scores" is computed.</p></dd>
-<dt>CSS</dt>
-<dd><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
-according to the <a href="http://www.w3.org/Style/CSS/" class="external-link">official CSS syntax</a>.
-See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></dd>
-<dt>encoding</dt>
-<dd><p>Character vector, indicating the charset encoding used
-for variable and value labels. Default is <code>"UTF-8"</code>. For Windows
-Systems, <code>encoding = "Windows-1252"</code> might be necessary for proper
-display of special characters.</p></dd>
-<dt>file</dt>
-<dd><p>Destination file, if the output should be saved as file.
-If <code>NULL</code> (default), the output will be saved as temporary file and
-opened either in the IDE's viewer pane or the default web browser.</p></dd>
-<dt>use.viewer</dt>
-<dd><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
-viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
-opened in a web browser.</p></dd>
-<dt>remove.spaces</dt>
-<dd><p>Logical, if <code>TRUE</code>, leading spaces are removed from all lines in the final string
-that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
-may look less pretty, but it may help when exporting html-tables to office tools.</p></dd>
-</dl></div>
+    <p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+    </div>
     <div id="value">
     <h2>Value</h2>
-    <p>Invisibly returns</p><ul><li><p><code>df.list</code>: List of data frames with the item analysis for each sub.group (or complete, if <code>factor.groups</code> was <code>NULL</code>)</p></li>
+    
+
+<p>Invisibly returns</p>
+<p></p>
+<ul><li><p><code>df.list</code>: List of data frames with the item analysis for each sub.group (or complete, if <code>factor.groups</code> was <code>NULL</code>)</p></li>
 <li><p><code>index.scores</code>: A data frame with of standardized scale / index scores for each case (mean value of all scale items for each case) for each sub-group.</p></li>
 <li><p><code>ideal.item.diff</code>: List of vectors that indicate the ideal item difficulty for each item in each sub-group. Item difficulty only differs when items have different levels.</p></li>
 <li><p><code>cronbach.values</code>: List of Cronbach's Alpha values for the overall item scale for each sub-group.</p></li>
@@ -271,7 +223,10 @@ may look less pretty, but it may help when exporting html-tables to office tools
 <li><p><code>knitr</code>: html-table of all complete output with inline-css for use with knitr</p></li>
 <li><p><code>complete.page</code>: Complete html-output.</p></li>
 </ul><p>If <code>factor.groups = NULL</code>, each list contains only one elment, since just one
-         table is printed for the complete scale indicated by <code>df</code>. If <code>factor.groups</code>         is a vector of group-index-values, the lists contain elements for each sub-group.</p>
+         table is printed for the complete scale indicated by <code>df</code>. If <code>factor.groups</code></p>
+
+
+<p>is a vector of group-index-values, the lists contain elements for each sub-group.</p>
     </div>
     <div id="note">
     <h2>Note</h2>

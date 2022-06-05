@@ -129,21 +129,11 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>data</dt>
-<dd><p>A data frame, used to split the data into <code>k</code> training-test-pairs.</p></dd>
-<dt>formula</dt>
-<dd><p>A model formula, used to fit linear models (<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></code>)
-over all <code>k</code> training data sets. Use <code>fit</code> to specify a
-fitted model (also other models than linear models), which will be used
-to compute cross validation. If <code>fit</code> is not missing, <code>formula</code>
-will be ignored.</p></dd>
-<dt>k</dt>
-<dd><p>Number of folds.</p></dd>
-<dt>fit</dt>
-<dd><p>Model object, which will be used to compute cross validation. If
-<code>fit</code> is not missing, <code>formula</code> will be ignored. Currently,
-only linear, poisson and negative binomial regression models are supported.</p></dd>
-</dl></div>
+    <p></p>
+<p></p>
+<p></p>
+<p></p>
+    </div>
     <div id="details">
     <h2>Details</h2>
     <p>This function, first, generates <code>k</code> cross-validated test-training
@@ -169,8 +159,8 @@ only linear, poisson and negative binomial regression models are supported.</p><
 <span class="r-in"></span>
 <span class="r-in"><span class="fu">plot_kfold_cv</span><span class="op">(</span><span class="va">efc</span>, <span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">c172code</span> <span class="op">+</span> <span class="va">c12hour</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 69 rows containing non-finite values (stat_smooth).</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 69 rows containing missing values (geom_point).</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 72 rows containing non-finite values (stat_smooth).</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 72 rows containing missing values (geom_point).</span>
 <span class="r-plt img"><img src="plot_kfold_cv-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu">plot_kfold_cv</span><span class="op">(</span><span class="va">mtcars</span>, <span class="va">mpg</span> <span class="op">~</span><span class="va">.</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
@@ -182,11 +172,11 @@ only linear, poisson and negative binomial regression models are supported.</p><
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.045</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.045</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  6.1758e-29</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  2.3368e-28</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.045</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.045</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  6.1758e-29</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  2.3368e-28</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1</span>
 <span class="r-plt img"><img src="plot_kfold_cv-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
@@ -196,11 +186,11 @@ only linear, poisson and negative binomial regression models are supported.</p><
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.045</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.045</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  2.3233e-28</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  2.1976e-28</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>pseudoinverse used at -0.045</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighborhood radius 1.045</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  2.3233e-28</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>reciprocal condition number  2.1976e-28</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>There are other near singularities as well. 1</span>
 <span class="r-plt img"><img src="plot_kfold_cv-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
