@@ -118,6 +118,9 @@ plot_type_ranef <- function(model,
 
   rand.se <- purrr::map(loops, ~ rownames_as_column(as.data.frame(rand.se[.x])))
 
+  # update loops counter
+  loops <- 1:length(rand.ef)
+
 
   # if we have only one random intercept, and facet.grid
   # not specified, default it to false
