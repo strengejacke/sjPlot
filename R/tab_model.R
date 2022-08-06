@@ -370,7 +370,7 @@ tab_model <- function(
 
   models <- list(...)
 
-  if (length(class(models[[1]])) == 1 && class(models[[1]]) == "list")
+  if (length(class(models[[1]])) == 1 && inherits(models[[1]], "list"))
     models <- lapply(models[[1]], function(x) x)
 
   names(models) <- unlist(lapply(

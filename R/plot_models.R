@@ -124,7 +124,7 @@ plot_models <- function(...,
   if (missing(value.size) || is.null(value.size)) value.size <- 4
 
   # check length. if we have a list of fitted model, we need to "unlist" them
-  if (length(input_list) == 1 && class(input_list[[1]]) == "list")
+  if (length(input_list) == 1 && inherits(input_list[[1]], "list"))
     input_list <- purrr::map(input_list[[1]], ~ .x)
 
 
