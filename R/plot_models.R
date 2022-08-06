@@ -108,7 +108,7 @@ plot_models <- function(...,
                         prefix.labels = c("none", "varname", "label")) {
   # retrieve list of fitted models
   input_list <- list(...)
-  names(input_list) <- unlist(lapply(match.call(expand.dots = F)$`...`, deparse))
+  names(input_list) <- unlist(lapply(match.call(expand.dots = FALSE)$`...`, deparse))
 
   vcov.type <- match.arg(vcov.type)
 
@@ -137,12 +137,14 @@ plot_models <- function(...,
   # check whether estimates should be transformed or not
 
   if (missing(transform)) {
-    if (fam.info$is_linear)
+    if (fam.info$is_linear) {
       tf <- NULL
-    else
+    } else {
       tf <- "exp"
-  } else
+    }
+  } else {
     tf <- transform
+  }
 
 
   # check for standardization, only applies to linear models
@@ -208,7 +210,9 @@ plot_models <- function(...,
 
 
   # add grouping index
-  for (i in 1:length(fl)) fl[[i]] <- sjmisc::add_variables(fl[[i]], group = as.character(i), .after = Inf)
+  for (i in seq_along(fl)) {
+    fl[[i]] <- sjmisc::add_variables(fl[[i]], group = as.character(i), .after = Inf)
+  }
 
   # merge models to one data frame
   ff <- dplyr::bind_rows(fl)
