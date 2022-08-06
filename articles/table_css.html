@@ -151,7 +151,7 @@
       <h1 data-toc-skip>Customizing HTML tables</h1>
                         <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2022-06-05</h4>
+            <h4 data-toc-skip class="date">2022-08-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/vignettes/table_css.Rmd" class="external-link"><code>vignettes/table_css.Rmd</code></a></small>
       <div class="hidden name"><code>table_css.Rmd</code></div>
@@ -183,107 +183,107 @@
 <div class="section level3">
 <h3 id="retrieving-customizable-styles">Retrieving customizable styles<a class="anchor" aria-label="anchor" href="#retrieving-customizable-styles"></a>
 </h3>
-<p>The table functions invisibly return several values. The return value <code>page.style</code> contains the style information for the HTML table. You can print this style sheet to console using the <code><a href="https://rdrr.io/pkg/brms/man/addition-terms.html" class="external-link">cat()</a></code>-function:</p>
+<p>The table functions invisibly return several values. The return value <code>page.style</code> contains the style information for the HTML table. You can print this style sheet to console using the <code><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat()</a></code>-function:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/" class="external-link">sjPlot</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span>
-<span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span>
-<span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/" class="external-link">sjPlot</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
+<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">barthtot</span> <span class="op">~</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
+<span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/brms/man/addition-terms.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">tab</span><span class="op">$</span><span class="va">page.style</span><span class="op">)</span>
-<span class="co">#&gt; &lt;style&gt;</span>
-<span class="co">#&gt; html, body { background-color: white; }</span>
-<span class="co">#&gt; table { border-collapse:collapse; border:none; }</span>
-<span class="co">#&gt; caption { font-weight: bold; text-align:left; }</span>
-<span class="co">#&gt; td {  }</span>
-<span class="co">#&gt; .thead { border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; }</span>
-<span class="co">#&gt; .tdata { padding:0.2cm; text-align:left; vertical-align:top; }</span>
-<span class="co">#&gt; .arc { background-color:#f2f2f2; }</span>
-<span class="co">#&gt; .summary { padding-top:0.1cm; padding-bottom:0.1cm; }</span>
-<span class="co">#&gt; .summarydata { text-align:left; }</span>
-<span class="co">#&gt; .fixedparts { font-weight:bold; text-align:left; }</span>
-<span class="co">#&gt; .randomparts { font-weight:bold; text-align:left; padding-top:.8em; }</span>
-<span class="co">#&gt; .zeroparts { font-weight:bold; text-align:left; padding-top:.8em; }</span>
-<span class="co">#&gt; .simplexparts { font-weight:bold; text-align:left; padding-top:.8em; }</span>
-<span class="co">#&gt; .lasttablerow { border-bottom: double; }</span>
-<span class="co">#&gt; .firsttablerow {  }</span>
-<span class="co">#&gt; .firstsumrow { border-top:1px solid; }</span>
-<span class="co">#&gt; .labelcellborder { border-bottom:1px solid; }</span>
-<span class="co">#&gt; .depvarhead { text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }</span>
-<span class="co">#&gt; .depvarheadnodv { border-top: double; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }</span>
-<span class="co">#&gt; .leftalign { text-align:left; }</span>
-<span class="co">#&gt; .centeralign { text-align:center; }</span>
-<span class="co">#&gt; .firsttablecol { text-align:left; }</span>
-<span class="co">#&gt; .footnote { font-style:italic; border-top:double black; text-align:right; }</span>
-<span class="co">#&gt; .subtitle { font-weight: normal; }</span>
-<span class="co">#&gt; .modelcolumn1 {  }</span>
-<span class="co">#&gt; .modelcolumn2 {  }</span>
-<span class="co">#&gt; .modelcolumn3 {  }</span>
-<span class="co">#&gt; .modelcolumn4 {  }</span>
-<span class="co">#&gt; .modelcolumn5 {  }</span>
-<span class="co">#&gt; .modelcolumn6 {  }</span>
-<span class="co">#&gt; .modelcolumn7 {  }</span>
-<span class="co">#&gt; .col1 {  }</span>
-<span class="co">#&gt; .col2 {  }</span>
-<span class="co">#&gt; .col3 {  }</span>
-<span class="co">#&gt; .col4 {  }</span>
-<span class="co">#&gt; .col5 {  }</span>
-<span class="co">#&gt; .col6 {  }</span>
-<span class="co">#&gt; &lt;/style&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">tab</span><span class="op">$</span><span class="va">page.style</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;style&gt;</span></span>
+<span><span class="co">#&gt; html, body { background-color: white; }</span></span>
+<span><span class="co">#&gt; table { border-collapse:collapse; border:none; }</span></span>
+<span><span class="co">#&gt; caption { font-weight: bold; text-align:left; }</span></span>
+<span><span class="co">#&gt; td {  }</span></span>
+<span><span class="co">#&gt; .thead { border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; }</span></span>
+<span><span class="co">#&gt; .tdata { padding:0.2cm; text-align:left; vertical-align:top; }</span></span>
+<span><span class="co">#&gt; .arc { background-color:#f2f2f2; }</span></span>
+<span><span class="co">#&gt; .summary { padding-top:0.1cm; padding-bottom:0.1cm; }</span></span>
+<span><span class="co">#&gt; .summarydata { text-align:left; }</span></span>
+<span><span class="co">#&gt; .fixedparts { font-weight:bold; text-align:left; }</span></span>
+<span><span class="co">#&gt; .randomparts { font-weight:bold; text-align:left; padding-top:.8em; }</span></span>
+<span><span class="co">#&gt; .zeroparts { font-weight:bold; text-align:left; padding-top:.8em; }</span></span>
+<span><span class="co">#&gt; .simplexparts { font-weight:bold; text-align:left; padding-top:.8em; }</span></span>
+<span><span class="co">#&gt; .lasttablerow { border-bottom: double; }</span></span>
+<span><span class="co">#&gt; .firsttablerow {  }</span></span>
+<span><span class="co">#&gt; .firstsumrow { border-top:1px solid; }</span></span>
+<span><span class="co">#&gt; .labelcellborder { border-bottom:1px solid; }</span></span>
+<span><span class="co">#&gt; .depvarhead { text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }</span></span>
+<span><span class="co">#&gt; .depvarheadnodv { border-top: double; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal; }</span></span>
+<span><span class="co">#&gt; .leftalign { text-align:left; }</span></span>
+<span><span class="co">#&gt; .centeralign { text-align:center; }</span></span>
+<span><span class="co">#&gt; .firsttablecol { text-align:left; }</span></span>
+<span><span class="co">#&gt; .footnote { font-style:italic; border-top:double black; text-align:right; }</span></span>
+<span><span class="co">#&gt; .subtitle { font-weight: normal; }</span></span>
+<span><span class="co">#&gt; .modelcolumn1 {  }</span></span>
+<span><span class="co">#&gt; .modelcolumn2 {  }</span></span>
+<span><span class="co">#&gt; .modelcolumn3 {  }</span></span>
+<span><span class="co">#&gt; .modelcolumn4 {  }</span></span>
+<span><span class="co">#&gt; .modelcolumn5 {  }</span></span>
+<span><span class="co">#&gt; .modelcolumn6 {  }</span></span>
+<span><span class="co">#&gt; .modelcolumn7 {  }</span></span>
+<span><span class="co">#&gt; .col1 {  }</span></span>
+<span><span class="co">#&gt; .col2 {  }</span></span>
+<span><span class="co">#&gt; .col3 {  }</span></span>
+<span><span class="co">#&gt; .col4 {  }</span></span>
+<span><span class="co">#&gt; .col5 {  }</span></span>
+<span><span class="co">#&gt; .col6 {  }</span></span>
+<span><span class="co">#&gt; &lt;/style&gt;</span></span></code></pre></div>
 <p>The HTML code is in the <code>page.content</code> return value. The following code prints the HTML code of the table to the R console:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/brms/man/addition-terms.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">tab</span><span class="op">$</span><span class="va">page.content</span><span class="op">)</span>
-<span class="co">#&gt; &lt;table&gt;</span>
-<span class="co">#&gt; &lt;tr&gt;</span>
-<span class="co">#&gt; &lt;th class="thead firsttablerow firsttablecol col1"&gt;&amp;nbsp;&lt;/th&gt;</span>
-<span class="co">#&gt; &lt;th colspan="3" class="thead firsttablerow"&gt;Total score BARTHEL INDEX&lt;/th&gt;</span>
-<span class="co">#&gt; &lt;/tr&gt;</span>
-<span class="co">#&gt; &lt;tr&gt;</span>
-<span class="co">#&gt; &lt;td class="depvarhead firsttablerow firsttablecol col1"&gt;Predictors&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="depvarhead firsttablerow col2"&gt;Estimates&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="depvarhead firsttablerow col3"&gt;CI&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="depvarhead firsttablerow col4"&gt;p&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;/tr&gt;</span>
-<span class="co">#&gt; &lt;tr&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;(Intercept)&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;90.06&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;77.95&amp;nbsp;&amp;ndash;&amp;nbsp;102.18&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;&lt;strong&gt;&amp;lt;0.001&lt;/strong&gt;&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;/tr&gt;</span>
-<span class="co">#&gt; &lt;tr&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer' age&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;&amp;#45;0.22&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;&amp;#45;0.36&amp;nbsp;&amp;ndash;&amp;nbsp;-0.08&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;&lt;strong&gt;0.002&lt;/strong&gt;&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;/tr&gt;</span>
-<span class="co">#&gt; &lt;tr&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;average number of hours&lt;br&gt;of care per week&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;&amp;#45;0.28&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;&amp;#45;0.31&amp;nbsp;&amp;ndash;&amp;nbsp;-0.24&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;&lt;strong&gt;&amp;lt;0.001&lt;/strong&gt;&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;/tr&gt;</span>
-<span class="co">#&gt; &lt;tr&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer's gender&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;&amp;#45;0.26&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;&amp;#45;4.36&amp;nbsp;&amp;ndash;&amp;nbsp;3.83&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;0.900&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;/tr&gt;</span>
-<span class="co">#&gt; &lt;tr&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer's level of&lt;br&gt;education&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;&amp;#45;0.76&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;&amp;#45;3.55&amp;nbsp;&amp;ndash;&amp;nbsp;2.02&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;0.592&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;/tr&gt;</span>
-<span class="co">#&gt; &lt;tr&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata leftalign summary firstsumrow"&gt;Observations&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata summary summarydata firstsumrow" colspan="3"&gt;821&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;/tr&gt;</span>
-<span class="co">#&gt; &lt;tr&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata leftalign summary"&gt;R&lt;sup&gt;2&lt;/sup&gt; / R&lt;sup&gt;2&lt;/sup&gt; adjusted&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;td class="tdata summary summarydata" colspan="3"&gt;0.270 / 0.266&lt;/td&gt;</span>
-<span class="co">#&gt; &lt;/tr&gt;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; &lt;/table&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">tab</span><span class="op">$</span><span class="va">page.content</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;table&gt;</span></span>
+<span><span class="co">#&gt; &lt;tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;th class="thead firsttablerow firsttablecol col1"&gt;&amp;nbsp;&lt;/th&gt;</span></span>
+<span><span class="co">#&gt; &lt;th colspan="3" class="thead firsttablerow"&gt;Total score BARTHEL INDEX&lt;/th&gt;</span></span>
+<span><span class="co">#&gt; &lt;/tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="depvarhead firsttablerow firsttablecol col1"&gt;Predictors&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="depvarhead firsttablerow col2"&gt;Estimates&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="depvarhead firsttablerow col3"&gt;CI&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="depvarhead firsttablerow col4"&gt;p&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;/tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;(Intercept)&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;90.06&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;77.95&amp;nbsp;&amp;ndash;&amp;nbsp;102.18&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;&lt;strong&gt;&amp;lt;0.001&lt;/strong&gt;&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;/tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer' age&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;&amp;#45;0.22&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;&amp;#45;0.36&amp;nbsp;&amp;ndash;&amp;nbsp;-0.08&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;&lt;strong&gt;0.002&lt;/strong&gt;&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;/tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;average number of hours&lt;br&gt;of care per week&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;&amp;#45;0.28&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;&amp;#45;0.31&amp;nbsp;&amp;ndash;&amp;nbsp;-0.24&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;&lt;strong&gt;&amp;lt;0.001&lt;/strong&gt;&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;/tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer's gender&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;&amp;#45;0.26&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;&amp;#45;4.36&amp;nbsp;&amp;ndash;&amp;nbsp;3.83&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;0.900&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;/tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata firsttablecol col1"&gt;carer's level of&lt;br&gt;education&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col2"&gt;&amp;#45;0.76&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col3"&gt;&amp;#45;3.55&amp;nbsp;&amp;ndash;&amp;nbsp;2.02&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata centeralign modelcolumn1 col4"&gt;0.592&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;/tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata leftalign summary firstsumrow"&gt;Observations&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata summary summarydata firstsumrow" colspan="3"&gt;821&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;/tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;tr&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata leftalign summary"&gt;R&lt;sup&gt;2&lt;/sup&gt; / R&lt;sup&gt;2&lt;/sup&gt; adjusted&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;td class="tdata summary summarydata" colspan="3"&gt;0.270 / 0.266&lt;/td&gt;</span></span>
+<span><span class="co">#&gt; &lt;/tr&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; &lt;/table&gt;</span></span></code></pre></div>
 <p>Now you can see which table elements are associated with which CSS class attributes.</p>
 </div>
 </div>
@@ -300,15 +300,15 @@
 </ol>
 <p>Example:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span>
-  <span class="va">m</span>,
-  CSS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-    css.depvarhead <span class="op">=</span> <span class="st">'color: red;'</span>,
-    css.centeralign <span class="op">=</span> <span class="st">'text-align: left;'</span>, 
-    css.firsttablecol <span class="op">=</span> <span class="st">'font-weight: bold;'</span>, 
-    css.summary <span class="op">=</span> <span class="st">'color: blue;'</span>
-  <span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span></span>
+<span>  <span class="va">m</span>,</span>
+<span>  CSS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    css.depvarhead <span class="op">=</span> <span class="st">'color: red;'</span>,</span>
+<span>    css.centeralign <span class="op">=</span> <span class="st">'text-align: left;'</span>, </span>
+<span>    css.firsttablecol <span class="op">=</span> <span class="st">'font-weight: bold;'</span>, </span>
+<span>    css.summary <span class="op">=</span> <span class="st">'color: blue;'</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black; font-weight: bold; ">
@@ -421,7 +421,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </table>
 <p>In the above example, the header row lost the original style and just became red. If you want to keep the original style and just add additional style information, use the plus-sign (+) as initial character for the parameter attributes. In the following example, the header row keeps its original style and is additionally printed in red:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m</span>, CSS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>css.depvarhead <span class="op">=</span> <span class="st">'+color: red;'</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m</span>, CSS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>css.depvarhead <span class="op">=</span> <span class="st">'+color: red;'</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border-top: double; text-align:center; font-style:italic; font-weight:normal; padding:0.2cm; border-bottom:1px solid black; text-align:left; ">
@@ -538,7 +538,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 </h2>
 <p>There are a few pre-defined CSS-themes, which can be accessed with the <code><a href="../reference/sjPlot-themes.html">css_theme()</a></code>-function. There are more pre-defined themes planned for the future.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m</span>, CSS <span class="op">=</span> <span class="fu"><a href="../reference/sjPlot-themes.html">css_theme</a></span><span class="op">(</span><span class="st">"cells"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m</span>, CSS <span class="op">=</span> <span class="fu"><a href="../reference/sjPlot-themes.html">css_theme</a></span><span class="op">(</span><span class="st">"cells"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
 <th style="border:1px solid black; border-bottom:1px solid black; text-align:left; ">
@@ -669,7 +669,7 @@ R<sup>2</sup> / R<sup>2</sup> adjusted
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer>

@@ -120,89 +120,252 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_xtab</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">grp</span>,
-  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bar"</span>, <span class="st">"line"</span><span class="op">)</span>,
-  margin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"col"</span>, <span class="st">"cell"</span>, <span class="st">"row"</span><span class="op">)</span>,
-  bar.pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dodge"</span>, <span class="st">"stack"</span><span class="op">)</span>,
-  title <span class="op">=</span> <span class="st">""</span>,
-  title.wtd.suffix <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.titles <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.labels <span class="op">=</span> <span class="cn">NULL</span>,
-  legend.title <span class="op">=</span> <span class="cn">NULL</span>,
-  legend.labels <span class="op">=</span> <span class="cn">NULL</span>,
-  weight.by <span class="op">=</span> <span class="cn">NULL</span>,
-  rev.order <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.values <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.n <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.prc <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.total <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.legend <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.summary <span class="op">=</span> <span class="cn">FALSE</span>,
-  summary.pos <span class="op">=</span> <span class="st">"r"</span>,
-  drop.empty <span class="op">=</span> <span class="cn">TRUE</span>,
-  string.total <span class="op">=</span> <span class="st">"Total"</span>,
-  wrap.title <span class="op">=</span> <span class="fl">50</span>,
-  wrap.labels <span class="op">=</span> <span class="fl">15</span>,
-  wrap.legend.title <span class="op">=</span> <span class="fl">20</span>,
-  wrap.legend.labels <span class="op">=</span> <span class="fl">20</span>,
-  geom.size <span class="op">=</span> <span class="fl">0.7</span>,
-  geom.spacing <span class="op">=</span> <span class="fl">0.1</span>,
-  geom.colors <span class="op">=</span> <span class="st">"Paired"</span>,
-  dot.size <span class="op">=</span> <span class="fl">3</span>,
-  smooth.lines <span class="op">=</span> <span class="cn">FALSE</span>,
-  grid.breaks <span class="op">=</span> <span class="fl">0.2</span>,
-  expand.grid <span class="op">=</span> <span class="cn">FALSE</span>,
-  ylim <span class="op">=</span> <span class="cn">NULL</span>,
-  vjust <span class="op">=</span> <span class="st">"bottom"</span>,
-  hjust <span class="op">=</span> <span class="st">"center"</span>,
-  y.offset <span class="op">=</span> <span class="cn">NULL</span>,
-  coord.flip <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_xtab</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">grp</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bar"</span>, <span class="st">"line"</span><span class="op">)</span>,</span>
+<span>  margin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"col"</span>, <span class="st">"cell"</span>, <span class="st">"row"</span><span class="op">)</span>,</span>
+<span>  bar.pos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dodge"</span>, <span class="st">"stack"</span><span class="op">)</span>,</span>
+<span>  title <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  title.wtd.suffix <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.titles <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legend.title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legend.labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weight.by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  rev.order <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.values <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.n <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.prc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.total <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.summary <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  summary.pos <span class="op">=</span> <span class="st">"r"</span>,</span>
+<span>  drop.empty <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  string.total <span class="op">=</span> <span class="st">"Total"</span>,</span>
+<span>  wrap.title <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  wrap.labels <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>  wrap.legend.title <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  wrap.legend.labels <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  geom.size <span class="op">=</span> <span class="fl">0.7</span>,</span>
+<span>  geom.spacing <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  geom.colors <span class="op">=</span> <span class="st">"Paired"</span>,</span>
+<span>  dot.size <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  smooth.lines <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  grid.breaks <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  expand.grid <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ylim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vjust <span class="op">=</span> <span class="st">"bottom"</span>,</span>
+<span>  hjust <span class="op">=</span> <span class="st">"center"</span>,</span>
+<span>  y.offset <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  coord.flip <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>x</dt>
+<dd><p>A vector of values (variable) describing the bars which make up the plot.</p></dd>
+
+
+<dt>grp</dt>
+<dd><p>Grouping variable of same length as <code>x</code>, where <code>x</code>
+is grouped into the categories represented by <code>grp</code>.</p></dd>
+
+
+<dt>type</dt>
+<dd><p>Plot type. may be either <code>"bar"</code> (default) for bar charts,
+or <code>"line"</code> for line diagram.</p></dd>
+
+
+<dt>margin</dt>
+<dd><p>Indicates which data of the proportional table should be plotted. Use <code>"row"</code> for
+calculating row percentages, <code>"col"</code> for column percentages and <code>"cell"</code> for cell percentages.
+If <code>margin = "col"</code>, an additional bar with the total sum of each column
+can be added to the plot (see <code>show.total</code>).</p></dd>
+
+
+<dt>bar.pos</dt>
+<dd><p>Indicates whether bars should be positioned side-by-side (default),
+or stacked (<code>bar.pos = "stack"</code>). May be abbreviated.</p></dd>
+
+
+<dt>title</dt>
+<dd><p>character vector, used as plot title. Depending on plot type and function,
+will be set automatically. If <code>title = ""</code>, no title is printed.
+For effect-plots, may also be a character vector of length &gt; 1,
+to define titles for each sub-plot or facet.</p></dd>
+
+
+<dt>title.wtd.suffix</dt>
+<dd><p>Suffix (as string) for the title, if <code>weight.by</code> is specified,
+e.g. <code>title.wtd.suffix=" (weighted)"</code>. Default is <code>NULL</code>, so
+title will not have a suffix when cases are weighted.</p></dd>
+
+
+<dt>axis.titles</dt>
+<dd><p>character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.</p></dd>
+
+
+<dt>axis.labels</dt>
+<dd><p>character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.</p></dd>
+
+
+<dt>legend.title</dt>
+<dd><p>character vector, used as title for the plot legend.</p></dd>
+
+
+<dt>legend.labels</dt>
+<dd><p>character vector with labels for the guide/legend.</p></dd>
+
+
+<dt>weight.by</dt>
+<dd><p>Vector of weights that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is
+<code>NULL</code>, so no weights are used.</p></dd>
+
+
+<dt>rev.order</dt>
+<dd><p>Logical, if <code>TRUE</code>, order of categories (groups) is reversed.</p></dd>
+
+
+<dt>show.values</dt>
+<dd><p>Logical, whether values should be plotted or not.</p></dd>
+
+
+<dt>show.n</dt>
+<dd><p>logical, if <code>TRUE</code>, adds total number of cases for each
+group or category to the labels.</p></dd>
+
+
+<dt>show.prc</dt>
+<dd><p>logical, if <code>TRUE</code> (default), percentage values are plotted to each bar
+If <code>FALSE</code>, percentage values are removed.</p></dd>
+
+
+<dt>show.total</dt>
+<dd><p>When <code>margin = "col"</code>, an additional bar
+with the sum within each category and it's percentages will be added
+to each category.</p></dd>
+
+
+<dt>show.legend</dt>
+<dd><p>logical, if <code>TRUE</code>, and depending on plot type and
+function, a legend is added to the plot.</p></dd>
+
+
+<dt>show.summary</dt>
+<dd><p>logical, if <code>TRUE</code> (default), a summary with chi-squared
+statistics (see <code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test</a></code>), Cramer's V or Phi-value etc.
+is shown. If a cell contains expected values lower than five (or lower than 10
+if df is 1), the Fisher's exact test (see <code><a href="https://rdrr.io/r/stats/fisher.test.html" class="external-link">fisher.test</a></code>) is
+computed instead of chi-squared test. If the table's matrix is larger
+than 2x2, Fisher's exact test with Monte Carlo simulation is computed.</p></dd>
+
+
+<dt>summary.pos</dt>
+<dd><p>position of the model summary which is printed when <code>show.summary</code>
+is <code>TRUE</code>. Default is <code>"r"</code>, i.e. it's printed to the upper right corner.
+Use <code>"l"</code> for upper left corner.</p></dd>
+
+
+<dt>drop.empty</dt>
+<dd><p>Logical, if <code>TRUE</code> and the variable's values are labeled,
+values that have no observations are still printed in the table (with
+frequency <code>0</code>). If <code>FALSE</code>, values / factor levels with no occurrence
+in the data are omitted from the output.</p></dd>
+
+
+<dt>string.total</dt>
+<dd><p>String for the legend label when a total-column is added. Only applies
+if <code>show.total = TRUE</code>. Default is <code>"Total"</code>.</p></dd>
+
+
+<dt>wrap.title</dt>
+<dd><p>numeric, determines how many chars of the plot title are displayed in
+one line and when a line break is inserted.</p></dd>
+
+
+<dt>wrap.labels</dt>
+<dd><p>numeric, determines how many chars of the value, variable or axis
+labels are displayed in one line and when a line break is inserted.</p></dd>
+
+
+<dt>wrap.legend.title</dt>
+<dd><p>numeric, determines how many chars of the legend's title
+are displayed in one line and when a line break is inserted.</p></dd>
+
+
+<dt>wrap.legend.labels</dt>
+<dd><p>numeric, determines how many chars of the legend labels are
+displayed in one line and when a line break is inserted.</p></dd>
+
+
+<dt>geom.size</dt>
+<dd><p>size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
+need smaller values than dot sizes.</p></dd>
+
+
+<dt>geom.spacing</dt>
+<dd><p>the spacing between geoms (i.e. bar spacing)</p></dd>
+
+
+<dt>geom.colors</dt>
+<dd><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></dd>
+
+
+<dt>dot.size</dt>
+<dd><p>Dot size, only applies, when argument <code>type = "line"</code>.</p></dd>
+
+
+<dt>smooth.lines</dt>
+<dd><p>prints a smooth line curve. Only applies, when argument <code>type = "line"</code>.</p></dd>
+
+
+<dt>grid.breaks</dt>
+<dd><p>numeric; sets the distance between breaks for the axis,
+i.e. at every <code>grid.breaks</code>'th position a major grid is being printed.</p></dd>
+
+
+<dt>expand.grid</dt>
+<dd><p>logical, if <code>TRUE</code>, the plot grid is expanded, i.e. there is a small margin between
+axes and plotting region. Default is <code>FALSE</code>.</p></dd>
+
+
+<dt>ylim</dt>
+<dd><p>numeric vector of length two, defining lower and upper axis limits
+of the y scale. By default, this argument is set to <code>NULL</code>, i.e. the
+y-axis fits to the required range of the data.</p></dd>
+
+
+<dt>vjust</dt>
+<dd><p>character vector, indicating the vertical position of value
+labels. Allowed are same values as for <code>vjust</code> aesthetics from
+<code>ggplot2</code>: "left", "center", "right", "bottom", "middle", "top" and
+new options like "inward" and "outward", which align text towards and
+away from the center of the plot respectively.</p></dd>
+
+
+<dt>hjust</dt>
+<dd><p>character vector, indicating the horizontal position of value
+labels. Allowed are same values as for <code>vjust</code> aesthetics from
+<code>ggplot2</code>: "left", "center", "right", "bottom", "middle", "top" and
+new options like "inward" and "outward", which align text towards and
+away from the center of the plot respectively.</p></dd>
+
+
+<dt>y.offset</dt>
+<dd><p>numeric, offset for text labels when their alignment is adjusted
+to the top/bottom of the geom (see <code>hjust</code> and <code>vjust</code>).</p></dd>
+
+
+<dt>coord.flip</dt>
+<dd><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -212,63 +375,64 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># create 4-category-items</span></span>
-<span class="r-in"><span class="va">grp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># create 3-category-items</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot "cross tablulation" of x and grp</span></span>
-<span class="r-in"><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">x</span>, <span class="va">grp</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># create 4-category-items</span></span></span>
+<span class="r-in"><span><span class="va">grp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span>, <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># create 3-category-items</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">100</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot "cross tablulation" of x and grp</span></span></span>
+<span class="r-in"><span><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">x</span>, <span class="va">grp</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_xtab-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot "cross tablulation" of x and y, including labels</span></span>
-<span class="r-in"><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">x</span>, <span class="va">grp</span>, axis.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"mid"</span>, <span class="st">"high"</span><span class="op">)</span>,</span>
-<span class="r-in">         legend.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Grp 1"</span>, <span class="st">"Grp 2"</span>, <span class="st">"Grp 3"</span>, <span class="st">"Grp 4"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot "cross tablulation" of x and y, including labels</span></span></span>
+<span class="r-in"><span><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">x</span>, <span class="va">grp</span>, axis.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"mid"</span>, <span class="st">"high"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>         legend.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Grp 1"</span>, <span class="st">"Grp 2"</span>, <span class="st">"Grp 3"</span>, <span class="st">"Grp 4"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_xtab-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot "cross tablulation" of x and grp</span></span>
-<span class="r-in"><span class="co"># as stacked proportional bars</span></span>
-<span class="r-in"><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">x</span>, <span class="va">grp</span>, margin <span class="op">=</span> <span class="st">"row"</span>, bar.pos <span class="op">=</span> <span class="st">"stack"</span>,</span>
-<span class="r-in">         show.summary <span class="op">=</span> <span class="cn">TRUE</span>, coord.flip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot "cross tablulation" of x and grp</span></span></span>
+<span class="r-in"><span><span class="co"># as stacked proportional bars</span></span></span>
+<span class="r-in"><span><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">x</span>, <span class="va">grp</span>, margin <span class="op">=</span> <span class="st">"row"</span>, bar.pos <span class="op">=</span> <span class="st">"stack"</span>,</span></span>
+<span class="r-in"><span>         show.summary <span class="op">=</span> <span class="cn">TRUE</span>, coord.flip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Chi-squared approximation may be incorrect</span>
 <span class="r-plt img"><img src="plot_xtab-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># example with vertical labels</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="set_theme.html">set_theme</a></span><span class="op">(</span>geom.label.angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, vjust <span class="op">=</span> <span class="st">"center"</span>, hjust <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># example with vertical labels</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="set_theme.html">set_theme</a></span><span class="op">(</span>geom.label.angle <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, vjust <span class="op">=</span> <span class="st">"center"</span>, hjust <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_xtab-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># grouped bars with EUROFAMCARE sample dataset</span></span>
-<span class="r-in"><span class="co"># dataset was importet from an SPSS-file,</span></span>
-<span class="r-in"><span class="co"># see ?sjmisc::read_spss</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">efc.val</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/get_labels.html" class="external-link">get_labels</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">efc.var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/get_label.html" class="external-link">get_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, title <span class="op">=</span> <span class="va">efc.var</span><span class="op">[</span><span class="st">'e42dep'</span><span class="op">]</span>,</span>
-<span class="r-in">         axis.labels <span class="op">=</span> <span class="va">efc.val</span><span class="op">[[</span><span class="st">'e42dep'</span><span class="op">]</span><span class="op">]</span>, legend.title <span class="op">=</span> <span class="va">efc.var</span><span class="op">[</span><span class="st">'e16sex'</span><span class="op">]</span>,</span>
-<span class="r-in">         legend.labels <span class="op">=</span> <span class="va">efc.val</span><span class="op">[[</span><span class="st">'e16sex'</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># grouped bars with EUROFAMCARE sample dataset</span></span></span>
+<span class="r-in"><span><span class="co"># dataset was importet from an SPSS-file,</span></span></span>
+<span class="r-in"><span><span class="co"># see ?sjmisc::read_spss</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">efc.val</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/get_labels.html" class="external-link">get_labels</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">efc.var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/get_label.html" class="external-link">get_label</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, title <span class="op">=</span> <span class="va">efc.var</span><span class="op">[</span><span class="st">'e42dep'</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>         axis.labels <span class="op">=</span> <span class="va">efc.val</span><span class="op">[[</span><span class="st">'e42dep'</span><span class="op">]</span><span class="op">]</span>, legend.title <span class="op">=</span> <span class="va">efc.var</span><span class="op">[</span><span class="st">'e16sex'</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>         legend.labels <span class="op">=</span> <span class="va">efc.val</span><span class="op">[[</span><span class="st">'e16sex'</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_xtab-5.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, title <span class="op">=</span> <span class="va">efc.var</span><span class="op">[</span><span class="st">'e16sex'</span><span class="op">]</span>,</span>
-<span class="r-in">         axis.labels <span class="op">=</span> <span class="va">efc.val</span><span class="op">[[</span><span class="st">'e16sex'</span><span class="op">]</span><span class="op">]</span>, legend.title <span class="op">=</span> <span class="va">efc.var</span><span class="op">[</span><span class="st">'e42dep'</span><span class="op">]</span>,</span>
-<span class="r-in">         legend.labels <span class="op">=</span> <span class="va">efc.val</span><span class="op">[[</span><span class="st">'e42dep'</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, title <span class="op">=</span> <span class="va">efc.var</span><span class="op">[</span><span class="st">'e16sex'</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>         axis.labels <span class="op">=</span> <span class="va">efc.val</span><span class="op">[[</span><span class="st">'e16sex'</span><span class="op">]</span><span class="op">]</span>, legend.title <span class="op">=</span> <span class="va">efc.var</span><span class="op">[</span><span class="st">'e42dep'</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span>         legend.labels <span class="op">=</span> <span class="va">efc.val</span><span class="op">[[</span><span class="st">'e42dep'</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_xtab-6.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># -------------------------------</span></span>
-<span class="r-in"><span class="co"># auto-detection of labels works here</span></span>
-<span class="r-in"><span class="co"># so no need to specify labels. For</span></span>
-<span class="r-in"><span class="co"># title-auto-detection, use NULL</span></span>
-<span class="r-in"><span class="co"># -------------------------------</span></span>
-<span class="r-in"><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, title <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># -------------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># auto-detection of labels works here</span></span></span>
+<span class="r-in"><span><span class="co"># so no need to specify labels. For</span></span></span>
+<span class="r-in"><span><span class="co"># title-auto-detection, use NULL</span></span></span>
+<span class="r-in"><span><span class="co"># -------------------------------</span></span></span>
+<span class="r-in"><span><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, title <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_xtab-7.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, margin <span class="op">=</span> <span class="st">"row"</span>,</span>
-<span class="r-in">         bar.pos <span class="op">=</span> <span class="st">"stack"</span>, coord.flip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">plot_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, margin <span class="op">=</span> <span class="st">"row"</span>,</span></span>
+<span class="r-in"><span>         bar.pos <span class="op">=</span> <span class="st">"stack"</span>, coord.flip <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_xtab-8.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -283,7 +447,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

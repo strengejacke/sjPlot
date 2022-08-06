@@ -122,64 +122,146 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">theme_sjplot</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span>, base_family <span class="op">=</span> <span class="st">""</span><span class="op">)</span>
-
-<span class="fu">theme_sjplot2</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span>, base_family <span class="op">=</span> <span class="st">""</span><span class="op">)</span>
-
-<span class="fu">theme_blank</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span>, base_family <span class="op">=</span> <span class="st">""</span><span class="op">)</span>
-
-<span class="fu">theme_538</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span>, base_family <span class="op">=</span> <span class="st">""</span><span class="op">)</span>
-
-<span class="fu">font_size</span><span class="op">(</span>
-  <span class="va">title</span>,
-  <span class="va">axis_title.x</span>,
-  <span class="va">axis_title.y</span>,
-  <span class="va">labels.x</span>,
-  <span class="va">labels.y</span>,
-  <span class="va">offset.x</span>,
-  <span class="va">offset.y</span>,
-  <span class="va">base.theme</span>
-<span class="op">)</span>
-
-<span class="fu">label_angle</span><span class="op">(</span><span class="va">angle.x</span>, <span class="va">angle.y</span>, <span class="va">base.theme</span><span class="op">)</span>
-
-<span class="fu">legend_style</span><span class="op">(</span><span class="va">inside</span>, <span class="va">pos</span>, <span class="va">justify</span>, <span class="va">base.theme</span><span class="op">)</span>
-
-<span class="fu">scale_color_sjplot</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"metro"</span>, discrete <span class="op">=</span> <span class="cn">TRUE</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">scale_fill_sjplot</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"metro"</span>, discrete <span class="op">=</span> <span class="cn">TRUE</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">sjplot_pal</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"metro"</span>, n <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="fu">show_sjplot_pals</span><span class="op">(</span><span class="op">)</span>
-
-<span class="fu">css_theme</span><span class="op">(</span>css.theme <span class="op">=</span> <span class="st">"regression"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">theme_sjplot</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span>, base_family <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">theme_sjplot2</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span>, base_family <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">theme_blank</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span>, base_family <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">theme_538</span><span class="op">(</span>base_size <span class="op">=</span> <span class="fl">12</span>, base_family <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">font_size</span><span class="op">(</span></span>
+<span>  <span class="va">title</span>,</span>
+<span>  <span class="va">axis_title.x</span>,</span>
+<span>  <span class="va">axis_title.y</span>,</span>
+<span>  <span class="va">labels.x</span>,</span>
+<span>  <span class="va">labels.y</span>,</span>
+<span>  <span class="va">offset.x</span>,</span>
+<span>  <span class="va">offset.y</span>,</span>
+<span>  <span class="va">base.theme</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">label_angle</span><span class="op">(</span><span class="va">angle.x</span>, <span class="va">angle.y</span>, <span class="va">base.theme</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">legend_style</span><span class="op">(</span><span class="va">inside</span>, <span class="va">pos</span>, <span class="va">justify</span>, <span class="va">base.theme</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">scale_color_sjplot</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"metro"</span>, discrete <span class="op">=</span> <span class="cn">TRUE</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">scale_fill_sjplot</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"metro"</span>, discrete <span class="op">=</span> <span class="cn">TRUE</span>, reverse <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sjplot_pal</span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"metro"</span>, n <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">show_sjplot_pals</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">css_theme</span><span class="op">(</span>css.theme <span class="op">=</span> <span class="st">"regression"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>base_size</dt>
+<dd><p>Base font size.</p></dd>
+
+
+<dt>base_family</dt>
+<dd><p>Base font family.</p></dd>
+
+
+<dt>title</dt>
+<dd><p>Font size for plot titles.</p></dd>
+
+
+<dt>axis_title.x</dt>
+<dd><p>Font size for x-axis titles.</p></dd>
+
+
+<dt>axis_title.y</dt>
+<dd><p>Font size for y-axis titles.</p></dd>
+
+
+<dt>labels.x</dt>
+<dd><p>Font size for x-axis labels.</p></dd>
+
+
+<dt>labels.y</dt>
+<dd><p>Font size for y-axis labels.</p></dd>
+
+
+<dt>offset.x</dt>
+<dd><p>Offset for x-axis titles.</p></dd>
+
+
+<dt>offset.y</dt>
+<dd><p>Offset for y-axis titles.</p></dd>
+
+
+<dt>base.theme</dt>
+<dd><p>Optional ggplot-theme-object, which is needed in case multiple
+functions should be combined, e.g. <code>theme_sjplot() + label_angle()</code>.
+In such cases, use <code>label_angle(base.theme = theme_sjplot())</code>.</p></dd>
+
+
+<dt>angle.x</dt>
+<dd><p>Angle for x-axis labels.</p></dd>
+
+
+<dt>angle.y</dt>
+<dd><p>Angle for y-axis labels.</p></dd>
+
+
+<dt>inside</dt>
+<dd><p>Logical, use <code>TRUE</code> to put legend inside the plotting area.
+See also <code>pos</code>.</p></dd>
+
+
+<dt>pos</dt>
+<dd><p>Position of the legend, if a legend is drawn.</p><dl><dt><em>Legend outside plot</em></dt>
+<dd><p>Use <code>"bottom"</code>, <code>"top"</code>, <code>"left"</code> or <code>"right"</code>
+    to position the legend above, below, on the left or right side
+    of the diagram.</p></dd>
+
+  <dt><em>Legend inside plot</em></dt>
+<dd><p>If <code>inside = TRUE</code>, legend can be placed inside
+    plot. Use <code>"top left"</code>, <code>"top right"</code>, <code>"bottom left"</code>
+    and <code>"bottom right"</code> to position legend in any of these corners,
+    or a two-element numeric vector with values from 0-1. See also
+    <code>inside</code>.</p></dd>
+
+
+</dl></dd>
+
+
+<dt>justify</dt>
+<dd><p>Justification of legend, relative to its position (<code>"center"</code> or
+two-element numeric vector with values from 0-1.</p></dd>
+
+
+<dt>palette</dt>
+<dd><p>Character name of color palette.</p></dd>
+
+
+<dt>discrete</dt>
+<dd><p>Logical, if <code>TRUE</code>, a discrete colour palette is returned.
+Else, a gradient palette is returned, where colours of the requested palette
+are interpolated using <code><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></code>.</p></dd>
+
+
+<dt>reverse</dt>
+<dd><p>Logical, if <code>TRUE</code>, order of returned colours is reversed.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Further arguments passed down to ggplot's <code><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale()</a></code>-functions.</p></dd>
+
+
+<dt>n</dt>
+<dd><p>Numeric, number of colors to be returned. By default, the complete
+colour palette is returned.</p></dd>
+
+
+<dt>css.theme</dt>
+<dd><p>Name of the CSS pre-set theme-style. Can be used for table-functions.</p></dd>
+
+</dl></div>
     <div id="details">
     <h2>Details</h2>
     <p>When using the <code>colors</code> argument in function calls (e.g.
@@ -191,37 +273,37 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># prepare data</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">efc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">to_factor</a></span><span class="op">(</span><span class="va">efc</span>, <span class="va">c161sex</span>, <span class="va">e42dep</span>, <span class="va">c172code</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">pos_v_4</span> <span class="op">+</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># create plot-object</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># change theme</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">+</span> <span class="fu">theme_sjplot</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># prepare data</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">efc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">to_factor</a></span><span class="op">(</span><span class="va">efc</span>, <span class="va">c161sex</span>, <span class="va">e42dep</span>, <span class="va">c172code</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">pos_v_4</span> <span class="op">+</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="va">c172code</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create plot-object</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># change theme</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu">theme_sjplot</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="sjPlot-themes-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># change font-size</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">+</span> <span class="fu">font_size</span><span class="op">(</span>axis_title.x <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># change font-size</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu">font_size</span><span class="op">(</span>axis_title.x <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="sjPlot-themes-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># apply color theme</span></span>
-<span class="r-in"><span class="va">p</span> <span class="op">+</span> <span class="fu">scale_color_sjplot</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># apply color theme</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu">scale_color_sjplot</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Scale for 'colour' is already present. Adding another scale for 'colour',</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> which will replace the existing scale.</span>
 <span class="r-plt img"><img src="sjPlot-themes-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># show all available colour palettes</span></span>
-<span class="r-in"><span class="fu">show_sjplot_pals</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># show all available colour palettes</span></span></span>
+<span class="r-in"><span><span class="fu">show_sjplot_pals</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="sjPlot-themes-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># get colour values from specific palette</span></span>
-<span class="r-in"><span class="fu">sjplot_pal</span><span class="op">(</span>pal <span class="op">=</span> <span class="st">"breakfast club"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get colour values from specific palette</span></span></span>
+<span class="r-in"><span><span class="fu">sjplot_pal</span><span class="op">(</span>pal <span class="op">=</span> <span class="st">"breakfast club"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "#b6411a" "#4182dd" "#2d6328" "#eec3d8" "#ecf0c8"</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -236,7 +318,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

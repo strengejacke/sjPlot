@@ -130,17 +130,28 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sjplot</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span>, fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grpfrq"</span>, <span class="st">"xtab"</span>, <span class="st">"aov1"</span>, <span class="st">"likert"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">sjtab</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span>, fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"xtab"</span>, <span class="st">"stackfrq"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sjplot</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span>, fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"grpfrq"</span>, <span class="st">"xtab"</span>, <span class="st">"aov1"</span>, <span class="st">"likert"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sjtab</span><span class="op">(</span><span class="va">data</span>, <span class="va">...</span>, fun <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"xtab"</span>, <span class="st">"stackfrq"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>data</dt>
+<dd><p>A data frame. May also be a grouped data frame (see 'Note' and
+'Examples').</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Names of variables that should be plotted, and also further
+arguments passed down to the <span class="pkg">sjPlot</span>-functions. See 'Examples'.</p></dd>
+
+
+<dt>fun</dt>
+<dd><p>Plotting function. Refers to the function name of <span class="pkg">sjPlot</span>-functions.
+See 'Details' and 'Examples'.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -198,7 +209,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

@@ -122,62 +122,131 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tab_df</span><span class="op">(</span>
-  <span class="va">x</span>,
-  title <span class="op">=</span> <span class="cn">NULL</span>,
-  footnote <span class="op">=</span> <span class="cn">NULL</span>,
-  col.header <span class="op">=</span> <span class="cn">NULL</span>,
-  show.type <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.rownames <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.footnote <span class="op">=</span> <span class="cn">FALSE</span>,
-  alternate.rows <span class="op">=</span> <span class="cn">FALSE</span>,
-  sort.column <span class="op">=</span> <span class="cn">NULL</span>,
-  digits <span class="op">=</span> <span class="fl">2</span>,
-  encoding <span class="op">=</span> <span class="st">"UTF-8"</span>,
-  CSS <span class="op">=</span> <span class="cn">NULL</span>,
-  file <span class="op">=</span> <span class="cn">NULL</span>,
-  use.viewer <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">tab_dfs</span><span class="op">(</span>
-  <span class="va">x</span>,
-  titles <span class="op">=</span> <span class="cn">NULL</span>,
-  footnotes <span class="op">=</span> <span class="cn">NULL</span>,
-  col.header <span class="op">=</span> <span class="cn">NULL</span>,
-  show.type <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.rownames <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.footnote <span class="op">=</span> <span class="cn">FALSE</span>,
-  alternate.rows <span class="op">=</span> <span class="cn">FALSE</span>,
-  sort.column <span class="op">=</span> <span class="cn">NULL</span>,
-  digits <span class="op">=</span> <span class="fl">2</span>,
-  encoding <span class="op">=</span> <span class="st">"UTF-8"</span>,
-  CSS <span class="op">=</span> <span class="cn">NULL</span>,
-  file <span class="op">=</span> <span class="cn">NULL</span>,
-  use.viewer <span class="op">=</span> <span class="cn">TRUE</span>,
-  rnames <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tab_df</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  footnote <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  col.header <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  show.type <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.rownames <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.footnote <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  alternate.rows <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  sort.column <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span>,</span>
+<span>  CSS <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  use.viewer <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tab_dfs</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  titles <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  footnotes <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  col.header <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  show.type <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.rownames <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.footnote <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  alternate.rows <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  sort.column <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  encoding <span class="op">=</span> <span class="st">"UTF-8"</span>,</span>
+<span>  CSS <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  use.viewer <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  rnames <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>x</dt>
+<dd><p>For <code>tab_df()</code>, a data frame; and for <code>tab_dfs()</code>, a
+list of data frames.</p></dd>
+
+
+<dt>title, titles, footnote, footnotes</dt>
+<dd><p>Character vector with table
+caption(s) resp. footnote(s). For  <code>tab_df()</code>, must be a character
+of length 1; for <code>tab_dfs()</code>, a character vector of same length as
+<code>x</code> (i.e. one title or footnote per data frame).</p></dd>
+
+
+<dt>col.header</dt>
+<dd><p>Character vector with elements used as column header for
+the table. If <code>NULL</code>, column names from <code>x</code> are used as
+column header.</p></dd>
+
+
+<dt>show.type</dt>
+<dd><p>Logical, if <code>TRUE</code>, adds information about the
+variable type to the variable column.</p></dd>
+
+
+<dt>show.rownames</dt>
+<dd><p>Logical, if <code>TRUE</code>, adds a column with the
+data frame's rowname to the table output.</p></dd>
+
+
+<dt>show.footnote</dt>
+<dd><p>Logical, if <code>TRUE</code>,adds a summary footnote below
+the table. For <code>tab_df()</code>, specify the string in <code>footnote</code>,
+for <code>tab_dfs()</code> provide a character vector in <code>footnotes</code>.</p></dd>
+
+
+<dt>alternate.rows</dt>
+<dd><p>Logical, if <code>TRUE</code>, rows are printed in
+alternatig colors (white and light grey by default).</p></dd>
+
+
+<dt>sort.column</dt>
+<dd><p>Numeric vector, indicating the index of the column
+that should sorted. by default, the column is sorted in ascending order.
+Use negative index for descending order, for instance,
+<code>sort.column = -3</code> would sort the third column in descending order.
+Note that the first column with rownames is not counted.</p></dd>
+
+
+<dt>digits</dt>
+<dd><p>Numeric, amount of digits after decimal point when rounding
+values.</p></dd>
+
+
+<dt>encoding</dt>
+<dd><p>Character vector, indicating the charset encoding used
+for variable and value labels. Default is <code>"UTF-8"</code>. For Windows
+Systems, <code>encoding = "Windows-1252"</code> might be necessary for proper
+display of special characters.</p></dd>
+
+
+<dt>CSS</dt>
+<dd><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
+according to the <a href="http://www.w3.org/Style/CSS/" class="external-link">official CSS syntax</a>.
+See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></dd>
+
+
+<dt>file</dt>
+<dd><p>Destination file, if the output should be saved as file.
+If <code>NULL</code> (default), the output will be saved as temporary file and
+opened either in the IDE's viewer pane or the default web browser.</p></dd>
+
+
+<dt>use.viewer</dt>
+<dd><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
+viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
+opened in a web browser.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Currently not used.</p></dd>
+
+
+<dt>rnames</dt>
+<dd><p>Character vector, can be used to set row names when <code>show.rownames=TRUE</code>.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -220,18 +289,18 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">tab_df</span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">tab_dfs</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>, <span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># sort 2nd column ascending</span></span>
-<span class="r-in"><span class="fu">tab_df</span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>, sort.column <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># sort 2nd column descending</span></span>
-<span class="r-in"><span class="fu">tab_df</span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>, sort.column <span class="op">=</span> <span class="op">-</span><span class="fl">2</span><span class="op">)</span><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">tab_df</span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">tab_dfs</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>, <span class="va">mtcars</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># sort 2nd column ascending</span></span></span>
+<span class="r-in"><span><span class="fu">tab_df</span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>, sort.column <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># sort 2nd column descending</span></span></span>
+<span class="r-in"><span><span class="fu">tab_df</span><span class="op">(</span><span class="va">iris</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, <span class="op">]</span>, sort.column <span class="op">=</span> <span class="op">-</span><span class="fl">2</span><span class="op">)</span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -246,7 +315,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

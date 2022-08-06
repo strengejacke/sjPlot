@@ -151,7 +151,7 @@
       <h1 data-toc-skip>Item Analysis of a Scale or an Index</h1>
                         <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2022-06-05</h4>
+            <h4 data-toc-skip class="date">2022-08-06</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/vignettes/sjtitemanalysis.Rmd" class="external-link"><code>vignettes/sjtitemanalysis.Rmd</code></a></small>
       <div class="hidden name"><code>sjtitemanalysis.Rmd</code></div>
@@ -188,7 +188,7 @@
 </h2>
 <p>The simplest function call is just passing the data frame as argument. In this case, the function assumes that all variables of the data frame belong to one factor only.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <caption style="font-weight: bold; text-align:left;">
 Component 1
@@ -471,11 +471,11 @@ Mean inter-item-correlation=0.092 · Cronbach’s α=0.459
 </h2>
 <p>The items of the COPE index used for our example do not represent a single factor. We can check this, for instance, with a principle component analysis. If you know, which variable belongs to which factor (i.e. which variable is part of which component), you can pass a numeric vector with these group indices to the argument <code>factor.groups</code>. In this case, the data frame is divided into the components specified by <code>factor.groups</code>, and each component (or factor) is analysed.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/parameters/" class="external-link">parameters</a></span><span class="op">)</span>
-<span class="co"># Compute PCA on Cope-Index, and retrieve </span>
-<span class="co"># factor indices for each COPE index variable</span>
-<span class="va">pca</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html" class="external-link">principal_components</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span>
-<span class="va">factor.groups</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html" class="external-link">closest_component</a></span><span class="op">(</span><span class="va">pca</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/parameters/" class="external-link">parameters</a></span><span class="op">)</span></span>
+<span><span class="co"># Compute PCA on Cope-Index, and retrieve </span></span>
+<span><span class="co"># factor indices for each COPE index variable</span></span>
+<span><span class="va">pca</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html" class="external-link">principal_components</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span>
+<span><span class="va">factor.groups</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html" class="external-link">closest_component</a></span><span class="op">(</span><span class="va">pca</span><span class="op">)</span></span></code></pre></div>
 <p>The PCA extracted two components. Now <code><a href="../reference/tab_itemscale.html">tab_itemscale()</a></code> …</p>
 <ol style="list-style-type: decimal">
 <li>performs an item analysis on both components, showing whether each of them is a reliable and useful scale or index score</li>
@@ -483,8 +483,8 @@ Mean inter-item-correlation=0.092 · Cronbach’s α=0.459
 <li>and adds a component-correlation-matrix, to see whether the index scores (which are based on the components) are highly correlated or not.</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="va">factor.groups</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Data frame needs at least three columns for reliability-test.</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="va">factor.groups</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Data frame needs at least three columns for reliability-test.</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <caption style="font-weight: bold; text-align:left;">
 Component 1
@@ -842,8 +842,8 @@ Computed correlation used pearson-method with listwise-deletion.
 <h2 id="adding-further-statistics">Adding further statistics<a class="anchor" aria-label="anchor" href="#adding-further-statistics"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="va">factor.groups</span>, show.shapiro <span class="op">=</span> <span class="cn">TRUE</span>, show.kurtosis <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Data frame needs at least three columns for reliability-test.</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="va">factor.groups</span>, show.shapiro <span class="op">=</span> <span class="cn">TRUE</span>, show.kurtosis <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Data frame needs at least three columns for reliability-test.</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <caption style="font-weight: bold; text-align:left;">
 Component 1
@@ -1282,7 +1282,7 @@ Computed correlation used pearson-method with listwise-deletion.
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer>

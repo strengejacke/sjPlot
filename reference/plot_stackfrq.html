@@ -124,61 +124,171 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_stackfrq</span><span class="op">(</span>
-  <span class="va">items</span>,
-  title <span class="op">=</span> <span class="cn">NULL</span>,
-  legend.title <span class="op">=</span> <span class="cn">NULL</span>,
-  legend.labels <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.titles <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.labels <span class="op">=</span> <span class="cn">NULL</span>,
-  weight.by <span class="op">=</span> <span class="cn">NULL</span>,
-  sort.frq <span class="op">=</span> <span class="cn">NULL</span>,
-  wrap.title <span class="op">=</span> <span class="fl">50</span>,
-  wrap.labels <span class="op">=</span> <span class="fl">30</span>,
-  wrap.legend.title <span class="op">=</span> <span class="fl">30</span>,
-  wrap.legend.labels <span class="op">=</span> <span class="fl">28</span>,
-  geom.size <span class="op">=</span> <span class="fl">0.5</span>,
-  geom.colors <span class="op">=</span> <span class="st">"Blues"</span>,
-  show.prc <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.n <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.total <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.axis.prc <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.legend <span class="op">=</span> <span class="cn">TRUE</span>,
-  grid.breaks <span class="op">=</span> <span class="fl">0.2</span>,
-  expand.grid <span class="op">=</span> <span class="cn">FALSE</span>,
-  digits <span class="op">=</span> <span class="fl">1</span>,
-  vjust <span class="op">=</span> <span class="st">"center"</span>,
-  coord.flip <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_stackfrq</span><span class="op">(</span></span>
+<span>  <span class="va">items</span>,</span>
+<span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legend.title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legend.labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.titles <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weight.by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  sort.frq <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  wrap.title <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  wrap.labels <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  wrap.legend.title <span class="op">=</span> <span class="fl">30</span>,</span>
+<span>  wrap.legend.labels <span class="op">=</span> <span class="fl">28</span>,</span>
+<span>  geom.size <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  geom.colors <span class="op">=</span> <span class="st">"Blues"</span>,</span>
+<span>  show.prc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.n <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.total <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.axis.prc <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.legend <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  grid.breaks <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  expand.grid <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  vjust <span class="op">=</span> <span class="st">"center"</span>,</span>
+<span>  coord.flip <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>items</dt>
+<dd><p>Data frame, or a grouped data frame, with each column representing one item.</p></dd>
+
+
+<dt>title</dt>
+<dd><p>character vector, used as plot title. Depending on plot type and function,
+will be set automatically. If <code>title = ""</code>, no title is printed.
+For effect-plots, may also be a character vector of length &gt; 1,
+to define titles for each sub-plot or facet.</p></dd>
+
+
+<dt>legend.title</dt>
+<dd><p>character vector, used as title for the plot legend.</p></dd>
+
+
+<dt>legend.labels</dt>
+<dd><p>character vector with labels for the guide/legend.</p></dd>
+
+
+<dt>axis.titles</dt>
+<dd><p>character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.</p></dd>
+
+
+<dt>axis.labels</dt>
+<dd><p>character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.</p></dd>
+
+
+<dt>weight.by</dt>
+<dd><p>Vector of weights that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is
+<code>NULL</code>, so no weights are used.</p></dd>
+
+
+<dt>sort.frq</dt>
+<dd><p>Indicates whether the <code>items</code> should be ordered by
+by highest count of first or last category of <code>items</code>.</p><dl><dt><code>"first.asc"</code></dt>
+<dd><p>to order ascending by lowest count of first category,</p></dd>
+
+  <dt><code>"first.desc"</code></dt>
+<dd><p>to order descending by lowest count of first category,</p></dd>
+
+  <dt><code>"last.asc"</code></dt>
+<dd><p>to order ascending by lowest count of last category,</p></dd>
+
+  <dt><code>"last.desc"</code></dt>
+<dd><p>to order descending by lowest count of last category,</p></dd>
+
+  <dt><code>NULL</code></dt>
+<dd><p>(default) for no sorting.</p></dd>
+
+
+</dl></dd>
+
+
+<dt>wrap.title</dt>
+<dd><p>numeric, determines how many chars of the plot title are displayed in
+one line and when a line break is inserted.</p></dd>
+
+
+<dt>wrap.labels</dt>
+<dd><p>numeric, determines how many chars of the value, variable or axis
+labels are displayed in one line and when a line break is inserted.</p></dd>
+
+
+<dt>wrap.legend.title</dt>
+<dd><p>numeric, determines how many chars of the legend's title
+are displayed in one line and when a line break is inserted.</p></dd>
+
+
+<dt>wrap.legend.labels</dt>
+<dd><p>numeric, determines how many chars of the legend labels are
+displayed in one line and when a line break is inserted.</p></dd>
+
+
+<dt>geom.size</dt>
+<dd><p>size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
+need smaller values than dot sizes.</p></dd>
+
+
+<dt>geom.colors</dt>
+<dd><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></dd>
+
+
+<dt>show.prc</dt>
+<dd><p>Logical, whether percentage values should be plotted or not.</p></dd>
+
+
+<dt>show.n</dt>
+<dd><p>Logical, whether count values hould be plotted or not.</p></dd>
+
+
+<dt>show.total</dt>
+<dd><p>logical, if <code>TRUE</code>, adds total number of cases for each
+group or category to the labels.</p></dd>
+
+
+<dt>show.axis.prc</dt>
+<dd><p>Logical, if <code>TRUE</code> (default), the percentage values at the x-axis are shown.</p></dd>
+
+
+<dt>show.legend</dt>
+<dd><p>logical, if <code>TRUE</code>, and depending on plot type and
+function, a legend is added to the plot.</p></dd>
+
+
+<dt>grid.breaks</dt>
+<dd><p>numeric; sets the distance between breaks for the axis,
+i.e. at every <code>grid.breaks</code>'th position a major grid is being printed.</p></dd>
+
+
+<dt>expand.grid</dt>
+<dd><p>logical, if <code>TRUE</code>, the plot grid is expanded, i.e. there is a small margin between
+axes and plotting region. Default is <code>FALSE</code>.</p></dd>
+
+
+<dt>digits</dt>
+<dd><p>Numeric, amount of digits after decimal point when rounding
+estimates or values.</p></dd>
+
+
+<dt>vjust</dt>
+<dd><p>character vector, indicating the vertical position of value
+labels. Allowed are same values as for <code>vjust</code> aesthetics from
+<code>ggplot2</code>: "left", "center", "right", "bottom", "middle", "top" and
+new options like "inward" and "outward", which align text towards and
+away from the center of the plot respectively.</p></dd>
+
+
+<dt>coord.flip</dt>
+<dd><p>logical, if <code>TRUE</code>, the x and y axis are swapped.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -188,23 +298,23 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Data from the EUROFAMCARE sample dataset</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># recveive first item of COPE-index scale</span></span>
-<span class="r-in"><span class="va">start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span> <span class="op">==</span> <span class="st">"c82cop1"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># recveive first item of COPE-index scale</span></span>
-<span class="r-in"><span class="va">end</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span> <span class="op">==</span> <span class="st">"c90cop9"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># auto-detection of labels</span></span>
-<span class="r-in"><span class="fu">plot_stackfrq</span><span class="op">(</span><span class="va">efc</span><span class="op">[</span>, <span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">]</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Data from the EUROFAMCARE sample dataset</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># recveive first item of COPE-index scale</span></span></span>
+<span class="r-in"><span><span class="va">start</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span> <span class="op">==</span> <span class="st">"c82cop1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># recveive first item of COPE-index scale</span></span></span>
+<span class="r-in"><span><span class="va">end</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span> <span class="op">==</span> <span class="st">"c90cop9"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># auto-detection of labels</span></span></span>
+<span class="r-in"><span><span class="fu">plot_stackfrq</span><span class="op">(</span><span class="va">efc</span><span class="op">[</span>, <span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_stackfrq-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># works on grouped data frames as well</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="va">efc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">c161sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">plot_stackfrq</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># works on grouped data frames as well</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">efc</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">c161sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">start</span><span class="op">:</span><span class="va">end</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">plot_stackfrq</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note: Using an external vector in selections is ambiguous.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Use `all_of(start)` instead of `start` to silence this message.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> See &lt;https://tidyselect.r-lib.org/reference/faq-external-vector.html&gt;.</span>
@@ -225,7 +335,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
 <span class="r-plt img"><img src="plot_stackfrq-3.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -240,7 +350,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

@@ -124,48 +124,76 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dist_norm</span><span class="op">(</span>
-  norm <span class="op">=</span> <span class="cn">NULL</span>,
-  mean <span class="op">=</span> <span class="fl">0</span>,
-  sd <span class="op">=</span> <span class="fl">1</span>,
-  p <span class="op">=</span> <span class="cn">NULL</span>,
-  xmax <span class="op">=</span> <span class="cn">NULL</span>,
-  geom.colors <span class="op">=</span> <span class="cn">NULL</span>,
-  geom.alpha <span class="op">=</span> <span class="fl">0.7</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dist_norm</span><span class="op">(</span></span>
+<span>  norm <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  mean <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  sd <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  p <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  xmax <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  geom.colors <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  geom.alpha <span class="op">=</span> <span class="fl">0.7</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>norm</dt>
+<dd><p>Numeric, optional. If specified, a normal distribution with <code>mean</code> and <code>sd</code>
+is plotted and a shaded area at <code>norm</code> value position is plotted that
+indicates whether or not the specified value is significant or not.
+If both <code>norm</code> and <code>p</code> are not specified, a distribution without shaded
+area is plotted.</p></dd>
+
+
+<dt>mean</dt>
+<dd><p>Numeric. Mean value for normal distribution. By default 0.</p></dd>
+
+
+<dt>sd</dt>
+<dd><p>Numeric. Standard deviation for normal distribution. By default 1.</p></dd>
+
+
+<dt>p</dt>
+<dd><p>Numeric, optional. If specified, a normal distribution with <code>mean</code> and <code>sd</code>
+is plotted and a shaded area at the position where the specified p-level
+starts is plotted. If both <code>norm</code> and <code>p</code> are not specified, a distribution
+without shaded area is plotted.</p></dd>
+
+
+<dt>xmax</dt>
+<dd><p>Numeric, optional. Specifies the maximum x-axis-value. If not specified, the x-axis
+ranges to a value where a p-level of 0.00001 is reached.</p></dd>
+
+
+<dt>geom.colors</dt>
+<dd><p>user defined color for geoms. See 'Details' in <code><a href="plot_grpfrq.html">plot_grpfrq</a></code>.</p></dd>
+
+
+<dt>geom.alpha</dt>
+<dd><p>Specifies the alpha-level of the shaded area. Default is 0.7, range between 0 to 1.</p></dd>
+
+</dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># a simple normal distribution</span></span>
-<span class="r-in"><span class="fu">dist_norm</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># a simple normal distribution</span></span></span>
+<span class="r-in"><span><span class="fu">dist_norm</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="dist_norm-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># a simple normal distribution with different mean and sd.</span></span>
-<span class="r-in"><span class="co"># note that curve looks similar to above plot, but axis range</span></span>
-<span class="r-in"><span class="co"># has changed.</span></span>
-<span class="r-in"><span class="fu">dist_norm</span><span class="op">(</span>mean <span class="op">=</span> <span class="fl">2</span>, sd <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># a simple normal distribution with different mean and sd.</span></span></span>
+<span class="r-in"><span><span class="co"># note that curve looks similar to above plot, but axis range</span></span></span>
+<span class="r-in"><span><span class="co"># has changed.</span></span></span>
+<span class="r-in"><span><span class="fu">dist_norm</span><span class="op">(</span>mean <span class="op">=</span> <span class="fl">2</span>, sd <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="dist_norm-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># a simple normal distribution</span></span>
-<span class="r-in"><span class="fu">dist_norm</span><span class="op">(</span>norm <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># a simple normal distribution</span></span></span>
+<span class="r-in"><span><span class="fu">dist_norm</span><span class="op">(</span>norm <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="dist_norm-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># a simple normal distribution</span></span>
-<span class="r-in"><span class="fu">dist_norm</span><span class="op">(</span>p <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># a simple normal distribution</span></span></span>
+<span class="r-in"><span><span class="fu">dist_norm</span><span class="op">(</span>p <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="dist_norm-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -180,7 +208,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

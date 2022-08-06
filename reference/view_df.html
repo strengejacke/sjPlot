@@ -128,57 +128,157 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">view_df</span><span class="op">(</span>
-  <span class="va">x</span>,
-  weight.by <span class="op">=</span> <span class="cn">NULL</span>,
-  alternate.rows <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.id <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.type <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.values <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.string.values <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.labels <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.frq <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.prc <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.wtd.frq <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.wtd.prc <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.na <span class="op">=</span> <span class="cn">FALSE</span>,
-  max.len <span class="op">=</span> <span class="fl">15</span>,
-  sort.by.name <span class="op">=</span> <span class="cn">FALSE</span>,
-  wrap.labels <span class="op">=</span> <span class="fl">50</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>,
-  CSS <span class="op">=</span> <span class="cn">NULL</span>,
-  encoding <span class="op">=</span> <span class="cn">NULL</span>,
-  file <span class="op">=</span> <span class="cn">NULL</span>,
-  use.viewer <span class="op">=</span> <span class="cn">TRUE</span>,
-  remove.spaces <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">view_df</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  weight.by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  alternate.rows <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.id <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.type <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.values <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.string.values <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.labels <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.frq <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.prc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.wtd.frq <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.wtd.prc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.na <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  max.len <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>  sort.by.name <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  wrap.labels <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  CSS <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  encoding <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  use.viewer <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  remove.spaces <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>x</dt>
+<dd><p>A (labelled) data frame, imported by <code><a href="https://strengejacke.github.io/sjlabelled/reference/read_spss.html" class="external-link">read_spss</a></code>,
+<code><a href="https://strengejacke.github.io/sjlabelled/reference/read_spss.html" class="external-link">read_sas</a></code> or <code><a href="https://strengejacke.github.io/sjlabelled/reference/read_spss.html" class="external-link">read_stata</a></code> function,
+or any similar labelled data frame (see <code><a href="https://strengejacke.github.io/sjlabelled/reference/set_label.html" class="external-link">set_label</a></code>
+and <code><a href="https://strengejacke.github.io/sjlabelled/reference/set_labels.html" class="external-link">set_labels</a></code>).</p></dd>
+
+
+<dt>weight.by</dt>
+<dd><p>Name of variable in <code>x</code> that indicated the vector of
+weights that will be applied to weight all  observations. Default is
+<code>NULL</code>, so no weights are used.</p></dd>
+
+
+<dt>alternate.rows</dt>
+<dd><p>Logical, if <code>TRUE</code>, rows are printed in
+alternatig colors (white and light grey by default).</p></dd>
+
+
+<dt>show.id</dt>
+<dd><p>Logical, if <code>TRUE</code> (default), the variable ID is shown in
+the first column.</p></dd>
+
+
+<dt>show.type</dt>
+<dd><p>Logical, if <code>TRUE</code>, adds information about the
+variable type to the variable column.</p></dd>
+
+
+<dt>show.values</dt>
+<dd><p>Logical, if <code>TRUE</code> (default), the variable values
+are shown as additional column.</p></dd>
+
+
+<dt>show.string.values</dt>
+<dd><p>Logical, if <code>TRUE</code>, elements of character vectors
+are also shown. By default, these are omitted due to possibly overlengthy
+tables.</p></dd>
+
+
+<dt>show.labels</dt>
+<dd><p>Logical, if <code>TRUE</code> (default), the value labels are
+shown as additional column.</p></dd>
+
+
+<dt>show.frq</dt>
+<dd><p>Logical, if <code>TRUE</code>, an additional column with
+frequencies for each variable is shown.</p></dd>
+
+
+<dt>show.prc</dt>
+<dd><p>Logical, if <code>TRUE</code>, an additional column with percentage
+of frequencies for each variable is shown.</p></dd>
+
+
+<dt>show.wtd.frq</dt>
+<dd><p>Logical, if <code>TRUE</code>, an additional column with weighted
+frequencies for each variable is shown. Weights strem from <code>weight.by</code>.</p></dd>
+
+
+<dt>show.wtd.prc</dt>
+<dd><p>Logical, if <code>TRUE</code>, an additional column with weighted
+percentage of frequencies for each variable is shown. Weights strem from
+<code>weight.by</code>.</p></dd>
+
+
+<dt>show.na</dt>
+<dd><p>logical, if <code>TRUE</code>, <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>'s (missing values)
+are added to the output.</p></dd>
+
+
+<dt>max.len</dt>
+<dd><p>Numeric, indicates how many values and value labels per variable
+are shown. Useful for variables with many different values, where the output
+can be truncated.</p></dd>
+
+
+<dt>sort.by.name</dt>
+<dd><p>Logical, if <code>TRUE</code>, rows are sorted according to the
+variable names. By default, rows (variables) are ordered according to their
+order in the data frame.</p></dd>
+
+
+<dt>wrap.labels</dt>
+<dd><p>Numeric, determines how many chars of the value, variable
+or axis labels are displayed in one line and when a line break is inserted.</p></dd>
+
+
+<dt>verbose</dt>
+<dd><p>Logical, if <code>TRUE</code>, a progress bar is displayed
+while creating the output.</p></dd>
+
+
+<dt>CSS</dt>
+<dd><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
+according to the <a href="http://www.w3.org/Style/CSS/" class="external-link">official CSS syntax</a>.
+See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></dd>
+
+
+<dt>encoding</dt>
+<dd><p>Character vector, indicating the charset encoding used
+for variable and value labels. Default is <code>"UTF-8"</code>. For Windows
+Systems, <code>encoding = "Windows-1252"</code> might be necessary for proper
+display of special characters.</p></dd>
+
+
+<dt>file</dt>
+<dd><p>Destination file, if the output should be saved as file.
+If <code>NULL</code> (default), the output will be saved as temporary file and
+opened either in the IDE's viewer pane or the default web browser.</p></dd>
+
+
+<dt>use.viewer</dt>
+<dd><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
+viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
+opened in a web browser.</p></dd>
+
+
+<dt>remove.spaces</dt>
+<dd><p>Logical, if <code>TRUE</code>, leading spaces are removed from all lines in the final string
+that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+may look less pretty, but it may help when exporting html-tables to office tools.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -194,25 +294,25 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># init dataset</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># view variables</span></span>
-<span class="r-in"><span class="fu">view_df</span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># view variables w/o values and value labels</span></span>
-<span class="r-in"><span class="fu">view_df</span><span class="op">(</span><span class="va">efc</span>, show.values <span class="op">=</span> <span class="cn">FALSE</span>, show.labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># view variables including variable typed, orderd by name</span></span>
-<span class="r-in"><span class="fu">view_df</span><span class="op">(</span><span class="va">efc</span>, sort.by.name <span class="op">=</span> <span class="cn">TRUE</span>, show.type <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># User defined style sheet</span></span>
-<span class="r-in"><span class="fu">view_df</span><span class="op">(</span><span class="va">efc</span>,</span>
-<span class="r-in">        CSS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>css.table <span class="op">=</span> <span class="st">"border: 2px solid;"</span>,</span>
-<span class="r-in">                   css.tdata <span class="op">=</span> <span class="st">"border: 1px solid;"</span>,</span>
-<span class="r-in">                   css.arc <span class="op">=</span> <span class="st">"color:blue;"</span><span class="op">)</span><span class="op">)</span><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># init dataset</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># view variables</span></span></span>
+<span class="r-in"><span><span class="fu">view_df</span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># view variables w/o values and value labels</span></span></span>
+<span class="r-in"><span><span class="fu">view_df</span><span class="op">(</span><span class="va">efc</span>, show.values <span class="op">=</span> <span class="cn">FALSE</span>, show.labels <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># view variables including variable typed, orderd by name</span></span></span>
+<span class="r-in"><span><span class="fu">view_df</span><span class="op">(</span><span class="va">efc</span>, sort.by.name <span class="op">=</span> <span class="cn">TRUE</span>, show.type <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># User defined style sheet</span></span></span>
+<span class="r-in"><span><span class="fu">view_df</span><span class="op">(</span><span class="va">efc</span>,</span></span>
+<span class="r-in"><span>        CSS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>css.table <span class="op">=</span> <span class="st">"border: 2px solid;"</span>,</span></span>
+<span class="r-in"><span>                   css.tdata <span class="op">=</span> <span class="st">"border: 1px solid;"</span>,</span></span>
+<span class="r-in"><span>                   css.arc <span class="op">=</span> <span class="st">"color:blue;"</span><span class="op">)</span><span class="op">)</span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -227,7 +327,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

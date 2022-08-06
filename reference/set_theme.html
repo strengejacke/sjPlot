@@ -120,147 +120,380 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">set_theme</span><span class="op">(</span>
-  base <span class="op">=</span> <span class="fu">theme_grey</span><span class="op">(</span><span class="op">)</span>,
-  theme.font <span class="op">=</span> <span class="cn">NULL</span>,
-  title.color <span class="op">=</span> <span class="st">"black"</span>,
-  title.size <span class="op">=</span> <span class="fl">1.2</span>,
-  title.align <span class="op">=</span> <span class="st">"left"</span>,
-  title.vjust <span class="op">=</span> <span class="cn">NULL</span>,
-  geom.outline.color <span class="op">=</span> <span class="cn">NULL</span>,
-  geom.outline.size <span class="op">=</span> <span class="fl">0</span>,
-  geom.boxoutline.size <span class="op">=</span> <span class="fl">0.5</span>,
-  geom.boxoutline.color <span class="op">=</span> <span class="st">"black"</span>,
-  geom.alpha <span class="op">=</span> <span class="fl">1</span>,
-  geom.linetype <span class="op">=</span> <span class="fl">1</span>,
-  geom.errorbar.size <span class="op">=</span> <span class="fl">0.7</span>,
-  geom.errorbar.linetype <span class="op">=</span> <span class="fl">1</span>,
-  geom.label.color <span class="op">=</span> <span class="cn">NULL</span>,
-  geom.label.size <span class="op">=</span> <span class="fl">4</span>,
-  geom.label.alpha <span class="op">=</span> <span class="fl">1</span>,
-  geom.label.angle <span class="op">=</span> <span class="fl">0</span>,
-  axis.title.color <span class="op">=</span> <span class="st">"grey30"</span>,
-  axis.title.size <span class="op">=</span> <span class="fl">1.1</span>,
-  axis.title.x.vjust <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.title.y.vjust <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.angle.x <span class="op">=</span> <span class="fl">0</span>,
-  axis.angle.y <span class="op">=</span> <span class="fl">0</span>,
-  axis.angle <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.textcolor.x <span class="op">=</span> <span class="st">"grey30"</span>,
-  axis.textcolor.y <span class="op">=</span> <span class="st">"grey30"</span>,
-  axis.textcolor <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.linecolor.x <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.linecolor.y <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.linecolor <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.line.size <span class="op">=</span> <span class="fl">0.5</span>,
-  axis.textsize.x <span class="op">=</span> <span class="fl">1</span>,
-  axis.textsize.y <span class="op">=</span> <span class="fl">1</span>,
-  axis.textsize <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.tickslen <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.tickscol <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.ticksmar <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.ticksize.x <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.ticksize.y <span class="op">=</span> <span class="cn">NULL</span>,
-  panel.backcol <span class="op">=</span> <span class="cn">NULL</span>,
-  panel.bordercol <span class="op">=</span> <span class="cn">NULL</span>,
-  panel.col <span class="op">=</span> <span class="cn">NULL</span>,
-  panel.major.gridcol <span class="op">=</span> <span class="cn">NULL</span>,
-  panel.minor.gridcol <span class="op">=</span> <span class="cn">NULL</span>,
-  panel.gridcol <span class="op">=</span> <span class="cn">NULL</span>,
-  panel.gridcol.x <span class="op">=</span> <span class="cn">NULL</span>,
-  panel.gridcol.y <span class="op">=</span> <span class="cn">NULL</span>,
-  panel.major.linetype <span class="op">=</span> <span class="fl">1</span>,
-  panel.minor.linetype <span class="op">=</span> <span class="fl">1</span>,
-  plot.backcol <span class="op">=</span> <span class="cn">NULL</span>,
-  plot.bordercol <span class="op">=</span> <span class="cn">NULL</span>,
-  plot.col <span class="op">=</span> <span class="cn">NULL</span>,
-  plot.margins <span class="op">=</span> <span class="cn">NULL</span>,
-  legend.pos <span class="op">=</span> <span class="st">"right"</span>,
-  legend.just <span class="op">=</span> <span class="cn">NULL</span>,
-  legend.inside <span class="op">=</span> <span class="cn">FALSE</span>,
-  legend.size <span class="op">=</span> <span class="fl">1</span>,
-  legend.color <span class="op">=</span> <span class="st">"black"</span>,
-  legend.title.size <span class="op">=</span> <span class="fl">1</span>,
-  legend.title.color <span class="op">=</span> <span class="st">"black"</span>,
-  legend.title.face <span class="op">=</span> <span class="st">"bold"</span>,
-  legend.backgroundcol <span class="op">=</span> <span class="st">"white"</span>,
-  legend.bordercol <span class="op">=</span> <span class="st">"white"</span>,
-  legend.item.size <span class="op">=</span> <span class="cn">NULL</span>,
-  legend.item.backcol <span class="op">=</span> <span class="st">"grey90"</span>,
-  legend.item.bordercol <span class="op">=</span> <span class="st">"white"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">set_theme</span><span class="op">(</span></span>
+<span>  base <span class="op">=</span> <span class="fu">theme_grey</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  theme.font <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  title.color <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  title.size <span class="op">=</span> <span class="fl">1.2</span>,</span>
+<span>  title.align <span class="op">=</span> <span class="st">"left"</span>,</span>
+<span>  title.vjust <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  geom.outline.color <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  geom.outline.size <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  geom.boxoutline.size <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  geom.boxoutline.color <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  geom.alpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  geom.linetype <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  geom.errorbar.size <span class="op">=</span> <span class="fl">0.7</span>,</span>
+<span>  geom.errorbar.linetype <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  geom.label.color <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  geom.label.size <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  geom.label.alpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  geom.label.angle <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  axis.title.color <span class="op">=</span> <span class="st">"grey30"</span>,</span>
+<span>  axis.title.size <span class="op">=</span> <span class="fl">1.1</span>,</span>
+<span>  axis.title.x.vjust <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.title.y.vjust <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.angle.x <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  axis.angle.y <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  axis.angle <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.textcolor.x <span class="op">=</span> <span class="st">"grey30"</span>,</span>
+<span>  axis.textcolor.y <span class="op">=</span> <span class="st">"grey30"</span>,</span>
+<span>  axis.textcolor <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.linecolor.x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.linecolor.y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.linecolor <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.line.size <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>  axis.textsize.x <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  axis.textsize.y <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  axis.textsize <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.tickslen <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.tickscol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.ticksmar <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.ticksize.x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.ticksize.y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  panel.backcol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  panel.bordercol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  panel.col <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  panel.major.gridcol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  panel.minor.gridcol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  panel.gridcol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  panel.gridcol.x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  panel.gridcol.y <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  panel.major.linetype <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  panel.minor.linetype <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  plot.backcol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  plot.bordercol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  plot.col <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  plot.margins <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legend.pos <span class="op">=</span> <span class="st">"right"</span>,</span>
+<span>  legend.just <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legend.inside <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  legend.size <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  legend.color <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  legend.title.size <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  legend.title.color <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  legend.title.face <span class="op">=</span> <span class="st">"bold"</span>,</span>
+<span>  legend.backgroundcol <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>  legend.bordercol <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>  legend.item.size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legend.item.backcol <span class="op">=</span> <span class="st">"grey90"</span>,</span>
+<span>  legend.item.bordercol <span class="op">=</span> <span class="st">"white"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>base</dt>
+<dd><p>base theme where theme is built on. By default, all
+metrics from <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_gray()</a></code> are used. See 'Details'.</p></dd>
+
+
+<dt>theme.font</dt>
+<dd><p>base font family for the plot.</p></dd>
+
+
+<dt>title.color</dt>
+<dd><p>Color of plot title. Default is <code>"black"</code>.</p></dd>
+
+
+<dt>title.size</dt>
+<dd><p>size of plot title. Default is 1.3.</p></dd>
+
+
+<dt>title.align</dt>
+<dd><p>alignment of plot title. Must be one of <code>"left"</code> (default),
+<code>"center"</code> or <code>"right"</code>. You may use initial letter only.</p></dd>
+
+
+<dt>title.vjust</dt>
+<dd><p>numeric, vertical adjustment for plot title.</p></dd>
+
+
+<dt>geom.outline.color</dt>
+<dd><p>Color of geom outline. Only applies, if <code>geom.outline.size</code>
+is larger than 0.</p></dd>
+
+
+<dt>geom.outline.size</dt>
+<dd><p>size of bar outlines. Default is 0.1. Use
+size of <code>0</code> to remove geom outline.</p></dd>
+
+
+<dt>geom.boxoutline.size</dt>
+<dd><p>size of outlines and median bar especially for boxplots.
+Default is 0.5. Use size of <code>0</code> to remove boxplot outline.</p></dd>
+
+
+<dt>geom.boxoutline.color</dt>
+<dd><p>Color of outlines and median bar especially for boxplots.
+Only applies, if <code>geom.boxoutline.size</code> is larger than 0.</p></dd>
+
+
+<dt>geom.alpha</dt>
+<dd><p>specifies the transparancy (alpha value) of geoms</p></dd>
+
+
+<dt>geom.linetype</dt>
+<dd><p>linetype of line geoms. Default is <code>1</code> (solid line).</p></dd>
+
+
+<dt>geom.errorbar.size</dt>
+<dd><p>size (thickness) of error bars. Default is <code>0.8</code></p></dd>
+
+
+<dt>geom.errorbar.linetype</dt>
+<dd><p>linetype of error bars. Default is <code>1</code> (solid line).</p></dd>
+
+
+<dt>geom.label.color</dt>
+<dd><p>Color of geom's value and annotation labels</p></dd>
+
+
+<dt>geom.label.size</dt>
+<dd><p>size of geom's value and annotation labels</p></dd>
+
+
+<dt>geom.label.alpha</dt>
+<dd><p>alpha level of geom's value and annotation labels</p></dd>
+
+
+<dt>geom.label.angle</dt>
+<dd><p>angle of geom's value and annotation labels</p></dd>
+
+
+<dt>axis.title.color</dt>
+<dd><p>Color of x- and y-axis title labels</p></dd>
+
+
+<dt>axis.title.size</dt>
+<dd><p>size of x- and y-axis title labels</p></dd>
+
+
+<dt>axis.title.x.vjust</dt>
+<dd><p>numeric, vertical adjustment of x-axis-title.</p></dd>
+
+
+<dt>axis.title.y.vjust</dt>
+<dd><p>numeric, vertical adjustment of y-axis-title.</p></dd>
+
+
+<dt>axis.angle.x</dt>
+<dd><p>angle for x-axis labels</p></dd>
+
+
+<dt>axis.angle.y</dt>
+<dd><p>angle for y-axis labels</p></dd>
+
+
+<dt>axis.angle</dt>
+<dd><p>angle for x- and y-axis labels. If set, overrides both <code>axis.angle.x</code> and <code>axis.angle.y</code></p></dd>
+
+
+<dt>axis.textcolor.x</dt>
+<dd><p>Color for x-axis labels. If not specified, a default dark gray
+color palette will be used for the labels.</p></dd>
+
+
+<dt>axis.textcolor.y</dt>
+<dd><p>Color for y-axis labels. If not specified, a default dark gray
+color palette will be used for the labels.</p></dd>
+
+
+<dt>axis.textcolor</dt>
+<dd><p>Color for both x- and y-axis labels.
+If set, overrides both <code>axis.textcolor.x</code> and <code>axis.textcolor.y</code></p></dd>
+
+
+<dt>axis.linecolor.x</dt>
+<dd><p>Color of x-axis border</p></dd>
+
+
+<dt>axis.linecolor.y</dt>
+<dd><p>Color of y-axis border</p></dd>
+
+
+<dt>axis.linecolor</dt>
+<dd><p>Color for both x- and y-axis borders.
+If set, overrides both <code>axis.linecolor.x</code> and <code>axis.linecolor.y</code>.</p></dd>
+
+
+<dt>axis.line.size</dt>
+<dd><p>size (thickness) of axis lines. Only affected, if <code>axis.linecolor</code>
+is set.</p></dd>
+
+
+<dt>axis.textsize.x</dt>
+<dd><p>size of x-axis labels</p></dd>
+
+
+<dt>axis.textsize.y</dt>
+<dd><p>size of y-axis labels</p></dd>
+
+
+<dt>axis.textsize</dt>
+<dd><p>size for both x- and y-axis labels.
+If set, overrides both <code>axis.textsize.x</code> and <code>axis.textsize.y</code>.</p></dd>
+
+
+<dt>axis.tickslen</dt>
+<dd><p>length of axis tick marks</p></dd>
+
+
+<dt>axis.tickscol</dt>
+<dd><p>Color of axis tick marks</p></dd>
+
+
+<dt>axis.ticksmar</dt>
+<dd><p>margin between axis labels and tick marks</p></dd>
+
+
+<dt>axis.ticksize.x</dt>
+<dd><p>size of tick marks at x-axis.</p></dd>
+
+
+<dt>axis.ticksize.y</dt>
+<dd><p>size of tick marks at y-axis.</p></dd>
+
+
+<dt>panel.backcol</dt>
+<dd><p>Color of the diagram's background</p></dd>
+
+
+<dt>panel.bordercol</dt>
+<dd><p>Color of whole diagram border (panel border)</p></dd>
+
+
+<dt>panel.col</dt>
+<dd><p>Color of both diagram's border and background.
+If set, overrides both <code>panel.bordercol</code> and <code>panel.backcol</code>.</p></dd>
+
+
+<dt>panel.major.gridcol</dt>
+<dd><p>Color of the major grid lines of the diagram background</p></dd>
+
+
+<dt>panel.minor.gridcol</dt>
+<dd><p>Color of the minor grid lines of the diagram background</p></dd>
+
+
+<dt>panel.gridcol</dt>
+<dd><p>Color for both minor and major grid lines of the diagram background.
+If set, overrides both <code>panel.major.gridcol</code> and <code>panel.minor.gridcol</code>.</p></dd>
+
+
+<dt>panel.gridcol.x</dt>
+<dd><p>See <code>panel.gridcol</code>.</p></dd>
+
+
+<dt>panel.gridcol.y</dt>
+<dd><p>See <code>panel.gridcol</code>.</p></dd>
+
+
+<dt>panel.major.linetype</dt>
+<dd><p>line type for major grid lines</p></dd>
+
+
+<dt>panel.minor.linetype</dt>
+<dd><p>line type for minor grid lines</p></dd>
+
+
+<dt>plot.backcol</dt>
+<dd><p>Color of the plot's background</p></dd>
+
+
+<dt>plot.bordercol</dt>
+<dd><p>Color of whole plot's border (panel border)</p></dd>
+
+
+<dt>plot.col</dt>
+<dd><p>Color of both plot's region border and background.
+If set, overrides both <code>plot.backcol</code> and <code>plot.bordercol</code>.</p></dd>
+
+
+<dt>plot.margins</dt>
+<dd><p>numeric vector of length 4, indicating the top, right,
+bottom and left margin of the plot region.</p></dd>
+
+
+<dt>legend.pos</dt>
+<dd><p>position of the legend, if a legend is drawn.</p><dl><dt><em>legend outside plot</em></dt>
+<dd><p>Use <code>"bottom"</code>, <code>"top"</code>, <code>"left"</code> or <code>"right"</code>
+    to position the legend above, below, on the left or right side
+    of the diagram. Right positioning is default.</p></dd>
+
+  <dt><em>legend inside plot</em></dt>
+<dd><p>If <code>legend.inside = TRUE</code>, legend can be placed inside
+    plot. Use <code>"top left"</code>, <code>"top right"</code>, <code>"bottom left"</code>
+    and <code>"bottom right"</code> to position legend in any of these corners,
+    or a two-element numeric vector with values from 0-1. See also
+    <code>legend.inside</code>.</p></dd>
+
+
+</dl></dd>
+
+
+<dt>legend.just</dt>
+<dd><p>justification of legend, relative to its position (<code>"center"</code> or
+two-element numeric vector with values from 0-1. By default (outside legend),
+justification is centered. If legend is inside and justification not specified,
+legend justification is set according to legend position.</p></dd>
+
+
+<dt>legend.inside</dt>
+<dd><p>logical, use <code>TRUE</code> to put legend inside the plotting area. See <code>legend.pos</code>.</p></dd>
+
+
+<dt>legend.size</dt>
+<dd><p>text size of the legend. Default is 1. Relative size, so
+recommended values are from 0.3 to 2.5</p></dd>
+
+
+<dt>legend.color</dt>
+<dd><p>Color of the legend labels</p></dd>
+
+
+<dt>legend.title.size</dt>
+<dd><p>text size of the legend title</p></dd>
+
+
+<dt>legend.title.color</dt>
+<dd><p>Color of the legend title</p></dd>
+
+
+<dt>legend.title.face</dt>
+<dd><p>font face of the legend title. By default, <code>"bold"</code> face is used.</p></dd>
+
+
+<dt>legend.backgroundcol</dt>
+<dd><p>fill color of the legend's background. Default is <code>"white"</code>, so no visible background is drawn.</p></dd>
+
+
+<dt>legend.bordercol</dt>
+<dd><p>Color of the legend's border. Default is <code>"white"</code>, so no visible border is drawn.</p></dd>
+
+
+<dt>legend.item.size</dt>
+<dd><p>size of legend's item (legend key), in centimetres.</p></dd>
+
+
+<dt>legend.item.backcol</dt>
+<dd><p>fill color of the legend's item-background. Default is <code>"grey90"</code>.</p></dd>
+
+
+<dt>legend.item.bordercol</dt>
+<dd><p>Color of the legend's item-border. Default is <code>"white"</code>.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -274,41 +507,41 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># set sjPlot-defaults, a slightly modification</span></span>
-<span class="r-in"><span class="co"># of the ggplot base theme</span></span>
-<span class="r-in"><span class="fu">set_theme</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># legends of all plots inside</span></span>
-<span class="r-in"><span class="fu">set_theme</span><span class="op">(</span>legend.pos <span class="op">=</span> <span class="st">"top left"</span>, legend.inside <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="plot_xtab.html">plot_xtab</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Use classic-theme. you may need to</span></span>
-<span class="r-in"><span class="co"># load the ggplot2-library.</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">set_theme</span><span class="op">(</span>base <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="plot_frq.html">plot_frq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># adjust value labels</span></span>
-<span class="r-in"><span class="fu">set_theme</span><span class="op">(</span></span>
-<span class="r-in">  geom.label.size <span class="op">=</span> <span class="fl">3.5</span>,</span>
-<span class="r-in">  geom.label.color <span class="op">=</span> <span class="st">"#3366cc"</span>,</span>
-<span class="r-in">  geom.label.angle <span class="op">=</span> <span class="fl">90</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># hjust-aes needs adjustment for this</span></span>
-<span class="r-in"><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/update_defaults.html" class="external-link">update_geom_defaults</a></span><span class="op">(</span><span class="st">'text'</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="plot_xtab.html">plot_xtab</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, vjust <span class="op">=</span> <span class="st">"center"</span>, hjust <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create own theme based on classic-theme</span></span>
-<span class="r-in"><span class="fu">set_theme</span><span class="op">(</span></span>
-<span class="r-in">  base <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span>, axis.linecolor <span class="op">=</span> <span class="st">"grey50"</span>,</span>
-<span class="r-in">  axis.textcolor <span class="op">=</span> <span class="st">"#6699cc"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="plot_frq.html">plot_frq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># set sjPlot-defaults, a slightly modification</span></span></span>
+<span class="r-in"><span><span class="co"># of the ggplot base theme</span></span></span>
+<span class="r-in"><span><span class="fu">set_theme</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># legends of all plots inside</span></span></span>
+<span class="r-in"><span><span class="fu">set_theme</span><span class="op">(</span>legend.pos <span class="op">=</span> <span class="st">"top left"</span>, legend.inside <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plot_xtab.html">plot_xtab</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Use classic-theme. you may need to</span></span></span>
+<span class="r-in"><span><span class="co"># load the ggplot2-library.</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">set_theme</span><span class="op">(</span>base <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plot_frq.html">plot_frq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># adjust value labels</span></span></span>
+<span class="r-in"><span><span class="fu">set_theme</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  geom.label.size <span class="op">=</span> <span class="fl">3.5</span>,</span></span>
+<span class="r-in"><span>  geom.label.color <span class="op">=</span> <span class="st">"#3366cc"</span>,</span></span>
+<span class="r-in"><span>  geom.label.angle <span class="op">=</span> <span class="fl">90</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># hjust-aes needs adjustment for this</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/update_defaults.html" class="external-link">update_geom_defaults</a></span><span class="op">(</span><span class="st">'text'</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>hjust <span class="op">=</span> <span class="op">-</span><span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plot_xtab.html">plot_xtab</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, vjust <span class="op">=</span> <span class="st">"center"</span>, hjust <span class="op">=</span> <span class="st">"center"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create own theme based on classic-theme</span></span></span>
+<span class="r-in"><span><span class="fu">set_theme</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  base <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_classic</a></span><span class="op">(</span><span class="op">)</span>, axis.linecolor <span class="op">=</span> <span class="st">"grey50"</span>,</span></span>
+<span class="r-in"><span>  axis.textcolor <span class="op">=</span> <span class="st">"#6699cc"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="plot_frq.html">plot_frq</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -323,7 +556,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

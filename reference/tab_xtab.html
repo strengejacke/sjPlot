@@ -120,118 +120,252 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tab_xtab</span><span class="op">(</span>
-  <span class="va">var.row</span>,
-  <span class="va">var.col</span>,
-  weight.by <span class="op">=</span> <span class="cn">NULL</span>,
-  title <span class="op">=</span> <span class="cn">NULL</span>,
-  var.labels <span class="op">=</span> <span class="cn">NULL</span>,
-  value.labels <span class="op">=</span> <span class="cn">NULL</span>,
-  wrap.labels <span class="op">=</span> <span class="fl">20</span>,
-  show.obs <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.cell.prc <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.row.prc <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.col.prc <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.exp <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.legend <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.na <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.summary <span class="op">=</span> <span class="cn">TRUE</span>,
-  drop.empty <span class="op">=</span> <span class="cn">TRUE</span>,
-  statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"cramer"</span>, <span class="st">"phi"</span>, <span class="st">"spearman"</span>, <span class="st">"kendall"</span>, <span class="st">"pearson"</span>, <span class="st">"fisher"</span><span class="op">)</span>,
-  string.total <span class="op">=</span> <span class="st">"Total"</span>,
-  digits <span class="op">=</span> <span class="fl">1</span>,
-  tdcol.n <span class="op">=</span> <span class="st">"black"</span>,
-  tdcol.expected <span class="op">=</span> <span class="st">"#339999"</span>,
-  tdcol.cell <span class="op">=</span> <span class="st">"#993333"</span>,
-  tdcol.row <span class="op">=</span> <span class="st">"#333399"</span>,
-  tdcol.col <span class="op">=</span> <span class="st">"#339933"</span>,
-  emph.total <span class="op">=</span> <span class="cn">FALSE</span>,
-  emph.color <span class="op">=</span> <span class="st">"#f8f8f8"</span>,
-  prc.sign <span class="op">=</span> <span class="st">"&amp;nbsp;&amp;#37;"</span>,
-  hundret <span class="op">=</span> <span class="st">"100.0"</span>,
-  CSS <span class="op">=</span> <span class="cn">NULL</span>,
-  encoding <span class="op">=</span> <span class="cn">NULL</span>,
-  file <span class="op">=</span> <span class="cn">NULL</span>,
-  use.viewer <span class="op">=</span> <span class="cn">TRUE</span>,
-  remove.spaces <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">sjt.xtab</span><span class="op">(</span>
-  <span class="va">var.row</span>,
-  <span class="va">var.col</span>,
-  weight.by <span class="op">=</span> <span class="cn">NULL</span>,
-  title <span class="op">=</span> <span class="cn">NULL</span>,
-  var.labels <span class="op">=</span> <span class="cn">NULL</span>,
-  value.labels <span class="op">=</span> <span class="cn">NULL</span>,
-  wrap.labels <span class="op">=</span> <span class="fl">20</span>,
-  show.obs <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.cell.prc <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.row.prc <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.col.prc <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.exp <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.legend <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.na <span class="op">=</span> <span class="cn">FALSE</span>,
-  show.summary <span class="op">=</span> <span class="cn">TRUE</span>,
-  drop.empty <span class="op">=</span> <span class="cn">TRUE</span>,
-  statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"cramer"</span>, <span class="st">"phi"</span>, <span class="st">"spearman"</span>, <span class="st">"kendall"</span>, <span class="st">"pearson"</span>, <span class="st">"fisher"</span><span class="op">)</span>,
-  string.total <span class="op">=</span> <span class="st">"Total"</span>,
-  digits <span class="op">=</span> <span class="fl">1</span>,
-  tdcol.n <span class="op">=</span> <span class="st">"black"</span>,
-  tdcol.expected <span class="op">=</span> <span class="st">"#339999"</span>,
-  tdcol.cell <span class="op">=</span> <span class="st">"#993333"</span>,
-  tdcol.row <span class="op">=</span> <span class="st">"#333399"</span>,
-  tdcol.col <span class="op">=</span> <span class="st">"#339933"</span>,
-  emph.total <span class="op">=</span> <span class="cn">FALSE</span>,
-  emph.color <span class="op">=</span> <span class="st">"#f8f8f8"</span>,
-  prc.sign <span class="op">=</span> <span class="st">"&amp;nbsp;&amp;#37;"</span>,
-  hundret <span class="op">=</span> <span class="st">"100.0"</span>,
-  CSS <span class="op">=</span> <span class="cn">NULL</span>,
-  encoding <span class="op">=</span> <span class="cn">NULL</span>,
-  file <span class="op">=</span> <span class="cn">NULL</span>,
-  use.viewer <span class="op">=</span> <span class="cn">TRUE</span>,
-  remove.spaces <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tab_xtab</span><span class="op">(</span></span>
+<span>  <span class="va">var.row</span>,</span>
+<span>  <span class="va">var.col</span>,</span>
+<span>  weight.by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  var.labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  value.labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  wrap.labels <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  show.obs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.cell.prc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.row.prc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.col.prc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.exp <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.legend <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.na <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.summary <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  drop.empty <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"cramer"</span>, <span class="st">"phi"</span>, <span class="st">"spearman"</span>, <span class="st">"kendall"</span>, <span class="st">"pearson"</span>, <span class="st">"fisher"</span><span class="op">)</span>,</span>
+<span>  string.total <span class="op">=</span> <span class="st">"Total"</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  tdcol.n <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  tdcol.expected <span class="op">=</span> <span class="st">"#339999"</span>,</span>
+<span>  tdcol.cell <span class="op">=</span> <span class="st">"#993333"</span>,</span>
+<span>  tdcol.row <span class="op">=</span> <span class="st">"#333399"</span>,</span>
+<span>  tdcol.col <span class="op">=</span> <span class="st">"#339933"</span>,</span>
+<span>  emph.total <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  emph.color <span class="op">=</span> <span class="st">"#f8f8f8"</span>,</span>
+<span>  prc.sign <span class="op">=</span> <span class="st">"&amp;nbsp;&amp;#37;"</span>,</span>
+<span>  hundret <span class="op">=</span> <span class="st">"100.0"</span>,</span>
+<span>  CSS <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  encoding <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  use.viewer <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  remove.spaces <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">sjt.xtab</span><span class="op">(</span></span>
+<span>  <span class="va">var.row</span>,</span>
+<span>  <span class="va">var.col</span>,</span>
+<span>  weight.by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  var.labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  value.labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  wrap.labels <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  show.obs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.cell.prc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.row.prc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.col.prc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.exp <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.legend <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.na <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  show.summary <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  drop.empty <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  statistics <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"auto"</span>, <span class="st">"cramer"</span>, <span class="st">"phi"</span>, <span class="st">"spearman"</span>, <span class="st">"kendall"</span>, <span class="st">"pearson"</span>, <span class="st">"fisher"</span><span class="op">)</span>,</span>
+<span>  string.total <span class="op">=</span> <span class="st">"Total"</span>,</span>
+<span>  digits <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  tdcol.n <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  tdcol.expected <span class="op">=</span> <span class="st">"#339999"</span>,</span>
+<span>  tdcol.cell <span class="op">=</span> <span class="st">"#993333"</span>,</span>
+<span>  tdcol.row <span class="op">=</span> <span class="st">"#333399"</span>,</span>
+<span>  tdcol.col <span class="op">=</span> <span class="st">"#339933"</span>,</span>
+<span>  emph.total <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  emph.color <span class="op">=</span> <span class="st">"#f8f8f8"</span>,</span>
+<span>  prc.sign <span class="op">=</span> <span class="st">"&amp;nbsp;&amp;#37;"</span>,</span>
+<span>  hundret <span class="op">=</span> <span class="st">"100.0"</span>,</span>
+<span>  CSS <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  encoding <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  file <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  use.viewer <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  remove.spaces <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>var.row</dt>
+<dd><p>Variable that should be displayed in the table rows.</p></dd>
+
+
+<dt>var.col</dt>
+<dd><p>Cariable that should be displayed in the table columns.</p></dd>
+
+
+<dt>weight.by</dt>
+<dd><p>Vector of weights that will be applied to weight all cases.
+Must be a vector of same length as the input vector. Default is
+<code>NULL</code>, so no weights are used.</p></dd>
+
+
+<dt>title</dt>
+<dd><p>String, will be used as table caption.</p></dd>
+
+
+<dt>var.labels</dt>
+<dd><p>Character vector with variable names, which will be used
+to label variables in the output.</p></dd>
+
+
+<dt>value.labels</dt>
+<dd><p>Character vector (or <code>list</code> of character vectors)
+with value labels of the supplied variables, which will be used
+to label variable values in the output.</p></dd>
+
+
+<dt>wrap.labels</dt>
+<dd><p>Numeric, determines how many chars of the value, variable
+or axis labels are displayed in one line and when a line break is inserted.</p></dd>
+
+
+<dt>show.obs</dt>
+<dd><p>Logical, if <code>TRUE</code>, observed values are shown</p></dd>
+
+
+<dt>show.cell.prc</dt>
+<dd><p>Logical, if <code>TRUE</code>, cell percentage values are shown</p></dd>
+
+
+<dt>show.row.prc</dt>
+<dd><p>Logical, if <code>TRUE</code>, row percentage values are shown</p></dd>
+
+
+<dt>show.col.prc</dt>
+<dd><p>Logical, if <code>TRUE</code>, column percentage values are shown</p></dd>
+
+
+<dt>show.exp</dt>
+<dd><p>Logical, if <code>TRUE</code>, expected values are also shown</p></dd>
+
+
+<dt>show.legend</dt>
+<dd><p>logical, if <code>TRUE</code>, and depending on plot type and
+function, a legend is added to the plot.</p></dd>
+
+
+<dt>show.na</dt>
+<dd><p>logical, if <code>TRUE</code>, <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a></code>'s (missing values)
+are added to the output.</p></dd>
+
+
+<dt>show.summary</dt>
+<dd><p>Logical, if <code>TRUE</code>, a summary row with
+chi-squared statistics, degrees of freedom and Cramer's V or Phi
+coefficient and p-value for the chi-squared statistics.</p></dd>
+
+
+<dt>drop.empty</dt>
+<dd><p>Logical, if <code>TRUE</code> and the variable's values are labeled,
+values that have no observations are still printed in the table (with
+frequency <code>0</code>). If <code>FALSE</code>, values / factor levels with no occurrence
+in the data are omitted from the output.</p></dd>
+
+
+<dt>statistics</dt>
+<dd><p>Name of measure of association that should be computed. May
+be one of <code>"auto"</code>, <code>"cramer"</code>, <code>"phi"</code>, <code>"spearman"</code>,
+<code>"kendall"</code>, <code>"pearson"</code> or <code>"fisher"</code>. See
+<code><a href="https://strengejacke.github.io/sjstats/reference/crosstable_statistics.html" class="external-link">xtab_statistics</a></code>.</p></dd>
+
+
+<dt>string.total</dt>
+<dd><p>Character label for the total column / row header</p></dd>
+
+
+<dt>digits</dt>
+<dd><p>Amount of decimals for estimates</p></dd>
+
+
+<dt>tdcol.n</dt>
+<dd><p>Color for highlighting count (observed) values in table cells. Default is black.</p></dd>
+
+
+<dt>tdcol.expected</dt>
+<dd><p>Color for highlighting expected values in table cells. Default is cyan.</p></dd>
+
+
+<dt>tdcol.cell</dt>
+<dd><p>Color for highlighting cell percentage values in table cells. Default is red.</p></dd>
+
+
+<dt>tdcol.row</dt>
+<dd><p>Color for highlighting row percentage values in table cells. Default is blue.</p></dd>
+
+
+<dt>tdcol.col</dt>
+<dd><p>Color for highlighting column percentage values in table cells. Default is green.</p></dd>
+
+
+<dt>emph.total</dt>
+<dd><p>Logical, if <code>TRUE</code>, the total column and row will be emphasized with a
+different background color. See <code>emph.color</code>.</p></dd>
+
+
+<dt>emph.color</dt>
+<dd><p>Logical, if <code>emph.total = TRUE</code>, this color value will be used
+for painting the background of the total column and row. Default is a light grey.</p></dd>
+
+
+<dt>prc.sign</dt>
+<dd><p>The percentage sign that is printed in the table cells, in HTML-format.
+Default is <code>"&amp;nbsp;%"</code>, hence the percentage sign has a non-breaking-space after
+the percentage value.</p></dd>
+
+
+<dt>hundret</dt>
+<dd><p>Default value that indicates the 100-percent column-sums (since rounding values
+may lead to non-exact results). Default is <code>"100.0"</code>.</p></dd>
+
+
+<dt>CSS</dt>
+<dd><p>A <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></code> with user-defined style-sheet-definitions,
+according to the <a href="http://www.w3.org/Style/CSS/" class="external-link">official CSS syntax</a>.
+See 'Details' or <a href="https://strengejacke.github.io/sjPlot/articles/table_css.html" class="external-link">this package-vignette</a>.</p></dd>
+
+
+<dt>encoding</dt>
+<dd><p>String, indicating the charset encoding used for variable and
+value labels. Default is <code>NULL</code>, so encoding will be auto-detected
+depending on your platform (e.g., <code>"UTF-8"</code> for Unix and <code>"Windows-1252"</code> for
+Windows OS). Change encoding if specific chars are not properly displayed (e.g. German umlauts).</p></dd>
+
+
+<dt>file</dt>
+<dd><p>Destination file, if the output should be saved as file.
+If <code>NULL</code> (default), the output will be saved as temporary file and
+opened either in the IDE's viewer pane or the default web browser.</p></dd>
+
+
+<dt>use.viewer</dt>
+<dd><p>Logical, if <code>TRUE</code>, the HTML table is shown in the IDE's
+viewer pane. If <code>FALSE</code> or no viewer available, the HTML table is
+opened in a web browser.</p></dd>
+
+
+<dt>remove.spaces</dt>
+<dd><p>Logical, if <code>TRUE</code>, leading spaces are removed from all lines in the final string
+that contains the html-data. Use this, if you want to remove parantheses for html-tags. The html-source
+may look less pretty, but it may help when exporting html-tables to office tools.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Other arguments, currently passed down to the test statistics functions
+<code><a href="https://rdrr.io/r/stats/chisq.test.html" class="external-link">chisq.test()</a></code> or <code><a href="https://rdrr.io/r/stats/fisher.test.html" class="external-link">fisher.test()</a></code>.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -247,45 +381,45 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># prepare sample data set</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># print simple cross table with labels</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu">tab_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># print cross table with manually set</span></span>
-<span class="r-in">  <span class="co"># labels and expected values</span></span>
-<span class="r-in">  <span class="fu">tab_xtab</span><span class="op">(</span></span>
-<span class="r-in">    <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>,</span>
-<span class="r-in">    <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>,</span>
-<span class="r-in">    var.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Elder's gender"</span>, <span class="st">"Elder's dependency"</span><span class="op">)</span>,</span>
-<span class="r-in">    show.exp <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># print minimal cross table with labels, total col/row highlighted</span></span>
-<span class="r-in">  <span class="fu">tab_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, show.cell.prc <span class="op">=</span> <span class="cn">FALSE</span>, emph.total <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># User defined style sheet</span></span>
-<span class="r-in">  <span class="fu">tab_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>,</span>
-<span class="r-in">           CSS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>css.table <span class="op">=</span> <span class="st">"border: 2px solid;"</span>,</span>
-<span class="r-in">                      css.tdata <span class="op">=</span> <span class="st">"border: 1px solid;"</span>,</span>
-<span class="r-in">                      css.horline <span class="op">=</span> <span class="st">"border-bottom: double blue;"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># ordinal data, use Kendall's tau</span></span>
-<span class="r-in">  <span class="fu">tab_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">quol_5</span>, statistics <span class="op">=</span> <span class="st">"kendall"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># calculate Spearman's rho, with continuity correction</span></span>
-<span class="r-in">  <span class="fu">tab_xtab</span><span class="op">(</span></span>
-<span class="r-in">    <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>,</span>
-<span class="r-in">    <span class="va">efc</span><span class="op">$</span><span class="va">quol_5</span>,</span>
-<span class="r-in">    statistics <span class="op">=</span> <span class="st">"spearman"</span>,</span>
-<span class="r-in">    exact <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">    continuity <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># prepare sample data set</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># print simple cross table with labels</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu">tab_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># print cross table with manually set</span></span></span>
+<span class="r-in"><span>  <span class="co"># labels and expected values</span></span></span>
+<span class="r-in"><span>  <span class="fu">tab_xtab</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>,</span></span>
+<span class="r-in"><span>    <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>,</span></span>
+<span class="r-in"><span>    var.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Elder's gender"</span>, <span class="st">"Elder's dependency"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    show.exp <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># print minimal cross table with labels, total col/row highlighted</span></span></span>
+<span class="r-in"><span>  <span class="fu">tab_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, show.cell.prc <span class="op">=</span> <span class="cn">FALSE</span>, emph.total <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># User defined style sheet</span></span></span>
+<span class="r-in"><span>  <span class="fu">tab_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e16sex</span>, <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>,</span></span>
+<span class="r-in"><span>           CSS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>css.table <span class="op">=</span> <span class="st">"border: 2px solid;"</span>,</span></span>
+<span class="r-in"><span>                      css.tdata <span class="op">=</span> <span class="st">"border: 1px solid;"</span>,</span></span>
+<span class="r-in"><span>                      css.horline <span class="op">=</span> <span class="st">"border-bottom: double blue;"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># ordinal data, use Kendall's tau</span></span></span>
+<span class="r-in"><span>  <span class="fu">tab_xtab</span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>, <span class="va">efc</span><span class="op">$</span><span class="va">quol_5</span>, statistics <span class="op">=</span> <span class="st">"kendall"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># calculate Spearman's rho, with continuity correction</span></span></span>
+<span class="r-in"><span>  <span class="fu">tab_xtab</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="va">efc</span><span class="op">$</span><span class="va">e42dep</span>,</span></span>
+<span class="r-in"><span>    <span class="va">efc</span><span class="op">$</span><span class="va">quol_5</span>,</span></span>
+<span class="r-in"><span>    statistics <span class="op">=</span> <span class="st">"spearman"</span>,</span></span>
+<span class="r-in"><span>    exact <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>    continuity <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -300,7 +434,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

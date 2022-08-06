@@ -128,27 +128,60 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_residuals</span><span class="op">(</span>
-  <span class="va">fit</span>,
-  geom.size <span class="op">=</span> <span class="fl">2</span>,
-  remove.estimates <span class="op">=</span> <span class="cn">NULL</span>,
-  show.lines <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.resid <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.pred <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.ci <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_residuals</span><span class="op">(</span></span>
+<span>  <span class="va">fit</span>,</span>
+<span>  geom.size <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  remove.estimates <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  show.lines <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.resid <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.pred <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.ci <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>fit</dt>
+<dd><p>Fitted linear (mixed) regression model (including objects of class
+<code><a href="https://rdrr.io/pkg/nlme/man/gls.html" class="external-link">gls</a></code> or <code>plm</code>).</p></dd>
+
+
+<dt>geom.size</dt>
+<dd><p>size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
+need smaller values than dot sizes.</p></dd>
+
+
+<dt>remove.estimates</dt>
+<dd><p>Numeric vector with indices (order equals to row index of <code>coef(fit)</code>)
+or character vector with coefficient names that indicate which estimates should be removed
+from the table output. The first estimate is the intercept, followed by the model predictors.
+<em>The intercept cannot be removed from the table output!</em> <code>remove.estimates = c(2:4)</code>
+would remove the 2nd to the 4th estimate (1st to 3rd predictor after intercept) from the output.
+<code>remove.estimates = "est_name"</code> would remove the estimate <em>est_name</em>. Default
+is <code>NULL</code>, i.e. all estimates are printed.</p></dd>
+
+
+<dt>show.lines</dt>
+<dd><p>Logical, if <code>TRUE</code>, a line connecting predicted and
+residual values is plotted. Set this argument to <code>FALSE</code>, if
+plot-building is too time consuming.</p></dd>
+
+
+<dt>show.resid</dt>
+<dd><p>Logical, if <code>TRUE</code>, residual values are plotted.</p></dd>
+
+
+<dt>show.pred</dt>
+<dd><p>Logical, if <code>TRUE</code>, predicted values are plotted.</p></dd>
+
+
+<dt>show.ci</dt>
+<dd><p>Logical, if <code>TRUE)</code>, adds notches to the box plot, which are
+used to compare groups; if the notches of two boxes do not overlap,
+medians are considered to be significantly different.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -163,20 +196,20 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># fit model</span></span>
-<span class="r-in"><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">e17age</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot residuals for all independent variables</span></span>
-<span class="r-in"><span class="fu">plot_residuals</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># fit model</span></span></span>
+<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c12hour</span> <span class="op">+</span> <span class="va">e17age</span> <span class="op">+</span> <span class="va">e42dep</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot residuals for all independent variables</span></span></span>
+<span class="r-in"><span><span class="fu">plot_residuals</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
 <span class="r-plt img"><img src="plot_residuals-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># remove some independent variables from output</span></span>
-<span class="r-in"><span class="fu">plot_residuals</span><span class="op">(</span><span class="va">fit</span>, remove.estimates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"e17age"</span>, <span class="st">"e42dep"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># remove some independent variables from output</span></span></span>
+<span class="r-in"><span><span class="fu">plot_residuals</span><span class="op">(</span><span class="va">fit</span>, remove.estimates <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"e17age"</span>, <span class="st">"e42dep"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `geom_smooth()` using formula 'y ~ x'</span>
 <span class="r-plt img"><img src="plot_residuals-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -191,7 +224,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

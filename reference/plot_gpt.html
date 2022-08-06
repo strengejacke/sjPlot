@@ -124,59 +124,163 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">plot_gpt</span><span class="op">(</span>
-  <span class="va">data</span>,
-  <span class="va">x</span>,
-  <span class="va">y</span>,
-  <span class="va">grp</span>,
-  colors <span class="op">=</span> <span class="st">"metro"</span>,
-  geom.size <span class="op">=</span> <span class="fl">2.5</span>,
-  shape.fill.color <span class="op">=</span> <span class="st">"#f0f0f0"</span>,
-  shapes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">16</span>, <span class="fl">17</span>, <span class="fl">18</span>, <span class="fl">21</span>, <span class="fl">22</span>, <span class="fl">23</span>, <span class="fl">24</span>, <span class="fl">25</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">10</span>, <span class="fl">12</span><span class="op">)</span>,
-  title <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.labels <span class="op">=</span> <span class="cn">NULL</span>,
-  axis.titles <span class="op">=</span> <span class="cn">NULL</span>,
-  legend.title <span class="op">=</span> <span class="cn">NULL</span>,
-  legend.labels <span class="op">=</span> <span class="cn">NULL</span>,
-  wrap.title <span class="op">=</span> <span class="fl">50</span>,
-  wrap.labels <span class="op">=</span> <span class="fl">15</span>,
-  wrap.legend.title <span class="op">=</span> <span class="fl">20</span>,
-  wrap.legend.labels <span class="op">=</span> <span class="fl">20</span>,
-  axis.lim <span class="op">=</span> <span class="cn">NULL</span>,
-  grid.breaks <span class="op">=</span> <span class="cn">NULL</span>,
-  show.total <span class="op">=</span> <span class="cn">TRUE</span>,
-  annotate.total <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.p <span class="op">=</span> <span class="cn">TRUE</span>,
-  show.n <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">plot_gpt</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">y</span>,</span>
+<span>  <span class="va">grp</span>,</span>
+<span>  colors <span class="op">=</span> <span class="st">"metro"</span>,</span>
+<span>  geom.size <span class="op">=</span> <span class="fl">2.5</span>,</span>
+<span>  shape.fill.color <span class="op">=</span> <span class="st">"#f0f0f0"</span>,</span>
+<span>  shapes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">16</span>, <span class="fl">17</span>, <span class="fl">18</span>, <span class="fl">21</span>, <span class="fl">22</span>, <span class="fl">23</span>, <span class="fl">24</span>, <span class="fl">25</span>, <span class="fl">7</span>, <span class="fl">8</span>, <span class="fl">9</span>, <span class="fl">10</span>, <span class="fl">12</span><span class="op">)</span>,</span>
+<span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  axis.titles <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legend.title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legend.labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  wrap.title <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  wrap.labels <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>  wrap.legend.title <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  wrap.legend.labels <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>  axis.lim <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  grid.breaks <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  show.total <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  annotate.total <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.p <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show.n <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-    </div>
+    <dl><dt>data</dt>
+<dd><p>A data frame, or a grouped data frame.</p></dd>
+
+
+<dt>x</dt>
+<dd><p>Categorical variable, where the proportion of each category in
+<code>x</code> for the highest category of <code>y</code> will be printed
+along the x-axis.</p></dd>
+
+
+<dt>y</dt>
+<dd><p>Categorical or numeric variable. If not a binary variable, <code>y</code>
+will be recoded into a binary variable, dichtomized at the highest
+category and all remaining categories.</p></dd>
+
+
+<dt>grp</dt>
+<dd><p>Grouping variable, which will define the y-axis</p></dd>
+
+
+<dt>colors</dt>
+<dd><p>May be a character vector of color values in hex-format, valid
+color value names (see <code>demo("colors")</code>) or a name of a pre-defined
+color palette. Following options are valid for the <code>colors</code> argument:</p><ul><li><p>If not specified, a default color brewer palette will be used, which is suitable for the plot style.</p></li>
+<li><p>If <code>"gs"</code>, a greyscale will be used.</p></li>
+<li><p>If <code>"bw"</code>, and plot-type is a line-plot, the plot is black/white and uses different line types to distinguish groups (see <a href="https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html" class="external-link">this package-vignette</a>).</p></li>
+<li><p>If <code>colors</code> is any valid color brewer palette name, the related palette will be used. Use <code><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">RColorBrewer::display.brewer.all()</a></code> to view all available palette names.</p></li>
+<li><p>There are some pre-defined color palettes in this package, see <code><a href="sjPlot-themes.html">sjPlot-themes</a></code> for details.</p></li>
+<li><p>Else specify own color values or names as vector (e.g. <code>colors = "#00ff00"</code> or <code>colors = c("firebrick", "blue")</code>).</p></li>
+</ul></dd>
+
+
+<dt>geom.size</dt>
+<dd><p>size resp. width of the geoms (bar width, line thickness or point size,
+depending on plot type and function). Note that bar and bin widths mostly
+need smaller values than dot sizes.</p></dd>
+
+
+<dt>shape.fill.color</dt>
+<dd><p>Optional color vector, fill-color for non-filled shapes</p></dd>
+
+
+<dt>shapes</dt>
+<dd><p>Numeric vector with shape styles, used to map the different
+categories of <code>x</code>.</p></dd>
+
+
+<dt>title</dt>
+<dd><p>Character vector, used as plot title. By default,
+<code><a href="https://strengejacke.github.io/sjlabelled/reference/term_labels.html" class="external-link">response_labels</a></code> is called to retrieve the label of
+the dependent variable, which will be used as title. Use <code>title = ""</code>
+to remove title.</p></dd>
+
+
+<dt>axis.labels</dt>
+<dd><p>character vector with labels used as axis labels. Optional
+argument, since in most cases, axis labels are set automatically.</p></dd>
+
+
+<dt>axis.titles</dt>
+<dd><p>character vector of length one or two, defining the title(s)
+for the x-axis and y-axis.</p></dd>
+
+
+<dt>legend.title</dt>
+<dd><p>Character vector, used as legend title for plots that
+have a legend.</p></dd>
+
+
+<dt>legend.labels</dt>
+<dd><p>character vector with labels for the guide/legend.</p></dd>
+
+
+<dt>wrap.title</dt>
+<dd><p>Numeric, determines how many chars of the plot title are
+displayed in one line and when a line break is inserted.</p></dd>
+
+
+<dt>wrap.labels</dt>
+<dd><p>numeric, determines how many chars of the value, variable or axis
+labels are displayed in one line and when a line break is inserted.</p></dd>
+
+
+<dt>wrap.legend.title</dt>
+<dd><p>numeric, determines how many chars of the legend's title
+are displayed in one line and when a line break is inserted.</p></dd>
+
+
+<dt>wrap.legend.labels</dt>
+<dd><p>numeric, determines how many chars of the legend labels are
+displayed in one line and when a line break is inserted.</p></dd>
+
+
+<dt>axis.lim</dt>
+<dd><p>Numeric vector of length 2, defining the range of the plot axis.
+Depending on plot type, may effect either x- or y-axis, or both.
+For multiple plot outputs (e.g., from <code>type = "eff"</code> or
+<code>type = "slope"</code> in <code><a href="plot_model.html">plot_model</a></code>), <code>axis.lim</code> may
+also be a list of vectors of length 2, defining axis limits for each
+plot (only if non-faceted).</p></dd>
+
+
+<dt>grid.breaks</dt>
+<dd><p>numeric; sets the distance between breaks for the axis,
+i.e. at every <code>grid.breaks</code>'th position a major grid is being printed.</p></dd>
+
+
+<dt>show.total</dt>
+<dd><p>Logical, if <code>TRUE</code>, a total summary line for all aggregated
+<code>grp</code> is added.</p></dd>
+
+
+<dt>annotate.total</dt>
+<dd><p>Logical, if <code>TRUE</code> and <code>show.total = TRUE</code>,
+the total-row in the figure will be highlighted with a slightly
+shaded background.</p></dd>
+
+
+<dt>show.p</dt>
+<dd><p>Logical, adds significance levels to values, or value and
+variable labels.</p></dd>
+
+
+<dt>show.n</dt>
+<dd><p>logical, if <code>TRUE</code>, adds total number of cases for each
+group or category to the labels.</p></dd>
+
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -191,20 +295,20 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># the proportion of dependency levels in female</span></span>
-<span class="r-in"><span class="co"># elderly, for each family carer's relationship</span></span>
-<span class="r-in"><span class="co"># to elderly</span></span>
-<span class="r-in"><span class="fu">plot_gpt</span><span class="op">(</span><span class="va">efc</span>, <span class="va">e42dep</span>, <span class="va">e16sex</span>, <span class="va">e15relat</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># the proportion of dependency levels in female</span></span></span>
+<span class="r-in"><span><span class="co"># elderly, for each family carer's relationship</span></span></span>
+<span class="r-in"><span><span class="co"># to elderly</span></span></span>
+<span class="r-in"><span><span class="fu">plot_gpt</span><span class="op">(</span><span class="va">efc</span>, <span class="va">e42dep</span>, <span class="va">e16sex</span>, <span class="va">e15relat</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_gpt-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># proportion of educational levels in highest</span></span>
-<span class="r-in"><span class="co"># dependency category of elderly, for different</span></span>
-<span class="r-in"><span class="co"># care levels</span></span>
-<span class="r-in"><span class="fu">plot_gpt</span><span class="op">(</span><span class="va">efc</span>, <span class="va">c172code</span>, <span class="va">e42dep</span>, <span class="va">n4pstu</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># proportion of educational levels in highest</span></span></span>
+<span class="r-in"><span><span class="co"># dependency category of elderly, for different</span></span></span>
+<span class="r-in"><span><span class="co"># care levels</span></span></span>
+<span class="r-in"><span><span class="fu">plot_gpt</span><span class="op">(</span><span class="va">efc</span>, <span class="va">c172code</span>, <span class="va">e42dep</span>, <span class="va">n4pstu</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot_gpt-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -219,7 +323,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>
