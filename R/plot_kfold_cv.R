@@ -2,8 +2,8 @@
 #' @name plot_kfold_cv
 #'
 #' @description This function plots the aggregated residuals of k-fold cross-validated
-#'                models against the outcome. This allows to evaluate how the model performs
-#'                according over- or underestimation of the outcome.
+#'   models against the outcome. This allows to evaluate how the model performs
+#'   according over- or underestimation of the outcome.
 #'
 #' @param data A data frame, used to split the data into \code{k} training-test-pairs.
 #' @param formula A model formula, used to fit linear models (\code{\link[stats]{lm}})
@@ -82,7 +82,7 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
       # pair, get deviance residuals and response value
       kfolds <- do.call(rbind, lapply(1:k, function(i) {
         out <- datawizard::data_partition(data, training_proportion = .8)
-        data.frame(train = I(list(out$training)), test = I(list(out$test)))
+        data.frame(train = I(list(out[[1]])), test = I(list(out$test)))
       }))
       res <- kfolds %>%
         dplyr::mutate(model = purrr::map(.data$train, ~ stats::glm(formula, data = .x, family = stats::poisson(link = "log")))) %>%
@@ -94,7 +94,7 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
       # pair, get deviance residuals and response value
       kfolds <- do.call(rbind, lapply(1:k, function(i) {
         out <- datawizard::data_partition(data, training_proportion = .8)
-        data.frame(train = I(list(out$training)), test = I(list(out$test)))
+        data.frame(train = I(list(out[[1]])), test = I(list(out$test)))
       }))
       res <- kfolds %>%
         dplyr::mutate(model = purrr::map(.data$train, ~ MASS::glm.nb(formula, data = .))) %>%
@@ -111,7 +111,7 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
     # train data
     kfolds <- do.call(rbind, lapply(1:k, function(i) {
       out <- datawizard::data_partition(data, training_proportion = .8)
-      data.frame(train = I(list(out$training)), test = I(list(out$test)))
+      data.frame(train = I(list(out[[1]])), test = I(list(out$test)))
     }))
     res <- kfolds %>%
       dplyr::mutate(model = purrr::map(.data$train, ~ stats::lm(formula, data = .))) %>%

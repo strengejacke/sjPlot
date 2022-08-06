@@ -36,10 +36,7 @@ tab_stackfrq(
 Must be a vector of same length as the input vector. Default is
 \code{NULL}, so no weights are used.}
 
-\item{title}{Character vector with table
-caption(s) resp. footnote(s). For  \code{tab_df()}, must be a character
-of length 1; for \code{tab_dfs()}, a character vector of same length as
-\code{x} (i.e. one title or footnote per data frame).}
+\item{title}{String, will be used as table caption.}
 
 \item{var.labels}{Character vector with variable names, which will be used
 to label variables in the output.}

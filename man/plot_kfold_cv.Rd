@@ -23,8 +23,8 @@ only linear, poisson and negative binomial regression models are supported.}
 }
 \description{
 This function plots the aggregated residuals of k-fold cross-validated
-               models against the outcome. This allows to evaluate how the model performs
-               according over- or underestimation of the outcome.
+  models against the outcome. This allows to evaluate how the model performs
+  according over- or underestimation of the outcome.
 }
 \details{
 This function, first, generates \code{k} cross-validated test-training
