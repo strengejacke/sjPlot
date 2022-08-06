@@ -9,3 +9,8 @@
 ^Meta$
 ^pkgdown$
 ^.github$
+
+\.code-workspace$
+\.lintr$
+^CRAN-SUBMISSION$
+^cran-comments.md$
