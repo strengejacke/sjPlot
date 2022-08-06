@@ -66,7 +66,7 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
     else
       fam <- NULL
   } else {
-    stop("Either `formula` or `fit` must be supplied.", call. = F)
+    stop("Either `formula` or `fit` must be supplied.", call. = FALSE)
   }
 
   # get name of response variable and get variable label, if
