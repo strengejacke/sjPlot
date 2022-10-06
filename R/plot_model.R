@@ -188,9 +188,8 @@
 #' @param se Logical, if \code{TRUE}, the standard errors are
 #'   also printed. If robust standard errors are required, use arguments
 #'   \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
-#'   \code{\link[parameters]{standard_error_robust}} and
-#'   \href{https://easystats.github.io/parameters/articles/model_parameters_robust.html}{this vignette}
-#'   for details), or use argument \code{robust} as shortcut. \code{se} overrides
+#'   \code{\link[parameters]{standard_error}} for details), or use argument
+#'   \code{robust} as shortcut. \code{se} overrides
 #'   \code{ci.lvl}: if not \code{NULL}, arguments \code{ci.lvl} and \code{transform}
 #'   will be ignored. Currently, \code{se} only applies to \emph{Coefficients} plots.
 #' @param show.intercept Logical, if \code{TRUE}, the intercept of the fitted

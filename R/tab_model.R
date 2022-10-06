@@ -72,9 +72,7 @@
 #' @param show.se Logical, if \code{TRUE}, the standard errors are
 #'   also printed. If robust standard errors are required, use arguments
 #'   \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
-#'   \code{\link[parameters]{standard_error_robust}} and
-#'   \href{https://easystats.github.io/parameters/articles/model_parameters_robust.html}{this vignette}
-#'   for details).
+#'   \code{\link[parameters]{standard_error}} for details).
 #' @param show.r2 Logical, if \code{TRUE}, the r-squared value is also printed.
 #'    Depending on the model, these might be pseudo-r-squared values, or Bayesian
 #'    r-squared etc. See \code{\link[performance]{r2}} for details.
