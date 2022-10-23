@@ -1,0 +1,54 @@
+# Workflow derived from https://github.com/r-lib/actions/tree/v2/examples
+# Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+name: lint
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          pak-version: devel
+          extra-packages: |
+            r-lib/lintr
+            EGAnet=?ignore-before-r=5.0.0
+            local::.
+          needs: lint
+
+      # TODO: Revisit to remove some of these allowances after more important lints
+      # have been removed.
+      - name: Lint
+        run: |
+          library(lintr)
+          lint_package(linters = linters_with_defaults(
+            absolute_path_linter = NULL,
+            commented_code_linter = NULL,
+            cyclocomp_linter = cyclocomp_linter(50),
+            implicit_integer_linter = NULL,
+            line_length_linter(120),
+            nonportable_path_linter = NULL,
+            object_name_linter = NULL,
+            object_length_linter(50),
+            object_usage_linter = NULL,
+            todo_comment_linter = NULL,
+            extraction_operator_linter = NULL,
+            unneeded_concatenation_linter(allow_single_expression = FALSE),
+            defaults = linters_with_tags(tags = NULL)
+          ))
+        shell: Rscript {0}
