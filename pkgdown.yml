@@ -1,6 +1,6 @@
-pandoc: 2.7.3
-pkgdown: 2.0.6.9000
-pkgdown_sha: 9f5c1e1d4fe12bcac5523a7349981be5c8c105e7
+pandoc: 2.14.2
+pkgdown: 2.0.6
+pkgdown_sha: ~
 articles:
   blackwhitefigures: blackwhitefigures.html
   custplot: custplot.html
@@ -14,5 +14,5 @@ articles:
   tab_model_estimates: tab_model_estimates.html
   tab_model_robust: tab_model_robust.html
   table_css: table_css.html
-last_built: 2022-10-06T12:18Z
+last_built: 2022-10-23T20:13Z
 

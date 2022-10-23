@@ -145,13 +145,13 @@
 
       
 
-      </header><script src="tab_mixed_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Summary of Mixed Models as HTML Table</h1>
                         <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2022-10-06</h4>
+            <h4 data-toc-skip class="date">2022-10-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/vignettes/tab_mixed.Rmd" class="external-link"><code>vignettes/tab_mixed.Rmd</code></a></small>
       <div class="hidden name"><code>tab_mixed.Rmd</code></div>
@@ -166,16 +166,8 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 -->
-<pre><code><span><span class="co">## Warning in checkMatrixPackageVersion(): Package version inconsistency detected.</span></span>
-<span><span class="co">## TMB was built with Matrix version 1.4.1</span></span>
-<span><span class="co">## Current Matrix version is 1.5.1</span></span>
-<span><span class="co">## Please re-install 'TMB' from source using install.packages('TMB', type = 'source') or ask CRAN for a binary version of 'TMB' matching CRAN's 'Matrix' package</span></span></code></pre>
-<pre><code><span><span class="co">## Warning in checkDepPackageVersion(dep_pkg = "TMB"): Package version inconsistency detected.</span></span>
-<span><span class="co">## glmmTMB was built with TMB version 1.9.0</span></span>
-<span><span class="co">## Current TMB version is 1.9.1</span></span>
-<span><span class="co">## Please re-install glmmTMB from source or restore original 'TMB' package (see '?reinstalling' for more information)</span></span></code></pre>
 <p>This vignette shows examples for using <code><a href="../reference/tab_model.html">tab_model()</a></code> to create HTML tables for mixed models. Basically, <code><a href="../reference/tab_model.html">tab_model()</a></code> behaves in a very similar way for mixed models as for other, simple regression models, as shown <a href="tab_model_estimates.html">in this vignette</a>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load required packages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/" class="external-link">sjPlot</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lme4/lme4/" class="external-link">lme4</a></span><span class="op">)</span></span>
@@ -186,7 +178,7 @@ vignette: >
 <h2 id="mixed-models-summaries-as-html-table">Mixed models summaries as HTML table<a class="anchor" aria-label="anchor" href="#mixed-models-summaries-as-html-table"></a>
 </h2>
 <p>Unlike tables for <a href="tab_model_estimates.html">non-mixed models</a>, <code>tab_models()</code> adds additional information on the random effects to the table output for mixed models. You can hide these information with <code>show.icc = FALSE</code> and <code>show.re.var = FALSE</code>. Furthermore, the R-squared values are marginal and conditional R-squared statistics, based on <em>Nakagawa et al. 2017</em>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">cluster</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span><span class="op">)</span></span>
 <span></span>
@@ -425,7 +417,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </table>
 <p>The marginal R-squared considers only the variance of the fixed effects, while the conditional R-squared takes both the fixed and random effects into account.</p>
 <p>The p-value is a simple approximation, based on the t-statistics and using the normal distribution function. A more precise p-value can be computed using <code>p.val = "kr"</code>. In this case, which only applies to linear mixed models, the computation of p-values is based on conditional F-tests with Kenward-Roger approximation for the degrees of freedom (using the using the <strong>pbkrtest</strong>-package). Note that here the computation is more time consuming and thus not used as default. You can also display the approximated degrees of freedom with <code>show.df</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, p.val <span class="op">=</span> <span class="st">"kr"</span>, show.df <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
@@ -580,7 +572,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 <h2 id="generalized-linear-mixed-models">Generalized linear mixed models<a class="anchor" aria-label="anchor" href="#generalized-linear-mixed-models"></a>
 </h2>
 <p><code><a href="../reference/tab_model.html">tab_model()</a></code> can also print and combine models with different link-functions.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"efc"</span><span class="op">)</span></span>
 <span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">efc</span><span class="op">$</span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e15relat</span><span class="op">)</span></span>
@@ -795,7 +787,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 <h2 id="more-complex-models">More complex models<a class="anchor" aria-label="anchor" href="#more-complex-models"></a>
 </h2>
 <p>Finally, an example from the <strong>glmmTMB</strong>-package to show how easy it is to print zero-inflated generalized linear mixed models as HTML table.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/glmmTMB/glmmTMB" class="external-link">glmmTMB</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"Salamanders"</span><span class="op">)</span></span>
 <span><span class="va">m4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB</a></span><span class="op">(</span></span>
@@ -1335,7 +1327,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
