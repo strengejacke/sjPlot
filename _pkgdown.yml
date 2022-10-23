@@ -1,10 +1,20 @@
+url: https://strengejacke.github.io/sjPlot/
+
+template:
+  bootstrap: 5
+  bslib:
+    base_font: {google: "Roboto"}
+    heading_font: {google: "Roboto Slab"}
+    code_font: {google: "JetBrains Mono"}
+
 authors:
   Daniel Lüdecke:
     href: https://github.com/strengejacke
 
-template:
-  params:
-    bootswatch: flatly
+development:
+  #mode: auto
+  version_label: default
+  version_tooltip: "Version"
 
 reference:
 - title: "Package Description"
@@ -97,7 +107,7 @@ navbar:
         href: articles/tab_mixed.html
       - text: 'Bayesian Models as HTML Table'
         href: articles/tab_bayes.html
-      - text: 'Robust Estimation of Standard Errors'
+      - text: 'Robust Estimation of Standard Errors, Confidence Intervals and p-values'
         href: articles/tab_model_robust.html
   - text: Regression Plots
     menu:
