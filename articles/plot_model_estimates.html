@@ -4,7 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="sjPlot">
 <title>Plotting Estimates (Fixed Effects) of Regression Models • sjPlot</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
@@ -12,158 +13,121 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.2/font.css" rel="stylesheet">
+<link href="../deps/JetBrains_Mono-0.4.2/font.css" rel="stylesheet">
+<link href="../deps/Roboto_Slab-0.4.2/font.css" rel="stylesheet">
+<!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Plotting Estimates (Fixed Effects) of Regression Models">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Plotting Estimates (Fixed Effects) of Regression Models">
 <meta property="og:description" content="sjPlot">
-<meta property="og:image" content="/logo.png">
+<meta property="og:image" content="https://strengejacke.github.io/sjPlot/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">sjPlot</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.8.11</span>
-      </span>
-    </div>
+    <nav class="navbar fixed-top navbar-default navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="../index.html">sjPlot</a>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.11</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="../index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
-<li>
-  <a href="../news/index.html">News</a>
+<li class="nav-item">
+  <a class="nav-link" href="../news/index.html">News</a>
 </li>
-<li>
-  <a href="../reference/index.html">Reference</a>
+<li class="nav-item">
+  <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Regression Tables
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/tab_model_estimates.html">Classical Regression Models as HTML Table</a>
-    </li>
-    <li>
-      <a href="../articles/tab_mixed.html">Mixed Models as HTML Table</a>
-    </li>
-    <li>
-      <a href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
-    </li>
-    <li>
-      <a href="../articles/tab_model_robust.html">Robust Estimation of Standard Errors</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Regression Plots
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/plot_model_estimates.html">Plotting Regression Coefficients</a>
-    </li>
-    <li>
-      <a href="../articles/plot_marginal_effects.html">Plotting Marginal Effects</a>
-    </li>
-    <li>
-      <a href="../articles/plot_interactions.html">Plotting Marginal Effects of Interactions</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Plot and Table Customization
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/blackwhitefigures.html">Creating Black and White Figures</a>
-    </li>
-    <li>
-      <a href="../articles/custplot.html">Customize Plot Appearance</a>
-    </li>
-    <li>
-      <a href="../articles/table_css.html">Customize Table Appearance</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Other Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
-    </li>
-  </ul>
-</li>
-      </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/strengejacke/sjPlot/" class="external-link">
-    <span class="fab fa-github fa-lg"></span>
-     
-  </a>
-</li>
-      </ul>
-</div>
-<!--/.nav-collapse -->
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-regression-tables">Regression Tables</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-regression-tables">
+    <a class="dropdown-item" href="../articles/tab_model_estimates.html">Classical Regression Models as HTML Table</a>
+    <a class="dropdown-item" href="../articles/tab_mixed.html">Mixed Models as HTML Table</a>
+    <a class="dropdown-item" href="../articles/tab_bayes.html">Bayesian Models as HTML Table</a>
+    <a class="dropdown-item" href="../articles/tab_model_robust.html">Robust Estimation of Standard Errors, Confidence Intervals and p-values</a>
   </div>
-<!--/.container -->
+</li>
+<li class="active nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-regression-plots">Regression Plots</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-regression-plots">
+    <a class="dropdown-item" href="../articles/plot_model_estimates.html">Plotting Regression Coefficients</a>
+    <a class="dropdown-item" href="../articles/plot_marginal_effects.html">Plotting Marginal Effects</a>
+    <a class="dropdown-item" href="../articles/plot_interactions.html">Plotting Marginal Effects of Interactions</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-plot-and-table-customization">Plot and Table Customization</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-plot-and-table-customization">
+    <a class="dropdown-item" href="../articles/blackwhitefigures.html">Creating Black and White Figures</a>
+    <a class="dropdown-item" href="../articles/custplot.html">Customize Plot Appearance</a>
+    <a class="dropdown-item" href="../articles/table_css.html">Customize Table Appearance</a>
+  </div>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-other-articles">Other Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-other-articles">
+    <a class="dropdown-item" href="../articles/sjtitemanalysis.html">Item Analysis of a Scale or an Index</a>
+  </div>
+</li>
+      </ul>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/strengejacke/sjPlot/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
-<!--/.navbar -->
 
-      
+    
+  </div>
+</nav><div class="container template-article">
 
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Plotting Estimates (Fixed Effects) of Regression Models</h1>
+
+
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+      <img src="../logo.png" class="logo" alt=""><h1>Plotting Estimates (Fixed Effects) of Regression Models</h1>
                         <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
             
             <h4 data-toc-skip class="date">2022-10-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/vignettes/plot_model_estimates.Rmd" class="external-link"><code>vignettes/plot_model_estimates.Rmd</code></a></small>
-      <div class="hidden name"><code>plot_model_estimates.Rmd</code></div>
-
+      <div class="d-none name"><code>plot_model_estimates.Rmd</code></div>
     </div>
 
     
     
+<pre><code><span><span class="co">## #refugeeswelcome</span></span></code></pre>
 <p>This document describes how to plot estimates as forest plots (or dot whisker plots) of various regression models, using the <code><a href="../reference/plot_model.html">plot_model()</a></code> function. <code><a href="../reference/plot_model.html">plot_model()</a></code> is a generic plot-function, which accepts many model-objects, like <code>lm</code>, <code>glm</code>, <code>lme</code>, <code>lmerMod</code> etc.</p>
 <p><code><a href="../reference/plot_model.html">plot_model()</a></code> allows to create various plot tyes, which can be defined via the <code>type</code>-argument. The default is <code>type = "fe"</code>, which means that fixed effects (model coefficients) are plotted. For mixed effects models, only fixed effects are plotted by default as well.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/" class="external-link">sjPlot</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjlabelled/" class="external-link">sjlabelled</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
@@ -174,7 +138,7 @@
 <h3 id="fitting-a-logistic-regression-model">Fitting a logistic regression model<a class="anchor" aria-label="anchor" href="#fitting-a-logistic-regression-model"></a>
 </h3>
 <p>First, we fit a model that will be used in the following examples. The examples work in the same way for any other model as well.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create binary response</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span><span class="op">)</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
@@ -197,11 +161,11 @@
 <h3 id="plotting-estimates-of-generalized-linear-models">Plotting estimates of generalized linear models<a class="anchor" aria-label="anchor" href="#plotting-estimates-of-generalized-linear-models"></a>
 </h3>
 <p>The simplest function call is just passing the model object as argument. By default, estimates are sorted in descending order, with the highest effect at the top.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
 <p>The “neutral” line, i.e. the vertical intercept that indicates no effect (x-axis position 1 for most glm’s and position 0 for most linear models), is drawn slightly thicker than the other grid lines. You can change the line color with the <code>vline.color</code>-argument.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, vline.color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
 </div>
@@ -209,11 +173,11 @@
 <h3 id="sorting-estimates">Sorting estimates<a class="anchor" aria-label="anchor" href="#sorting-estimates"></a>
 </h3>
 <p>By default, the estimates are sorted in the same order as they were introduced into the model. Use <code>sort.est = TRUE</code> to sort estimates in descending order, from highest to lowest value.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, sort.est <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-6-1.png" width="672"></p>
 <p>Another way to sort estimates is to use the <code>order.terms</code>-argument. This is a numeric vector, indicating the order of estimates in the plot. In the summary, we see that “sex2” is the first term, followed by the three dependency-categories (position 2-4), the Barthel-Index (5) and two levels for intermediate and high level of education (6 and 7).</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Call:</span></span>
@@ -245,7 +209,7 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></span></code></pre></div>
 <p>Now we want the educational levels (6 and 7) first, than gender (1), followed by dependency (2-4)and finally the Barthel-Index (5). Use this order as numeric vector for the <code>order.terms</code>-argument.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, order.terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>, <span class="fl">7</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-8-1.png" width="672"></p>
 </div>
@@ -253,10 +217,10 @@
 <h3 id="estimates-on-the-untransformed-scale">Estimates on the untransformed scale<a class="anchor" aria-label="anchor" href="#estimates-on-the-untransformed-scale"></a>
 </h3>
 <p>By default, <code><a href="../reference/plot_model.html">plot_model()</a></code> automatically exponentiates coefficients, if appropriate (e.g. for models with log or logit link). You can explicitley prevent transformation by setting the <code>transform</code>-argument to <code>NULL</code>, or apply any transformation by using a character vector with the function name.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, transform <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, transform <span class="op">=</span> <span class="st">"plogis"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-9-2.png" width="672"></p>
 </div>
@@ -264,7 +228,7 @@
 <h3 id="showing-value-labels">Showing value labels<a class="anchor" aria-label="anchor" href="#showing-value-labels"></a>
 </h3>
 <p>By default, just the dots and error bars are plotted. Use <code>show.values = TRUE</code> to show the value labels with the estimates values, and use <code>show.p = FALSE</code> to suppress the asterisks that indicate the significance level of the p-values. Use <code>value.offset</code> to adjust the relative positioning of value labels to the dots and lines.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, show.values <span class="op">=</span> <span class="cn">TRUE</span>, value.offset <span class="op">=</span> <span class="fl">.3</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 </div>
@@ -273,7 +237,7 @@
 </h3>
 <p>As seen in the above examples, by default, the plotting-functions of <strong>sjPlot</strong> retrieve value and variable labels if the data is <em>labelled</em>, using the <a href="https://cran.r-project.org/package=sjlabelled" class="external-link">sjlabelled-package</a>. If the data is not labelled, the variable names are used. In such cases, use the arguments <code>title</code>, <code>axis.labels</code> and <code>axis.title</code> to annotate the plot title and axes. If you want variable names instead of labels, even for labelled data, use <code>""</code> as argument-value, e.g. <code>axis.labels = ""</code>, or set <code>auto.label</code> to <code>FALSE</code>.</p>
 <p>Furthermore, <code><a href="../reference/plot_model.html">plot_model()</a></code> applies case-conversion to all labels by default, using the <a href="https://cran.r-project.org/package=snakecase" class="external-link">snakecase-package</a>. This converts labels into human-readable versions. Use <code>case = NULL</code> to turn case-conversion off, or refer to the package-vignette of the <strong>snakecase</strong>-package for further options.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">iris</span><span class="op">)</span></span>
 <span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">Sepal.Length</span> <span class="op">~</span> <span class="va">Sepal.Width</span> <span class="op">+</span> <span class="va">Petal.Length</span> <span class="op">+</span> <span class="va">Species</span>, data <span class="op">=</span> <span class="va">iris</span><span class="op">)</span></span>
 <span></span>
@@ -281,7 +245,7 @@
 <span><span class="co"># separating dots are removed</span></span>
 <span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-11-1.png" width="672"></p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># to use variable names even for labelled data</span></span>
 <span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, axis.labels <span class="op">=</span> <span class="st">""</span>, title <span class="op">=</span> <span class="st">"my own title"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-11-2.png" width="672"></p>
@@ -290,11 +254,11 @@
 <h3 id="pick-or-remove-specific-terms-from-plot">Pick or remove specific terms from plot<a class="anchor" aria-label="anchor" href="#pick-or-remove-specific-terms-from-plot"></a>
 </h3>
 <p>Use <code>terms</code> resp. <code>rm.terms</code> to select specific terms that should (not) be plotted.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># keep only coefficients sex2, dep2 and dep3</span></span>
 <span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sex2"</span>, <span class="st">"dep2"</span>, <span class="st">"dep3"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-12-1.png" width="672"></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># remove coefficients sex2, dep2 and dep3</span></span>
 <span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m1</span>, rm.terms <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sex2"</span>, <span class="st">"dep2"</span>, <span class="st">"dep3"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-12-2.png" width="672"></p>
@@ -303,7 +267,7 @@
 <h3 id="standardized-estimates">Standardized estimates<a class="anchor" aria-label="anchor" href="#standardized-estimates"></a>
 </h3>
 <p>For linear models, you can also plot standardized beta coefficients, using <code>type = "std"</code> or <code>type = "std2"</code>. These two options differ in the way how coefficients are standardized. <code>type = "std2"</code> plots standardized beta values, however, standardization follows Gelman’s (2008) suggestion, rescaling the estimates by dividing them by two standard deviations instead of just one.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">m2</span>, type <span class="op">=</span> <span class="st">"std"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="plot_model_estimates_files/figure-html/unnamed-chunk-13-1.png" width="672"></p>
 </div>
@@ -314,7 +278,7 @@
 <p>First, of course, there are no <em>confidence intervals</em>, but <em>uncertainty intervals</em> - high density intervals, to be precise.</p>
 <p>Second, there’s not just one interval range, but an <em>inner</em> and <em>outer</em> probability. By default, the inner probability is fixed to <code>.5</code> (50%), while the outer probability is specified via <code>ci.lvl</code> (which defaults to <code>.89</code> (89%) for Bayesian models). However, you can also use the arguments <code>prob.inner</code> and <code>prob.outer</code> to define the intervals boundaries.</p>
 <p>Third, the point estimate is by default the <em>median</em>, but can also be another value, like mean. This can be specified with the <code>bpe</code>-argument.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://mc-stan.org/rstanarm/" class="external-link">"rstanarm"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="co"># make sure we apply a nice theme</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
@@ -352,7 +316,7 @@
 <li>
 <code>width</code>, <code>alpha</code> and <code>scale</code> are passed down to certain ggplot-geoms, like <code><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_errorbar()</a></code> or <code>geom_density_ridges()</code>.</li>
 </ul>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span></span>
 <span>  <span class="va">m1</span>, </span>
 <span>  colors <span class="op">=</span> <span class="st">"Accent"</span>, </span>
@@ -371,33 +335,26 @@
 </h2>
 <p>Gelman A (2008) <em>Scaling regression inputs by dividing by two standard deviations.</em> Statistics in Medicine 27: 2865–2873.</p>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
-
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
+    <footer><div class="pkgdown-footer-left">
   <p></p>
 <p>Developed by <a href="https://github.com/strengejacke" class="external-link">Daniel Lüdecke</a>.</p>
 </div>
 
-<div class="pkgdown">
+<div class="pkgdown-footer-right">
   <p></p>
 <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
-
 
   
 

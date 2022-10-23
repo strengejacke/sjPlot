@@ -14,5 +14,8 @@ articles:
   tab_model_estimates: tab_model_estimates.html
   tab_model_robust: tab_model_robust.html
   table_css: table_css.html
-last_built: 2022-10-23T20:13Z
+last_built: 2022-10-23T20:22Z
+urls:
+  reference: https://strengejacke.github.io/sjPlot/reference
+  article: https://strengejacke.github.io/sjPlot/articles
 
