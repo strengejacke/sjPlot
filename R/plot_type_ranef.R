@@ -30,22 +30,23 @@ plot_type_ranef <- function(model,
   if (!requireNamespace("lme4", quietly = TRUE)) {
     stop("Package 'lme4' required for this function to work, please install it.")
   }
-  if (!requireNamespace("glmmTMB", quietly = TRUE)) {
-    stop("Package 'glmmTMB' required for this function to work, please install it.")
-  }
 
   # get tidy output of summary ----
 
-  if (inherits(model, "glmmTMB"))
-    rand.ef <- glmmTMB::ranef(model)[[1]]
-  else if (inherits(model, "MixMod")) {
-    rand.ef <- lme4::ranef(model)
-    if (!is.list(rand.ef)) {
-      rand.ef <- list(rand.ef)
-      names(rand.ef) <- insight::find_random(model, flatten = TRUE)
+  if (inherits(model, "glmmTMB")) {
+    if (!requireNamespace("glmmTMB", quietly = TRUE)) {
+      stop("Package 'glmmTMB' required for this function to work, please install it.")
     }
-  } else
+    rand.ef <- glmmTMB::ranef(model)[[1]]
+  } else {
     rand.ef <- lme4::ranef(model)
+    if (inherits(model, "MixMod")) {
+      if (!is.list(rand.ef)) {
+        rand.ef <- list(rand.ef)
+        names(rand.ef) <- insight::find_random(model, flatten = TRUE)
+      }
+    }
+  }
 
 
   if (inherits(model, "clmm"))
