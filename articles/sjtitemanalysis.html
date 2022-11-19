@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">sjPlot</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.11</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.12</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,9 +113,10 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Item Analysis of a Scale or an Index</h1>
-                        <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
+                        <h4 data-toc-skip class="author">Daniel
+Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2022-10-23</h4>
+            <h4 data-toc-skip class="date">2022-11-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/vignettes/sjtitemanalysis.Rmd" class="external-link"><code>vignettes/sjtitemanalysis.Rmd</code></a></small>
       <div class="d-none name"><code>sjtitemanalysis.Rmd</code></div>
@@ -123,11 +124,14 @@
 
     
     
-<p>This document shows examples for using the <code><a href="../reference/tab_itemscale.html">tab_itemscale()</a></code> function of the sjPlot package.</p>
+<p>This document shows examples for using the
+<code><a href="../reference/tab_itemscale.html">tab_itemscale()</a></code> function of the sjPlot package.</p>
 <div class="section level2">
 <h2 id="performing-an-item-analysis-of-a-scale-or-index">Performing an item analysis of a scale or index<a class="anchor" aria-label="anchor" href="#performing-an-item-analysis-of-a-scale-or-index"></a>
 </h2>
-<p>This function performs an item analysis with certain statistics that are useful for scale or index development. Following statistics are computed for each variable (column) of a data frame:</p>
+<p>This function performs an item analysis with certain statistics that
+are useful for scale or index development. Following statistics are
+computed for each variable (column) of a data frame:</p>
 <ul>
 <li>percentage of missing values</li>
 <li>mean value</li>
@@ -143,13 +147,24 @@
 <li>kurstosis</li>
 <li>Shapiro-Wilk Normality Test</li>
 </ul>
-<p>If the argument <code>factor.groups</code> is <em>not</em> <code>NULL</code>, the data frame df will be splitted into groups, assuming that <code>factor.groups</code> indicate those columns (variables) of the data frame that belong to a certain factor (see, for instance, return value of function <code><a href="../reference/tab_pca.html">tab_pca()</a></code> or <code><a href="https://easystats.github.io/parameters/reference/principal_components.html" class="external-link">parameters::principal_components()</a></code> as example for retrieving factor groups for a scale). This is useful when you have perfomed a principal component analysis or factor analysis as first step, and now want to see whether the found factors / components represent a scale or index score.</p>
+<p>If the argument <code>factor.groups</code> is <em>not</em>
+<code>NULL</code>, the data frame df will be splitted into groups,
+assuming that <code>factor.groups</code> indicate those columns
+(variables) of the data frame that belong to a certain factor (see, for
+instance, return value of function <code><a href="../reference/tab_pca.html">tab_pca()</a></code> or
+<code><a href="https://easystats.github.io/parameters/reference/principal_components.html" class="external-link">parameters::principal_components()</a></code> as example for
+retrieving factor groups for a scale). This is useful when you have
+perfomed a principal component analysis or factor analysis as first
+step, and now want to see whether the found factors / components
+represent a scale or index score.</p>
 <p>To demonstrate this function, we first need some data:</p>
 </div>
 <div class="section level2">
 <h2 id="index-score-with-one-component">Index score with one component<a class="anchor" aria-label="anchor" href="#index-score-with-one-component"></a>
 </h2>
-<p>The simplest function call is just passing the data frame as argument. In this case, the function assumes that all variables of the data frame belong to one factor only.</p>
+<p>The simplest function call is just passing the data frame as
+argument. In this case, the function assumes that all variables of the
+data frame belong to one factor only.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
@@ -236,7 +251,8 @@ do you find caregiving too demanding?
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left;text-align:left; ">
-does caregiving cause difficulties in your relationship with your friends?
+does caregiving cause difficulties in your relationship with your
+friends?
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">
 0.66 %
@@ -288,7 +304,8 @@ does caregiving have negative effect on your physical health?
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left;text-align:left; ">
-does caregiving cause difficulties in your relationship with your family?
+does caregiving cause difficulties in your relationship with your
+family?
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">
 0.66 %
@@ -422,28 +439,45 @@ Mean inter-item-correlation=0.092 · Cronbach’s α=0.459
 </td>
 </tr>
 </table>
-<p>To interprete the output, we may consider following values as rule-of-thumbs for indicating a reliable scale:</p>
+<p>To interprete the output, we may consider following values as
+rule-of-thumbs for indicating a reliable scale:</p>
 <ul>
-<li>item difficulty should range between 0.2 and 0.8. Ideal value is p+(1-p)/2 (which mostly is between 0.5 and 0.8)</li>
-<li>for item discrimination, acceptable values are 0.2 or higher; the closer to 1 the better</li>
-<li>in case the total Cronbach’s Alpha value is below the acceptable cut-off of 0.7 (mostly if an index has few items), the mean inter-item-correlation is an alternative measure to indicate acceptability; satisfactory range lies between 0.2 and 0.4</li>
+<li>item difficulty should range between 0.2 and 0.8. Ideal value is
+p+(1-p)/2 (which mostly is between 0.5 and 0.8)</li>
+<li>for item discrimination, acceptable values are 0.2 or higher; the
+closer to 1 the better</li>
+<li>in case the total Cronbach’s Alpha value is below the acceptable
+cut-off of 0.7 (mostly if an index has few items), the mean
+inter-item-correlation is an alternative measure to indicate
+acceptability; satisfactory range lies between 0.2 and 0.4</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="index-score-with-more-than-one-component">Index score with more than one component<a class="anchor" aria-label="anchor" href="#index-score-with-more-than-one-component"></a>
 </h2>
-<p>The items of the COPE index used for our example do not represent a single factor. We can check this, for instance, with a principle component analysis. If you know, which variable belongs to which factor (i.e. which variable is part of which component), you can pass a numeric vector with these group indices to the argument <code>factor.groups</code>. In this case, the data frame is divided into the components specified by <code>factor.groups</code>, and each component (or factor) is analysed.</p>
+<p>The items of the COPE index used for our example do not represent a
+single factor. We can check this, for instance, with a principle
+component analysis. If you know, which variable belongs to which factor
+(i.e. which variable is part of which component), you can pass a numeric
+vector with these group indices to the argument
+<code>factor.groups</code>. In this case, the data frame is divided into
+the components specified by <code>factor.groups</code>, and each
+component (or factor) is analysed.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/parameters/" class="external-link">parameters</a></span><span class="op">)</span></span>
 <span><span class="co"># Compute PCA on Cope-Index, and retrieve </span></span>
 <span><span class="co"># factor indices for each COPE index variable</span></span>
 <span><span class="va">pca</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html" class="external-link">principal_components</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span>
 <span><span class="va">factor.groups</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html" class="external-link">closest_component</a></span><span class="op">(</span><span class="va">pca</span><span class="op">)</span></span></code></pre></div>
-<p>The PCA extracted two components. Now <code><a href="../reference/tab_itemscale.html">tab_itemscale()</a></code> …</p>
+<p>The PCA extracted two components. Now <code><a href="../reference/tab_itemscale.html">tab_itemscale()</a></code>
+…</p>
 <ol style="list-style-type: decimal">
-<li>performs an item analysis on both components, showing whether each of them is a reliable and useful scale or index score</li>
+<li>performs an item analysis on both components, showing whether each
+of them is a reliable and useful scale or index score</li>
 <li>builds an index of each component, by standardizing each scale</li>
-<li>and adds a component-correlation-matrix, to see whether the index scores (which are based on the components) are highly correlated or not.</li>
+<li>and adds a component-correlation-matrix, to see whether the index
+scores (which are based on the components) are highly correlated or
+not.</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="va">factor.groups</span><span class="op">)</span></span>
@@ -532,7 +566,8 @@ do you find caregiving too demanding?
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left;text-align:left; ">
-does caregiving cause difficulties in your relationship with your friends?
+does caregiving cause difficulties in your relationship with your
+friends?
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">
 0.66 %
@@ -584,7 +619,8 @@ does caregiving have negative effect on your physical health?
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left;text-align:left; ">
-does caregiving cause difficulties in your relationship with your family?
+does caregiving cause difficulties in your relationship with your
+family?
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">
 0.66 %
@@ -909,7 +945,8 @@ do you find caregiving too demanding?
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left;text-align:left; ">
-does caregiving cause difficulties in your relationship with your friends?
+does caregiving cause difficulties in your relationship with your
+friends?
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">
 0.66 %
@@ -973,7 +1010,8 @@ does caregiving have negative effect on your physical health?
 </tr>
 <tr>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left;text-align:left; ">
-does caregiving cause difficulties in your relationship with your family?
+does caregiving cause difficulties in your relationship with your
+family?
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center; ">
 0.66 %

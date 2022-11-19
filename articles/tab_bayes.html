@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">sjPlot</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.11</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.12</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,9 +113,10 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Summary of Bayesian Models as HTML Table</h1>
-                        <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
+                        <h4 data-toc-skip class="author">Daniel
+Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2022-10-23</h4>
+            <h4 data-toc-skip class="date">2022-11-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/vignettes/tab_bayes.Rmd" class="external-link"><code>vignettes/tab_bayes.Rmd</code></a></small>
       <div class="d-none name"><code>tab_bayes.Rmd</code></div>
@@ -129,7 +130,11 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 -->
-<p>This vignette shows examples for using <code><a href="../reference/tab_model.html">tab_model()</a></code> to create HTML tables for mixed models. Basically, <code><a href="../reference/tab_model.html">tab_model()</a></code> behaves in a very similar way for mixed models as for other, simple regression models, as shown <a href="tab_model_estimates.html">in this vignette</a>.</p>
+<p>This vignette shows examples for using <code><a href="../reference/tab_model.html">tab_model()</a></code> to
+create HTML tables for mixed models. Basically, <code><a href="../reference/tab_model.html">tab_model()</a></code>
+behaves in a very similar way for mixed models as for other, simple
+regression models, as shown <a href="tab_model_estimates.html">in this
+vignette</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load required packages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span></span>
@@ -161,7 +166,11 @@ vignette: >
 <div class="section level2">
 <h2 id="bayesian-models-summaries-as-html-table">Bayesian models summaries as HTML table<a class="anchor" aria-label="anchor" href="#bayesian-models-summaries-as-html-table"></a>
 </h2>
-<p>For Bayesian regression models, some of the differences to the table output from <a href="tab_model_estimates.html">simple models</a> or <a href="tab_mixed.html">mixed models</a> of <code>tab_models()</code> are the use of <em>Highest Density Intervals</em> instead of confidence intervals, the Bayes-R-squared values, and a different “point estimate” (which is, by default, the median from the posterior draws).</p>
+<p>For Bayesian regression models, some of the differences to the table
+output from <a href="tab_model_estimates.html">simple models</a> or <a href="tab_mixed.html">mixed models</a> of <code>tab_models()</code> are
+the use of <em>Highest Density Intervals</em> instead of confidence
+intervals, the Bayes-R-squared values, and a different “point estimate”
+(which is, by default, the median from the posterior draws).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
@@ -281,7 +290,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-5.32
+5.62
 </td>
 </tr>
 <tr>
@@ -289,7 +298,7 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-33.63
+33.40
 </td>
 </tr>
 <tr>
@@ -297,7 +306,7 @@ Random Effects
 ICC
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.13
+0.14
 </td>
 </tr>
 <tr>
@@ -329,7 +338,9 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 <div class="section level2">
 <h2 id="multivariate-response-models">Multivariate response models<a class="anchor" aria-label="anchor" href="#multivariate-response-models"></a>
 </h2>
-<p>For multivariate response models, like mediator-analysis-models, it is recommended to print just one model in the table, as each regression is displayed as own “model” in the output.</p>
+<p>For multivariate response models, like mediator-analysis-models, it
+is recommended to print just one model in the table, as each regression
+is displayed as own “model” in the output.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
@@ -435,7 +446,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">
-56.59
+54.82
 </td>
 </tr>
 <tr>
@@ -443,7 +454,7 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">
-4.27
+4.44
 </td>
 </tr>
 <tr>
@@ -609,7 +620,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="6">
-54.23
+54.04
 </td>
 </tr>
 <tr>
@@ -617,7 +628,7 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="6">
-4.67
+4.65
 </td>
 </tr>
 <tr>
@@ -649,7 +660,9 @@ Observations
 <div class="section level2">
 <h2 id="mixing-multivariate-and-univariate-response-models">Mixing multivariate and univariate response models<a class="anchor" aria-label="anchor" href="#mixing-multivariate-and-univariate-response-models"></a>
 </h2>
-<p>When both multivariate and univariate response models are displayed in one table, a column <em>Response</em> is added for the multivariate response model, to indicate the different outcomes.</p>
+<p>When both multivariate and univariate response models are displayed
+in one table, a column <em>Response</em> is added for the multivariate
+response model, to indicate the different outcomes.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, <span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
@@ -913,10 +926,10 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-5.68
+5.56
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-55.81
+56.24
 </td>
 </tr>
 <tr>
@@ -924,10 +937,10 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-33.61
+33.47
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-4.06
+4.38
 </td>
 </tr>
 <tr>

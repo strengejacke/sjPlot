@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">sjPlot</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.11</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.12</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,9 +113,10 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Black &amp; White Figures for Print Journals</h1>
-                        <h4 data-toc-skip class="author">Daniel Lüdecke</h4>
+                        <h4 data-toc-skip class="author">Daniel
+Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2022-10-23</h4>
+            <h4 data-toc-skip class="date">2022-11-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/vignettes/blackwhitefigures.Rmd" class="external-link"><code>vignettes/blackwhitefigures.Rmd</code></a></small>
       <div class="d-none name"><code>blackwhitefigures.Rmd</code></div>
@@ -123,11 +124,14 @@
 
     
     
-<p>This document shows examples how to create b/w figures, e.g. if you don’t want colored figures for print-journals.</p>
+<p>This document shows examples how to create b/w figures, e.g. if you
+don’t want colored figures for print-journals.</p>
 <div class="section level2">
 <h2 id="barplots-in-grey-scaled-colors">Barplots in grey-scaled colors<a class="anchor" aria-label="anchor" href="#barplots-in-grey-scaled-colors"></a>
 </h2>
-<p>There are two ways to create plots in black and white or greyscale. For bar plots, <code>geom.colors = "gs"</code> creates a plot using a greyscale (based on <code><a href="https://scales.r-lib.org/reference/grey_pal.html" class="external-link">scales::grey_pal()</a></code>).</p>
+<p>There are two ways to create plots in black and white or greyscale.
+For bar plots, <code>geom.colors = "gs"</code> creates a plot using a
+greyscale (based on <code><a href="https://scales.r-lib.org/reference/grey_pal.html" class="external-link">scales::grey_pal()</a></code>).</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span>
@@ -141,7 +145,13 @@
 <div class="section level2">
 <h2 id="lineplots-in-bw-with-different-linetypes">Lineplots in b/w with different linetypes<a class="anchor" aria-label="anchor" href="#lineplots-in-bw-with-different-linetypes"></a>
 </h2>
-<p>Similar to barplots, lineplots - mostly from <code><a href="../reference/plot_model.html">plot_model()</a></code> - can be plotted in greyscale as well (with <code>colors = "gs"</code>). However, in most cases lines colored in greyscale are difficult to distinguish. In this case, <code><a href="../reference/plot_model.html">plot_model()</a></code> supports black &amp; white figures with different linetypes. Use <code>colors = "bw"</code> to create a b/w-plot.</p>
+<p>Similar to barplots, lineplots - mostly from
+<code><a href="../reference/plot_model.html">plot_model()</a></code> - can be plotted in greyscale as well (with
+<code>colors = "gs"</code>). However, in most cases lines colored in
+greyscale are difficult to distinguish. In this case,
+<code><a href="../reference/plot_model.html">plot_model()</a></code> supports black &amp; white figures with
+different linetypes. Use <code>colors = "bw"</code> to create a
+b/w-plot.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># create binrary response</span></span>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span><span class="op">)</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
@@ -170,7 +180,10 @@
 <span>  ci.lvl <span class="op">=</span> <span class="cn">NA</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <p><img src="blackwhitefigures_files/figure-html/unnamed-chunk-3-1.png" width="672"></p>
-<p>Different linetypes do not apply to all linetyped plots, if these usually only plot a single line - so there’s no need for different linetypes, and you can just set <code>colors = "black"</code> (or <code>colors = "bw"</code>).</p>
+<p>Different linetypes do not apply to all linetyped plots, if these
+usually only plot a single line - so there’s no need for different
+linetypes, and you can just set <code>colors = "black"</code> (or
+<code>colors = "bw"</code>).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># plot coefficients</span></span>
 <span><span class="fu"><a href="../reference/plot_model.html">plot_model</a></span><span class="op">(</span><span class="va">fit</span>, colors <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span></span></code></pre></div>
