@@ -151,7 +151,7 @@
 
 ## General
 
-* Standardization of model parameters (in `plot_model()` or `tab_model()`) now uses standardization based on refitting the model (see [vignette](https://easystats.github.io/parameters/articles/model_parameters_standardized.html) for details).
+* Standardization of model parameters (in `plot_model()` or `tab_model()`) now uses standardization based on refitting the model.
 
 ## Changes to functions
 
