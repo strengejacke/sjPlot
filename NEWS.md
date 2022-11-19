@@ -1,3 +1,10 @@
+# sjPlot 2.8.12
+
+## General
+
+* Minor changes to work properly with updates of upstream packages and 
+  various smaller bug fixes and improvements.
+  
 # sjPlot 2.8.11
 
 ## General
