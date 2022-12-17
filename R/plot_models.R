@@ -127,6 +127,14 @@ plot_models <- function(...,
   if (length(input_list) == 1 && inherits(input_list[[1]], "list"))
     input_list <- purrr::map(input_list[[1]], ~ .x)
 
+  # check input if really models
+  is_model <- vapply(input_list, insight::is_model, logical(1))
+  if (!all(is_model)) {
+    insight::format_error(
+      "Some of the provided objects were not recognized as regression models.",
+      "Maybe you are using invalid function arguments? Please check the documentation (`?plot_models`) and your code."
+    )
+  }
 
   # get info on model family
   fam.info <- insight::model_info(input_list[[1]])
