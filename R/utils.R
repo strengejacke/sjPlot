@@ -174,6 +174,9 @@ is_brms_mixed <- function(fit) {
 #' @importFrom insight model_info is_multivariate
 is_mixed_model <- function(fit) {
   mi <- insight::model_info(fit)
+  if (is.null(mi)) {
+    return(FALSE)
+  }
   if (insight::is_multivariate(fit))
     mi[[1]]$is_mixed
   else

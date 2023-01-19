@@ -18,7 +18,7 @@ tidy_model <- function(
     }
 
     minfo <- insight::model_info(model)
-    if ((show.zeroinf && minfo$is_zero_inflated) || minfo$is_dispersion) {
+    if (!is.null(minfo) && ((show.zeroinf && minfo$is_zero_inflated) || minfo$is_dispersion)) {
       component <- "all"
     } else {
       component <- "conditional"
