@@ -117,17 +117,16 @@ tab_corr <- function(data,
   # --------------------------------------------------------
   # check p- / value-style option
   # --------------------------------------------------------
-  opt <- match.arg(value.zero)
-  if (is.null(opt) || opt == FALSE) {
-    value_zero <- ""
-  } else {
+  if (value.zero) {
     value_zero <- "0"
-  }
-  opt <- match.arg(p.zero)
-  if (is.null(opt) || opt == FALSE) {
-    p_zero <- ""
   } else {
+    value_zero <- ""
+  }
+  
+  if (p.zero) {
     p_zero <- "0"
+  } else {
+    p_zero <- ""
   }  
   # --------------------------------------------------------
   # check args
