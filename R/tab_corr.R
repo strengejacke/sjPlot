@@ -373,7 +373,7 @@ tab_corr <- function(data,
           # print table-cell-data (cor-value)
           # --------------------------------------------------------
           # cellval <- sprintf("%.*f", digits, corr[i, j])
-          cellval <- sub("0", p_zero, sprintf("%.*f", digits, corr[i, j]))
+          cellval <- sub("0", value_zero, sprintf("%.*f", digits, corr[i, j]))
           # --------------------------------------------------------
           # check whether we want to show P-Values
           # --------------------------------------------------------
