@@ -1,4 +1,4 @@
-#' @title Summary of correlations as HTML table
+#' @title Summary of correlations as HTML table (adjusted)
 #' @name tab_corr
 #'
 #' @description Shows the results of a computed correlation as HTML table. Requires either
