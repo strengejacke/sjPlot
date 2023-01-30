@@ -198,7 +198,7 @@ tab_corr <- function(data,
             )
           )
 
-          pv <- cbind(pv, round(test$p.value, 5))
+          pv <- cbind(pv, round(test$p.adj, 5))
         }
         cp <- rbind(cp, pv)
       }
