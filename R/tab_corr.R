@@ -33,6 +33,8 @@
 #'          correlated items) that can be used to display content in the diagonal cells
 #'          where row and column item are identical (i.e. the "self-correlation"). By defauilt,
 #'          this argument is \code{NULL} and the diagnal cells are empty.
+#' @param p.zero Logical, if \code{TRUE}, the p-values are printed with leading zero,
+#'          otherwise not.
 #'
 #' @inheritParams tab_model
 #' @inheritParams tab_xtab
@@ -107,11 +109,12 @@ tab_corr <- function(data,
                      encoding = NULL,
                      file = NULL,
                      use.viewer = TRUE,
-                     remove.spaces = TRUE) {
+                     remove.spaces = TRUE,
+                     p.zero = FALSE) {
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
-  opt <- getOption("p_zero")
+  opt <- match.arg(p.zero)
   if (is.null(opt) || opt == FALSE) {
     p_zero <- ""
   } else {
