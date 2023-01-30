@@ -180,7 +180,7 @@ tab_corr <- function(data,
     cpvalues <- NULL
   } else {
     corr <- psych::corr.test(data, method = corr.method, use = na_deletion, adjust = adjust.p)
-    cpvalues <- transpose(corr$p)
+    cpvalues <- t(corr$p)
   }
   # --------------------------------------------------------
   # save original p-values
