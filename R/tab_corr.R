@@ -3,7 +3,8 @@
 #'
 #' @description Shows the results of a computed correlation as HTML table. Requires either
 #'                a \code{\link{data.frame}} or a matrix with correlation coefficients
-#'                as returned by the \code{\link{cor}}-function.
+#'                as returned by the \code{\link{psych::corr}}-function.
+#'                Note: The adjusted p-values will be shown in the lower triangle only.
 #'
 #' @param data Matrix with correlation coefficients as returned by the
 #'          \code{\link{cor}}-function, or a \code{data.frame} of variables where
@@ -179,32 +180,7 @@ tab_corr <- function(data,
     cpvalues <- NULL
   } else {
     corr <- psych::corr.test(data, method = corr.method, use = na_deletion, adjust = adjust.p)
-    #---------------------------------------
-    # if we have a data frame as argument,
-    # compute p-values of significances
-    #---------------------------------------
-    computePValues <- function(df) {
-      cp <- c()
-      for (i in 1:ncol(df)) {
-        pv <- c()
-        for (j in 1:ncol(df)) {
-          test <- suppressWarnings(
-            psych::corr.test(
-              df[[i]],
-              df[[j]],
-              use = na_deletion,
-              method = corr.method,
-              adjust = adjust.p
-            )
-          )
-
-          pv <- cbind(pv, round(test$p.adj, 5))
-        }
-        cp <- rbind(cp, pv)
-      }
-      return(cp)
-    }
-    cpvalues <- computePValues(data)
+    cpvalues <- transpose(corr$p)
   }
   # --------------------------------------------------------
   # save original p-values
@@ -430,7 +406,13 @@ tab_corr <- function(data,
   # -------------------------------------
   page.content <- paste0(page.content, "  <tr>\n")
   page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"summary\">", ncol(corr$r) + 1))
-  page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion and %s p-adjustment.", corr.method, na.deletion, adjust.p))
+  if(triangle == "both") {
+    page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion and %s p-adjustment shown in lower triangle.", corr.method, na.deletion, adjust.p))
+  } elif(triangle == "lower") {
+    page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion and %s p-adjustment.", corr.method, na.deletion, adjust.p))    
+  } else {
+    page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion and without p-adjustment.", corr.method, na.deletion))    
+  }
   page.content <- paste0(page.content, "</td>\n  </tr>\n")
   # -------------------------------------
   # finish table
