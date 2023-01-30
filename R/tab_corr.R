@@ -408,7 +408,7 @@ tab_corr <- function(data,
   page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"summary\">", ncol(corr$r) + 1))
   if(triangle == "both") {
     page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion and %s p-adjustment shown in lower triangle.", corr.method, na.deletion, adjust.p))
-  } elif(triangle == "lower") {
+  } else if(triangle == "lower") {
     page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion and %s p-adjustment.", corr.method, na.deletion, adjust.p))    
   } else {
     page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion and without p-adjustment.", corr.method, na.deletion))    
