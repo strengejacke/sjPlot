@@ -9,7 +9,7 @@
 #'          \code{\link{cor}}-function, or a \code{data.frame} of variables where
 #'          correlations between columns should be computed.
 #' @param na.deletion Indicates how missing values are treated. May be either
-#'          \code{"listwise"} (default) or \code{"pairwise"}. May be
+#'          \code{"pairwise"} (default) or \code{"complete"}. May be
 #'          abbreviated.
 #' @param corr.method Indicates the correlation computation method. May be one of
 #'          \code{"pearson"} (default), \code{"spearman"} or \code{"kendall"}.
@@ -99,7 +99,7 @@
 #' @importFrom psych corr.test
 #' @export
 tab_corr <- function(data,
-                     na.deletion = c("listwise", "pairwise"),
+                     na.deletion = c("pairwise", "listwise"),
                      corr.method = c("pearson", "spearman", "kendall"),
                      title = NULL,
                      var.labels = NULL,
@@ -137,6 +137,11 @@ tab_corr <- function(data,
   # check args
   # --------------------------------------------------------
   na.deletion <- match.arg(na.deletion)
+  if (na.deletion == "listwise") {
+    na_deletion = "complete"
+  } else {
+    na_deletion = "pairwise"
+  }
   corr.method <- match.arg(corr.method)
   adjust.p <- match.arg(adjust.p)
   # --------------------------------------------------------
@@ -173,7 +178,7 @@ tab_corr <- function(data,
     corr <- data
     cpvalues <- NULL
   } else {
-    corr <- psych::corr.test(data, method = corr.method, use = na.deletion, adjust = adjust.p)
+    corr <- psych::corr.test(data, method = corr.method, use = na_deletion, adjust = adjust.p)
     #---------------------------------------
     # if we have a data frame as argument,
     # compute p-values of significances
@@ -187,7 +192,7 @@ tab_corr <- function(data,
             psych::corr.test(
               df[[i]],
               df[[j]],
-              alternative = "two.sided",
+              use = na_deletion,
               method = corr.method,
               adjust = adjust.p
             )
