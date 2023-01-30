@@ -335,7 +335,7 @@ tab_corr <- function(data,
   # first column
   page.content <- paste0(page.content, "    <th class=\"thead\">&nbsp;</th>\n")
   # iterate columns
-  for (i in 1:ncol(corr)) {
+  for (i in 1:ncol(corr$r)) {
     page.content <- paste0(page.content, sprintf("    <th class=\"thead\">%s</th>\n", var.labels[i]))
   }
   # close table row
