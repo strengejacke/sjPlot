@@ -33,6 +33,8 @@
 #'          correlated items) that can be used to display content in the diagonal cells
 #'          where row and column item are identical (i.e. the "self-correlation"). By defauilt,
 #'          this argument is \code{NULL} and the diagnal cells are empty.
+#' @param value.zero Logical, if \code{TRUE}, the values are printed with leading zero,
+#'          otherwise not.
 #' @param p.zero Logical, if \code{TRUE}, the p-values are printed with leading zero,
 #'          otherwise not.
 #'
@@ -110,16 +112,23 @@ tab_corr <- function(data,
                      file = NULL,
                      use.viewer = TRUE,
                      remove.spaces = TRUE,
+                     value.zero = FALSE,
                      p.zero = FALSE) {
   # --------------------------------------------------------
-  # check p-value-style option
+  # check p- / value-style option
   # --------------------------------------------------------
+  opt <- match.arg(value.zero)
+  if (is.null(opt) || opt == FALSE) {
+    value_zero <- ""
+  } else {
+    value_zero <- "0"
+  }
   opt <- match.arg(p.zero)
   if (is.null(opt) || opt == FALSE) {
     p_zero <- ""
   } else {
     p_zero <- "0"
-  }
+  }  
   # --------------------------------------------------------
   # check args
   # --------------------------------------------------------
@@ -363,7 +372,8 @@ tab_corr <- function(data,
           # --------------------------------------------------------
           # print table-cell-data (cor-value)
           # --------------------------------------------------------
-          cellval <- sprintf("%.*f", digits, corr[i, j])
+          # cellval <- sprintf("%.*f", digits, corr[i, j])
+          cellval <- sub("0", p_zero, sprintf("%.*f", digits, corr[i, j]))
           # --------------------------------------------------------
           # check whether we want to show P-Values
           # --------------------------------------------------------
