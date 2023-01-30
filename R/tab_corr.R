@@ -253,7 +253,7 @@ tab_corr <- function(data,
   # if not, use variable names from data frame
   # ----------------------------
   if (is.null(var.labels)) {
-    var.labels <- row.names(corr)
+    var.labels <- row.names(corr$r)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   var.labels <- sjmisc::word_wrap(var.labels, wrap.labels, "<br>")
@@ -344,7 +344,7 @@ tab_corr <- function(data,
   # data rows
   # -------------------------------------
   # iterate all rows of df
-  for (i in 1:nrow(corr)) {
+  for (i in 1:nrow(corr$r)) {
     # write tr-tag
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell
@@ -352,12 +352,12 @@ tab_corr <- function(data,
     # --------------------------------------------------------
     # iterate all columns
     # --------------------------------------------------------
-    for (j in 1:ncol(corr)) {
+    for (j in 1:ncol(corr$r)) {
       # --------------------------------------------------------
       # leave out self-correlations
       # --------------------------------------------------------
       if (j == i) {
-        if (is.null(string.diag) || length(string.diag) > ncol(corr)) {
+        if (is.null(string.diag) || length(string.diag) > ncol(corr$r)) {
           page.content <- paste0(page.content, "    <td class=\"tdata centeralign\">&nbsp;</td>\n")
         } else {
           page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign\">%s</td>\n",
@@ -373,7 +373,7 @@ tab_corr <- function(data,
           # print table-cell-data (cor-value)
           # --------------------------------------------------------
           # cellval <- sprintf("%.*f", digits, corr[i, j])
-          cellval <- sub("0", value_zero, sprintf("%.*f", digits, corr[i, j]))
+          cellval <- sub("0", value_zero, sprintf("%.*f", digits, corr$r[i, j]))
           # --------------------------------------------------------
           # check whether we want to show P-Values
           # --------------------------------------------------------
@@ -410,7 +410,7 @@ tab_corr <- function(data,
           # check whether correlation value is too small and should
           # be omitted
           # --------------------------------------------------------
-          if (!is.null(val.rm) && abs(corr[i, j]) < abs(val.rm)) {
+          if (!is.null(val.rm) && abs(corr$r[i, j]) < abs(val.rm)) {
             value.remove <- " valueremove"
           }
           page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s%s\">%s</td>\n",
@@ -429,7 +429,7 @@ tab_corr <- function(data,
   # feedback...
   # -------------------------------------
   page.content <- paste0(page.content, "  <tr>\n")
-  page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"summary\">", ncol(corr) + 1))
+  page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"summary\">", ncol(corr$r) + 1))
   page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion and %s p-adjustment.", corr.method, na.deletion, adjust.p))
   page.content <- paste0(page.content, "</td>\n  </tr>\n")
   # -------------------------------------
