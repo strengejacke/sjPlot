@@ -37,6 +37,9 @@
 #'          otherwise not.
 #' @param p.zero Logical, if \code{TRUE}, the p-values are printed with leading zero,
 #'          otherwise not.
+#' @param adjust.p Indicates the adjustment for multiple tests to be used. May be one of
+#'          \code{"holm"} (default), \code{"hochberg"}, \code{"hommel"}, \code{"bonferroni"},
+#'          \code{"BH"}, \code{"BY"}, \code{"fdr"} or \code{"none"}, May be abbreviated.
 #'
 #' @inheritParams tab_model
 #' @inheritParams tab_xtab
@@ -92,7 +95,8 @@
 #'   tab_corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3,
 #'            CSS = list(css.valueremove = 'color:blue;'))
 #' }}
-#' @importFrom stats na.omit cor cor.test
+#' @importFrom stats cor
+#' @importFrom psych corr.test
 #' @export
 tab_corr <- function(data,
                      na.deletion = c("listwise", "pairwise"),
@@ -113,7 +117,8 @@ tab_corr <- function(data,
                      use.viewer = TRUE,
                      remove.spaces = TRUE,
                      value.zero = FALSE,
-                     p.zero = FALSE) {
+                     p.zero = FALSE,
+                     adjust.p = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none")) {
   # --------------------------------------------------------
   # check p- / value-style option
   # --------------------------------------------------------
@@ -133,6 +138,7 @@ tab_corr <- function(data,
   # --------------------------------------------------------
   na.deletion <- match.arg(na.deletion)
   corr.method <- match.arg(corr.method)
+  adjust.p <- match.arg(adjust.p)
   # --------------------------------------------------------
   # check encoding
   # --------------------------------------------------------
@@ -167,18 +173,7 @@ tab_corr <- function(data,
     corr <- data
     cpvalues <- NULL
   } else {
-    # missing deletion corresponds to
-    # SPSS listwise
-    if (na.deletion == "listwise") {
-      data <- stats::na.omit(data)
-      corr <- stats::cor(data, method = corr.method)
-    } else {
-      # missing deletion corresponds to
-      # SPSS pairwise
-      corr <- stats::cor(data,
-                  method = corr.method,
-                  use = "pairwise.complete.obs")
-    }
+    corr <- psych::corr.test(data, method = corr.method, use = na.deletion, adjust = adjust.p)
     #---------------------------------------
     # if we have a data frame as argument,
     # compute p-values of significances
@@ -189,11 +184,12 @@ tab_corr <- function(data,
         pv <- c()
         for (j in 1:ncol(df)) {
           test <- suppressWarnings(
-            stats::cor.test(
+            psych::corr.test(
               df[[i]],
               df[[j]],
               alternative = "two.sided",
-              method = corr.method
+              method = corr.method,
+              adjust = adjust.p
             )
           )
 
@@ -429,7 +425,7 @@ tab_corr <- function(data,
   # -------------------------------------
   page.content <- paste0(page.content, "  <tr>\n")
   page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"summary\">", ncol(corr) + 1))
-  page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion.", corr.method, na.deletion))
+  page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion and %s p-adjustment.", corr.method, na.deletion, adjust.p))
   page.content <- paste0(page.content, "</td>\n  </tr>\n")
   # -------------------------------------
   # finish table
