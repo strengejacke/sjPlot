@@ -98,10 +98,9 @@
 #'          Use \code{"l"} for upper left corner.
 #' @param axis.titles character vector of length one or two, defining the title(s)
 #'          for the x-axis and y-axis.
-#' @param drop.empty Logical, if \code{TRUE} and the variable's values are labeled,
-#'          values that have no observations are still printed in the table (with
-#'          frequency \code{0}). If \code{FALSE}, values / factor levels with no occurrence
-#'          in the data are omitted from the output.
+#' @param drop.empty Logical, if \code{TRUE} and the variable's values are labeled, values / factor
+#'          levels with no occurrence in the data are omitted from the output. If \code{FALSE},
+#'          labeled values that have no observations are still printed in the table (with frequency \code{0}).
 #' @param auto.group numeric value, indicating the minimum amount of unique values
 #'          in the count variable, at which automatic grouping into smaller units
 #'          is done (see \code{\link[sjmisc]{group_var}}). Default value for
