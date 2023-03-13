@@ -89,7 +89,7 @@ After that, each case (df's row) has a scales sum score for each component.
 Finally, a correlation of these "scale sum scores" is computed.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
-according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
+according to the \href{https://www.w3.org/Style/CSS/}{official CSS syntax}.
 See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.}
 
 \item{encoding}{Character vector, indicating the charset encoding used

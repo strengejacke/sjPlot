@@ -158,7 +158,7 @@ the percentage value.}
 may lead to non-exact results). Default is \code{"100.0"}.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
-according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
+according to the \href{https://www.w3.org/Style/CSS/}{official CSS syntax}.
 See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.}
 
 \item{encoding}{String, indicating the charset encoding used for variable and

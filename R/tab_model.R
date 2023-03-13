@@ -159,7 +159,7 @@
 #'   or scientific (\code{"scientific"}). Scientific and numeric style can be
 #'   combined with "stars", e.g. \code{"numeric_stars"}
 #' @param CSS A \code{\link{list}} with user-defined style-sheet-definitions,
-#'    according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
+#'    according to the \href{https://www.w3.org/Style/CSS/}{official CSS syntax}.
 #'    See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.
 #' @param file Destination file, if the output should be saved as file.
 #'    If \code{NULL} (default), the output will be saved as temporary file and
