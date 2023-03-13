@@ -1,3 +1,9 @@
+# sjPlot 2.8.13
+
+## Bug fixes
+
+* Fixed issue with `knit_print()` generics.
+
 # sjPlot 2.8.12
 
 ## General
