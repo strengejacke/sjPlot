@@ -128,16 +128,17 @@ The p-values are based on \code{\link[stats]{chisq.test}} of \code{x}
            and \code{y} for each \code{grp}.
 }
 \examples{
-data(efc)
+if (requireNamespace("haven")) {
+  data(efc)
 
-# the proportion of dependency levels in female
-# elderly, for each family carer's relationship
-# to elderly
-plot_gpt(efc, e42dep, e16sex, e15relat)
+  # the proportion of dependency levels in female
+  # elderly, for each family carer's relationship
+  # to elderly
+  plot_gpt(efc, e42dep, e16sex, e15relat)
 
-# proportion of educational levels in highest
-# dependency category of elderly, for different
-# care levels
-plot_gpt(efc, c172code, e42dep, n4pstu)
-
+  # proportion of educational levels in highest
+  # dependency category of elderly, for different
+  # care levels
+  plot_gpt(efc, c172code, e42dep, n4pstu)
+}
 }
