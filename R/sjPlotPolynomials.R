@@ -126,7 +126,7 @@ sjp.poly <- function(x,
   # parameter check: fitted model or variables?
   # --------------------------------------------
   if (!is.vector(x) && !is.numeric(x) && !is.factor(x)) {
-    mf <- insight::get_data(x)
+    mf <- insight::get_data(x, verbose = FALSE)
     # retrieve response vector
     resp <- insight::get_response(x)
     # retrieve polynomial term

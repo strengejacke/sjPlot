@@ -794,7 +794,7 @@ tab_model <- function(
       n_re_grps <- NULL
 
       if (show.ngroups && is_mixed_model(model)) {
-        rand_eff <- insight::get_data(model)[, insight::find_random(model, split_nested = TRUE, flatten = TRUE), drop = FALSE]
+        rand_eff <- insight::get_data(model, verbose = FALSE)[, insight::find_random(model, split_nested = TRUE, flatten = TRUE), drop = FALSE]
         n_re_grps <- sapply(rand_eff, function(.i) length(unique(.i, na.rm = TRUE)))
         names(n_re_grps) <- sprintf("ngrps.%s", names(n_re_grps))
       }
@@ -1397,7 +1397,7 @@ prepare.labels <- function(x, grp, categorical, models) {
   # remove variable names from factor is ref levels are shown
   if (grp) {
     for (i in models) {
-      f <- names(which(sapply(insight::get_data(i), is.factor)))
+      f <- names(which(sapply(insight::get_data(i, verbose = FALSE), is.factor)))
       remove <- names(x) %in% f
       if (any(remove)) {
         x <- x[!remove]

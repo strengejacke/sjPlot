@@ -444,7 +444,7 @@ get_observations <- function(model) {
   if (!inherits(models, "list")) models <- list(models)
 
   # get model terms and model frame
-  mf <- try(lapply(models, function(.x) insight::get_data(.x)[, -1, drop = FALSE]), silent = TRUE)
+  mf <- try(lapply(models, function(.x) insight::get_data(.x, verbose = FALSE)[, -1, drop = FALSE]), silent = TRUE)
 
   # return NULL on error
   if (inherits(mf, "try-error")) {

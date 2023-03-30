@@ -51,7 +51,7 @@ plot_residuals <- function(fit, geom.size = 2, remove.estimates = NULL, show.lin
   if (!show.pred || !show.resid) show.lines <- FALSE
 
   # Obtain predicted and residual values
-  mydat <- insight::get_data(fit)
+  mydat <- insight::get_data(fit, verbose = FALSE)
 
   # check whether estimates should be removed from plot
   if (!is.null(remove.estimates)) {
