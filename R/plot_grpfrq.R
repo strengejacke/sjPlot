@@ -650,9 +650,9 @@ plot_grpfrq <- function(var.cnt,
       geob <- geom_bar(stat = "identity", width = geom.size, position = position_stack(reverse = TRUE))
   } else if (type == "line") {
     if (smooth.lines)
-      geob <- geom_line(size = geom.size, stat = "smooth", method = "loess")
+      geob <- geom_line(linewidth = geom.size, stat = "smooth", method = "loess")
     else
-      geob <- geom_line(size = geom.size)
+      geob <- geom_line(linewidth = geom.size)
   } else if (type == "boxplot") {
       geob <- geom_boxplot(width = geom.size, notch = show.ci)
   } else if (type == "violin") {

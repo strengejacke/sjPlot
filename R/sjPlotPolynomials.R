@@ -208,7 +208,7 @@ sjp.poly <- function(x,
                                                     size = geom.size)
   # add curves for polynomials
   polyplot <- polyplot +
-    geom_line(aes_string(y = "pred"), size = geom.size) +
+    geom_line(aes_string(y = "pred"), linewidth = geom.size) +
     scale_color_manual(values = geom.colors, labels = lapply(poly.degree, function(j) bquote(x^.(j)))) +
     labs(x = axis.title, y = axisTitle.y, colour = "Polynomial\ndegrees")
 
