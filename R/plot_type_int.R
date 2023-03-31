@@ -28,13 +28,13 @@ plot_type_int <- function(model,
   # get interaction terms and model frame
 
   ia.terms <- purrr::map(int.terms, ~ sjmisc::trim(unlist(strsplit(.x, "[\\*:]"))))
-  mf <- insight::get_data(model)
+  mf <- insight::get_data(model, verbose = FALSE)
 
   pl <- list()
 
   # intertate interaction terms
 
-  for (i in 1:length(ia.terms)) {
+  for (i in seq_along(ia.terms)) {
 
     ia <- ia.terms[[i]]
     find.fac <- purrr::map_lgl(ia, ~ is_categorical(mf[[.x]]))

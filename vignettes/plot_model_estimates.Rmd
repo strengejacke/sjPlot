@@ -13,6 +13,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", dev = "png", fig.width = 
 
 if (!requireNamespace("sjlabelled", quietly = TRUE) ||
     !requireNamespace("sjmisc", quietly = TRUE) ||
+    !requireNamespace("haven", quietly = TRUE) ||
     !requireNamespace("ggplot2", quietly = TRUE)) {
   knitr::opts_chunk$set(eval = FALSE)
 } else {

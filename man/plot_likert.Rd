@@ -196,6 +196,7 @@ Note that only even numbers of categories are possible to plot, so the "positive
        with the \code{catcount}-argument.
 }
 \examples{
+if (requireNamespace("ggrepel") && requireNamespace("sjmisc")) {
 library(sjmisc)
 data(efc)
 # find all variables from COPE-Index, which all have a "cop" in their
@@ -257,4 +258,5 @@ plot_likert(
   groups = c(1, 1, 1, 2, 2, 2),
   group.legend.options = list(nrow = 1)
 )}
+}
 }

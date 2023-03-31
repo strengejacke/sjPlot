@@ -77,6 +77,7 @@
 #' @return A ggplot-object.
 #'
 #' @examples
+#' if (requireNamespace("ggrepel") && requireNamespace("sjmisc")) {
 #' library(sjmisc)
 #' data(efc)
 #' # find all variables from COPE-Index, which all have a "cop" in their
@@ -138,6 +139,7 @@
 #'   groups = c(1, 1, 1, 2, 2, 2),
 #'   group.legend.options = list(nrow = 1)
 #' )}
+#' }
 #' @import ggplot2
 #' @export
 plot_likert <- function(items,
@@ -199,7 +201,7 @@ plot_likert <- function(items,
   if (sort.groups) findex <- sort(findex)
 
   # Add empty title to plots, to create space for the group.labels
-  if (is.null(title) & length(findex) != 1) title <- rep("", length(findex))
+  if (is.null(title) && length(findex) != 1) title <- rep("", length(findex))
 
   .plot_list <- list()
 
@@ -211,9 +213,9 @@ plot_likert <- function(items,
 
     # If there are 2 or more groups, the legend will be plotted according to legend.pos.
     if (length(findex) != 1) {
-      if (legend.pos %in% c("top", "both") & i == 1)
+      if (legend.pos %in% c("top", "both") && i == 1)
         .pl <- .pl + theme(legend.position = "top") + guides(fill = do.call(guide_legend, group.legend.options))
-      else if (legend.pos %in% c("bottom", "both") & i == length(findex))
+      else if (legend.pos %in% c("bottom", "both") && i == length(findex))
         .pl <- .pl + theme(legend.position = "bottom") + guides(fill = do.call(guide_legend, group.legend.options))
       else if (legend.pos != "all")
         .pl <- .pl + theme(legend.position = "none")

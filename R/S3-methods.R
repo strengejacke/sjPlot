@@ -23,10 +23,10 @@ print.sjTable <- function(x, ...) {
 
 #' @importFrom knitr knit_print asis_output
 #' @export
-knit_print.sjTable <-  function(input, ...) {
-  x <- input$knitr
-  x <- replace_umlauts(x)
-  knitr::asis_output(x)
+knit_print.sjTable <-  function(x, ...) {
+  out <- x$knitr
+  out <- replace_umlauts(out)
+  knitr::asis_output(out)
   # knitr::asis_output(input$knitr)
 }
 
@@ -54,58 +54,58 @@ replace_umlauts <- function(x) {
 # knitr method for grpmean() ----
 
 #' @export
-knit_print.sjt_grpmean <-  function(input, ...) {
-  knitr::asis_output(pgrpmean(input, ...)$knitr)
+knit_print.sjt_grpmean <-  function(x, ...) {
+  knitr::asis_output(pgrpmean(x, ...)$knitr)
 }
 
 #' @export
-knit_print.sjt_grpmeans <-  function(input, ...) {
-  knitr::asis_output(pgrpmeans(input, ...)$knitr)
+knit_print.sjt_grpmeans <-  function(x, ...) {
+  knitr::asis_output(pgrpmeans(x, ...)$knitr)
 }
 
 
 # knitr method method for reliab_test() ----
 
 #' @export
-knit_print.sjt_reliab <-  function(input, ...) {
-  knitr::asis_output(preliab(input, ...)$knitr)
+knit_print.sjt_reliab <-  function(x, ...) {
+  knitr::asis_output(preliab(x, ...)$knitr)
 }
 
 
 # knitr method method for descr() ----
 
 #' @export
-knit_print.sjt_descr <-  function(input, ...) {
-  knitr::asis_output(pdescr(input, ...)$knitr)
+knit_print.sjt_descr <-  function(x, ...) {
+  knitr::asis_output(pdescr(x, ...)$knitr)
 }
 
 #' @export
-knit_print.sjt_grpdescr <-  function(input, ...) {
-  knitr::asis_output(pgdescr(input, ...)$knitr)
+knit_print.sjt_grpdescr <-  function(x, ...) {
+  knitr::asis_output(pgdescr(x, ...)$knitr)
 }
 
 
 # knitr method method for equi_test() ----
 
 #' @export
-knit_print.sjt_descr <-  function(input, ...) {
-  knitr::asis_output(pequi_test(input, ...)$knitr)
+knit_print.sjt_descr <-  function(x, ...) {
+  knitr::asis_output(pequi_test(x, ...)$knitr)
 }
 
 
 # knitr method for frq() ----
 
 #' @export
-knit_print.sjt_frq <-  function(input, ...) {
-  knitr::asis_output(pfrq(input, ...)$knitr)
+knit_print.sjt_frq <-  function(x, ...) {
+  knitr::asis_output(pfrq(x, ...)$knitr)
 }
 
 
 # knitr method for mwu() ----
 
 #' @export
-knit_print.sjt_mwu <-  function(input, ...) {
-  knitr::asis_output(pmwu(input, ...)$knitr)
+knit_print.sjt_mwu <-  function(x, ...) {
+  knitr::asis_output(pmwu(x, ...)$knitr)
 }
 
 

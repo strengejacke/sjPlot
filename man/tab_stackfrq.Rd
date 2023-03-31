@@ -97,7 +97,7 @@ Systems, \code{encoding = "Windows-1252"} might be necessary for proper
 display of special characters.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
-according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
+according to the \href{https://www.w3.org/Style/CSS/}{official CSS syntax}.
 See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.}
 
 \item{use.viewer}{Logical, if \code{TRUE}, the HTML table is shown in the IDE's

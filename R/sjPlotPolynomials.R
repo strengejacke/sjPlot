@@ -126,7 +126,7 @@ sjp.poly <- function(x,
   # parameter check: fitted model or variables?
   # --------------------------------------------
   if (!is.vector(x) && !is.numeric(x) && !is.factor(x)) {
-    mf <- insight::get_data(x)
+    mf <- insight::get_data(x, verbose = FALSE)
     # retrieve response vector
     resp <- insight::get_response(x)
     # retrieve polynomial term
@@ -208,7 +208,7 @@ sjp.poly <- function(x,
                                                     size = geom.size)
   # add curves for polynomials
   polyplot <- polyplot +
-    geom_line(aes_string(y = "pred"), size = geom.size) +
+    geom_line(aes_string(y = "pred"), linewidth = geom.size) +
     scale_color_manual(values = geom.colors, labels = lapply(poly.degree, function(j) bquote(x^.(j)))) +
     labs(x = axis.title, y = axisTitle.y, colour = "Polynomial\ndegrees")
 

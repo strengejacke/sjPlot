@@ -77,7 +77,7 @@ alternatig colors (white and light grey by default).}
 \item{digits}{Amount of decimals for estimates}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
-according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
+according to the \href{https://www.w3.org/Style/CSS/}{official CSS syntax}.
 See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.}
 
 \item{encoding}{Character vector, indicating the charset encoding used

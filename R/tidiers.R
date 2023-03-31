@@ -25,7 +25,7 @@ tidy_model <- function(
     }
 
     if (is.null(p.val)) {
-      if (inherits(model, c("glm", "polr"))) {
+      if (inherits(model, c("glm", "polr")) && !inherits(model, "svyglm")) {
         p.val <- "profile"
       } else {
         p.val <- "wald"

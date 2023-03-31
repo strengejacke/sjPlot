@@ -75,7 +75,7 @@ where row and column item are identical (i.e. the "self-correlation"). By defaui
 this argument is \code{NULL} and the diagnal cells are empty.}
 
 \item{CSS}{A \code{\link{list}} with user-defined style-sheet-definitions,
-according to the \href{http://www.w3.org/Style/CSS/}{official CSS syntax}.
+according to the \href{https://www.w3.org/Style/CSS/}{official CSS syntax}.
 See 'Details' or \href{https://strengejacke.github.io/sjPlot/articles/table_css.html}{this package-vignette}.}
 
 \item{encoding}{Character vector, indicating the charset encoding used
