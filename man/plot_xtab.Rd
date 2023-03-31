@@ -113,10 +113,9 @@ than 2x2, Fisher's exact test with Monte Carlo simulation is computed.}
 is \code{TRUE}. Default is \code{"r"}, i.e. it's printed to the upper right corner.
 Use \code{"l"} for upper left corner.}
 
-\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labeled,
-values that have no observations are still printed in the table (with
-frequency \code{0}). If \code{FALSE}, values / factor levels with no occurrence
-in the data are omitted from the output.}
+\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labeled, values / factor
+levels with no occurrence in the data are omitted from the output. If \code{FALSE},
+labeled values that have no observations are still printed in the table (with frequency \code{0}).}
 
 \item{string.total}{String for the legend label when a total-column is added. Only applies
 if \code{show.total = TRUE}. Default is \code{"Total"}.}

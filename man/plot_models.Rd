@@ -8,6 +8,7 @@ plot_models(
   ...,
   transform = NULL,
   std.est = NULL,
+  std.response = TRUE,
   rm.terms = NULL,
   title = NULL,
   m.labels = NULL,
@@ -59,6 +60,11 @@ non-transformed estimates.}
 for plotting. Default is no standardization (\code{std.est = NULL}).
 May be \code{"std"} for standardized beta values or \code{"std2"}, where
 standardization is done by rescaling estimates by dividing them by two sd.}
+
+\item{std.response}{Logical, whether the response variable will also be
+standardized if standardized coefficients are requested. Setting both
+\code{std.response = TRUE} and \code{show.std = TRUE} will behave as if
+the complete data was standardized before fitting the model.}
 
 \item{rm.terms}{Character vector with names that indicate which terms should
 be removed from the plot. Counterpart to \code{terms}. \code{rm.terms =

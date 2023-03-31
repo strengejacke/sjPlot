@@ -57,6 +57,7 @@ plot_model(
   bpe.style = "line",
   bpe.color = "white",
   ci.style = c("whisker", "bar"),
+  std.response = TRUE,
   ...
 )
 
@@ -418,6 +419,11 @@ from the mapped aesthetic to match it with the geom's color.}
 \item{ci.style}{Character vector, defining whether inner and outer intervals
 for Bayesion models are shown in boxplot-style (\code{"whisker"}) or in
 bars with different alpha-levels (\code{"bar"}).}
+
+\item{std.response}{Logical, whether the response variable will also be
+standardized if standardized coefficients are requested. Setting both
+\code{std.response = TRUE} and \code{show.std = TRUE} will behave as if
+the complete data was standardized before fitting the model.}
 
 \item{...}{Other arguments, passed down to various functions. Here is a list
 of supported arguments and their description in detail.

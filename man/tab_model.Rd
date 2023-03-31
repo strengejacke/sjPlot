@@ -13,6 +13,7 @@ tab_model(
   show.ci50 = FALSE,
   show.se = NULL,
   show.std = NULL,
+  std.response = TRUE,
   show.p = TRUE,
   show.stat = FALSE,
   show.df = FALSE,
@@ -117,6 +118,11 @@ also printed. If robust standard errors are required, use arguments
 \item{show.std}{Indicates whether standardized beta-coefficients should
 also printed, and if yes, which type of standardization is done.
 See 'Details'.}
+
+\item{std.response}{Logical, whether the response variable will also be
+standardized if standardized coefficients are requested. Setting both
+\code{std.response = TRUE} and \code{show.std = TRUE} will behave as if
+the complete data was standardized before fitting the model.}
 
 \item{show.p}{Logical, if \code{TRUE}, p-values are also printed.}
 

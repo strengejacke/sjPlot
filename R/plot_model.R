@@ -115,6 +115,10 @@
 #' @param order.terms Numeric vector, indicating in which order the coefficients
 #'   should be plotted. See examples in
 #'   \href{https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html}{this package-vignette}.
+#' @param std.response Logical, whether the response variable will also be
+#'   standardized if standardized coefficients are requested. Setting both
+#'   \code{std.response = TRUE} and \code{show.std = TRUE} will behave as if
+#'   the complete data was standardized before fitting the model.
 #' @param pred.type Character, only applies for \emph{Marginal Effects} plots
 #'   with mixed effects models. Indicates whether predicted values should be
 #'   conditioned on random effects (\code{pred.type = "re"}) or fixed effects
@@ -517,6 +521,7 @@ plot_model <- function(model,
                        bpe.style = "line",
                        bpe.color = "white",
                        ci.style = c("whisker", "bar"),
+                       std.response = TRUE,
                        ...
                        ) {
 
@@ -656,6 +661,7 @@ plot_model <- function(model,
       vcov.args = vcov.args,
       ci.style = ci.style,
       p_adjust = p.adjust,
+      std.response = std.response,
       ...
     )
 

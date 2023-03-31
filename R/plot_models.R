@@ -72,6 +72,7 @@
 plot_models <- function(...,
                         transform = NULL,
                         std.est = NULL,
+                        std.response = TRUE,
                         rm.terms = NULL,
                         title = NULL,
                         m.labels = NULL,
@@ -156,8 +157,8 @@ plot_models <- function(...,
 
 
   # check for standardization, only applies to linear models
-  if (!any(inherits(input_list[[1]], c("lm", "lmerMod", "lme"), which = TRUE) == 1))
-    std.est <- NULL
+  # if (!any(inherits(input_list[[1]], c("lm", "lmerMod", "lme"), which = TRUE) == 1))
+  #   std.est <- NULL
 
 
   if (!is.null(std.est)) {
@@ -182,6 +183,7 @@ plot_models <- function(...,
       show.zeroinf = FALSE,
       p.val = "wald",
       standardize = std_method,
+      std.response = std.response,
       bootstrap = FALSE,
       iterations = 1000,
       seed = NULL,

@@ -1,3 +1,14 @@
+# sjPlot 2.8.14
+
+* `tab_model()`, `plot_model()` and `plot_models()` get a `std.response` argument,
+  to include or exclude the response variable from standardization.
+
+## Bug fixes
+
+* Fixed test issues when no internet connection avaiable.
+
+* Minor fixes and improvements.
+
 # sjPlot 2.8.13
 
 ## Bug fixes
