@@ -11,7 +11,7 @@ tidy_model <- function(
   } else {
     if (!is.null(standardize)) {
       if (isTRUE(standardize)) standardize <- "std"
-      model <- effectsize::standardize(model, two_sd = isTRUE(standardize == "std2"))
+      model <- datawizard::standardize(model, two_sd = isTRUE(standardize == "std2"))
     }
     if (!is.null(seed)) {
       set.seed(seed)
