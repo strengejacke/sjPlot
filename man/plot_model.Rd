@@ -539,6 +539,7 @@ Depending on the plot-type, \code{plot_model()} returns a
 }
 \examples{
 # prepare data
+if (requireNamespace("haven")) {
 library(sjmisc)
 data(efc)
 efc <- to_factor(efc, c161sex, e42dep, c172code)
@@ -553,6 +554,7 @@ plot_model(m, group.terms = c(1, 2, 3, 3, 3, 4, 4))
 # keep only selected terms in the model: pos_v_4, the
 # levels 3 and 4 of factor e42dep and levels 2 and 3 for c172code
 plot_model(m, terms = c("pos_v_4", "e42dep [3,4]", "c172code [2,3]"))
+}
 
 # multiple plots, as returned from "diagnostic"-plot type,
 # can be arranged with 'plot_grid()'
