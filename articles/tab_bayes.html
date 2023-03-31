@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">sjPlot</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.12.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.12.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,7 +116,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-03-13</h4>
+            <h4 data-toc-skip class="date">2023-03-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/vignettes/tab_bayes.Rmd" class="external-link"><code>vignettes/tab_bayes.Rmd</code></a></small>
       <div class="d-none name"><code>tab_bayes.Rmd</code></div>
@@ -130,39 +130,43 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 -->
+<pre><code><span><span class="co">## Loading required package: Rcpp</span></span></code></pre>
+<pre><code><span><span class="co">## Loading 'brms' package (version 2.19.0). Useful instructions</span></span>
+<span><span class="co">## can be found by typing help('brms'). A more detailed introduction</span></span>
+<span><span class="co">## to the package is available through vignette('brms_overview').</span></span></code></pre>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Attaching package: 'brms'</span></span></code></pre>
+<pre><code><span><span class="co">## The following object is masked from 'package:stats':</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     ar</span></span></code></pre>
 <p>This vignette shows examples for using <code><a href="../reference/tab_model.html">tab_model()</a></code> to
 create HTML tables for mixed models. Basically, <code><a href="../reference/tab_model.html">tab_model()</a></code>
 behaves in a very similar way for mixed models as for other, simple
 regression models, as shown <a href="tab_model_estimates.html">in this
 vignette</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load required packages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/insight/" class="external-link">insight</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://httr.r-lib.org/" class="external-link">httr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/paul-buerkner/brms" class="external-link">brms</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># load sample models</span></span>
+<span><span class="co"># sample models</span></span>
+<span><span class="va">zinb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"http://stats.idre.ucla.edu/stat/data/fish.csv"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/brms/man/brm.html" class="external-link">brm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/brms/man/brmsformula.html" class="external-link">bf</a></span><span class="op">(</span></span>
+<span>    <span class="va">count</span> <span class="op">~</span> <span class="va">persons</span> <span class="op">+</span> <span class="va">child</span> <span class="op">+</span> <span class="va">camper</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">persons</span><span class="op">)</span>,</span>
+<span>    <span class="va">zi</span> <span class="op">~</span> <span class="va">child</span> <span class="op">+</span> <span class="va">camper</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">persons</span><span class="op">)</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">zinb</span>,</span>
+<span>  family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/brms/man/brmsfamily.html" class="external-link">zero_inflated_poisson</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># zinb &lt;- read.csv("http://stats.idre.ucla.edu/stat/data/fish.csv")</span></span>
-<span><span class="co"># set.seed(123)</span></span>
-<span><span class="co"># m1 &lt;- brm(bf(</span></span>
-<span><span class="co">#     count ~ persons + child + camper + (1 | persons),</span></span>
-<span><span class="co">#     zi ~ child + camper + (1 | persons)</span></span>
-<span><span class="co">#   ),</span></span>
-<span><span class="co">#   data = zinb,</span></span>
-<span><span class="co">#   family = zero_inflated_poisson()</span></span>
-<span><span class="co"># )</span></span>
-<span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu">insight</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/insight/reference/download_model.html" class="external-link">download_model</a></span><span class="op">(</span><span class="st">"brms_zi_2"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># data(epilepsy)</span></span>
-<span><span class="co"># set.seed(123)</span></span>
-<span><span class="co"># epilepsy$visit &lt;- as.numeric(epilepsy$visit)</span></span>
-<span><span class="co"># epilepsy$Base2 &lt;- sample(epilepsy$Base, nrow(epilepsy), replace = TRUE)</span></span>
-<span><span class="co"># f1 &lt;- bf(Base ~ zAge + count + (1 |ID| patient))</span></span>
-<span><span class="co"># f2 &lt;- bf(Base2 ~ zAge + Trt + (1 |ID| patient))</span></span>
-<span><span class="co"># m2 &lt;- brm(f1 + f2 + set_rescor(FALSE), data = epilepsy)</span></span>
-<span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu">insight</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/insight/reference/download_model.html" class="external-link">download_model</a></span><span class="op">(</span><span class="st">"brms_mv_3"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">epilepsy</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">epilepsy</span><span class="op">$</span><span class="va">visit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="va">epilepsy</span><span class="op">$</span><span class="va">visit</span><span class="op">)</span></span>
+<span><span class="va">epilepsy</span><span class="op">$</span><span class="va">Base2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">epilepsy</span><span class="op">$</span><span class="va">Base</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">epilepsy</span><span class="op">)</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">f1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/brms/man/brmsformula.html" class="external-link">bf</a></span><span class="op">(</span><span class="va">Base</span> <span class="op">~</span> <span class="va">zAge</span> <span class="op">+</span> <span class="va">count</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span><span class="va">ID</span><span class="op">|</span> <span class="va">patient</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/brms/man/brmsformula.html" class="external-link">bf</a></span><span class="op">(</span><span class="va">Base2</span> <span class="op">~</span> <span class="va">zAge</span> <span class="op">+</span> <span class="va">Trt</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span><span class="va">ID</span><span class="op">|</span> <span class="va">patient</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/brms/man/brm.html" class="external-link">brm</a></span><span class="op">(</span><span class="va">f1</span> <span class="op">+</span> <span class="va">f2</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/brms/man/brmsformula-helpers.html" class="external-link">set_rescor</a></span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">epilepsy</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="bayesian-models-summaries-as-html-table">Bayesian models summaries as HTML table<a class="anchor" aria-label="anchor" href="#bayesian-models-summaries-as-html-table"></a>
 </h2>
@@ -171,7 +175,7 @@ output from <a href="tab_model_estimates.html">simple models</a> or <a href="tab
 the use of <em>Highest Density Intervals</em> instead of confidence
 intervals, the Bayes-R-squared values, and a different “point estimate”
 (which is, by default, the median from the posterior draws).</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
@@ -290,7 +294,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-5.38
+5.52
 </td>
 </tr>
 <tr>
@@ -298,7 +302,7 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-33.68
+33.47
 </td>
 </tr>
 <tr>
@@ -341,7 +345,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 <p>For multivariate response models, like mediator-analysis-models, it
 is recommended to print just one model in the table, as each regression
 is displayed as own “model” in the output.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
@@ -446,7 +450,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">
-54.81
+55.80
 </td>
 </tr>
 <tr>
@@ -454,7 +458,7 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="4">
-4.29
+4.09
 </td>
 </tr>
 <tr>
@@ -487,7 +491,7 @@ Observations
 <h2 id="show-two-credible-interval-column">Show two Credible Interval-column<a class="anchor" aria-label="anchor" href="#show-two-credible-interval-column"></a>
 </h2>
 <p>To show a second CI-column, use <code>show.ci50 = TRUE</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m2</span>, show.ci50 <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
@@ -620,7 +624,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="6">
-55.69
+56.29
 </td>
 </tr>
 <tr>
@@ -628,7 +632,7 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="6">
-4.18
+4.17
 </td>
 </tr>
 <tr>
@@ -663,7 +667,7 @@ Observations
 <p>When both multivariate and univariate response models are displayed
 in one table, a column <em>Response</em> is added for the multivariate
 response model, to indicate the different outcomes.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, <span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
@@ -926,10 +930,10 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-5.23
+5.41
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-56.58
+53.19
 </td>
 </tr>
 <tr>
@@ -937,10 +941,10 @@ Random Effects
 τ<sub>00</sub>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-33.77
+33.66
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
-4.37
+4.53
 </td>
 </tr>
 <tr>
@@ -948,7 +952,7 @@ Random Effects
 ICC
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-0.13
+0.14
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
 0.96

@@ -36,7 +36,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">sjPlot</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.12.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.12.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,7 +116,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2023-03-13</h4>
+            <h4 data-toc-skip class="date">2023-03-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/HEAD/vignettes/tab_mixed.Rmd" class="external-link"><code>vignettes/tab_mixed.Rmd</code></a></small>
       <div class="d-none name"><code>tab_mixed.Rmd</code></div>
@@ -130,16 +130,12 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 -->
-<pre><code><span><span class="co">## Warning in checkMatrixPackageVersion(): Package version inconsistency detected.</span></span>
-<span><span class="co">## TMB was built with Matrix version 1.5.3</span></span>
-<span><span class="co">## Current Matrix version is 1.5.1</span></span>
-<span><span class="co">## Please re-install 'TMB' from source using install.packages('TMB', type = 'source') or ask CRAN for a binary version of 'TMB' matching CRAN's 'Matrix' package</span></span></code></pre>
 <p>This vignette shows examples for using <code><a href="../reference/tab_model.html">tab_model()</a></code> to
 create HTML tables for mixed models. Basically, <code><a href="../reference/tab_model.html">tab_model()</a></code>
 behaves in a very similar way for mixed models as for other, simple
 regression models, as shown <a href="tab_model_estimates.html">in this
 vignette</a>.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load required packages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/lme4/lme4/" class="external-link">lme4</a></span><span class="op">)</span></span>
@@ -156,7 +152,7 @@ information with <code>show.icc = FALSE</code> and
 <code>show.re.var = FALSE</code>. Furthermore, the R-squared values are
 marginal and conditional R-squared statistics, based on <em>Nakagawa et
 al. 2017</em>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">neg_c_7</span> <span class="op">~</span> <span class="va">c160age</span> <span class="op">+</span> <span class="va">c161sex</span> <span class="op">+</span> <span class="va">e42dep</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">|</span> <span class="va">cluster</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">efc</span><span class="op">)</span></span>
 <span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">Reaction</span> <span class="op">~</span> <span class="va">Days</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">Days</span> <span class="op">|</span> <span class="va">Subject</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">sleepstudy</span><span class="op">)</span></span>
 <span></span>
@@ -405,7 +401,7 @@ freedom (using the using the <strong>pbkrtest</strong>-package). Note
 that here the computation is more time consuming and thus not used as
 default. You can also display the approximated degrees of freedom with
 <code>show.df</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, p.val <span class="op">=</span> <span class="st">"kr"</span>, show.df <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
@@ -561,7 +557,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 </h2>
 <p><code><a href="../reference/tab_model.html">tab_model()</a></code> can also print and combine models with
 different link-functions.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"efc"</span><span class="op">)</span></span>
 <span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/median.html" class="external-link">median</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">neg_c_7</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">efc</span><span class="op">$</span><span class="va">cluster</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">efc</span><span class="op">$</span><span class="va">e15relat</span><span class="op">)</span></span>
@@ -778,7 +774,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 <p>Finally, an example from the <strong>glmmTMB</strong>-package to show
 how easy it is to print zero-inflated generalized linear mixed models as
 HTML table.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/glmmTMB/glmmTMB" class="external-link">glmmTMB</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"Salamanders"</span><span class="op">)</span></span>
 <span><span class="va">m4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/glmmTMB/man/glmmTMB.html" class="external-link">glmmTMB</a></span><span class="op">(</span></span>

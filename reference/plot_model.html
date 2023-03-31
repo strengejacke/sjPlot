@@ -12,7 +12,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">sjPlot</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.12.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.12.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -143,6 +143,7 @@
 <span>  bpe.style <span class="op">=</span> <span class="st">"line"</span>,</span>
 <span>  bpe.color <span class="op">=</span> <span class="st">"white"</span>,</span>
 <span>  ci.style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"whisker"</span>, <span class="st">"bar"</span><span class="op">)</span>,</span>
+<span>  std.response <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -629,6 +630,13 @@ from the mapped aesthetic to match it with the geom's color.</p></dd>
 <dd><p>Character vector, defining whether inner and outer intervals
 for Bayesion models are shown in boxplot-style (<code>"whisker"</code>) or in
 bars with different alpha-levels (<code>"bar"</code>).</p></dd>
+
+
+<dt>std.response</dt>
+<dd><p>Logical, whether the response variable will also be
+standardized if standardized coefficients are requested. Setting both
+<code>std.response = TRUE</code> and <code>show.std = TRUE</code> will behave as if
+the complete data was standardized before fitting the model.</p></dd>
 
 
 <dt>...</dt>

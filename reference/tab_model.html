@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">sjPlot</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.12.1</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.12.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,6 +97,7 @@
 <span>  show.ci50 <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  show.se <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  show.std <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  std.response <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  show.p <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  show.stat <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  show.df <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -218,6 +219,13 @@ also printed. If robust standard errors are required, use arguments
 <dd><p>Indicates whether standardized beta-coefficients should
 also printed, and if yes, which type of standardization is done.
 See 'Details'.</p></dd>
+
+
+<dt>std.response</dt>
+<dd><p>Logical, whether the response variable will also be
+standardized if standardized coefficients are requested. Setting both
+<code>std.response = TRUE</code> and <code>show.std = TRUE</code> will behave as if
+the complete data was standardized before fitting the model.</p></dd>
 
 
 <dt>show.p</dt>
