@@ -57,6 +57,7 @@
 #'
 #' @examples
 #' # prepare data
+#' if (requireNamespace("haven")) {
 #' library(sjmisc)
 #' data(efc)
 #' efc <- to_factor(efc, c161sex, e42dep, c172code)
@@ -79,6 +80,7 @@
 #'
 #' # get colour values from specific palette
 #' sjplot_pal(pal = "breakfast club")
+#' }
 #'
 #' @import ggplot2
 #' @rdname sjPlot-themes
