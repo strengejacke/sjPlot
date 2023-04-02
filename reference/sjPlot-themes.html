@@ -243,6 +243,7 @@ colour palette is returned.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># prepare data</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"haven"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjmisc/" class="external-link">sjmisc</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">efc</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">efc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://strengejacke.github.io/sjlabelled/reference/as_factor.html" class="external-link">to_factor</a></span><span class="op">(</span><span class="va">efc</span>, <span class="va">c161sex</span>, <span class="va">e42dep</span>, <span class="va">c172code</span><span class="op">)</span></span></span>
@@ -253,24 +254,21 @@ colour palette is returned.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># change theme</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu">theme_sjplot</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="sjPlot-themes-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># change font-size</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu">font_size</span><span class="op">(</span>axis_title.x <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="sjPlot-themes-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># apply color theme</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">+</span> <span class="fu">scale_color_sjplot</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Scale for <span style="color: #00BB00;">colour</span> is already present.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding another scale for <span style="color: #00BB00;">colour</span>, which will replace the existing scale.</span>
-<span class="r-plt img"><img src="sjPlot-themes-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># show all available colour palettes</span></span></span>
 <span class="r-in"><span><span class="fu">show_sjplot_pals</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="sjPlot-themes-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># get colour values from specific palette</span></span></span>
 <span class="r-in"><span><span class="fu">sjplot_pal</span><span class="op">(</span>pal <span class="op">=</span> <span class="st">"breakfast club"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Scale for <span style="color: #00BB00;">colour</span> is already present.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Adding another scale for <span style="color: #00BB00;">colour</span>, which will replace the existing scale.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "#b6411a" "#4182dd" "#2d6328" "#eec3d8" "#ecf0c8"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
