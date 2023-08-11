@@ -1,3 +1,7 @@
+# sjPlot 2.8.15
+
+* Minor fix in vignettes.
+
 # sjPlot 2.8.14
 
 * `tab_model()`, `plot_model()` and `plot_models()` get a `std.response` argument,
