@@ -24,7 +24,7 @@ plot_type_eff <- function(type,
     dat <- ggeffects::ggpredict(
       model = model,
       terms = terms,
-      ci.lvl = ci.lvl,
+      ci_lvl = ci.lvl,
       type = pred.type,
       ...
     )
@@ -32,7 +32,7 @@ plot_type_eff <- function(type,
     dat <- ggeffects::ggemmeans(
       model = model,
       terms = terms,
-      ci.lvl = ci.lvl,
+      ci_lvl = ci.lvl,
       type = pred.type,
       ...
     )
@@ -40,7 +40,7 @@ plot_type_eff <- function(type,
     dat <- ggeffects::ggeffect(
       model = model,
       terms = terms,
-      ci.lvl = ci.lvl,
+      ci_lvl = ci.lvl,
       ...
     )
   }
@@ -82,20 +82,20 @@ plot_type_eff <- function(type,
 
   p <- graphics::plot(
     dat,
-    ci = !is.na(ci.lvl),
+    show_ci = !is.na(ci.lvl),
     facets = facets,
-    rawdata = show.data,
+    show_data = show.data,
     colors = geom.colors,
-    use.theme = FALSE,
+    use_theme = FALSE,
     jitter = jitter,
     case = case,
-    show.legend = show.legend,
-    dot.alpha = dot.alpha,
+    show_legend = show.legend,
+    dot_alpha = dot.alpha,
     alpha = alpha,
     dodge = dodge,
-    log.y = log.y,
-    dot.size = dot.size,
-    line.size = line.size
+    log_y = log.y,
+    dot_size = dot.size,
+    line_size = line.size
   )
 
 
