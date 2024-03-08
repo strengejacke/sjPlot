@@ -27,8 +27,6 @@ install.packages("sjPlot")
 
 Please visit [https://strengejacke.github.io/sjPlot/](https://strengejacke.github.io/sjPlot/) for documentation and vignettes.
 
-See also this [package-review](https://yuzar-blog.netlify.app/posts/2022-08-01-sjplot/), which provides a comprehensive overview on how to easily visualize data and model results.
-
 ## Citation
 
 In case you want / have to cite my package, please use `citation('sjPlot')` for citation information. Since core functionality of package depends on the [ggplot-package](https://cran.r-project.org/package=ggplot2), consider citing this package as well.
