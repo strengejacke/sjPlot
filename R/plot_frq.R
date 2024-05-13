@@ -387,7 +387,7 @@ plot_frq_helper <- function(
     stddev <- stats::sd(var.cnt, na.rm = TRUE)
   } else {
     mittelwert <- stats::weighted.mean(var.cnt, weight.by, na.rm = TRUE)
-    stddev <- sjstats::weighted_sd(var.cnt, weights = weight.by)
+    stddev <- datawizard::weighted_sd(var.cnt, weights = weight.by)
   }
 
   # If we have boxplots, use different data frame structure
