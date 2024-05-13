@@ -110,7 +110,6 @@ utils::globalVariables("density")
 #'         normal.curve.size = 3, ylim = c(0,50))
 #' }
 #' @import ggplot2
-#' @importFrom sjstats weighted_sd
 #' @importFrom sjmisc group_labels group_var to_value frq
 #' @importFrom sjlabelled set_labels drop_labels
 #' @importFrom stats na.omit sd weighted.mean dnorm
