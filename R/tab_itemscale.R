@@ -220,7 +220,7 @@ tab_itemscale <- function(df,
     reli <- performance::item_reliability(df.sub, standardize = scale)
 
     # get index score value, by retrieving the row mean
-    item.score <- sjstats::mean_n(df.sub, min.valid.rowmean)
+    item.score <- datawizard::row_means(df.sub, min_valid = min.valid.rowmean)
 
     # store scaled values of each item's total score
     # to compute correlation coefficients between identified components
