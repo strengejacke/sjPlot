@@ -24,7 +24,7 @@ plot_type_eff <- function(type,
     dat <- ggeffects::ggpredict(
       model = model,
       terms = terms,
-      ci_lvl = ci.lvl,
+      ci_level = ci.lvl,
       type = pred.type,
       ...
     )
@@ -32,7 +32,7 @@ plot_type_eff <- function(type,
     dat <- ggeffects::ggemmeans(
       model = model,
       terms = terms,
-      ci_lvl = ci.lvl,
+      ci_level = ci.lvl,
       type = pred.type,
       ...
     )
@@ -40,7 +40,7 @@ plot_type_eff <- function(type,
     dat <- ggeffects::ggeffect(
       model = model,
       terms = terms,
-      ci_lvl = ci.lvl,
+      ci_level = ci.lvl,
       ...
     )
   }

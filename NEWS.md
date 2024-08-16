@@ -1,3 +1,9 @@
+# sjPlot 2.8.17
+
+## Bug fixes
+
+* Fixed issues with renamed arguments in upstream package *ggeffects*.
+
 # sjPlot 2.8.15
 
 * Minor fix in vignettes.
@@ -23,21 +29,21 @@
 
 ## General
 
-* Minor changes to work properly with updates of upstream packages and 
+* Minor changes to work properly with updates of upstream packages and
   various smaller bug fixes and improvements.
-  
+
 # sjPlot 2.8.11
 
 ## General
 
-* Minor changes to work properly with updates of upstream packages and 
+* Minor changes to work properly with updates of upstream packages and
   various smaller bug fixes and improvements.
 
 # sjPlot 2.8.10
 
 ## General
 
-* Minor changes to work properly with updates of downstream packages and 
+* Minor changes to work properly with updates of downstream packages and
   various smaller bug fixes and improvements.
 
 # sjPlot 2.8.9
@@ -206,7 +212,7 @@
 ## Bug fixes
 
 * Fixed bug in `plot_stackfrq()` for data frames with many missing values.
-* Fixed bug with sorting frequencies in `plot_frq()` when vector had more labels than values. 
+* Fixed bug with sorting frequencies in `plot_frq()` when vector had more labels than values.
 * Fixed bug in `tab_model()` where `show.reflvl = TRUE` did not insert the reference category in first place, but in alphabetical order.
 
 # sjPlot 2.7.1
@@ -270,7 +276,7 @@
 * Argument `string.est` in `tab_model()` did not overwrite the default label for the estimate-column-header.
 * Minor fix in `tab_model()` for mixed models that can't compute R2.
 * Fix issue in `tab_model()` when printing robust standard errors and CI (i.e. when using arguments `vcov*`).
-* The `plot_likert()` option `reverse.scale = TRUE` resulted in `values = "sum.inside"` being outside and the other way around. This is fixed now. 
+* The `plot_likert()` option `reverse.scale = TRUE` resulted in `values = "sum.inside"` being outside and the other way around. This is fixed now.
 * `view_df()` mixed up labels and frequency values when value labels were present, but no such values were in the data.
 * Argument `wrap.labels` in `plot_frq()` did not properly work for factor levels.
 * Fix issue in `plot_models()` that stopped for some models.
@@ -339,7 +345,7 @@ Following functions are now defunct:
 ## Bug fixes
 
 * `plot_model()` no longer automatically changes the plot-type to `"slope"` for models with only one predictor that is categorical and has more than two levels.
-* `type = "eff"` and `type = "pred"` in `plot_model()` did not work when `terms` was not specified. 
+* `type = "eff"` and `type = "pred"` in `plot_model()` did not work when `terms` was not specified.
 * If robust standard errors are requested in `tab_model()`, the confidence intervals and p-values are now re-calculated and adjusted based on the robust standard errors.
 * `colors = "bw"` was not recognized correctly for `plot_model(..., type = "int")`.
 * Fix issue in `sjp.frq()` with correct axis labels for non-labelled character vectors.
