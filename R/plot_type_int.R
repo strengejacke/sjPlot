@@ -102,7 +102,7 @@ plot_type_int <- function(model,
     dat <- ggeffects::ggpredict(
       model = model,
       terms = ia,
-      ci_lvl = ci.lvl,
+      ci_level = ci.lvl,
       type = pred.type,
       full.data = FALSE,
       ...
