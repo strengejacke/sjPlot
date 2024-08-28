@@ -1,168 +1,58 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/404.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/articles/custplot.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/articles/plot_interactions.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/articles/plot_likert_scales.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/articles/sjtitemanalysis.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/articles/tab_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/articles/tab_mixed.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/articles/tab_model_estimates.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/articles/tab_model_robust.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/articles/table_css.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/index.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/dist_chisq.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/dist_f.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/dist_norm.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/dist_t.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/efc.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/plot_frq.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/plot_gpt.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/plot_grid.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/plot_grpfrq.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/plot_kfold_cv.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/plot_likert.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/plot_model.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/plot_models.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/plot_residuals.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/plot_scatter.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/plot_stackfrq.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/plot_xtab.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/save_plot.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/set_theme.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/sjPlot-package.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/sjPlot-themes.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/sjp.aov1.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/sjp.chi2.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/sjp.corr.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/sjp.poly.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/sjplot.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/tab_corr.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/tab_df.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/tab_fa.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/tab_itemscale.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/tab_model.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/tab_pca.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/tab_stackfrq.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/tab_xtab.html</loc>
-  </url>
-  <url>
-    <loc>https://strengejacke.github.io/sjPlot/reference/view_df.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://strengejacke.github.io/sjPlot/404.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/CONTRIBUTING.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/articles/blackwhitefigures.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/articles/custplot.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/articles/index.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/articles/plot_interactions.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/articles/plot_likert_scales.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/articles/plot_marginal_effects.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/articles/plot_model_estimates.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/articles/sjtitemanalysis.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/articles/tab_bayes.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/articles/tab_mixed.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/articles/tab_model_estimates.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/articles/tab_model_robust.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/articles/table_css.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/authors.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/index.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/news/index.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/dist_chisq.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/dist_f.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/dist_norm.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/dist_t.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/efc.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/index.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/plot_frq.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/plot_gpt.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/plot_grid.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/plot_grpfrq.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/plot_kfold_cv.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/plot_likert.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/plot_model.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/plot_models.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/plot_residuals.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/plot_scatter.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/plot_stackfrq.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/plot_xtab.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/save_plot.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/set_theme.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/sjPlot-package.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/sjPlot-themes.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/sjp.aov1.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/sjp.chi2.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/sjp.corr.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/sjp.poly.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/sjplot.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/tab_corr.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/tab_df.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/tab_fa.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/tab_itemscale.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/tab_model.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/tab_pca.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/tab_stackfrq.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/tab_xtab.html</loc></url>
+<url><loc>https://strengejacke.github.io/sjPlot/reference/view_df.html</loc></url>
 </urlset>
+

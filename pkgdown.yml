@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.0.9
+pkgdown: 2.1.0
 pkgdown_sha: ~
 articles:
   blackwhitefigures: blackwhitefigures.html
@@ -14,8 +14,7 @@ articles:
   tab_model_estimates: tab_model_estimates.html
   tab_model_robust: tab_model_robust.html
   table_css: table_css.html
-last_built: 2024-05-13T14:47Z
+last_built: 2024-08-28T08:40Z
 urls:
   reference: https://strengejacke.github.io/sjPlot/reference
   article: https://strengejacke.github.io/sjPlot/articles
-
