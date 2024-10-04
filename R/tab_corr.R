@@ -1,15 +1,16 @@
-#' @title Summary of correlations as HTML table
+#' @title Summary of correlations as HTML table (adjusted)
 #' @name tab_corr
 #'
 #' @description Shows the results of a computed correlation as HTML table. Requires either
 #'                a \code{\link{data.frame}} or a matrix with correlation coefficients
-#'                as returned by the \code{\link{cor}}-function.
+#'                as returned by the \code{\link{psych::corr}}-function.
+#'                Note: The adjusted p-values will be shown in the lower triangle only.
 #'
 #' @param data Matrix with correlation coefficients as returned by the
 #'          \code{\link{cor}}-function, or a \code{data.frame} of variables where
 #'          correlations between columns should be computed.
 #' @param na.deletion Indicates how missing values are treated. May be either
-#'          \code{"listwise"} (default) or \code{"pairwise"}. May be
+#'          \code{"pairwise"} (default) or \code{"complete"}. May be
 #'          abbreviated.
 #' @param corr.method Indicates the correlation computation method. May be one of
 #'          \code{"pearson"} (default), \code{"spearman"} or \code{"kendall"}.
@@ -33,6 +34,13 @@
 #'          correlated items) that can be used to display content in the diagonal cells
 #'          where row and column item are identical (i.e. the "self-correlation"). By defauilt,
 #'          this argument is \code{NULL} and the diagnal cells are empty.
+#' @param value.zero Logical, if \code{TRUE}, the values are printed with leading zero,
+#'          otherwise not.
+#' @param p.zero Logical, if \code{TRUE}, the p-values are printed with leading zero,
+#'          otherwise not.
+#' @param adjust.p Indicates the adjustment for multiple tests to be used. May be one of
+#'          \code{"holm"} (default), \code{"hochberg"}, \code{"hommel"}, \code{"bonferroni"},
+#'          \code{"BH"}, \code{"BY"}, \code{"fdr"} or \code{"none"}, May be abbreviated.
 #'
 #' @inheritParams tab_model
 #' @inheritParams tab_xtab
@@ -88,10 +96,11 @@
 #'   tab_corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3,
 #'            CSS = list(css.valueremove = 'color:blue;'))
 #' }}
-#' @importFrom stats na.omit cor cor.test
+#' @importFrom stats cor
+#' @importFrom psych corr.test
 #' @export
 tab_corr <- function(data,
-                     na.deletion = c("listwise", "pairwise"),
+                     na.deletion = c("pairwise", "listwise"),
                      corr.method = c("pearson", "spearman", "kendall"),
                      title = NULL,
                      var.labels = NULL,
@@ -107,21 +116,35 @@ tab_corr <- function(data,
                      encoding = NULL,
                      file = NULL,
                      use.viewer = TRUE,
-                     remove.spaces = TRUE) {
+                     remove.spaces = TRUE,
+                     value.zero = FALSE,
+                     p.zero = FALSE,
+                     adjust.p = c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none")) {
   # --------------------------------------------------------
-  # check p-value-style option
+  # check p- / value-style option
   # --------------------------------------------------------
-  opt <- getOption("p_zero")
-  if (is.null(opt) || opt == FALSE) {
-    p_zero <- ""
+  if (value.zero) {
+    value_zero <- "0"
   } else {
-    p_zero <- "0"
+    value_zero <- ""
   }
+  
+  if (p.zero) {
+    p_zero <- "0"
+  } else {
+    p_zero <- ""
+  }  
   # --------------------------------------------------------
   # check args
   # --------------------------------------------------------
   na.deletion <- match.arg(na.deletion)
+  if (na.deletion == "listwise") {
+    na_deletion = "complete"
+  } else {
+    na_deletion = "pairwise"
+  }
   corr.method <- match.arg(corr.method)
+  adjust.p <- match.arg(adjust.p)
   # --------------------------------------------------------
   # check encoding
   # --------------------------------------------------------
@@ -156,43 +179,8 @@ tab_corr <- function(data,
     corr <- data
     cpvalues <- NULL
   } else {
-    # missing deletion corresponds to
-    # SPSS listwise
-    if (na.deletion == "listwise") {
-      data <- stats::na.omit(data)
-      corr <- stats::cor(data, method = corr.method)
-    } else {
-      # missing deletion corresponds to
-      # SPSS pairwise
-      corr <- stats::cor(data,
-                  method = corr.method,
-                  use = "pairwise.complete.obs")
-    }
-    #---------------------------------------
-    # if we have a data frame as argument,
-    # compute p-values of significances
-    #---------------------------------------
-    computePValues <- function(df) {
-      cp <- c()
-      for (i in 1:ncol(df)) {
-        pv <- c()
-        for (j in 1:ncol(df)) {
-          test <- suppressWarnings(
-            stats::cor.test(
-              df[[i]],
-              df[[j]],
-              alternative = "two.sided",
-              method = corr.method
-            )
-          )
-
-          pv <- cbind(pv, round(test$p.value, 5))
-        }
-        cp <- rbind(cp, pv)
-      }
-      return(cp)
-    }
-    cpvalues <- computePValues(data)
+    corr <- psych::corr.test(data, method = corr.method, use = na_deletion, adjust = adjust.p)
+    cpvalues <- t(corr$p)
   }
   # --------------------------------------------------------
   # save original p-values
@@ -241,7 +229,7 @@ tab_corr <- function(data,
   # if not, use variable names from data frame
   # ----------------------------
   if (is.null(var.labels)) {
-    var.labels <- row.names(corr)
+    var.labels <- row.names(corr$r)
   }
   # check length of x-axis-labels and split longer strings at into new lines
   var.labels <- sjmisc::word_wrap(var.labels, wrap.labels, "<br>")
@@ -323,7 +311,7 @@ tab_corr <- function(data,
   # first column
   page.content <- paste0(page.content, "    <th class=\"thead\">&nbsp;</th>\n")
   # iterate columns
-  for (i in 1:ncol(corr)) {
+  for (i in 1:ncol(corr$r)) {
     page.content <- paste0(page.content, sprintf("    <th class=\"thead\">%s</th>\n", var.labels[i]))
   }
   # close table row
@@ -332,7 +320,7 @@ tab_corr <- function(data,
   # data rows
   # -------------------------------------
   # iterate all rows of df
-  for (i in 1:nrow(corr)) {
+  for (i in 1:nrow(corr$r)) {
     # write tr-tag
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell
@@ -340,12 +328,12 @@ tab_corr <- function(data,
     # --------------------------------------------------------
     # iterate all columns
     # --------------------------------------------------------
-    for (j in 1:ncol(corr)) {
+    for (j in 1:ncol(corr$r)) {
       # --------------------------------------------------------
       # leave out self-correlations
       # --------------------------------------------------------
       if (j == i) {
-        if (is.null(string.diag) || length(string.diag) > ncol(corr)) {
+        if (is.null(string.diag) || length(string.diag) > ncol(corr$r)) {
           page.content <- paste0(page.content, "    <td class=\"tdata centeralign\">&nbsp;</td>\n")
         } else {
           page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign\">%s</td>\n",
@@ -360,7 +348,8 @@ tab_corr <- function(data,
           # --------------------------------------------------------
           # print table-cell-data (cor-value)
           # --------------------------------------------------------
-          cellval <- sprintf("%.*f", digits, corr[i, j])
+          # cellval <- sprintf("%.*f", digits, corr[i, j])
+          cellval <- sub("0", value_zero, sprintf("%.*f", digits, corr$r[i, j]))
           # --------------------------------------------------------
           # check whether we want to show P-Values
           # --------------------------------------------------------
@@ -397,7 +386,7 @@ tab_corr <- function(data,
           # check whether correlation value is too small and should
           # be omitted
           # --------------------------------------------------------
-          if (!is.null(val.rm) && abs(corr[i, j]) < abs(val.rm)) {
+          if (!is.null(val.rm) && abs(corr$r[i, j]) < abs(val.rm)) {
             value.remove <- " valueremove"
           }
           page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s%s\">%s</td>\n",
@@ -416,8 +405,14 @@ tab_corr <- function(data,
   # feedback...
   # -------------------------------------
   page.content <- paste0(page.content, "  <tr>\n")
-  page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"summary\">", ncol(corr) + 1))
-  page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion.", corr.method, na.deletion))
+  page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"summary\">", ncol(corr$r) + 1))
+  if(triangle == "both") {
+    page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion and %s p-adjustment shown in lower triangle.", corr.method, na.deletion, adjust.p))
+  } else if(triangle == "lower") {
+    page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion and %s p-adjustment.", corr.method, na.deletion, adjust.p))    
+  } else {
+    page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion and without p-adjustment.", corr.method, na.deletion))    
+  }
   page.content <- paste0(page.content, "</td>\n  </tr>\n")
   # -------------------------------------
   # finish table
