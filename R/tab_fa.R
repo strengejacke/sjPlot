@@ -109,15 +109,13 @@ tab_fa <- function(data,
   } else if (is.data.frame(data)) {
 
     if (is.null(nmbr.fctr)) {
-      nr_factors <- psych::fa.parallel(data, fa = 'fa', fm = method)$nfact
+      nr_factors <- psych::fa.parallel(data, fa = "fa", fm = method)$nfact
       dev.off()
       fadata <- psych::fa(data, nfactors = nr_factors, fm = method, rotate = rotation)
       if (sort == TRUE) {
         fadata <- psych::fa.sort(fadata) #resort loadings
       }
-    }
-    else {
-
+    } else {
       fadata <- psych::fa(data, nfactors = nmbr.fctr, fm = method, rotate = rotation)
       if (sort == TRUE) {
         fadata <- psych::fa.sort(fadata) #resort loadings

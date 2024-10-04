@@ -120,10 +120,9 @@ are added to the output.}
 chi-squared statistics, degrees of freedom and Cramer's V or Phi
 coefficient and p-value for the chi-squared statistics.}
 
-\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labeled,
-values that have no observations are still printed in the table (with
-frequency \code{0}). If \code{FALSE}, values / factor levels with no occurrence
-in the data are omitted from the output.}
+\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labeled, values / factor
+levels with no occurrence in the data are omitted from the output. If \code{FALSE},
+labeled values that have no observations are still printed in the table (with frequency \code{0}).}
 
 \item{statistics}{Name of measure of association that should be computed. May
 be one of \code{"auto"}, \code{"cramer"}, \code{"phi"}, \code{"spearman"},

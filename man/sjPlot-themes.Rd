@@ -126,6 +126,7 @@ When using the \code{colors} argument in function calls (e.g.
 }
 \examples{
 # prepare data
+if (requireNamespace("haven")) {
 library(sjmisc)
 data(efc)
 efc <- to_factor(efc, c161sex, e42dep, c172code)
@@ -148,5 +149,6 @@ show_sjplot_pals()
 
 # get colour values from specific palette
 sjplot_pal(pal = "breakfast club")
+}
 
 }

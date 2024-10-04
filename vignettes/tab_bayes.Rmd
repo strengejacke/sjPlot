@@ -31,6 +31,8 @@ if (!requireNamespace("insight", quietly = TRUE) ||
   knitr::opts_chunk$set(eval = TRUE)
   library(insight)
   library(httr)
+  library(sjPlot)
+  library(brms)
   m1 <- tryCatch(insight::download_model("brms_zi_2"), error = function(e) NULL)
   m2 <- tryCatch(insight::download_model("brms_mv_3"), error = function(e) NULL)
 }

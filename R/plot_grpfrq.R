@@ -821,7 +821,7 @@ plot_grpfrq <- function(var.cnt,
 
   # If we have bars or dot plots, we show
   # Pearson's chi-square test results
-  baseplot <- print.table.summary(baseplot, modsum, summary.pos)
+  baseplot <- .print.table.summary(baseplot, modsum, summary.pos)
 
   # prepare y-axis and
   # show or hide y-axis-labels

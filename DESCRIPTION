@@ -2,12 +2,12 @@ Package: sjPlot
 Type: Package
 Encoding: UTF-8
 Title: Data Visualization for Statistics in Social Science
-Version: 2.8.13.1
+Version: 2.8.16.2
 Authors@R: c(
     person("Daniel", "Lüdecke", email = "d.luedecke@uke.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-8895-3206")),
     person("Alexander", "Bartel", role = "ctb", comment = c(ORCID = "0000-0002-1280-6138")),
     person("Carsten", "Schwemmer", email = "carsten.schwemmer@uni-bamberg.de", role = "ctb"),
-    person(given = "Chuck", family = "Powell", role = "ctb", email = "ibecav@gmail.com", comment = c(ORCID = "0000-0002-3606-2188")), 
+    person(given = "Chuck", family = "Powell", role = "ctb", email = "ibecav@gmail.com", comment = c(ORCID = "0000-0002-3606-2188")),
     person(given = "Amir", family = "Djalovski", role = "ctb", email = "Amir.DJV@gmail.com"),
     person(given = "Johannes", family = "Titz", role = "ctb", email = "johannes@titz.science", comment = c(ORCID = "0000-0002-1102-5719")))
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>
@@ -15,8 +15,8 @@ Description: Collection of plotting and table output functions for data
     visualization. Results of various statistical analyses (that are commonly used
     in social sciences) can be visualized using this package, including simple and
     cross tabulated frequencies, histograms, box plots, (generalized) linear models,
-    mixed effects models, principal component analysis and correlation matrices, 
-    cluster analyses, scatter plots, stacked scales, effects plots of regression 
+    mixed effects models, principal component analysis and correlation matrices,
+    cluster analyses, scatter plots, stacked scales, effects plots of regression
     models (including interaction terms) and much more. This package supports
     labelled data.
 License: GPL-3
@@ -30,7 +30,6 @@ Imports:
     bayestestR,
     datawizard,
     dplyr,
-    effectsize,
     ggeffects,
     ggplot2 (>= 3.2.0),
     knitr,
@@ -52,6 +51,7 @@ Suggests:
     clubSandwich,
     cluster,
     cowplot,
+    effects,
     haven,
     GPArotation,
     ggrepel,
@@ -71,5 +71,5 @@ Suggests:
     testthat
 URL: https://strengejacke.github.io/sjPlot/
 BugReports: https://github.com/strengejacke/sjPlot/issues
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 VignetteBuilder: knitr

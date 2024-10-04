@@ -436,7 +436,7 @@ plot_xtab <- function(x,
   # ------------------------------------------
   # check whether table summary should be printed
   # ------------------------------------------
-  baseplot <- print.table.summary(baseplot, modsum, summary.pos)
+  baseplot <- .print.table.summary(baseplot, modsum, summary.pos)
   baseplot <- baseplot +
     # show absolute and percentage value of each bar.
     ggvaluelabels +

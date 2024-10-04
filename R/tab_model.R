@@ -240,6 +240,7 @@ tab_model <- function(
   show.ci50 = FALSE,
   show.se = NULL,
   show.std = NULL,
+  std.response = TRUE,
   show.p = TRUE,
   show.stat = FALSE,
   show.df = FALSE,
@@ -532,7 +533,8 @@ tab_model <- function(
           iterations = iterations,
           seed = seed,
           keep = keep,
-          drop = drop
+          drop = drop,
+          std.response = std.response
         ) %>%
           format_p_values(p.style, digits.p, emph.p, p.threshold) %>%
           sjmisc::var_rename(

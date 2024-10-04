@@ -110,7 +110,6 @@ utils::globalVariables("density")
 #'         normal.curve.size = 3, ylim = c(0,50))
 #' }
 #' @import ggplot2
-#' @importFrom sjstats weighted_sd
 #' @importFrom sjmisc group_labels group_var to_value frq
 #' @importFrom sjlabelled set_labels drop_labels
 #' @importFrom stats na.omit sd weighted.mean dnorm
@@ -387,7 +386,7 @@ plot_frq_helper <- function(
     stddev <- stats::sd(var.cnt, na.rm = TRUE)
   } else {
     mittelwert <- stats::weighted.mean(var.cnt, weight.by, na.rm = TRUE)
-    stddev <- sjstats::weighted_sd(var.cnt, weights = weight.by)
+    stddev <- datawizard::weighted_sd(var.cnt, weights = weight.by)
   }
 
   # If we have boxplots, use different data frame structure

@@ -155,10 +155,9 @@ if df is 1), the Fisher's exact test (see \code{\link{fisher.test}}) is
 computed instead of chi-squared test. If the table's matrix is larger
 than 2x2, Fisher's exact test with Monte Carlo simulation is computed.}
 
-\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labeled,
-values that have no observations are still printed in the table (with
-frequency \code{0}). If \code{FALSE}, values / factor levels with no occurrence
-in the data are omitted from the output.}
+\item{drop.empty}{Logical, if \code{TRUE} and the variable's values are labeled, values / factor
+levels with no occurrence in the data are omitted from the output. If \code{FALSE},
+labeled values that have no observations are still printed in the table (with frequency \code{0}).}
 
 \item{auto.group}{numeric value, indicating the minimum amount of unique values
 in the count variable, at which automatic grouping into smaller units

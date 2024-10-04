@@ -1,7 +1,7 @@
 tidy_model <- function(
   model, ci.lvl, tf, type, bpe, robust, facets, show.zeroinf, p.val = NULL,
   standardize = FALSE, bootstrap = FALSE, iterations = 1000, seed = NULL,
-  p_adjust = NULL, keep = NULL, drop = NULL, ...) {
+  p_adjust = NULL, keep = NULL, drop = NULL, std.response = TRUE, ...) {
 
   if (!is.logical(standardize) && standardize == "") standardize <- NULL
   if (is.logical(standardize) && standardize == FALSE) standardize <- NULL
@@ -11,7 +11,11 @@ tidy_model <- function(
   } else {
     if (!is.null(standardize)) {
       if (isTRUE(standardize)) standardize <- "std"
-      model <- effectsize::standardize(model, two_sd = isTRUE(standardize == "std2"))
+      model <- datawizard::standardize(
+        model,
+        two_sd = isTRUE(standardize == "std2"),
+        include_response = isTRUE(std.response)
+      )
     }
     if (!is.null(seed)) {
       set.seed(seed)
