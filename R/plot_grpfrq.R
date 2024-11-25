@@ -797,7 +797,7 @@ plot_grpfrq <- function(var.cnt,
     # different fill colours, because violin boxplots have white background
     fcsp <- ifelse(type == "boxplot", "white", "black")
     baseplot <- baseplot +
-      stat_summary(fun.y = "mean", geom = "point", shape = 21,
+      stat_summary(fun = "mean", geom = "point", shape = 21,
                    size = inner.box.dotsize, fill = fcsp)
   } else {
     if (type == "dot") {
