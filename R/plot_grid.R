@@ -64,15 +64,13 @@ plot_grid <- function(x, margin = c(1, 1, 1, 1), tags = NULL) {
   tags_labels <- NULL
 
   # Add tags
-  if (isTRUE(tags)) {
+  if (isTRUE(tags) || is.null(tags)) {
+    tags_labels = LETTERS
+  } else if (length(tags) < length(x)) {
+    insight::format_warning("Not enough tags labels in list. Using letters instead.")
     tags_labels = LETTERS
   } else{
-    if (length(tags) < length(x)) {
-      warning("Not enough tags labels in list. Using letters instead.")
-      tags_labels = LETTERS
-    } else{
-      tags_labels = tags
-    }
+    tags_labels = tags
   }
 
   if (!is.null(tags_labels)) {

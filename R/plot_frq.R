@@ -591,7 +591,7 @@ plot_frq_helper <- function(
     # different fill colours, because violin boxplots have white background
     fcsp <- ifelse(type == "boxplot", "white", "black")
     baseplot <- baseplot +
-      stat_summary(fun.y = "mean", geom = "point", shape = 21,
+      stat_summary(fun = "mean", geom = "point", shape = 21,
                    size = inner.box.dotsize, fill = fcsp)
     # no additional labels for the x- and y-axis, only diagram title
     baseplot <- baseplot + yscale + scalex
