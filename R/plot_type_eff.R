@@ -20,6 +20,12 @@ plot_type_eff <- function(type,
 
   if (missing(facets) || is.null(facets)) facets <- FALSE
 
+  pred.type <- switch(pred.type,
+    fe = "fixed",
+    re = "random",
+    pred.type
+  )
+
   if (type == "pred") {
     dat <- ggeffects::ggpredict(
       model = model,
