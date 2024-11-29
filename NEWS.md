@@ -4,6 +4,8 @@
 
 * Fixed issues with renamed arguments in upstream package *ggeffects*.
 
+* Several minor bug fixes.
+
 # sjPlot 2.8.15
 
 * Minor fix in vignettes.
