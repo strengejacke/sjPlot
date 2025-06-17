@@ -27,7 +27,7 @@ plot_type_int <- function(model,
 
   # get interaction terms and model frame
 
-  ia.terms <- purrr::map(int.terms, ~ sjmisc::trim(unlist(strsplit(.x, "[\\*:]"))))
+  ia.terms <- purrr::map(int.terms, ~ insight::clean_names(unlist(strsplit(.x, "[\\*:]"))))
   mf <- insight::get_data(model, verbose = FALSE)
 
   pl <- list()
