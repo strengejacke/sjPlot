@@ -45,9 +45,9 @@ diag_ncv <- function(model, dot.size, line.size) {
   )
 
   ggplot2::ggplot(dat, ggplot2::aes(x = .data$fitted, y = .data$res)) +
-    geom_intercept_line2(0, NULL) +
+    ggplot2::geom_intercept_line2(0, NULL) +
     ggplot2::geom_point(size = dot.size) +
-    geom_smooth(method = "loess", se = FALSE, size = line.size) +
+    ggplot2::geom_smooth(method = "loess", se = FALSE, size = line.size) +
     ggplot2::labs(
       x = "Fitted values",
       y = "Residuals",
