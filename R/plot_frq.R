@@ -629,7 +629,7 @@ plot_frq_helper <- function(
     } else {
       baseplot <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$val, y = .data$frq)) +
         geom_area(alpha = 0.3) +
-        geom_line(linewidth = geom.size, colour = geom.colors) +
+        ggplot2::geom_line(linewidth = geom.size, colour = geom.colors) +
         ggvaluelabels
     }
     # check whether user wants to overlay the histogram

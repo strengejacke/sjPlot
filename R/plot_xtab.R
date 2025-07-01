@@ -418,7 +418,7 @@ plot_xtab <- function(x,
     # for lines, numeric scale
     mydf$xpos <- sjlabelled::as_numeric(mydf$xpos, keep.labels = FALSE)
     line.stat <- ifelse(isTRUE(smooth.lines), "smooth", "identity")
-    geob <- geom_line(ggplot2::aes_string(colour = "group"), linewidth = geom.size, stat = line.stat)
+    geob <- ggplot2::geom_line(ggplot2::aes_string(colour = "group"), linewidth = geom.size, stat = line.stat)
   }
   # --------------------------------------------------------
   # start plot here

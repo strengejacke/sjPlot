@@ -92,21 +92,23 @@
 #' plot_model(fit, type = "pred", terms = "e17age")}
 #'
 #' @export
-sjp.poly <- function(x,
-                     poly.term,
-                     poly.degree,
-                     poly.scale = FALSE,
-                     fun = NULL,
-                     axis.title = NULL,
-                     geom.colors = NULL,
-                     geom.size = .8,
-                     show.loess = TRUE,
-                     show.loess.ci = TRUE,
-                     show.p = TRUE,
-                     show.scatter = TRUE,
-                     point.alpha = .2,
-                     point.color = "#404040",
-                     loess.color = "#808080") {
+sjp.poly <- function(
+  x,
+  poly.term,
+  poly.degree,
+  poly.scale = FALSE,
+  fun = NULL,
+  axis.title = NULL,
+  geom.colors = NULL,
+  geom.size = .8,
+  show.loess = TRUE,
+  show.loess.ci = TRUE,
+  show.p = TRUE,
+  show.scatter = TRUE,
+  point.alpha = .2,
+  point.color = "#404040",
+  loess.color = "#808080"
+) {
   # --------------------------------------------
   # check color parameter
   # --------------------------------------------
@@ -114,10 +116,11 @@ sjp.poly <- function(x,
   # --------------------------------------------
   # check poly.term parameter
   # --------------------------------------------
-  if (is.character(poly.term))
+  if (is.character(poly.term)) {
     defv <- poly.term
-  else
+  } else {
     defv <- get_var_name(deparse(substitute(poly.term)))
+  }
   # --------------------------------------------
   # parameter check: fitted model or variables?
   # --------------------------------------------
@@ -144,14 +147,18 @@ sjp.poly <- function(x,
   # --------------------------------------------
   # retrieve labels
   # --------------------------------------------
-  if (is.null(axis.title)) axis.title <- sjlabelled::get_label(poly.term, def.value = defv)
+  if (is.null(axis.title)) {
+    axis.title <- sjlabelled::get_label(poly.term, def.value = defv)
+  }
   axisTitle.y <- sjlabelled::get_label(resp, def.value = "Response")
   # --------------------------------------------
   # init data frame
   # --------------------------------------------
   plot.df <- data.frame()
   # scale polynomial term?
-  if (poly.scale) poly.term <- scale(poly.term)
+  if (poly.scale) {
+    poly.term <- scale(poly.term)
+  }
   # --------------------------------------------
   # get cutpoints for loess curve
   # --------------------------------------------
@@ -164,49 +171,82 @@ sjp.poly <- function(x,
     # poly-function can't cope with missings, so remove them here
     mydat <- stats::na.omit(data.frame(x = poly.term, y = resp))
     # fit model with polynomials
-    if (fun == "lm")
+    if (fun == "lm") {
       fit <- stats::lm(mydat$y ~ stats::poly(mydat$x, i, raw = TRUE))
-    else
-      fit <- stats::glm(mydat$y ~ stats::poly(mydat$x, i, raw = TRUE), family = stats::family(x))
+    } else {
+      fit <- stats::glm(
+        mydat$y ~ stats::poly(mydat$x, i, raw = TRUE),
+        family = stats::family(x)
+      )
+    }
     # check whether we have an integer poly.degree
     # or a float value
     poly.digit <- ifelse(i %% 1 == 0, 0, 1)
     # create data frame with raw data and the fitted poly-curve
-    plot.df <- rbind(plot.df, cbind(mydat,
-                                    stats::predict(fit),
-                                    sprintf("x^%.*f", poly.digit, i)))
+    plot.df <- rbind(
+      plot.df,
+      cbind(mydat, stats::predict(fit), sprintf("x^%.*f", poly.digit, i))
+    )
     # print p-values?
     if (show.p) {
       # get p-values
       pvals <- summary(fit)$coefficients[-1, 4]
       # prepare output string
-      p.out <- sprintf("Polynomial degrees: %.*f\n---------------------\n", poly.digit, i)
+      p.out <- sprintf(
+        "Polynomial degrees: %.*f\n---------------------\n",
+        poly.digit,
+        i
+      )
       # iterate polynomial terms and print p-value for each polynom
-      for (j in seq_len(i)) p.out <- paste0(p.out, sprintf("p(x^%i): %.3f\n", j, unname(pvals[j])))
+      for (j in seq_len(i)) {
+        p.out <- paste0(p.out, sprintf("p(x^%i): %.3f\n", j, unname(pvals[j])))
+      }
       # add separator line after each model
       p.out <- paste0(p.out, "\n")
       # print p-values for fitted model
       cat(p.out)
     }
   }
+
   # name df
-  colnames(plot.df) <- c("x","y", "pred", "grp")
+  colnames(plot.df) <- c("x", "y", "pred", "grp")
   # create plot
-  polyplot <- ggplot2::ggplot(plot.df, ggplot2::aes_string(x = "x", y = "y", colour = "grp"))
+  polyplot <- ggplot2::ggplot(
+    plot.df,
+    ggplot2::aes_string(x = "x", y = "y", colour = "grp")
+  )
   # show scatter plot as well?
-  if (show.scatter) polyplot <- polyplot +
-    ggplot2::geom_jitter(colour = point.color, alpha = point.alpha, shape = 16)
+  if (show.scatter) {
+    polyplot <- polyplot +
+      ggplot2::geom_jitter(
+        colour = point.color,
+        alpha = point.alpha,
+        shape = 16
+      )
+  }
   # show loess curve? this curve indicates the "perfect" curve through
   # the data
-  if (show.loess) polyplot <- polyplot + ggplot2::stat_smooth(method = "loess",
-                                                    color = loess.color,
-                                                    se = show.loess.ci,
-                                                    size = geom.size)
+  if (show.loess) {
+    polyplot <- polyplot +
+      ggplot2::stat_smooth(
+        method = "loess",
+        color = loess.color,
+        se = show.loess.ci,
+        size = geom.size
+      )
+  }
   # add curves for polynomials
   polyplot <- polyplot +
-    geom_line(ggplot2::aes_string(y = "pred"), linewidth = geom.size) +
-    scale_color_manual(values = geom.colors, labels = lapply(poly.degree, function(j) bquote(x^.(j)))) +
-    ggplot2::labs(x = axis.title, y = axisTitle.y, colour = "Polynomial\ndegrees")
+    ggplot2::geom_line(ggplot2::aes_string(y = "pred"), linewidth = geom.size) +
+    ggplot2::scale_color_manual(
+      values = geom.colors,
+      labels = lapply(poly.degree, function(j) bquote(x^.(j)))
+    ) +
+    ggplot2::labs(
+      x = axis.title,
+      y = axisTitle.y,
+      colour = "Polynomial\ndegrees"
+    )
 
   polyplot
 }
