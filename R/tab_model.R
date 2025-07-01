@@ -1304,18 +1304,20 @@ sort_columns <- function(x, is.stan, col.order) {
 }
 
 
-remove_unwanted <- function(dat,
-                            show.intercept,
-                            show.est,
-                            show.std,
-                            show.ci,
-                            show.se,
-                            show.stat,
-                            show.p,
-                            show.df,
-                            show.response,
-                            terms,
-                            rm.terms) {
+remove_unwanted <- function(
+  dat,
+  show.intercept,
+  show.est,
+  show.std,
+  show.ci,
+  show.se,
+  show.stat,
+  show.p,
+  show.df,
+  show.response,
+  terms,
+  rm.terms
+) {
   if (!show.intercept) {
     ints1 <- string_contains("(Intercept", x = dat$term)
     ints2 <- string_contains("b_Intercept", x = dat$term)
@@ -1324,8 +1326,9 @@ remove_unwanted <- function(dat,
 
     ints <- c(ints1, ints2, ints3, ints4)
 
-    if (!sjmisc::is_empty(ints))
-      dat <- dplyr::slice(dat, !! -ints)
+    if (!sjmisc::is_empty(ints)) {
+      dat <- dplyr::slice(dat, !!-ints)
+    }
   }
 
   if (show.est == FALSE) {
@@ -1338,7 +1341,10 @@ remove_unwanted <- function(dat,
   }
 
   if (is.null(show.std) || show.std == FALSE) {
-    dat <- dplyr::select(dat, -string_starts_with("std.estimate", x = colnames(dat)))
+    dat <- dplyr::select(
+      dat,
+      -string_starts_with("std.estimate", x = colnames(dat))
+    )
   }
 
   if (is.null(show.ci) || show.ci == FALSE) {
@@ -1359,17 +1365,26 @@ remove_unwanted <- function(dat,
   }
 
   if (show.stat == FALSE) {
-    dat <- dplyr::select(dat, -string_starts_with("statistic", x = colnames(dat)),
-                         -string_starts_with("std.statistic", x = colnames(dat)))
+    dat <- dplyr::select(
+      dat,
+      -string_starts_with("statistic", x = colnames(dat)),
+      -string_starts_with("std.statistic", x = colnames(dat))
+    )
   }
 
   if (show.response == FALSE) {
-    dat <- dplyr::select(dat, -string_starts_with("response.level", x = colnames(dat)))
+    dat <- dplyr::select(
+      dat,
+      -string_starts_with("response.level", x = colnames(dat))
+    )
   }
 
   if (show.p == FALSE) {
-    dat <- dplyr::select(dat, -string_starts_with("p.value", x = colnames(dat)),
-                         -string_starts_with("std.p.value", x = colnames(dat)))
+    dat <- dplyr::select(
+      dat,
+      -string_starts_with("p.value", x = colnames(dat)),
+      -string_starts_with("std.p.value", x = colnames(dat))
+    )
   }
 
   if (show.df == FALSE) {
@@ -1379,13 +1394,13 @@ remove_unwanted <- function(dat,
   if (!is.null(terms)) {
     terms <- parse_terms(terms)
     keep_terms <- which(dat$term %in% terms)
-    dat <- dplyr::slice(dat, !! keep_terms)
+    dat <- dplyr::slice(dat, !!keep_terms)
   }
 
   if (!is.null(rm.terms)) {
     rm.terms <- parse_terms(rm.terms)
     keep_terms <- which(!(dat$term %in% rm.terms))
-    dat <- dplyr::slice(dat, !! keep_terms)
+    dat <- dplyr::slice(dat, !!keep_terms)
   }
 
   dat
@@ -1430,9 +1445,9 @@ format_p_values <- function(dat, p.style, digits.p, emph.p, p.threshold) {
 
   dat <- dat |>
     dplyr::mutate(
-    p.stars = get_p_stars(.data$p.value, p.threshold),
-    p.sig = .data$p.value < .05
-  )
+      p.stars = get_p_stars(.data$p.value, p.threshold),
+      p.sig = .data$p.value < .05
+    )
 
   # scientific notation ----
 
@@ -1444,15 +1459,33 @@ format_p_values <- function(dat, p.style, digits.p, emph.p, p.threshold) {
 
   # emphasize p-values ----
 
-  if (emph.p && !all(dat$p.value == "NA")) dat$p.value[which(dat$p.sig)] <- sprintf("<strong>%s</strong>", dat$p.value[which(dat$p.sig)])
+  if (emph.p && !all(dat$p.value == "NA")) {
+    dat$p.value[which(dat$p.sig)] <- sprintf(
+      "<strong>%s</strong>",
+      dat$p.value[which(dat$p.sig)]
+    )
+  }
   dat <- dplyr::select(dat, -.data$p.sig)
 
   # indicate p <0.001 ----
 
   pv <- paste0("0.", paste(rep("0", digits.p), collapse = ""))
-  dat$p.value[dat$p.value == pv] <- paste("&lt;", format(10^(-digits.p), scientific = FALSE), sep = "")
+  dat$p.value[dat$p.value == pv] <- paste(
+    "&lt;",
+    format(10^(-digits.p), scientific = FALSE),
+    sep = ""
+  )
 
-  pv <- paste0("<strong>0.", paste(rep("0", digits.p), collapse = ""), "</strong>")
-  dat$p.value[dat$p.value == pv] <- paste("<strong>&lt;", format(10^(-digits.p), scientific = FALSE), "</strong>", sep = "")
+  pv <- paste0(
+    "<strong>0.",
+    paste(rep("0", digits.p), collapse = ""),
+    "</strong>"
+  )
+  dat$p.value[dat$p.value == pv] <- paste(
+    "<strong>&lt;",
+    format(10^(-digits.p), scientific = FALSE),
+    "</strong>",
+    sep = ""
+  )
   dat
 }
