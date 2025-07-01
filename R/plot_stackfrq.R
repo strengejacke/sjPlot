@@ -45,7 +45,6 @@
 #'   select(start:end) %>%
 #'   plot_stackfrq()
 #'
-#' @import ggplot2
 #' @export
 plot_stackfrq <- function(items,
                          title = NULL,

@@ -163,7 +163,6 @@
 #' # show all categories, even if not in data
 #' plot_grpfrq(efc$c161sex, efc$e42dep, drop.empty = FALSE)
 #'
-#' @import ggplot2
 #' @importFrom rlang .data
 #' @export
 plot_grpfrq <- function(var.cnt,
@@ -869,7 +868,7 @@ plot_grpfrq <- function(var.cnt,
   if (facet.grid) {
     baseplot <- baseplot +
       # set font size for axes.
-      # theme(strip.text = element_text(face = "bold", size = rel(1.1))) +
+      # ggplot2::theme(strip.text = element_text(face = "bold", size = rel(1.1))) +
       facet_wrap(~group, scales = "free")
   }
 

@@ -40,7 +40,6 @@
 #'            blue and red colors indicate positive or negative correlations, where
 #'            stronger correlations are darker.
 #'
-#' @import ggplot2
 #' @importFrom tidyr gather
 #' @importFrom scales brewer_pal grey_pal
 #' @importFrom stats cor cor.test na.omit

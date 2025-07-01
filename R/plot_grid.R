@@ -58,7 +58,7 @@ plot_grid <- function(x, margin = c(1, 1, 1, 1), tags = NULL) {
 
   # add margin to each plot, so no axis labels are cropped
   x <- lapply(x, function(pl) {
-    pl + theme(plot.margin = unit(margin, "cm"))
+    pl + ggplot2::theme(plot.margin = unit(margin, "cm"))
   })
 
   tags_labels <- NULL

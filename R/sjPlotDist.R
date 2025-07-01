@@ -37,7 +37,6 @@
 #' # a simple normal distribution
 #' dist_norm(p = 0.2)
 #'
-#' @import ggplot2
 #' @importFrom stats qchisq pchisq dchisq qf pf df qnorm pnorm dnorm qt pt dt
 #' @export
 dist_norm <- function(norm = NULL,
@@ -166,7 +165,6 @@ dist_norm <- function(norm = NULL,
 #' # value 12.59 (p-level < 0.05) is filled as "significant".
 #' dist_chisq(p = 0.125, deg.f = 6)
 #'
-#' @import ggplot2
 #' @export
 dist_chisq <- function(chi2 = NULL,
                       deg.f = NULL,
@@ -298,7 +296,6 @@ dist_chisq <- function(chi2 = NULL,
 #' # (F-Value about 1.5).
 #' dist_f(p = 0.2, deg.f1 = 6, deg.f2 = 45)
 #'
-#' @import ggplot2
 #' @export
 dist_f <- function(f = NULL,
                   deg.f1 = NULL,
@@ -425,7 +422,6 @@ dist_f <- function(f = NULL,
 #' # (t-value of about 0.26).
 #' dist_t(p = 0.4, deg.f = 6)
 #'
-#' @import ggplot2
 #' @export
 dist_t <- function(t = NULL,
                   deg.f = NULL,

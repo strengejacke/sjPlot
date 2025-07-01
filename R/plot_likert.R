@@ -140,7 +140,6 @@
 #'   group.legend.options = list(nrow = 1)
 #' )}
 #' }
-#' @import ggplot2
 #' @export
 plot_likert <- function(items,
                         groups = NULL,
@@ -214,11 +213,11 @@ plot_likert <- function(items,
     # If there are 2 or more groups, the legend will be plotted according to legend.pos.
     if (length(findex) != 1) {
       if (legend.pos %in% c("top", "both") && i == 1)
-        .pl <- .pl + theme(legend.position = "top") + guides(fill = do.call(guide_legend, group.legend.options))
+        .pl <- .pl + ggplot2::theme(legend.position = "top") + guides(fill = do.call(guide_legend, group.legend.options))
       else if (legend.pos %in% c("bottom", "both") && i == length(findex))
-        .pl <- .pl + theme(legend.position = "bottom") + guides(fill = do.call(guide_legend, group.legend.options))
+        .pl <- .pl + ggplot2::theme(legend.position = "bottom") + guides(fill = do.call(guide_legend, group.legend.options))
       else if (legend.pos != "all")
-        .pl <- .pl + theme(legend.position = "none")
+        .pl <- .pl + ggplot2::theme(legend.position = "none")
     }
 
     .plot_list[i] <-  list(.pl)

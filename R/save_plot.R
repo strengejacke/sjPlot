@@ -26,7 +26,6 @@
 #'         \cr \cr
 #'         For adjusting plot appearance, see also \code{\link{sjPlot-themes}}.
 #'
-#' @import ggplot2
 #' @importFrom grDevices png jpeg tiff dev.off cm svg
 #' @export
 save_plot <- function(filename,
@@ -54,7 +53,7 @@ save_plot <- function(filename,
   # set printable theme, adjust font sizes.
   # this is the most critical point...
 
-  set_theme(
+  set_ggplot2::theme(
     base = theme,
     geom.label.color = label.color,
     axis.title.color = label.color,

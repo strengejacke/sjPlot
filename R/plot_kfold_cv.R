@@ -44,7 +44,6 @@
 #' fit <- MASS::glm.nb(tot_sc_e ~ neg_c_7 + c172code, data = efc)
 #' plot_kfold_cv(efc, fit = fit)
 #'
-#' @import ggplot2
 #' @export
 plot_kfold_cv <- function(data, formula, k = 5, fit) {
   # make sure that data is a data frame

@@ -145,7 +145,6 @@
 #' )
 #' plot_frq(efc$e42dep)}
 #'
-#' @import ggplot2
 #' @importFrom scales brewer_pal grey_pal
 #' @importFrom dplyr case_when
 #' @export
@@ -350,7 +349,7 @@ set_theme <- function(base = theme_grey(),
       # ----------------------------------------
       # set base elements that are always set
       # ----------------------------------------
-      theme(plot.title = element_text(size = rel(title.size),  colour = title.color, hjust = title.align),
+      ggplot2::theme(plot.title = element_text(size = rel(title.size),  colour = title.color, hjust = title.align),
             axis.text = element_text(angle = axis.angle, size = rel(axis.textsize), colour = axis.textcolor),
             axis.text.x = element_text(angle = axis.angle.x, size = rel(axis.textsize.x), colour = axis.textcolor.x),
             axis.text.y = element_text(angle = axis.angle.y, size = rel(axis.textsize.y), colour = axis.textcolor.y),
@@ -365,28 +364,28 @@ set_theme <- function(base = theme_grey(),
     # ----------------------------------------
     if (!is.null(theme.font)) {
       sjtheme <- sjtheme +
-        theme(text = element_text(family = theme.font))
+        ggplot2::theme(text = element_text(family = theme.font))
     }
     # ----------------------------------------
     # set legend items background-color
     # ----------------------------------------
     if (!is.null(legend.item.backcol)) {
       sjtheme <- sjtheme +
-        theme(legend.key = element_rect(colour = legend.item.bordercol, fill = legend.item.backcol))
+        ggplot2::theme(legend.key = element_rect(colour = legend.item.bordercol, fill = legend.item.backcol))
     }
     # ----------------------------------------
     # set legend item size
     # ----------------------------------------
     if (!is.null(legend.item.size)) {
       sjtheme <- sjtheme +
-        theme(legend.key.size = unit(legend.item.size, "cm"))
+        ggplot2::theme(legend.key.size = unit(legend.item.size, "cm"))
     }
     # ----------------------------------------
     # set axis line colors, if defined
     # ----------------------------------------
     if (!is.null(axis.linecolor)) {
       sjtheme <- sjtheme +
-        theme(axis.line = element_line(colour = axis.linecolor, size = axis.line.size),
+        ggplot2::theme(axis.line = element_line(colour = axis.linecolor, size = axis.line.size),
               axis.line.x = element_line(colour = axis.linecolor.x),
               axis.line.y = element_line(colour = axis.linecolor.y))
     }
@@ -395,37 +394,37 @@ set_theme <- function(base = theme_grey(),
     # ----------------------------------------
     if (!is.null(axis.tickscol)) {
       sjtheme <- sjtheme +
-        theme(axis.ticks = element_line(colour = axis.tickscol))
+        ggplot2::theme(axis.ticks = element_line(colour = axis.tickscol))
     }
     if (!is.null(axis.tickslen)) {
       sjtheme <- sjtheme +
-        theme(axis.ticks.length = unit(axis.tickslen, "cm"))
+        ggplot2::theme(axis.ticks.length = unit(axis.tickslen, "cm"))
     }
     if (!is.null(axis.ticksmar)) {
       sjtheme <- sjtheme +
-        theme(axis.text = element_text(margin = margin(t = axis.ticksmar, unit = "cm")))
+        ggplot2::theme(axis.text = element_text(margin = margin(t = axis.ticksmar, unit = "cm")))
     }
     if (!is.null(axis.ticksize.x)) {
       sjtheme <- sjtheme +
-        theme(axis.ticks.x = element_line(size = axis.ticksize.x))
+        ggplot2::theme(axis.ticks.x = element_line(size = axis.ticksize.x))
     }
     if (!is.null(axis.ticksize.y)) {
       sjtheme <- sjtheme +
-        theme(axis.ticks.y = element_line(size = axis.ticksize.y))
+        ggplot2::theme(axis.ticks.y = element_line(size = axis.ticksize.y))
     }
     # ----------------------------------------
     # set plot colors, if defined
     # ----------------------------------------
     if (!is.null(plot.col)) {
       sjtheme <- sjtheme +
-        theme(plot.background = element_rect(colour = plot.bordercol, fill = plot.backcol))
+        ggplot2::theme(plot.background = element_rect(colour = plot.bordercol, fill = plot.backcol))
     }
     # ----------------------------------------
     # set panel colors, if defined
     # ----------------------------------------
     if (!is.null(panel.col)) {
       sjtheme <- sjtheme +
-        theme(panel.background = element_rect(colour = panel.bordercol, fill = panel.backcol),
+        ggplot2::theme(panel.background = element_rect(colour = panel.bordercol, fill = panel.backcol),
               panel.border = element_rect(colour = panel.bordercol))
     }
     # ----------------------------------------
@@ -433,7 +432,7 @@ set_theme <- function(base = theme_grey(),
     # ----------------------------------------
     if (!is.null(panel.gridcol)) {
       sjtheme <- sjtheme +
-        theme(panel.grid.minor = element_line(colour = panel.minor.gridcol, linetype = panel.minor.linetype),
+        ggplot2::theme(panel.grid.minor = element_line(colour = panel.minor.gridcol, linetype = panel.minor.linetype),
               panel.grid.major = element_line(colour = panel.major.gridcol, linetype = panel.major.linetype))
     }
     # ----------------------------------------
@@ -441,7 +440,7 @@ set_theme <- function(base = theme_grey(),
     # ----------------------------------------
     if (!is.null(plot.margins)) {
       sjtheme <- sjtheme +
-        theme(plot.margin = plot.margins)
+        ggplot2::theme(plot.margin = plot.margins)
     }
     # ----------------------------------------
     # set title adjustments. only applies to
@@ -449,31 +448,31 @@ set_theme <- function(base = theme_grey(),
     # ----------------------------------------
     if (!is.null(plot.margins)) {
       sjtheme <- sjtheme +
-        theme(plot.margin = plot.margins)
+        ggplot2::theme(plot.margin = plot.margins)
     }
     if (!is.null(title.vjust)) {
       sjtheme <- sjtheme +
-        theme(plot.title = element_text(vjust = title.vjust))
+        ggplot2::theme(plot.title = element_text(vjust = title.vjust))
     }
     if (!is.null(axis.title.x.vjust)) {
       sjtheme <- sjtheme +
-        theme(axis.title.x = element_text(vjust = axis.title.x.vjust))
+        ggplot2::theme(axis.title.x = element_text(vjust = axis.title.x.vjust))
     }
     if (!is.null(axis.title.y.vjust)) {
       sjtheme <- sjtheme +
-        theme(axis.title.y = element_text(vjust = axis.title.y.vjust))
+        ggplot2::theme(axis.title.y = element_text(vjust = axis.title.y.vjust))
     }
     # ----------------------------------------
     # panel grid colors
     # ----------------------------------------
     if (!is.null(panel.gridcol.x)) {
       sjtheme <- sjtheme +
-        theme(panel.grid.minor.x = element_line(colour = panel.gridcol.x, linetype = panel.minor.linetype),
+        ggplot2::theme(panel.grid.minor.x = element_line(colour = panel.gridcol.x, linetype = panel.minor.linetype),
               panel.grid.major.x = element_line(colour = panel.gridcol.x, linetype = panel.major.linetype))
     }
     if (!is.null(panel.gridcol.y)) {
       sjtheme <- sjtheme +
-        theme(panel.grid.minor.y = element_line(colour = panel.gridcol.y, linetype = panel.minor.linetype),
+        ggplot2::theme(panel.grid.minor.y = element_line(colour = panel.gridcol.y, linetype = panel.minor.linetype),
               panel.grid.major.y = element_line(colour = panel.gridcol.y, linetype = panel.major.linetype))
     }
     # ----------------------------------------

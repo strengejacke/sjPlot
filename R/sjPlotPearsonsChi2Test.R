@@ -25,7 +25,6 @@
 #' # plot Chi2-contingency-table
 #' sjp.chi2(mydf, axis.labels = items)
 #'
-#' @import ggplot2
 #' @importFrom grDevices rgb
 #' @importFrom dplyr bind_rows
 #' @export

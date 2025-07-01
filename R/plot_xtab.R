@@ -46,7 +46,7 @@
 #' library(sjmisc)
 #' library(sjlabelled)
 #' data(efc)
-#' set_theme(geom.label.angle = 90)
+#' set_ggplot2::theme(geom.label.angle = 90)
 #' plot_xtab(efc$e42dep, efc$e16sex, vjust = "center", hjust = "bottom")
 #'
 #' # grouped bars with EUROFAMCARE sample dataset
@@ -74,7 +74,6 @@
 #' plot_xtab(efc$e16sex, efc$e42dep, margin = "row",
 #'          bar.pos = "stack", coord.flip = TRUE)
 #'
-#' @import ggplot2
 #' @importFrom dplyr group_by mutate arrange filter select summarize
 #' @importFrom scales percent
 #' @importFrom stats na.omit

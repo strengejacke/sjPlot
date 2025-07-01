@@ -30,7 +30,6 @@
 #' sjp.aov1(efc$c12hour, efc$e42dep)
 #'
 #'
-#' @import ggplot2
 #' @importFrom sjmisc trim word_wrap to_value
 #' @importFrom stats confint aov summary.lm
 #' @importFrom rlang .data

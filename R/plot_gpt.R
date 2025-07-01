@@ -54,7 +54,6 @@ utils::globalVariables("n")
 #'   # care levels
 #'   plot_gpt(efc, c172code, e42dep, n4pstu)
 #' }
-#' @import ggplot2
 #' @export
 plot_gpt <- function(
   data,

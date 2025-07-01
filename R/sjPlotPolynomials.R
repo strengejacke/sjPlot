@@ -91,7 +91,6 @@
 #' # plot marginal effects of polynomial term
 #' plot_model(fit, type = "pred", terms = "e17age")}
 #'
-#' @import ggplot2
 #' @importFrom scales grey_pal brewer_pal
 #' @importFrom stats lm glm binomial predict poly
 #' @importFrom graphics plot

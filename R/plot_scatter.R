@@ -63,7 +63,6 @@
 #'   grid = TRUE
 #' )
 #'
-#' @import ggplot2
 #' @export
 plot_scatter <- function(
   data,

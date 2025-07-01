@@ -66,7 +66,6 @@
 #'
 #' plot_models(fit1, fit2, fit3, std.est = "std2")
 #' }
-#' @import ggplot2
 #' @importFrom rlang .data
 #' @export
 plot_models <- function(...,
