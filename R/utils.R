@@ -189,9 +189,14 @@ nulldef <- function(x, y, z = NULL) {
 
 
 geom_intercept_line <- function(yintercept, axis.scaling, vline.color) {
-  if (yintercept > axis.scaling$axis.lim[1] && yintercept < axis.scaling$axis.lim[2]) {
-    t <- theme_get()
-    if (is.null(t$panel.grid.major)) t$panel.grid.major <- t$panel.grid
+  if (
+    yintercept > axis.scaling$axis.lim[1] &&
+      yintercept < axis.scaling$axis.lim[2]
+  ) {
+    t <- ggplot2::theme_get()
+    if (is.null(t$panel.grid.major)) {
+      t$panel.grid.major <- t$panel.grid
+    }
     color <- nulldef(vline.color, t$panel.grid.major$colour, "grey90")
     minor_size <- nulldef(t$panel.grid.minor$size, .125)
     major_size <- nulldef(t$panel.grid.major$size, minor_size * 1.5)
@@ -204,8 +209,10 @@ geom_intercept_line <- function(yintercept, axis.scaling, vline.color) {
 
 # same as above, but no check if intercept is within boundaries or not
 geom_intercept_line2 <- function(yintercept, vline.color) {
-  t <- theme_get()
-  if (is.null(t$panel.grid.major)) t$panel.grid.major <- t$panel.grid
+  t <- ggplot2::theme_get()
+  if (is.null(t$panel.grid.major)) {
+    t$panel.grid.major <- t$panel.grid
+  }
   color <- nulldef(vline.color, t$panel.grid.major$colour, "grey90")
   minor_size <- nulldef(t$panel.grid.minor$size, .125)
   major_size <- nulldef(t$panel.grid.major$size, minor_size * 1.5)

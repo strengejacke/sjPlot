@@ -230,11 +230,11 @@ plot_likert <- function(
       if (legend.pos %in% c("top", "both") && i == 1) {
         .pl <- .pl +
           ggplot2::theme(legend.position = "top") +
-          ggplot2::guides(fill = do.call(guide_legend, group.legend.options))
+          ggplot2::guides(fill = do.call(ggplot2::guide_legend, group.legend.options))
       } else if (legend.pos %in% c("bottom", "both") && i == length(findex)) {
         .pl <- .pl +
           ggplot2::theme(legend.position = "bottom") +
-          ggplot2::guides(fill = do.call(guide_legend, group.legend.options))
+          ggplot2::guides(fill = do.call(ggplot2::guide_legend, group.legend.options))
       } else if (legend.pos != "all") {
         .pl <- .pl + ggplot2::theme(legend.position = "none")
       }

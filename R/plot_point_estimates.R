@@ -219,7 +219,7 @@ plot_point_estimates <- function(
           ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
           position = ggplot2::position_dodge(width = spacing),
           width = width,
-          size = line.size
+          linewidth = line.size
         )
     } else {
       p <- p +
@@ -227,7 +227,7 @@ plot_point_estimates <- function(
         ggplot2::geom_errorbar(
           ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
           width = width,
-          size = line.size
+          linewidth = line.size
         )
     }
   }

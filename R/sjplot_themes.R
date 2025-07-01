@@ -151,12 +151,22 @@ theme_538 <- function(base_size = 12, base_family = "") {
 
 #' @rdname sjPlot-themes
 #' @export
-font_size <- function(title, axis_title.x, axis_title.y, labels.x, labels.y, offset.x, offset.y, base.theme) {
+font_size <- function(
+  title,
+  axis_title.x,
+  axis_title.y,
+  labels.x,
+  labels.y,
+  offset.x,
+  offset.y,
+  base.theme
+) {
   # get current theme
-  if (!missing(base.theme))
+  if (!missing(base.theme)) {
     cur.theme <- base.theme
-  else
-    cur.theme <- theme_get()
+  } else {
+    cur.theme <- ggplot2::theme_get()
+  }
 
   if (!missing(title)) {
     cur.theme <- cur.theme +
@@ -175,12 +185,12 @@ font_size <- function(title, axis_title.x, axis_title.y, labels.x, labels.y, off
 
   if (!missing(labels.x)) {
     cur.theme <- cur.theme +
-      ggplot2::theme(axis.text.x =  ggplot2::element_text(size = labels.x))
+      ggplot2::theme(axis.text.x = ggplot2::element_text(size = labels.x))
   }
 
   if (!missing(labels.y)) {
     cur.theme <- cur.theme +
-      ggplot2::theme(axis.text.y =  ggplot2::element_text(size = labels.y))
+      ggplot2::theme(axis.text.y = ggplot2::element_text(size = labels.y))
   }
 
   if (!missing(offset.x)) {
@@ -201,10 +211,11 @@ font_size <- function(title, axis_title.x, axis_title.y, labels.x, labels.y, off
 #' @export
 label_angle <- function(angle.x, angle.y, base.theme) {
   # get current theme
-  if (!missing(base.theme))
+  if (!missing(base.theme)) {
     cur.theme <- base.theme
-  else
-    cur.theme <- theme_get()
+  } else {
+    cur.theme <- ggplot2::theme_get()
+  }
 
   if (!missing(angle.x)) {
     cur.theme <- cur.theme +
@@ -224,10 +235,11 @@ label_angle <- function(angle.x, angle.y, base.theme) {
 #' @export
 legend_style <- function(inside, pos, justify, base.theme) {
   # get current theme
-  if (!missing(base.theme))
+  if (!missing(base.theme)) {
     cur.theme <- base.theme
-  else
-    cur.theme <- theme_get()
+  } else {
+    cur.theme <- ggplot2::theme_get()
+  }
 
   # convert legend position from character to numeric index
   if (!missing(inside) && inside) {
@@ -245,7 +257,9 @@ legend_style <- function(inside, pos, justify, base.theme) {
   }
 
   # set default justification
-  if (missing(justify)) justify <- "center"
+  if (missing(justify)) {
+    justify <- "center"
+  }
 
   if (!missing(pos)) {
     cur.theme <- cur.theme +

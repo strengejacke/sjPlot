@@ -45,7 +45,7 @@ diag_ncv <- function(model, dot.size, line.size) {
   )
 
   ggplot2::ggplot(dat, ggplot2::aes(x = .data$fitted, y = .data$res)) +
-    ggplot2::geom_intercept_line2(0, NULL) +
+    geom_intercept_line2(0, NULL) +
     ggplot2::geom_point(size = dot.size) +
     ggplot2::geom_smooth(method = "loess", se = FALSE, size = line.size) +
     ggplot2::labs(
@@ -196,7 +196,7 @@ diag_reqq <- function(model, dot.size) {
         x = "Standard normal quantiles",
         y = "Random effect quantiles"
       ) +
-      ggplot2::geom_intercept_line2(0, NULL) +
+      geom_intercept_line2(0, NULL) +
       ggplot2::stat_smooth(method = "lm", alpha = alpha) +
       ggplot2::geom_errorbar(
         ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),

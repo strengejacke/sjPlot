@@ -10,7 +10,7 @@ save_plot(
   width = 12,
   height = 9,
   dpi = 300,
-  theme = theme_get(),
+  theme = ggplot2::theme_get(),
   label.color = "black",
   label.size = 2.4,
   axis.textsize = 0.8,

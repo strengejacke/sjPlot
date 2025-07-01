@@ -589,48 +589,75 @@ set_theme <- function(base = theme_grey(),
 }
 
 
-sj.theme_geoms <- function(geom.alpha,
-                           geom.linetype,
-                           geom.outline.size,
-                           geom.outline.color,
-                           geom.boxoutline.size,
-                           geom.boxoutline.color,
-                           geom.errorbar.size,
-                           geom.errorbar.linetype,
-                           geom.label.size,
-                           geom.label.color,
-                           geom.label.alpha,
-                           geom.label.angle) {
+sj.theme_geoms <- function(
+  geom.alpha,
+  geom.linetype,
+  geom.outline.size,
+  geom.outline.color,
+  geom.boxoutline.size,
+  geom.boxoutline.color,
+  geom.errorbar.size,
+  geom.errorbar.linetype,
+  geom.label.size,
+  geom.label.color,
+  geom.label.alpha,
+  geom.label.angle
+) {
   # ----------------------------------------
   # helper function to customize geoms
   # ----------------------------------------
   updateGeoms <- function(geoms, parameters) {
-    for (geom in geoms) update_geom_defaults(geom, parameters)
+    for (geom in geoms) {
+      ggplot2::update_geom_defaults(geom, parameters)
+    }
   }
 
   # Geoms that only require a default colour.
-  updateGeoms(c('abline',
-                'point',
-                'density',
-                'errorbar',
-                'errorbarh',
-                'hline',
-                'line',
-                'area',
-                'tile',
-                'dotplot',
-                'bar'), list(alpha = geom.alpha))
+  updateGeoms(
+    c(
+      'abline',
+      'point',
+      'density',
+      'errorbar',
+      'errorbarh',
+      'hline',
+      'line',
+      'area',
+      'tile',
+      'dotplot',
+      'bar'
+    ),
+    list(alpha = geom.alpha)
+  )
 
-  update_geom_defaults('text', list(size = geom.label.size,
-                                    colour = geom.label.color,
-                                    alpha = geom.label.alpha,
-                                    angle = geom.label.angle))
+  ggplot2::update_geom_defaults(
+    'text',
+    list(
+      size = geom.label.size,
+      colour = geom.label.color,
+      alpha = geom.label.alpha,
+      angle = geom.label.angle
+    )
+  )
 
   # Special geoms.
-  update_geom_defaults('boxplot', list(size = geom.boxoutline.size, colour = geom.boxoutline.color, alpha = geom.alpha))
-  update_geom_defaults('bar', list(colour = geom.outline.color, size = geom.outline.size))
-  update_geom_defaults('line', list(linetype = geom.linetype))
-  updateGeoms(c('errorbar', 'errorbarh'), list(size = geom.errorbar.size, linetype = geom.errorbar.linetype))
+  ggplot2::update_geom_defaults(
+    'boxplot',
+    list(
+      size = geom.boxoutline.size,
+      colour = geom.boxoutline.color,
+      alpha = geom.alpha
+    )
+  )
+  ggplot2::update_geom_defaults(
+    'bar',
+    list(colour = geom.outline.color, size = geom.outline.size)
+  )
+  ggplot2::update_geom_defaults('line', list(linetype = geom.linetype))
+  updateGeoms(
+    c('errorbar', 'errorbarh'),
+    list(size = geom.errorbar.size, linetype = geom.errorbar.linetype)
+  )
 }
 
 
