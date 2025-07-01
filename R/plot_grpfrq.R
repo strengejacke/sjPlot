@@ -756,7 +756,7 @@ plot_grpfrq <- function(var.cnt,
              )) + geob
 
     # continuous scale for lines needed
-    scalex <- scale_x_continuous()
+    scalex <- ggplot2::scale_x_continuous()
   } else if (type == "boxplot" || type == "violin") {
     if (is.null(intr.var)) {
       baseplot <-

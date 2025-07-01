@@ -59,7 +59,7 @@ diag_norm <- function(model, geom.colors) {
   res_ <- data.frame(res = stats::residuals(model))
 
   ggplot2::ggplot(res_, ggplot2::aes_string(x = "res")) +
-    geom_density(fill = geom.colors[1], alpha = 0.2) +
+    ggplot2::geom_density(fill = geom.colors[1], alpha = 0.2) +
     stat_function(
       fun = dnorm,
       args = list(

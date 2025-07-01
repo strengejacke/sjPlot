@@ -397,7 +397,7 @@ plot_xtab <- function(x,
   # first, set x scale
   # ----------------------------------
   if (type == "line")
-    scalex <- scale_x_continuous(labels = axis.labels)
+    scalex <- ggplot2::scale_x_continuous(labels = axis.labels)
   else
     scalex <- ggplot2::scale_x_discrete(labels = axis.labels)
   # ----------------------------------

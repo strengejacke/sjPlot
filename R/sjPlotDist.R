@@ -113,7 +113,7 @@ dist_norm <- function(norm = NULL,
     }
   }
   gp <- sj.setGeomColors(gp, geom.colors, pal.len = 2, labels = c("p > 5%", "p < 0.05"))
-  gp <- gp + ylab(NULL) + xlab(NULL)
+  gp <- gp + ggplot2::ylab(NULL) + ggplot2::xlab(NULL)
   print(gp)
 }
 
@@ -250,7 +250,7 @@ dist_chisq <- function(chi2 = NULL,
     }
   }
   gp <- sj.setGeomColors(gp, geom.colors, pal.len = 2, labels = c("p > 5%", "p < 0.05"))
-  gp <- gp + ylab(NULL) + xlab("chi-squared value")
+  gp <- gp + ggplot2::ylab(NULL) + ggplot2::xlab("chi-squared value")
   print(gp)
 }
 
@@ -376,7 +376,7 @@ dist_f <- function(f = NULL,
     }
   }
   gp <- sj.setGeomColors(gp, geom.colors, pal.len = 2, labels = c("p > 5%", "p < 0.05"))
-  gp <- gp + ylab(NULL) + xlab("F-value")
+  gp <- gp + ggplot2::ylab(NULL) + ggplot2::xlab("F-value")
   print(gp)
 }
 
@@ -506,6 +506,6 @@ dist_t <- function(t = NULL,
     }
   }
   gp <- sj.setGeomColors(gp, geom.colors, pal.len = 2, labels = c("p > 5%", "p < 0.05"))
-  gp <- gp + ylab(NULL) + xlab("t-value")
+  gp <- gp + ggplot2::ylab(NULL) + ggplot2::xlab("t-value")
   print(gp)
 }

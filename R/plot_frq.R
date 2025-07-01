@@ -598,9 +598,9 @@ plot_frq_helper <- function(
     baseplot <- ggplot2::ggplot(hist.dat, ggplot2::aes(x = .data$xv)) +
       geom_histogram(ggplot2::aes(y = stat(density)), binwidth = geom.size, fill = geom.colors) +
       # transparent density curve above bars
-      geom_density(ggplot2::aes(y = stat(density)), fill = "cornsilk", alpha = 0.3) +
+      ggplot2::geom_density(ggplot2::aes(y = stat(density)), fill = "cornsilk", alpha = 0.3) +
       # remove margins from left and right diagram side
-      scale_x_continuous(expand = expand.grid, breaks = histgridbreaks, limits = xlim)
+      ggplot2::scale_x_continuous(expand = expand.grid, breaks = histgridbreaks, limits = xlim)
 
     # check whether user wants to overlay the histogram
     # with a normal curve
@@ -700,7 +700,7 @@ plot_frq_helper <- function(
     # show absolute and percentage value of each bar.
     baseplot <- baseplot + yscale +
       # continuous x-scale for histograms
-      scale_x_continuous(limits = xlim, expand = expand.grid, breaks = histgridbreaks)
+      ggplot2::scale_x_continuous(limits = xlim, expand = expand.grid, breaks = histgridbreaks)
   }
 
   # set axes text and
