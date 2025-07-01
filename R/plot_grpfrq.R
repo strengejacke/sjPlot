@@ -165,51 +165,52 @@
 #'
 #' @importFrom rlang .data
 #' @export
-plot_grpfrq <- function(var.cnt,
-                       var.grp,
-                       type = c("bar", "dot", "line", "boxplot", "violin"),
-                       bar.pos = c("dodge", "stack"),
-                       weight.by = NULL,
-                       intr.var = NULL,
-                       title = "",
-                       title.wtd.suffix = NULL,
-                       legend.title = NULL,
-                       axis.titles = NULL,
-                       axis.labels = NULL,
-                       legend.labels = NULL,
-                       intr.var.labels = NULL,
-                       wrap.title = 50,
-                       wrap.labels = 15,
-                       wrap.legend.title = 20,
-                       wrap.legend.labels = 20,
-                       geom.size = NULL,
-                       geom.spacing = 0.15,
-                       geom.colors = "Paired",
-                       show.values = TRUE,
-                       show.n = TRUE,
-                       show.prc = TRUE,
-                       show.axis.values = TRUE,
-                       show.ci = FALSE,
-                       show.grpcnt = FALSE,
-                       show.legend = TRUE,
-                       show.na = FALSE,
-                       show.summary = FALSE,
-                       drop.empty = TRUE,
-                       auto.group = NULL,
-                       ylim = NULL,
-                       grid.breaks = NULL,
-                       expand.grid = FALSE,
-                       inner.box.width = 0.15,
-                       inner.box.dotsize = 3,
-                       smooth.lines = FALSE,
-                       emph.dots = TRUE,
-                       summary.pos = "r",
-                       facet.grid = FALSE,
-                       coord.flip = FALSE,
-                       y.offset = NULL,
-                       vjust = "bottom",
-                       hjust = "center") {
-
+plot_grpfrq <- function(
+  var.cnt,
+  var.grp,
+  type = c("bar", "dot", "line", "boxplot", "violin"),
+  bar.pos = c("dodge", "stack"),
+  weight.by = NULL,
+  intr.var = NULL,
+  title = "",
+  title.wtd.suffix = NULL,
+  legend.title = NULL,
+  axis.titles = NULL,
+  axis.labels = NULL,
+  legend.labels = NULL,
+  intr.var.labels = NULL,
+  wrap.title = 50,
+  wrap.labels = 15,
+  wrap.legend.title = 20,
+  wrap.legend.labels = 20,
+  geom.size = NULL,
+  geom.spacing = 0.15,
+  geom.colors = "Paired",
+  show.values = TRUE,
+  show.n = TRUE,
+  show.prc = TRUE,
+  show.axis.values = TRUE,
+  show.ci = FALSE,
+  show.grpcnt = FALSE,
+  show.legend = TRUE,
+  show.na = FALSE,
+  show.summary = FALSE,
+  drop.empty = TRUE,
+  auto.group = NULL,
+  ylim = NULL,
+  grid.breaks = NULL,
+  expand.grid = FALSE,
+  inner.box.width = 0.15,
+  inner.box.dotsize = 3,
+  smooth.lines = FALSE,
+  emph.dots = TRUE,
+  summary.pos = "r",
+  facet.grid = FALSE,
+  coord.flip = FALSE,
+  y.offset = NULL,
+  vjust = "bottom",
+  hjust = "center"
+) {
   # get variable names
   var.name.cnt <- get_var_name(deparse(substitute(var.cnt)))
   var.name.grp <- get_var_name(deparse(substitute(var.grp)))
@@ -226,10 +227,11 @@ plot_grpfrq <- function(var.cnt,
     axisTitle.y <- NULL
   } else {
     axisTitle.x <- axis.titles[1]
-    if (length(axis.titles) > 1)
+    if (length(axis.titles) > 1) {
       axisTitle.y <- axis.titles[2]
-    else
+    } else {
       axisTitle.y <- NULL
+    }
   }
 
   # match arguments
@@ -237,13 +239,16 @@ plot_grpfrq <- function(var.cnt,
   bar.pos <- match.arg(bar.pos)
 
   # turn off legend by default for facet grids
-  if (facet.grid && missing(show.legend)) show.legend <- FALSE
+  if (facet.grid && missing(show.legend)) {
+    show.legend <- FALSE
+  }
 
   # Plot margins
-  if (expand.grid)
+  if (expand.grid) {
     expand.grid <- ggplot2::waiver()
-  else
+  } else {
     expand.grid <- c(0, 0)
+  }
 
   # check default geom.size
   if (is.null(geom.size)) {
@@ -263,26 +268,32 @@ plot_grpfrq <- function(var.cnt,
     y.offset <- ceiling(max(table(var.cnt, var.grp)) / 100)
 
     if (coord.flip) {
-      if (missing(vjust)) vjust <- "center"
-      if (missing(hjust)) hjust <- "bottom"
+      if (missing(vjust)) {
+        vjust <- "center"
+      }
+      if (missing(hjust)) {
+        hjust <- "bottom"
+      }
 
       # for flipped coordinates, we need to adjust
       # y-offset according to horizontal adjustemnt of labels
-      if (hjust == "bottom")
+      if (hjust == "bottom") {
         y_offset <- y.offset
-      else if (hjust == "top")
+      } else if (hjust == "top") {
         y_offset <- -y.offset
-      else
+      } else {
         y_offset <- 0
+      }
     } else {
       # for non-flipped coordinates, we need to adjust
       # y-offset according to vertical adjustemnt of labels
-      if (vjust == "bottom")
+      if (vjust == "bottom") {
         y_offset <- y.offset
-      else if (vjust == "top")
+      } else if (vjust == "top") {
         y_offset <- -y.offset
-      else
+      } else {
         y_offset <- 0
+      }
     }
   } else {
     y_offset <- y.offset
@@ -290,16 +301,22 @@ plot_grpfrq <- function(var.cnt,
 
   # Interaction variable defined for invalid plot type?
   if (!is.null(intr.var) && type != "boxplot" && type != "violin") {
-    message("`intr.var` only applies to boxplots and violinplots (see `type`) and will be ignored.")
+    message(
+      "`intr.var` only applies to boxplots and violinplots (see `type`) and will be ignored."
+    )
   }
 
   if (show.grpcnt && type %in% c("boxplot", "violin")) {
-    message("`show.grpcnt` does not apply to boxplots and violinplots and will be ignored.")
+    message(
+      "`show.grpcnt` does not apply to boxplots and violinplots and will be ignored."
+    )
     show.grpcnt <- FALSE
   }
 
   # auto-set plot title for box plots?
-  if (missing(title) && (type == "boxplot" || type == "violin")) title <- NULL
+  if (missing(title) && (type == "boxplot" || type == "violin")) {
+    title <- NULL
+  }
 
   # check whether variable should be auto-grouped
   if (!is.null(auto.group) && length(unique(var.cnt)) >= auto.group) {
@@ -358,16 +375,19 @@ plot_grpfrq <- function(var.cnt,
     if (missing(show.legend)) show.legend <- !is.null(intr.var)
   }
 
-  if (is.null(axis.labels)) axis.labels <- mydat$labels.cnt
+  if (is.null(axis.labels)) {
+    axis.labels <- mydat$labels.cnt
+  }
 
   # we need to know later whether user has supplied legend labels or not
   we_have_legend_labels <- FALSE
 
   # check for auto-getting labels, ot if user passed legend labels as argument
-  if (is.null(legend.labels))
+  if (is.null(legend.labels)) {
     legend.labels <- mydat$labels.grp
-  else
+  } else {
     we_have_legend_labels <- TRUE
+  }
 
   # go to interaction terms. in this case, due to interaction, the axis
   # labels become legend labels, but only if user has not specified
@@ -377,11 +397,14 @@ plot_grpfrq <- function(var.cnt,
       intr.var,
       attr.only = FALSE,
       values = FALSE,
-      non.labelled = T
+      non.labelled = TRUE
     )
 
     # create repeating label for x-axis
-    intr.var.labels <- rep(intr.var.labels, length.out = length(axis.labels) * length(intr.var.labels))
+    intr.var.labels <- rep(
+      intr.var.labels,
+      length.out = length(axis.labels) * length(intr.var.labels)
+    )
 
     # we need a legend, cause x axis is labelled with interaction var value
     show.legend <- TRUE
@@ -390,8 +413,12 @@ plot_grpfrq <- function(var.cnt,
     if (!we_have_legend_labels) legend.labels <- axis.labels
   }
 
-  if (is.null(axisTitle.x)) axisTitle.x <- sjlabelled::get_label(var.cnt, def.value = var.name.cnt)
-  if (is.null(legend.title)) legend.title <- sjlabelled::get_label(var.grp, def.value = var.name.grp)
+  if (is.null(axisTitle.x)) {
+    axisTitle.x <- sjlabelled::get_label(var.cnt, def.value = var.name.cnt)
+  }
+  if (is.null(legend.title)) {
+    legend.title <- sjlabelled::get_label(var.grp, def.value = var.name.grp)
+  }
 
   if (is.null(title)) {
     t1 <- sjlabelled::get_label(var.cnt, def.value = var.name.cnt)
@@ -400,21 +427,31 @@ plot_grpfrq <- function(var.cnt,
   }
 
   # remove titles if empty
-  if (!is.null(legend.title) && legend.title == "") legend.title <- NULL
-  if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL
-  if (!is.null(axisTitle.y) && axisTitle.y == "") axisTitle.y <- NULL
-  if (!is.null(title) && title == "") title <- NULL
+  if (!is.null(legend.title) && legend.title == "") {
+    legend.title <- NULL
+  }
+  if (!is.null(axisTitle.x) && axisTitle.x == "") {
+    axisTitle.x <- NULL
+  }
+  if (!is.null(axisTitle.y) && axisTitle.y == "") {
+    axisTitle.y <- NULL
+  }
+  if (!is.null(title) && title == "") {
+    title <- NULL
+  }
 
   # variables may not be factors
-  if (anyNA(as.numeric(stats::na.omit(var.cnt))))
+  if (anyNA(as.numeric(stats::na.omit(var.cnt)))) {
     var.cnt <- sjmisc::to_value(var.cnt, keep.labels = FALSE)
-  else
+  } else {
     var.cnt <- as.numeric(var.cnt)
+  }
 
-  if (anyNA(as.numeric(stats::na.omit(var.grp))))
+  if (anyNA(as.numeric(stats::na.omit(var.grp)))) {
     var.grp <- sjmisc::to_value(var.grp, keep.labels = FALSE)
-  else
+  } else {
     var.grp <- as.numeric(var.grp)
+  }
 
   # Define amount of categories
   grpcount <- length(legend.labels)
@@ -423,7 +460,13 @@ plot_grpfrq <- function(var.cnt,
   # and weight variable
   colrange <- 2:(grpcount + 1)
   mydf <-
-    tidyr::gather(mydat$mydat, key = "group", value = "frq", !! colrange, factor_key = TRUE)
+    tidyr::gather(
+      mydat$mydat,
+      key = "group",
+      value = "frq",
+      !!colrange,
+      factor_key = TRUE
+    )
 
   # add xpos now
   mydf$xpos <- as.factor(as.numeric(bars.xpos))
@@ -444,10 +487,11 @@ plot_grpfrq <- function(var.cnt,
     w <- ifelse(is.null(weight.by), 1, weight.by)
 
     # interaction variable
-    if (is.null(intr.var))
+    if (is.null(intr.var)) {
       iav <- 1
-    else
+    } else {
       iav <- intr.var
+    }
 
     # new data frame for box plots
     mydf <-
@@ -458,8 +502,10 @@ plot_grpfrq <- function(var.cnt,
         wb = w
       )))
 
-    if (!is.null(axis.labels) &&
-        length(axis.labels) > dplyr::n_distinct(mydf$group, na.rm = TRUE)) {
+    if (
+      !is.null(axis.labels) &&
+        length(axis.labels) > dplyr::n_distinct(mydf$group, na.rm = TRUE)
+    ) {
       axis.labels <- axis.labels[na.omit(unique(mydf$group))]
     }
 
@@ -470,7 +516,9 @@ plot_grpfrq <- function(var.cnt,
   # create expression with model summarys. used
   # for plotting in the diagram later
   mannwhitneyu <- function(count, grp) {
-    if (min(grp, na.rm = TRUE) == 0) grp <- grp + 1
+    if (min(grp, na.rm = TRUE) == 0) {
+      grp <- grp + 1
+    }
     completeString <- ""
     cnt <- length(unique(stats::na.omit(grp)))
     for (i in 1:cnt) {
@@ -485,64 +533,74 @@ plot_grpfrq <- function(var.cnt,
 
           if (wt$p.value < 0.001) {
             modsum <- as.character(as.expression(substitute(
-              p[pgrp] < pval, list(pgrp = sprintf("(%i|%i)", i, j), pval = 0.001)
+              p[pgrp] < pval,
+              list(pgrp = sprintf("(%i|%i)", i, j), pval = 0.001)
             )))
           } else {
             modsum <- as.character(as.expression(substitute(
               p[pgrp] == pval,
-              list(pgrp = sprintf("(%i|%i)", i, j),
-                   pval = sprintf("%.3f", wt$p.value)))))
+              list(
+                pgrp = sprintf("(%i|%i)", i, j),
+                pval = sprintf("%.3f", wt$p.value)
+              )
+            )))
           }
-          completeString <- sprintf("%s * \",\" ~ ~ %s",
-                                    completeString,
-                                    modsum)
+          completeString <- sprintf("%s * \",\" ~ ~ %s", completeString, modsum)
         }
       }
     }
-    return(paste("\"Mann-Whitney-U:\" ~ ~ ",
-                 substring(completeString, 12),
-                 sep = ""))
+    return(paste(
+      "\"Mann-Whitney-U:\" ~ ~ ",
+      substring(completeString, 12),
+      sep = ""
+    ))
   }
 
   # Check whether table summary should be printed
   modsum <- NULL
   if (show.summary) {
-    if (type == "boxplot" || type == "violin")
+    if (type == "boxplot" || type == "violin") {
       modsum <- mannwhitneyu(var.cnt, var.grp)
-    else
+    } else {
       modsum <- crosstabsum(var.cnt, var.grp, weight.by)
+    }
   }
 
   # Prepare and trim legend labels to appropriate size
-  if (!is.null(legend.labels))
+  if (!is.null(legend.labels)) {
     legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
+  }
 
-  if (!is.null(legend.title))
+  if (!is.null(legend.title)) {
     legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
+  }
 
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
-    if (!is.null(title.wtd.suffix))
+    if (!is.null(title.wtd.suffix)) {
       title <- paste(title, title.wtd.suffix, sep = "")
+    }
     title <- sjmisc::word_wrap(title, wrap.title)
   }
 
-  if (!is.null(axisTitle.x))
+  if (!is.null(axisTitle.x)) {
     axisTitle.x <- sjmisc::word_wrap(axisTitle.x, wrap.title)
+  }
 
-  if (!is.null(axisTitle.y))
+  if (!is.null(axisTitle.y)) {
     axisTitle.y <- sjmisc::word_wrap(axisTitle.y, wrap.title)
+  }
 
-  if (!is.null(axis.labels))
+  if (!is.null(axis.labels)) {
     axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
+  }
 
   if (!is.null(intr.var)) {
     if (!is.null(intr.var.labels)) {
       intr.var.labels <- sjmisc::word_wrap(intr.var.labels, wrap.labels)
-    }
-    # If interaction-variable-labels were not defined, simply set numbers from 1 to
-    # amount of categories instead
-    else {
+    } else {
+      # If interaction-variable-labels were not defined, simply set numbers from 1 to
+      # amount of categories instead
       iavarLabLength <- length(unique(stats::na.omit(intr.var)))
       intr.var.labels <- 1:iavarLabLength
     }
@@ -594,8 +652,10 @@ plot_grpfrq <- function(var.cnt,
     # the y axis
     if (type == "boxplot" || type == "violin") {
       # use an extra standard-deviation as limits for the y-axis when we have boxplots
-      lower_lim <- min(var.cnt, na.rm = TRUE) - floor(stats::sd(var.cnt, na.rm = TRUE))
-      upper_lim <- max(var.cnt, na.rm = TRUE) + ceiling(stats::sd(var.cnt, na.rm = TRUE))
+      lower_lim <- min(var.cnt, na.rm = TRUE) -
+        floor(stats::sd(var.cnt, na.rm = TRUE))
+      upper_lim <- max(var.cnt, na.rm = TRUE) +
+        ceiling(stats::sd(var.cnt, na.rm = TRUE))
       # make sure that the y-axis is not below zero
       if (lower_lim < 0) {
         lower_lim <- 0
@@ -612,12 +672,13 @@ plot_grpfrq <- function(var.cnt,
   }
 
   # align dodged position of labels to bar positions
-  if (type == "line")
+  if (type == "line") {
     posdodge <- 0
-  else if (type == "dot")
+  } else if (type == "dot") {
     posdodge <- geom.spacing
-  else
+  } else {
     posdodge <- geom.size + geom.spacing
+  }
 
   # init shaded rectangles for plot
   ganno <- NULL
@@ -627,7 +688,11 @@ plot_grpfrq <- function(var.cnt,
     # position_dodge displays dots in a dodged position so we avoid overlay here. This may lead
     # to a more difficult distinction of group belongings, since the dots are "horizontally spread"
     # over the digram. For a better overview, we can add a "PlotAnnotation" (see "emph.dots) here.
-    geob <- ggplot2::geom_point(position = ggplot2::position_dodge(posdodge),size = geom.size, shape = 16)
+    geob <- ggplot2::geom_point(
+      position = ggplot2::position_dodge(posdodge),
+      size = geom.size,
+      shape = 16
+    )
 
     # create shaded rectangle, so we know which dots belong to the same category
     if (emph.dots) {
@@ -642,47 +707,84 @@ plot_grpfrq <- function(var.cnt,
       )
     }
   } else if (type == "bar") {
-    if (bar.pos == "dodge")
-      geob <- ggplot2::geom_bar(stat = "identity", width = geom.size, position = ggplot2::position_dodge(posdodge))
-    else
-      geob <- ggplot2::geom_bar(stat = "identity", width = geom.size, position = ggplot2::position_stack(reverse = TRUE))
+    if (bar.pos == "dodge") {
+      geob <- ggplot2::geom_bar(
+        stat = "identity",
+        width = geom.size,
+        position = ggplot2::position_dodge(posdodge)
+      )
+    } else {
+      geob <- ggplot2::geom_bar(
+        stat = "identity",
+        width = geom.size,
+        position = ggplot2::position_stack(reverse = TRUE)
+      )
+    }
   } else if (type == "line") {
-    if (smooth.lines)
-      geob <- ggplot2::geom_line(linewidth = geom.size, stat = "smooth", method = "loess")
-    else
+    if (smooth.lines) {
+      geob <- ggplot2::geom_line(
+        linewidth = geom.size,
+        stat = "smooth",
+        method = "loess"
+      )
+    } else {
       geob <- ggplot2::geom_line(linewidth = geom.size)
+    }
   } else if (type == "boxplot") {
-      geob <- ggplot2::geom_boxplot(width = geom.size, notch = show.ci)
+    geob <- ggplot2::geom_boxplot(width = geom.size, notch = show.ci)
   } else if (type == "violin") {
     geob <- ggplot2::geom_violin(trim = trimViolin, width = geom.size)
   } else {
-    geob <- ggplot2::geom_bar(stat = "identity", position = bar.pos, width = geom.size)
+    geob <- ggplot2::geom_bar(
+      stat = "identity",
+      position = bar.pos,
+      width = geom.size
+    )
   }
 
   # don't display value labels when we have boxplots or violin plots
-  if (type == "boxplot" || type == "violin") show.values <- FALSE
+  if (type == "boxplot" || type == "violin") {
+    show.values <- FALSE
+  }
 
   if (show.values) {
     # set text positioning
-    if (facet.grid)
+    if (facet.grid) {
       text.pos <- "identity"
-    else
+    } else {
       text.pos <- ggplot2::position_dodge(posdodge)
+    }
 
     # if we have stacked bars, we need to apply
     # this stacked y-position to the labels as well
     if (bar.pos == "stack") {
       if (show.prc && show.n) {
         ggvaluelabels <-
-          ggplot2::geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%i\n(%.01f%%)", .data$frq, .data$prz)), show.legend = FALSE)
+          ggplot2::geom_text(
+            ggplot2::aes(
+              y = .data$ypos,
+              label = sprintf("%i\n(%.01f%%)", .data$frq, .data$prz)
+            ),
+            show.legend = FALSE
+          )
       } else if (show.n) {
         ggvaluelabels <-
-          ggplot2::geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%i", .data$frq)), show.legend = FALSE)
+          ggplot2::geom_text(
+            ggplot2::aes(y = .data$ypos, label = sprintf("%i", .data$frq)),
+            show.legend = FALSE
+          )
       } else if (show.prc) {
         ggvaluelabels <-
-          ggplot2::geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%.01f%%", .data$prz)), show.legend = FALSE)
+          ggplot2::geom_text(
+            ggplot2::aes(y = .data$ypos, label = sprintf("%.01f%%", .data$prz)),
+            show.legend = FALSE
+          )
       } else {
-        ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$frq), label = "", show.legend = FALSE)
+        ggvaluelabels <- ggplot2::geom_text(
+          ggplot2::aes(y = .data$frq),
+          label = "",
+          show.legend = FALSE
+        )
       }
     } else {
       # if we have dodged bars or dots, we have to use a slightly
@@ -692,7 +794,10 @@ plot_grpfrq <- function(var.cnt,
         if (coord.flip) {
           ggvaluelabels <-
             ggplot2::geom_text(
-              ggplot2::aes(y = .data$frq + y_offset, label = sprintf("%i (%.01f%%)", .data$frq, .data$prz)),
+              ggplot2::aes(
+                y = .data$frq + y_offset,
+                label = sprintf("%i (%.01f%%)", .data$frq, .data$prz)
+              ),
               position = text.pos,
               vjust = vjust,
               hjust = hjust,
@@ -701,7 +806,10 @@ plot_grpfrq <- function(var.cnt,
         } else {
           ggvaluelabels <-
             ggplot2::geom_text(
-              ggplot2::aes(y = .data$frq + y_offset, label = sprintf("%i\n(%.01f%%)", .data$frq, .data$prz)),
+              ggplot2::aes(
+                y = .data$frq + y_offset,
+                label = sprintf("%i\n(%.01f%%)", .data$frq, .data$prz)
+              ),
               position = text.pos,
               vjust = vjust,
               hjust = hjust,
@@ -711,7 +819,10 @@ plot_grpfrq <- function(var.cnt,
       } else if (show.n) {
         ggvaluelabels <-
           ggplot2::geom_text(
-            ggplot2::aes(y = .data$frq + y_offset, label = sprintf("%i", .data$frq)),
+            ggplot2::aes(
+              y = .data$frq + y_offset,
+              label = sprintf("%i", .data$frq)
+            ),
             position = text.pos,
             hjust = hjust,
             vjust = vjust,
@@ -720,25 +831,37 @@ plot_grpfrq <- function(var.cnt,
       } else if (show.prc) {
         ggvaluelabels <-
           ggplot2::geom_text(
-            ggplot2::aes(y = .data$frq + y_offset, label = sprintf("%.01f%%", .data$prz)),
+            ggplot2::aes(
+              y = .data$frq + y_offset,
+              label = sprintf("%.01f%%", .data$prz)
+            ),
             position = text.pos,
             hjust = hjust,
             vjust = vjust,
             show.legend = FALSE
           )
       } else {
-        ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$frq), label = "", show.legend = FALSE)
+        ggvaluelabels <- ggplot2::geom_text(
+          ggplot2::aes(y = .data$frq),
+          label = "",
+          show.legend = FALSE
+        )
       }
     }
   } else {
-    ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$frq), label = "", show.legend = FALSE)
+    ggvaluelabels <- ggplot2::geom_text(
+      ggplot2::aes(y = .data$frq),
+      label = "",
+      show.legend = FALSE
+    )
   }
 
   # Set up grid breaks
-  if (is.null(grid.breaks))
+  if (is.null(grid.breaks)) {
     gridbreaks <- ggplot2::waiver()
-  else
+  } else {
     gridbreaks <- seq(lower_lim, upper_lim, by = grid.breaks)
+  }
 
   # Print plot
   if (type == "line") {
@@ -747,35 +870,45 @@ plot_grpfrq <- function(var.cnt,
 
     # lines need colour aes
     baseplot <-
-      ggplot2::ggplot(mydf,
-             ggplot2::aes_string(
-               x = "xpos",
-               y = "frq",
-               colour = "group",
-               linetype = "group"
-             )) + geob
+      ggplot2::ggplot(
+        mydf,
+        ggplot2::aes_string(
+          x = "xpos",
+          y = "frq",
+          colour = "group",
+          linetype = "group"
+        )
+      ) +
+      geob
 
     # continuous scale for lines needed
     scalex <- ggplot2::scale_x_continuous()
   } else if (type == "boxplot" || type == "violin") {
     if (is.null(intr.var)) {
       baseplot <-
-        ggplot2::ggplot(mydf,
-               ggplot2::aes_string(
-                 x = "group",
-                 y = "frq",
-                 fill = "group",
-                 weight = "wb"
-               )) + geob
+        ggplot2::ggplot(
+          mydf,
+          ggplot2::aes_string(
+            x = "group",
+            y = "frq",
+            fill = "group",
+            weight = "wb"
+          )
+        ) +
+        geob
       scalex <- ggplot2::scale_x_discrete(labels = axis.labels)
     } else {
       baseplot <-
-        ggplot2::ggplot(mydf, ggplot2::aes(
-          x = interaction(.data$ia, .data$group),
-          y = .data$frq,
-          fill = .data$group,
-          weight = .data$wb
-        )) + geob
+        ggplot2::ggplot(
+          mydf,
+          ggplot2::aes(
+            x = interaction(.data$ia, .data$group),
+            y = .data$frq,
+            fill = .data$group,
+            weight = .data$wb
+          )
+        ) +
+        geob
       scalex <- ggplot2::scale_x_discrete(labels = intr.var.labels)
     }
 
@@ -784,10 +917,19 @@ plot_grpfrq <- function(var.cnt,
     if (type == "violin") {
       if (show.ci) {
         baseplot <- baseplot +
-          ggplot2::geom_boxplot(width = inner.box.width, fill = "white", outlier.colour = NA, notch = TRUE)
+          ggplot2::geom_boxplot(
+            width = inner.box.width,
+            fill = "white",
+            outlier.colour = NA,
+            notch = TRUE
+          )
       } else {
         baseplot <- baseplot +
-          ggplot2::geom_boxplot(width = inner.box.width, fill = "white", outlier.colour = NA)
+          ggplot2::geom_boxplot(
+            width = inner.box.width,
+            fill = "white",
+            outlier.colour = NA
+          )
       }
     }
 
@@ -796,11 +938,19 @@ plot_grpfrq <- function(var.cnt,
     # different fill colours, because violin boxplots have white background
     fcsp <- ifelse(type == "boxplot", "white", "black")
     baseplot <- baseplot +
-      ggplot2::stat_summary(fun = "mean", geom = "point", shape = 21,
-                   size = inner.box.dotsize, fill = fcsp)
+      ggplot2::stat_summary(
+        fun = "mean",
+        geom = "point",
+        shape = 21,
+        size = inner.box.dotsize,
+        fill = fcsp
+      )
   } else {
     if (type == "dot") {
-      baseplot <- ggplot2::ggplot(mydf, ggplot2::aes_string(x = "xpos", y = "frq", colour = "group"))
+      baseplot <- ggplot2::ggplot(
+        mydf,
+        ggplot2::aes_string(x = "xpos", y = "frq", colour = "group")
+      )
 
       # check whether we have dots plotted, and if so, use annotation
       # We have to use annotation first, because the diagram's layers are plotted
@@ -808,7 +958,10 @@ plot_grpfrq <- function(var.cnt,
       # shaded rectangles to overlay the dots, we add them first
       if (!is.null(ganno) && !facet.grid) baseplot <- baseplot + ganno
     } else {
-      baseplot <- ggplot2::ggplot(mydf, ggplot2::aes_string(x = "xpos", y = "frq", fill = "group"))
+      baseplot <- ggplot2::ggplot(
+        mydf,
+        ggplot2::aes_string(x = "xpos", y = "frq", fill = "group")
+      )
     }
 
     # add geom
@@ -861,7 +1014,9 @@ plot_grpfrq <- function(var.cnt,
     y_scale
 
   # check whether coordinates should be flipped
-  if (coord.flip) baseplot <- baseplot + ggplot2::coord_flip()
+  if (coord.flip) {
+    baseplot <- baseplot + ggplot2::coord_flip()
+  }
 
   # Here we start when we have a faces grid instead of
   # a grouped bar plot.
@@ -874,11 +1029,13 @@ plot_grpfrq <- function(var.cnt,
 
   # set geom colors
   baseplot <-
-    sj.setGeomColors(baseplot,
-                     geom.colors,
-                     length(legend.labels),
-                     show.legend,
-                     legend.labels)
+    sj.setGeomColors(
+      baseplot,
+      geom.colors,
+      length(legend.labels),
+      show.legend,
+      legend.labels
+    )
 
   # Plot integrated bar chart here
   baseplot
