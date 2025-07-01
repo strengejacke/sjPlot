@@ -506,7 +506,7 @@ plot_grpfrq <- function(
       !is.null(axis.labels) &&
         length(axis.labels) > dplyr::n_distinct(mydf$group, na.rm = TRUE)
     ) {
-      axis.labels <- axis.labels[na.omit(unique(mydf$group))]
+      axis.labels <- axis.labels[stats::na.omit(unique(mydf$group))]
     }
 
     mydf$ia <- as.factor(mydf$ia)

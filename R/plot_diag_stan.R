@@ -139,7 +139,7 @@ plot_diag_stan <- function(
           ~Term,
           scales = "free",
           labeller = ggplot2::labeller(
-            .default = label_value,
+            .default = ggplot2::label_value,
             Term = axis.labels
           )
         )

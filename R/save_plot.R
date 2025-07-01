@@ -28,7 +28,7 @@
 #'
 #' @export
 save_plot <- function(filename,
-                      fig = last_plot(),
+                      fig = ggplot2::last_plot(),
                       width = 12,
                       height = 9,
                       dpi = 300,

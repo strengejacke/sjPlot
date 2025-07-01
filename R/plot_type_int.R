@@ -164,7 +164,7 @@ plot_type_int <- function(model,
 
     # set axis and plot titles
     if (!is.null(title))
-      p <- p + ggtitle(title)
+      p <- p + ggplot2::ggtitle(title)
 
     # set axis and plot titles
     if (!is.null(legend.title))
@@ -173,9 +173,9 @@ plot_type_int <- function(model,
     # set axis limits
     if (!is.null(axis.lim)) {
       if (is.list(axis.lim))
-        p <- p + xlim(axis.lim[[1]]) + ylim(axis.lim[[2]])
+        p <- p + ggplot2::xlim(axis.lim[[1]]) + ggplot2::ylim(axis.lim[[2]])
       else
-        p <- p + ylim(axis.lim)
+        p <- p + ggplot2::ylim(axis.lim)
     }
 
 

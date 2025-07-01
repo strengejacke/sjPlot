@@ -121,9 +121,9 @@ plot_type_eff <- function(type,
 
   # set axis and plot titles
   if (!is.null(title) && !is.null(terms))
-    p <- p + ggtitle(title)
+    p <- p + ggplot2::ggtitle(title)
   else if (!is.null(title) && is.null(terms))
-    p <- purrr::map(p, ~ .x + ggtitle(title))
+    p <- purrr::map(p, ~ .x + ggplot2::ggtitle(title))
 
   # set axis and plot titles
   if (!is.null(legend.title)) {
