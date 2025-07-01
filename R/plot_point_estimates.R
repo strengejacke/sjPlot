@@ -134,7 +134,7 @@ plot_point_estimates <- function(
         )
     } else {
       p <- p +
-        geom_rect(
+        ggplot2::geom_rect(
           ggplot2::aes_string(
             ymin = "conf.low",
             ymax = "conf.high",
@@ -150,7 +150,7 @@ plot_point_estimates <- function(
     # only add inner region if requested
     if (size.inner > 0) {
       p <- p +
-        geom_rect(
+        ggplot2::geom_rect(
           ggplot2::aes_string(
             ymin = "conf.low50",
             ymax = "conf.high50",

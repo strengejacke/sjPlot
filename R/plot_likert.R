@@ -768,7 +768,7 @@ plot_likert <- function(
 
   if (!is.null(cat.neutral)) {
     gp <- gp +
-      geom_rect(
+      ggplot2::geom_rect(
         data = mydat.dk,
         ggplot2::aes(
           xmin = .data$x - (geom.size / 2),
