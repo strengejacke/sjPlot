@@ -128,18 +128,18 @@ plot_point_estimates <- function(
     if (ci.style == "whisker") {
       p <- p +
         ggplot2::geom_errorbar(
-          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
+          ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
           size = line.size,
           width = width
         )
     } else {
       p <- p +
         ggplot2::geom_rect(
-          ggplot2::aes_string(
-            ymin = "conf.low",
-            ymax = "conf.high",
-            xmin = "xmin",
-            xmax = "xmax"
+          ggplot2::aes(
+            ymin = .data$conf.low,
+            ymax = .data$conf.high,
+            xmin = .data$xmin,
+            xmax = .data$xmax
           ),
           alpha = hdi_alpha,
           colour = "white",
@@ -151,11 +151,11 @@ plot_point_estimates <- function(
     if (size.inner > 0) {
       p <- p +
         ggplot2::geom_rect(
-          ggplot2::aes_string(
-            ymin = "conf.low50",
-            ymax = "conf.high50",
-            xmin = "xmin",
-            xmax = "xmax"
+          ggplot2::aes(
+            ymin = .data$conf.low50,
+            ymax = .data$conf.high50,
+            xmin = .data$xmin,
+            xmax = .data$xmax
           ),
           alpha = hdi_alpha,
           colour = "white",
@@ -168,22 +168,22 @@ plot_point_estimates <- function(
       if (is.null(bpe.color)) {
         p <- p +
           ggplot2::geom_segment(
-            ggplot2::aes_string(
-              x = "xmin",
-              xend = "xmax",
-              y = "estimate",
-              yend = "estimate"
+            ggplot2::aes(
+              x = .data$xmin,
+              xend = .data$xmax,
+              y = .data$estimate,
+              yend = .data$estimate
             ),
             size = geom.size * .9
           )
       } else {
         p <- p +
           ggplot2::geom_segment(
-            ggplot2::aes_string(
-              x = "xmin",
-              xend = "xmax",
-              y = "estimate",
-              yend = "estimate"
+            ggplot2::aes(
+              x = .data$xmin,
+              xend = .data$xmax,
+              y = .data$estimate,
+              yend = .data$estimate
             ),
             colour = bpe.color,
             size = geom.size * .9
@@ -192,14 +192,14 @@ plot_point_estimates <- function(
     } else if (is.null(bpe.color)) {
       p <- p +
         ggplot2::geom_point(
-          ggplot2::aes_string(y = "estimate"),
+          ggplot2::aes(y = .data$estimate),
           fill = "white",
           size = geom.size * dot.fac
         )
     } else {
       p <- p +
         ggplot2::geom_point(
-          ggplot2::aes_string(y = "estimate"),
+          ggplot2::aes(y = .data$estimate),
           fill = "white",
           colour = bpe.color,
           size = geom.size * dot.fac
@@ -216,7 +216,7 @@ plot_point_estimates <- function(
           position = ggplot2::position_dodge(width = spacing)
         ) +
         ggplot2::geom_errorbar(
-          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
+          ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
           position = ggplot2::position_dodge(width = spacing),
           width = width,
           size = line.size
@@ -225,7 +225,7 @@ plot_point_estimates <- function(
       p <- p +
         ggplot2::geom_point(size = geom.size) +
         ggplot2::geom_errorbar(
-          ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
+          ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
           width = width,
           size = line.size
         )
@@ -251,7 +251,7 @@ plot_point_estimates <- function(
   if (show.values) {
     p <- p +
       ggplot2::geom_text(
-        ggplot2::aes_string(label = "p.label"),
+        ggplot2::aes(label = .data$p.label),
         nudge_x = value.offset,
         show.legend = FALSE,
         size = value.size
