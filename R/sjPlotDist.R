@@ -180,17 +180,22 @@ dist_norm <- function(
 #' dist_chisq(p = 0.125, deg.f = 6)
 #'
 #' @export
-dist_chisq <- function(chi2 = NULL,
-                      deg.f = NULL,
-                      p = NULL,
-                      xmax = NULL,
-                      geom.colors = NULL,
-                      geom.alpha = 0.7) {
+dist_chisq <- function(
+  chi2 = NULL,
+  deg.f = NULL,
+  p = NULL,
+  xmax = NULL,
+  geom.colors = NULL,
+  geom.alpha = 0.7
+) {
   # --------------------------------------
   # check parameters
   # --------------------------------------
   if (is.null(deg.f)) {
-    warning("Degrees of freedom ('deg.f') needs to be specified.", call. = FALSE)
+    warning(
+      "Degrees of freedom ('deg.f') needs to be specified.",
+      call. = FALSE
+    )
     return(invisible(NULL))
   }
   # --------------------------------------
@@ -202,20 +207,18 @@ dist_chisq <- function(chi2 = NULL,
   if (is.null(xmax)) {
     if (is.null(chi2)) {
       chisq.max <- stats::qchisq(0.00001, deg.f, lower.tail = FALSE)
-    }
-    # --------------------------------------
-    # else, if we have a chi2-value, take into
-    # account all possible chi2-values that would lead
-    # to a theoretical p-value of 0.00001.
-    # --------------------------------------
-    else {
+    } else {
+      # --------------------------------------
+      # else, if we have a chi2-value, take into
+      # account all possible chi2-values that would lead
+      # to a theoretical p-value of 0.00001.
+      # --------------------------------------
       chisq.max <- chi2
       while (stats::pchisq(chisq.max, deg.f, lower.tail = FALSE) > 0.00001) {
         chisq.max <- chisq.max + 1
       }
     }
-  }
-  else {
+  } else {
     chisq.max <- xmax
   }
   # --------------------------------------
@@ -225,46 +228,64 @@ dist_chisq <- function(chi2 = NULL,
   # density distribution of chi2
   mydat$y <- stats::dchisq(mydat$x, deg.f)
   # base plot with chi2-distribution
-  gp <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$x, y = .data$y)) + ggplot2::geom_line()
+  gp <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$x, y = .data$y)) +
+    ggplot2::geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated chi2-value...
     sub.df <- mydat[mydat$x > stats::qchisq(p, deg.f, lower.tail = FALSE), ]
-  }
-  else if (!is.null(chi2)) {
+  } else if (!is.null(chi2)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > chi2, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > stats::qchisq(0.05, deg.f, lower.tail = FALSE), "sig", "non-sig")
+    sub.df$p.level <- ifelse(
+      sub.df$x > stats::qchisq(0.05, deg.f, lower.tail = FALSE),
+      "sig",
+      "non-sig"
+    )
     cs <- stats::qchisq(0.05, deg.f, lower.tail = FALSE)
     gp <- gp +
-      ggplot2::geom_ribbon(data = sub.df,
-                  ggplot2::aes(ymax = .data$y, fill = .data$p.level),
-                  ymin = 0,
-                  alpha = geom.alpha) +
-      ggplot2::annotate("text",
-               label = as.character(as.expression(substitute(chi^2 == c2, list(c2 = sprintf("%.2f", cs))))),
-               parse = TRUE,
-               x = cs,
-               y = 0,
-               vjust = 1.2)
+      ggplot2::geom_ribbon(
+        data = sub.df,
+        ggplot2::aes(ymax = .data$y, fill = .data$p.level),
+        ymin = 0,
+        alpha = geom.alpha
+      ) +
+      ggplot2::annotate(
+        "text",
+        label = as.character(as.expression(substitute(
+          chi^2 == c2,
+          list(c2 = sprintf("%.2f", cs))
+        ))),
+        parse = TRUE,
+        x = cs,
+        y = 0,
+        vjust = 1.2
+      )
     # add limit of p-value
     if (!is.null(chi2)) {
       pv <- stats::pchisq(chi2, deg.f, lower.tail = FALSE)
       if (pv >= 0.05) {
         gp <- gp +
-          ggplot2::annotate("text",
-                   label = sprintf("p = %.2f", pv),
-                   x = chi2,
-                   y = 0,
-                   hjust = -0.1,
-                   vjust = -0.5,
-                   angle = 90)
+          ggplot2::annotate(
+            "text",
+            label = sprintf("p = %.2f", pv),
+            x = chi2,
+            y = 0,
+            hjust = -0.1,
+            vjust = -0.5,
+            angle = 90
+          )
       }
     }
   }
-  gp <- sj.setGeomColors(gp, geom.colors, pal.len = 2, labels = c("p > 5%", "p < 0.05"))
+  gp <- sj.setGeomColors(
+    gp,
+    geom.colors,
+    pal.len = 2,
+    labels = c("p > 5%", "p < 0.05")
+  )
   gp <- gp + ggplot2::ylab(NULL) + ggplot2::xlab("chi-squared value")
   print(gp)
 }
