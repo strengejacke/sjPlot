@@ -66,7 +66,7 @@ plot_residuals <- function(fit, geom.size = 2, remove.estimates = NULL, show.lin
   rv <- insight::find_response(fit)
 
   # remove estimates, if required
-  dummy <- mydat %>% dplyr::select(keep, .data$predicted, .data$residuals)
+  dummy <- mydat |> dplyr::select(keep, .data$predicted, .data$residuals)
 
   # set default variable labels, used as column names, so labelled
   # data variable labels appear in facet grid header.
@@ -78,7 +78,7 @@ plot_residuals <- function(fit, geom.size = 2, remove.estimates = NULL, show.lin
   colnames(dummy)[sel] <- var.labels
 
   # melt data
-  mydat <- suppressWarnings(dummy %>%
+  mydat <- suppressWarnings(dummy |>
     tidyr::gather(key = "grp", value = "x", -1, -.data$predicted, -.data$residuals))
 
   colnames(mydat)[1] <- ".response"

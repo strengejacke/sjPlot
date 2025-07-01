@@ -81,8 +81,6 @@ get_var_name <- function(x) {
 
 # Create frequency data frame of a variable
 # for sjp and sjt frq functions
-#' @importFrom stats na.omit ftable na.pass
-#' @importFrom tidyr spread
 create.xtab.df <- function(x,
                            grp,
                            round.prz = 2,
@@ -209,8 +207,6 @@ get.encoding <- function(encoding, data = NULL) {
 
 
 # Calculate statistics of cross tabs
-#' @importFrom sjstats cramer phi table_values
-#' @importFrom stats chisq.test fisher.test xtabs
 crosstabsum <- function(x, grp, weight.by) {
   # --------------------------------------------------------
   # check p-value-style option

@@ -65,17 +65,17 @@ library(dplyr)
 data(efc)
 
 # Grouped frequencies
-efc \%>\% sjplot(e42dep, c172code, fun = "grpfrq")
+efc |> sjplot(e42dep, c172code, fun = "grpfrq")
 
 # Grouped frequencies, as box plots
-efc \%>\% sjplot(e17age, c172code, fun = "grpfrq",
+efc |> sjplot(e17age, c172code, fun = "grpfrq",
                type = "box", geom.colors = "Set1")
 
 \dontrun{
 # table output of grouped data frame
-efc \%>\%
-  group_by(e16sex, c172code) \%>\%
-  select(e42dep, n4pstu, e16sex, c172code) \%>\%
-  sjtab(fun = "xtab", use.viewer = FALSE) # open all tables in browser}
-
+efc |>
+  group_by(e16sex, c172code) |>
+  select(e42dep, n4pstu, e16sex, c172code) |>
+  sjtab(fun = "xtab", use.viewer = FALSE) # open all tables in browser
+}
 }

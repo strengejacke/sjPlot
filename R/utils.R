@@ -282,8 +282,8 @@ parse_terms <- function(x) {
   # see if we have multiple values, split at comma
   tmp <- sjmisc::trim(strsplit(tmp, ",", fixed = TRUE))
 
-  parsed.terms <- seq_len(length(tmp)) %>%
-    purrr::map(~ sprintf("%s%s", vars.names[.x], tmp[[.x]])) %>%
+  parsed.terms <- seq_len(length(tmp)) |>
+    purrr::map(~ sprintf("%s%s", vars.names[.x], tmp[[.x]])) |>
     purrr::flatten_chr()
 
   c(x[-vars.pos], parsed.terms)
@@ -373,8 +373,8 @@ tidy_label <- function(labs, sep = ".") {
   duped.val <- names(which(table(labs) > 1))
 
   # find position of duplicated labels
-  dupes <- duped.val %>%
-    purrr::map(~which(labs == .x)) %>%
+  dupes <- duped.val |>
+    purrr::map(~which(labs == .x)) |>
     purrr::as_vector(.type = "double")
 
   # prefix labels with value

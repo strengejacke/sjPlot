@@ -168,8 +168,6 @@ tab_df <- function(x,
 }
 
 
-#' @importFrom sjmisc var_type is_even
-#' @importFrom purrr flatten_chr pmap
 #' @rdname tab_df
 #' @export
 tab_dfs <- function(x,
@@ -273,7 +271,6 @@ tab_dfs <- function(x,
   )
 }
 
-#' @importFrom dplyr "%>%"
 # this function is used from tab_model()
 tab_model_df <- function(x,
                          zeroinf,
@@ -439,9 +436,9 @@ tab_model_df <- function(x,
     rem <- 1:nrow(x)
 
     zero.part <- suppressMessages(
-      x %>%
-        dplyr::full_join(zeroinf) %>%
-        dplyr::slice(!! -rem) %>%
+      x |>
+        dplyr::full_join(zeroinf) |>
+        dplyr::slice(!! -rem) |>
         sjmisc::replace_na(value = "")
     )
 

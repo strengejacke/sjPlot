@@ -75,8 +75,8 @@ utils::globalVariables("density")
 #'
 #' if (require("dplyr")) {
 #'   # histogram, pipe-workflow
-#'   efc %>%
-#'     dplyr::select(e17age, c160age) %>%
+#'   efc |>
+#'     dplyr::select(e17age, c160age) |>
 #'     plot_frq(type = "hist", show.mean = TRUE)
 #'
 #'   # bar plot(s)
@@ -85,9 +85,9 @@ utils::globalVariables("density")
 #'
 #' if (require("dplyr") && require("gridExtra")) {
 #'   # grouped data frame, all panels in one plot
-#'   efc %>%
-#'     group_by(e42dep) %>%
-#'     plot_frq(c161sex) %>%
+#'   efc |>
+#'     group_by(e42dep) |>
+#'     plot_frq(c161sex) |>
 #'     plot_grid()
 #' }
 #'
@@ -109,9 +109,6 @@ utils::globalVariables("density")
 #'         normal.curve = TRUE, show.sd = TRUE, normal.curve.color = "blue",
 #'         normal.curve.size = 3, ylim = c(0,50))
 #' }
-#' @importFrom sjmisc group_labels group_var to_value frq
-#' @importFrom sjlabelled set_labels drop_labels
-#' @importFrom stats na.omit sd weighted.mean dnorm
 #' @importFrom rlang .data
 #' @export
 plot_frq <- function(data,

@@ -234,8 +234,8 @@ plot_frq(efc$e17age, type = "box")
 
 if (require("dplyr")) {
   # histogram, pipe-workflow
-  efc \%>\%
-    dplyr::select(e17age, c160age) \%>\%
+  efc |>
+    dplyr::select(e17age, c160age) |>
     plot_frq(type = "hist", show.mean = TRUE)
 
   # bar plot(s)
@@ -244,9 +244,9 @@ if (require("dplyr")) {
 
 if (require("dplyr") && require("gridExtra")) {
   # grouped data frame, all panels in one plot
-  efc \%>\%
-    group_by(e42dep) \%>\%
-    plot_frq(c161sex) \%>\%
+  efc |>
+    group_by(e42dep) |>
+    plot_frq(c161sex) |>
     plot_grid()
 }
 

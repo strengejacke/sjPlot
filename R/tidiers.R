@@ -154,11 +154,11 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
   # bind columns, so we have inner and outer hdi interval
 
-  dat <- d2 %>%
-    dplyr::select(.data$CI_low, .data$CI_high) %>%
-    sjmisc::var_rename(CI_low = "conf.low50", CI_high = "conf.high50") %>%
-    sjmisc::add_columns(d1) %>%
-    sjmisc::var_rename(CI_low = "conf.low", CI_high = "conf.high", Parameter = "term") %>%
+  dat <- d2 |>
+    dplyr::select(.data$CI_low, .data$CI_high) |>
+    sjmisc::var_rename(CI_low = "conf.low50", CI_high = "conf.high50") |>
+    sjmisc::add_columns(d1) |>
+    sjmisc::var_rename(CI_low = "conf.low", CI_high = "conf.high", Parameter = "term") |>
     dplyr::select(-.data$CI, -.data$Effects, -.data$Component)
 
   # for brmsfit models, we need to remove some columns here to
@@ -209,7 +209,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     estimate = est,
     p.value = 0,
     std.error = purrr::map_dbl(mod.dat, stats::mad)
-  ) %>%
+  ) |>
     dplyr::inner_join(
       dat,
       by = "term"

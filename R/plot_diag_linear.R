@@ -31,7 +31,6 @@ plot_diag_glm <- function(model, geom.colors, dot.size, line.size, ...) {
 }
 
 
-#' @importFrom stats residuals fitted
 diag_ncv <- function(model, dot.size, line.size) {
 
   if (is.null(dot.size)) dot.size <- 1
@@ -56,7 +55,6 @@ diag_ncv <- function(model, dot.size, line.size) {
 
 
 #' @importFrom rlang .data
-#' @importFrom stats residuals sd
 diag_norm <- function(model, geom.colors) {
   res_ <- data.frame(res = stats::residuals(model))
 
@@ -80,7 +78,6 @@ diag_norm <- function(model, geom.colors) {
 }
 
 
-#' @importFrom stats residuals rstudent fitted
 diag_qq <- function(model, geom.colors, dot.size, line.size, ...) {
 
   if (is.null(dot.size)) dot.size <- 1
@@ -115,8 +112,6 @@ diag_qq <- function(model, geom.colors, dot.size, line.size, ...) {
 }
 
 
-#' @importFrom purrr map map_dbl
-#' @importFrom stats qnorm ppoints
 diag_reqq <- function(model, dot.size) {
 
   if (!is_merMod(model) && !inherits(model, "glmmTMB")) return(NULL)
@@ -190,7 +185,6 @@ diag_reqq <- function(model, dot.size) {
 }
 
 
-#' @importFrom stats coef
 diag_vif <- function(fit) {
 
   if (is_merMod(fit) || inherits(fit, "lme"))
@@ -227,7 +221,7 @@ diag_vif <- function(fit) {
 
     if (maxval >= upperLimit) upperLimit <- ceiling(maxval)
 
-    mydat <- data.frame(vif = round(val, 2)) %>%
+    mydat <- data.frame(vif = round(val, 2)) |>
       rownames_as_column(var = "vars")
 
 

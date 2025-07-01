@@ -50,24 +50,19 @@
 #' data(efc)
 #'
 #' # Grouped frequencies
-#' efc %>% sjplot(e42dep, c172code, fun = "grpfrq")
+#' efc |> sjplot(e42dep, c172code, fun = "grpfrq")
 #'
 #' # Grouped frequencies, as box plots
-#' efc %>% sjplot(e17age, c172code, fun = "grpfrq",
+#' efc |> sjplot(e17age, c172code, fun = "grpfrq",
 #'                type = "box", geom.colors = "Set1")
 #'
 #' \dontrun{
 #' # table output of grouped data frame
-#' efc %>%
-#'   group_by(e16sex, c172code) %>%
-#'   select(e42dep, n4pstu, e16sex, c172code) %>%
-#'   sjtab(fun = "xtab", use.viewer = FALSE) # open all tables in browser}
-#'
-#' @importFrom sjmisc is_empty
-#' @importFrom sjlabelled copy_labels get_label get_labels
-#' @importFrom dplyr filter
-#' @importFrom tidyr nest
-#' @importFrom stats complete.cases
+#' efc |>
+#'   group_by(e16sex, c172code) |>
+#'   select(e42dep, n4pstu, e16sex, c172code) |>
+#'   sjtab(fun = "xtab", use.viewer = FALSE) # open all tables in browser
+#'}
 #' @export
 sjplot <- function(data, ..., fun = c("grpfrq", "xtab", "aov1", "likert")) {
   # check if x is a data frame
@@ -233,7 +228,6 @@ get_grouped_title <- function(x, grps, args, i, sep = "\n") {
 }
 
 
-#' @importFrom sjlabelled get_values get_label get_labels
 get_title_part <- function(x, grps, level, i) {
   # prepare title for group
   var.name <- colnames(grps)[level]
@@ -258,13 +252,11 @@ get_title_part <- function(x, grps, level, i) {
 
 
 #' @importFrom rlang .data
-#' @importFrom dplyr select filter group_modify group_vars
-#' @importFrom stats complete.cases
 #'
 get_grouped_data <- function(x) {
   # retain observations that are complete wrt grouping vars, then nest
-  grps <- x %>%
-    dplyr::group_modify(~ dplyr::filter(.x, stats::complete.cases(.y))) %>%
+  grps <- x |>
+    dplyr::group_modify(~ dplyr::filter(.x, stats::complete.cases(.y))) |>
     tidyr::nest()
 
   # arrange data

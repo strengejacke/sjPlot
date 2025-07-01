@@ -244,16 +244,16 @@ gpt_helper <- function(
   # group data by grouping variable, and inside
   # groups, group the x-variable
 
-  newdf <- mydf %>%
-    dplyr::group_by(.data$grp, .data$xpos) %>%
+  newdf <- mydf |>
+    dplyr::group_by(.data$grp, .data$xpos) |>
     dplyr::summarise(ypos = mean(.data$dep))
 
   # group data by grouping variable,
   # and summarize N per group and chisq.test
   # of grp and x within each group
 
-  pvals <- mydf %>%
-    dplyr::group_by(.data$grp) %>%
+  pvals <- mydf |>
+    dplyr::group_by(.data$grp) |>
     dplyr::summarise(N = dplyr::n(), p = suppressWarnings(stats::chisq.test(table(.data$xpos, .data$dep))$p.value))
 
   # copy p values
@@ -266,12 +266,12 @@ gpt_helper <- function(
   # if we want total line, repeat all for
   # complete data frame
   if (show.total) {
-    tmp <- mydf %>%
-      dplyr::group_by(.data$xpos) %>%
+    tmp <- mydf |>
+      dplyr::group_by(.data$xpos) |>
       dplyr::summarise(ypos = mean(.data$dep))
 
     # pvalues and N
-    pvals <- mydf %>%
+    pvals <- mydf |>
       dplyr::summarise(N = dplyr::n(), p = suppressWarnings(stats::chisq.test(table(.data$xpos, .data$dep))$p.value))
 
     # bind total row to final df

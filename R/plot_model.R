@@ -809,7 +809,6 @@ plot_model <- function(model,
 }
 
 
-#' @importFrom purrr map
 #' @rdname plot_model
 #' @export
 get_model_data <- function(model,
@@ -856,7 +855,6 @@ get_model_data <- function(model,
 }
 
 
-#' @importFrom insight has_intercept
 one_par <- function(model) {
   tryCatch(
     {

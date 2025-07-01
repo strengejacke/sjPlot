@@ -87,7 +87,7 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, axis.labels, ..
 
   # join data frames and convert to long format
 
-  pp <- dplyr::bind_rows(d1, d2) %>%
+  pp <- dplyr::bind_rows(d1, d2) |>
     tidyr::gather(key = "Term", value = "Estimate", !! gather.cols)
 
 

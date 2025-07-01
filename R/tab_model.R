@@ -485,7 +485,7 @@ tab_model <- function(
       # merge CI columns
 
       if (all(c("conf.low", "conf.high") %in% names(dat))) {
-        dat <- dat %>%
+        dat <- dat |>
           dplyr::mutate(conf.int = sprintf(
             "%.*f%s%.*f",
             digits,
@@ -493,15 +493,15 @@ tab_model <- function(
             ci.hyphen,
             digits,
             .data$conf.high
-          )) %>%
+          )) |>
           dplyr::select(-.data$conf.low, -.data$conf.high)
       }
 
       # get inner probability (i.e. 2nd CI for Stan-models) ----
 
       if (is.stan(model)) {
-        dat <- dat %>%
-          sjmisc::var_rename(conf.int = "ci.outer") %>%
+        dat <- dat |>
+          sjmisc::var_rename(conf.int = "ci.outer") |>
           dplyr::mutate(ci.inner = sprintf(
             "%.*f%s%.*f",
             digits,
@@ -509,7 +509,7 @@ tab_model <- function(
             ci.hyphen,
             digits,
             .data$conf.high50
-          )) %>%
+          )) |>
             dplyr::select(-.data$conf.low50, -.data$conf.high50)
       }
 
@@ -535,8 +535,8 @@ tab_model <- function(
           keep = keep,
           drop = drop,
           std.response = std.response
-        ) %>%
-          format_p_values(p.style, digits.p, emph.p, p.threshold) %>%
+        ) |>
+          format_p_values(p.style, digits.p, emph.p, p.threshold) |>
           sjmisc::var_rename(
             estimate = "std.estimate",
             std.error = "std.se",
@@ -545,7 +545,7 @@ tab_model <- function(
             p.value = "std.p.value",
             statistic = "std.statistic",
             p.stars = "std.p.stars"
-          ) %>%
+          ) |>
           dplyr::select(-1)
 
         # transform estimates
@@ -558,8 +558,8 @@ tab_model <- function(
           tmp_dat[["std.se"]] <- tmp_dat[["std.se"]] * tmp_dat[["std.estimate"]]
         }
 
-        dat <- tmp_dat %>%
-          sjmisc::add_columns(dat) %>%
+        dat <- tmp_dat |>
+          sjmisc::add_columns(dat) |>
           dplyr::mutate(std.conf.int = sprintf(
             "%.*f%s%.*f",
             digits,
@@ -567,12 +567,12 @@ tab_model <- function(
             ci.hyphen,
             digits,
             .data$std.conf.high
-          )) %>%
+          )) |>
           dplyr::select(-.data$std.conf.low, -.data$std.conf.high)
         # if t-statistic is the same for standardized and unstandardized model
         # remove standardized; ignore intercept
         if (all(round(dat$statistic[-1], 3) == round(dat$std.statistic[-1], 3))) {
-          dat <- dat %>%
+          dat <- dat |>
             dplyr::select(-.data$std.statistic, -.data$std.p.value)
         }
       }
@@ -609,8 +609,8 @@ tab_model <- function(
 
       # for HTML, convert numerics to character ----
 
-      dat <- dat %>%
-        purrr::map_if(is.numeric, ~ sprintf("%.*f", digits, .x)) %>%
+      dat <- dat |>
+        purrr::map_if(is.numeric, ~ sprintf("%.*f", digits, .x)) |>
         as.data.frame(stringsAsFactors = FALSE)
 
 
@@ -684,8 +684,8 @@ tab_model <- function(
         zi <- which(dat[[wf]] %in% c("Zero-Inflated Model", "Zero Inflation Model", "zero_inflated", "zi"))
 
         if (show.zeroinf && !sjmisc::is_empty(zi)) {
-          zidat <- dat %>%
-            dplyr::slice(!! zi) %>%
+          zidat <- dat |>
+            dplyr::slice(!! zi) |>
             dplyr::select(!! -wf)
         }
 
@@ -953,8 +953,8 @@ tab_model <- function(
 
   # Join all models into one data frame, and replace NA by empty strings
 
-  dat <- model.data %>%
-    purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) %>%
+  dat <- model.data |>
+    purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) |>
     purrr::map_df(~ dplyr::if_else(.x %in% na.vals | is.na(.x), "", .x))
 
   # remove unwanted columns and rows ----
@@ -980,8 +980,8 @@ tab_model <- function(
 
   zeroinf <- NULL
   if (!sjmisc::is_empty(zeroinf.data)) {
-    zeroinf <- zeroinf.data %>%
-      purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) %>%
+    zeroinf <- zeroinf.data |>
+      purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) |>
       purrr::map_df(~ dplyr::if_else(.x %in% na.vals | is.na(.x), "", .x))
 
     zeroinf <-
@@ -1127,7 +1127,7 @@ tab_model <- function(
       linesep = "<br>"
     )
   } else if (is.null(dv.labels)) {
-    dv.labels <- purrr::map(models, insight::find_response) %>% purrr::flatten_chr()
+    dv.labels <- purrr::map(models, insight::find_response) |> purrr::flatten_chr()
   }
 
 
@@ -1430,7 +1430,7 @@ format_p_values <- function(dat, p.style, digits.p, emph.p, p.threshold) {
     return(dat)
   }
 
-  dat <- dat %>%
+  dat <- dat |>
     dplyr::mutate(
     p.stars = get_p_stars(.data$p.value, p.threshold),
     p.sig = .data$p.value < .05

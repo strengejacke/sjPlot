@@ -430,9 +430,9 @@ plot_grpfrq <- function(var.cnt,
 
   # add half of Percentage values as new y-position for stacked bars
   # mydat <- ddply(mydat, "count", transform, ypos = cumsum(frq) - 0.5*frq)
-  mydf <- mydf %>%
-    dplyr::group_by(.data$label) %>%
-    dplyr::mutate(ypos = cumsum(.data$frq) - 0.5 * .data$frq) %>%
+  mydf <- mydf |>
+    dplyr::group_by(.data$label) |>
+    dplyr::mutate(ypos = cumsum(.data$frq) - 0.5 * .data$frq) |>
     dplyr::arrange(.data$label)
 
   # add percentages

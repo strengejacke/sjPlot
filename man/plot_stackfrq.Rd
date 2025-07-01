@@ -131,9 +131,9 @@ plot_stackfrq(efc[, start:end])
 
 # works on grouped data frames as well
 library(dplyr)
-efc \%>\%
-  group_by(c161sex) \%>\%
-  select(start:end) \%>\%
+efc |>
+  group_by(c161sex) |>
+  select(start:end) |>
   plot_stackfrq()
 
 }

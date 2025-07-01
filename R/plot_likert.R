@@ -120,7 +120,7 @@
 #'
 #' \dontrun{
 #' six_cat_example <-
-#'   six_cat_example %>%
+#'   six_cat_example |>
 #'   dplyr::mutate_all(~ordered(.,labels = c("+++","++","+","-","--","---")))
 #'
 #' # Old default
@@ -396,10 +396,10 @@ plot_likert <- function(
     # add new unique item values to catcount, so catcount
     # finally contains all unique values of items
 
-    catcount <- items %>%
-      purrr::map(~ stats::na.omit(unique(.x))) %>%
-      purrr::flatten_dbl() %>%
-      unique() %>%
+    catcount <- items |>
+      purrr::map(~ stats::na.omit(unique(.x))) |>
+      purrr::flatten_dbl() |>
+      unique() |>
       sort()
 
     neutral.between <- FALSE
@@ -967,5 +967,4 @@ plot_likert <- function(
 
 
 # is factor with char levels?
-#' @importFrom sjmisc is_num_fac
 is_labelled_factor <- function(x) is.factor(x) && !sjmisc::is_num_fac(x)

@@ -41,13 +41,13 @@ if (require("dplyr") && require("gridExtra")) {
   )
 
   # plot marginal effects for each predictor, each as single plot
-  p1 <- ggpredict(fit, "c12hour") \%>\%
+  p1 <- ggpredict(fit, "c12hour") |>
     plot(show_y_title = FALSE, show_title = FALSE)
-  p2 <- ggpredict(fit, "e17age") \%>\%
+  p2 <- ggpredict(fit, "e17age") |>
     plot(show_y_title = FALSE, show_title = FALSE)
-  p3 <- ggpredict(fit, "e42dep") \%>\%
+  p3 <- ggpredict(fit, "e42dep") |>
     plot(show_y_title = FALSE, show_title = FALSE)
-  p4 <- ggpredict(fit, "neg_c_7") \%>\%
+  p4 <- ggpredict(fit, "neg_c_7") |>
     plot(show_y_title = FALSE, show_title = FALSE)
 
   # plot grid

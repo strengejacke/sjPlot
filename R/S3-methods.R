@@ -1,4 +1,3 @@
-#' @importFrom utils browseURL
 #' @export
 print.sjTable <- function(x, ...) {
   # check if we have filename specified
@@ -21,7 +20,6 @@ print.sjTable <- function(x, ...) {
 }
 
 
-#' @importFrom knitr knit_print asis_output
 #' @export
 knit_print.sjTable <-  function(x, ...) {
   out <- x$knitr
@@ -209,7 +207,6 @@ pgrpmean <- function(x, ...) {
 }
 
 
-#' @importFrom purrr map_chr
 pgrpmeans <- function(x, ...) {
   uv <- attr(x, "print", exact = TRUE) == "viewer"
   enc <- attr(x, "encoding", exact = TRUE)
@@ -343,8 +340,6 @@ preliab <- function(x, ...) {
 }
 
 
-#' @importFrom purrr map_if
-#' @importFrom sjmisc is_float
 pdescr <- function(x, ...) {
   digits <- 2
 
@@ -376,8 +371,8 @@ pdescr <- function(x, ...) {
   present_columns <- c("var", "type", "label", "n", "NA.prc", "mean", "sd", "se", "md", "trimmed", "range", "skew")
   chead <- chead[which(present_columns %in% colnames(x))]
 
-  x <- x %>%
-    purrr::map_if(sjmisc::is_float, ~ round(.x, digits)) %>%
+  x <- x |>
+    purrr::map_if(sjmisc::is_float, ~ round(.x, digits)) |>
     as.data.frame()
 
   tab_df(
@@ -404,8 +399,6 @@ pdescr <- function(x, ...) {
 }
 
 
-#' @importFrom purrr map_if map_chr map
-#' @importFrom sjmisc is_float
 pgdescr <- function(x, ...) {
   titles <- purrr::map_chr(x, ~ sprintf(
     "Basic descriptives<br><span class=\"subtitle\"><em>grouped by</em> %s</span>",
@@ -439,12 +432,12 @@ pgdescr <- function(x, ...) {
     "Skewness"
   )
 
-  x <- x %>%
+  x <- x |>
     purrr::map(~ purrr::map_if(
       .x,
       sjmisc::is_float,
       ~ round(.x, digits)
-    ) %>% as.data.frame())
+    ) |> as.data.frame())
 
   tab_dfs(
     x = x,
@@ -468,9 +461,6 @@ pgdescr <- function(x, ...) {
 }
 
 
-#' @importFrom purrr map_if map_chr map
-#' @importFrom dplyr n_distinct select
-#' @importFrom sjmisc is_empty
 pfrq <- function(x, ...) {
 
   uv <- attr(x, "print", exact = TRUE) == "viewer"
@@ -549,7 +539,6 @@ pfrq <- function(x, ...) {
 }
 
 
-#' @importFrom stats na.omit kruskal.test
 pmwu <- function(x, ...) {
   fn <- NULL
 

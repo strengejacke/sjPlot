@@ -221,7 +221,6 @@ label_angle <- function(angle.x, angle.y, base.theme) {
 
 
 #' @rdname sjPlot-themes
-#' @importFrom dplyr case_when
 #' @export
 legend_style <- function(inside, pos, justify, base.theme) {
   # get current theme
@@ -308,7 +307,6 @@ scale_fill_sjplot <- function(palette = "metro", discrete = TRUE, reverse = FALS
 }
 
 
-#' @importFrom stats quantile
 #' @rdname sjPlot-themes
 #' @export
 sjplot_pal <- function(palette = "metro", n = NULL) {
@@ -348,10 +346,10 @@ show_sjplot_pals <- function() {
   })
 
   x <- suppressWarnings(
-    sjpc %>%
-      as.data.frame() %>%
-      purrr::map_df(~ .x[length(.x):1]) %>%
-      tidyr::gather() %>%
+    sjpc |>
+      as.data.frame() |>
+      purrr::map_df(~ .x[length(.x):1]) |>
+      tidyr::gather() |>
       dplyr::arrange(.data$key)
   )
 
@@ -376,7 +374,6 @@ show_sjplot_pals <- function() {
 }
 
 
-#' @importFrom grDevices colorRampPalette
 get_sjplot_pal <- function(palette = "metro", reverse = FALSE, ...) {
   pal <- sjplot_colors[[palette]]
   if (reverse) pal <- rev(pal)

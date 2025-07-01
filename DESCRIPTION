@@ -21,7 +21,7 @@ Description: Collection of plotting and table output functions for data
     labelled data.
 License: GPL-3
 Depends:
-    R (>= 3.6)
+    R (>= 4.1)
 Imports:
     graphics,
     grDevices,
