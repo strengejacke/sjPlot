@@ -52,7 +52,7 @@ save_plot <- function(filename,
   # set printable theme, adjust font sizes.
   # this is the most critical point...
 
-  set_ggplot2::theme(
+  sjPlot::set_theme(
     base = theme,
     geom.label.color = label.color,
     axis.title.color = label.color,

@@ -197,7 +197,7 @@ plot_grpfrq(
   coord.flip = TRUE,
   show.axis.values = FALSE
 ) +
-  theme(axis.line.x = element_line(color = "white"))
+  theme(axis.line.x = ggplot2::element_line(color = "white"))
 ```
 
 ## Plot legend

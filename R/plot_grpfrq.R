@@ -868,7 +868,7 @@ plot_grpfrq <- function(var.cnt,
   if (facet.grid) {
     baseplot <- baseplot +
       # set font size for axes.
-      # ggplot2::theme(strip.text = element_text(face = "bold", size = rel(1.1))) +
+      # ggplot2::theme(strip.text = ggplot2::element_text(face = "bold", size = rel(1.1))) +
       ggplot2::facet_wrap(~group, scales = "free")
   }
 

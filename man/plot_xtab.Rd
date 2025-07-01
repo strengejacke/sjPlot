@@ -199,7 +199,7 @@ plot_xtab(x, grp, margin = "row", bar.pos = "stack",
 library(sjmisc)
 library(sjlabelled)
 data(efc)
-set_ggplot2::theme(geom.label.angle = 90)
+sjPlot::set_theme(geom.label.angle = 90)
 plot_xtab(efc$e42dep, efc$e16sex, vjust = "center", hjust = "bottom")
 
 # grouped bars with EUROFAMCARE sample dataset
