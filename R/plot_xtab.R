@@ -361,15 +361,15 @@ plot_xtab <- function(x,
     if (bar.pos == "dodge") {
       if (show.prc && show.n) {
         ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos + y_offset, label = sprintf("%.01f%%%s(n=%i)", 100 * .data$prc, .data$line.break, .data$n)),
-                                   position = position_dodge(posdodge),
+                                   position = ggplot2::position_dodge(posdodge),
                                    vjust = vjust, hjust = hjust)
       } else if (show.prc) {
         ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos + y_offset, label = sprintf("%.01f%%", 100 * .data$prc)),
-                                   position = position_dodge(posdodge),
+                                   position = ggplot2::position_dodge(posdodge),
                                    vjust = vjust, hjust = hjust)
       } else if (show.n) {
         ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos + y_offset, label = sprintf("n=%i", .data$n)),
-                                   position = position_dodge(posdodge),
+                                   position = ggplot2::position_dodge(posdodge),
                                    vjust = vjust, hjust = hjust)
       }
     } else {
@@ -409,7 +409,7 @@ plot_xtab <- function(x,
   if (type == "bar") {
     if (bar.pos == "dodge") {
       geob <- geom_bar(stat = "identity",
-                       position = position_dodge(posdodge),
+                       position = ggplot2::position_dodge(posdodge),
                        width = geom.size)
     } else {
       geob <- geom_bar(stat = "identity",

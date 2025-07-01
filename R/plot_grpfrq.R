@@ -627,7 +627,7 @@ plot_grpfrq <- function(var.cnt,
     # position_dodge displays dots in a dodged position so we avoid overlay here. This may lead
     # to a more difficult distinction of group belongings, since the dots are "horizontally spread"
     # over the digram. For a better overview, we can add a "PlotAnnotation" (see "emph.dots) here.
-    geob <- ggplot2::geom_point(position = position_dodge(posdodge),size = geom.size, shape = 16)
+    geob <- ggplot2::geom_point(position = ggplot2::position_dodge(posdodge),size = geom.size, shape = 16)
 
     # create shaded rectangle, so we know which dots belong to the same category
     if (emph.dots) {
@@ -643,7 +643,7 @@ plot_grpfrq <- function(var.cnt,
     }
   } else if (type == "bar") {
     if (bar.pos == "dodge")
-      geob <- geom_bar(stat = "identity", width = geom.size, position = position_dodge(posdodge))
+      geob <- geom_bar(stat = "identity", width = geom.size, position = ggplot2::position_dodge(posdodge))
     else
       geob <- geom_bar(stat = "identity", width = geom.size, position = position_stack(reverse = TRUE))
   } else if (type == "line") {
@@ -667,7 +667,7 @@ plot_grpfrq <- function(var.cnt,
     if (facet.grid)
       text.pos <- "identity"
     else
-      text.pos <- position_dodge(posdodge)
+      text.pos <- ggplot2::position_dodge(posdodge)
 
     # if we have stacked bars, we need to apply
     # this stacked y-position to the labels as well

@@ -136,8 +136,8 @@ plot_point_estimates <- function(model,
 
     if (multinomial) {
       p <- p +
-        ggplot2::geom_point(size = geom.size, position = position_dodge(width = spacing)) +
-        geom_errorbar(ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"), position = position_dodge(width = spacing), width = width, size = line.size)
+        ggplot2::geom_point(size = geom.size, position = ggplot2::position_dodge(width = spacing)) +
+        geom_errorbar(ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"), position = ggplot2::position_dodge(width = spacing), width = width, size = line.size)
     } else {
       p <- p +
         ggplot2::geom_point(size = geom.size) +

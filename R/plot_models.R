@@ -298,15 +298,15 @@ plot_models <- function(...,
 
   p <- p +
     layer_vertical_line +
-    ggplot2::geom_point(position = position_dodge(spacing), size = dot.size) +
+    ggplot2::geom_point(position = ggplot2::position_dodge(spacing), size = dot.size) +
     geom_errorbar(
       ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
-      position = position_dodge(spacing),
+      position = ggplot2::position_dodge(spacing),
       width = 0,
       size = line.size
     ) +
     coord_flip() +
-    ggplot2::guides(colour = guide_legend(reverse = TRUE))
+    ggplot2::guides(colour = ggplot2::guide_legend(reverse = TRUE))
 
 
   # show different shapes depending on p-value
@@ -319,7 +319,7 @@ plot_models <- function(...,
   if (show.values) p <- p +
     geom_text(
       ggplot2::aes_string(label = "p.label"),
-      position = position_dodge(spacing),
+      position = ggplot2::position_dodge(spacing),
       vjust = spacing * -1.5,
       hjust = -.1,
       show.legend = FALSE,
