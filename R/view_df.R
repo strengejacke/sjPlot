@@ -75,10 +75,6 @@
 #'                    css.tdata = "border: 1px solid;",
 #'                    css.arc = "color:blue;"))}
 #'
-#' @importFrom utils txtProgressBar setTxtProgressBar
-#' @importFrom sjmisc is_even var_type is_float
-#' @importFrom sjlabelled get_values drop_labels
-#' @importFrom purrr map_lgl
 #' @importFrom rlang quo_name enquo
 #' @export
 view_df <- function(x,
@@ -500,8 +496,6 @@ view_df <- function(x,
 }
 
 
-#' @importFrom stats xtabs na.pass
-#' @importFrom sjmisc is_empty frq
 frq.value <- function(index, x, df.val, weights, as.prc = FALSE, max.len) {
   valstring <- ""
   # check if we have a valid index

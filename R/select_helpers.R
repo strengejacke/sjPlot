@@ -13,7 +13,6 @@ string_ends_with <- function(pattern, x) {
   grep(pattern, x, perl = TRUE)
 }
 
-#' @importFrom purrr map
 string_one_of <- function(pattern, x) {
   m <- unlist(purrr::map(pattern, ~ grep(., x, fixed = TRUE, useBytes = TRUE)))
   x[m]
@@ -42,7 +41,6 @@ obj_has_rownames <- function(x) {
 
 
 
-#' @importFrom stats reshape
 #' @keywords internal
 .gather <- function(x, names_to = "key", values_to = "value", columns = colnames(x)) {
   if (is.numeric(columns)) columns <- colnames(x)[columns]

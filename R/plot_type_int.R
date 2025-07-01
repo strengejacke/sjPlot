@@ -191,14 +191,11 @@ plot_type_int <- function(model,
 }
 
 
-#' @importFrom stats na.omit
 is_categorical <- function(x) {
   is.factor(x) || (length(unique(stats::na.omit(x))) < 3)
 }
 
 
-#' @importFrom stats quantile
-#' @importFrom purrr map_dbl
 mv_check <- function(mdrt.values, x) {
 
   # for quartiles used as moderator values, make sure

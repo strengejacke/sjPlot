@@ -26,7 +26,6 @@
 #'         \cr \cr
 #'         For adjusting plot appearance, see also \code{\link{sjPlot-themes}}.
 #'
-#' @importFrom grDevices png jpeg tiff dev.off cm svg
 #' @export
 save_plot <- function(filename,
                       fig = last_plot(),

@@ -1,4 +1,3 @@
-#' @importFrom sjmisc add_variables
 plot_type_est <- function(type,
                           ci.lvl,
                           se,

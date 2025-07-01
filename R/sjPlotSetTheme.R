@@ -145,8 +145,6 @@
 #' )
 #' plot_frq(efc$e42dep)}
 #'
-#' @importFrom scales brewer_pal grey_pal
-#' @importFrom dplyr case_when
 #' @export
 set_theme <- function(base = theme_grey(),
                       theme.font = NULL,

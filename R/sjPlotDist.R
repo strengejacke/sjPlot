@@ -37,7 +37,6 @@
 #' # a simple normal distribution
 #' dist_norm(p = 0.2)
 #'
-#' @importFrom stats qchisq pchisq dchisq qf pf df qnorm pnorm dnorm qt pt dt
 #' @export
 dist_norm <- function(norm = NULL,
                      mean = 0,

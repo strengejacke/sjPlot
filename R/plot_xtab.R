@@ -74,9 +74,6 @@
 #' plot_xtab(efc$e16sex, efc$e42dep, margin = "row",
 #'          bar.pos = "stack", coord.flip = TRUE)
 #'
-#' @importFrom dplyr group_by mutate arrange filter select summarize
-#' @importFrom scales percent
-#' @importFrom stats na.omit
 #' @export
 plot_xtab <- function(x,
                      grp,

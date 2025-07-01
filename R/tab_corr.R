@@ -88,7 +88,6 @@
 #'   tab_corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3,
 #'            CSS = list(css.valueremove = 'color:blue;'))
 #' }}
-#' @importFrom stats na.omit cor cor.test
 #' @export
 tab_corr <- function(data,
                      na.deletion = c("listwise", "pairwise"),

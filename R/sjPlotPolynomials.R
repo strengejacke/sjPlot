@@ -91,9 +91,6 @@
 #' # plot marginal effects of polynomial term
 #' plot_model(fit, type = "pred", terms = "e17age")}
 #'
-#' @importFrom scales grey_pal brewer_pal
-#' @importFrom stats lm glm binomial predict poly
-#' @importFrom graphics plot
 #' @export
 sjp.poly <- function(x,
                      poly.term,
@@ -215,7 +212,6 @@ sjp.poly <- function(x,
 }
 
 
-#' @importFrom stats loess predict
 get_loess_cutpoints <- function(mydat) {
   # sort data frame by x-values
   mydat <- mydat[order(mydat$x), ]

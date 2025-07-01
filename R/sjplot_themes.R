@@ -330,9 +330,6 @@ sjplot_pal <- function(palette = "metro", n = NULL) {
 
 
 #' @rdname sjPlot-themes
-#' @importFrom purrr map_df
-#' @importFrom tidyr gather
-#' @importFrom dplyr arrange mutate
 #' @importFrom rlang .data
 #' @export
 show_sjplot_pals <- function() {

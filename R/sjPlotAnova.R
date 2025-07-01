@@ -30,10 +30,7 @@
 #' sjp.aov1(efc$c12hour, efc$e42dep)
 #'
 #'
-#' @importFrom sjmisc trim word_wrap to_value
-#' @importFrom stats confint aov summary.lm
 #' @importFrom rlang .data
-#' @importFrom sjlabelled get_label get_labels
 #' @export
 sjp.aov1 <- function(var.dep,
                      var.grp,

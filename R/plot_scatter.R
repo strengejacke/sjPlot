@@ -238,9 +238,6 @@ plot_scatter <- function(
 }
 
 
-#' @importFrom stats na.omit
-#' @importFrom sjlabelled get_labels get_label
-#' @importFrom sjmisc word_wrap
 scatter_helper <- function(
   x,
   y,

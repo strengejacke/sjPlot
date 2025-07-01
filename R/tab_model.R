@@ -1268,7 +1268,6 @@ tab_model <- function(
 }
 
 
-#' @importFrom stats na.omit
 sort_columns <- function(x, is.stan, col.order) {
   ## TODO check code for multiple response models
   ## TODO allow custom sorting
@@ -1305,7 +1304,6 @@ sort_columns <- function(x, is.stan, col.order) {
 }
 
 
-#' @importFrom dplyr select slice
 remove_unwanted <- function(dat,
                             show.intercept,
                             show.est,

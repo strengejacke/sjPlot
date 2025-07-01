@@ -40,9 +40,6 @@
 #'            blue and red colors indicate positive or negative correlations, where
 #'            stronger correlations are darker.
 #'
-#' @importFrom tidyr gather
-#' @importFrom scales brewer_pal grey_pal
-#' @importFrom stats cor cor.test na.omit
 #' @export
 sjp.corr <- function(data,
                      title = NULL,

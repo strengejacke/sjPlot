@@ -8,8 +8,6 @@ data_frame <- function(...) {
 is.stan <- function(x) inherits(x, c("stanreg", "stanfit", "brmsfit"))
 
 
-#' @importFrom sjmisc is_empty
-#' @importFrom dplyr n_distinct
 stan.has.multiranef <- function(x) {
   if (obj_has_name(x, "facet")) {
     ri <- string_starts_with("(Intercept", x = x$facet)
@@ -25,9 +23,6 @@ has_value_labels <- function(x) {
 }
 
 
-#' @importFrom grDevices axisTicks
-#' @importFrom dplyr if_else
-#' @importFrom sjmisc is_empty
 axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, exponentiate, min.est, max.est) {
 
   # factor to multiply the axis limits. for exponentiated scales,
@@ -145,7 +140,6 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
 }
 
 
-#' @importFrom dplyr case_when
 get_p_stars <- function(pval, thresholds = NULL) {
 
   if (is.null(thresholds)) thresholds <- c(.05, .01, .001)
@@ -171,7 +165,6 @@ is_brms_mixed <- function(fit) {
 
 
 # short checker so we know if we need more summary statistics like ICC
-#' @importFrom insight model_info is_multivariate
 is_mixed_model <- function(fit) {
   mi <- insight::model_info(fit)
   if (is.null(mi)) {
@@ -246,8 +239,6 @@ list.depth <- function(this, thisdepth = 0) {
 }
 
 
-#' @importFrom purrr map flatten_chr
-#' @importFrom sjmisc is_empty trim
 parse_terms <- function(x) {
   if (sjmisc::is_empty(x)) return(x)
 
@@ -290,7 +281,6 @@ parse_terms <- function(x) {
 }
 
 
-#' @importFrom sjmisc trim
 clear_terms <- function(x) {
   # get positions of variable names and see if we have
   # a suffix for certain values
@@ -306,8 +296,6 @@ clear_terms <- function(x) {
 }
 
 
-#' @importFrom purrr map_lgl
-#' @importFrom sjmisc is_empty
 is_empty_list <- function(x) {
   all(purrr::map_lgl(x, sjmisc::is_empty))
 }
@@ -323,13 +311,11 @@ model_deviance <- function(x) {
 }
 
 
-#' @importFrom performance performance_aic
 model_aic <- function(x) {
   performance::performance_aic(x)
 }
 
 
-#' @importFrom performance performance_aicc
 model_aicc <- function(x) {
   tryCatch(
     {
@@ -340,7 +326,6 @@ model_aicc <- function(x) {
 }
 
 
-#' @importFrom stats logLik
 model_loglik <- function(x) {
   tryCatch(
     {
@@ -351,7 +336,6 @@ model_loglik <- function(x) {
 }
 
 
-#' @importFrom stats deviance
 m_deviance <- function(x) {
   if (is_merMod(x)) {
     if (!requireNamespace("lme4", quietly = TRUE)) {
@@ -367,7 +351,6 @@ m_deviance <- function(x) {
 }
 
 
-#' @importFrom purrr map as_vector
 tidy_label <- function(labs, sep = ".") {
   # create table, and check if any value label is duplicated
   duped.val <- names(which(table(labs) > 1))

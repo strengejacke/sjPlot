@@ -99,8 +99,6 @@
 #'   )
 #' }
 #' }
-#' @importFrom stats ftable
-#' @importFrom sjstats crosstable_statistics table_values
 #' @export
 tab_xtab <- function(var.row,
                      var.col,

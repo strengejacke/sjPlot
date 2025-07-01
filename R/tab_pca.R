@@ -66,8 +66,6 @@
 #' if (interactive()) {
 #'   tab_pca(efc[, start:end])
 #' }}
-#' @importFrom stats prcomp
-#' @importFrom performance cronbachs_alpha
 #' @export
 tab_pca <- function(data,
                     rotation = c("varimax", "quartimax", "promax", "oblimin", "simplimax", "cluster", "none"),

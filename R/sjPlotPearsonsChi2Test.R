@@ -25,8 +25,6 @@
 #' # plot Chi2-contingency-table
 #' sjp.chi2(mydf, axis.labels = items)
 #'
-#' @importFrom grDevices rgb
-#' @importFrom dplyr bind_rows
 #' @export
 sjp.chi2 <- function(df,
                      title = "Pearson's Chi2-Test of Independence",
