@@ -130,12 +130,12 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
 
   # plot response against residuals, to see where our model over- or
   # underestimates the outcome
-  p <- ggplot2::ggplot(data = res, aes_string(x = ".response", y = "residuals")) +
+  p <- ggplot2::ggplot(data = res, ggplot2::aes_string(x = ".response", y = "residuals")) +
     geom_hline(yintercept = 0) +
-    geom_point() +
-    stat_smooth(method = "loess") +
+    ggplot2::geom_point() +
+    ggplot2::stat_smooth(method = "loess") +
     theme_minimal() +
-    labs(y = "Residuals", x = resp.name)
+    ggplot2::labs(y = "Residuals", x = resp.name)
 
   # plot it
   p

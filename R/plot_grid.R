@@ -49,7 +49,7 @@
 plot_grid <- function(x, margin = c(1, 1, 1, 1), tags = NULL) {
   # check package availability -----
   if (!requireNamespace("gridExtra", quietly = TRUE)) {
-    stop("Package `gridExtra` needed for this function to work. Please install it.", call. = F)
+    stop("Package `gridExtra` needed for this function to work. Please install it.", call. = FALSE)
   }
 
   # if user did not pass plot.list value, but the complete object returned
@@ -75,7 +75,7 @@ plot_grid <- function(x, margin = c(1, 1, 1, 1), tags = NULL) {
 
   if (!is.null(tags_labels)) {
     for (i in 1:length(x)) {
-      x[[i]] <- x[[i]] + labs(tag = tags_labels[i])
+      x[[i]] <- x[[i]] + ggplot2::labs(tag = tags_labels[i])
     }
   }
 

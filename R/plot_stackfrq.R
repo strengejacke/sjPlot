@@ -92,14 +92,30 @@ plot_stackfrq <- function(items,
 
       # plot
       plots <- .plot_stackfrq_helper(
-        items = tmp, title = tmp.title, legend.title = legend.title, legend.labels = legend.labels,
-        axis.titles = axis.titles, axis.labels = axis.labels, weight.by = weight.by,
-        sort.frq = sort.frq, wrap.title = wrap.title, wrap.labels = wrap.labels,
-        wrap.legend.title = wrap.legend.title, wrap.legend.labels = wrap.legend.labels,
-        geom.size = geom.size, geom.colors = geom.colors, show.prc = show.prc,
-        show.n = show.n, show.total = show.total, show.axis.prc = show.axis.prc,
-        show.legend = show.legend, grid.breaks = grid.breaks, expand.grid = expand.grid,
-        digits = digits, vjust = vjust, coord.flip = coord.flip
+        items = tmp,
+        title = tmp.title,
+        legend.title = legend.title,
+        legend.labels = legend.labels,
+        axis.titles = axis.titles,
+        axis.labels = axis.labels,
+        weight.by = weight.by,
+        sort.frq = sort.frq,
+        wrap.title = wrap.title,
+        wrap.labels = wrap.labels,
+        wrap.legend.title = wrap.legend.title,
+        wrap.legend.labels = wrap.legend.labels,
+        geom.size = geom.size,
+        geom.colors = geom.colors,
+        show.prc = show.prc,
+        show.n = show.n,
+        show.total = show.total,
+        show.axis.prc = show.axis.prc,
+        show.legend = show.legend,
+        grid.breaks = grid.breaks,
+        expand.grid = expand.grid,
+        digits = digits,
+        vjust = vjust,
+        coord.flip = coord.flip
       )
 
       # add plots, check for NULL results
@@ -107,14 +123,30 @@ plot_stackfrq <- function(items,
     }
   } else {
     pl <- .plot_stackfrq_helper(
-      items = items, title = title, legend.title = legend.title, legend.labels = legend.labels,
-      axis.titles = axis.titles, axis.labels = axis.labels, weight.by = weight.by,
-      sort.frq = sort.frq, wrap.title = wrap.title, wrap.labels = wrap.labels,
-      wrap.legend.title = wrap.legend.title, wrap.legend.labels = wrap.legend.labels,
-      geom.size = geom.size, geom.colors = geom.colors, show.prc = show.prc,
-      show.n = show.n, show.total = show.total, show.axis.prc = show.axis.prc,
-      show.legend = show.legend, grid.breaks = grid.breaks, expand.grid = expand.grid,
-      digits = digits, vjust = vjust, coord.flip = coord.flip
+      items = items,
+      title = title,
+      legend.title = legend.title,
+      legend.labels = legend.labels,
+      axis.titles = axis.titles,
+      axis.labels = axis.labels,
+      weight.by = weight.by,
+      sort.frq = sort.frq,
+      wrap.title = wrap.title,
+      wrap.labels = wrap.labels,
+      wrap.legend.title = wrap.legend.title,
+      wrap.legend.labels = wrap.legend.labels,
+      geom.size = geom.size,
+      geom.colors = geom.colors,
+      show.prc = show.prc,
+      show.n = show.n,
+      show.total = show.total,
+      show.axis.prc = show.axis.prc,
+      show.legend = show.legend,
+      grid.breaks = grid.breaks,
+      expand.grid = expand.grid,
+      digits = digits,
+      vjust = vjust,
+      coord.flip = coord.flip
     )
   }
 
@@ -321,21 +353,21 @@ plot_stackfrq <- function(items,
   mydat$digits <- digits
   if (show.prc && !show.n) {
     ggvaluelabels <- geom_text(
-      aes(y = .data$ypos, label = sprintf("%.*f%%", .data$digits, 100 * .data$prc)),
+      ggplot2::aes(y = .data$ypos, label = sprintf("%.*f%%", .data$digits, 100 * .data$prc)),
       vjust = vjust
     )
   } else if (show.n && !show.prc) {
     ggvaluelabels <- geom_text(
-      aes(y = .data$ypos, label = sprintf("%i", as.integer(.data$frq))),
+      ggplot2::aes(y = .data$ypos, label = sprintf("%i", as.integer(.data$frq))),
       vjust = vjust
     )
   } else if (show.n && show.prc) {
     ggvaluelabels <- geom_text(
-      aes(y = .data$ypos, label = sprintf("%.*f%% (n=%i)", .data$digits, 100 * .data$prc, as.integer(.data$frq))),
+      ggplot2::aes(y = .data$ypos, label = sprintf("%.*f%% (n=%i)", .data$digits, 100 * .data$prc, as.integer(.data$frq))),
       vjust = vjust
     )
   } else {
-    ggvaluelabels <-  geom_text(aes(y = .data$ypos), label = "")
+    ggvaluelabels <-  geom_text(ggplot2::aes(y = .data$ypos), label = "")
   }
 
   # Set up grid breaks
@@ -350,9 +382,9 @@ plot_stackfrq <- function(items,
   # change x axis order then
 
   if (reverseOrder && is.null(sort.frq)) {
-    baseplot <- ggplot2::ggplot(mydat, aes(x = rev(.data$grp), y = .data$prc, fill = .data$cat))
+    baseplot <- ggplot2::ggplot(mydat, ggplot2::aes(x = rev(.data$grp), y = .data$prc, fill = .data$cat))
   } else {
-    baseplot <- ggplot2::ggplot(mydat, aes(x = .data$grp, y = .data$prc, fill = .data$cat))
+    baseplot <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$grp, y = .data$prc, fill = .data$cat))
   }
 
   baseplot <- baseplot +
@@ -372,7 +404,7 @@ plot_stackfrq <- function(items,
     # show absolute and percentage value of each bar.
     ggvaluelabels +
     # no additional labels for the x- and y-axis, only diagram title
-    labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
+    ggplot2::labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
     # print value labels to the x-axis.
     # If parameter "axis.labels" is NULL, the category numbers (1 to ...)
     # appear on the x-axis

@@ -71,7 +71,9 @@ plot_residuals <- function(fit, geom.size = 2, remove.estimates = NULL, show.lin
   # set default variable labels, used as column names, so labelled
   # data variable labels appear in facet grid header.
   sel <- 2:length(keep)
-  var.labels <- sjlabelled::get_label(dummy, def.value = colnames(dummy)[sel])[sel]
+  var.labels <- sjlabelled::get_label(dummy, def.value = colnames(dummy)[sel])[
+    sel
+  ]
   if (is.null(var.labels) || all(var.labels == "")) var.labels <- colnames(dummy)[sel]
   colnames(dummy)[sel] <- var.labels
 
@@ -82,24 +84,31 @@ plot_residuals <- function(fit, geom.size = 2, remove.estimates = NULL, show.lin
   colnames(mydat)[1] <- ".response"
 
   # melt data, build basic plot
-  res.plot <- ggplot2::ggplot(mydat, aes(x = .data$x, y = .data$.response)) +
-    stat_smooth(method = "lm", se = show.ci, colour = "grey70")
+  res.plot <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$x, y = .data$.response)) +
+    ggplot2::stat_smooth(method = "lm", se = show.ci, colour = "grey70")
 
   if (show.lines) res.plot <- res.plot +
-    geom_segment(aes(xend = .data$x, yend = .data$predicted), alpha = .3)
+    ggplot2::geom_segment(ggplot2::aes(xend = .data$x, yend = .data$predicted), alpha = .3)
 
   if (show.resid) res.plot <- res.plot +
-    geom_point(aes(fill = .data$residuals), size = geom.size, shape = 21, colour = "grey50")
+    ggplot2::geom_point(ggplot2::aes(fill = .data$residuals), size = geom.size, shape = 21, colour = "grey50")
 
   if (show.pred) res.plot <- res.plot +
-    geom_point(aes(y = .data$predicted), shape = 1, size = geom.size)
+    ggplot2::geom_point(ggplot2::aes(y = .data$predicted), shape = 1, size = geom.size)
 
   # residual plot
   res.plot <- res.plot +
-    facet_grid(~grp, scales = "free") +
-    scale_fill_gradient2(low = "#003399", mid = "white", high = "#993300") +
-    guides(color = "none", fill = "none") +
-    labs(x = NULL, y = sjlabelled::get_label(mydat[[1]], def.value = rv))
+    ggplot2::facet_grid(~grp, scales = "free") +
+    ggplot2::scale_fill_gradient2(
+      low = "#003399",
+      mid = "white",
+      high = "#993300"
+    ) +
+    ggplot2::guides(color = "none", fill = "none") +
+    ggplot2::labs(
+      x = NULL,
+      y = sjlabelled::get_label(mydat[[1]], def.value = rv)
+    )
 
   res.plot
 }

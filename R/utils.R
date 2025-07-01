@@ -21,7 +21,7 @@ stan.has.multiranef <- function(x) {
 }
 
 has_value_labels <- function(x) {
-  !(is.null(attr(x, "labels", exact = T)) && is.null(attr(x, "value.labels", exact = T)))
+  !(is.null(attr(x, "labels", exact = TRUE)) && is.null(attr(x, "value.labels", exact = TRUE)))
 }
 
 
@@ -280,7 +280,7 @@ parse_terms <- function(x) {
   tmp <- gsub("(\\[*)(\\]*)", "", tmp)
 
   # see if we have multiple values, split at comma
-  tmp <- sjmisc::trim(strsplit(tmp, ",", fixed = T))
+  tmp <- sjmisc::trim(strsplit(tmp, ",", fixed = TRUE))
 
   parsed.terms <- seq_len(length(tmp)) %>%
     purrr::map(~ sprintf("%s%s", vars.names[.x], tmp[[.x]])) %>%

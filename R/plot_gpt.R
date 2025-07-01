@@ -231,9 +231,9 @@ gpt_helper <- function(
   # create data frame, for dplyr-chain
   mydf <-
     stats::na.omit(data.frame(
-      grp = sjlabelled::as_numeric(grp, keep.labels = F),
+      grp = sjlabelled::as_numeric(grp, keep.labels = FALSE),
       xpos = x,
-      dep = sjlabelled::as_numeric(y, keep.labels = F)
+      dep = sjlabelled::as_numeric(y, keep.labels = FALSE)
     ))
 
   # recode dependent variable's categorues
@@ -261,7 +261,7 @@ gpt_helper <- function(
 
   # copy N
   for (i in seq_len(length(pvals$grp)))
-    group.n[i] <- prettyNum(pvals$N[i], big.mark = ",", scientific = F)
+    group.n[i] <- prettyNum(pvals$N[i], big.mark = ",", scientific = FALSE)
 
   # if we want total line, repeat all for
   # complete data frame
@@ -280,7 +280,7 @@ gpt_helper <- function(
     # copy p values
     group.p <- c(group.p, get_p_stars(pvals$p))
     # copy N
-    group.n <- c(group.n, prettyNum(pvals$N, big.mark = ",", scientific = F))
+    group.n <- c(group.n, prettyNum(pvals$N, big.mark = ",", scientific = FALSE))
     # add "total" to axis labels
     axis.labels <- c(axis.labels, "Total")
   }
@@ -290,7 +290,7 @@ gpt_helper <- function(
   newdf$xpos <- suppressMessages(sjmisc::to_factor(newdf$xpos))
 
   # proportion needs to be numeric
-  newdf$ypos <- sjlabelled::as_numeric(newdf$ypos, keep.labels = F)
+  newdf$ypos <- sjlabelled::as_numeric(newdf$ypos, keep.labels = FALSE)
 
   # add N and p-values to axis labels?
   if (show.n) axis.labels <- paste0(axis.labels, " (n=", group.n, ")")
@@ -310,13 +310,13 @@ gpt_helper <- function(
   geom.colors <- col_check2(colors, pal.len)
 
   # Set up plot
-  p <- ggplot2::ggplot(newdf, aes(x = rev(.data$grp), y = .data$ypos, colour = .data$xpos, shape = .data$xpos)) +
-    geom_point(size = geom.size, fill = shape.fill.color) +
+  p <- ggplot2::ggplot(newdf, ggplot2::aes(x = rev(.data$grp), y = .data$ypos, colour = .data$xpos, shape = .data$xpos)) +
+    ggplot2::geom_point(size = geom.size, fill = shape.fill.color) +
     scale_y_continuous(labels = scales::percent, breaks = gridbreaks, limits = axis.lim) +
     scale_x_discrete(labels = rev(axis.labels)) +
     scale_shape_manual(name = legend.title, labels = legend.labels, values = shapes[1:pal.len]) +
     scale_colour_manual(name = legend.title, labels = legend.labels, values = geom.colors) +
-    labs(x = axisTitle.x, y = axisTitle.y, title = title) +
+    ggplot2::labs(x = axisTitle.x, y = axisTitle.y, title = title) +
     coord_flip()
 
   # Annotate total line?

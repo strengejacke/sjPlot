@@ -48,7 +48,7 @@ save_plot <- function(filename,
 
   # valid file ytpe?
   if (!ext %in% c("png", "jpg", "tif", "svg"))
-    stop("filetype must be one of `.png`, `.jpg`, '.svg' or `.tif`.", call. = F)
+    stop("filetype must be one of `.png`, `.jpg`, '.svg' or `.tif`.", call. = FALSE)
 
   # set printable theme, adjust font sizes.
   # this is the most critical point...

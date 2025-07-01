@@ -12,7 +12,7 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, axis.labels, ..
     # check if brms can be loaded
 
     if (!requireNamespace("brms", quietly = TRUE))
-      stop("Package `brms` needs to be loaded first!", call. = F)
+      stop("Package `brms` needs to be loaded first!", call. = FALSE)
 
     # check if prior sample are available
 
@@ -43,7 +43,7 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, axis.labels, ..
 
     # check if rstanarm can be loaded
     if (!requireNamespace("rstanarm", quietly = TRUE))
-      stop("Package `rstanarm` needs to be loaded first!", call. = F)
+      stop("Package `rstanarm` needs to be loaded first!", call. = FALSE)
 
 
     # get samples from posterior and prior
@@ -92,25 +92,25 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, axis.labels, ..
 
 
   # additional arguments?
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
   if ("alpha" %in% names(add.args)) alpha <- eval(add.args[["alpha"]])
   if ("scale" %in% names(add.args)) scale <- eval(add.args[["scale"]])
 
 
   if (!facets && requireNamespace("ggridges", quietly = TRUE)) {
-    p <- ggplot2::ggplot(pp, aes_string(y = "Term", x = "Estimate", fill = "Sample")) +
+    p <- ggplot2::ggplot(pp, ggplot2::aes_string(y = "Term", x = "Estimate", fill = "Sample")) +
       ggridges::geom_density_ridges2(alpha = alpha, rel_min_height = .005, scale = scale) +
       scale_fill_manual(values = col_check2(geom.colors, 2))
   } else {
 
-    p <- ggplot2::ggplot(pp, aes_string(x = "Estimate", fill = "Sample")) +
+    p <- ggplot2::ggplot(pp, ggplot2::aes_string(x = "Estimate", fill = "Sample")) +
       geom_density(alpha = alpha) +
       scale_fill_manual(values = col_check2(geom.colors, 2))
 
     if (!is.null(axis.labels) && !is.null(names(axis.labels))) {
-      p <- p + facet_wrap(~Term, scales = "free", labeller = labeller(.default = label_value, Term = axis.labels))
+      p <- p + ggplot2::facet_wrap(~Term, scales = "free", labeller = labeller(.default = label_value, Term = axis.labels))
     } else {
-      p <- p + facet_wrap(~Term, scales = "free")
+      p <- p + ggplot2::facet_wrap(~Term, scales = "free")
     }
   }
 

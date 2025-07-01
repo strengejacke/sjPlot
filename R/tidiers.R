@@ -124,7 +124,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     modfam <- modfam[[1]]
 
   # additional arguments for 'effects()'-function?
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
 
   # check whether we have "prob.inner" and "prob.outer" argument
   # and if so, use these for CI and Bayesian point estimate
@@ -409,7 +409,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
   # do we have a zero-inflation model?
 
-  if (modfam$is_zero_inflated || sjmisc::str_contains(dat$term, "b_zi_", ignore.case = T)) {
+  if (modfam$is_zero_inflated || sjmisc::str_contains(dat$term, "b_zi_", ignore.case = TRUE)) {
     dat$wrap.facet <- "Conditional Model"
 
     # zero-inflated part
@@ -418,7 +418,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     # check if zero-inflated part should be shown or removed
     if (show.zeroinf) {
       dat$wrap.facet[zi] <- "Zero-Inflated Model"
-      dat$term[zi] <- sub(pattern = "b_zi_", replacement = "b_", x = dat$term[zi], fixed = T)
+      dat$term[zi] <- sub(pattern = "b_zi_", replacement = "b_", x = dat$term[zi], fixed = TRUE)
     } else {
       if (!sjmisc::is_empty(zi)) dat <- dplyr::slice(dat, !! -zi)
     }

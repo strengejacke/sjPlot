@@ -36,10 +36,10 @@ if (suppressWarnings(
     p <- plot_grpfrq(efc$e42dep, efc$e16sex, type = "bar", show.grpcnt = TRUE)
 
     p <- plot_grpfrq(efc$e17age, efc$e16sex, type = "dot")
-    p <- plot_grpfrq(efc$e17age, efc$e16sex, type = "dot", show.ci = T)
-    p <- plot_grpfrq(efc$e17age, efc$e16sex, type = "line", show.ci = T)
-    p <- plot_grpfrq(efc$e17age, efc$e16sex, type = "boxplot", show.ci = T)
-    p <- plot_grpfrq(efc$e17age, efc$e16sex, type = "violin", show.ci = T)
+    p <- plot_grpfrq(efc$e17age, efc$e16sex, type = "dot", show.ci = TRUE)
+    p <- plot_grpfrq(efc$e17age, efc$e16sex, type = "line", show.ci = TRUE)
+    p <- plot_grpfrq(efc$e17age, efc$e16sex, type = "boxplot", show.ci = TRUE)
+    p <- plot_grpfrq(efc$e17age, efc$e16sex, type = "violin", show.ci = TRUE)
 
     p <- plot_grpfrq(efc$e42dep, efc$e16sex, weight.by = efc$gewicht)
     p <- plot_grpfrq(efc$e42dep, efc$e16sex, type = "dot", weight.by = efc$gewicht)

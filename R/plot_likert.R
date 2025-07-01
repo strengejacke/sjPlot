@@ -187,12 +187,12 @@ plot_likert <- function(items,
   if (is.null(groups)) {
     groups <- rep(1, length.out = ncol(items))
   } else {
-    if (!requireNamespace("cowplot", quietly = T))
-      stop("Package 'cowplot' required for this function wor work. Please install it.", call. = F)
+    if (!requireNamespace("cowplot", quietly = TRUE))
+      stop("Package 'cowplot' required for this function wor work. Please install it.", call. = FALSE)
   }
 
   if (ncol(items) != length(groups))
-    stop("Length of groups has to equal the number of items: ncol(items) != length(groups).", call. = F)
+    stop("Length of groups has to equal the number of items: ncol(items) != length(groups).", call. = FALSE)
 
   # retrieve unique factor / group index values
   findex <- unique(groups)
@@ -213,9 +213,9 @@ plot_likert <- function(items,
     # If there are 2 or more groups, the legend will be plotted according to legend.pos.
     if (length(findex) != 1) {
       if (legend.pos %in% c("top", "both") && i == 1)
-        .pl <- .pl + ggplot2::theme(legend.position = "top") + guides(fill = do.call(guide_legend, group.legend.options))
+        .pl <- .pl + ggplot2::theme(legend.position = "top") + ggplot2::guides(fill = do.call(guide_legend, group.legend.options))
       else if (legend.pos %in% c("bottom", "both") && i == length(findex))
-        .pl <- .pl + ggplot2::theme(legend.position = "bottom") + guides(fill = do.call(guide_legend, group.legend.options))
+        .pl <- .pl + ggplot2::theme(legend.position = "bottom") + ggplot2::guides(fill = do.call(guide_legend, group.legend.options))
       else if (legend.pos != "all")
         .pl <- .pl + ggplot2::theme(legend.position = "none")
     }
@@ -393,7 +393,7 @@ plot_likert <- function(items,
       if (catcount < lll) {
         # warn user that detected amount of categories and supplied legend labels
         # are different.
-        warning("Length of labels for item categories `legend.labels` differs from detected amount of categories. Use `catcount` argument to define amount of item categories, if plotting does not work.", call. = F)
+        warning("Length of labels for item categories `legend.labels` differs from detected amount of categories. Use `catcount` argument to define amount of item categories, if plotting does not work.", call. = FALSE)
         # adjust catcount to length of legend labels, because
         # we assume that labels represent the valid range of
         # item categories
@@ -406,7 +406,7 @@ plot_likert <- function(items,
       # warn user about uneven category count, but only if
       # neutral category is not inside valid categories
       if (!neutral.between)
-        warning("Detected uneven category count in items. Dropping last category.", call. = F)
+        warning("Detected uneven category count in items. Dropping last category.", call. = FALSE)
 
       catcount <- catcount - 1
     }
@@ -463,14 +463,14 @@ plot_likert <- function(items,
 
     # convert to numeric values
     if (!is.numeric(items[[i]])) {
-      items[[i]] <- sjlabelled::as_numeric(items[[i]], keep.labels = F)
+      items[[i]] <- sjlabelled::as_numeric(items[[i]], keep.labels = FALSE)
     }
 
     # If we don't plot neutral category, but item still contains
     # that category, replace it with NA
 
-    if (is.null(cat.neutral) && max(items[[i]], na.rm = T) > catcount)
-      items[[i]] <- sjmisc::set_na(items[[i]], na = catcount + 1, as.tag = F)
+    if (is.null(cat.neutral) && max(items[[i]], na.rm = TRUE) > catcount)
+      items[[i]] <- sjmisc::set_na(items[[i]], na = catcount + 1, as.tag = FALSE)
 
 
     # create proportional frequency table
@@ -503,7 +503,7 @@ plot_likert <- function(items,
       # automatic detection of amount of categories does not
       # work then.
       if (length(freq) != nrow(freq.df))
-        stop("Could not determine amount of item categories. Please use argument `catcount`.", call. = F)
+        stop("Could not determine amount of item categories. Please use argument `catcount`.", call. = FALSE)
       else
         freq.df <- as.data.frame(cbind(freq.df, freq))
     }
@@ -675,15 +675,15 @@ plot_likert <- function(items,
     # positive value bars
     geom_col(
       data = mydat.pos,
-      aes_string(x = "x", y = "frq", fill = "grp"),
+      ggplot2::aes_string(x = "x", y = "frq", fill = "grp"),
       width = geom.size
     ) +
     # negative value bars
     geom_col(
       data = mydat.neg,
-      aes_string(x = "x", y = "frq", fill = "grp"),
+      ggplot2::aes_string(x = "x", y = "frq", fill = "grp"),
       width = geom.size,
-      position = position_stack(reverse = T)
+      position = position_stack(reverse = TRUE)
     )
 
   # print bar for neutral category. this is a "fake" bar created
@@ -694,7 +694,7 @@ plot_likert <- function(items,
     gp <- gp +
       geom_rect(
         data = mydat.dk,
-        aes(
+        ggplot2::aes(
           xmin = .data$x - (geom.size / 2),
           xmax = .data$x + (geom.size / 2),
           ymin = .data$offset,
@@ -728,7 +728,7 @@ plot_likert <- function(items,
     gp <- gp +
       ggrepel::geom_text_repel(
         data = dplyr::filter(mydat.pos, .data$frq > 0),
-        aes(
+        ggplot2::aes(
           x = .data$x,
           y = .data$frq,
           label = sprintf("%.*f%s", digits, 100 * .data$frq, percsign)
@@ -740,7 +740,7 @@ plot_likert <- function(items,
       ) +
       ggrepel::geom_text_repel(
         data = dplyr::filter(mydat.neg, .data$frq < 0),
-        aes(
+        ggplot2::aes(
           x = .data$x,
           y = .data$frq,
           label = sprintf("%.*f%s", digits, 100 * abs(.data$frq), percsign)
@@ -755,7 +755,7 @@ plot_likert <- function(items,
       gp <- gp +
         geom_text(
           data = dplyr::filter(mydat.dk, .data$frq > -1),
-          aes(
+          ggplot2::aes(
             x = .data$x,
             y = .data$ypos + .data$offset + 1,
             label = sprintf("%.*f%s", digits, 100 * (1 + .data$frq), percsign)
@@ -795,7 +795,7 @@ plot_likert <- function(items,
   # continues with plot
 
   gp <- gp +
-    labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
+    ggplot2::labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
 
     # scale x is continuous to make plotting the bar annotation
     # for neutral category work...

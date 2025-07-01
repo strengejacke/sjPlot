@@ -114,7 +114,7 @@ plot_model_estimates <- function(model,
     if (length(group.terms) == nrow(dat)) {
       dat$group <- as.character(group.terms)
     } else {
-      warning("Length of `group.terms` does not equal number of model coefficients. Ignoring this argument.", call. = F)
+      warning("Length of `group.terms` does not equal number of model coefficients. Ignoring this argument.", call. = FALSE)
       group.terms <- NULL
     }
   }
@@ -290,4 +290,3 @@ plot_model_estimates <- function(model,
     }
   }
 }
-

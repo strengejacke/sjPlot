@@ -83,23 +83,23 @@ sjp.chi2 <- function(df,
   # --------------------------------------------------------
   # start with base plot object here
   # --------------------------------------------------------
-  chiPlot <- ggplot2::ggplot(data = m, aes_string(x = "Row", y = "Column", fill = "p.value", label = "p.value")) +
+  chiPlot <- ggplot2::ggplot(data = m, ggplot2::aes_string(x = "Row", y = "Column", fill = "p.value", label = "p.value")) +
     geom_tile() +
     scale_x_discrete(labels = axis.labels) +
     scale_y_discrete(labels = axis.labels) +
-    scale_fill_gradient2(low = grDevices::rgb(128, 205, 193, maxColorValue = 255),
+    ggplot2::scale_fill_gradient2(low = grDevices::rgb(128, 205, 193, maxColorValue = 255),
                          mid = "white",
                          high = grDevices::rgb(5, 113, 176, maxColorValue = 255),
                          midpoint = 0.05) +
     geom_text(label = sprintf("%.3f", m$p.value)) +
-    labs(title = title,
+    ggplot2::labs(title = title,
          x = NULL,
          y = NULL,
          fill = legend.title)
   # ---------------------------------------------------------
   # hide legend?
   # ---------------------------------------------------------
-  if (!show.legend) chiPlot <- chiPlot + guides(fill = "none")
+  if (!show.legend) chiPlot <- chiPlot + ggplot2::guides(fill = "none")
 
   chiPlot
 }

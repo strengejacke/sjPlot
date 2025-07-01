@@ -315,7 +315,7 @@ plot_grpfrq <- function(var.cnt,
     # group axis labels
     axis.labels <-
       sjmisc::group_labels(
-        sjmisc::to_value(var.cnt, keep.labels = F),
+        sjmisc::to_value(var.cnt, keep.labels = FALSE),
         size = "auto",
         n = agcnt
       )
@@ -323,7 +323,7 @@ plot_grpfrq <- function(var.cnt,
     # group variable
     grp.var.cnt <-
       sjmisc::group_var(
-        sjmisc::to_value(var.cnt, keep.labels = F),
+        sjmisc::to_value(var.cnt, keep.labels = FALSE),
         size = "auto",
         as.num = TRUE,
         n = agcnt,
@@ -407,12 +407,12 @@ plot_grpfrq <- function(var.cnt,
 
   # variables may not be factors
   if (anyNA(as.numeric(stats::na.omit(var.cnt))))
-    var.cnt <- sjmisc::to_value(var.cnt, keep.labels = F)
+    var.cnt <- sjmisc::to_value(var.cnt, keep.labels = FALSE)
   else
     var.cnt <- as.numeric(var.cnt)
 
   if (anyNA(as.numeric(stats::na.omit(var.grp))))
-    var.grp <- sjmisc::to_value(var.grp, keep.labels = F)
+    var.grp <- sjmisc::to_value(var.grp, keep.labels = FALSE)
   else
     var.grp <- as.numeric(var.grp)
 
@@ -627,7 +627,7 @@ plot_grpfrq <- function(var.cnt,
     # position_dodge displays dots in a dodged position so we avoid overlay here. This may lead
     # to a more difficult distinction of group belongings, since the dots are "horizontally spread"
     # over the digram. For a better overview, we can add a "PlotAnnotation" (see "emph.dots) here.
-    geob <- geom_point(position = position_dodge(posdodge),size = geom.size, shape = 16)
+    geob <- ggplot2::geom_point(position = position_dodge(posdodge),size = geom.size, shape = 16)
 
     # create shaded rectangle, so we know which dots belong to the same category
     if (emph.dots) {
@@ -674,15 +674,15 @@ plot_grpfrq <- function(var.cnt,
     if (bar.pos == "stack") {
       if (show.prc && show.n) {
         ggvaluelabels <-
-          geom_text(aes(y = .data$ypos, label = sprintf("%i\n(%.01f%%)", .data$frq, .data$prz)), show.legend = FALSE)
+          geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%i\n(%.01f%%)", .data$frq, .data$prz)), show.legend = FALSE)
       } else if (show.n) {
         ggvaluelabels <-
-          geom_text(aes(y = .data$ypos, label = sprintf("%i", .data$frq)), show.legend = FALSE)
+          geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%i", .data$frq)), show.legend = FALSE)
       } else if (show.prc) {
         ggvaluelabels <-
-          geom_text(aes(y = .data$ypos, label = sprintf("%.01f%%", .data$prz)), show.legend = FALSE)
+          geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%.01f%%", .data$prz)), show.legend = FALSE)
       } else {
-        ggvaluelabels <- geom_text(aes(y = .data$frq), label = "", show.legend = FALSE)
+        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$frq), label = "", show.legend = FALSE)
       }
     } else {
       # if we have dodged bars or dots, we have to use a slightly
@@ -692,7 +692,7 @@ plot_grpfrq <- function(var.cnt,
         if (coord.flip) {
           ggvaluelabels <-
             geom_text(
-              aes(y = .data$frq + y_offset, label = sprintf("%i (%.01f%%)", .data$frq, .data$prz)),
+              ggplot2::aes(y = .data$frq + y_offset, label = sprintf("%i (%.01f%%)", .data$frq, .data$prz)),
               position = text.pos,
               vjust = vjust,
               hjust = hjust,
@@ -701,7 +701,7 @@ plot_grpfrq <- function(var.cnt,
         } else {
           ggvaluelabels <-
             geom_text(
-              aes(y = .data$frq + y_offset, label = sprintf("%i\n(%.01f%%)", .data$frq, .data$prz)),
+              ggplot2::aes(y = .data$frq + y_offset, label = sprintf("%i\n(%.01f%%)", .data$frq, .data$prz)),
               position = text.pos,
               vjust = vjust,
               hjust = hjust,
@@ -711,7 +711,7 @@ plot_grpfrq <- function(var.cnt,
       } else if (show.n) {
         ggvaluelabels <-
           geom_text(
-            aes(y = .data$frq + y_offset, label = sprintf("%i", .data$frq)),
+            ggplot2::aes(y = .data$frq + y_offset, label = sprintf("%i", .data$frq)),
             position = text.pos,
             hjust = hjust,
             vjust = vjust,
@@ -720,18 +720,18 @@ plot_grpfrq <- function(var.cnt,
       } else if (show.prc) {
         ggvaluelabels <-
           geom_text(
-            aes(y = .data$frq + y_offset, label = sprintf("%.01f%%", .data$prz)),
+            ggplot2::aes(y = .data$frq + y_offset, label = sprintf("%.01f%%", .data$prz)),
             position = text.pos,
             hjust = hjust,
             vjust = vjust,
             show.legend = FALSE
           )
       } else {
-        ggvaluelabels <- geom_text(aes(y = .data$frq), label = "", show.legend = FALSE)
+        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$frq), label = "", show.legend = FALSE)
       }
     }
   } else {
-    ggvaluelabels <- geom_text(aes(y = .data$frq), label = "", show.legend = FALSE)
+    ggvaluelabels <- geom_text(ggplot2::aes(y = .data$frq), label = "", show.legend = FALSE)
   }
 
   # Set up grid breaks
@@ -748,7 +748,7 @@ plot_grpfrq <- function(var.cnt,
     # lines need colour aes
     baseplot <-
       ggplot2::ggplot(mydf,
-             aes_string(
+             ggplot2::aes_string(
                x = "xpos",
                y = "frq",
                colour = "group",
@@ -761,7 +761,7 @@ plot_grpfrq <- function(var.cnt,
     if (is.null(intr.var)) {
       baseplot <-
         ggplot2::ggplot(mydf,
-               aes_string(
+               ggplot2::aes_string(
                  x = "group",
                  y = "frq",
                  fill = "group",
@@ -770,7 +770,7 @@ plot_grpfrq <- function(var.cnt,
       scalex <- scale_x_discrete(labels = axis.labels)
     } else {
       baseplot <-
-        ggplot2::ggplot(mydf, aes(
+        ggplot2::ggplot(mydf, ggplot2::aes(
           x = interaction(.data$ia, .data$group),
           y = .data$frq,
           fill = .data$group,
@@ -800,7 +800,7 @@ plot_grpfrq <- function(var.cnt,
                    size = inner.box.dotsize, fill = fcsp)
   } else {
     if (type == "dot") {
-      baseplot <- ggplot2::ggplot(mydf, aes_string(x = "xpos", y = "frq", colour = "group"))
+      baseplot <- ggplot2::ggplot(mydf, ggplot2::aes_string(x = "xpos", y = "frq", colour = "group"))
 
       # check whether we have dots plotted, and if so, use annotation
       # We have to use annotation first, because the diagram's layers are plotted
@@ -808,7 +808,7 @@ plot_grpfrq <- function(var.cnt,
       # shaded rectangles to overlay the dots, we add them first
       if (!is.null(ganno) && !facet.grid) baseplot <- baseplot + ganno
     } else {
-      baseplot <- ggplot2::ggplot(mydf, aes_string(x = "xpos", y = "frq", fill = "group"))
+      baseplot <- ggplot2::ggplot(mydf, ggplot2::aes_string(x = "xpos", y = "frq", fill = "group"))
     }
 
     # add geom
@@ -844,7 +844,7 @@ plot_grpfrq <- function(var.cnt,
     # show absolute and percentage values for each bar
     ggvaluelabels +
     # add labels to x- and y-axis, and diagram title
-    labs(
+    ggplot2::labs(
       title = title,
       x = axisTitle.x,
       y = axisTitle.y,
@@ -869,7 +869,7 @@ plot_grpfrq <- function(var.cnt,
     baseplot <- baseplot +
       # set font size for axes.
       # ggplot2::theme(strip.text = element_text(face = "bold", size = rel(1.1))) +
-      facet_wrap(~group, scales = "free")
+      ggplot2::facet_wrap(~group, scales = "free")
   }
 
   # set geom colors

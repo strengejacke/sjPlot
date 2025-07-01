@@ -18,7 +18,7 @@ plot_type_slope <- function(model,
 
   # additional arguments?
 
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
   if ("alpha" %in% names(add.args)) alpha <- eval(add.args[["alpha"]])
   if ("show.loess" %in% names(add.args)) show.loess <- eval(add.args[["show.loess"]])
 
@@ -50,7 +50,7 @@ plot_type_slope <- function(model,
   # tell user that interaction terms are not supported by this method
 
   if (sjmisc::str_contains(deparse(stats::formula(model)), c(":", "*"), logic = "or")) {
-    warning("Interaction terms are not supported by this plot type. Output for interaction terms may be inappropriate.", call. = F)
+    warning("Interaction terms are not supported by this plot type. Output for interaction terms may be inappropriate.", call. = FALSE)
   }
 
 
@@ -110,32 +110,32 @@ plot_type_slope <- function(model,
 
   if (facets) {
 
-    p <- ggplot2::ggplot(mydat, aes(x = .data$x, y = .data$y)) +
-      stat_smooth(
+    p <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$x, y = .data$y)) +
+      ggplot2::stat_smooth(
         method = "lm", se = !is.na(ci.lvl), colour = lineColor,
         fill = lineColor, alpha = alpha, level = ci.lvl
       )
 
     if (isTRUE(show.loess))
-      p <- p + stat_smooth(method = "loess", colour = loessLineColor, se = FALSE)
+      p <- p + ggplot2::stat_smooth(method = "loess", colour = loessLineColor, se = FALSE)
 
 
     # plot raw data if requested
 
     if (show.data) {
       if (!is.null(jitter))
-        p <- p + geom_jitter(alpha = .2, colour = pointColor, shape = 16, width = jitter)
+        p <- p + ggplot2::geom_jitter(alpha = .2, colour = pointColor, shape = 16, width = jitter)
       else
-        p <- p + geom_point(alpha = .2, colour = pointColor, shape = 16)
+        p <- p + ggplot2::geom_point(alpha = .2, colour = pointColor, shape = 16)
     }
 
 
 
-    p <- p + facet_wrap(~group, scales = "free")
+    p <- p + ggplot2::facet_wrap(~group, scales = "free")
 
 
     # set plot labs
-    p <- p + labs(x = NULL, y = response)
+    p <- p + ggplot2::labs(x = NULL, y = response)
 
   } else {
 
@@ -145,20 +145,20 @@ plot_type_slope <- function(model,
 
       dat <- dplyr::filter(mydat, .data$group == !! p_v)
 
-      pl <- ggplot2::ggplot(dat, aes(x = .data$x, y = .data$y)) +
-        stat_smooth(
+      pl <- ggplot2::ggplot(dat, ggplot2::aes(x = .data$x, y = .data$y)) +
+        ggplot2::stat_smooth(
           method = "lm", se = !is.na(ci.lvl), colour = lineColor,
           fill = lineColor, alpha = alpha, level = ci.lvl
         )
 
       if (isTRUE(show.loess))
-        pl <- pl + stat_smooth(method = "loess", colour = loessLineColor, se = FALSE)
+        pl <- pl + ggplot2::stat_smooth(method = "loess", colour = loessLineColor, se = FALSE)
 
 
       # plot raw data if requested
 
       if (show.data)
-        pl <- pl + geom_point(alpha = .2, colour = pointColor, shape = 16)
+        pl <- pl + ggplot2::geom_point(alpha = .2, colour = pointColor, shape = 16)
 
 
       # set plot labs. check if we have custom axis titles
@@ -179,7 +179,7 @@ plot_type_slope <- function(model,
       }
 
       pl <- pl +
-        labs(x = xt, y = yt)
+        ggplot2::labs(x = xt, y = yt)
 
 
       # add plot object to list

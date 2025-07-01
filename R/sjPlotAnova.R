@@ -65,7 +65,7 @@ sjp.aov1 <- function(var.dep,
   if (is.null(axis.labels)) axis.labels <- sjlabelled::get_labels(var.grp,
                                                               attr.only = F,
                                                               values = NULL,
-                                                              non.labelled = T)
+                                                              non.labelled = TRUE)
   if (is.null(axis.title)) axis.title <- sjlabelled::get_label(var.dep, def.value = var.dep.name)
   if (is.null(title)) {
     t1 <- sjlabelled::get_label(var.grp, def.value = var.grp.name)
@@ -198,10 +198,10 @@ sjp.aov1 <- function(var.dep,
   if (is.null(axis.labels)) axis.labels <- row.names(df)
   # order labels
   axis.labels <- axis.labels[catorder]
-  df$means <- sjmisc::to_value(df$means, keep.labels = F)
-  df$lower <- sjmisc::to_value(df$lower, keep.labels = F)
-  df$upper <- sjmisc::to_value(df$upper, keep.labels = F)
-  df$p <- sjmisc::to_value(df$p, keep.labels = F)
+  df$means <- sjmisc::to_value(df$means, keep.labels = FALSE)
+  df$lower <- sjmisc::to_value(df$lower, keep.labels = FALSE)
+  df$upper <- sjmisc::to_value(df$upper, keep.labels = FALSE)
+  df$p <- sjmisc::to_value(df$p, keep.labels = FALSE)
   df$pv <- as.character(df$pv)
   df$xv <- as.factor(df$xv)
   # bind color values to data frame, because we cannot use several
@@ -244,20 +244,20 @@ sjp.aov1 <- function(var.dep,
   # --------------------------------------------------------
   # Start plot here!
   # --------------------------------------------------------
-  anovaplot <- ggplot2::ggplot(df, aes(y = .data$means, x = .data$xv)) +
+  anovaplot <- ggplot2::ggplot(df, ggplot2::aes(y = .data$means, x = .data$xv)) +
     # print point
-    geom_point(size = geom.size, colour = df$geocol) +
+    ggplot2::geom_point(size = geom.size, colour = df$geocol) +
     # and error bar
-    geom_errorbar(aes(ymin = .data$lower, ymax = .data$upper), colour = df$geocol, width = 0) +
+    geom_errorbar(ggplot2::aes(ymin = .data$lower, ymax = .data$upper), colour = df$geocol, width = 0) +
     # Print p-values. With vertical adjustment, so
     # they don't overlap with the errorbars
-    geom_text(aes(label = .data$pv, y = .data$means), nudge_x = y.offset, show.legend = FALSE) +
+    geom_text(ggplot2::aes(label = .data$pv, y = .data$means), nudge_x = y.offset, show.legend = FALSE) +
     # set y-scale-limits, breaks and tick labels
     scaley +
     # set value labels to x-axis
     scale_x_discrete(labels = axis.labels, limits = 1:length(axis.labels)) +
     # flip coordinates
-    labs(title = title, x = NULL, y = axis.title) +
+    ggplot2::labs(title = title, x = NULL, y = axis.title) +
     coord_flip()
 
   # check whether modelsummary should be printed

@@ -51,7 +51,7 @@ dist_norm <- function(norm = NULL,
   # --------------------------------------
   if (is.null(xmax)) {
     if (is.null(norm)) {
-      n.max <- stats::qnorm(0.00001, mean, sd, lower.tail = F)
+      n.max <- stats::qnorm(0.00001, mean, sd, lower.tail = FALSE)
     }
     # --------------------------------------
     # else, if we have a x-value, take into
@@ -60,7 +60,7 @@ dist_norm <- function(norm = NULL,
     # --------------------------------------
     else {
       n.max <- norm
-      while (stats::pnorm(n.max, mean, sd, lower.tail = F) > 0.00001) {
+      while (stats::pnorm(n.max, mean, sd, lower.tail = FALSE) > 0.00001) {
         n.max <- n.max + 1
       }
     }
@@ -75,22 +75,22 @@ dist_norm <- function(norm = NULL,
   # density normal distribution
   mydat$y <- stats::dnorm(mydat$x, mean, sd)
   # base plot with normal-distribution
-  gp <- ggplot2::ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
+  gp <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "x", y = "y")) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated x-value...
-    sub.df <- mydat[mydat$x > stats::qnorm(p, mean, sd, lower.tail = F), ]
+    sub.df <- mydat[mydat$x > stats::qnorm(p, mean, sd, lower.tail = FALSE), ]
   }
   else if (!is.null(norm)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > norm, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > stats::qnorm(0.05, mean, sd, lower.tail = F), "sig", "non-sig")
-    cs <- stats::qnorm(0.05, mean, sd, lower.tail = F)
+    sub.df$p.level  <- ifelse(sub.df$x > stats::qnorm(0.05, mean, sd, lower.tail = FALSE), "sig", "non-sig")
+    cs <- stats::qnorm(0.05, mean, sd, lower.tail = FALSE)
     gp <- gp +
       geom_ribbon(data = sub.df,
-                  aes_string(ymax = "y", fill = "p.level"),
+                  ggplot2::aes_string(ymax = "y", fill = "p.level"),
                   ymin = 0,
                   alpha = geom.alpha) +
       annotate("text",
@@ -100,7 +100,7 @@ dist_norm <- function(norm = NULL,
                vjust = 1.3)
     # add limit of p-value
     if (!is.null(norm)) {
-      pv <- stats::pnorm(norm, mean, sd, lower.tail = F)
+      pv <- stats::pnorm(norm, mean, sd, lower.tail = FALSE)
       if (pv >= 0.05) {
         gp <- gp +
           annotate("text",
@@ -176,7 +176,7 @@ dist_chisq <- function(chi2 = NULL,
   # check parameters
   # --------------------------------------
   if (is.null(deg.f)) {
-    warning("Degrees of freedom ('deg.f') needs to be specified.", call. = F)
+    warning("Degrees of freedom ('deg.f') needs to be specified.", call. = FALSE)
     return(invisible(NULL))
   }
   # --------------------------------------
@@ -187,7 +187,7 @@ dist_chisq <- function(chi2 = NULL,
   # --------------------------------------
   if (is.null(xmax)) {
     if (is.null(chi2)) {
-      chisq.max <- stats::qchisq(0.00001, deg.f, lower.tail = F)
+      chisq.max <- stats::qchisq(0.00001, deg.f, lower.tail = FALSE)
     }
     # --------------------------------------
     # else, if we have a chi2-value, take into
@@ -196,7 +196,7 @@ dist_chisq <- function(chi2 = NULL,
     # --------------------------------------
     else {
       chisq.max <- chi2
-      while (stats::pchisq(chisq.max, deg.f, lower.tail = F) > 0.00001) {
+      while (stats::pchisq(chisq.max, deg.f, lower.tail = FALSE) > 0.00001) {
         chisq.max <- chisq.max + 1
       }
     }
@@ -211,22 +211,22 @@ dist_chisq <- function(chi2 = NULL,
   # density distribution of chi2
   mydat$y <- stats::dchisq(mydat$x, deg.f)
   # base plot with chi2-distribution
-  gp <- ggplot2::ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
+  gp <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "x", y = "y")) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated chi2-value...
-    sub.df <- mydat[mydat$x > stats::qchisq(p, deg.f, lower.tail = F), ]
+    sub.df <- mydat[mydat$x > stats::qchisq(p, deg.f, lower.tail = FALSE), ]
   }
   else if (!is.null(chi2)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > chi2, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > stats::qchisq(0.05, deg.f, lower.tail = F), "sig", "non-sig")
-    cs <- stats::qchisq(0.05, deg.f, lower.tail = F)
+    sub.df$p.level  <- ifelse(sub.df$x > stats::qchisq(0.05, deg.f, lower.tail = FALSE), "sig", "non-sig")
+    cs <- stats::qchisq(0.05, deg.f, lower.tail = FALSE)
     gp <- gp +
       geom_ribbon(data = sub.df,
-                  aes_string(ymax = "y", fill = "p.level"),
+                  ggplot2::aes_string(ymax = "y", fill = "p.level"),
                   ymin = 0,
                   alpha = geom.alpha) +
       annotate("text",
@@ -237,7 +237,7 @@ dist_chisq <- function(chi2 = NULL,
                vjust = 1.2)
     # add limit of p-value
     if (!is.null(chi2)) {
-      pv <- stats::pchisq(chi2, deg.f, lower.tail = F)
+      pv <- stats::pchisq(chi2, deg.f, lower.tail = FALSE)
       if (pv >= 0.05) {
         gp <- gp +
           annotate("text",
@@ -308,7 +308,7 @@ dist_f <- function(f = NULL,
   # check parameters
   # --------------------------------------
   if (is.null(deg.f1) || is.null(deg.f2)) {
-    warning("Both degrees of freedom ('deg.f1' and 'deg.f2') needs to be specified.", call. = F)
+    warning("Both degrees of freedom ('deg.f1' and 'deg.f2') needs to be specified.", call. = FALSE)
     return(invisible(NULL))
   }
   # --------------------------------------
@@ -319,7 +319,7 @@ dist_f <- function(f = NULL,
   # --------------------------------------
   if (is.null(xmax)) {
     if (is.null(f)) {
-      f.max <- stats::qf(0.00001, deg.f1, deg.f2, lower.tail = F)
+      f.max <- stats::qf(0.00001, deg.f1, deg.f2, lower.tail = FALSE)
     # --------------------------------------
     # else, if we have a f-value, take into
     # account all possible f-values that would lead
@@ -327,7 +327,7 @@ dist_f <- function(f = NULL,
     # --------------------------------------
     } else {
       f.max <- f
-      while (stats::pf(f.max, deg.f1, deg.f2, lower.tail = F) > 0.00001) f.max <- f.max + 1
+      while (stats::pf(f.max, deg.f1, deg.f2, lower.tail = FALSE) > 0.00001) f.max <- f.max + 1
     }
   } else {
     f.max <- xmax
@@ -339,21 +339,21 @@ dist_f <- function(f = NULL,
   # density distribution of f
   mydat$y <- stats::df(mydat$x, deg.f1, deg.f2)
   # base plot with f-distribution
-  gp <- ggplot2::ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
+  gp <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "x", y = "y")) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated f-value...
-    sub.df <- mydat[mydat$x > stats::qf(p, deg.f1, deg.f2, lower.tail = F), ]
+    sub.df <- mydat[mydat$x > stats::qf(p, deg.f1, deg.f2, lower.tail = FALSE), ]
   } else if (!is.null(f)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > f, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > stats::qf(0.05, deg.f1, deg.f2, lower.tail = F), "sig", "non-sig")
-    fv <- stats::qf(0.05, deg.f1, deg.f2, lower.tail = F)
+    sub.df$p.level  <- ifelse(sub.df$x > stats::qf(0.05, deg.f1, deg.f2, lower.tail = FALSE), "sig", "non-sig")
+    fv <- stats::qf(0.05, deg.f1, deg.f2, lower.tail = FALSE)
     gp <- gp +
       geom_ribbon(data = sub.df,
-                  aes_string(ymax = "y", fill = "p.level"),
+                  ggplot2::aes_string(ymax = "y", fill = "p.level"),
                   ymin = 0,
                   alpha = geom.alpha) +
       annotate("text",
@@ -363,7 +363,7 @@ dist_f <- function(f = NULL,
                vjust = 1.3)
     # add limit of p-value
     if (!is.null(f)) {
-      pv <- stats::pf(f, deg.f1, deg.f2, lower.tail = F)
+      pv <- stats::pf(f, deg.f1, deg.f2, lower.tail = FALSE)
       if (pv >= 0.05) {
         gp <- gp +
           annotate("text",
@@ -433,7 +433,7 @@ dist_t <- function(t = NULL,
   # check parameters
   # --------------------------------------
   if (is.null(deg.f)) {
-    warning("Degrees of freedom ('deg.f') needs to be specified.", call. = F)
+    warning("Degrees of freedom ('deg.f') needs to be specified.", call. = FALSE)
     return(invisible(NULL))
   }
   # --------------------------------------
@@ -444,7 +444,7 @@ dist_t <- function(t = NULL,
   # --------------------------------------
   if (is.null(xmax)) {
     if (is.null(t)) {
-      t.max <- stats::qt(0.00001, deg.f, lower.tail = F)
+      t.max <- stats::qt(0.00001, deg.f, lower.tail = FALSE)
     }
     # --------------------------------------
     # else, if we have a t-value, take into
@@ -453,7 +453,7 @@ dist_t <- function(t = NULL,
     # --------------------------------------
     else {
       t.max <- t
-      while (stats::pt(t.max, deg.f, lower.tail = F) > 0.00001) {
+      while (stats::pt(t.max, deg.f, lower.tail = FALSE) > 0.00001) {
         t.max <- t.max + 1
       }
     }
@@ -468,22 +468,22 @@ dist_t <- function(t = NULL,
   # density distribution of t
   mydat$y <- stats::dt(mydat$x, deg.f)
   # base plot with t-distribution
-  gp <- ggplot2::ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
+  gp <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "x", y = "y")) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated t-value...
-    sub.df <- mydat[mydat$x > stats::qt(p, deg.f, lower.tail = F), ]
+    sub.df <- mydat[mydat$x > stats::qt(p, deg.f, lower.tail = FALSE), ]
   }
   else if (!is.null(t)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > t, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > stats::qt(0.05, deg.f, lower.tail = F), "sig", "non-sig")
-    tv <- stats::qt(0.05, deg.f, lower.tail = F)
+    sub.df$p.level  <- ifelse(sub.df$x > stats::qt(0.05, deg.f, lower.tail = FALSE), "sig", "non-sig")
+    tv <- stats::qt(0.05, deg.f, lower.tail = FALSE)
     gp <- gp +
       geom_ribbon(data = sub.df,
-                  aes_string(ymax = "y", fill = "p.level"),
+                  ggplot2::aes_string(ymax = "y", fill = "p.level"),
                   ymin = 0,
                   alpha = geom.alpha) +
       annotate("text",
@@ -493,7 +493,7 @@ dist_t <- function(t = NULL,
                vjust = 1.3)
     # add limit of p-value
     if (!is.null(t)) {
-      pv <- stats::pt(t, deg.f, lower.tail = F)
+      pv <- stats::pt(t, deg.f, lower.tail = FALSE)
       if (pv >= 0.05) {
         gp <- gp +
           annotate("text",

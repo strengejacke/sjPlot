@@ -63,7 +63,7 @@ plot_type_eff <- function(type,
   # save number of terms, needed later
   n.terms <- length(insight::find_predictors(model, component = "conditional", flatten = TRUE))
 
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
   if ("alpha" %in% names(add.args)) alpha <- eval(add.args[["alpha"]])
   if ("dodge" %in% names(add.args)) dodge <- eval(add.args[["dodge"]])
   if ("dot.alpha" %in% names(add.args)) dot.alpha <- eval(add.args[["dot.alpha"]])
@@ -108,15 +108,15 @@ plot_type_eff <- function(type,
   # set axis and plot titles
   if (!is.null(axis.title) && !is.null(terms)) {
     if (length(axis.title) > 1) {
-      p <- p + labs(x = axis.title[1], y = axis.title[2])
+      p <- p + ggplot2::labs(x = axis.title[1], y = axis.title[2])
     } else {
-      p <- p + labs(y = axis.title)
+      p <- p + ggplot2::labs(y = axis.title)
     }
   } else if (!is.null(axis.title) && is.null(terms)) {
     if (length(axis.title) > 1) {
-      p <- purrr::map(p, ~ .x + labs(x = axis.title[1], y = axis.title[2]))
+      p <- purrr::map(p, ~ .x + ggplot2::labs(x = axis.title[1], y = axis.title[2]))
     } else {
-      p <- purrr::map(p, ~ .x + labs(y = axis.title))
+      p <- purrr::map(p, ~ .x + ggplot2::labs(y = axis.title))
     }
   }
 
@@ -130,10 +130,10 @@ plot_type_eff <- function(type,
   if (!is.null(legend.title)) {
     if (geom.colors[1] == "bw") {
       p <- p +
-        labs(linetype = legend.title) +
-        guides(colour = "none")
+        ggplot2::labs(linetype = legend.title) +
+        ggplot2::guides(colour = "none")
     } else {
-      p <- p + labs(colour = legend.title)
+      p <- p + ggplot2::labs(colour = legend.title)
     }
   }
 

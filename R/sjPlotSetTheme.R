@@ -480,7 +480,7 @@ set_theme <- function(base = theme_grey(),
     # ----------------------------------------
     theme_set(sjtheme)
   } else {
-    warning("Either `theme` or `base` must be supplied as ggplot-theme-object to set global theme options for sjPlot.", call. = F)
+    warning("Either `theme` or `base` must be supplied as ggplot-theme-object to set global theme options for sjPlot.", call. = FALSE)
   }
 
   # ----------------------------------------
@@ -574,7 +574,7 @@ sj.setGeomColors <- function(plot,
         scale_fill_manual(values = geom.colors, guide = FALSE) +
         scale_colour_manual(values = geom.colors, guide = FALSE) +
         scale_linetype_manual(values = ltypes, guide = FALSE) +
-        guides(fill = "none", colour = "none", text = "none", linetype = "none")
+        ggplot2::guides(fill = "none", colour = "none", text = "none", linetype = "none")
     } else {
       plot <- plot +
         scale_fill_manual(values = geom.colors, labels = labels) +
@@ -582,9 +582,9 @@ sj.setGeomColors <- function(plot,
         scale_linetype_manual(values = ltypes)
       # for b/w figures, add linetype scale
       if (bw.figure) {
-        plot <- plot + guides(text = "none", colour = "none")
+        plot <- plot + ggplot2::guides(text = "none", colour = "none")
       } else {
-        plot <- plot + guides(text = "none", linetype = "none")
+        plot <- plot + ggplot2::guides(text = "none", linetype = "none")
       }
     }
 
@@ -600,7 +600,7 @@ sj.setGeomColors <- function(plot,
         scale_fill_discrete(guide = FALSE) +
         scale_colour_discrete(guide = FALSE) +
         scale_linetype_manual(values = ltypes, guide = FALSE) +
-        guides(fill = "none", colour = "none", text = "none", linetype = "none")
+        ggplot2::guides(fill = "none", colour = "none", text = "none", linetype = "none")
     } else {
       plot <- plot +
         scale_fill_discrete(labels = labels) +
@@ -608,9 +608,9 @@ sj.setGeomColors <- function(plot,
         scale_linetype_manual(values = ltypes)
       # for b/w figures, add linetype scale
       if (bw.figure) {
-        plot <- plot + guides(text = "none", colour = "none")
+        plot <- plot + ggplot2::guides(text = "none", colour = "none")
       } else {
-        plot <- plot + guides(text = "none", linetype = "none")
+        plot <- plot + ggplot2::guides(text = "none", linetype = "none")
       }
     }
 

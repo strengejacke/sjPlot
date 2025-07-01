@@ -71,7 +71,7 @@
 #' @export
 sjplot <- function(data, ..., fun = c("grpfrq", "xtab", "aov1", "likert")) {
   # check if x is a data frame
-  if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
+  if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = FALSE)
 
   # match arguments
   fun <- match.arg(fun)
@@ -129,7 +129,7 @@ sjplot <- function(data, ..., fun = c("grpfrq", "xtab", "aov1", "likert")) {
 #' @export
 sjtab <- function(data, ..., fun = c("xtab", "stackfrq")) {
   # check if x is a data frame
-  if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
+  if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = FALSE)
 
   # match fun-arguments
   fun <- match.arg(fun)

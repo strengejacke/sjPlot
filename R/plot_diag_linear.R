@@ -42,11 +42,11 @@ diag_ncv <- function(model, dot.size, line.size) {
     fitted = stats::fitted(model)
   )
 
-  ggplot2::ggplot(dat, aes_string(x = "fitted", y = "res")) +
+  ggplot2::ggplot(dat, ggplot2::aes_string(x = "fitted", y = "res")) +
     geom_intercept_line2(0, NULL) +
-    geom_point(size = dot.size) +
+    ggplot2::geom_point(size = dot.size) +
     geom_smooth(method = "loess", se = FALSE, size = line.size) +
-    labs(
+    ggplot2::labs(
       x = "Fitted values",
       y = "Residuals",
       title = "Homoscedasticity (constant variance of residuals)",
@@ -60,7 +60,7 @@ diag_ncv <- function(model, dot.size, line.size) {
 diag_norm <- function(model, geom.colors) {
   res_ <- data.frame(res = stats::residuals(model))
 
-  ggplot2::ggplot(res_, aes_string(x = "res")) +
+  ggplot2::ggplot(res_, ggplot2::aes_string(x = "res")) +
     geom_density(fill = geom.colors[1], alpha = 0.2) +
     stat_function(
       fun = dnorm,
@@ -71,7 +71,7 @@ diag_norm <- function(model, geom.colors) {
       colour = geom.colors[2],
       size = 0.8
     ) +
-    labs(
+    ggplot2::labs(
       x = "Residuals",
       y = "Density",
       title = "Non-normality of residuals",
@@ -102,11 +102,11 @@ diag_qq <- function(model, geom.colors, dot.size, line.size, ...) {
   mydf <- stats::na.omit(data.frame(x = fitted_, y = res_))
 
   # plot it
-  ggplot2::ggplot(mydf, aes_string(x = "x", y = "y")) +
-    geom_point(size = dot.size) +
+  ggplot2::ggplot(mydf, ggplot2::aes_string(x = "x", y = "y")) +
+    ggplot2::geom_point(size = dot.size) +
     scale_colour_manual(values = geom.colors) +
-    stat_smooth(method = "lm", se = FALSE, size = line.size) +
-    labs(
+    ggplot2::stat_smooth(method = "lm", se = FALSE, size = line.size) +
+    ggplot2::labs(
       title = "Non-normality of residuals and outliers",
       subtitle = "Dots should be plotted along the line",
       y = y_lab,
@@ -139,7 +139,7 @@ diag_reqq <- function(model, dot.size) {
       s3
     })
   } else {
-    re   <- lme4::ranef(model, condVar = T)
+    re   <- lme4::ranef(model, condVar = TRUE)
     se <- purrr::map(re, function(.x) {
       pv   <- attr(.x, "postVar")
       cols <- seq_len(dim(pv)[1])
@@ -152,7 +152,7 @@ diag_reqq <- function(model, dot.size) {
   if (is.null(dot.size)) dot.size <- 2
 
   # get ...-arguments
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
   if ("alpha" %in% names(add.args)) alpha <- eval(add.args[["alpha"]])
 
 
@@ -172,20 +172,20 @@ diag_reqq <- function(model, dot.size) {
       conf.high = df.y + df.ci
     )
 
-    ggplot2::ggplot(pDf, aes_string(
+    ggplot2::ggplot(pDf, ggplot2::aes_string(
       x = "nQQ",
       y = "y"
     )) +
-      facet_wrap(~ ind, scales = "free") +
-      labs(x = "Standard normal quantiles", y = "Random effect quantiles") +
+      ggplot2::facet_wrap(~ ind, scales = "free") +
+      ggplot2::labs(x = "Standard normal quantiles", y = "Random effect quantiles") +
       geom_intercept_line2(0, NULL) +
-      stat_smooth(method = "lm", alpha = alpha) +
+      ggplot2::stat_smooth(method = "lm", alpha = alpha) +
       geom_errorbar(
-        aes_string(ymin = "conf.low", ymax = "conf.high"),
+        ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
         width = 0,
         colour = "black"
       ) +
-      geom_point(size = dot.size, colour = "darkblue")
+      ggplot2::geom_point(size = dot.size, colour = "darkblue")
   })
 }
 
@@ -197,7 +197,7 @@ diag_vif <- function(fit) {
     return(NULL)
 
   if (!requireNamespace("car", quietly = TRUE))
-    stop("Package `car` needed for this function to work. Please install it.", call. = F)
+    stop("Package `car` needed for this function to work. Please install it.", call. = FALSE)
 
   vifplot <- NULL
 
@@ -231,13 +231,13 @@ diag_vif <- function(fit) {
       rownames_as_column(var = "vars")
 
 
-    vifplot <- ggplot2::ggplot(mydat, aes_string(x = "vars", y = "vif")) +
+    vifplot <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "vars", y = "vif")) +
       geom_bar(stat = "identity", width = 0.7, fill = "#80acc8") +
       geom_hline(yintercept = 5, linetype = 2, colour = "darkgreen", alpha = 0.7) +
       geom_hline(yintercept = 10, linetype = 2, colour = "darkred", alpha = 0.7) +
       annotate("text", x = 1, y = 4.7, label = "good", size = 4, colour = "darkgreen") +
       annotate("text", x = 1, y = 9.7, label = "tolerable", size = 4, colour = "darkred") +
-      labs(title = "Variance Inflation Factors (multicollinearity)", x = NULL, y = NULL) +
+      ggplot2::labs(title = "Variance Inflation Factors (multicollinearity)", x = NULL, y = NULL) +
       scale_y_continuous(limits = c(0, upperLimit), expand = c(0, 0))
   }
 

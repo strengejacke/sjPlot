@@ -201,10 +201,10 @@ tab_dfs <- function(x,
   if (is.null(footnotes)) footnotes <- rep("", length(x))
 
   if (length(titles) != length(x))
-    stop("Number of elements in `title` does not match number of data frames to print.", call. = F)
+    stop("Number of elements in `title` does not match number of data frames to print.", call. = FALSE)
 
   if (length(footnotes) != length(x))
-    stop("Number of elements in `footnote` does not match number of data frames to print.", call. = F)
+    stop("Number of elements in `footnote` does not match number of data frames to print.", call. = FALSE)
 
 
   # get HTML content

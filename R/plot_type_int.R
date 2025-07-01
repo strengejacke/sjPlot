@@ -22,7 +22,7 @@ plot_type_int <- function(model,
   # stop if no interaction found
 
   if (is.null(int.terms))
-    stop("No interaction term found in model.", call. = F)
+    stop("No interaction term found in model.", call. = FALSE)
 
 
   # get interaction terms and model frame
@@ -86,7 +86,7 @@ plot_type_int <- function(model,
           else
             sprintf("%s [0,%i]", x, ct.max)
         } else if (mdrt.val == "quart") {
-          qu <- as.vector(stats::quantile(cont_terms[[x]], na.rm = T))
+          qu <- as.vector(stats::quantile(cont_terms[[x]], na.rm = TRUE))
           sprintf("%s [%.2f,%.2f,%.2f]", x, qu[3], qu[2], qu[4])
         } else {
           x
@@ -121,7 +121,7 @@ plot_type_int <- function(model,
     dot.alpha <- .5
     log.y <- FALSE
 
-    add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+    add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
     if ("alpha" %in% names(add.args)) alpha <- eval(add.args[["alpha"]])
     if ("dodge" %in% names(add.args)) dodge <- eval(add.args[["dodge"]])
     if ("dot.alpha" %in% names(add.args)) dot.alpha <- eval(add.args[["dot.alpha"]])
@@ -156,9 +156,9 @@ plot_type_int <- function(model,
     # set axis and plot titles
     if (!is.null(axis.title)) {
       if (length(axis.title) > 1) {
-        p <- p + labs(x = axis.title[1], y = axis.title[2])
+        p <- p + ggplot2::labs(x = axis.title[1], y = axis.title[2])
       } else {
-        p <- p + labs(y = axis.title)
+        p <- p + ggplot2::labs(y = axis.title)
       }
     }
 
@@ -168,7 +168,7 @@ plot_type_int <- function(model,
 
     # set axis and plot titles
     if (!is.null(legend.title))
-      p <- p + labs(colour = legend.title)
+      p <- p + ggplot2::labs(colour = legend.title)
 
     # set axis limits
     if (!is.null(axis.lim)) {
@@ -209,7 +209,7 @@ mv_check <- function(mdrt.values, x) {
 
     if (!is.data.frame(x)) x <- as.data.frame(x)
 
-    mvc <- purrr::map_dbl(x, ~ length(unique(as.vector(stats::quantile(.x, na.rm = T)))))
+    mvc <- purrr::map_dbl(x, ~ length(unique(as.vector(stats::quantile(.x, na.rm = TRUE)))))
 
     if (any(mvc < 3)) {
       # tell user that quart won't work

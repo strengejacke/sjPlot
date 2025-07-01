@@ -53,7 +53,7 @@ utils::globalVariables("density")
 #'          If not specified, a default labelling  is chosen.
 #'          \strong{Note:} Some plot types do not support this argument. In such
 #'          cases, use the return value and add axis titles manually with
-#'          \code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}
+#'          \code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + ggplot2::labs(x = ...)}
 #'
 #' @inheritParams plot_scatter
 #' @inheritParams plot_grpfrq
@@ -376,7 +376,7 @@ plot_frq_helper <- function(
 
   # count variable may not be a factor!
   if (is.factor(var.cnt) || is.character(var.cnt)) {
-    var.cnt <- sjmisc::to_value(var.cnt, keep.labels = F)
+    var.cnt <- sjmisc::to_value(var.cnt, keep.labels = FALSE)
   }
 
   # If we have a histogram, caluclate means of groups
@@ -421,7 +421,7 @@ plot_frq_helper <- function(
       }
     } else if (type == "histogram") {
       # what is the maximum values after binning for histograms?
-      hist.grp.cnt <- ceiling(diff(range(var.cnt, na.rm = T)) / geom.size)
+      hist.grp.cnt <- ceiling(diff(range(var.cnt, na.rm = TRUE)) / geom.size)
       # ... or the amount of max. answers per category
       # add 10% margin to upper limit
       upper_lim <- max(pretty(table(
@@ -454,7 +454,7 @@ plot_frq_helper <- function(
             label = sprintf("%i (%.01f%%)", mydat$frq, mydat$valid.prc),
             hjust = hjust,
             vjust = vjust,
-            aes(y = .data$label.pos + y_offset)
+            ggplot2::aes(y = .data$label.pos + y_offset)
           )
       } else {
         ggvaluelabels <-
@@ -462,7 +462,7 @@ plot_frq_helper <- function(
             label = sprintf("%i\n(%.01f%%)", mydat$frq, mydat$valid.prc),
             hjust = hjust,
             vjust = vjust,
-            aes(y = .data$label.pos + y_offset)
+            ggplot2::aes(y = .data$label.pos + y_offset)
           )
       }
     } else if (show.n) {
@@ -471,7 +471,7 @@ plot_frq_helper <- function(
         label = sprintf("%i", mydat$frq),
         hjust = hjust,
         vjust = vjust,
-        aes(y = .data$label.pos + y_offset)
+        ggplot2::aes(y = .data$label.pos + y_offset)
       )
     } else if (show.prc) {
       # here we have counts, without percentages
@@ -480,15 +480,15 @@ plot_frq_helper <- function(
           label = sprintf("%.01f%%", mydat$valid.prc),
           hjust = hjust,
           vjust = vjust,
-          aes(y = .data$label.pos + y_offset)
+          ggplot2::aes(y = .data$label.pos + y_offset)
         )
     } else {
       # no labels
-      ggvaluelabels <-  geom_text(aes(y = .data$frq), label = "")
+      ggvaluelabels <-  geom_text(ggplot2::aes(y = .data$frq), label = "")
     }
   } else {
     # no labels
-    ggvaluelabels <-  geom_text(aes(y = .data$frq), label = "")
+    ggvaluelabels <-  geom_text(ggplot2::aes(y = .data$frq), label = "")
   }
 
   # Set up grid breaks
@@ -529,7 +529,7 @@ plot_frq_helper <- function(
     if (type == "bar") {
       geob <- geom_bar(stat = "identity", width = geom.size, fill = geom.colors)
     } else if (type == "dot") {
-      geob <- geom_point(size = geom.size, colour = geom.colors)
+      geob <- ggplot2::geom_point(size = geom.size, colour = geom.colors)
     }
 
     # as factor, but preserve order
@@ -538,11 +538,11 @@ plot_frq_helper <- function(
     # mydat is a data frame that only contains one variable (var).
     # Must be declared as factor, so the bars are central aligned to
     # each x-axis-break.
-    baseplot <- ggplot2::ggplot(mydat, aes(x = .data$val, y = .data$frq)) +
+    baseplot <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$val, y = .data$frq)) +
       geob +
       yscale +
       # remove guide / legend
-      guides(fill = "none") +
+      ggplot2::guides(fill = "none") +
       # show absolute and percentage value of each bar.
       ggvaluelabels +
       # print value labels to the x-axis.
@@ -555,7 +555,7 @@ plot_frq_helper <- function(
       ebcol <- ifelse(type == "dot", geom.colors, errorbar.color)
       # print confidence intervalls (error bars)
       baseplot <- baseplot +
-        geom_errorbar(aes_string(ymin = "lower.ci", ymax = "upper.ci"), colour = ebcol, width = 0)
+        geom_errorbar(ggplot2::aes_string(ymin = "lower.ci", ymax = "upper.ci"), colour = ebcol, width = 0)
     }
 
     # check whether coordinates should be flipped, i.e.
@@ -565,7 +565,7 @@ plot_frq_helper <- function(
   # Start box plot here -----
   } else if (type == "boxplot" || type == "violin") {
     # setup base plot
-    baseplot <- ggplot2::ggplot(mydat, aes_string(x = "grp", y = "frq"))
+    baseplot <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "grp", y = "frq"))
     # and x-axis
     scalex <- scale_x_discrete(labels = "")
     if (type == "boxplot") {
@@ -598,10 +598,10 @@ plot_frq_helper <- function(
   # Start density plot here -----
   } else if (type == "density") {
     # First, plot histogram with density curve
-    baseplot <- ggplot2::ggplot(hist.dat, aes(x = .data$xv)) +
-      geom_histogram(aes(y = stat(density)), binwidth = geom.size, fill = geom.colors) +
+    baseplot <- ggplot2::ggplot(hist.dat, ggplot2::aes(x = .data$xv)) +
+      geom_histogram(ggplot2::aes(y = stat(density)), binwidth = geom.size, fill = geom.colors) +
       # transparent density curve above bars
-      geom_density(aes(y = stat(density)), fill = "cornsilk", alpha = 0.3) +
+      geom_density(ggplot2::aes(y = stat(density)), fill = "cornsilk", alpha = 0.3) +
       # remove margins from left and right diagram side
       scale_x_continuous(expand = expand.grid, breaks = histgridbreaks, limits = xlim)
 
@@ -628,9 +628,9 @@ plot_frq_helper <- function(
       # original data needed for normal curve
       baseplot <- ggplot2::ggplot(mydat) +
         # second data frame mapped to the histogram geom
-        geom_histogram(data = hist.dat, aes(x = .data$xv), binwidth = geom.size, fill = geom.colors)
+        geom_histogram(data = hist.dat, ggplot2::aes(x = .data$xv), binwidth = geom.size, fill = geom.colors)
     } else {
-      baseplot <- ggplot2::ggplot(mydat, aes(x = .data$val, y = .data$frq)) +
+      baseplot <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$val, y = .data$frq)) +
         geom_area(alpha = 0.3) +
         geom_line(linewidth = geom.size, colour = geom.colors) +
         ggvaluelabels
@@ -707,7 +707,7 @@ plot_frq_helper <- function(
   }
 
   # set axes text and
-  baseplot <- baseplot + labs(title = title, x = axis.title, y = NULL)
+  baseplot <- baseplot + ggplot2::labs(title = title, x = axis.title, y = NULL)
 
   # Check whether ggplot object should be returned or plotted
   baseplot

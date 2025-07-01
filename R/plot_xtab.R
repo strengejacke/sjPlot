@@ -325,7 +325,7 @@ plot_xtab <- function(x,
     ul <- max(mydf %>%
                 dplyr::group_by(.data$rowname) %>%
                 dplyr::summarize(ges = sum(.data$prc)) %>%
-                dplyr::select(.data$ges), na.rm = T)
+                dplyr::select(.data$ges), na.rm = TRUE)
     if (ul > 1L)
       upper_lim <- ul
     else
@@ -360,32 +360,32 @@ plot_xtab <- function(x,
     # as well, sofor better reading
     if (bar.pos == "dodge") {
       if (show.prc && show.n) {
-        ggvaluelabels <- geom_text(aes(y = .data$ypos + y_offset, label = sprintf("%.01f%%%s(n=%i)", 100 * .data$prc, .data$line.break, .data$n)),
+        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos + y_offset, label = sprintf("%.01f%%%s(n=%i)", 100 * .data$prc, .data$line.break, .data$n)),
                                    position = position_dodge(posdodge),
                                    vjust = vjust, hjust = hjust)
       } else if (show.prc) {
-        ggvaluelabels <- geom_text(aes(y = .data$ypos + y_offset, label = sprintf("%.01f%%", 100 * .data$prc)),
+        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos + y_offset, label = sprintf("%.01f%%", 100 * .data$prc)),
                                    position = position_dodge(posdodge),
                                    vjust = vjust, hjust = hjust)
       } else if (show.n) {
-        ggvaluelabels <- geom_text(aes(y = .data$ypos + y_offset, label = sprintf("n=%i", .data$n)),
+        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos + y_offset, label = sprintf("n=%i", .data$n)),
                                    position = position_dodge(posdodge),
                                    vjust = vjust, hjust = hjust)
       }
     } else {
       if (show.prc && show.n) {
-        ggvaluelabels <- geom_text(aes(y = .data$ypos, label = sprintf("%.01f%%%s(n=%i)", 100 * .data$prc, .data$line.break, .data$n)),
+        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%.01f%%%s(n=%i)", 100 * .data$prc, .data$line.break, .data$n)),
                                    vjust = vjust, hjust = hjust)
       } else if (show.prc) {
-        ggvaluelabels <- geom_text(aes(y = .data$ypos, label = sprintf("%.01f%%", 100 * .data$prc)),
+        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%.01f%%", 100 * .data$prc)),
                                    vjust = vjust, hjust = hjust)
       } else if (show.n) {
-        ggvaluelabels <- geom_text(aes(y = .data$ypos, label = sprintf("n=%i", .data$n)),
+        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("n=%i", .data$n)),
                                    vjust = vjust, hjust = hjust)
       }
     }
   } else {
-    ggvaluelabels <- geom_text(aes_string(y = "ypos"), label = "")
+    ggvaluelabels <- geom_text(ggplot2::aes_string(y = "ypos"), label = "")
   }
   # --------------------------------------------------------
   # Set up grid breaks
@@ -419,18 +419,18 @@ plot_xtab <- function(x,
   # check if we have lines
   } else if (type == "line") {
     # for lines, numeric scale
-    mydf$xpos <- sjlabelled::as_numeric(mydf$xpos, keep.labels = F)
+    mydf$xpos <- sjlabelled::as_numeric(mydf$xpos, keep.labels = FALSE)
     line.stat <- ifelse(isTRUE(smooth.lines), "smooth", "identity")
-    geob <- geom_line(aes_string(colour = "group"), linewidth = geom.size, stat = line.stat)
+    geob <- geom_line(ggplot2::aes_string(colour = "group"), linewidth = geom.size, stat = line.stat)
   }
   # --------------------------------------------------------
   # start plot here
   # --------------------------------------------------------
-  baseplot <- ggplot2::ggplot(mydf, aes_string(x = "xpos", y = "prc", fill = "group")) + geob
+  baseplot <- ggplot2::ggplot(mydf, ggplot2::aes_string(x = "xpos", y = "prc", fill = "group")) + geob
   # if we have line diagram, print lines here
   if (type == "line") {
     baseplot <- baseplot +
-      geom_point(size = dot.size, shape = 21, show.legend = FALSE)
+      ggplot2::geom_point(size = dot.size, shape = 21, show.legend = FALSE)
   }
   # ------------------------------------------
   # check whether table summary should be printed
@@ -440,7 +440,7 @@ plot_xtab <- function(x,
     # show absolute and percentage value of each bar.
     ggvaluelabels +
     # no additional labels for the x- and y-axis, only diagram title
-    labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
+    ggplot2::labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
     # print value labels to the x-axis.
     # If argument "axis.labels" is NULL, the category numbers (1 to ...)
     # appear on the x-axis

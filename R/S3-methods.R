@@ -221,7 +221,7 @@ pgrpmeans <- function(x, ...) {
     "Mean for %s by %s<br><span class=\"subtitle\">grouped by %s</span>",
     attr(.x, "dv.label", exact = TRUE),
     attr(.x, "grp.label", exact = TRUE),
-    gsub(pattern = "\n", replacement = "<br>", attr(.x, "group", exact = TRUE), fixed = T)
+    gsub(pattern = "\n", replacement = "<br>", attr(.x, "group", exact = TRUE), fixed = TRUE)
   ))
 
   footnotes <- purrr::map_chr(x, ~ sprintf(
@@ -349,7 +349,7 @@ pdescr <- function(x, ...) {
   digits <- 2
 
   # do we have digits argument?
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
   if ("digits" %in% names(add.args)) digits <- eval(add.args[["digits"]])
 
   uv <- attr(x, "print", exact = TRUE) == "viewer"
@@ -409,13 +409,13 @@ pdescr <- function(x, ...) {
 pgdescr <- function(x, ...) {
   titles <- purrr::map_chr(x, ~ sprintf(
     "Basic descriptives<br><span class=\"subtitle\"><em>grouped by</em> %s</span>",
-    gsub(pattern = "\n", replacement = "<br>", attr(.x, "group", exact = TRUE), fixed = T)
+    gsub(pattern = "\n", replacement = "<br>", attr(.x, "group", exact = TRUE), fixed = TRUE)
   ))
 
   digits <- 2
 
   # do we have digits argument?
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
   if ("digits" %in% names(add.args)) digits <- eval(add.args[["digits"]])
 
   uv <- attr(x, "print", exact = TRUE) == "viewer"
@@ -485,8 +485,8 @@ pfrq <- function(x, ...) {
     ret <- ""
 
     # get variable label
-    lab <- attr(i, "label", exact = T)
-    vt <- attr(i, "vartype", exact = T)
+    lab <- attr(i, "label", exact = TRUE)
+    vt <- attr(i, "vartype", exact = TRUE)
 
     # fix variable type string
     if (!sjmisc::is_empty(vt))
@@ -497,12 +497,12 @@ pfrq <- function(x, ...) {
     if (!is.null(lab)) ret <- sprintf("%s%s", lab, vt)
 
     # get grouping title label
-    grp <- attr(i, "group", exact = T)
+    grp <- attr(i, "group", exact = TRUE)
 
     if (!is.null(grp))
       ret <- sprintf("%s<br><span class=\"subtitle\"><em>grouped by:</em><br>%s</span>", ret, grp)
 
-    gsub(pattern = "\n", replacement = "<br>", x = ret, fixed = T)
+    gsub(pattern = "\n", replacement = "<br>", x = ret, fixed = TRUE)
   })
 
 
@@ -510,8 +510,8 @@ pfrq <- function(x, ...) {
     "total N=%i &middot; valid N=%i &middot; x&#772;=%.2f &middot; &sigma;=%.2f\n",
     sum(.x$frq, na.rm = TRUE),
     sum(.x$frq[1:(nrow(.x) - 1)], na.rm = TRUE),
-    attr(.x, "mean", exact = T),
-    attr(.x, "sd", exact = T)
+    attr(.x, "mean", exact = TRUE),
+    attr(.x, "sd", exact = TRUE)
   )
   )
 

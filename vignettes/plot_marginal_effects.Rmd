@@ -16,12 +16,12 @@ vignette: >
 
 ```{r set-options, echo = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE, 
-  comment = "#>", 
+  collapse = TRUE,
+  comment = "#>",
   message = FALSE,
-  dev = "png", 
-  fig.width = 7, 
-  fig.height = 3.5, 
+  dev = "png",
+  fig.width = 7,
+  fig.height = 3.5,
   warning = FALSE,
   eval = TRUE
   # eval = if (isTRUE(exists("params"))) params$EVAL else FALSE
@@ -149,7 +149,7 @@ However, one may want to set factors to their _proportions_ instead of reference
 
 ```{r}
 # proportion is used for "c172code", i.e. it is set to
-# mean(sjlabelled::as_numeric(efc$c172code), na.rm = T),
+# mean(sjlabelled::as_numeric(efc$c172code), na.rm = TRUE),
 # which is about 1.9715
 plot_model(fit, type = "eff", terms = "c12hour")
 ```

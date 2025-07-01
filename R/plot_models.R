@@ -124,8 +124,9 @@ plot_models <- function(...,
   if (missing(value.size) || is.null(value.size)) value.size <- 4
 
   # check length. if we have a list of fitted model, we need to "unlist" them
-  if (length(input_list) == 1 && inherits(input_list[[1]], "list"))
-    input_list <- purrr::map(input_list[[1]], ~ .x)
+  if (length(input_list) == 1 && inherits(input_list[[1]], "list")) {
+    input_list <- purrr::map(input_list[[1]], ~.x)
+  }
 
   # check input if really models
   is_model <- vapply(input_list, insight::is_model, logical(1))
@@ -290,22 +291,22 @@ plot_models <- function(...,
   # set up base plot
 
   if (p.shape)
-    p <- ggplot2::ggplot(ff, aes_string(x = "term", y = "estimate", colour = "group", shape = "p.stars"))
+    p <- ggplot2::ggplot(ff, ggplot2::aes_string(x = "term", y = "estimate", colour = "group", shape = "p.stars"))
   else
-    p <- ggplot2::ggplot(ff, aes_string(x = "term", y = "estimate", colour = "group"))
+    p <- ggplot2::ggplot(ff, ggplot2::aes_string(x = "term", y = "estimate", colour = "group"))
 
 
   p <- p +
     layer_vertical_line +
-    geom_point(position = position_dodge(spacing), size = dot.size) +
+    ggplot2::geom_point(position = position_dodge(spacing), size = dot.size) +
     geom_errorbar(
-      aes_string(ymin = "conf.low", ymax = "conf.high"),
+      ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
       position = position_dodge(spacing),
       width = 0,
       size = line.size
     ) +
     coord_flip() +
-    guides(colour = guide_legend(reverse = TRUE))
+    ggplot2::guides(colour = guide_legend(reverse = TRUE))
 
 
   # show different shapes depending on p-value
@@ -317,7 +318,7 @@ plot_models <- function(...,
 
   if (show.values) p <- p +
     geom_text(
-      aes_string(label = "p.label"),
+      ggplot2::aes_string(label = "p.label"),
       position = position_dodge(spacing),
       vjust = spacing * -1.5,
       hjust = -.1,
@@ -335,10 +336,10 @@ plot_models <- function(...,
 
 
   # hide legend?
-  if (!show.legend) p <- p + guides(colour = "none", shape = "none")
+  if (!show.legend) p <- p + ggplot2::guides(colour = "none", shape = "none")
 
   # facets
-  if (grid) p <- p + facet_grid(~group)
+  if (grid) p <- p + ggplot2::facet_grid(~group)
 
 
   # we need transformed scale for exponentiated estimates
@@ -366,7 +367,7 @@ plot_models <- function(...,
   # set axis and plot titles
 
   p <-
-    p + labs(
+    p + ggplot2::labs(
       x = NULL,
       y = sjmisc::word_wrap(estimate_axis_title(input_list[[1]], axis.title, type = "est", transform = !is.null(tf)), wrap = wrap.title),
       title = sjmisc::word_wrap(title, wrap = wrap.title),

@@ -95,7 +95,7 @@ plot_type_ranef <- function(model,
       ri.nr <- ri.nr[-out.of.bounds]
       # any valid indices left?
       if (length(ri.nr) == 0) {
-        stop("All indices specified in `ri.nr` were greater than amount of random intercepts in model. Please use valid range for `ri.nr`.", call. = F)
+        stop("All indices specified in `ri.nr` were greater than amount of random intercepts in model. Please use valid range for `ri.nr`.", call. = FALSE)
       } else {
         message("One or more indices specified in `ri.nr` were greater than amount of random intercepts in model. These indices have been removed from `ri.nr`.")
       }

@@ -196,19 +196,19 @@ tab_xtab <- function(var.row,
   if (!is.null(value.labels)) {
     # need to be a list
     if (!is.list(value.labels)) {
-      warning("`valueLables` needs to be a `list`-object.", call. = F)
+      warning("`valueLables` needs to be a `list`-object.", call. = FALSE)
     } else {
       labels.var.row <- value.labels[[1]]
       labels.var.col <- value.labels[[2]]
     }
     # correct length of labels?
     if (length(labels.var.row) != length(mydat$labels.cnt)) {
-      warning("Length of `value.labels` does not match length of category values of `var.row`.", call. = F)
+      warning("Length of `value.labels` does not match length of category values of `var.row`.", call. = FALSE)
       labels.var.row <- mydat$labels.cnt
     }
     # correct length of labels?
     if (length(labels.var.col) != length(mydat$labels.grp)) {
-      warning("Length of `value.labels` does not match length of category values of `var.grp`.", call. = F)
+      warning("Length of `value.labels` does not match length of category values of `var.grp`.", call. = FALSE)
       labels.var.col <- mydat$labels.grp
     }
   }

@@ -27,7 +27,7 @@ plot_point_estimates <- function(model,
 
   # check additional arguments, for stan-geoms
 
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
   if ("size.inner" %in% names(add.args)) size.inner <- eval(add.args[["size.inner"]])
   if ("width" %in% names(add.args)) width <- eval(add.args[["width"]])
   if ("spacing" %in% names(add.args)) spacing <- eval(add.args[["spacing"]])
@@ -71,7 +71,11 @@ plot_point_estimates <- function(model,
   # based on current ggplot theme, highlights vertical default line
 
   yintercept = dplyr::if_else(isTRUE(tf == "exp"), 1, 0)
-  layer_vertical_line <- geom_intercept_line(yintercept, axis.scaling, vline.color)
+  layer_vertical_line <- geom_intercept_line(
+    yintercept,
+    axis.scaling,
+    vline.color
+  )
 
   # check whether we have a multinomial log. reg. model
   multinomial <- obj_has_name(dat, "response.level")
@@ -79,9 +83,9 @@ plot_point_estimates <- function(model,
   # basis aes mapping
 
   if (multinomial)
-    p <- ggplot2::ggplot(dat, aes_string(x = "term", y = "estimate", colour = "response.level", fill = "response.level"))
+    p <- ggplot2::ggplot(dat, ggplot2::aes_string(x = "term", y = "estimate", colour = "response.level", fill = "response.level"))
   else
-    p <- ggplot2::ggplot(dat, aes_string(x = "term", y = "estimate", colour = "group", fill = "group"))
+    p <- ggplot2::ggplot(dat, ggplot2::aes_string(x = "term", y = "estimate", colour = "group", fill = "group"))
 
   if (is.stan(model)) {
 
@@ -97,32 +101,32 @@ plot_point_estimates <- function(model,
     p <- p + layer_vertical_line
 
     if (ci.style == "whisker")
-      p <- p + geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), size = line.size, width = width)
+      p <- p + geom_errorbar(ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"), size = line.size, width = width)
     else
-      p <- p + geom_rect(aes_string(ymin = "conf.low", ymax = "conf.high", xmin = "xmin", xmax = "xmax"), alpha = hdi_alpha, colour = "white", size = .5)
+      p <- p + geom_rect(ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high", xmin = "xmin", xmax = "xmax"), alpha = hdi_alpha, colour = "white", size = .5)
 
 
     # only add inner region if requested
     if (size.inner > 0) {
       p <- p +
-        geom_rect(aes_string(ymin = "conf.low50", ymax = "conf.high50", xmin = "xmin", xmax = "xmax"), alpha = hdi_alpha, colour = "white", size = .5)
+        geom_rect(ggplot2::aes_string(ymin = "conf.low50", ymax = "conf.high50", xmin = "xmin", xmax = "xmax"), alpha = hdi_alpha, colour = "white", size = .5)
     }
 
     # define style for Bayesian point estimate
     if (bpe.style == "line") {
       if (is.null(bpe.color)) {
         p <- p +
-          geom_segment(aes_string(x = "xmin", xend = "xmax", y = "estimate", yend = "estimate"), size = geom.size * .9)
+          ggplot2::geom_segment(ggplot2::aes_string(x = "xmin", xend = "xmax", y = "estimate", yend = "estimate"), size = geom.size * .9)
       } else {
         p <- p +
-          geom_segment(aes_string(x = "xmin", xend = "xmax", y = "estimate", yend = "estimate"), colour = bpe.color, size = geom.size * .9)
+          ggplot2::geom_segment(ggplot2::aes_string(x = "xmin", xend = "xmax", y = "estimate", yend = "estimate"), colour = bpe.color, size = geom.size * .9)
       }
     } else if (is.null(bpe.color)) {
         p <- p +
-          geom_point(aes_string(y = "estimate"), fill = "white", size = geom.size * dot.fac)
+          ggplot2::geom_point(ggplot2::aes_string(y = "estimate"), fill = "white", size = geom.size * dot.fac)
     } else {
       p <- p +
-        geom_point(aes_string(y = "estimate"), fill = "white", colour = bpe.color, size = geom.size * dot.fac)
+        ggplot2::geom_point(ggplot2::aes_string(y = "estimate"), fill = "white", colour = bpe.color, size = geom.size * dot.fac)
     }
 
   } else {
@@ -132,12 +136,12 @@ plot_point_estimates <- function(model,
 
     if (multinomial) {
       p <- p +
-        geom_point(size = geom.size, position = position_dodge(width = spacing)) +
-        geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), position = position_dodge(width = spacing), width = width, size = line.size)
+        ggplot2::geom_point(size = geom.size, position = position_dodge(width = spacing)) +
+        geom_errorbar(ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"), position = position_dodge(width = spacing), width = width, size = line.size)
     } else {
       p <- p +
-        geom_point(size = geom.size) +
-        geom_errorbar(aes_string(ymin = "conf.low", ymax = "conf.high"), width = width, size = line.size)
+        ggplot2::geom_point(size = geom.size) +
+        geom_errorbar(ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"), width = width, size = line.size)
     }
 
   }
@@ -150,11 +154,11 @@ plot_point_estimates <- function(model,
   if (multinomial) {
     col.len <- dplyr::n_distinct(dat$response.level)
     # remove legend
-    p <- p + guides(fill = "none")
+    p <- p + ggplot2::guides(fill = "none")
   } else {
     col.len <- dplyr::n_distinct(dat$group)
     # remove legend
-    p <- p + guides(colour = "none", fill = "none")
+    p <- p + ggplot2::guides(colour = "none", fill = "none")
   }
 
 
@@ -162,7 +166,7 @@ plot_point_estimates <- function(model,
 
   if (show.values) p <- p +
       geom_text(
-        aes_string(label = "p.label"),
+        ggplot2::aes_string(label = "p.label"),
         nudge_x = value.offset,
         show.legend = FALSE,
         size = value.size
@@ -218,10 +222,10 @@ plot_point_estimates <- function(model,
 
   if (obj_has_name(dat, "facet") && dplyr::n_distinct(dat$facet, na.rm = TRUE) > 1)
     p <- p +
-      facet_grid(~facet)
+      ggplot2::facet_grid(~facet)
   else if (has_zeroinf)
     p <- p +
-      facet_wrap(~wrap.facet, ncol = 1, scales = "free")
+      ggplot2::facet_wrap(~wrap.facet, ncol = 1, scales = "free")
 
 
   # set axis and plot titles
@@ -229,14 +233,14 @@ plot_point_estimates <- function(model,
   if (length(axis.title) > 1) axis.title <- axis.title[1]
 
   p <-
-    p + labs(
+    p + ggplot2::labs(
       x = NULL,
       y = axis.title,
       title = title
     )
 
   # for multinomial models, set response variable name as name for legend
-  if (multinomial) p <- p + labs(colour = insight::find_response(model))
+  if (multinomial) p <- p + ggplot2::labs(colour = insight::find_response(model))
 
   p
 }

@@ -195,21 +195,21 @@ sjp.poly <- function(x,
   # name df
   colnames(plot.df) <- c("x","y", "pred", "grp")
   # create plot
-  polyplot <- ggplot2::ggplot(plot.df, aes_string(x = "x", y = "y", colour = "grp"))
+  polyplot <- ggplot2::ggplot(plot.df, ggplot2::aes_string(x = "x", y = "y", colour = "grp"))
   # show scatter plot as well?
   if (show.scatter) polyplot <- polyplot +
-    geom_jitter(colour = point.color, alpha = point.alpha, shape = 16)
+    ggplot2::geom_jitter(colour = point.color, alpha = point.alpha, shape = 16)
   # show loess curve? this curve indicates the "perfect" curve through
   # the data
-  if (show.loess) polyplot <- polyplot + stat_smooth(method = "loess",
+  if (show.loess) polyplot <- polyplot + ggplot2::stat_smooth(method = "loess",
                                                     color = loess.color,
                                                     se = show.loess.ci,
                                                     size = geom.size)
   # add curves for polynomials
   polyplot <- polyplot +
-    geom_line(aes_string(y = "pred"), linewidth = geom.size) +
+    geom_line(ggplot2::aes_string(y = "pred"), linewidth = geom.size) +
     scale_color_manual(values = geom.colors, labels = lapply(poly.degree, function(j) bquote(x^.(j)))) +
-    labs(x = axis.title, y = axisTitle.y, colour = "Polynomial\ndegrees")
+    ggplot2::labs(x = axis.title, y = axisTitle.y, colour = "Polynomial\ndegrees")
 
   polyplot
 }
