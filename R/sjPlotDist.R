@@ -38,33 +38,33 @@
 #' dist_norm(p = 0.2)
 #'
 #' @export
-dist_norm <- function(norm = NULL,
-                     mean = 0,
-                     sd = 1,
-                     p = NULL,
-                     xmax = NULL,
-                     geom.colors = NULL,
-                     geom.alpha = 0.7) {
+dist_norm <- function(
+  norm = NULL,
+  mean = 0,
+  sd = 1,
+  p = NULL,
+  xmax = NULL,
+  geom.colors = NULL,
+  geom.alpha = 0.7
+) {
   # --------------------------------------
   # determine maximum range of x-axis.
   # --------------------------------------
   if (is.null(xmax)) {
     if (is.null(norm)) {
       n.max <- stats::qnorm(0.00001, mean, sd, lower.tail = FALSE)
-    }
-    # --------------------------------------
-    # else, if we have a x-value, take into
-    # account all possible x-valuess that would lead
-    # to a theoretical p-value of 0.00001.
-    # --------------------------------------
-    else {
+    } else {
+      # --------------------------------------
+      # else, if we have a x-value, take into
+      # account all possible x-valuess that would lead
+      # to a theoretical p-value of 0.00001.
+      # --------------------------------------
       n.max <- norm
       while (stats::pnorm(n.max, mean, sd, lower.tail = FALSE) > 0.00001) {
         n.max <- n.max + 1
       }
     }
-  }
-  else {
+  } else {
     n.max <- xmax
   }
   # --------------------------------------
@@ -74,45 +74,60 @@ dist_norm <- function(norm = NULL,
   # density normal distribution
   mydat$y <- stats::dnorm(mydat$x, mean, sd)
   # base plot with normal-distribution
-  gp <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "x", y = "y")) + ggplot2::geom_line()
+  gp <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$x, y = .data$y)) +
+    ggplot2::geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated x-value...
     sub.df <- mydat[mydat$x > stats::qnorm(p, mean, sd, lower.tail = FALSE), ]
-  }
-  else if (!is.null(norm)) {
+  } else if (!is.null(norm)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > norm, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > stats::qnorm(0.05, mean, sd, lower.tail = FALSE), "sig", "non-sig")
+    sub.df$p.level <- ifelse(
+      sub.df$x > stats::qnorm(0.05, mean, sd, lower.tail = FALSE),
+      "sig",
+      "non-sig"
+    )
     cs <- stats::qnorm(0.05, mean, sd, lower.tail = FALSE)
     gp <- gp +
-      geom_ribbon(data = sub.df,
-                  ggplot2::aes_string(ymax = "y", fill = "p.level"),
-                  ymin = 0,
-                  alpha = geom.alpha) +
-      ggplot2::annotate("text",
-               label = sprintf("x = %.2f", cs),
-               x = cs,
-               y = 0,
-               vjust = 1.3)
+      ggplot2::geom_ribbon(
+        data = sub.df,
+        ggplot2::aes(ymax = .data$y, fill = .data$p.level),
+        ymin = 0,
+        alpha = geom.alpha
+      ) +
+      ggplot2::annotate(
+        "text",
+        label = sprintf("x = %.2f", cs),
+        x = cs,
+        y = 0,
+        vjust = 1.3
+      )
     # add limit of p-value
     if (!is.null(norm)) {
       pv <- stats::pnorm(norm, mean, sd, lower.tail = FALSE)
       if (pv >= 0.05) {
         gp <- gp +
-          ggplot2::annotate("text",
-                   label = sprintf("p = %.2f", pv),
-                   x = norm,
-                   y = 0,
-                   hjust = -0.1,
-                   vjust = -0.5,
-                   angle = 90)
+          ggplot2::annotate(
+            "text",
+            label = sprintf("p = %.2f", pv),
+            x = norm,
+            y = 0,
+            hjust = -0.1,
+            vjust = -0.5,
+            angle = 90
+          )
       }
     }
   }
-  gp <- sj.setGeomColors(gp, geom.colors, pal.len = 2, labels = c("p > 5%", "p < 0.05"))
+  gp <- sj.setGeomColors(
+    gp,
+    geom.colors,
+    pal.len = 2,
+    labels = c("p > 5%", "p < 0.05")
+  )
   gp <- gp + ggplot2::ylab(NULL) + ggplot2::xlab(NULL)
   print(gp)
 }
@@ -210,7 +225,7 @@ dist_chisq <- function(chi2 = NULL,
   # density distribution of chi2
   mydat$y <- stats::dchisq(mydat$x, deg.f)
   # base plot with chi2-distribution
-  gp <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "x", y = "y")) + ggplot2::geom_line()
+  gp <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$x, y = .data$y)) + ggplot2::geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated chi2-value...
@@ -224,8 +239,8 @@ dist_chisq <- function(chi2 = NULL,
     sub.df$p.level  <- ifelse(sub.df$x > stats::qchisq(0.05, deg.f, lower.tail = FALSE), "sig", "non-sig")
     cs <- stats::qchisq(0.05, deg.f, lower.tail = FALSE)
     gp <- gp +
-      geom_ribbon(data = sub.df,
-                  ggplot2::aes_string(ymax = "y", fill = "p.level"),
+      ggplot2::geom_ribbon(data = sub.df,
+                  ggplot2::aes(ymax = .data$y, fill = .data$p.level),
                   ymin = 0,
                   alpha = geom.alpha) +
       ggplot2::annotate("text",
@@ -338,7 +353,7 @@ dist_f <- function(f = NULL,
   # density distribution of f
   mydat$y <- stats::df(mydat$x, deg.f1, deg.f2)
   # base plot with f-distribution
-  gp <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "x", y = "y")) + ggplot2::geom_line()
+  gp <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$x, y = .data$y)) + ggplot2::geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated f-value...
@@ -351,8 +366,8 @@ dist_f <- function(f = NULL,
     sub.df$p.level  <- ifelse(sub.df$x > stats::qf(0.05, deg.f1, deg.f2, lower.tail = FALSE), "sig", "non-sig")
     fv <- stats::qf(0.05, deg.f1, deg.f2, lower.tail = FALSE)
     gp <- gp +
-      geom_ribbon(data = sub.df,
-                  ggplot2::aes_string(ymax = "y", fill = "p.level"),
+      ggplot2::geom_ribbon(data = sub.df,
+                  ggplot2::aes(ymax = .data$y, fill = .data$p.level),
                   ymin = 0,
                   alpha = geom.alpha) +
       ggplot2::annotate("text",
@@ -467,7 +482,7 @@ dist_t <- function(t = NULL,
   # density distribution of t
   mydat$y <- stats::dt(mydat$x, deg.f)
   # base plot with t-distribution
-  gp <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "x", y = "y")) + ggplot2::geom_line()
+  gp <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$x, y = .data$y)) + ggplot2::geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated t-value...
@@ -481,8 +496,8 @@ dist_t <- function(t = NULL,
     sub.df$p.level  <- ifelse(sub.df$x > stats::qt(0.05, deg.f, lower.tail = FALSE), "sig", "non-sig")
     tv <- stats::qt(0.05, deg.f, lower.tail = FALSE)
     gp <- gp +
-      geom_ribbon(data = sub.df,
-                  ggplot2::aes_string(ymax = "y", fill = "p.level"),
+      ggplot2::geom_ribbon(data = sub.df,
+                  ggplot2::aes(ymax = .data$y, fill = .data$p.level),
                   ymin = 0,
                   alpha = geom.alpha) +
       ggplot2::annotate("text",
