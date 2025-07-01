@@ -53,7 +53,7 @@ sjp.chi2 <- function(
   # ----------------------------------------------------------------
   m <- data.frame()
   for (i in seq_len(ncol(combos))) {
-    test <- chisq.test(df[, combos[1, i]], df[, combos[2, i]])
+    test <- stats::chisq.test(df[, combos[1, i]], df[, combos[2, i]])
     out <- data.frame(
       Row = colnames(df)[combos[1, i]],
       Column = colnames(df)[combos[2, i]],
@@ -100,7 +100,7 @@ sjp.chi2 <- function(
       label = "p.value"
     )
   ) +
-    geom_tile() +
+    ggplot2::geom_tile() +
     ggplot2::scale_x_discrete(labels = axis.labels) +
     ggplot2::scale_y_discrete(labels = axis.labels) +
     ggplot2::scale_fill_gradient2(

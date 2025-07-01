@@ -316,7 +316,7 @@ scale_fill_sjplot <- function(palette = "metro", discrete = TRUE, reverse = FALS
   if (discrete) {
     discrete_scale("fill", paste0("sjplot_pal_", palette), palette = pal, ...)
   } else {
-    scale_fill_gradientn(colours = pal(256), ...)
+    ggplot2::scale_fill_gradientn(colours = pal(256), ...)
   }
 }
 
