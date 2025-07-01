@@ -32,16 +32,19 @@ plot_diag_glm <- function(model, geom.colors, dot.size, line.size, ...) {
 
 
 diag_ncv <- function(model, dot.size, line.size) {
-
-  if (is.null(dot.size)) dot.size <- 1
-  if (is.null(line.size)) line.size <- 1
+  if (is.null(dot.size)) {
+    dot.size <- 1
+  }
+  if (is.null(line.size)) {
+    line.size <- 1
+  }
 
   dat <- data.frame(
     res = stats::residuals(model),
     fitted = stats::fitted(model)
   )
 
-  ggplot2::ggplot(dat, ggplot2::aes_string(x = "fitted", y = "res")) +
+  ggplot2::ggplot(dat, ggplot2::aes(x = .data$fitted, y = .data$res)) +
     geom_intercept_line2(0, NULL) +
     ggplot2::geom_point(size = dot.size) +
     geom_smooth(method = "loess", se = FALSE, size = line.size) +
@@ -58,7 +61,7 @@ diag_ncv <- function(model, dot.size, line.size) {
 diag_norm <- function(model, geom.colors) {
   res_ <- data.frame(res = stats::residuals(model))
 
-  ggplot2::ggplot(res_, ggplot2::aes_string(x = "res")) +
+  ggplot2::ggplot(res_, ggplot2::aes(x = .data$res)) +
     ggplot2::geom_density(fill = geom.colors[1], alpha = 0.2) +
     ggplot2::stat_function(
       fun = dnorm,
@@ -79,9 +82,12 @@ diag_norm <- function(model, geom.colors) {
 
 
 diag_qq <- function(model, geom.colors, dot.size, line.size, ...) {
-
-  if (is.null(dot.size)) dot.size <- 1
-  if (is.null(line.size)) line.size <- 1
+  if (is.null(dot.size)) {
+    dot.size <- 1
+  }
+  if (is.null(line.size)) {
+    line.size <- 1
+  }
 
   # qq-plot of studentized residuals
   if (inherits(model, c("lme", "lmerMod", "glmmTMB"))) {
@@ -99,7 +105,7 @@ diag_qq <- function(model, geom.colors, dot.size, line.size, ...) {
   mydf <- stats::na.omit(data.frame(x = fitted_, y = res_))
 
   # plot it
-  ggplot2::ggplot(mydf, ggplot2::aes_string(x = "x", y = "y")) +
+  ggplot2::ggplot(mydf, ggplot2::aes(x = .data$x, y = .data$y)) +
     ggplot2::geom_point(size = dot.size) +
     ggplot2::scale_colour_manual(values = geom.colors) +
     ggplot2::stat_smooth(method = "lm", se = FALSE, size = line.size) +
@@ -113,14 +119,19 @@ diag_qq <- function(model, geom.colors, dot.size, line.size, ...) {
 
 
 diag_reqq <- function(model, dot.size) {
-
-  if (!is_merMod(model) && !inherits(model, "glmmTMB")) return(NULL)
+  if (!is_merMod(model) && !inherits(model, "glmmTMB")) {
+    return(NULL)
+  }
 
   if (!requireNamespace("lme4", quietly = TRUE)) {
-    stop("Package 'lme4' required for this function to work, please install it.")
+    stop(
+      "Package 'lme4' required for this function to work, please install it."
+    )
   }
   if (!requireNamespace("glmmTMB", quietly = TRUE)) {
-    stop("Package 'glmmTMB' required for this function to work, please install it.")
+    stop(
+      "Package 'glmmTMB' required for this function to work, please install it."
+    )
   }
 
   if (inherits(model, "glmmTMB")) {
@@ -134,49 +145,61 @@ diag_reqq <- function(model, dot.size) {
       s3
     })
   } else {
-    re   <- lme4::ranef(model, condVar = TRUE)
+    re <- lme4::ranef(model, condVar = TRUE)
     se <- purrr::map(re, function(.x) {
-      pv   <- attr(.x, "postVar")
+      pv <- attr(.x, "postVar")
       cols <- seq_len(dim(pv)[1])
       unlist(lapply(cols, function(.y) sqrt(pv[.y, .y, ])))
     })
   }
 
-
   alpha <- .3
-  if (is.null(dot.size)) dot.size <- 2
+  if (is.null(dot.size)) {
+    dot.size <- 2
+  }
 
   # get ...-arguments
   add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
-  if ("alpha" %in% names(add.args)) alpha <- eval(add.args[["alpha"]])
-
+  if ("alpha" %in% names(add.args)) {
+    alpha <- eval(add.args[["alpha"]])
+  }
 
   purrr::map2(re, se, function(.re, .se) {
-    ord  <- unlist(lapply(.re, order)) + rep((0:(ncol(.re) - 1)) * nrow(.re), each = nrow(.re))
+    ord <- unlist(lapply(.re, order)) +
+      rep((0:(ncol(.re) - 1)) * nrow(.re), each = nrow(.re))
 
     df.y <- unlist(.re)[ord]
     df.ci <- stats::qnorm(.975) * .se[ord]
 
-    pDf  <- data_frame(
+    pDf <- data_frame(
       y = df.y,
       ci = df.ci,
       nQQ = rep(stats::qnorm(stats::ppoints(nrow(.re))), ncol(.re)),
-      ID = factor(rep(rownames(.re), ncol(.re))[ord], levels = rownames(.re)[ord]),
+      ID = factor(
+        rep(rownames(.re), ncol(.re))[ord],
+        levels = rownames(.re)[ord]
+      ),
       ind = gl(ncol(.re), nrow(.re), labels = names(.re)),
       conf.low = df.y - df.ci,
       conf.high = df.y + df.ci
     )
 
-    ggplot2::ggplot(pDf, ggplot2::aes_string(
-      x = "nQQ",
-      y = "y"
-    )) +
-      ggplot2::facet_wrap(~ ind, scales = "free") +
-      ggplot2::labs(x = "Standard normal quantiles", y = "Random effect quantiles") +
-      geom_intercept_line2(0, NULL) +
+    ggplot2::ggplot(
+      pDf,
+      ggplot2::aes(
+        x = .data$nQQ,
+        y = .data$y
+      )
+    ) +
+      ggplot2::facet_wrap(~ind, scales = "free") +
+      ggplot2::labs(
+        x = "Standard normal quantiles",
+        y = "Random effect quantiles"
+      ) +
+      ggplot2::geom_intercept_line2(0, NULL) +
       ggplot2::stat_smooth(method = "lm", alpha = alpha) +
       ggplot2::geom_errorbar(
-        ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
+        ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
         width = 0,
         colour = "black"
       ) +
@@ -186,19 +209,22 @@ diag_reqq <- function(model, dot.size) {
 
 
 diag_vif <- function(fit) {
-
-  if (is_merMod(fit) || inherits(fit, "lme"))
+  if (is_merMod(fit) || inherits(fit, "lme")) {
     return(NULL)
+  }
 
-  if (!requireNamespace("car", quietly = TRUE))
-    stop("Package `car` needed for this function to work. Please install it.", call. = FALSE)
+  if (!requireNamespace("car", quietly = TRUE)) {
+    stop(
+      "Package `car` needed for this function to work. Please install it.",
+      call. = FALSE
+    )
+  }
 
   vifplot <- NULL
 
   # check if we have more than 1 term
 
   if (length(stats::coef(fit)) > 2) {
-
     # variance inflation factor
     # claculate VIF
 
@@ -219,19 +245,51 @@ diag_vif <- function(fit) {
     # check whether maxval exceeds the critical VIF-Limit
     # of 10. If so, set upper limit to max. value
 
-    if (maxval >= upperLimit) upperLimit <- ceiling(maxval)
+    if (maxval >= upperLimit) {
+      upperLimit <- ceiling(maxval)
+    }
 
     mydat <- data.frame(vif = round(val, 2)) |>
       rownames_as_column(var = "vars")
 
-
-    vifplot <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "vars", y = "vif")) +
+    vifplot <- ggplot2::ggplot(
+      mydat,
+      ggplot2::aes(x = .data$vars, y = .data$vif)
+    ) +
       ggplot2::geom_bar(stat = "identity", width = 0.7, fill = "#80acc8") +
-      ggplot2::geom_hline(yintercept = 5, linetype = 2, colour = "darkgreen", alpha = 0.7) +
-      ggplot2::geom_hline(yintercept = 10, linetype = 2, colour = "darkred", alpha = 0.7) +
-      ggplot2::annotate("text", x = 1, y = 4.7, label = "good", size = 4, colour = "darkgreen") +
-      ggplot2::annotate("text", x = 1, y = 9.7, label = "tolerable", size = 4, colour = "darkred") +
-      ggplot2::labs(title = "Variance Inflation Factors (multicollinearity)", x = NULL, y = NULL) +
+      ggplot2::geom_hline(
+        yintercept = 5,
+        linetype = 2,
+        colour = "darkgreen",
+        alpha = 0.7
+      ) +
+      ggplot2::geom_hline(
+        yintercept = 10,
+        linetype = 2,
+        colour = "darkred",
+        alpha = 0.7
+      ) +
+      ggplot2::annotate(
+        "text",
+        x = 1,
+        y = 4.7,
+        label = "good",
+        size = 4,
+        colour = "darkgreen"
+      ) +
+      ggplot2::annotate(
+        "text",
+        x = 1,
+        y = 9.7,
+        label = "tolerable",
+        size = 4,
+        colour = "darkred"
+      ) +
+      ggplot2::labs(
+        title = "Variance Inflation Factors (multicollinearity)",
+        x = NULL,
+        y = NULL
+      ) +
       ggplot2::scale_y_continuous(limits = c(0, upperLimit), expand = c(0, 0))
   }
 

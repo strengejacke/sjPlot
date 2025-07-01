@@ -749,13 +749,13 @@ plot_likert <- function(
 
   gp <- ggplot2::ggplot() +
     # positive value bars
-    geom_col(
+    ggplot2::geom_col(
       data = mydat.pos,
       ggplot2::aes(x = .data$x, y = .data$frq, fill = .data$grp),
       width = geom.size
     ) +
     # negative value bars
-    geom_col(
+    ggplot2::geom_col(
       data = mydat.neg,
       ggplot2::aes(x = .data$x, y = .data$frq, fill = .data$grp),
       width = geom.size,
