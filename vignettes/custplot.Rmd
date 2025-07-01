@@ -122,7 +122,7 @@ plot_grpfrq(efc$e42dep, efc$e16sex, expand.grid = TRUE)
 
 ## Theme options
 
-You can use any pre-defined theme from ggplot, like `theme_bw()`, `theme_classic()` or `theme_minimal()` as default theme.
+You can use any pre-defined theme from ggplot, like `theme_bw()`, `theme_classic()` or `ggplot2::theme_minimal()` as default theme.
 
 ```{r}
 sjPlot::set_theme(base = theme_light())

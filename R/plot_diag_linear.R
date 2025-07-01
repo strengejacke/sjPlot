@@ -180,7 +180,7 @@ diag_reqq <- function(model, dot.size) {
       ggplot2::labs(x = "Standard normal quantiles", y = "Random effect quantiles") +
       geom_intercept_line2(0, NULL) +
       ggplot2::stat_smooth(method = "lm", alpha = alpha) +
-      geom_errorbar(
+      ggplot2::geom_errorbar(
         ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
         width = 0,
         colour = "black"
@@ -233,8 +233,8 @@ diag_vif <- function(fit) {
 
     vifplot <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "vars", y = "vif")) +
       ggplot2::geom_bar(stat = "identity", width = 0.7, fill = "#80acc8") +
-      geom_hline(yintercept = 5, linetype = 2, colour = "darkgreen", alpha = 0.7) +
-      geom_hline(yintercept = 10, linetype = 2, colour = "darkred", alpha = 0.7) +
+      ggplot2::geom_hline(yintercept = 5, linetype = 2, colour = "darkgreen", alpha = 0.7) +
+      ggplot2::geom_hline(yintercept = 10, linetype = 2, colour = "darkred", alpha = 0.7) +
       ggplot2::annotate("text", x = 1, y = 4.7, label = "good", size = 4, colour = "darkgreen") +
       ggplot2::annotate("text", x = 1, y = 9.7, label = "tolerable", size = 4, colour = "darkred") +
       ggplot2::labs(title = "Variance Inflation Factors (multicollinearity)", x = NULL, y = NULL) +

@@ -291,15 +291,15 @@ plot_models <- function(...,
   # set up base plot
 
   if (p.shape)
-    p <- ggplot2::ggplot(ff, ggplot2::aes_string(x = "term", y = "estimate", colour = "group", shape = "p.stars"))
+    p <- ggplot2::ggplot(ff, ggplot2::aes(x = .data$term, y = .data$estimate, colour = .data$group, shape = .data$p.stars))
   else
-    p <- ggplot2::ggplot(ff, ggplot2::aes_string(x = "term", y = "estimate", colour = "group"))
+    p <- ggplot2::ggplot(ff, ggplot2::aes(x = .data$term, y = .data$estimate, colour = .data$group))
 
 
   p <- p +
     layer_vertical_line +
     ggplot2::geom_point(position = ggplot2::position_dodge(spacing), size = dot.size) +
-    geom_errorbar(
+    ggplot2::geom_errorbar(
       ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
       position = ggplot2::position_dodge(spacing),
       width = 0,
@@ -311,7 +311,7 @@ plot_models <- function(...,
 
   # show different shapes depending on p-value
 
-  if (p.shape) p <- p + scale_shape_manual(values = c(1, 16, 17, 15))
+  if (p.shape) p <- p + ggplot2::scale_shape_manual(values = c(1, 16, 17, 15))
 
 
   # add value labels

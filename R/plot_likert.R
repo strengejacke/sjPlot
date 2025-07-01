@@ -924,7 +924,7 @@ plot_likert <- function(
     # for neutral category work...
 
     scale_x_continuous(breaks = seq_len(ncol(freq.df)), labels = axis.labels) +
-    geom_hline(yintercept = 0, color = intercept.line.color)
+    ggplot2::geom_hline(yintercept = 0, color = intercept.line.color)
 
   # check wether percentage scale (y-axis) should be reversed
 

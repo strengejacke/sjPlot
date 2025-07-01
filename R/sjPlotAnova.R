@@ -248,7 +248,7 @@ sjp.aov1 <- function(var.dep,
     # print point
     ggplot2::geom_point(size = geom.size, colour = df$geocol) +
     # and error bar
-    geom_errorbar(ggplot2::aes(ymin = .data$lower, ymax = .data$upper), colour = df$geocol, width = 0) +
+    ggplot2::geom_errorbar(ggplot2::aes(ymin = .data$lower, ymax = .data$upper), colour = df$geocol, width = 0) +
     # Print p-values. With vertical adjustment, so
     # they don't overlap with the errorbars
     ggplot2::geom_text(ggplot2::aes(label = .data$pv, y = .data$means), nudge_x = y.offset, show.legend = FALSE) +

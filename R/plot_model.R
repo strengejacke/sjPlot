@@ -316,7 +316,7 @@
 #'       removes the inner probability regions.
 #'     }
 #'     \item{\code{width}, \code{alpha}, and \code{scale}}{Passed
-#'       down to \code{geom_errorbar()} or \code{geom_density_ridges()}, for
+#'       down to \code{ggplot2::geom_errorbar()} or \code{geom_density_ridges()}, for
 #'       forest or diagnostic plots.
 #'     }
 #'     \item{\code{width}, \code{alpha}, \code{dot.alpha}, \code{dodge} and \code{log.y}}{Passed

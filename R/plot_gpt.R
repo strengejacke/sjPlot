@@ -314,7 +314,7 @@ gpt_helper <- function(
     ggplot2::geom_point(size = geom.size, fill = shape.fill.color) +
     ggplot2::scale_y_continuous(labels = scales::percent, breaks = gridbreaks, limits = axis.lim) +
     ggplot2::scale_x_discrete(labels = rev(axis.labels)) +
-    scale_shape_manual(name = legend.title, labels = legend.labels, values = shapes[1:pal.len]) +
+    ggplot2::scale_shape_manual(name = legend.title, labels = legend.labels, values = shapes[1:pal.len]) +
     ggplot2::scale_colour_manual(name = legend.title, labels = legend.labels, values = geom.colors) +
     ggplot2::labs(x = axisTitle.x, y = axisTitle.y, title = title) +
     ggplot2::coord_flip()

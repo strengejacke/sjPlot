@@ -52,7 +52,9 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
   # check if a formula was passed as argument...
   if (!missing(formula)) {
     # make sure we have a formula
-    if (!inherits(formula, "formula")) formula <- stats::as.formula(formula)
+    if (!inherits(formula, "formula")) {
+      formula <- stats::as.formula(formula)
+    }
     # reset fam
     fam <- NULL
   } else if (!missing(fit)) {
@@ -60,10 +62,11 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
     formula <- stats::formula(fit)
 
     # get model family for glm
-    if (inherits(fit, "glm"))
+    if (inherits(fit, "glm")) {
       fam <- stats::family(fit)
-    else
+    } else {
       fam <- NULL
+    }
   } else {
     stop("Either `formula` or `fit` must be supplied.", call. = FALSE)
   }
@@ -130,11 +133,11 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
 
   # plot response against residuals, to see where our model over- or
   # underestimates the outcome
-  p <- ggplot2::ggplot(data = res, ggplot2::aes_string(x = ".response", y = "residuals")) +
-    geom_hline(yintercept = 0) +
+  p <- ggplot2::ggplot(data = res, ggplot2::aes(x = .data$.response, y = .data$residuals)) +
+    ggplot2::geom_hline(yintercept = 0) +
     ggplot2::geom_point() +
     ggplot2::stat_smooth(method = "loess") +
-    theme_minimal() +
+    ggplot2::theme_minimal() +
     ggplot2::labs(y = "Residuals", x = resp.name)
 
   # plot it

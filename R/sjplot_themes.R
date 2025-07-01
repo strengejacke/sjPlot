@@ -85,7 +85,7 @@
 #' @rdname sjPlot-themes
 #' @export
 theme_sjplot <- function(base_size = 12, base_family = "") {
-  (theme_minimal(base_size = base_size, base_family = base_family) +
+  (ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
      ggplot2::theme(
        axis.line.x      = element_line(colour = "grey80"),
        axis.line.y      = element_line(colour = "grey80"),
@@ -102,7 +102,7 @@ theme_sjplot <- function(base_size = 12, base_family = "") {
 #' @rdname sjPlot-themes
 #' @export
 theme_sjplot2 <- function(base_size = 12, base_family = "") {
-  (theme_minimal(base_size = base_size, base_family = base_family) +
+  (ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
      ggplot2::theme(
        axis.line.x      = element_line(colour = "grey50"),
        axis.line.y      = element_line(colour = "grey50"),
@@ -119,7 +119,7 @@ theme_sjplot2 <- function(base_size = 12, base_family = "") {
 #' @rdname sjPlot-themes
 #' @export
 theme_blank <- function(base_size = 12, base_family = "") {
-  (theme_minimal(base_size = base_size, base_family = base_family) +
+  (ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
      ggplot2::theme(
        axis.line.x      = element_line(colour = "white"),
        axis.line.y      = element_line(colour = "white"),
@@ -134,7 +134,7 @@ theme_blank <- function(base_size = 12, base_family = "") {
 #' @rdname sjPlot-themes
 #' @export
 theme_538 <- function(base_size = 12, base_family = "") {
-  (theme_minimal(base_size = base_size, base_family = base_family) +
+  (ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
      ggplot2::theme(
        axis.line.x        = element_line(colour = "#F0F0F0"),
        axis.line.y        = element_line(colour = "#F0F0F0"),
@@ -370,7 +370,7 @@ show_sjplot_pals <- function() {
     ggplot2::scale_y_continuous(breaks = NULL, labels = NULL) +
     ggplot2::guides(fill = "none") +
     ggplot2::coord_flip() +
-    theme_minimal() +
+    ggplot2::theme_minimal() +
     ggplot2::labs(x = NULL, y = NULL) +
     ggplot2::facet_wrap(~group, ncol = 1, scales = "free")
 }

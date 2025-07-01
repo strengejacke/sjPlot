@@ -555,7 +555,7 @@ plot_frq_helper <- function(
       ebcol <- ifelse(type == "dot", geom.colors, errorbar.color)
       # print confidence intervalls (error bars)
       baseplot <- baseplot +
-        geom_errorbar(ggplot2::aes_string(ymin = "lower.ci", ymax = "upper.ci"), colour = ebcol, width = 0)
+        ggplot2::geom_errorbar(ggplot2::aes_string(ymin = "lower.ci", ymax = "upper.ci"), colour = ebcol, width = 0)
     }
 
     # check whether coordinates should be flipped, i.e.
