@@ -111,53 +111,54 @@ utils::globalVariables("density")
 #' }
 #' @importFrom rlang .data
 #' @export
-plot_frq <- function(data,
-                     ...,
-                    title = "",
-                    weight.by = NULL,
-                    title.wtd.suffix = NULL,
-                    sort.frq = c("none", "asc", "desc"),
-                    type = c("bar", "dot", "histogram", "line", "density", "boxplot", "violin"),
-                    geom.size = NULL,
-                    geom.colors = "#336699",
-                    errorbar.color = "darkred",
-                    axis.title = NULL,
-                    axis.labels = NULL,
-                    xlim = NULL,
-                    ylim = NULL,
-                    wrap.title = 50,
-                    wrap.labels = 20,
-                    grid.breaks = NULL,
-                    expand.grid = FALSE,
-                    show.values = TRUE,
-                    show.n = TRUE,
-                    show.prc = TRUE,
-                    show.axis.values = TRUE,
-                    show.ci = FALSE,
-                    show.na = FALSE,
-                    show.mean = FALSE,
-                    show.mean.val = TRUE,
-                    show.sd = TRUE,
-                    drop.empty = TRUE,
-                    mean.line.type = 2,
-                    mean.line.size = 0.5,
-                    inner.box.width = 0.15,
-                    inner.box.dotsize = 3,
-                    normal.curve = FALSE,
-                    normal.curve.color = "red",
-                    normal.curve.size = 0.8,
-                    normal.curve.alpha = 0.4,
-                    auto.group = NULL,
-                    coord.flip = FALSE,
-                    vjust = "bottom",
-                    hjust = "center",
-                    y.offset = NULL) {
-
+plot_frq <- function(
+  data,
+  ...,
+  title = "",
+  weight.by = NULL,
+  title.wtd.suffix = NULL,
+  sort.frq = c("none", "asc", "desc"),
+  type = c("bar", "dot", "histogram", "line", "density", "boxplot", "violin"),
+  geom.size = NULL,
+  geom.colors = "#336699",
+  errorbar.color = "darkred",
+  axis.title = NULL,
+  axis.labels = NULL,
+  xlim = NULL,
+  ylim = NULL,
+  wrap.title = 50,
+  wrap.labels = 20,
+  grid.breaks = NULL,
+  expand.grid = FALSE,
+  show.values = TRUE,
+  show.n = TRUE,
+  show.prc = TRUE,
+  show.axis.values = TRUE,
+  show.ci = FALSE,
+  show.na = FALSE,
+  show.mean = FALSE,
+  show.mean.val = TRUE,
+  show.sd = TRUE,
+  drop.empty = TRUE,
+  mean.line.type = 2,
+  mean.line.size = 0.5,
+  inner.box.width = 0.15,
+  inner.box.dotsize = 3,
+  normal.curve = FALSE,
+  normal.curve.color = "red",
+  normal.curve.size = 0.8,
+  normal.curve.alpha = 0.4,
+  auto.group = NULL,
+  coord.flip = FALSE,
+  vjust = "bottom",
+  hjust = "center",
+  y.offset = NULL
+) {
   # Match arguments -----
   type <- match.arg(type)
   sort.frq <- match.arg(sort.frq)
 
-  plot_data  <- get_dplyr_dot_data(data, dplyr::quos(...))
+  plot_data <- get_dplyr_dot_data(data, dplyr::quos(...))
 
   if (!is.data.frame(plot_data)) {
     plot_data <- data.frame(plot_data, stringsAsFactors = FALSE)
@@ -182,13 +183,47 @@ plot_frq <- function(data,
 
       plots <- lapply(colnames(tmp), function(.d) {
         plot_frq_helper(
-          var.cnt = tmp[[.d]], title = tmp.title, weight.by = weight.by, title.wtd.suffix, sort.frq, type, geom.size, geom.colors,
-          errorbar.color, axis.title, axis.labels, xlim, ylim, wrap.title, wrap.labels, grid.breaks,
-          expand.grid, show.values, show.n, show.prc, show.axis.values, show.ci, show.na,
-          show.mean, show.mean.val, show.sd, drop.empty, mean.line.type, mean.line.size,
-          inner.box.width, inner.box.dotsize, normal.curve, normal.curve.color,
-          normal.curve.size, normal.curve.alpha, auto.group, coord.flip, vjust,
-          hjust, y.offset, var.name = .d
+          var.cnt = tmp[[.d]],
+          title = tmp.title,
+          weight.by = weight.by,
+          title.wtd.suffix,
+          sort.frq,
+          type,
+          geom.size,
+          geom.colors,
+          errorbar.color,
+          axis.title,
+          axis.labels,
+          xlim,
+          ylim,
+          wrap.title,
+          wrap.labels,
+          grid.breaks,
+          expand.grid,
+          show.values,
+          show.n,
+          show.prc,
+          show.axis.values,
+          show.ci,
+          show.na,
+          show.mean,
+          show.mean.val,
+          show.sd,
+          drop.empty,
+          mean.line.type,
+          mean.line.size,
+          inner.box.width,
+          inner.box.dotsize,
+          normal.curve,
+          normal.curve.color,
+          normal.curve.size,
+          normal.curve.alpha,
+          auto.group,
+          coord.flip,
+          vjust,
+          hjust,
+          y.offset,
+          var.name = .d
         )
       })
 
@@ -198,13 +233,47 @@ plot_frq <- function(data,
   } else {
     pl <- lapply(colnames(plot_data), function(.d) {
       plot_frq_helper(
-        var.cnt = plot_data[[.d]], title, weight.by = weight.by, title.wtd.suffix, sort.frq, type, geom.size, geom.colors,
-        errorbar.color, axis.title, axis.labels, xlim, ylim, wrap.title, wrap.labels, grid.breaks,
-        expand.grid, show.values, show.n, show.prc, show.axis.values, show.ci, show.na,
-        show.mean, show.mean.val, show.sd, drop.empty, mean.line.type, mean.line.size,
-        inner.box.width, inner.box.dotsize, normal.curve, normal.curve.color,
-        normal.curve.size, normal.curve.alpha, auto.group, coord.flip, vjust,
-        hjust, y.offset, var.name = .d
+        var.cnt = plot_data[[.d]],
+        title,
+        weight.by = weight.by,
+        title.wtd.suffix,
+        sort.frq,
+        type,
+        geom.size,
+        geom.colors,
+        errorbar.color,
+        axis.title,
+        axis.labels,
+        xlim,
+        ylim,
+        wrap.title,
+        wrap.labels,
+        grid.breaks,
+        expand.grid,
+        show.values,
+        show.n,
+        show.prc,
+        show.axis.values,
+        show.ci,
+        show.na,
+        show.mean,
+        show.mean.val,
+        show.sd,
+        drop.empty,
+        mean.line.type,
+        mean.line.size,
+        inner.box.width,
+        inner.box.dotsize,
+        normal.curve,
+        normal.curve.color,
+        normal.curve.size,
+        normal.curve.alpha,
+        auto.group,
+        coord.flip,
+        vjust,
+        hjust,
+        y.offset,
+        var.name = .d
       )
     })
 
@@ -216,19 +285,52 @@ plot_frq <- function(data,
 
 
 plot_frq_helper <- function(
-  var.cnt, title, weight.by, title.wtd.suffix, sort.frq, type, geom.size, geom.colors,
-  errorbar.color, axis.title, axis.labels, xlim, ylim, wrap.title, wrap.labels, grid.breaks,
-  expand.grid, show.values, show.n, show.prc, show.axis.values, show.ci, show.na,
-  show.mean, show.mean.val, show.sd, drop.empty, mean.line.type, mean.line.size,
-  inner.box.width, inner.box.dotsize, normal.curve, normal.curve.color,
-  normal.curve.size, normal.curve.alpha, auto.group, coord.flip, vjust,
-  hjust, y.offset, var.name = NULL) {
-
+  var.cnt,
+  title,
+  weight.by,
+  title.wtd.suffix,
+  sort.frq,
+  type,
+  geom.size,
+  geom.colors,
+  errorbar.color,
+  axis.title,
+  axis.labels,
+  xlim,
+  ylim,
+  wrap.title,
+  wrap.labels,
+  grid.breaks,
+  expand.grid,
+  show.values,
+  show.n,
+  show.prc,
+  show.axis.values,
+  show.ci,
+  show.na,
+  show.mean,
+  show.mean.val,
+  show.sd,
+  drop.empty,
+  mean.line.type,
+  mean.line.size,
+  inner.box.width,
+  inner.box.dotsize,
+  normal.curve,
+  normal.curve.color,
+  normal.curve.size,
+  normal.curve.alpha,
+  auto.group,
+  coord.flip,
+  vjust,
+  hjust,
+  y.offset,
+  var.name = NULL
+) {
   # remove empty value-labels
   if (drop.empty) {
     var.cnt <- sjlabelled::drop_labels(var.cnt)
   }
-
 
   # try to find some useful default offsets for textlabels,
   # depending on plot range and flipped coordinates
@@ -236,35 +338,51 @@ plot_frq_helper <- function(
     # get maximum y-pos
     y.offset <- ceiling(max(table(var.cnt)) / 100)
     if (coord.flip) {
-      if (missing(vjust)) vjust <- "center"
-      if (missing(hjust)) hjust <- "bottom"
-      if (hjust == "bottom")
+      if (missing(vjust)) {
+        vjust <- "center"
+      }
+      if (missing(hjust)) {
+        hjust <- "bottom"
+      }
+      if (hjust == "bottom") {
         y_offset <- y.offset
-      else if (hjust == "top")
+      } else if (hjust == "top") {
         y_offset <- -y.offset
-      else
+      } else {
         y_offset <- 0
+      }
     } else {
-      if (vjust == "bottom")
+      if (vjust == "bottom") {
         y_offset <- y.offset
-      else if (vjust == "top")
+      } else if (vjust == "top") {
         y_offset <- -y.offset
-      else
+      } else {
         y_offset <- 0
+      }
     }
   } else {
     y_offset <- y.offset
   }
 
-  if (is.null(axis.title)) axis.title <- sjlabelled::get_label(var.cnt, def.value = var.name)
-  if (is.null(title)) title <- sjlabelled::get_label(var.cnt, def.value = var.name)
+  if (is.null(axis.title)) {
+    axis.title <- sjlabelled::get_label(var.cnt, def.value = var.name)
+  }
+  if (is.null(title)) {
+    title <- sjlabelled::get_label(var.cnt, def.value = var.name)
+  }
 
   # remove titles if empty
-  if (!is.null(axis.title) && axis.title == "") axis.title <- NULL
-  if (!is.null(title) && title == "") title <- NULL
+  if (!is.null(axis.title) && axis.title == "") {
+    axis.title <- NULL
+  }
+  if (!is.null(title) && title == "") {
+    title <- NULL
+  }
 
   # check color argument
-  if (length(geom.colors) > 1) geom.colors <- geom.colors[1]
+  if (length(geom.colors) > 1) {
+    geom.colors <- geom.colors[1]
+  }
 
   # default grid-expansion
   if (isTRUE(expand.grid) || (missing(expand.grid) && type == "histogram")) {
@@ -277,10 +395,16 @@ plot_frq_helper <- function(
   xv <- sjmisc::to_value(stats::na.omit(var.cnt))
 
   # check for nice bin-width defaults
-  if (type %in% c("histogram", "density") &&
+  if (
+    type %in%
+      c("histogram", "density") &&
       !is.null(geom.size) &&
-      geom.size < round(diff(range(xv)) / 40))
-    message("Using very small binwidth. Consider adjusting `geom.size` argument.")
+      geom.size < round(diff(range(xv)) / 40)
+  ) {
+    message(
+      "Using very small binwidth. Consider adjusting `geom.size` argument."
+    )
+  }
 
   # create second data frame
   hist.dat <- data.frame(xv)
@@ -333,7 +457,9 @@ plot_frq_helper <- function(
 
   mydat <- df.frq[[1]]
   # remove empty
-  if (drop.empty) mydat <- mydat[mydat$frq > 0, ]
+  if (drop.empty) {
+    mydat <- mydat[mydat$frq > 0, ]
+  }
 
   # add confindence intervals for frequencies
   total_n = sum(mydat$frq)
@@ -345,31 +471,41 @@ plot_frq_helper <- function(
   mydat$rel.lower.ci <- rel_frq - ci
 
   # any labels detected?
-  if (!is.null(mydat$label) && is.null(axis.labels) && !all(stats::na.omit(mydat$label) == "<none>"))
+  if (
+    !is.null(mydat$label) &&
+      is.null(axis.labels) &&
+      !all(stats::na.omit(mydat$label) == "<none>")
+  ) {
     axis.labels <- mydat$label
-  else if (is.null(axis.labels))
+  } else if (is.null(axis.labels)) {
     axis.labels <- mydat$val
+  }
 
   # wrap labels
   axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
 
   # define text label position
-  if (show.ci)
+  if (show.ci) {
     mydat$label.pos <- mydat$upper.ci
-  else
+  } else {
     mydat$label.pos <- mydat$frq
+  }
 
   # Trim labels and title to appropriate size -----
   # check length of diagram title and split longer string into new lines
   # every 50 chars
   if (!is.null(title)) {
     # if we have weighted values, say that in diagram's title
-    if (!is.null(title.wtd.suffix)) title <- paste(title, title.wtd.suffix, sep = "")
+    if (!is.null(title.wtd.suffix)) {
+      title <- paste(title, title.wtd.suffix, sep = "")
+    }
     title <- sjmisc::word_wrap(title, wrap.title)
   }
   # check length of x-axis title and split longer string into new lines
   # every 50 chars
-  if (!is.null(axis.title)) axis.title <- sjmisc::word_wrap(axis.title, wrap.title)
+  if (!is.null(axis.title)) {
+    axis.title <- sjmisc::word_wrap(axis.title, wrap.title)
+  }
 
   # count variable may not be a factor!
   if (is.factor(var.cnt) || is.character(var.cnt)) {
@@ -409,8 +545,10 @@ plot_frq_helper <- function(
     # the y axis
     if (type == "boxplot" || type == "violin") {
       # use an extra standard-deviation as limits for the y-axis when we have boxplots
-      lower_lim <- min(var.cnt, na.rm = TRUE) - floor(stats::sd(var.cnt, na.rm = TRUE))
-      upper_lim <- max(var.cnt, na.rm = TRUE) + ceiling(stats::sd(var.cnt, na.rm = TRUE))
+      lower_lim <- min(var.cnt, na.rm = TRUE) -
+        floor(stats::sd(var.cnt, na.rm = TRUE))
+      upper_lim <- max(var.cnt, na.rm = TRUE) +
+        ceiling(stats::sd(var.cnt, na.rm = TRUE))
       # make sure that the y-axis is not below zero
       if (lower_lim < 0) {
         lower_lim <- 0
@@ -421,27 +559,35 @@ plot_frq_helper <- function(
       hist.grp.cnt <- ceiling(diff(range(var.cnt, na.rm = TRUE)) / geom.size)
       # ... or the amount of max. answers per category
       # add 10% margin to upper limit
-      upper_lim <- max(pretty(table(
-        sjmisc::group_var(
-          var.cnt,
-          size = "auto",
-          n = hist.grp.cnt,
-          append = FALSE
-        )
-      ) * 1.1))
+      upper_lim <- max(pretty(
+        table(
+          sjmisc::group_var(
+            var.cnt,
+            size = "auto",
+            n = hist.grp.cnt,
+            append = FALSE
+          )
+        ) *
+          1.1
+      ))
     } else {
-      if (show.ci)
+      if (show.ci) {
         upper_lim <- max(pretty(mydat$upper.ci * 1.1))
-      else
+      } else {
         upper_lim <- max(pretty(mydat$frq * 1.1))
+      }
     }
   }
 
   # If we want to include NA, use raw percentages as valid percentages
-  if (show.na) mydat$valid.prc <- mydat$raw.prc
+  if (show.na) {
+    mydat$valid.prc <- mydat$raw.prc
+  }
 
   # don't display value labels when we have boxplots or violin plots
-  if (type == "boxplot" || type == "violin") show.values <- FALSE
+  if (type == "boxplot" || type == "violin") {
+    show.values <- FALSE
+  }
   if (show.values) {
     # here we have counts and percentages
     if (show.prc && show.n) {
@@ -464,7 +610,7 @@ plot_frq_helper <- function(
       }
     } else if (show.n) {
       # here we have counts, without percentages
-      ggvaluelabels <-  ggplot2::geom_text(
+      ggvaluelabels <- ggplot2::geom_text(
         label = sprintf("%i", mydat$frq),
         hjust = hjust,
         vjust = vjust,
@@ -481,18 +627,22 @@ plot_frq_helper <- function(
         )
     } else {
       # no labels
-      ggvaluelabels <-  ggplot2::geom_text(ggplot2::aes(y = .data$frq), label = "")
+      ggvaluelabels <- ggplot2::geom_text(
+        ggplot2::aes(y = .data$frq),
+        label = ""
+      )
     }
   } else {
     # no labels
-    ggvaluelabels <-  ggplot2::geom_text(ggplot2::aes(y = .data$frq), label = "")
+    ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$frq), label = "")
   }
 
   # Set up grid breaks
-  maxx <- if (is.numeric(mydat$val))
+  maxx <- if (is.numeric(mydat$val)) {
     max(mydat$val) + 1
-  else
+  } else {
     nrow(mydat)
+  }
 
   if (is.null(grid.breaks)) {
     gridbreaks <- ggplot2::waiver()
@@ -524,7 +674,11 @@ plot_frq_helper <- function(
   if (type == "bar" || type == "dot") {
     # define geom
     if (type == "bar") {
-      geob <- ggplot2::geom_bar(stat = "identity", width = geom.size, fill = geom.colors)
+      geob <- ggplot2::geom_bar(
+        stat = "identity",
+        width = geom.size,
+        fill = geom.colors
+      )
     } else if (type == "dot") {
       geob <- ggplot2::geom_point(size = geom.size, colour = geom.colors)
     }
@@ -535,7 +689,10 @@ plot_frq_helper <- function(
     # mydat is a data frame that only contains one variable (var).
     # Must be declared as factor, so the bars are central aligned to
     # each x-axis-break.
-    baseplot <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$val, y = .data$frq)) +
+    baseplot <- ggplot2::ggplot(
+      mydat,
+      ggplot2::aes(x = .data$val, y = .data$frq)
+    ) +
       geob +
       yscale +
       # remove guide / legend
@@ -552,33 +709,40 @@ plot_frq_helper <- function(
       ebcol <- ifelse(type == "dot", geom.colors, errorbar.color)
       # print confidence intervalls (error bars)
       baseplot <- baseplot +
-        ggplot2::geom_errorbar(ggplot2::aes_string(ymin = "lower.ci", ymax = "upper.ci"), colour = ebcol, width = 0)
+        ggplot2::geom_errorbar(
+          ggplot2::aes_string(ymin = "lower.ci", ymax = "upper.ci"),
+          colour = ebcol,
+          width = 0
+        )
     }
 
     # check whether coordinates should be flipped, i.e.
     # swap x and y axis
     if (coord.flip) baseplot <- baseplot + ggplot2::coord_flip()
 
-  # Start box plot here -----
+    # Start box plot here -----
   } else if (type == "boxplot" || type == "violin") {
     # setup base plot
-    baseplot <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "grp", y = "frq"))
+    baseplot <- ggplot2::ggplot(
+      mydat,
+      ggplot2::aes_string(x = "grp", y = "frq")
+    )
     # and x-axis
     scalex <- ggplot2::scale_x_discrete(labels = "")
     if (type == "boxplot") {
       baseplot <- baseplot +
-        geom_boxplot(width = geom.size, fill = geom.colors, notch = show.ci)
+        ggplot2::geom_boxplot(width = geom.size, fill = geom.colors, notch = show.ci)
     } else {
       baseplot <- baseplot +
-        geom_violin(trim = trimViolin, width = geom.size, fill = geom.colors)
+        ggplot2::geom_violin(trim = trimViolin, width = geom.size, fill = geom.colors)
       # if we have a violin plot, add an additional boxplot inside to show
       # more information
       if (show.ci) {
         baseplot <- baseplot +
-          geom_boxplot(width = inner.box.width, fill = "white", notch = TRUE)
+          ggplot2::geom_boxplot(width = inner.box.width, fill = "white", notch = TRUE)
       } else {
         baseplot <- baseplot +
-          geom_boxplot(width = inner.box.width, fill = "white")
+          ggplot2::geom_boxplot(width = inner.box.width, fill = "white")
       }
     }
 
@@ -587,26 +751,43 @@ plot_frq_helper <- function(
     # different fill colours, because violin boxplots have white background
     fcsp <- ifelse(type == "boxplot", "white", "black")
     baseplot <- baseplot +
-      stat_summary(fun = "mean", geom = "point", shape = 21,
-                   size = inner.box.dotsize, fill = fcsp)
+      ggplot2::stat_summary(
+        fun = "mean",
+        geom = "point",
+        shape = 21,
+        size = inner.box.dotsize,
+        fill = fcsp
+      )
     # no additional labels for the x- and y-axis, only diagram title
     baseplot <- baseplot + yscale + scalex
 
-  # Start density plot here -----
+    # Start density plot here -----
   } else if (type == "density") {
     # First, plot histogram with density curve
     baseplot <- ggplot2::ggplot(hist.dat, ggplot2::aes(x = .data$xv)) +
-      geom_histogram(ggplot2::aes(y = stat(density)), binwidth = geom.size, fill = geom.colors) +
+      ggplot2::geom_histogram(
+        ggplot2::aes(y = ggplot2::after_stat(density)),
+        binwidth = geom.size,
+        fill = geom.colors
+      ) +
       # transparent density curve above bars
-      ggplot2::geom_density(ggplot2::aes(y = stat(density)), fill = "cornsilk", alpha = 0.3) +
+      ggplot2::geom_density(
+        ggplot2::aes(y = ggplot2::after_stat(density)),
+        fill = "cornsilk",
+        alpha = 0.3
+      ) +
       # remove margins from left and right diagram side
-      ggplot2::scale_x_continuous(expand = expand.grid, breaks = histgridbreaks, limits = xlim)
+      ggplot2::scale_x_continuous(
+        expand = expand.grid,
+        breaks = histgridbreaks,
+        limits = xlim
+      )
 
     # check whether user wants to overlay the histogram
     # with a normal curve
     if (normal.curve) {
       baseplot <- baseplot +
-        stat_function(
+        ggplot2::stat_function(
           fun = dnorm,
           args = list(
             mean = mean(hist.dat$xv),
@@ -625,10 +806,18 @@ plot_frq_helper <- function(
       # original data needed for normal curve
       baseplot <- ggplot2::ggplot(mydat) +
         # second data frame mapped to the histogram geom
-        geom_histogram(data = hist.dat, ggplot2::aes(x = .data$xv), binwidth = geom.size, fill = geom.colors)
+        ggplot2::geom_histogram(
+          data = hist.dat,
+          ggplot2::aes(x = .data$xv),
+          binwidth = geom.size,
+          fill = geom.colors
+        )
     } else {
-      baseplot <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$val, y = .data$frq)) +
-        geom_area(alpha = 0.3) +
+      baseplot <- ggplot2::ggplot(
+        mydat,
+        ggplot2::aes(x = .data$val, y = .data$frq)
+      ) +
+        ggplot2::geom_area(alpha = 0.3) +
         ggplot2::geom_line(linewidth = geom.size, colour = geom.colors) +
         ggvaluelabels
     }
@@ -636,15 +825,18 @@ plot_frq_helper <- function(
     # with a normal curve
     if (normal.curve) {
       baseplot <- baseplot +
-        stat_function(
+        ggplot2::stat_function(
           fun = function(xx, mean, sd, n) {
             n * stats::dnorm(x = xx, mean = mean, sd = sd)
           },
-          args = with(mydat, c(
-            mean = mittelwert,
-            sd = stddev,
-            n = length(var.cnt)
-          )),
+          args = with(
+            mydat,
+            c(
+              mean = mittelwert,
+              sd = stddev,
+              n = length(var.cnt)
+            )
+          ),
           colour = normal.curve.color,
           size = normal.curve.size,
           alpha = normal.curve.alpha
@@ -654,7 +846,11 @@ plot_frq_helper <- function(
     if (show.mean) {
       baseplot <- baseplot +
         # vertical lines indicating the mean
-        geom_vline(xintercept = mittelwert, linetype = mean.line.type, size = mean.line.size)
+        ggplot2::geom_vline(
+          xintercept = mittelwert,
+          linetype = mean.line.type,
+          size = mean.line.size
+        )
       # check whether meanvalue should be shown.
       if (show.mean.val) {
         baseplot <- baseplot +
@@ -678,29 +874,40 @@ plot_frq_helper <- function(
       if (show.sd) {
         baseplot <- baseplot +
           # first draw shaded rectangle. these are by default in grey colour with very high transparancy
-          ggplot2::annotate("rect",
-                   xmin = mittelwert - stddev,
-                   xmax = mittelwert + stddev,
-                   ymin = 0,
-                   ymax = c(upper_lim),
-                   fill = "grey70",
-                   alpha = 0.2) +
+          ggplot2::annotate(
+            "rect",
+            xmin = mittelwert - stddev,
+            xmax = mittelwert + stddev,
+            ymin = 0,
+            ymax = c(upper_lim),
+            fill = "grey70",
+            alpha = 0.2
+          ) +
           # draw border-lines for shaded rectangle
-          geom_vline(xintercept = mittelwert - stddev,
-                     linetype = 3,
-                     size = mean.line.size,
-                     alpha = 0.7) +
-          geom_vline(xintercept = mittelwert + stddev,
-                     linetype = 3,
-                     size = mean.line.size,
-                     alpha = 0.7)
+          ggplot2::geom_vline(
+            xintercept = mittelwert - stddev,
+            linetype = 3,
+            size = mean.line.size,
+            alpha = 0.7
+          ) +
+          ggplot2::geom_vline(
+            xintercept = mittelwert + stddev,
+            linetype = 3,
+            size = mean.line.size,
+            alpha = 0.7
+          )
       }
     }
 
     # show absolute and percentage value of each bar.
-    baseplot <- baseplot + yscale +
+    baseplot <- baseplot +
+      yscale +
       # continuous x-scale for histograms
-      ggplot2::scale_x_continuous(limits = xlim, expand = expand.grid, breaks = histgridbreaks)
+      ggplot2::scale_x_continuous(
+        limits = xlim,
+        expand = expand.grid,
+        breaks = histgridbreaks
+      )
   }
 
   # set axes text and

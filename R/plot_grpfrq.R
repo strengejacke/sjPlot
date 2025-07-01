@@ -652,9 +652,9 @@ plot_grpfrq <- function(var.cnt,
     else
       geob <- ggplot2::geom_line(linewidth = geom.size)
   } else if (type == "boxplot") {
-      geob <- geom_boxplot(width = geom.size, notch = show.ci)
+      geob <- ggplot2::geom_boxplot(width = geom.size, notch = show.ci)
   } else if (type == "violin") {
-    geob <- geom_violin(trim = trimViolin, width = geom.size)
+    geob <- ggplot2::geom_violin(trim = trimViolin, width = geom.size)
   } else {
     geob <- ggplot2::geom_bar(stat = "identity", position = bar.pos, width = geom.size)
   }
@@ -784,10 +784,10 @@ plot_grpfrq <- function(var.cnt,
     if (type == "violin") {
       if (show.ci) {
         baseplot <- baseplot +
-          geom_boxplot(width = inner.box.width, fill = "white", outlier.colour = NA, notch = TRUE)
+          ggplot2::geom_boxplot(width = inner.box.width, fill = "white", outlier.colour = NA, notch = TRUE)
       } else {
         baseplot <- baseplot +
-          geom_boxplot(width = inner.box.width, fill = "white", outlier.colour = NA)
+          ggplot2::geom_boxplot(width = inner.box.width, fill = "white", outlier.colour = NA)
       }
     }
 
@@ -796,7 +796,7 @@ plot_grpfrq <- function(var.cnt,
     # different fill colours, because violin boxplots have white background
     fcsp <- ifelse(type == "boxplot", "white", "black")
     baseplot <- baseplot +
-      stat_summary(fun = "mean", geom = "point", shape = 21,
+      ggplot2::stat_summary(fun = "mean", geom = "point", shape = 21,
                    size = inner.box.dotsize, fill = fcsp)
   } else {
     if (type == "dot") {
