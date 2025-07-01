@@ -19,7 +19,7 @@ print.sjTable <- function(x, ...) {
   }
 }
 
-
+#' @importFrom knitr knit_print asis_output
 #' @export
 knit_print.sjTable <-  function(x, ...) {
   out <- x$knitr
