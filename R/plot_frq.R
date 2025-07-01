@@ -788,7 +788,7 @@ plot_frq_helper <- function(
     if (normal.curve) {
       baseplot <- baseplot +
         ggplot2::stat_function(
-          fun = dnorm,
+          fun = stats::dnorm,
           args = list(
             mean = mean(hist.dat$xv),
             sd = stats::sd(hist.dat$xv)

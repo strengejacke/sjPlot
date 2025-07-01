@@ -301,9 +301,9 @@ scale_color_sjplot <- function(palette = "metro", discrete = TRUE, reverse = FAL
   pal <- get_sjplot_pal(palette = palette, reverse = reverse)
 
   if (discrete) {
-    discrete_scale("colour", paste0("sjplot_pal_", palette), palette = pal, ...)
+    ggplot2::discrete_scale("colour", paste0("sjplot_pal_", palette), palette = pal, ...)
   } else {
-    scale_color_gradientn(colours = pal(256), ...)
+    ggplot2::scale_color_gradientn(colours = pal(256), ...)
   }
 }
 
