@@ -26,13 +26,15 @@
 #' sjp.chi2(mydf, axis.labels = items)
 #'
 #' @export
-sjp.chi2 <- function(df,
-                     title = "Pearson's Chi2-Test of Independence",
-                     axis.labels = NULL,
-                     wrap.title = 50,
-                     wrap.labels = 20,
-                     show.legend = FALSE,
-                     legend.title = NULL) {
+sjp.chi2 <- function(
+  df,
+  title = "Pearson's Chi2-Test of Independence",
+  axis.labels = NULL,
+  wrap.title = 50,
+  wrap.labels = 20,
+  show.legend = FALSE,
+  legend.title = NULL
+) {
   # --------------------------------------------------------
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
@@ -52,19 +54,23 @@ sjp.chi2 <- function(df,
   m <- data.frame()
   for (i in seq_len(ncol(combos))) {
     test <- chisq.test(df[, combos[1, i]], df[, combos[2, i]])
-    out <- data.frame(Row = colnames(df)[combos[1, i]],
-                      Column = colnames(df)[combos[2, i]],
-                      Chi.Square = round(test$statistic, 4),
-                      df =  test$parameter,
-                      p.value = round(test$p.value, 4),
-                      stringsAsFactors = FALSE)
+    out <- data.frame(
+      Row = colnames(df)[combos[1, i]],
+      Column = colnames(df)[combos[2, i]],
+      Chi.Square = round(test$statistic, 4),
+      df = test$parameter,
+      p.value = round(test$p.value, 4),
+      stringsAsFactors = FALSE
+    )
     m <- suppressWarnings(dplyr::bind_rows(m, out))
   }
   # ----------------------------
   # check if user defined labels have been supplied
   # if not, use variable names from data frame
   # ----------------------------
-  if (is.null(axis.labels)) axis.labels <- row.names(m)
+  if (is.null(axis.labels)) {
+    axis.labels <- row.names(m)
+  }
   # --------------------------------------------------------
   # unlist labels
   # --------------------------------------------------------
@@ -75,29 +81,42 @@ sjp.chi2 <- function(df,
   # Prepare length of title and labels
   # ----------------------------
   # check length of diagram title and split longer string at into new lines
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
+  if (!is.null(title)) {
+    title <- sjmisc::word_wrap(title, wrap.title)
+  }
   # check length of x-axis-labels and split longer strings at into new lines
-  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
+  if (!is.null(axis.labels)) {
+    axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
+  }
   # --------------------------------------------------------
   # start with base plot object here
   # --------------------------------------------------------
-  chiPlot <- ggplot2::ggplot(data = m, ggplot2::aes_string(x = "Row", y = "Column", fill = "p.value", label = "p.value")) +
+  chiPlot <- ggplot2::ggplot(
+    data = m,
+    ggplot2::aes_string(
+      x = "Row",
+      y = "Column",
+      fill = "p.value",
+      label = "p.value"
+    )
+  ) +
     geom_tile() +
     ggplot2::scale_x_discrete(labels = axis.labels) +
-    scale_y_discrete(labels = axis.labels) +
-    ggplot2::scale_fill_gradient2(low = grDevices::rgb(128, 205, 193, maxColorValue = 255),
-                         mid = "white",
-                         high = grDevices::rgb(5, 113, 176, maxColorValue = 255),
-                         midpoint = 0.05) +
+    ggplot2::scale_y_discrete(labels = axis.labels) +
+    ggplot2::scale_fill_gradient2(
+      low = grDevices::rgb(128, 205, 193, maxColorValue = 255),
+      mid = "white",
+      high = grDevices::rgb(5, 113, 176, maxColorValue = 255),
+      midpoint = 0.05
+    ) +
     ggplot2::geom_text(label = sprintf("%.3f", m$p.value)) +
-    ggplot2::labs(title = title,
-         x = NULL,
-         y = NULL,
-         fill = legend.title)
+    ggplot2::labs(title = title, x = NULL, y = NULL, fill = legend.title)
   # ---------------------------------------------------------
   # hide legend?
   # ---------------------------------------------------------
-  if (!show.legend) chiPlot <- chiPlot + ggplot2::guides(fill = "none")
+  if (!show.legend) {
+    chiPlot <- chiPlot + ggplot2::guides(fill = "none")
+  }
 
   chiPlot
 }

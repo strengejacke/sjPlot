@@ -217,7 +217,7 @@ sjp.corr <- function(data,
   # red, positive corr. are dark blue, and they become lighter the closer they are to a
   # correlation coefficient of zero
     ggplot2::scale_x_discrete(labels = axis.labels, breaks = seq_len(length(axis.labels))) +
-    scale_y_discrete(labels = axis.labels, breaks = seq_len(length(axis.labels))) +
+    ggplot2::scale_y_discrete(labels = axis.labels, breaks = seq_len(length(axis.labels))) +
     # set limits to (-1,1) to make sure the whole color palette is used. this
     # is the colour scale for geoms
     scale_fill_gradientn(colours = geom.colors, limits = c(-1,1)) +
