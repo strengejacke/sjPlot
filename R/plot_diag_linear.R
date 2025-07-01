@@ -104,7 +104,7 @@ diag_qq <- function(model, geom.colors, dot.size, line.size, ...) {
   # plot it
   ggplot2::ggplot(mydf, ggplot2::aes_string(x = "x", y = "y")) +
     ggplot2::geom_point(size = dot.size) +
-    scale_colour_manual(values = geom.colors) +
+    ggplot2::scale_colour_manual(values = geom.colors) +
     ggplot2::stat_smooth(method = "lm", se = FALSE, size = line.size) +
     ggplot2::labs(
       title = "Non-normality of residuals and outliers",
@@ -232,13 +232,13 @@ diag_vif <- function(fit) {
 
 
     vifplot <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "vars", y = "vif")) +
-      geom_bar(stat = "identity", width = 0.7, fill = "#80acc8") +
+      ggplot2::geom_bar(stat = "identity", width = 0.7, fill = "#80acc8") +
       geom_hline(yintercept = 5, linetype = 2, colour = "darkgreen", alpha = 0.7) +
       geom_hline(yintercept = 10, linetype = 2, colour = "darkred", alpha = 0.7) +
-      annotate("text", x = 1, y = 4.7, label = "good", size = 4, colour = "darkgreen") +
-      annotate("text", x = 1, y = 9.7, label = "tolerable", size = 4, colour = "darkred") +
+      ggplot2::annotate("text", x = 1, y = 4.7, label = "good", size = 4, colour = "darkgreen") +
+      ggplot2::annotate("text", x = 1, y = 9.7, label = "tolerable", size = 4, colour = "darkred") +
       ggplot2::labs(title = "Variance Inflation Factors (multicollinearity)", x = NULL, y = NULL) +
-      scale_y_continuous(limits = c(0, upperLimit), expand = c(0, 0))
+      ggplot2::scale_y_continuous(limits = c(0, upperLimit), expand = c(0, 0))
   }
 
   vifplot

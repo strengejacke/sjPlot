@@ -93,7 +93,7 @@ dist_norm <- function(norm = NULL,
                   ggplot2::aes_string(ymax = "y", fill = "p.level"),
                   ymin = 0,
                   alpha = geom.alpha) +
-      annotate("text",
+      ggplot2::annotate("text",
                label = sprintf("x = %.2f", cs),
                x = cs,
                y = 0,
@@ -103,7 +103,7 @@ dist_norm <- function(norm = NULL,
       pv <- stats::pnorm(norm, mean, sd, lower.tail = FALSE)
       if (pv >= 0.05) {
         gp <- gp +
-          annotate("text",
+          ggplot2::annotate("text",
                    label = sprintf("p = %.2f", pv),
                    x = norm,
                    y = 0,
@@ -229,7 +229,7 @@ dist_chisq <- function(chi2 = NULL,
                   ggplot2::aes_string(ymax = "y", fill = "p.level"),
                   ymin = 0,
                   alpha = geom.alpha) +
-      annotate("text",
+      ggplot2::annotate("text",
                label = as.character(as.expression(substitute(chi^2 == c2, list(c2 = sprintf("%.2f", cs))))),
                parse = TRUE,
                x = cs,
@@ -240,7 +240,7 @@ dist_chisq <- function(chi2 = NULL,
       pv <- stats::pchisq(chi2, deg.f, lower.tail = FALSE)
       if (pv >= 0.05) {
         gp <- gp +
-          annotate("text",
+          ggplot2::annotate("text",
                    label = sprintf("p = %.2f", pv),
                    x = chi2,
                    y = 0,
@@ -356,7 +356,7 @@ dist_f <- function(f = NULL,
                   ggplot2::aes_string(ymax = "y", fill = "p.level"),
                   ymin = 0,
                   alpha = geom.alpha) +
-      annotate("text",
+      ggplot2::annotate("text",
                label = sprintf("F = %.2f", fv),
                x = fv,
                y = 0,
@@ -366,9 +366,9 @@ dist_f <- function(f = NULL,
       pv <- stats::pf(f, deg.f1, deg.f2, lower.tail = FALSE)
       if (pv >= 0.05) {
         gp <- gp +
-          annotate("text",
+          ggplot2::annotate("text",
                    label = sprintf("p = %.2f", pv),
-                   x = f,
+                   x = FALSE,
                    y = 0,
                    hjust = -0.1,
                    vjust = -0.5,
@@ -486,7 +486,7 @@ dist_t <- function(t = NULL,
                   ggplot2::aes_string(ymax = "y", fill = "p.level"),
                   ymin = 0,
                   alpha = geom.alpha) +
-      annotate("text",
+      ggplot2::annotate("text",
                label = sprintf("t = %.2f", tv),
                x = tv,
                y = 0,
@@ -496,9 +496,9 @@ dist_t <- function(t = NULL,
       pv <- stats::pt(t, deg.f, lower.tail = FALSE)
       if (pv >= 0.05) {
         gp <- gp +
-          annotate("text",
+          ggplot2::annotate("text",
                    label = sprintf("p = %.2f", pv),
-                   x = t,
+                   x = TRUE,
                    y = 0,
                    hjust = -0.1,
                    vjust = -0.5,

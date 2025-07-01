@@ -271,7 +271,7 @@ plot_frq_helper <- function(
 
   # default grid-expansion
   if (isTRUE(expand.grid) || (missing(expand.grid) && type == "histogram")) {
-    expand.grid <- waiver()
+    expand.grid <- ggplot2::waiver()
   } else {
     expand.grid <- c(0, 0)
   }
@@ -450,7 +450,7 @@ plot_frq_helper <- function(
     if (show.prc && show.n) {
       if (coord.flip) {
         ggvaluelabels <-
-          geom_text(
+          ggplot2::geom_text(
             label = sprintf("%i (%.01f%%)", mydat$frq, mydat$valid.prc),
             hjust = hjust,
             vjust = vjust,
@@ -458,7 +458,7 @@ plot_frq_helper <- function(
           )
       } else {
         ggvaluelabels <-
-          geom_text(
+          ggplot2::geom_text(
             label = sprintf("%i\n(%.01f%%)", mydat$frq, mydat$valid.prc),
             hjust = hjust,
             vjust = vjust,
@@ -467,7 +467,7 @@ plot_frq_helper <- function(
       }
     } else if (show.n) {
       # here we have counts, without percentages
-      ggvaluelabels <-  geom_text(
+      ggvaluelabels <-  ggplot2::geom_text(
         label = sprintf("%i", mydat$frq),
         hjust = hjust,
         vjust = vjust,
@@ -476,7 +476,7 @@ plot_frq_helper <- function(
     } else if (show.prc) {
       # here we have counts, without percentages
       ggvaluelabels <-
-        geom_text(
+        ggplot2::geom_text(
           label = sprintf("%.01f%%", mydat$valid.prc),
           hjust = hjust,
           vjust = vjust,
@@ -484,11 +484,11 @@ plot_frq_helper <- function(
         )
     } else {
       # no labels
-      ggvaluelabels <-  geom_text(ggplot2::aes(y = .data$frq), label = "")
+      ggvaluelabels <-  ggplot2::geom_text(ggplot2::aes(y = .data$frq), label = "")
     }
   } else {
     # no labels
-    ggvaluelabels <-  geom_text(ggplot2::aes(y = .data$frq), label = "")
+    ggvaluelabels <-  ggplot2::geom_text(ggplot2::aes(y = .data$frq), label = "")
   }
 
   # Set up grid breaks
@@ -498,8 +498,8 @@ plot_frq_helper <- function(
     nrow(mydat)
 
   if (is.null(grid.breaks)) {
-    gridbreaks <- waiver()
-    histgridbreaks <- waiver()
+    gridbreaks <- ggplot2::waiver()
+    histgridbreaks <- ggplot2::waiver()
   } else {
     gridbreaks <- c(seq(lower_lim, upper_lim, by = grid.breaks))
     histgridbreaks <- c(seq(lower_lim, maxx, by = grid.breaks))
@@ -509,13 +509,13 @@ plot_frq_helper <- function(
   # It either corresponds to the maximum amount of cases in the data set
   # (length of var) or to the highest count of var's categories.
   if (show.axis.values) {
-    yscale <- scale_y_continuous(
+    yscale <- ggplot2::scale_y_continuous(
       limits = c(lower_lim, upper_lim),
       expand = expand.grid,
       breaks = gridbreaks
     )
   } else {
-    yscale <- scale_y_continuous(
+    yscale <- ggplot2::scale_y_continuous(
       limits = c(lower_lim, upper_lim),
       expand = expand.grid,
       breaks = gridbreaks,
@@ -527,7 +527,7 @@ plot_frq_helper <- function(
   if (type == "bar" || type == "dot") {
     # define geom
     if (type == "bar") {
-      geob <- geom_bar(stat = "identity", width = geom.size, fill = geom.colors)
+      geob <- ggplot2::geom_bar(stat = "identity", width = geom.size, fill = geom.colors)
     } else if (type == "dot") {
       geob <- ggplot2::geom_point(size = geom.size, colour = geom.colors)
     }
@@ -548,7 +548,7 @@ plot_frq_helper <- function(
       # print value labels to the x-axis.
       # If argument "axis.labels" is NULL, the category numbers (1 to ...)
       # appear on the x-axis
-      scale_x_discrete(labels = axis.labels)
+      ggplot2::scale_x_discrete(labels = axis.labels)
 
     # add error bars
     if (show.ci) {
@@ -560,14 +560,14 @@ plot_frq_helper <- function(
 
     # check whether coordinates should be flipped, i.e.
     # swap x and y axis
-    if (coord.flip) baseplot <- baseplot + coord_flip()
+    if (coord.flip) baseplot <- baseplot + ggplot2::coord_flip()
 
   # Start box plot here -----
   } else if (type == "boxplot" || type == "violin") {
     # setup base plot
     baseplot <- ggplot2::ggplot(mydat, ggplot2::aes_string(x = "grp", y = "frq"))
     # and x-axis
-    scalex <- scale_x_discrete(labels = "")
+    scalex <- ggplot2::scale_x_discrete(labels = "")
     if (type == "boxplot") {
       baseplot <- baseplot +
         geom_boxplot(width = geom.size, fill = geom.colors, notch = show.ci)
@@ -662,7 +662,7 @@ plot_frq_helper <- function(
       if (show.mean.val) {
         baseplot <- baseplot +
           # use annotation instead of geomtext, because we need mean value only printed once
-          annotate(
+          ggplot2::annotate(
             "text",
             x = mittelwert,
             y = upper_lim,
@@ -681,7 +681,7 @@ plot_frq_helper <- function(
       if (show.sd) {
         baseplot <- baseplot +
           # first draw shaded rectangle. these are by default in grey colour with very high transparancy
-          annotate("rect",
+          ggplot2::annotate("rect",
                    xmin = mittelwert - stddev,
                    xmax = mittelwert + stddev,
                    ymin = 0,

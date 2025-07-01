@@ -168,7 +168,7 @@ gpt_helper <- function(
   ylabels <-
     sjlabelled::get_labels(
       y,
-      attr.only = F,
+      attr.only = FALSE,
       values = NULL,
       non.labelled = T
     )
@@ -179,7 +179,7 @@ gpt_helper <- function(
     axis.labels <-
       sjlabelled::get_labels(
         grp,
-        attr.only = F,
+        attr.only = FALSE,
         values = NULL,
         non.labelled = T
       )
@@ -206,7 +206,7 @@ gpt_helper <- function(
     legend.labels <-
       sjlabelled::get_labels(
         x,
-        attr.only = F,
+        attr.only = FALSE,
         values = NULL,
         non.labelled = T
       )
@@ -301,7 +301,7 @@ gpt_helper <- function(
 
   # Set up grid breaks
   if (is.null(grid.breaks))
-    gridbreaks <- waiver()
+    gridbreaks <- ggplot2::waiver()
   else
     gridbreaks <- seq(axis.lim[1], axis.lim[2], by = grid.breaks)
 
@@ -312,16 +312,16 @@ gpt_helper <- function(
   # Set up plot
   p <- ggplot2::ggplot(newdf, ggplot2::aes(x = rev(.data$grp), y = .data$ypos, colour = .data$xpos, shape = .data$xpos)) +
     ggplot2::geom_point(size = geom.size, fill = shape.fill.color) +
-    scale_y_continuous(labels = scales::percent, breaks = gridbreaks, limits = axis.lim) +
-    scale_x_discrete(labels = rev(axis.labels)) +
+    ggplot2::scale_y_continuous(labels = scales::percent, breaks = gridbreaks, limits = axis.lim) +
+    ggplot2::scale_x_discrete(labels = rev(axis.labels)) +
     scale_shape_manual(name = legend.title, labels = legend.labels, values = shapes[1:pal.len]) +
-    scale_colour_manual(name = legend.title, labels = legend.labels, values = geom.colors) +
+    ggplot2::scale_colour_manual(name = legend.title, labels = legend.labels, values = geom.colors) +
     ggplot2::labs(x = axisTitle.x, y = axisTitle.y, title = title) +
-    coord_flip()
+    ggplot2::coord_flip()
 
   # Annotate total line?
   if (show.total && annotate.total)
-    p <- p + annotate("rect", xmin = 0.5,  xmax = 1.5, ymin = -Inf, ymax = Inf, alpha = 0.15)
+    p <- p + ggplot2::annotate("rect", xmin = 0.5,  xmax = 1.5, ymin = -Inf, ymax = Inf, alpha = 0.15)
 
   p
 }

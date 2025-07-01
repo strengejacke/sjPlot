@@ -365,11 +365,11 @@ show_sjplot_pals <- function() {
   x$group[x$key %in% c("breakfast.club", "flat", "metro", "quadro", "set1", "simply", "social")] <- "Red-Blue-Green Palettes"
 
   ggplot2::ggplot(x, ggplot2::aes_string(x = "key", fill = "cols")) +
-    geom_bar(width = .7) +
-    scale_fill_manual(values = x$value) +
-    scale_y_continuous(breaks = NULL, labels = NULL) +
+    ggplot2::geom_bar(width = .7) +
+    ggplot2::scale_fill_manual(values = x$value) +
+    ggplot2::scale_y_continuous(breaks = NULL, labels = NULL) +
     ggplot2::guides(fill = "none") +
-    coord_flip() +
+    ggplot2::coord_flip() +
     theme_minimal() +
     ggplot2::labs(x = NULL, y = NULL) +
     ggplot2::facet_wrap(~group, ncol = 1, scales = "free")

@@ -219,12 +219,12 @@ sjp.corr <- function(data,
   # fill gradient colour from distinct color brewer palette. negative correlations are dark
   # red, positive corr. are dark blue, and they become lighter the closer they are to a
   # correlation coefficient of zero
-    scale_x_discrete(labels = axis.labels, breaks = seq_len(length(axis.labels))) +
+    ggplot2::scale_x_discrete(labels = axis.labels, breaks = seq_len(length(axis.labels))) +
     scale_y_discrete(labels = axis.labels, breaks = seq_len(length(axis.labels))) +
     # set limits to (-1,1) to make sure the whole color palette is used. this
     # is the colour scale for geoms
     scale_fill_gradientn(colours = geom.colors, limits = c(-1,1)) +
-    geom_text(size = 3.5, colour = "black") +
+    ggplot2::geom_text(size = 3.5, colour = "black") +
     ggplot2::labs(title = title, x = NULL, y = NULL)
   if (show.legend)
     corrPlot <- corrPlot + ggplot2::guides(fill = legend.title)

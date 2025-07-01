@@ -550,12 +550,14 @@ sj.theme_geoms <- function(geom.alpha,
 }
 
 
-sj.setGeomColors <- function(plot,
-                             geom.colors,
-                             pal.len,
-                             show.legend = TRUE,
-                             labels = NULL,
-                             reverse.colors = FALSE) {
+sj.setGeomColors <- function(
+  plot,
+  geom.colors,
+  pal.len,
+  show.legend = TRUE,
+  labels = NULL,
+  reverse.colors = FALSE
+) {
   # ---------------------------------------------------------
   # check for themr options
   # ---------------------------------------------------------
@@ -571,15 +573,20 @@ sj.setGeomColors <- function(plot,
   usenormalscale <- function(plot, geom.colors, labels, bw.figure, ltypes) {
     if (!show.legend) {
       plot <- plot +
-        scale_fill_manual(values = geom.colors, guide = FALSE) +
-        scale_colour_manual(values = geom.colors, guide = FALSE) +
-        scale_linetype_manual(values = ltypes, guide = FALSE) +
-        ggplot2::guides(fill = "none", colour = "none", text = "none", linetype = "none")
+        ggplot2::scale_fill_manual(values = geom.colors, guide = FALSE) +
+        ggplot2::scale_colour_manual(values = geom.colors, guide = FALSE) +
+        ggplot2::scale_linetype_manual(values = ltypes, guide = FALSE) +
+        ggplot2::guides(
+          fill = "none",
+          colour = "none",
+          text = "none",
+          linetype = "none"
+        )
     } else {
       plot <- plot +
-        scale_fill_manual(values = geom.colors, labels = labels) +
-        scale_colour_manual(values = geom.colors, labels = labels) +
-        scale_linetype_manual(values = ltypes)
+        ggplot2::scale_fill_manual(values = geom.colors, labels = labels) +
+        ggplot2::scale_colour_manual(values = geom.colors, labels = labels) +
+        ggplot2::scale_linetype_manual(values = ltypes)
       # for b/w figures, add linetype scale
       if (bw.figure) {
         plot <- plot + ggplot2::guides(text = "none", colour = "none")
@@ -597,15 +604,20 @@ sj.setGeomColors <- function(plot,
   uselegendscale <- function(plot, labels, bw.figure, ltypes) {
     if (!show.legend) {
       plot <- plot +
-        scale_fill_discrete(guide = FALSE) +
-        scale_colour_discrete(guide = FALSE) +
-        scale_linetype_manual(values = ltypes, guide = FALSE) +
-        ggplot2::guides(fill = "none", colour = "none", text = "none", linetype = "none")
+        ggplot2::scale_fill_discrete(guide = FALSE) +
+        ggplot2::scale_colour_discrete(guide = FALSE) +
+        ggplot2::scale_linetype_manual(values = ltypes, guide = FALSE) +
+        ggplot2::guides(
+          fill = "none",
+          colour = "none",
+          text = "none",
+          linetype = "none"
+        )
     } else {
       plot <- plot +
-        scale_fill_discrete(labels = labels) +
-        scale_colour_discrete(labels = labels) +
-        scale_linetype_manual(values = ltypes)
+        ggplot2::scale_fill_discrete(labels = labels) +
+        ggplot2::scale_colour_discrete(labels = labels) +
+        ggplot2::scale_linetype_manual(values = ltypes)
       # for b/w figures, add linetype scale
       if (bw.figure) {
         plot <- plot + ggplot2::guides(text = "none", colour = "none")
@@ -620,10 +632,11 @@ sj.setGeomColors <- function(plot,
   # check if we have coloured plot or b/w figure with different linetypes
   bw.figure <- !is.null(geom.colors) && geom.colors[1] == "bw"
 
-  if (bw.figure)
+  if (bw.figure) {
     ltypes <- seq_len(pal.len)
-  else
+  } else {
     ltypes <- rep(1, times = pal.len)
+  }
 
   # ---------------------------------------------------------
   # set geom colors
@@ -638,7 +651,9 @@ sj.setGeomColors <- function(plot,
         neutral.color <- NULL
       }
       geom.colors <- scales::brewer_pal(palette = geom.colors[1])(pal.len)
-      if (reverse.colors) geom.colors <- rev(geom.colors)
+      if (reverse.colors) {
+        geom.colors <- rev(geom.colors)
+      }
       if (!is.null(neutral.color)) geom.colors <- c(geom.colors, neutral.color)
     } else if (geom.colors[1] == "gs") {
       geom.colors <- scales::grey_pal()(pal.len)

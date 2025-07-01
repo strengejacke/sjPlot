@@ -151,7 +151,7 @@ plot_xtab <- function(x,
   # grid-expansion
   # --------------------------------------------------------
   if (expand.grid) {
-    expand.grid <- waiver()
+    expand.grid <- ggplot2::waiver()
   } else {
     expand.grid <- c(0, 0)
   }
@@ -195,7 +195,7 @@ plot_xtab <- function(x,
   # --------------------------------------------------------
   # create cross table of frequencies and percentages
   # --------------------------------------------------------
-  mydat <- create.xtab.df(x, grp, round.prz = 2, na.rm = T, weight.by = weight.by)
+  mydat <- create.xtab.df(x, grp, round.prz = 2, na.rm = TRUE, weight.by = weight.by)
   # --------------------------------------------------------
   # x-position as numeric factor, added later after
   # tidying
@@ -360,38 +360,38 @@ plot_xtab <- function(x,
     # as well, sofor better reading
     if (bar.pos == "dodge") {
       if (show.prc && show.n) {
-        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos + y_offset, label = sprintf("%.01f%%%s(n=%i)", 100 * .data$prc, .data$line.break, .data$n)),
+        ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$ypos + y_offset, label = sprintf("%.01f%%%s(n=%i)", 100 * .data$prc, .data$line.break, .data$n)),
                                    position = ggplot2::position_dodge(posdodge),
                                    vjust = vjust, hjust = hjust)
       } else if (show.prc) {
-        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos + y_offset, label = sprintf("%.01f%%", 100 * .data$prc)),
+        ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$ypos + y_offset, label = sprintf("%.01f%%", 100 * .data$prc)),
                                    position = ggplot2::position_dodge(posdodge),
                                    vjust = vjust, hjust = hjust)
       } else if (show.n) {
-        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos + y_offset, label = sprintf("n=%i", .data$n)),
+        ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$ypos + y_offset, label = sprintf("n=%i", .data$n)),
                                    position = ggplot2::position_dodge(posdodge),
                                    vjust = vjust, hjust = hjust)
       }
     } else {
       if (show.prc && show.n) {
-        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%.01f%%%s(n=%i)", 100 * .data$prc, .data$line.break, .data$n)),
+        ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%.01f%%%s(n=%i)", 100 * .data$prc, .data$line.break, .data$n)),
                                    vjust = vjust, hjust = hjust)
       } else if (show.prc) {
-        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%.01f%%", 100 * .data$prc)),
+        ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%.01f%%", 100 * .data$prc)),
                                    vjust = vjust, hjust = hjust)
       } else if (show.n) {
-        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("n=%i", .data$n)),
+        ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("n=%i", .data$n)),
                                    vjust = vjust, hjust = hjust)
       }
     }
   } else {
-    ggvaluelabels <- geom_text(ggplot2::aes_string(y = "ypos"), label = "")
+    ggvaluelabels <- ggplot2::geom_text(ggplot2::aes_string(y = "ypos"), label = "")
   }
   # --------------------------------------------------------
   # Set up grid breaks
   # --------------------------------------------------------
   if (is.null(grid.breaks)) {
-    gridbreaks <- waiver()
+    gridbreaks <- ggplot2::waiver()
   } else {
     gridbreaks <- seq(lower_lim, upper_lim, by = grid.breaks)
   }
@@ -402,18 +402,18 @@ plot_xtab <- function(x,
   if (type == "line")
     scalex <- scale_x_continuous(labels = axis.labels)
   else
-    scalex <- scale_x_discrete(labels = axis.labels)
+    scalex <- ggplot2::scale_x_discrete(labels = axis.labels)
   # ----------------------------------
   # check whether bars or lines should be printed
   # ----------------------------------
   if (type == "bar") {
     if (bar.pos == "dodge") {
-      geob <- geom_bar(stat = "identity",
+      geob <- ggplot2::geom_bar(stat = "identity",
                        position = ggplot2::position_dodge(posdodge),
                        width = geom.size)
     } else {
-      geob <- geom_bar(stat = "identity",
-                       position = position_stack(reverse = TRUE),
+      geob <- ggplot2::geom_bar(stat = "identity",
+                       position = ggplot2::position_stack(reverse = TRUE),
                        width = geom.size)
     }
   # check if we have lines
@@ -448,13 +448,13 @@ plot_xtab <- function(x,
     # set Y-axis, depending on the calculated upper y-range.
     # It either corresponds to the maximum amount of cases in the data set
     # (length of var) or to the highest count of var's categories.
-    scale_y_continuous(breaks = gridbreaks,
+    ggplot2::scale_y_continuous(breaks = gridbreaks,
                        limits = c(lower_lim, upper_lim),
                        expand = expand.grid,
                        labels = scales::percent)
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
-  if (coord.flip) baseplot <- baseplot + coord_flip()
+  if (coord.flip) baseplot <- baseplot + ggplot2::coord_flip()
   # ---------------------------------------------------------
   # set geom colors
   # ---------------------------------------------------------

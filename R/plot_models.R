@@ -305,7 +305,7 @@ plot_models <- function(...,
       width = 0,
       size = line.size
     ) +
-    coord_flip() +
+    ggplot2::coord_flip() +
     ggplot2::guides(colour = ggplot2::guide_legend(reverse = TRUE))
 
 
@@ -317,7 +317,7 @@ plot_models <- function(...,
   # add value labels
 
   if (show.values) p <- p +
-    geom_text(
+    ggplot2::geom_text(
       ggplot2::aes_string(label = "p.label"),
       position = ggplot2::position_dodge(spacing),
       vjust = spacing * -1.5,
@@ -332,7 +332,7 @@ plot_models <- function(...,
     axis.labels <- sjlabelled::term_labels(input_list, prefix = prefix.labels)
 
   # set axis labels
-  p <- p + scale_x_discrete(labels = sjmisc::word_wrap(axis.labels, wrap = wrap.labels))
+  p <- p + ggplot2::scale_x_discrete(labels = sjmisc::word_wrap(axis.labels, wrap = wrap.labels))
 
 
   # hide legend?
@@ -345,14 +345,14 @@ plot_models <- function(...,
   # we need transformed scale for exponentiated estimates
 
   if (isTRUE(tf == "exp")) {
-    p <- p + scale_y_continuous(
+    p <- p + ggplot2::scale_y_continuous(
       trans = "log10",
       limits = axis.scaling$axis.lim,
       breaks = axis.scaling$ticks,
       labels = prettyNum
     )
   } else {
-    p <- p + scale_y_continuous(
+    p <- p + ggplot2::scale_y_continuous(
       limits = axis.scaling$axis.lim,
       breaks = axis.scaling$ticks,
       labels = axis.scaling$ticks
@@ -361,7 +361,7 @@ plot_models <- function(...,
 
 
   # set colors
-  p <- p + scale_colour_manual(values = col_check2(colors, length(m.labels)))
+  p <- p + ggplot2::scale_colour_manual(values = col_check2(colors, length(m.labels)))
 
 
   # set axis and plot titles

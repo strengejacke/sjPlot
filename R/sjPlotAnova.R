@@ -63,7 +63,7 @@ sjp.aov1 <- function(var.dep,
   # try to automatically set labels is not passed as parameter
   # --------------------------------------------------------
   if (is.null(axis.labels)) axis.labels <- sjlabelled::get_labels(var.grp,
-                                                              attr.only = F,
+                                                              attr.only = FALSE,
                                                               values = NULL,
                                                               non.labelled = TRUE)
   if (is.null(axis.title)) axis.title <- sjlabelled::get_label(var.dep, def.value = var.dep.name)
@@ -236,7 +236,7 @@ sjp.aov1 <- function(var.dep,
   # --------------------------------------------------------
   # Set up plot padding (margins inside diagram)
   # --------------------------------------------------------
-  scaley <- scale_y_continuous(
+  scaley <- ggplot2::scale_y_continuous(
     limits = c(lower_lim, upper_lim),
     breaks = ticks,
     labels = ticks
@@ -251,21 +251,21 @@ sjp.aov1 <- function(var.dep,
     geom_errorbar(ggplot2::aes(ymin = .data$lower, ymax = .data$upper), colour = df$geocol, width = 0) +
     # Print p-values. With vertical adjustment, so
     # they don't overlap with the errorbars
-    geom_text(ggplot2::aes(label = .data$pv, y = .data$means), nudge_x = y.offset, show.legend = FALSE) +
+    ggplot2::geom_text(ggplot2::aes(label = .data$pv, y = .data$means), nudge_x = y.offset, show.legend = FALSE) +
     # set y-scale-limits, breaks and tick labels
     scaley +
     # set value labels to x-axis
-    scale_x_discrete(labels = axis.labels, limits = 1:length(axis.labels)) +
+    ggplot2::scale_x_discrete(labels = axis.labels, limits = 1:length(axis.labels)) +
     # flip coordinates
     ggplot2::labs(title = title, x = NULL, y = axis.title) +
-    coord_flip()
+    ggplot2::coord_flip()
 
   # check whether modelsummary should be printed
   if (show.summary) {
     # add annotations with model summary
     # annotations include intercept-value and model's r-square
     anovaplot <- anovaplot +
-      annotate("text", label = modsum, parse = TRUE, x = -Inf, y = Inf,
+      ggplot2::annotate("text", label = modsum, parse = TRUE, x = -Inf, y = Inf,
                hjust = "right", vjust = "bottom")
   }
 

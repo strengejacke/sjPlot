@@ -241,7 +241,7 @@ plot_grpfrq <- function(var.cnt,
 
   # Plot margins
   if (expand.grid)
-    expand.grid <- waiver()
+    expand.grid <- ggplot2::waiver()
   else
     expand.grid <- c(0, 0)
 
@@ -375,8 +375,8 @@ plot_grpfrq <- function(var.cnt,
   if (is.null(intr.var.labels) && !is.null(intr.var)) {
     intr.var.labels <- sjlabelled::get_labels(
       intr.var,
-      attr.only = F,
-      values = F,
+      attr.only = FALSE,
+      values = FALSE,
       non.labelled = T
     )
 
@@ -631,7 +631,7 @@ plot_grpfrq <- function(var.cnt,
 
     # create shaded rectangle, so we know which dots belong to the same category
     if (emph.dots) {
-      ganno <- annotate(
+      ganno <- ggplot2::annotate(
         "rect",
         xmin = as.numeric(mydf$xpos) - 0.4,
         xmax = as.numeric(mydf$xpos) + 0.4,
@@ -643,9 +643,9 @@ plot_grpfrq <- function(var.cnt,
     }
   } else if (type == "bar") {
     if (bar.pos == "dodge")
-      geob <- geom_bar(stat = "identity", width = geom.size, position = ggplot2::position_dodge(posdodge))
+      geob <- ggplot2::geom_bar(stat = "identity", width = geom.size, position = ggplot2::position_dodge(posdodge))
     else
-      geob <- geom_bar(stat = "identity", width = geom.size, position = position_stack(reverse = TRUE))
+      geob <- ggplot2::geom_bar(stat = "identity", width = geom.size, position = ggplot2::position_stack(reverse = TRUE))
   } else if (type == "line") {
     if (smooth.lines)
       geob <- geom_line(linewidth = geom.size, stat = "smooth", method = "loess")
@@ -656,7 +656,7 @@ plot_grpfrq <- function(var.cnt,
   } else if (type == "violin") {
     geob <- geom_violin(trim = trimViolin, width = geom.size)
   } else {
-    geob <- geom_bar(stat = "identity", position = bar.pos, width = geom.size)
+    geob <- ggplot2::geom_bar(stat = "identity", position = bar.pos, width = geom.size)
   }
 
   # don't display value labels when we have boxplots or violin plots
@@ -674,15 +674,15 @@ plot_grpfrq <- function(var.cnt,
     if (bar.pos == "stack") {
       if (show.prc && show.n) {
         ggvaluelabels <-
-          geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%i\n(%.01f%%)", .data$frq, .data$prz)), show.legend = FALSE)
+          ggplot2::geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%i\n(%.01f%%)", .data$frq, .data$prz)), show.legend = FALSE)
       } else if (show.n) {
         ggvaluelabels <-
-          geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%i", .data$frq)), show.legend = FALSE)
+          ggplot2::geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%i", .data$frq)), show.legend = FALSE)
       } else if (show.prc) {
         ggvaluelabels <-
-          geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%.01f%%", .data$prz)), show.legend = FALSE)
+          ggplot2::geom_text(ggplot2::aes(y = .data$ypos, label = sprintf("%.01f%%", .data$prz)), show.legend = FALSE)
       } else {
-        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$frq), label = "", show.legend = FALSE)
+        ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$frq), label = "", show.legend = FALSE)
       }
     } else {
       # if we have dodged bars or dots, we have to use a slightly
@@ -691,7 +691,7 @@ plot_grpfrq <- function(var.cnt,
       if (show.prc && show.n) {
         if (coord.flip) {
           ggvaluelabels <-
-            geom_text(
+            ggplot2::geom_text(
               ggplot2::aes(y = .data$frq + y_offset, label = sprintf("%i (%.01f%%)", .data$frq, .data$prz)),
               position = text.pos,
               vjust = vjust,
@@ -700,7 +700,7 @@ plot_grpfrq <- function(var.cnt,
             )
         } else {
           ggvaluelabels <-
-            geom_text(
+            ggplot2::geom_text(
               ggplot2::aes(y = .data$frq + y_offset, label = sprintf("%i\n(%.01f%%)", .data$frq, .data$prz)),
               position = text.pos,
               vjust = vjust,
@@ -710,7 +710,7 @@ plot_grpfrq <- function(var.cnt,
         }
       } else if (show.n) {
         ggvaluelabels <-
-          geom_text(
+          ggplot2::geom_text(
             ggplot2::aes(y = .data$frq + y_offset, label = sprintf("%i", .data$frq)),
             position = text.pos,
             hjust = hjust,
@@ -719,7 +719,7 @@ plot_grpfrq <- function(var.cnt,
           )
       } else if (show.prc) {
         ggvaluelabels <-
-          geom_text(
+          ggplot2::geom_text(
             ggplot2::aes(y = .data$frq + y_offset, label = sprintf("%.01f%%", .data$prz)),
             position = text.pos,
             hjust = hjust,
@@ -727,16 +727,16 @@ plot_grpfrq <- function(var.cnt,
             show.legend = FALSE
           )
       } else {
-        ggvaluelabels <- geom_text(ggplot2::aes(y = .data$frq), label = "", show.legend = FALSE)
+        ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$frq), label = "", show.legend = FALSE)
       }
     }
   } else {
-    ggvaluelabels <- geom_text(ggplot2::aes(y = .data$frq), label = "", show.legend = FALSE)
+    ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$frq), label = "", show.legend = FALSE)
   }
 
   # Set up grid breaks
   if (is.null(grid.breaks))
-    gridbreaks <- waiver()
+    gridbreaks <- ggplot2::waiver()
   else
     gridbreaks <- seq(lower_lim, upper_lim, by = grid.breaks)
 
@@ -767,7 +767,7 @@ plot_grpfrq <- function(var.cnt,
                  fill = "group",
                  weight = "wb"
                )) + geob
-      scalex <- scale_x_discrete(labels = axis.labels)
+      scalex <- ggplot2::scale_x_discrete(labels = axis.labels)
     } else {
       baseplot <-
         ggplot2::ggplot(mydf, ggplot2::aes(
@@ -776,7 +776,7 @@ plot_grpfrq <- function(var.cnt,
           fill = .data$group,
           weight = .data$wb
         )) + geob
-      scalex <- scale_x_discrete(labels = intr.var.labels)
+      scalex <- ggplot2::scale_x_discrete(labels = intr.var.labels)
     }
 
     # if we have a violin plot, add an additional boxplot inside to show
@@ -815,7 +815,7 @@ plot_grpfrq <- function(var.cnt,
     baseplot <- baseplot + geob
 
     # define x axis
-    scalex <- scale_x_discrete(labels = axis.labels)
+    scalex <- ggplot2::scale_x_discrete(labels = axis.labels)
   }
 
   # If we have bars or dot plots, we show
@@ -825,13 +825,13 @@ plot_grpfrq <- function(var.cnt,
   # prepare y-axis and
   # show or hide y-axis-labels
   if (show.axis.values) {
-    y_scale <- scale_y_continuous(
+    y_scale <- ggplot2::scale_y_continuous(
       breaks = gridbreaks,
       limits = c(lower_lim, upper_lim),
       expand = expand.grid
     )
   } else {
-    y_scale <- scale_y_continuous(
+    y_scale <- ggplot2::scale_y_continuous(
       breaks = gridbreaks,
       limits = c(lower_lim, upper_lim),
       expand = expand.grid,
@@ -861,7 +861,7 @@ plot_grpfrq <- function(var.cnt,
     y_scale
 
   # check whether coordinates should be flipped
-  if (coord.flip) baseplot <- baseplot + coord_flip()
+  if (coord.flip) baseplot <- baseplot + ggplot2::coord_flip()
 
   # Here we start when we have a faces grid instead of
   # a grouped bar plot.

@@ -53,7 +53,7 @@ get_dplyr_dot_data <- function(x, qs) {
       x.x <- -Inf
     }
     baseplot <- baseplot +
-      annotate(
+      ggplot2::annotate(
         "text",
         label = modsum,
         parse = TRUE,

@@ -63,6 +63,7 @@
 #'   grid = TRUE
 #' )
 #'
+#' @importFrom rlang .data
 #' @export
 plot_scatter <- function(
   data,
@@ -241,16 +242,40 @@ plot_scatter <- function(
 #' @importFrom sjlabelled get_labels get_label
 #' @importFrom sjmisc word_wrap
 scatter_helper <- function(
-  x, y, grp, title, legend.title, legend.labels, dot.labels, axis.titles,
-  dot.size, label.size, colors, fit.line, fit.grps, show.rug,
-  show.legend, show.ci, wrap.title, wrap.legend.title, wrap.legend.labels,
-  jitter, emph.dots, grid, name.x, name.y, name.grp
-
+  x,
+  y,
+  grp,
+  title,
+  legend.title,
+  legend.labels,
+  dot.labels,
+  axis.titles,
+  dot.size,
+  label.size,
+  colors,
+  fit.line,
+  fit.grps,
+  show.rug,
+  show.legend,
+  show.ci,
+  wrap.title,
+  wrap.legend.title,
+  wrap.legend.labels,
+  jitter,
+  emph.dots,
+  grid,
+  name.x,
+  name.y,
+  name.grp
 ) {
   # any missing names?
 
-  if (is.null(name.x) || name.x == "NULL") name.x <- ""
-  if (is.null(name.y) || name.y == "NULL") name.y <- ""
+  if (is.null(name.x) || name.x == "NULL") {
+    name.x <- ""
+  }
+  if (is.null(name.y) || name.y == "NULL") {
+    name.y <- ""
+  }
 
   # copy titles
 
@@ -266,21 +291,26 @@ scatter_helper <- function(
     }
   }
 
-
   # try to automatically set labels is not passed as parameter
 
   if (is.null(legend.labels) && !is.null(grp)) {
     legend.labels <- sjlabelled::get_labels(
       grp,
-      attr.only = F,
+      attr.only = FALSE,
       values = NULL,
       non.labelled = T
     )
   }
 
-  if (is.null(legend.title) && !is.null(grp)) legend.title <- sjlabelled::get_label(grp, def.value = name.grp)
-  if (is.null(axisTitle.x)) axisTitle.x <- sjlabelled::get_label(x, def.value = name.x)
-  if (is.null(axisTitle.y)) axisTitle.y <- sjlabelled::get_label(y, def.value = name.y)
+  if (is.null(legend.title) && !is.null(grp)) {
+    legend.title <- sjlabelled::get_label(grp, def.value = name.grp)
+  }
+  if (is.null(axisTitle.x)) {
+    axisTitle.x <- sjlabelled::get_label(x, def.value = name.x)
+  }
+  if (is.null(axisTitle.y)) {
+    axisTitle.y <- sjlabelled::get_label(y, def.value = name.y)
+  }
 
   if (is.null(title)) {
     t1 <- sjlabelled::get_label(x, def.value = name.x)
@@ -296,11 +326,18 @@ scatter_helper <- function(
 
   # remove titles if empty
 
-  if (!is.null(legend.title) && legend.title == "") legend.title <- NULL
-  if (!is.null(axisTitle.x) && axisTitle.x == "") axisTitle.x <- NULL
-  if (!is.null(axisTitle.y) && axisTitle.y == "") axisTitle.y <- NULL
-  if (!is.null(title) && title == "") title <- NULL
-
+  if (!is.null(legend.title) && legend.title == "") {
+    legend.title <- NULL
+  }
+  if (!is.null(axisTitle.x) && axisTitle.x == "") {
+    axisTitle.x <- NULL
+  }
+  if (!is.null(axisTitle.y) && axisTitle.y == "") {
+    axisTitle.y <- NULL
+  }
+  if (!is.null(title) && title == "") {
+    title <- NULL
+  }
 
   # create data frame
 
@@ -322,19 +359,27 @@ scatter_helper <- function(
   dat$grp <- as.factor(dat$grp)
 
   # set labelled levels, for facets
-  if (grid && !is.null(grl)) levels(dat$grp) <- grl
+  if (grid && !is.null(grl)) {
+    levels(dat$grp) <- grl
+  }
 
   # do we have point labels?
   if (!is.null(dot.labels)) {
     # check length
     if (length(dot.labels) > nrow(dat)) {
       # Tell user that we have too many point labels
-      warning("More point labels than data points. Omitting remaining point labels", call. = FALSE)
+      warning(
+        "More point labels than data points. Omitting remaining point labels",
+        call. = FALSE
+      )
       # shorten vector
       dot.labels <- dot.labels[seq_len(nrow(dat))]
     } else if (length(dot.labels) < nrow(dat)) {
       # Tell user that we have too less point labels
-      warning("Less point labels than data points. Omitting remaining data point", call. = FALSE)
+      warning(
+        "Less point labels than data points. Omitting remaining data point",
+        call. = FALSE
+      )
       # shorten data frame
       dat <- dat[seq_len(length(dot.labels)), ]
     }
@@ -344,50 +389,76 @@ scatter_helper <- function(
 
   # fix and wrap labels and titles
 
-  if (is.null(legend.labels)) legend.labels <- as.character(sort(unique(dat$grp)))
+  if (is.null(legend.labels)) {
+    legend.labels <- as.character(sort(unique(dat$grp)))
+  }
   legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
 
-  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
-  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, wrap.title)
-  if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, wrap.title)
+  if (!is.null(legend.title)) {
+    legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
+  }
+  if (!is.null(title)) {
+    title <- sjmisc::word_wrap(title, wrap.title)
+  }
+  if (!is.null(axisTitle.x)) {
+    axisTitle.x <- sjmisc::word_wrap(axisTitle.x, wrap.title)
+  }
+  if (!is.null(axisTitle.y)) {
+    axisTitle.y <- sjmisc::word_wrap(axisTitle.y, wrap.title)
+  }
 
   # Plot scatter plot
 
-  scp <- ggplot2::ggplot(dat, ggplot2::aes_string(x = "x", y = "y", colour = "grp"))
-
+  scp <- ggplot2::ggplot(
+    dat,
+    ggplot2::aes(x = .data$x, y = .data$y, colour = .data$grp)
+  )
 
   # add marginal rug
 
   if (show.rug) {
-    scp <- scp + ggplot2::geom_rug(position = ggplot2::position_jitter(width = jitter))
+    scp <- scp +
+      ggplot2::geom_rug(position = ggplot2::position_jitter(width = jitter))
   }
 
   # add data points
 
   if (emph.dots) {
     # indicate overlapping dots by point size
-    scp <- scp + ggplot2::geom_count(show.legend = F, position = ggplot2::position_jitter(width = jitter))
+    scp <- scp +
+      ggplot2::geom_count(
+        show.legend = FALSE,
+        position = ggplot2::position_jitter(width = jitter)
+      )
   } else {
     # else plot dots
-    scp <- scp + ggplot2::geom_jitter(size = dot.size, position = ggplot2::position_jitter(width = jitter))
+    scp <- scp +
+      ggplot2::geom_jitter(
+        size = dot.size,
+        position = ggplot2::position_jitter(width = jitter)
+      )
   }
-
 
   # add labels
 
   if (!is.null(dot.labels)) {
     scp <- scp +
-      ggrepel::geom_text_repel(ggplot2::aes_string(label = "dot.lab"), size = label.size)
-
+      ggrepel::geom_text_repel(
+        ggplot2::aes_string(label = "dot.lab"),
+        size = label.size
+      )
   }
-
 
   # Show fitted lines
 
   if (!is.null(fit.grps)) {
     scp <- scp +
-      ggplot2::stat_smooth(data = dat, ggplot2::aes_string(colour = "grp"), method = fit.grps, se = show.ci)
+      ggplot2::stat_smooth(
+        data = dat,
+        ggplot2::aes_string(colour = "grp"),
+        method = fit.grps,
+        se = show.ci
+      )
   }
 
   if (!is.null(fit.line)) {
@@ -395,16 +466,21 @@ scatter_helper <- function(
       ggplot2::stat_smooth(method = fit.line, se = show.ci, colour = "black")
   }
 
-
   # set font size for axes.
 
   scp <- scp +
-    ggplot2::labs(title = title, x = axisTitle.x, y = axisTitle.y, colour = legend.title)
-
+    ggplot2::labs(
+      title = title,
+      x = axisTitle.x,
+      y = axisTitle.y,
+      colour = legend.title
+    )
 
   # facet plot
 
-  if (grid) scp <- scp + ggplot2::facet_wrap(~grp)
+  if (grid) {
+    scp <- scp + ggplot2::facet_wrap(~grp)
+  }
 
   sj.setGeomColors(
     scp,

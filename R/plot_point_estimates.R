@@ -149,7 +149,7 @@ plot_point_estimates <- function(model,
 
   # set up base aes, either with or w/o groups
 
-  p <- p + coord_flip()
+  p <- p + ggplot2::coord_flip()
 
   if (multinomial) {
     col.len <- dplyr::n_distinct(dat$response.level)
@@ -165,7 +165,7 @@ plot_point_estimates <- function(model,
   # add value labels
 
   if (show.values) p <- p +
-      geom_text(
+      ggplot2::geom_text(
         ggplot2::aes_string(label = "p.label"),
         nudge_x = value.offset,
         show.legend = FALSE,
@@ -176,7 +176,7 @@ plot_point_estimates <- function(model,
   # set axis labels
 
   if (!is.null(axis.labels))
-    p <- p + scale_x_discrete(labels = axis.labels)
+    p <- p + ggplot2::scale_x_discrete(labels = axis.labels)
 
 
   # we need transformed scale for exponentiated estimates
@@ -186,9 +186,9 @@ plot_point_estimates <- function(model,
   if (isTRUE(tf == "exp")) {
 
     if (has_zeroinf) {
-      p <- p + scale_y_continuous(trans = "log10")
+      p <- p + ggplot2::scale_y_continuous(trans = "log10")
     } else {
-      p <- p + scale_y_continuous(
+      p <- p + ggplot2::scale_y_continuous(
         trans = "log10",
         limits = axis.scaling$axis.lim,
         breaks = axis.scaling$ticks,
@@ -201,7 +201,7 @@ plot_point_estimates <- function(model,
     if (has_zeroinf) {
 
     } else {
-      p <- p + scale_y_continuous(
+      p <- p + ggplot2::scale_y_continuous(
         limits = axis.scaling$axis.lim,
         breaks = axis.scaling$ticks,
         labels = axis.scaling$ticks
@@ -214,8 +214,8 @@ plot_point_estimates <- function(model,
   # set colors
 
   p <- p +
-    scale_colour_manual(values = col_check2(geom.colors, col.len)) +
-    scale_fill_manual(values = col_check2(geom.colors, col.len))
+    ggplot2::scale_colour_manual(values = col_check2(geom.colors, col.len)) +
+    ggplot2::scale_fill_manual(values = col_check2(geom.colors, col.len))
 
 
   # facets?

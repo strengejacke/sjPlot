@@ -154,12 +154,31 @@ plot_stackfrq <- function(items,
 }
 
 .plot_stackfrq_helper <- function(
-  items, title, legend.title, legend.labels, axis.titles, axis.labels,
-  weight.by, sort.frq, wrap.title, wrap.labels, wrap.legend.title,
-  wrap.legend.labels, geom.size, geom.colors, show.prc, show.n,
-  show.total, show.axis.prc, show.legend, grid.breaks, expand.grid, digits,
-  vjust, coord.flip) {
-
+  items,
+  title,
+  legend.title,
+  legend.labels,
+  axis.titles,
+  axis.labels,
+  weight.by,
+  sort.frq,
+  wrap.title,
+  wrap.labels,
+  wrap.legend.title,
+  wrap.legend.labels,
+  geom.size,
+  geom.colors,
+  show.prc,
+  show.n,
+  show.total,
+  show.axis.prc,
+  show.legend,
+  grid.breaks,
+  expand.grid,
+  digits,
+  vjust,
+  coord.flip
+) {
   # copy titles
 
   if (is.null(axis.titles)) {
@@ -167,29 +186,30 @@ plot_stackfrq <- function(items,
     axisTitle.y <- NULL
   } else {
     axisTitle.x <- axis.titles[1]
-    if (length(axis.titles) > 1)
+    if (length(axis.titles) > 1) {
       axisTitle.y <- axis.titles[2]
-    else
+    } else {
       axisTitle.y <- NULL
+    }
   }
 
   # check sorting
 
   if (!is.null(sort.frq)) {
     if (sort.frq == "first.asc") {
-      sort.frq  <- "first"
+      sort.frq <- "first"
       reverseOrder <- FALSE
     } else if (sort.frq == "first.desc") {
-      sort.frq  <- "first"
+      sort.frq <- "first"
       reverseOrder <- TRUE
     } else if (sort.frq == "last.asc") {
-      sort.frq  <- "last"
+      sort.frq <- "last"
       reverseOrder <- TRUE
     } else if (sort.frq == "last.desc") {
-      sort.frq  <- "last"
+      sort.frq <- "last"
       reverseOrder <- FALSE
     } else {
-      sort.frq  <- NULL
+      sort.frq <- NULL
       reverseOrder <- FALSE
     }
   } else {
@@ -198,13 +218,14 @@ plot_stackfrq <- function(items,
 
   # try to automatically set labels if not passed as parameter
 
-  if (is.null(legend.labels))
+  if (is.null(legend.labels)) {
     legend.labels <- sjlabelled::get_labels(
       items[[1]],
-      attr.only = F,
+      attr.only = FALSE,
       values = NULL,
       non.labelled = T
     )
+  }
 
   if (is.null(axis.labels)) {
     axis.labels <- sjlabelled::get_label(items, def.value = colnames(items))
@@ -213,12 +234,16 @@ plot_stackfrq <- function(items,
   # unname labels, if necessary, so we have a simple
   # character vector
 
-  if (!is.null(names(axis.labels))) axis.labels <- as.vector(axis.labels)
+  if (!is.null(names(axis.labels))) {
+    axis.labels <- as.vector(axis.labels)
+  }
 
   # unname labels, if necessary, so we have a simple
   # character vector
 
-  if (!is.null(legend.labels) && !is.null(names(legend.labels))) legend.labels <- as.vector(legend.labels)
+  if (!is.null(legend.labels) && !is.null(names(legend.labels))) {
+    legend.labels <- as.vector(legend.labels)
+  }
 
   # if we have no legend labels, we iterate all data frame's
   # columns to find all unique items of the data frame.
@@ -228,7 +253,8 @@ plot_stackfrq <- function(items,
 
   if (is.null(legend.labels)) {
     legend.labels <- as.character(sort(unique(unlist(
-      apply(items, 2, function(x) unique(stats::na.omit(x)), simplify = FALSE)))))
+      apply(items, 2, function(x) unique(stats::na.omit(x)), simplify = FALSE)
+    ))))
   }
 
   # if we have legend labels, we know the exact
@@ -251,7 +277,9 @@ plot_stackfrq <- function(items,
 
   dummy <- lapply(1:length(dummy), function(.i) {
     dummy[[.i]]$grp <- .i
-    dummy[[.i]]$ypos <- (cumsum(dummy[[.i]]$valid.prc) - 0.5 * dummy[[.i]]$valid.prc) / 100
+    dummy[[.i]]$ypos <- (cumsum(dummy[[.i]]$valid.prc) -
+      0.5 * dummy[[.i]]$valid.prc) /
+      100
     dummy[[.i]]
   })
 
@@ -268,9 +296,11 @@ plot_stackfrq <- function(items,
 
   if (show.total) {
     for (i in seq_len(length(axis.labels))) {
-      axis.labels[i] <- paste(axis.labels[i],
-                              sprintf(" (n=%i)", sum(dummy[[i]]$frq, na.rm = TRUE)),
-                              sep = "")
+      axis.labels[i] <- paste(
+        axis.labels[i],
+        sprintf(" (n=%i)", sum(dummy[[i]]$frq, na.rm = TRUE)),
+        sep = ""
+      )
     }
   }
 
@@ -281,15 +311,21 @@ plot_stackfrq <- function(items,
 
   # check whether we have a title for the legend
   # if yes, wrap legend title line
-  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
+  if (!is.null(legend.title)) {
+    legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
+  }
 
   # check length of diagram title and split longer string at into new lines
   # every 50 chars
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
+  if (!is.null(title)) {
+    title <- sjmisc::word_wrap(title, wrap.title)
+  }
 
   # check length of x-axis-labels and split longer strings at into new lines
   # every 10 chars, so labels don't overlap
-  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
+  if (!is.null(axis.labels)) {
+    axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
+  }
 
   # Check if ordering was requested
 
@@ -325,7 +361,9 @@ plot_stackfrq <- function(items,
     # now we have the order of either lowest to highest counts of first
     # or last category of "items". We now need to repeat these values as
     # often as we have answer categories
-    orderedrow <- unlist(tapply(dummy2, seq_len(length(dummy2)), function(x) rep(x, countlen)))
+    orderedrow <- unlist(tapply(dummy2, seq_len(length(dummy2)), function(x) {
+      rep(x, countlen)
+    }))
 
     # replace old grp-order by new order
     mydat$grp <- as.factor(orderedrow)
@@ -334,16 +372,17 @@ plot_stackfrq <- function(items,
     axis.labels <- axis.labels[order(dummy2)]
   }
 
-
   # check if category-oder on x-axis should be reversed
   # change category label order then
 
-  if (reverseOrder && is.null(sort.frq)) axis.labels <- rev(axis.labels)
+  if (reverseOrder && is.null(sort.frq)) {
+    axis.labels <- rev(axis.labels)
+  }
 
   # set diagram margins
 
   if (expand.grid) {
-    expgrid <- waiver()
+    expgrid <- ggplot2::waiver()
   } else {
     expgrid <- c(0, 0)
   }
@@ -352,28 +391,42 @@ plot_stackfrq <- function(items,
 
   mydat$digits <- digits
   if (show.prc && !show.n) {
-    ggvaluelabels <- geom_text(
-      ggplot2::aes(y = .data$ypos, label = sprintf("%.*f%%", .data$digits, 100 * .data$prc)),
+    ggvaluelabels <- ggplot2::geom_text(
+      ggplot2::aes(
+        y = .data$ypos,
+        label = sprintf("%.*f%%", .data$digits, 100 * .data$prc)
+      ),
       vjust = vjust
     )
   } else if (show.n && !show.prc) {
-    ggvaluelabels <- geom_text(
-      ggplot2::aes(y = .data$ypos, label = sprintf("%i", as.integer(.data$frq))),
+    ggvaluelabels <- ggplot2::geom_text(
+      ggplot2::aes(
+        y = .data$ypos,
+        label = sprintf("%i", as.integer(.data$frq))
+      ),
       vjust = vjust
     )
   } else if (show.n && show.prc) {
-    ggvaluelabels <- geom_text(
-      ggplot2::aes(y = .data$ypos, label = sprintf("%.*f%% (n=%i)", .data$digits, 100 * .data$prc, as.integer(.data$frq))),
+    ggvaluelabels <- ggplot2::geom_text(
+      ggplot2::aes(
+        y = .data$ypos,
+        label = sprintf(
+          "%.*f%% (n=%i)",
+          .data$digits,
+          100 * .data$prc,
+          as.integer(.data$frq)
+        )
+      ),
       vjust = vjust
     )
   } else {
-    ggvaluelabels <-  geom_text(ggplot2::aes(y = .data$ypos), label = "")
+    ggvaluelabels <- ggplot2::geom_text(ggplot2::aes(y = .data$ypos), label = "")
   }
 
   # Set up grid breaks
 
   if (is.null(grid.breaks)) {
-    gridbreaks <- waiver()
+    gridbreaks <- ggplot2::waiver()
   } else {
     gridbreaks <- c(seq(0, 1, by = grid.breaks))
   }
@@ -382,21 +435,32 @@ plot_stackfrq <- function(items,
   # change x axis order then
 
   if (reverseOrder && is.null(sort.frq)) {
-    baseplot <- ggplot2::ggplot(mydat, ggplot2::aes(x = rev(.data$grp), y = .data$prc, fill = .data$cat))
+    baseplot <- ggplot2::ggplot(
+      mydat,
+      ggplot2::aes(x = rev(.data$grp), y = .data$prc, fill = .data$cat)
+    )
   } else {
-    baseplot <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$grp, y = .data$prc, fill = .data$cat))
+    baseplot <- ggplot2::ggplot(
+      mydat,
+      ggplot2::aes(x = .data$grp, y = .data$prc, fill = .data$cat)
+    )
   }
 
   baseplot <- baseplot +
     # plot bar chart
-    geom_bar(stat = "identity", position = position_stack(reverse = TRUE), width = geom.size)
+    ggplot2::geom_bar(
+      stat = "identity",
+      position = ggplot2::position_stack(reverse = TRUE),
+      width = geom.size
+    )
 
   # show/hide percentage values on x axis
 
-  if (show.axis.prc)
+  if (show.axis.prc) {
     perc.val <- scales::percent
-  else
+  } else {
     perc.val <- NULL
+  }
 
   # start plot here
 
@@ -404,21 +468,30 @@ plot_stackfrq <- function(items,
     # show absolute and percentage value of each bar.
     ggvaluelabels +
     # no additional labels for the x- and y-axis, only diagram title
-    ggplot2::labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
+    ggplot2::labs(
+      title = title,
+      x = axisTitle.x,
+      y = axisTitle.y,
+      fill = legend.title
+    ) +
     # print value labels to the x-axis.
     # If parameter "axis.labels" is NULL, the category numbers (1 to ...)
     # appear on the x-axis
-    scale_x_discrete(labels = axis.labels) +
+    ggplot2::scale_x_discrete(labels = axis.labels) +
     # set Y-axis, depending on the calculated upper y-range.
     # It either corresponds to the maximum amount of cases in the data set
     # (length of var) or to the highest count of var's categories.
-    scale_y_continuous(breaks = gridbreaks,
-                       limits = c(-0.02, 1.02),
-                       expand = expgrid,
-                       labels = perc.val)
+    ggplot2::scale_y_continuous(
+      breaks = gridbreaks,
+      limits = c(-0.02, 1.02),
+      expand = expgrid,
+      labels = perc.val
+    )
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
-  if (coord.flip) baseplot <- baseplot + coord_flip()
+  if (coord.flip) {
+    baseplot <- baseplot + ggplot2::coord_flip()
+  }
 
   # set geom colors
 

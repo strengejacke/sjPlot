@@ -141,45 +141,45 @@
 #' )}
 #' }
 #' @export
-plot_likert <- function(items,
-                        groups = NULL,
-                        groups.titles = "auto",
-                        title = NULL,
-                        legend.title = NULL,  # Options to be passed directly to .plot_likert()
-                        legend.labels = NULL,
-                        axis.titles = NULL,
-                        axis.labels = NULL,
-                        catcount = NULL,
-                        cat.neutral = NULL,
-                        sort.frq = NULL,
-                        weight.by = NULL,
-                        title.wtd.suffix = NULL,
-                        wrap.title = 50,
-                        wrap.labels = 30,
-                        wrap.legend.title = 30,
-                        wrap.legend.labels = 28,
-                        geom.size = .6,
-                        geom.colors = "BrBG",
-                        cat.neutral.color = "grey70",
-                        intercept.line.color = "grey50",
-                        reverse.colors = FALSE,
-                        values = "show",
-                        show.n = TRUE,
-                        show.legend = TRUE,
-                        show.prc.sign = FALSE,
-                        grid.range = 1,
-                        grid.breaks = 0.2,
-                        expand.grid = TRUE,
-                        digits = 1,
-                        reverse.scale = FALSE,
-                        coord.flip = TRUE,
-                        sort.groups = TRUE, # Group Options
-                        legend.pos = "bottom",
-                        rel_heights = 1,
-                        group.legend.options = list(nrow = NULL, byrow = TRUE), # Add rowwise order of levels and option to force a single rowed legend for 6 or more categories
-                        cowplot.options = list(label_x = 0.01, hjust = 0, align = "v") # Fix for label position depending on label length bug in cowplot
-                        ) {
-
+plot_likert <- function(
+  items,
+  groups = NULL,
+  groups.titles = "auto",
+  title = NULL,
+  legend.title = NULL, # Options to be passed directly to .plot_likert()
+  legend.labels = NULL,
+  axis.titles = NULL,
+  axis.labels = NULL,
+  catcount = NULL,
+  cat.neutral = NULL,
+  sort.frq = NULL,
+  weight.by = NULL,
+  title.wtd.suffix = NULL,
+  wrap.title = 50,
+  wrap.labels = 30,
+  wrap.legend.title = 30,
+  wrap.legend.labels = 28,
+  geom.size = .6,
+  geom.colors = "BrBG",
+  cat.neutral.color = "grey70",
+  intercept.line.color = "grey50",
+  reverse.colors = FALSE,
+  values = "show",
+  show.n = TRUE,
+  show.legend = TRUE,
+  show.prc.sign = FALSE,
+  grid.range = 1,
+  grid.breaks = 0.2,
+  expand.grid = TRUE,
+  digits = 1,
+  reverse.scale = FALSE,
+  coord.flip = TRUE,
+  sort.groups = TRUE, # Group Options
+  legend.pos = "bottom",
+  rel_heights = 1,
+  group.legend.options = list(nrow = NULL, byrow = TRUE), # Add rowwise order of levels and option to force a single rowed legend for 6 or more categories
+  cowplot.options = list(label_x = 0.01, hjust = 0, align = "v") # Fix for label position depending on label length bug in cowplot
+) {
   # Select options to be passed to .plot_likert()
   .likert_options <- as.list(environment())[5:32]
 
@@ -187,20 +187,32 @@ plot_likert <- function(items,
   if (is.null(groups)) {
     groups <- rep(1, length.out = ncol(items))
   } else {
-    if (!requireNamespace("cowplot", quietly = TRUE))
-      stop("Package 'cowplot' required for this function wor work. Please install it.", call. = FALSE)
+    if (!requireNamespace("cowplot", quietly = TRUE)) {
+      stop(
+        "Package 'cowplot' required for this function wor work. Please install it.",
+        call. = FALSE
+      )
+    }
   }
 
-  if (ncol(items) != length(groups))
-    stop("Length of groups has to equal the number of items: ncol(items) != length(groups).", call. = FALSE)
+  if (ncol(items) != length(groups)) {
+    stop(
+      "Length of groups has to equal the number of items: ncol(items) != length(groups).",
+      call. = FALSE
+    )
+  }
 
   # retrieve unique factor / group index values
   findex <- unique(groups)
 
-  if (sort.groups) findex <- sort(findex)
+  if (sort.groups) {
+    findex <- sort(findex)
+  }
 
   # Add empty title to plots, to create space for the group.labels
-  if (is.null(title) && length(findex) != 1) title <- rep("", length(findex))
+  if (is.null(title) && length(findex) != 1) {
+    title <- rep("", length(findex))
+  }
 
   .plot_list <- list()
 
@@ -208,25 +220,37 @@ plot_likert <- function(items,
   for (i in seq_along(findex)) {
     index <- which(groups == findex[i])
 
-    .pl <- do.call(".plot_likert", args = c(list(items[, index], title = title[i]), .likert_options))
+    .pl <- do.call(
+      ".plot_likert",
+      args = c(list(items[, index], title = title[i]), .likert_options)
+    )
 
     # If there are 2 or more groups, the legend will be plotted according to legend.pos.
     if (length(findex) != 1) {
-      if (legend.pos %in% c("top", "both") && i == 1)
-        .pl <- .pl + ggplot2::theme(legend.position = "top") + ggplot2::guides(fill = do.call(guide_legend, group.legend.options))
-      else if (legend.pos %in% c("bottom", "both") && i == length(findex))
-        .pl <- .pl + ggplot2::theme(legend.position = "bottom") + ggplot2::guides(fill = do.call(guide_legend, group.legend.options))
-      else if (legend.pos != "all")
+      if (legend.pos %in% c("top", "both") && i == 1) {
+        .pl <- .pl +
+          ggplot2::theme(legend.position = "top") +
+          ggplot2::guides(fill = do.call(guide_legend, group.legend.options))
+      } else if (legend.pos %in% c("bottom", "both") && i == length(findex)) {
+        .pl <- .pl +
+          ggplot2::theme(legend.position = "bottom") +
+          ggplot2::guides(fill = do.call(guide_legend, group.legend.options))
+      } else if (legend.pos != "all") {
         .pl <- .pl + ggplot2::theme(legend.position = "none")
+      }
     }
 
-    .plot_list[i] <-  list(.pl)
+    .plot_list[i] <- list(.pl)
   }
 
   # Options to turn off or overwrite cowplot group.labels.
   if (.is_false(groups.titles)) {
     groups.titles <- rep("", length(findex))
-  } else if (!is.null(groups.titles) && (groups.titles[1] == "auto" || length(groups.titles) != length(findex)) && (is.numeric(groups))) {
+  } else if (
+    !is.null(groups.titles) &&
+      (groups.titles[1] == "auto" || length(groups.titles) != length(findex)) &&
+      (is.numeric(groups))
+  ) {
     groups.titles <- sprintf("Component %i", seq_along(findex)) # For tab_itemscale compatibility
   } else if (length(groups.titles) != length(findex)) {
     groups.titles <- findex
@@ -236,59 +260,66 @@ plot_likert <- function(items,
   if (length(findex) == 1) {
     .out <- .plot_list[[1]]
   } else {
-    .out <- do.call(get("plot_grid", asNamespace("cowplot")),
-                    args = c(
-                      list(
-                        "plotlist" = .plot_list,
-                        "labels" = groups.titles,
-                        "rel_heights" = rel_heights,
-                        "ncol" = 1
-                      ),
-                      cowplot.options
-                    ))
+    .out <- do.call(
+      get("plot_grid", asNamespace("cowplot")),
+      args = c(
+        list(
+          "plotlist" = .plot_list,
+          "labels" = groups.titles,
+          "rel_heights" = rel_heights,
+          "ncol" = 1
+        ),
+        cowplot.options
+      )
+    )
   }
 
   .out
 }
 
-.plot_likert <- function(items,
-                       title = NULL,
-                       legend.title = NULL,
-                       legend.labels = NULL,
-                       axis.titles = NULL,
-                       axis.labels = NULL,
-                       catcount = NULL,
-                       cat.neutral = NULL,
-                       sort.frq = NULL,
-                       weight.by = NULL,
-                       title.wtd.suffix = NULL,
-                       wrap.title = 50,
-                       wrap.labels = 30,
-                       wrap.legend.title = 30,
-                       wrap.legend.labels = 28,
-                       geom.size = .6,
-                       geom.colors = "BrBG",
-                       cat.neutral.color = "grey70",
-                       intercept.line.color = "grey50",
-                       reverse.colors = FALSE,
-                       values = "show",
-                       show.n = TRUE,
-                       show.legend = TRUE,
-                       show.prc.sign = FALSE,
-                       grid.range = 1,
-                       grid.breaks = 0.2,
-                       expand.grid = TRUE,
-                       digits = 1,
-                       reverse.scale = FALSE,
-                       coord.flip = TRUE) {
-
+.plot_likert <- function(
+  items,
+  title = NULL,
+  legend.title = NULL,
+  legend.labels = NULL,
+  axis.titles = NULL,
+  axis.labels = NULL,
+  catcount = NULL,
+  cat.neutral = NULL,
+  sort.frq = NULL,
+  weight.by = NULL,
+  title.wtd.suffix = NULL,
+  wrap.title = 50,
+  wrap.labels = 30,
+  wrap.legend.title = 30,
+  wrap.legend.labels = 28,
+  geom.size = .6,
+  geom.colors = "BrBG",
+  cat.neutral.color = "grey70",
+  intercept.line.color = "grey50",
+  reverse.colors = FALSE,
+  values = "show",
+  show.n = TRUE,
+  show.legend = TRUE,
+  show.prc.sign = FALSE,
+  grid.range = 1,
+  grid.breaks = 0.2,
+  expand.grid = TRUE,
+  digits = 1,
+  reverse.scale = FALSE,
+  coord.flip = TRUE
+) {
   # check param. if we have a single vector instead of
   # a data frame with several items, convert vector to data frame
 
-  if (!is.data.frame(items) && !is.matrix(items)) items <- as.data.frame(items)
+  if (!is.data.frame(items) && !is.matrix(items)) {
+    items <- as.data.frame(items)
+  }
 
   # if grid.range is supplied as 1 value, it is duplicated for symmetric results. This is for compatibillity with older versions.
-  if (length(grid.range) == 1) grid.range <- c(grid.range, grid.range)
+  if (length(grid.range) == 1) {
+    grid.range <- c(grid.range, grid.range)
+  }
 
   # copy titles
 
@@ -297,43 +328,42 @@ plot_likert <- function(items,
     axisTitle.y <- NULL
   } else {
     axisTitle.x <- axis.titles[1]
-    if (length(axis.titles) > 1)
+    if (length(axis.titles) > 1) {
       axisTitle.y <- axis.titles[2]
-    else
+    } else {
       axisTitle.y <- NULL
+    }
   }
-
 
   # check sorting
 
   if (!is.null(sort.frq)) {
     if (sort.frq == "pos.asc") {
-      sort.frq  <- "pos"
+      sort.frq <- "pos"
       reverseOrder <- FALSE
     }
     if (sort.frq == "pos.desc") {
-      sort.frq  <- "pos"
+      sort.frq <- "pos"
       reverseOrder <- TRUE
     }
     if (sort.frq == "neg.asc") {
-      sort.frq  <- "neg"
+      sort.frq <- "neg"
       reverseOrder <- FALSE
     }
     if (sort.frq == "neg.desc") {
-      sort.frq  <- "neg"
+      sort.frq <- "neg"
       reverseOrder <- TRUE
     }
   } else {
     reverseOrder <- FALSE
   }
 
-
   # try to automatically set labels is not passed as argument
 
   if (is.null(legend.labels)) {
     legend.labels <- sjlabelled::get_labels(
       items[[1]],
-      attr.only = F,
+      attr.only = FALSE,
       values = NULL,
       non.labelled = T
     )
@@ -341,17 +371,22 @@ plot_likert <- function(items,
 
   if (is.null(axis.labels)) {
     # retrieve variable name attribute
-    axis.labels <- unname(sjlabelled::get_label(items, def.value = colnames(items)))
+    axis.labels <- unname(sjlabelled::get_label(
+      items,
+      def.value = colnames(items)
+    ))
   }
-
 
   # unname labels, if necessary, so we have a simple character vector
-  if (!is.null(names(axis.labels))) axis.labels <- as.vector(axis.labels)
-
-  if (!is.null(legend.labels)) {
-    if (!is.null(names(legend.labels))) legend.labels <- as.vector(legend.labels)
+  if (!is.null(names(axis.labels))) {
+    axis.labels <- as.vector(axis.labels)
   }
 
+  if (!is.null(legend.labels)) {
+    if (!is.null(names(legend.labels))) {
+      legend.labels <- as.vector(legend.labels)
+    }
+  }
 
   # determine catcount
 
@@ -376,7 +411,11 @@ plot_likert <- function(items,
       # if not empty, remove
       if (!sjmisc::is_empty(ncv_pos)) {
         catcount <- catcount[-ncv_pos]
-        neutral.between <- dplyr::between(cat.neutral, min(catcount), max(catcount))
+        neutral.between <- dplyr::between(
+          cat.neutral,
+          min(catcount),
+          max(catcount)
+        )
       }
     }
 
@@ -393,7 +432,10 @@ plot_likert <- function(items,
       if (catcount < lll) {
         # warn user that detected amount of categories and supplied legend labels
         # are different.
-        warning("Length of labels for item categories `legend.labels` differs from detected amount of categories. Use `catcount` argument to define amount of item categories, if plotting does not work.", call. = FALSE)
+        warning(
+          "Length of labels for item categories `legend.labels` differs from detected amount of categories. Use `catcount` argument to define amount of item categories, if plotting does not work.",
+          call. = FALSE
+        )
         # adjust catcount to length of legend labels, because
         # we assume that labels represent the valid range of
         # item categories
@@ -405,18 +447,22 @@ plot_likert <- function(items,
     if (sjmisc::is_odd(catcount)) {
       # warn user about uneven category count, but only if
       # neutral category is not inside valid categories
-      if (!neutral.between)
-        warning("Detected uneven category count in items. Dropping last category.", call. = FALSE)
+      if (!neutral.between) {
+        warning(
+          "Detected uneven category count in items. Dropping last category.",
+          call. = FALSE
+        )
+      }
 
       catcount <- catcount - 1
     }
   }
 
-
   # set legend labels, if we have none yet
 
-  if (is.null(legend.labels)) legend.labels <- seq_len(catcount + adding)
-
+  if (is.null(legend.labels)) {
+    legend.labels <- seq_len(catcount + adding)
+  }
 
   # prepare data frames
 
@@ -436,9 +482,12 @@ plot_likert <- function(items,
     # now we "shift" this value pattern and make a
     # string out of it
     recode.pattern <- paste0(
-      paste0(sprintf("%i=%i", c(downvote[-1], downvote[1]), downvote),
-             collapse = ";"), ";else=copy"
-      )
+      paste0(
+        sprintf("%i=%i", c(downvote[-1], downvote[1]), downvote),
+        collapse = ";"
+      ),
+      ";else=copy"
+    )
 
     # all factors with char labels need to be numeric,
     # else, recode won't work
@@ -460,7 +509,6 @@ plot_likert <- function(items,
 
   # loop through all likert-items
   for (i in seq_len(ncol(items))) {
-
     # convert to numeric values
     if (!is.numeric(items[[i]])) {
       items[[i]] <- sjlabelled::as_numeric(items[[i]], keep.labels = FALSE)
@@ -469,9 +517,13 @@ plot_likert <- function(items,
     # If we don't plot neutral category, but item still contains
     # that category, replace it with NA
 
-    if (is.null(cat.neutral) && max(items[[i]], na.rm = TRUE) > catcount)
-      items[[i]] <- sjmisc::set_na(items[[i]], na = catcount + 1, as.tag = FALSE)
-
+    if (is.null(cat.neutral) && max(items[[i]], na.rm = TRUE) > catcount) {
+      items[[i]] <- sjmisc::set_na(
+        items[[i]],
+        na = catcount + 1,
+        as.tag = FALSE
+      )
+    }
 
     # create proportional frequency table
 
@@ -481,12 +533,10 @@ plot_likert <- function(items,
       tab <- round(prop.table(stats::xtabs(weight.by ~ items[[i]])), digits + 3)
     }
 
-
     # retrieve category number and related frequencies
 
     counts <- as.numeric(tab)
     valid <- as.numeric(names(tab))
-
 
     # create frequency vector, so zero-categories are cared for
 
@@ -495,20 +545,23 @@ plot_likert <- function(items,
 
     # append to data frame
 
-    if (ncol(freq.df) == 0)
+    if (ncol(freq.df) == 0) {
       freq.df <- as.data.frame(freq)
-    else {
+    } else {
       # check for valid rows. if we hav missing categories
       # in all items, argument "catcount" must be set, because
       # automatic detection of amount of categories does not
       # work then.
-      if (length(freq) != nrow(freq.df))
-        stop("Could not determine amount of item categories. Please use argument `catcount`.", call. = FALSE)
-      else
+      if (length(freq) != nrow(freq.df)) {
+        stop(
+          "Could not determine amount of item categories. Please use argument `catcount`.",
+          call. = FALSE
+        )
+      } else {
         freq.df <- as.data.frame(cbind(freq.df, freq))
+      }
     }
   }
-
 
   # Check whether N of each item should be included into axis labels
 
@@ -536,18 +589,21 @@ plot_likert <- function(items,
 
   # sort items
 
-  if (is.null(sort.frq))
+  if (is.null(sort.frq)) {
     sort.freq <- seq_len(ncol(freq.df))
-  else if (sort.frq == "pos")
+  } else if (sort.frq == "pos") {
     sort.freq <- order(sums.lower)
-  else if (sort.frq == "neg")
+  } else if (sort.frq == "neg") {
     sort.freq <- order(sums.upper)
-  else
+  } else {
     sort.freq <- seq_len(ncol(freq.df))
+  }
 
   # reverse item order?
 
-  if (!reverseOrder) sort.freq <- rev(sort.freq)
+  if (!reverseOrder) {
+    sort.freq <- rev(sort.freq)
+  }
 
   # save summed up y-values, for label positioning and annotation
 
@@ -568,14 +624,17 @@ plot_likert <- function(items,
     # and the y position for labels.
 
     mydat.pos <- as.data.frame(
-      rbind(mydat.pos,
-            cbind(x = i,
-                  grp = lower.half,
-                  frq = fr[lower.half],
-                  ypos = cumsum(fr[lower.half]) - 0.5 * (fr[lower.half]),
-                  ypos2 = sum(fr[lower.half])
-      )))
-
+      rbind(
+        mydat.pos,
+        cbind(
+          x = i,
+          grp = lower.half,
+          frq = fr[lower.half],
+          ypos = cumsum(fr[lower.half]) - 0.5 * (fr[lower.half]),
+          ypos2 = sum(fr[lower.half])
+        )
+      )
+    )
 
     # summed y-position for plotting the summed up frequency labels
 
@@ -584,13 +643,17 @@ plot_likert <- function(items,
     # same as above for negative values
 
     mydat.neg <- as.data.frame(
-      rbind(mydat.neg,
-            cbind(x = i,
-                  grp = upper.half,
-                  frq = -fr[upper.half],
-                  ypos = -1 * (cumsum(fr[upper.half]) - 0.5 * (fr[upper.half])),
-                  ypos2 = -1 * sum(fr[upper.half])
-      )))
+      rbind(
+        mydat.neg,
+        cbind(
+          x = i,
+          grp = upper.half,
+          frq = -fr[upper.half],
+          ypos = -1 * (cumsum(fr[upper.half]) - 0.5 * (fr[upper.half])),
+          ypos2 = -1 * sum(fr[upper.half])
+        )
+      )
+    )
 
     # summed up (cumulative) percs
     ypos.sum.neg <- c(ypos.sum.neg, -1 * sum(fr[upper.half]))
@@ -599,20 +662,23 @@ plot_likert <- function(items,
 
     if (!is.null(cat.neutral)) {
       mydat.dk <- as.data.frame(
-        rbind(mydat.dk,
-              cbind(x = i,
-                    grp = catcount + adding,
-                    frq = -1 + fr[catcount + adding],
-                    ypos = -1 + (fr[catcount + adding] / 2),
-                    ypos2 = -1 + fr[catcount + adding],
-                    offset = -1 * grid.range[1])
-        ))
+        rbind(
+          mydat.dk,
+          cbind(
+            x = i,
+            grp = catcount + adding,
+            frq = -1 + fr[catcount + adding],
+            ypos = -1 + (fr[catcount + adding] / 2),
+            ypos2 = -1 + fr[catcount + adding],
+            offset = -1 * grid.range[1]
+          )
+        )
+      )
 
       # cumulative neutral cat
       ypos.sum.dk <- c(ypos.sum.dk, -1 + fr[catcount + adding])
     }
   }
-
 
   # x-positions for cumulative percentages
 
@@ -659,15 +725,25 @@ plot_likert <- function(items,
   # set diagram margins
 
   if (expand.grid) {
-    expgrid <- waiver()
+    expgrid <- ggplot2::waiver()
   } else {
     expgrid <- c(0, 0)
   }
 
   # Set up grid breaks. Calculate grid breaks starting at the center (0). Negative sequence is reversed. Positive sequence is skipping the 0 to avoid doubeling.
 
-  gridbreaks <- round(c(rev(seq(0, -grid.range[1], by = -grid.breaks)), seq(grid.breaks, grid.range[2], by = grid.breaks)), 2)
-  gridlabs <- ifelse(abs(gridbreaks) > 1, "", paste0(abs(round(100 * gridbreaks)), "%"))
+  gridbreaks <- round(
+    c(
+      rev(seq(0, -grid.range[1], by = -grid.breaks)),
+      seq(grid.breaks, grid.range[2], by = grid.breaks)
+    ),
+    2
+  )
+  gridlabs <- ifelse(
+    abs(gridbreaks) > 1,
+    "",
+    paste0(abs(round(100 * gridbreaks)), "%")
+  )
 
   # start plot here
 
@@ -675,15 +751,15 @@ plot_likert <- function(items,
     # positive value bars
     geom_col(
       data = mydat.pos,
-      ggplot2::aes_string(x = "x", y = "frq", fill = "grp"),
+      ggplot2::aes(x = .data$x, y = .data$frq, fill = .data$grp),
       width = geom.size
     ) +
     # negative value bars
     geom_col(
       data = mydat.neg,
-      ggplot2::aes_string(x = "x", y = "frq", fill = "grp"),
+      ggplot2::aes(x = .data$x, y = .data$frq, fill = .data$grp),
       width = geom.size,
-      position = position_stack(reverse = TRUE)
+      position = ggplot2::position_stack(reverse = TRUE)
     )
 
   # print bar for neutral category. this is a "fake" bar created
@@ -699,30 +775,54 @@ plot_likert <- function(items,
           xmax = .data$x + (geom.size / 2),
           ymin = .data$offset,
           ymax = .data$frq + (.data$offset + 1),
-          fill = "neutral")
+          fill = "neutral"
+        )
       )
   }
 
   # if we have neutral colors, we need to add the geom-color
   # to the color values.
 
-  if (!is.null(cat.neutral)) geom.colors <- c(geom.colors, cat.neutral.color)
+  if (!is.null(cat.neutral)) {
+    geom.colors <- c(geom.colors, cat.neutral.color)
+  }
 
   # should percentage value labels be printed?
 
-  percsign <- mydat.pos$percsign <- mydat.neg$percsign <- ifelse(isTRUE(show.prc.sign), "%", "")
-  if (nrow(mydat.dk) > 0) mydat.dk$percsign <- percsign
+  percsign <- mydat.pos$percsign <- mydat.neg$percsign <- ifelse(
+    isTRUE(show.prc.sign),
+    "%",
+    ""
+  )
+  if (nrow(mydat.dk) > 0) {
+    mydat.dk$percsign <- percsign
+  }
 
   # creating value labels for cumulative percentages, so
   # zero-percentages are not printed
 
-  ypos.sum.pos.lab  <- ifelse(ypos.sum.pos > 0, sprintf("%.*f%s", digits, 100 * ypos.sum.pos, percsign), "")
-  ypos.sum.neg.lab  <- ifelse(ypos.sum.neg < 0, sprintf("%.*f%s", digits, 100 * abs(ypos.sum.neg), percsign), "")
-  ypos.sum.dk.lab  <- ifelse(ypos.sum.dk > -1, sprintf("%.*f%s", digits, 100 * (1 + ypos.sum.dk), percsign), "")
+  ypos.sum.pos.lab <- ifelse(
+    ypos.sum.pos > 0,
+    sprintf("%.*f%s", digits, 100 * ypos.sum.pos, percsign),
+    ""
+  )
+  ypos.sum.neg.lab <- ifelse(
+    ypos.sum.neg < 0,
+    sprintf("%.*f%s", digits, 100 * abs(ypos.sum.neg), percsign),
+    ""
+  )
+  ypos.sum.dk.lab <- ifelse(
+    ypos.sum.dk > -1,
+    sprintf("%.*f%s", digits, 100 * (1 + ypos.sum.dk), percsign),
+    ""
+  )
 
   if (values == "show") {
     if (!requireNamespace("ggrepel", quietly = TRUE)) {
-      stop("Package `ggrepel` needed to plot labels. Please install it.", call. = FALSE)
+      stop(
+        "Package `ggrepel` needed to plot labels. Please install it.",
+        call. = FALSE
+      )
     }
     # show them in middle of bar
     gp <- gp +
@@ -734,7 +834,7 @@ plot_likert <- function(items,
           label = sprintf("%.*f%s", digits, 100 * .data$frq, percsign)
         ),
         direction = "y",
-        position = position_stack(vjust = 0.5, reverse = TRUE),
+        position = ggplot2::position_stack(vjust = 0.5, reverse = TRUE),
         force = .5,
         point.padding = NA
       ) +
@@ -746,14 +846,14 @@ plot_likert <- function(items,
           label = sprintf("%.*f%s", digits, 100 * abs(.data$frq), percsign)
         ),
         direction = "y",
-        position = position_stack(vjust = 0.5, reverse = TRUE),
+        position = ggplot2::position_stack(vjust = 0.5, reverse = TRUE),
         force = .5,
         point.padding = NA
       )
 
     if (!is.null(cat.neutral)) {
       gp <- gp +
-        geom_text(
+        ggplot2::geom_text(
           data = dplyr::filter(mydat.dk, .data$frq > -1),
           ggplot2::aes(
             x = .data$x,
@@ -775,7 +875,7 @@ plot_likert <- function(items,
       hort.pos <- -0.15
       hort.neg <- 1.15
       hort.dk <- -0.15
-    # show cumulative inside bar
+      # show cumulative inside bar
     } else {
       hort.pos <- 1.15
       hort.neg <- -0.15
@@ -783,19 +883,42 @@ plot_likert <- function(items,
     }
 
     gp <- gp +
-      annotate("text", x = xpos.sum.pos, y = ypos.sum.pos, hjust = hort.pos, label = ypos.sum.pos.lab) +
-      annotate("text", x = xpos.sum.neg, y = ypos.sum.neg, hjust = hort.neg, label = ypos.sum.neg.lab)
+      ggplot2::annotate(
+        "text",
+        x = xpos.sum.pos,
+        y = ypos.sum.pos,
+        hjust = hort.pos,
+        label = ypos.sum.pos.lab
+      ) +
+      ggplot2::annotate(
+        "text",
+        x = xpos.sum.neg,
+        y = ypos.sum.neg,
+        hjust = hort.neg,
+        label = ypos.sum.neg.lab
+      )
 
     if (!is.null(cat.neutral)) {
       gp <- gp +
-        annotate("text", x = xpos.sum.dk, y = ypos.sum.dk + 1 - grid.range[1], hjust = hort.dk, label = ypos.sum.dk.lab)
+        ggplot2::annotate(
+          "text",
+          x = xpos.sum.dk,
+          y = ypos.sum.dk + 1 - grid.range[1],
+          hjust = hort.dk,
+          label = ypos.sum.dk.lab
+        )
     }
   }
 
   # continues with plot
 
   gp <- gp +
-    ggplot2::labs(title = title, x = axisTitle.x, y = axisTitle.y, fill = legend.title) +
+    ggplot2::labs(
+      title = title,
+      x = axisTitle.x,
+      y = axisTitle.y,
+      fill = legend.title
+    ) +
 
     # scale x is continuous to make plotting the bar annotation
     # for neutral category work...
@@ -806,15 +929,29 @@ plot_likert <- function(items,
   # check wether percentage scale (y-axis) should be reversed
 
   if (!reverse.scale) {
-    gp <- gp + scale_y_continuous(breaks = gridbreaks, limits = c(-grid.range[1], grid.range[2]), expand = expgrid, labels = gridlabs)
+    gp <- gp +
+      ggplot2::scale_y_continuous(
+        breaks = gridbreaks,
+        limits = c(-grid.range[1], grid.range[2]),
+        expand = expgrid,
+        labels = gridlabs
+      )
   } else {
-    gp <- gp + scale_y_reverse(breaks = gridbreaks, limits = c(grid.range[2], -grid.range[1]), expand = expgrid, labels = gridlabs)
+    gp <- gp +
+      ggplot2::scale_y_reverse(
+        breaks = gridbreaks,
+        limits = c(grid.range[2], -grid.range[1]),
+        expand = expgrid,
+        labels = gridlabs
+      )
   }
 
   # check whether coordinates should be flipped, i.e.
   # swap x and y axis
 
-  if (coord.flip) gp <- gp + coord_flip()
+  if (coord.flip) {
+    gp <- gp + ggplot2::coord_flip()
+  }
 
   # set geom colors
 
