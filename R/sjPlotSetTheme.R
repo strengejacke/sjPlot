@@ -146,7 +146,7 @@
 #' plot_frq(efc$e42dep)}
 #'
 #' @export
-set_theme <- function(base = theme_grey(),
+set_theme <- function(base = ggplot2::theme_grey(),
                       theme.font = NULL,
                      # title defaults
                      title.color = "black",
@@ -340,7 +340,7 @@ set_theme <- function(base = theme_grey(),
   if (
     !is.null(theme) && any(class(theme) == "theme") && any(class(theme) == "gg")
   ) {
-    theme_set(theme)
+    ggplot2::theme_set(theme)
   } else if (
     !is.null(base) && any(class(base) == "theme") && any(class(base) == "gg")
   ) {
@@ -353,37 +353,37 @@ set_theme <- function(base = theme_grey(),
       # ----------------------------------------
       ggplot2::theme(
         plot.title = ggplot2::element_text(
-          size = rel(title.size),
+          size = ggplot2::rel(title.size),
           colour = title.color,
           hjust = title.align
         ),
         axis.text = ggplot2::element_text(
           angle = axis.angle,
-          size = rel(axis.textsize),
+          size = ggplot2::rel(axis.textsize),
           colour = axis.textcolor
         ),
         axis.text.x = ggplot2::element_text(
           angle = axis.angle.x,
-          size = rel(axis.textsize.x),
+          size = ggplot2::rel(axis.textsize.x),
           colour = axis.textcolor.x
         ),
         axis.text.y = ggplot2::element_text(
           angle = axis.angle.y,
-          size = rel(axis.textsize.y),
+          size = ggplot2::rel(axis.textsize.y),
           colour = axis.textcolor.y
         ),
         axis.title = ggplot2::element_text(
-          size = rel(axis.title.size),
+          size = ggplot2::rel(axis.title.size),
           colour = axis.title.color
         ),
         legend.position = legend.pos,
         legend.justification = legend.just,
         legend.text = ggplot2::element_text(
-          size = rel(legend.size),
+          size = ggplot2::rel(legend.size),
           colour = legend.color
         ),
         legend.title = ggplot2::element_text(
-          size = rel(legend.title.size),
+          size = ggplot2::rel(legend.title.size),
           colour = legend.title.color,
           face = legend.title.face
         ),
@@ -559,7 +559,7 @@ set_theme <- function(base = theme_grey(),
     # ----------------------------------------
     # finally, set theme
     # ----------------------------------------
-    theme_set(sjtheme)
+    ggplot2::theme_set(sjtheme)
   } else {
     warning(
       "Either `theme` or `base` must be supplied as ggplot-theme-object to set global theme options for sjPlot.",
