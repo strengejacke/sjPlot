@@ -305,7 +305,7 @@ scatter_helper <- function(
 
   # Plot scatter plot
 
-  scp <- ggplot(dat, aes_string(x = "x", y = "y", colour = "grp"))
+  scp <- ggplot2::ggplot(dat, aes_string(x = "x", y = "y", colour = "grp"))
 
 
   # add marginal rug

@@ -110,7 +110,7 @@ plot_type_slope <- function(model,
 
   if (facets) {
 
-    p <- ggplot(mydat, aes(x = .data$x, y = .data$y)) +
+    p <- ggplot2::ggplot(mydat, aes(x = .data$x, y = .data$y)) +
       stat_smooth(
         method = "lm", se = !is.na(ci.lvl), colour = lineColor,
         fill = lineColor, alpha = alpha, level = ci.lvl
@@ -145,7 +145,7 @@ plot_type_slope <- function(model,
 
       dat <- dplyr::filter(mydat, .data$group == !! p_v)
 
-      pl <- ggplot(dat, aes(x = .data$x, y = .data$y)) +
+      pl <- ggplot2::ggplot(dat, aes(x = .data$x, y = .data$y)) +
         stat_smooth(
           method = "lm", se = !is.na(ci.lvl), colour = lineColor,
           fill = lineColor, alpha = alpha, level = ci.lvl

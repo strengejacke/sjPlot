@@ -291,9 +291,9 @@ plot_models <- function(...,
   # set up base plot
 
   if (p.shape)
-    p <- ggplot(ff, aes_string(x = "term", y = "estimate", colour = "group", shape = "p.stars"))
+    p <- ggplot2::ggplot(ff, aes_string(x = "term", y = "estimate", colour = "group", shape = "p.stars"))
   else
-    p <- ggplot(ff, aes_string(x = "term", y = "estimate", colour = "group"))
+    p <- ggplot2::ggplot(ff, aes_string(x = "term", y = "estimate", colour = "group"))
 
 
   p <- p +

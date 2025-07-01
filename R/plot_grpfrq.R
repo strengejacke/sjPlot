@@ -748,7 +748,7 @@ plot_grpfrq <- function(var.cnt,
 
     # lines need colour aes
     baseplot <-
-      ggplot(mydf,
+      ggplot2::ggplot(mydf,
              aes_string(
                x = "xpos",
                y = "frq",
@@ -761,7 +761,7 @@ plot_grpfrq <- function(var.cnt,
   } else if (type == "boxplot" || type == "violin") {
     if (is.null(intr.var)) {
       baseplot <-
-        ggplot(mydf,
+        ggplot2::ggplot(mydf,
                aes_string(
                  x = "group",
                  y = "frq",
@@ -771,7 +771,7 @@ plot_grpfrq <- function(var.cnt,
       scalex <- scale_x_discrete(labels = axis.labels)
     } else {
       baseplot <-
-        ggplot(mydf, aes(
+        ggplot2::ggplot(mydf, aes(
           x = interaction(.data$ia, .data$group),
           y = .data$frq,
           fill = .data$group,
@@ -801,7 +801,7 @@ plot_grpfrq <- function(var.cnt,
                    size = inner.box.dotsize, fill = fcsp)
   } else {
     if (type == "dot") {
-      baseplot <- ggplot(mydf, aes_string(x = "xpos", y = "frq", colour = "group"))
+      baseplot <- ggplot2::ggplot(mydf, aes_string(x = "xpos", y = "frq", colour = "group"))
 
       # check whether we have dots plotted, and if so, use annotation
       # We have to use annotation first, because the diagram's layers are plotted
@@ -809,7 +809,7 @@ plot_grpfrq <- function(var.cnt,
       # shaded rectangles to overlay the dots, we add them first
       if (!is.null(ganno) && !facet.grid) baseplot <- baseplot + ganno
     } else {
-      baseplot <- ggplot(mydf, aes_string(x = "xpos", y = "frq", fill = "group"))
+      baseplot <- ggplot2::ggplot(mydf, aes_string(x = "xpos", y = "frq", fill = "group"))
     }
 
     # add geom

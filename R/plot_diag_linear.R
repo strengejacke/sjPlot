@@ -42,7 +42,7 @@ diag_ncv <- function(model, dot.size, line.size) {
     fitted = stats::fitted(model)
   )
 
-  ggplot(dat, aes_string(x = "fitted", y = "res")) +
+  ggplot2::ggplot(dat, aes_string(x = "fitted", y = "res")) +
     geom_intercept_line2(0, NULL) +
     geom_point(size = dot.size) +
     geom_smooth(method = "loess", se = FALSE, size = line.size) +
@@ -60,7 +60,7 @@ diag_ncv <- function(model, dot.size, line.size) {
 diag_norm <- function(model, geom.colors) {
   res_ <- data.frame(res = stats::residuals(model))
 
-  ggplot(res_, aes_string(x = "res")) +
+  ggplot2::ggplot(res_, aes_string(x = "res")) +
     geom_density(fill = geom.colors[1], alpha = 0.2) +
     stat_function(
       fun = dnorm,
@@ -102,7 +102,7 @@ diag_qq <- function(model, geom.colors, dot.size, line.size, ...) {
   mydf <- stats::na.omit(data.frame(x = fitted_, y = res_))
 
   # plot it
-  ggplot(mydf, aes_string(x = "x", y = "y")) +
+  ggplot2::ggplot(mydf, aes_string(x = "x", y = "y")) +
     geom_point(size = dot.size) +
     scale_colour_manual(values = geom.colors) +
     stat_smooth(method = "lm", se = FALSE, size = line.size) +
@@ -172,7 +172,7 @@ diag_reqq <- function(model, dot.size) {
       conf.high = df.y + df.ci
     )
 
-    ggplot(pDf, aes_string(
+    ggplot2::ggplot(pDf, aes_string(
       x = "nQQ",
       y = "y"
     )) +
@@ -231,7 +231,7 @@ diag_vif <- function(fit) {
       rownames_as_column(var = "vars")
 
 
-    vifplot <- ggplot(mydat, aes_string(x = "vars", y = "vif")) +
+    vifplot <- ggplot2::ggplot(mydat, aes_string(x = "vars", y = "vif")) +
       geom_bar(stat = "identity", width = 0.7, fill = "#80acc8") +
       geom_hline(yintercept = 5, linetype = 2, colour = "darkgreen", alpha = 0.7) +
       geom_hline(yintercept = 10, linetype = 2, colour = "darkred", alpha = 0.7) +

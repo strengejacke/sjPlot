@@ -539,7 +539,7 @@ plot_frq_helper <- function(
     # mydat is a data frame that only contains one variable (var).
     # Must be declared as factor, so the bars are central aligned to
     # each x-axis-break.
-    baseplot <- ggplot(mydat, aes(x = .data$val, y = .data$frq)) +
+    baseplot <- ggplot2::ggplot(mydat, aes(x = .data$val, y = .data$frq)) +
       geob +
       yscale +
       # remove guide / legend
@@ -566,7 +566,7 @@ plot_frq_helper <- function(
   # Start box plot here -----
   } else if (type == "boxplot" || type == "violin") {
     # setup base plot
-    baseplot <- ggplot(mydat, aes_string(x = "grp", y = "frq"))
+    baseplot <- ggplot2::ggplot(mydat, aes_string(x = "grp", y = "frq"))
     # and x-axis
     scalex <- scale_x_discrete(labels = "")
     if (type == "boxplot") {
@@ -599,7 +599,7 @@ plot_frq_helper <- function(
   # Start density plot here -----
   } else if (type == "density") {
     # First, plot histogram with density curve
-    baseplot <- ggplot(hist.dat, aes(x = .data$xv)) +
+    baseplot <- ggplot2::ggplot(hist.dat, aes(x = .data$xv)) +
       geom_histogram(aes(y = stat(density)), binwidth = geom.size, fill = geom.colors) +
       # transparent density curve above bars
       geom_density(aes(y = stat(density)), fill = "cornsilk", alpha = 0.3) +
@@ -627,11 +627,11 @@ plot_frq_helper <- function(
     # counts on the y-axis
     if (type == "histogram") {
       # original data needed for normal curve
-      baseplot <- ggplot(mydat) +
+      baseplot <- ggplot2::ggplot(mydat) +
         # second data frame mapped to the histogram geom
         geom_histogram(data = hist.dat, aes(x = .data$xv), binwidth = geom.size, fill = geom.colors)
     } else {
-      baseplot <- ggplot(mydat, aes(x = .data$val, y = .data$frq)) +
+      baseplot <- ggplot2::ggplot(mydat, aes(x = .data$val, y = .data$frq)) +
         geom_area(alpha = 0.3) +
         geom_line(linewidth = geom.size, colour = geom.colors) +
         ggvaluelabels

@@ -245,7 +245,7 @@ sjp.aov1 <- function(var.dep,
   # --------------------------------------------------------
   # Start plot here!
   # --------------------------------------------------------
-  anovaplot <- ggplot(df, aes(y = .data$means, x = .data$xv)) +
+  anovaplot <- ggplot2::ggplot(df, aes(y = .data$means, x = .data$xv)) +
     # print point
     geom_point(size = geom.size, colour = df$geocol) +
     # and error bar

@@ -196,7 +196,7 @@ sjp.poly <- function(x,
   # name df
   colnames(plot.df) <- c("x","y", "pred", "grp")
   # create plot
-  polyplot <- ggplot(plot.df, aes_string(x = "x", y = "y", colour = "grp"))
+  polyplot <- ggplot2::ggplot(plot.df, aes_string(x = "x", y = "y", colour = "grp"))
   # show scatter plot as well?
   if (show.scatter) polyplot <- polyplot +
     geom_jitter(colour = point.color, alpha = point.alpha, shape = 16)

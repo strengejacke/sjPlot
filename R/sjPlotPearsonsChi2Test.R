@@ -84,7 +84,7 @@ sjp.chi2 <- function(df,
   # --------------------------------------------------------
   # start with base plot object here
   # --------------------------------------------------------
-  chiPlot <- ggplot(data = m, aes_string(x = "Row", y = "Column", fill = "p.value", label = "p.value")) +
+  chiPlot <- ggplot2::ggplot(data = m, aes_string(x = "Row", y = "Column", fill = "p.value", label = "p.value")) +
     geom_tile() +
     scale_x_discrete(labels = axis.labels) +
     scale_y_discrete(labels = axis.labels) +

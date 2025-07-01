@@ -79,9 +79,9 @@ plot_point_estimates <- function(model,
   # basis aes mapping
 
   if (multinomial)
-    p <- ggplot(dat, aes_string(x = "term", y = "estimate", colour = "response.level", fill = "response.level"))
+    p <- ggplot2::ggplot(dat, aes_string(x = "term", y = "estimate", colour = "response.level", fill = "response.level"))
   else
-    p <- ggplot(dat, aes_string(x = "term", y = "estimate", colour = "group", fill = "group"))
+    p <- ggplot2::ggplot(dat, aes_string(x = "term", y = "estimate", colour = "group", fill = "group"))
 
   if (is.stan(model)) {
 

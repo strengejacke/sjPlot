@@ -311,7 +311,7 @@ gpt_helper <- function(
   geom.colors <- col_check2(colors, pal.len)
 
   # Set up plot
-  p <- ggplot(newdf, aes(x = rev(.data$grp), y = .data$ypos, colour = .data$xpos, shape = .data$xpos)) +
+  p <- ggplot2::ggplot(newdf, aes(x = rev(.data$grp), y = .data$ypos, colour = .data$xpos, shape = .data$xpos)) +
     geom_point(size = geom.size, fill = shape.fill.color) +
     scale_y_continuous(labels = scales::percent, breaks = gridbreaks, limits = axis.lim) +
     scale_x_discrete(labels = rev(axis.labels)) +

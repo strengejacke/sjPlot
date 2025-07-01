@@ -76,7 +76,7 @@ dist_norm <- function(norm = NULL,
   # density normal distribution
   mydat$y <- stats::dnorm(mydat$x, mean, sd)
   # base plot with normal-distribution
-  gp <- ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
+  gp <- ggplot2::ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated x-value...
@@ -213,7 +213,7 @@ dist_chisq <- function(chi2 = NULL,
   # density distribution of chi2
   mydat$y <- stats::dchisq(mydat$x, deg.f)
   # base plot with chi2-distribution
-  gp <- ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
+  gp <- ggplot2::ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated chi2-value...
@@ -342,7 +342,7 @@ dist_f <- function(f = NULL,
   # density distribution of f
   mydat$y <- stats::df(mydat$x, deg.f1, deg.f2)
   # base plot with f-distribution
-  gp <- ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
+  gp <- ggplot2::ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated f-value...
@@ -472,7 +472,7 @@ dist_t <- function(t = NULL,
   # density distribution of t
   mydat$y <- stats::dt(mydat$x, deg.f)
   # base plot with t-distribution
-  gp <- ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
+  gp <- ggplot2::ggplot(mydat, aes_string(x = "x", y = "y")) + geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated t-value...

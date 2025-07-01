@@ -98,12 +98,12 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, axis.labels, ..
 
 
   if (!facets && requireNamespace("ggridges", quietly = TRUE)) {
-    p <- ggplot(pp, aes_string(y = "Term", x = "Estimate", fill = "Sample")) +
+    p <- ggplot2::ggplot(pp, aes_string(y = "Term", x = "Estimate", fill = "Sample")) +
       ggridges::geom_density_ridges2(alpha = alpha, rel_min_height = .005, scale = scale) +
       scale_fill_manual(values = col_check2(geom.colors, 2))
   } else {
 
-    p <- ggplot(pp, aes_string(x = "Estimate", fill = "Sample")) +
+    p <- ggplot2::ggplot(pp, aes_string(x = "Estimate", fill = "Sample")) +
       geom_density(alpha = alpha) +
       scale_fill_manual(values = col_check2(geom.colors, 2))
 
@@ -121,4 +121,3 @@ plot_diag_stan <- function(model, geom.colors, axis.lim, facets, axis.labels, ..
 
   p + xlab("Distribution")
 }
-

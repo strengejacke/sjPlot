@@ -82,7 +82,7 @@ plot_residuals <- function(fit, geom.size = 2, remove.estimates = NULL, show.lin
   colnames(mydat)[1] <- ".response"
 
   # melt data, build basic plot
-  res.plot <- ggplot(mydat, aes(x = .data$x, y = .data$.response)) +
+  res.plot <- ggplot2::ggplot(mydat, aes(x = .data$x, y = .data$.response)) +
     stat_smooth(method = "lm", se = show.ci, colour = "grey70")
 
   if (show.lines) res.plot <- res.plot +

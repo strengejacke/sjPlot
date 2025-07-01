@@ -672,7 +672,7 @@ plot_likert <- function(items,
 
   # start plot here
 
-  gp <- ggplot() +
+  gp <- ggplot2::ggplot() +
     # positive value bars
     geom_col(
       data = mydat.pos,

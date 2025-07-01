@@ -427,7 +427,7 @@ plot_xtab <- function(x,
   # --------------------------------------------------------
   # start plot here
   # --------------------------------------------------------
-  baseplot <- ggplot(mydf, aes_string(x = "xpos", y = "prc", fill = "group")) + geob
+  baseplot <- ggplot2::ggplot(mydf, aes_string(x = "xpos", y = "prc", fill = "group")) + geob
   # if we have line diagram, print lines here
   if (type == "line") {
     baseplot <- baseplot +

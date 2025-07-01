@@ -365,7 +365,7 @@ show_sjplot_pals <- function() {
   x$group[.is_cont_scale(x$key)] <- "Continuous Palettes"
   x$group[x$key %in% c("breakfast.club", "flat", "metro", "quadro", "set1", "simply", "social")] <- "Red-Blue-Green Palettes"
 
-  ggplot(x, aes_string(x = "key", fill = "cols")) +
+  ggplot2::ggplot(x, aes_string(x = "key", fill = "cols")) +
     geom_bar(width = .7) +
     scale_fill_manual(values = x$value) +
     scale_y_continuous(breaks = NULL, labels = NULL) +

@@ -351,9 +351,9 @@ plot_stackfrq <- function(items,
   # change x axis order then
 
   if (reverseOrder && is.null(sort.frq)) {
-    baseplot <- ggplot(mydat, aes(x = rev(.data$grp), y = .data$prc, fill = .data$cat))
+    baseplot <- ggplot2::ggplot(mydat, aes(x = rev(.data$grp), y = .data$prc, fill = .data$cat))
   } else {
-    baseplot <- ggplot(mydat, aes(x = .data$grp, y = .data$prc, fill = .data$cat))
+    baseplot <- ggplot2::ggplot(mydat, aes(x = .data$grp, y = .data$prc, fill = .data$cat))
   }
 
   baseplot <- baseplot +

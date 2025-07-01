@@ -215,7 +215,7 @@ sjp.corr <- function(data,
   # --------------------------------------------------------
   # start with base plot object here
   # --------------------------------------------------------
-  corrPlot <- ggplot(orderedCorr, aes_string(x = "ordx", y = "ordy", fill = "value", label = "val.labels")) +
+  corrPlot <- ggplot2::ggplot(orderedCorr, aes_string(x = "ordx", y = "ordy", fill = "value", label = "val.labels")) +
     geom_tile(size = 0, colour = "black") +
   # fill gradient colour from distinct color brewer palette. negative correlations are dark
   # red, positive corr. are dark blue, and they become lighter the closer they are to a
