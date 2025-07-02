@@ -46,7 +46,6 @@ reference:
   - plot_grpfrq
   - plot_xtab
   - sjp.chi2
-  - sjp.aov1
   - sjp.corr
   - sjplot
 

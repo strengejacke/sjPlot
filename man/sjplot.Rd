@@ -33,9 +33,6 @@ This function has a pipe-friendly argument-structure, with the
 \details{
 Following \code{fun}-values are currently supported:
          \describe{
-            \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first
-            two variables in \code{data} are used (and required) to create the plot.
-            }
             \item{\code{"grpfrq"}}{calls \code{\link{plot_grpfrq}}. The first
             two variables in \code{data} are used (and required) to create the plot.
             }

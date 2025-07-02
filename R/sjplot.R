@@ -27,9 +27,6 @@
 #'
 #' @details Following \code{fun}-values are currently supported:
 #'          \describe{
-#'             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first
-#'             two variables in \code{data} are used (and required) to create the plot.
-#'             }
 #'             \item{\code{"grpfrq"}}{calls \code{\link{plot_grpfrq}}. The first
 #'             two variables in \code{data} are used (and required) to create the plot.
 #'             }
@@ -282,8 +279,6 @@ plot_sj <- function(x, fun, args) {
       p <- plot_likert(x)
     } else if (fun  == "xtab") {
       p <- plot_xtab(x[[1]], x[[2]])
-    } else if (fun  == "aov1") {
-      p <- sjp.aov1(x[[1]], x[[2]])
     }
   } else {
     if (fun  == "grpfrq") {
@@ -292,8 +287,6 @@ plot_sj <- function(x, fun, args) {
       p <- do.call(plot_likert, args = c(list(items = x), args))
     } else if (fun  == "xtab") {
       p <- do.call(plot_xtab, args = c(list(x = x[[1]], grp = x[[2]]), args))
-    } else if (fun  == "aov1") {
-      p <- do.call(sjp.aov1, args = c(list(var.dep = x[[1]], var.grp = x[[2]]), args))
     }
   }
 
