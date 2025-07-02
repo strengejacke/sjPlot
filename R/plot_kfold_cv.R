@@ -94,26 +94,28 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
           data.frame(train = I(list(out[[1]])), test = I(list(out$test)))
         })
       )
-      res <- kfolds |>
-        dplyr::mutate(
-          model = purrr::map(
-            .data$train,
-            ~ stats::glm(
-              formula,
-              data = .x,
-              family = stats::poisson(link = "log")
-            )
+      res <- dplyr::mutate(
+        kfolds,
+        model = purrr::map(
+          .data$train,
+          ~ stats::glm(
+            formula,
+            data = .x,
+            family = stats::poisson(link = "log")
           )
-        ) |>
-        dplyr::mutate(
-          residuals = purrr::map(
-            .data$model,
-            ~ stats::residuals(.x, "deviance")
-          )
-        ) |>
-        dplyr::mutate(
-          .response = purrr::map(.data$model, ~ insight::get_response(.x))
         )
+      )
+      res <- dplyr::mutate(,
+        res,
+        residuals = purrr::map(
+          .data$model,
+          ~ stats::residuals(.x, "deviance")
+        )
+      )
+      res <- dplyr::mutate(
+        res,
+        .response = purrr::map(.data$model, ~ insight::get_response(.x))
+      )
       # for negative binomial models, show deviance residuals
     } else if (inherits(fit, "negbin")) {
       # create cross-validated test-training pairs, run poisson-model on each
@@ -125,23 +127,25 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
           data.frame(train = I(list(out[[1]])), test = I(list(out$test)))
         })
       )
-      res <- kfolds |>
-        dplyr::mutate(
-          model = purrr::map(.data$train, ~ MASS::glm.nb(formula, data = .))
-        ) |>
-        dplyr::mutate(
-          residuals = purrr::map(
-            .data$model,
-            ~ stats::residuals(.x, "deviance")
-          )
-        ) |>
-        dplyr::mutate(
-          .response = purrr::map(.data$model, ~ insight::get_response(.x))
+      res <- dplyr::mutate(
+        kfolds,
+        model = purrr::map(.data$train, ~ MASS::glm.nb(formula, data = .))
+      )
+      res <- dplyr::mutate(
+        res,
+        residuals = purrr::map(
+          .data$model,
+          ~ stats::residuals(.x, "deviance")
         )
+      )
+      res <- dplyr::mutate(
+        res,
+        .response = purrr::map(.data$model, ~ insight::get_response(.x))
+      )
     }
 
     # unnest residuals and response values
-    res <- suppressWarnings(res |> tidyr::unnest("residuals", .data$.response))
+    res <- suppressWarnings(tidyr::unnest(res, "residuals", .data$.response))
   } else {
     # create cross-validated test-training pairs, run linear model on each
     # pair, get predicted values and quality measures for models fitted on the
@@ -153,24 +157,24 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
         data.frame(train = I(list(out[[1]])), test = I(list(out$test)))
       })
     )
-    res <- kfolds |>
-      dplyr::mutate(
-        model = purrr::map(.data$train, ~ stats::lm(formula, data = .))
-      ) |>
-      dplyr::mutate(
-        predicted = purrr::map2(.data$model, .data$test, function(.x, .y) {
-          out <- data.frame(.fitted = stats::predict(.x, newdata = .y))
-          cbind(.y, out)
-        })
-      ) |>
-      tidyr::unnest(cols = .data$predicted)
+    res <- dplyr::mutate(
+      kfolds,
+      model = purrr::map(.data$train, ~ stats::lm(formula, data = .))
+    )
+    res <- dplyr::mutate(
+      res,
+      predicted = purrr::map2(.data$model, .data$test, function(.x, .y) {
+        out <- data.frame(.fitted = stats::predict(.x, newdata = .y))
+        cbind(.y, out)
+      })
+    )
+    res <- tidyr::unnest(res, cols = .data$predicted)
 
     # make sure that response vector has an identifiably name
     colnames(res)[which(colnames(res) == deparse(resp))] <- ".response"
 
     # compute residuals for each k-fold model
-    res <- res |>
-      dplyr::mutate(residuals = .data$.response - .data$.fitted)
+    res <- dplyr::mutate(res, residuals = .data$.response - .data$.fitted)
   }
 
   # plot response against residuals, to see where our model over- or
