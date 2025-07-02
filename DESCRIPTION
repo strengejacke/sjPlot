@@ -58,6 +58,7 @@ Suggests:
     ggridges,
     httr,
     lme4,
+    MASS,
     nFactors,
     pscl,
     psych,

@@ -115,6 +115,7 @@ plot_xtab <- function(
   y.offset = NULL,
   coord.flip = FALSE
 ) {
+  insight::check_if_installed("MASS")
   # --------------------------------------------------------
   # get variable name
   # --------------------------------------------------------
