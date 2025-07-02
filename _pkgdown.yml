@@ -32,7 +32,6 @@ reference:
 
 - title: "Plotting Regression Model Diagnostics"
   contents:
-  - plot_kfold_cv
   - plot_model
   - plot_residuals
   - sjp.poly
