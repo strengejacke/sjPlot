@@ -191,9 +191,8 @@
 #'   \code{...}-argument for more details.
 #' @param se Logical, if \code{TRUE}, the standard errors are
 #'   also printed. If robust standard errors are required, use arguments
-#'   \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
-#'   \code{\link[parameters]{standard_error}} for details), or use argument
-#'   \code{robust} as shortcut. \code{se} overrides
+#'   \code{vcov.fun} and \code{vcov.args} (see
+#'   \code{\link[parameters]{standard_error}} for details). \code{se} overrides
 #'   \code{ci.lvl}: if not \code{NULL}, arguments \code{ci.lvl} and \code{transform}
 #'   will be ignored. Currently, \code{se} only applies to \emph{Coefficients} plots.
 #' @param show.intercept Logical, if \code{TRUE}, the intercept of the fitted
@@ -209,15 +208,11 @@
 #'   legend.
 #' @param show.zeroinf Logical, if \code{TRUE}, shows the zero-inflation part of
 #'   hurdle- or zero-inflated models.
-#' @param robust Deprecated. Please use \code{vcov.fun} directly to specify
-#'   the estimation of the variance-covariance matrix.
 #' @param vcov.fun Variance-covariance matrix used to compute uncertainty
 #'   estimates (e.g., for robust standard errors). This argument accepts a
 #'   covariance matrix, a function which returns a covariance matrix, or a
 #'   string which identifies the function to be used to compute the covariance
 #'   matrix. See \code{\link[parameters:model_parameters]{model_parameters()}}.
-#' @param vcov.type Deprecated. The \code{type}-argument is now included in
-#'   \code{vcov.args}.
 #' @param vcov.args List of arguments to be passed to the function identified by
 #'   the \code{vcov.fun} argument. This function is typically supplied by the
 #'   \pkg{sandwich} or \pkg{clubSandwich} packages. Please refer to their
@@ -494,9 +489,7 @@ plot_model <- function(model,
                        grid.breaks = NULL,
                        ci.lvl = NULL,
                        se = NULL,
-                       robust = FALSE,
                        vcov.fun = NULL,
-                       vcov.type = NULL,
                        vcov.args = NULL,
                        colors = "Set1",
                        show.intercept = FALSE,
@@ -540,10 +533,6 @@ plot_model <- function(model,
       case <- "parsed"
     else
       case <- NULL
-  }
-
-  if (isTRUE(robust)) {
-    vcov.fun <- "HC3"
   }
 
   # get info on model family
@@ -659,7 +648,6 @@ plot_model <- function(model,
       p.threshold = p.threshold,
       p.val = p.val,
       vcov.fun = vcov.fun,
-      vcov.type = vcov.type,
       vcov.args = vcov.args,
       ci.style = ci.style,
       p_adjust = p.adjust,

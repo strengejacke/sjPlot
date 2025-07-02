@@ -56,9 +56,6 @@ tidy_model <- function(
     }
 
     if (!insight::is_empty_object(insight::compact_list(robust))) {
-      if (!is.null(robust$vcov.type)) {
-        robust$vcov.args[["type"]] <- robust$vcov.type
-      }
       model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, vcov = robust$vcov.fun, vcov_args = robust$vcov.args, ci_method = ci_method, p_adjust = p_adjust, effects = "fixed", keep = keep, drop = drop, verbose = FALSE)
     } else {
       model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, ci_method = ci_method, p_adjust = p_adjust, effects = "fixed", keep = keep, drop = drop, verbose = FALSE)

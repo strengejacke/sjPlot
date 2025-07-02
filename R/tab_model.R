@@ -71,7 +71,7 @@
 #' @param show.p Logical, if \code{TRUE}, p-values are also printed.
 #' @param show.se Logical, if \code{TRUE}, the standard errors are
 #'   also printed. If robust standard errors are required, use arguments
-#'   \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
+#'   \code{vcov.fun}, and \code{vcov.args} (see
 #'   \code{\link[parameters]{standard_error}} for details).
 #' @param show.r2 Logical, if \code{TRUE}, the r-squared value is also printed.
 #'    Depending on the model, these might be pseudo-r-squared values, or Bayesian
@@ -273,9 +273,7 @@ tab_model <- function(
   iterations = 1000,
   seed = NULL,
 
-  robust = FALSE,
   vcov.fun = NULL,
-  vcov.type = NULL,
   vcov.args = NULL,
 
   string.pred = "Predictors",
@@ -361,11 +359,6 @@ tab_model <- function(
   }
 
   if (p.style == "stars") show.p <- FALSE
-
-  # default robust?
-  if (isTRUE(robust)) {
-    vcov.fun <- "HC3"
-  }
 
   models <- list(...)
 
@@ -458,7 +451,7 @@ tab_model <- function(
         tf = transform,
         type = "est",
         bpe = bpe,
-        robust = list(vcov.fun = vcov.fun, vcov.type = vcov.type, vcov.args = vcov.args),
+        robust = list(vcov.fun = vcov.fun, vcov.args = vcov.args),
         facets = FALSE,
         show.zeroinf = show.zeroinf,
         p.val = p.val,
@@ -523,7 +516,7 @@ tab_model <- function(
           tf = transform,
           type = "est",
           bpe = bpe,
-          robust = list(vcov.fun = vcov.fun, vcov.type = vcov.type, vcov.args = vcov.args),
+          robust = list(vcov.fun = vcov.fun, vcov.args = vcov.args),
           facets = FALSE,
           show.zeroinf = show.zeroinf,
           p.val = p.val,
