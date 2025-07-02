@@ -298,6 +298,7 @@ crosstabsum <- function(x, grp, weight.by) {
     # if variables have two categories (2x2 table), use phi to calculate
     # the degree of association
   } else {
+    insight::check_if_installed("MASS")
     # check whether fisher's test or chi-squared should be printed
     if (is.null(fish)) {
       modsum <- as.character(as.expression(
