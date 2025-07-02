@@ -338,10 +338,6 @@ set_theme <- function(base = ggplot2::theme_grey(),
   # check if theme-preset is requested
   # ----------------------------------------
   if (
-    !is.null(theme) && any(class(theme) == "theme") && any(class(theme) == "gg")
-  ) {
-    ggplot2::theme_set(theme)
-  } else if (
     !is.null(base) && any(class(base) == "theme") && any(class(base) == "gg")
   ) {
     # ----------------------------------------

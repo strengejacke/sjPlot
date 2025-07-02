@@ -1,29 +1,28 @@
-plot_type_eff <- function(type,
-                          model,
-                          terms,
-                          ci.lvl,
-                          pred.type,
-                          facets,
-                          show.data,
-                          jitter,
-                          geom.colors,
-                          axis.title,
-                          title,
-                          legend.title,
-                          axis.lim,
-                          case,
-                          show.legend,
-                          dot.size,
-                          line.size,
-                          ...) {
+plot_type_eff <- function(
+  type,
+  model,
+  terms,
+  ci.lvl,
+  pred.type,
+  facets,
+  show.data,
+  jitter,
+  geom.colors,
+  axis.title,
+  title,
+  legend.title,
+  axis.lim,
+  case,
+  show.legend,
+  dot.size,
+  line.size,
+  ...
+) {
+  if (missing(facets) || is.null(facets)) {
+    facets <- FALSE
+  }
 
-  if (missing(facets) || is.null(facets)) facets <- FALSE
-
-  pred.type <- switch(pred.type,
-    fe = "fixed",
-    re = "random",
-    pred.type
-  )
+  pred.type <- switch(pred.type, fe = "fixed", re = "random", pred.type)
 
   if (type == "pred") {
     dat <- ggeffects::ggpredict(
@@ -50,8 +49,9 @@ plot_type_eff <- function(type,
     )
   }
 
-
-  if (is.null(dat)) return(NULL)
+  if (is.null(dat)) {
+    return(NULL)
+  }
 
   # evaluate dots-arguments
   alpha <- .15
@@ -60,14 +60,25 @@ plot_type_eff <- function(type,
   log.y <- FALSE
 
   # save number of terms, needed later
-  n.terms <- length(insight::find_predictors(model, component = "conditional", flatten = TRUE))
+  n.terms <- length(insight::find_predictors(
+    model,
+    component = "conditional",
+    flatten = TRUE
+  ))
 
   add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
-  if ("alpha" %in% names(add.args)) alpha <- eval(add.args[["alpha"]])
-  if ("dodge" %in% names(add.args)) dodge <- eval(add.args[["dodge"]])
-  if ("dot.alpha" %in% names(add.args)) dot.alpha <- eval(add.args[["dot.alpha"]])
-  if ("log.y" %in% names(add.args)) log.y <- eval(add.args[["log.y"]])
-
+  if ("alpha" %in% names(add.args)) {
+    alpha <- eval(add.args[["alpha"]])
+  }
+  if ("dodge" %in% names(add.args)) {
+    dodge <- eval(add.args[["dodge"]])
+  }
+  if ("dot.alpha" %in% names(add.args)) {
+    dot.alpha <- eval(add.args[["dot.alpha"]])
+  }
+  if ("log.y" %in% names(add.args)) {
+    log.y <- eval(add.args[["log.y"]])
+  }
 
   # select color palette
   if (geom.colors[1] != "bw") {
@@ -83,7 +94,6 @@ plot_type_eff <- function(type,
     }
     geom.colors <- col_check2(geom.colors, .ngrp)
   }
-
 
   p <- graphics::plot(
     dat,
@@ -103,7 +113,6 @@ plot_type_eff <- function(type,
     line_size = line.size
   )
 
-
   # set axis and plot titles
   if (!is.null(axis.title) && !is.null(terms)) {
     if (length(axis.title) > 1) {
@@ -113,17 +122,21 @@ plot_type_eff <- function(type,
     }
   } else if (!is.null(axis.title) && is.null(terms)) {
     if (length(axis.title) > 1) {
-      p <- purrr::map(p, ~ .x + ggplot2::labs(x = axis.title[1], y = axis.title[2]))
+      p <- purrr::map(
+        p,
+        ~ .x + ggplot2::labs(x = axis.title[1], y = axis.title[2])
+      )
     } else {
       p <- purrr::map(p, ~ .x + ggplot2::labs(y = axis.title))
     }
   }
 
   # set axis and plot titles
-  if (!is.null(title) && !is.null(terms))
+  if (!is.null(title) && !is.null(terms)) {
     p <- p + ggplot2::ggtitle(title)
-  else if (!is.null(title) && is.null(terms))
+  } else if (!is.null(title) && is.null(terms)) {
     p <- purrr::map(p, ~ .x + ggplot2::ggtitle(title))
+  }
 
   # set axis and plot titles
   if (!is.null(legend.title)) {
@@ -136,15 +149,14 @@ plot_type_eff <- function(type,
     }
   }
 
-
   # set axis limits
   if (!is.null(axis.lim)) {
-    if (is.list(axis.lim))
-      p <- p + xlim(axis.lim[[1]]) + ylim(axis.lim[[2]])
-    else
-      p <- p + ylim(axis.lim)
+    if (is.list(axis.lim)) {
+      p <- p + ggplot2::xlim(axis.lim[[1]]) + ggplot2::ylim(axis.lim[[2]])
+    } else {
+      p <- p + ggplot2::ylim(axis.lim)
+    }
   }
-
 
   p
 }

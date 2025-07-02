@@ -47,7 +47,9 @@
 #' @export
 plot_kfold_cv <- function(data, formula, k = 5, fit) {
   # make sure that data is a data frame
-  if (!is.data.frame(data)) data <- as.data.frame(data)
+  if (!is.data.frame(data)) {
+    data <- as.data.frame(data)
+  }
 
   # check if a formula was passed as argument...
   if (!missing(formula)) {
@@ -74,7 +76,10 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
   # get name of response variable and get variable label, if
   # there is any... used for labelling plot axis
   resp <- formula[[2]]
-  resp.name <- sjlabelled::get_label(data[[deparse(resp)]], def.value = deparse(resp))
+  resp.name <- sjlabelled::get_label(
+    data[[deparse(resp)]],
+    def.value = deparse(resp)
+  )
 
   # check if fit parameter was specified, and we have a model family
   if (!is.null(fam)) {
@@ -82,45 +87,82 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
     if (fam$family == "poisson") {
       # create cross-validated test-training pairs, run poisson-model on each
       # pair, get deviance residuals and response value
-      kfolds <- do.call(rbind, lapply(1:k, function(i) {
-        out <- datawizard::data_partition(data, training_proportion = .8)
-        data.frame(train = I(list(out[[1]])), test = I(list(out$test)))
-      }))
+      kfolds <- do.call(
+        rbind,
+        lapply(1:k, function(i) {
+          out <- datawizard::data_partition(data, training_proportion = .8)
+          data.frame(train = I(list(out[[1]])), test = I(list(out$test)))
+        })
+      )
       res <- kfolds |>
-        dplyr::mutate(model = purrr::map(.data$train, ~ stats::glm(formula, data = .x, family = stats::poisson(link = "log")))) |>
-        dplyr::mutate(residuals = purrr::map(.data$model, ~ stats::residuals(.x, "deviance"))) |>
-        dplyr::mutate(.response = purrr::map(.data$model, ~ insight::get_response(.x)))
-    # for negative binomial models, show deviance residuals
+        dplyr::mutate(
+          model = purrr::map(
+            .data$train,
+            ~ stats::glm(
+              formula,
+              data = .x,
+              family = stats::poisson(link = "log")
+            )
+          )
+        ) |>
+        dplyr::mutate(
+          residuals = purrr::map(
+            .data$model,
+            ~ stats::residuals(.x, "deviance")
+          )
+        ) |>
+        dplyr::mutate(
+          .response = purrr::map(.data$model, ~ insight::get_response(.x))
+        )
+      # for negative binomial models, show deviance residuals
     } else if (inherits(fit, "negbin")) {
       # create cross-validated test-training pairs, run poisson-model on each
       # pair, get deviance residuals and response value
-      kfolds <- do.call(rbind, lapply(1:k, function(i) {
-        out <- datawizard::data_partition(data, training_proportion = .8)
-        data.frame(train = I(list(out[[1]])), test = I(list(out$test)))
-      }))
+      kfolds <- do.call(
+        rbind,
+        lapply(1:k, function(i) {
+          out <- datawizard::data_partition(data, training_proportion = .8)
+          data.frame(train = I(list(out[[1]])), test = I(list(out$test)))
+        })
+      )
       res <- kfolds |>
-        dplyr::mutate(model = purrr::map(.data$train, ~ MASS::glm.nb(formula, data = .))) |>
-        dplyr::mutate(residuals = purrr::map(.data$model, ~ stats::residuals(.x, "deviance"))) |>
-        dplyr::mutate(.response = purrr::map(.data$model, ~ insight::get_response(.x)))
+        dplyr::mutate(
+          model = purrr::map(.data$train, ~ MASS::glm.nb(formula, data = .))
+        ) |>
+        dplyr::mutate(
+          residuals = purrr::map(
+            .data$model,
+            ~ stats::residuals(.x, "deviance")
+          )
+        ) |>
+        dplyr::mutate(
+          .response = purrr::map(.data$model, ~ insight::get_response(.x))
+        )
     }
 
     # unnest residuals and response values
-    res <- suppressWarnings(res |> tidyr::unnest(residuals, .data$.response))
-
+    res <- suppressWarnings(res |> tidyr::unnest("residuals", .data$.response))
   } else {
     # create cross-validated test-training pairs, run linear model on each
     # pair, get predicted values and quality measures for models fitted on the
     # train data
-    kfolds <- do.call(rbind, lapply(1:k, function(i) {
-      out <- datawizard::data_partition(data, training_proportion = .8)
-      data.frame(train = I(list(out[[1]])), test = I(list(out$test)))
-    }))
+    kfolds <- do.call(
+      rbind,
+      lapply(1:k, function(i) {
+        out <- datawizard::data_partition(data, training_proportion = .8)
+        data.frame(train = I(list(out[[1]])), test = I(list(out$test)))
+      })
+    )
     res <- kfolds |>
-      dplyr::mutate(model = purrr::map(.data$train, ~ stats::lm(formula, data = .))) |>
-      dplyr::mutate(predicted = purrr::map2(.data$model, .data$test, function(.x, .y) {
-        out <- data.frame(.fitted = stats::predict(.x, newdata = .y))
-        cbind(.y, out)
-      })) |>
+      dplyr::mutate(
+        model = purrr::map(.data$train, ~ stats::lm(formula, data = .))
+      ) |>
+      dplyr::mutate(
+        predicted = purrr::map2(.data$model, .data$test, function(.x, .y) {
+          out <- data.frame(.fitted = stats::predict(.x, newdata = .y))
+          cbind(.y, out)
+        })
+      ) |>
       tidyr::unnest(cols = .data$predicted)
 
     # make sure that response vector has an identifiably name
@@ -133,7 +175,10 @@ plot_kfold_cv <- function(data, formula, k = 5, fit) {
 
   # plot response against residuals, to see where our model over- or
   # underestimates the outcome
-  p <- ggplot2::ggplot(data = res, ggplot2::aes(x = .data$.response, y = .data$residuals)) +
+  p <- ggplot2::ggplot(
+    data = res,
+    ggplot2::aes(x = .data$.response, y = .data$residuals)
+  ) +
     ggplot2::geom_hline(yintercept = 0) +
     ggplot2::geom_point() +
     ggplot2::stat_smooth(method = "loess") +
