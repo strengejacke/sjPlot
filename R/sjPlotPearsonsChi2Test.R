@@ -93,11 +93,11 @@ sjp.chi2 <- function(
   # --------------------------------------------------------
   chiPlot <- ggplot2::ggplot(
     data = m,
-    ggplot2::aes_string(
-      x = "Row",
-      y = "Column",
-      fill = "p.value",
-      label = "p.value"
+    ggplot2::aes(
+      x = .data$Row,
+      y = .data$Column,
+      fill = .data$p.value,
+      label = .data$p.value
     )
   ) +
     ggplot2::geom_tile() +
