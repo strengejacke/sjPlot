@@ -68,60 +68,60 @@
 #' }
 #' @importFrom rlang .data
 #' @export
-plot_models <- function(...,
-                        transform = NULL,
-                        std.est = NULL,
-                        std.response = TRUE,
-                        rm.terms = NULL,
-                        title = NULL,
-                        m.labels = NULL,
-                        legend.title = "Dependent Variables",
-                        legend.pval.title = "p-level",
-                        axis.labels = NULL,
-                        axis.title = NULL,
-                        axis.lim = NULL,
-                        wrap.title = 50,
-                        wrap.labels = 25,
-                        wrap.legend.title = 20,
-                        grid.breaks = NULL,
-                        dot.size = 3,
-                        line.size = NULL,
-                        value.size = NULL,
-                        spacing = 0.4,
-                        colors = "Set1",
-                        show.values = FALSE,
-                        show.legend = TRUE,
-                        show.intercept = FALSE,
-                        show.p = TRUE,
-                        p.shape = FALSE,
-                        p.threshold = c(0.05, 0.01, 0.001),
-                        p.adjust = NULL,
-                        ci.lvl = .95,
-                        robust = FALSE,
-                        vcov.fun = NULL,
-                        vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
-                        vcov.args = NULL,
-                        vline.color = NULL,
-                        digits = 2,
-                        grid = FALSE,
-                        auto.label = TRUE,
-                        prefix.labels = c("none", "varname", "label")) {
+plot_models <- function(
+  ...,
+  transform = NULL,
+  std.est = NULL,
+  std.response = TRUE,
+  rm.terms = NULL,
+  title = NULL,
+  m.labels = NULL,
+  legend.title = "Dependent Variables",
+  legend.pval.title = "p-level",
+  axis.labels = NULL,
+  axis.title = NULL,
+  axis.lim = NULL,
+  wrap.title = 50,
+  wrap.labels = 25,
+  wrap.legend.title = 20,
+  grid.breaks = NULL,
+  dot.size = 3,
+  line.size = NULL,
+  value.size = NULL,
+  spacing = 0.4,
+  colors = "Set1",
+  show.values = FALSE,
+  show.legend = TRUE,
+  show.intercept = FALSE,
+  show.p = TRUE,
+  p.shape = FALSE,
+  p.threshold = c(0.05, 0.01, 0.001),
+  p.adjust = NULL,
+  ci.lvl = .95,
+  vcov.fun = NULL,
+  vcov.args = NULL,
+  vline.color = NULL,
+  digits = 2,
+  grid = FALSE,
+  auto.label = TRUE,
+  prefix.labels = c("none", "varname", "label")
+) {
   # retrieve list of fitted models
   input_list <- list(...)
-  names(input_list) <- unlist(lapply(match.call(expand.dots = FALSE)$`...`, deparse))
-
-  vcov.type <- match.arg(vcov.type)
-
-  if (isTRUE(robust)) {
-    vcov.type <- "HC3"
-    vcov.fun <- "vcovHC"
-  }
+  names(input_list) <- unlist(lapply(
+    match.call(expand.dots = FALSE)$`...`,
+    deparse
+  ))
 
   # check se-argument
   vcov.fun <- check_se_argument(se = vcov.fun, type = "est")
 
-  if (missing(line.size) || is.null(line.size)) line.size <- .7
-  if (missing(value.size) || is.null(value.size)) value.size <- 4
+  if (missing(line.size) || is.null(line.size)) {
+    line.size <- .7
+  }
+  if (missing(value.size) || is.null(value.size)) {
+    value.size <- 4
+  }
 
   # check length. if we have a list of fitted model, we need to "unlist" them
   if (length(input_list) == 1 && inherits(input_list[[1]], "list")) {
@@ -140,8 +140,9 @@ plot_models <- function(...,
   # get info on model family
   fam.info <- insight::model_info(input_list[[1]])
 
-  if (insight::is_multivariate(input_list[[1]]))
+  if (insight::is_multivariate(input_list[[1]])) {
     fam.info <- fam.info[[1]]
+  }
 
   # check whether estimates should be transformed or not
 
@@ -155,11 +156,9 @@ plot_models <- function(...,
     tf <- transform
   }
 
-
   # check for standardization, only applies to linear models
   # if (!any(inherits(input_list[[1]], c("lm", "lmerMod", "lme"), which = TRUE) == 1))
   #   std.est <- NULL
-
 
   if (!is.null(std.est)) {
     std_method <- switch(std.est, "std" = "refit", "std2" = "2sd", "refit")
@@ -178,7 +177,7 @@ plot_models <- function(...,
       tf = transform,
       type = "est",
       bpe = "median",
-      robust = list(vcov.fun = vcov.fun, vcov.type = vcov.type, vcov.args = vcov.args),
+      robust = list(vcov.fun = vcov.fun, vcov.args = vcov.args),
       facets = TRUE,
       show.zeroinf = FALSE,
       p.val = "wald",
@@ -191,19 +190,17 @@ plot_models <- function(...,
     )
   )
 
-
   # remove intercept from output
   if (!show.intercept) {
     fl <- purrr::map(fl, function(x) {
       rm.i <- string_ends_with("(Intercept)", x = x$term)
       if (length(rm.i)) {
-        dplyr::slice(x, !! -rm.i)
+        dplyr::slice(x, !!-rm.i)
       } else {
         x
       }
     })
   }
-
 
   # exponentiation
 
@@ -218,50 +215,54 @@ plot_models <- function(...,
     })
   }
 
-
   # add grouping index
   for (i in seq_along(fl)) {
-    fl[[i]] <- sjmisc::add_variables(fl[[i]], group = as.character(i), .after = Inf)
+    fl[[i]] <- sjmisc::add_variables(
+      fl[[i]],
+      group = as.character(i),
+      .after = Inf
+    )
   }
 
   # merge models to one data frame
   ff <- dplyr::bind_rows(fl)
 
-
   # remove further estimates
 
   rm.terms <- parse_terms(rm.terms)
   rems <- !(ff$term %in% rm.terms)
-  if (!is.null(rm.terms)) ff <- dplyr::filter(ff, !! rems)
-
+  if (!is.null(rm.terms)) {
+    ff <- dplyr::filter(ff, !!rems)
+  }
 
   # get labels of dependent variables, and wrap them if too long
 
-  if (is.null(m.labels)) m.labels <- sjlabelled::response_labels(input_list)
+  if (is.null(m.labels)) {
+    m.labels <- sjlabelled::response_labels(input_list)
+  }
   m.labels <- sjmisc::word_wrap(m.labels, wrap = wrap.labels)
-
 
   # make sure we have distinct labels, because we use them as
   # factor levels. else, duplicated factor levels will be dropped,
   # leading to missing groups in plot output
 
-  if (anyDuplicated(m.labels) > 0)
+  if (anyDuplicated(m.labels) > 0) {
     m.labels <- suppressMessages(tidy_label(m.labels))
+  }
 
   ff$group <- as.factor(ff$group)
   levels(ff$group) <- m.labels
 
-
   # reverse group, to plot correct order from top to bottom
   ff$group <- factor(ff$group, levels = rev(unique(ff$group)))
-
 
   # add p-asterisks to data
 
   ff$p.stars <- get_p_stars(ff$p.value, p.threshold)
   ff$p.label <- sprintf("%.*f", digits, ff$estimate)
-  if (show.p) ff$p.label <- sprintf("%s %s", ff$p.label, ff$p.stars)
-
+  if (show.p) {
+    ff$p.label <- sprintf("%s %s", ff$p.label, ff$p.stars)
+  }
 
   # axis limits and tick breaks for y-axis
 
@@ -275,11 +276,14 @@ plot_models <- function(...,
     max.est = max(ff$estimate)
   )
 
-
   # based on current ggplot theme, highlights vertical default line
 
   yintercept <- if (isTRUE(tf == "exp")) 1 else 0
-  layer_vertical_line <- geom_intercept_line(yintercept, axis.scaling, vline.color)
+  layer_vertical_line <- geom_intercept_line(
+    yintercept,
+    axis.scaling,
+    vline.color
+  )
 
   # reorder terms
   ff$term <- factor(ff$term, levels = rev(unique(ff$term)))
@@ -290,15 +294,29 @@ plot_models <- function(...,
 
   # set up base plot
 
-  if (p.shape)
-    p <- ggplot2::ggplot(ff, ggplot2::aes(x = .data$term, y = .data$estimate, colour = .data$group, shape = .data$p.stars))
-  else
-    p <- ggplot2::ggplot(ff, ggplot2::aes(x = .data$term, y = .data$estimate, colour = .data$group))
-
+  if (p.shape) {
+    p <- ggplot2::ggplot(
+      ff,
+      ggplot2::aes(
+        x = .data$term,
+        y = .data$estimate,
+        colour = .data$group,
+        shape = .data$p.stars
+      )
+    )
+  } else {
+    p <- ggplot2::ggplot(
+      ff,
+      ggplot2::aes(x = .data$term, y = .data$estimate, colour = .data$group)
+    )
+  }
 
   p <- p +
     layer_vertical_line +
-    ggplot2::geom_point(position = ggplot2::position_dodge(spacing), size = dot.size) +
+    ggplot2::geom_point(
+      position = ggplot2::position_dodge(spacing),
+      size = dot.size
+    ) +
     ggplot2::geom_errorbar(
       ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
       position = ggplot2::position_dodge(spacing),
@@ -308,68 +326,85 @@ plot_models <- function(...,
     ggplot2::coord_flip() +
     ggplot2::guides(colour = ggplot2::guide_legend(reverse = TRUE))
 
-
   # show different shapes depending on p-value
 
-  if (p.shape) p <- p + ggplot2::scale_shape_manual(values = c(1, 16, 17, 15))
-
+  if (p.shape) {
+    p <- p + ggplot2::scale_shape_manual(values = c(1, 16, 17, 15))
+  }
 
   # add value labels
 
-  if (show.values) p <- p +
-    ggplot2::geom_text(
-      ggplot2::aes(label = .data$p.label),
-      position = ggplot2::position_dodge(spacing),
-      vjust = spacing * -1.5,
-      hjust = -.1,
-      show.legend = FALSE,
-      size = value.size
-    )
-
+  if (show.values) {
+    p <- p +
+      ggplot2::geom_text(
+        ggplot2::aes(label = .data$p.label),
+        position = ggplot2::position_dodge(spacing),
+        vjust = spacing * -1.5,
+        hjust = -.1,
+        show.legend = FALSE,
+        size = value.size
+      )
+  }
 
   # check axis labels
-  if (is.null(axis.labels) && isTRUE(auto.label))
+  if (is.null(axis.labels) && isTRUE(auto.label)) {
     axis.labels <- sjlabelled::term_labels(input_list, prefix = prefix.labels)
+  }
 
   # set axis labels
-  p <- p + ggplot2::scale_x_discrete(labels = sjmisc::word_wrap(axis.labels, wrap = wrap.labels))
-
+  p <- p +
+    ggplot2::scale_x_discrete(
+      labels = sjmisc::word_wrap(axis.labels, wrap = wrap.labels)
+    )
 
   # hide legend?
-  if (!show.legend) p <- p + ggplot2::guides(colour = "none", shape = "none")
+  if (!show.legend) {
+    p <- p + ggplot2::guides(colour = "none", shape = "none")
+  }
 
   # facets
-  if (grid) p <- p + ggplot2::facet_grid(~group)
-
+  if (grid) {
+    p <- p + ggplot2::facet_grid(~group)
+  }
 
   # we need transformed scale for exponentiated estimates
 
   if (isTRUE(tf == "exp")) {
-    p <- p + ggplot2::scale_y_continuous(
-      trans = "log10",
-      limits = axis.scaling$axis.lim,
-      breaks = axis.scaling$ticks,
-      labels = prettyNum
-    )
+    p <- p +
+      ggplot2::scale_y_continuous(
+        trans = "log10",
+        limits = axis.scaling$axis.lim,
+        breaks = axis.scaling$ticks,
+        labels = prettyNum
+      )
   } else {
-    p <- p + ggplot2::scale_y_continuous(
-      limits = axis.scaling$axis.lim,
-      breaks = axis.scaling$ticks,
-      labels = axis.scaling$ticks
-    )
+    p <- p +
+      ggplot2::scale_y_continuous(
+        limits = axis.scaling$axis.lim,
+        breaks = axis.scaling$ticks,
+        labels = axis.scaling$ticks
+      )
   }
 
-
   # set colors
-  p <- p + ggplot2::scale_colour_manual(values = col_check2(colors, length(m.labels)))
-
+  p <- p +
+    ggplot2::scale_colour_manual(values = col_check2(colors, length(m.labels)))
 
   # set axis and plot titles
 
   p <-
-    p + ggplot2::labs(
+    p +
+    ggplot2::labs(
       x = NULL,
-      y = sjmisc::word_wrap(estimate_axis_title(input_list[[1]], axis.title, type = "est", transform = !is.null(tf)), wrap = wrap.title),
+      y = sjmisc::word_wrap(
+        estimate_axis_title(
+          input_list[[1]],
+          axis.title,
+          type = "est",
+          transform = !is.null(tf)
+        ),
+        wrap = wrap.title
+      ),
       title = sjmisc::word_wrap(title, wrap = wrap.title),
       colour = sjmisc::word_wrap(legend.title, wrap = wrap.legend.title),
       shape = sjmisc::word_wrap(legend.pval.title, wrap = wrap.legend.title)
