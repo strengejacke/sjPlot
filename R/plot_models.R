@@ -300,7 +300,7 @@ plot_models <- function(...,
     layer_vertical_line +
     ggplot2::geom_point(position = ggplot2::position_dodge(spacing), size = dot.size) +
     ggplot2::geom_errorbar(
-      ggplot2::aes_string(ymin = "conf.low", ymax = "conf.high"),
+      ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
       position = ggplot2::position_dodge(spacing),
       width = 0,
       size = line.size
@@ -318,7 +318,7 @@ plot_models <- function(...,
 
   if (show.values) p <- p +
     ggplot2::geom_text(
-      ggplot2::aes_string(label = "p.label"),
+      ggplot2::aes(label = .data$p.label),
       position = ggplot2::position_dodge(spacing),
       vjust = spacing * -1.5,
       hjust = -.1,

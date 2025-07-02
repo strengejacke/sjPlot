@@ -872,11 +872,11 @@ plot_grpfrq <- function(
     baseplot <-
       ggplot2::ggplot(
         mydf,
-        ggplot2::aes_string(
-          x = "xpos",
-          y = "frq",
-          colour = "group",
-          linetype = "group"
+        ggplot2::aes(
+          x = .data$xpos,
+          y = .data$frq,
+          colour = .data$group,
+          linetype = .data$group
         )
       ) +
       geob
@@ -888,11 +888,11 @@ plot_grpfrq <- function(
       baseplot <-
         ggplot2::ggplot(
           mydf,
-          ggplot2::aes_string(
-            x = "group",
-            y = "frq",
-            fill = "group",
-            weight = "wb"
+          ggplot2::aes(
+            x = .data$group,
+            y = .data$frq,
+            fill = .data$group,
+            weight = .data$wb
           )
         ) +
         geob
@@ -949,7 +949,7 @@ plot_grpfrq <- function(
     if (type == "dot") {
       baseplot <- ggplot2::ggplot(
         mydf,
-        ggplot2::aes_string(x = "xpos", y = "frq", colour = "group")
+        ggplot2::aes(x = .data$xpos, y = .data$frq, colour = .data$group)
       )
 
       # check whether we have dots plotted, and if so, use annotation
@@ -960,7 +960,7 @@ plot_grpfrq <- function(
     } else {
       baseplot <- ggplot2::ggplot(
         mydf,
-        ggplot2::aes_string(x = "xpos", y = "frq", fill = "group")
+        ggplot2::aes(x = .data$xpos, y = .data$frq, fill = .data$group)
       )
     }
 

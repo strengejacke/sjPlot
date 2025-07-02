@@ -441,7 +441,7 @@ scatter_helper <- function(
   if (!is.null(dot.labels)) {
     scp <- scp +
       ggrepel::geom_text_repel(
-        ggplot2::aes_string(label = "dot.lab"),
+        ggplot2::aes(label = .data$dot.lab),
         size = label.size
       )
   }
@@ -452,7 +452,7 @@ scatter_helper <- function(
     scp <- scp +
       ggplot2::stat_smooth(
         data = dat,
-        ggplot2::aes_string(colour = "grp"),
+        ggplot2::aes(colour = .data$grp),
         method = fit.grps,
         se = show.ci
       )

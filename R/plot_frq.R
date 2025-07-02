@@ -710,7 +710,7 @@ plot_frq_helper <- function(
       # print confidence intervalls (error bars)
       baseplot <- baseplot +
         ggplot2::geom_errorbar(
-          ggplot2::aes_string(ymin = "lower.ci", ymax = "upper.ci"),
+          ggplot2::aes(ymin = .data$lower.ci, ymax = .data$upper.ci),
           colour = ebcol,
           width = 0
         )
@@ -725,7 +725,7 @@ plot_frq_helper <- function(
     # setup base plot
     baseplot <- ggplot2::ggplot(
       mydat,
-      ggplot2::aes_string(x = "grp", y = "frq")
+      ggplot2::aes(x = .data$grp, y = .data$frq)
     )
     # and x-axis
     scalex <- ggplot2::scale_x_discrete(labels = "")
