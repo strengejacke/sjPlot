@@ -109,7 +109,6 @@ plot_type_int <- function(
       terms = ia,
       ci_level = ci.lvl,
       type = pred.type,
-      full.data = FALSE,
       ...
     )
 
