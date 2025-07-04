@@ -483,17 +483,22 @@ dist_f <- function(
 #' dist_t(p = 0.4, deg.f = 6)
 #'
 #' @export
-dist_t <- function(t = NULL,
-                  deg.f = NULL,
-                  p = NULL,
-                  xmax = NULL,
-                  geom.colors = NULL,
-                  geom.alpha = 0.7) {
+dist_t <- function(
+  t = NULL,
+  deg.f = NULL,
+  p = NULL,
+  xmax = NULL,
+  geom.colors = NULL,
+  geom.alpha = 0.7
+) {
   # --------------------------------------
   # check parameters
   # --------------------------------------
   if (is.null(deg.f)) {
-    warning("Degrees of freedom ('deg.f') needs to be specified.", call. = FALSE)
+    warning(
+      "Degrees of freedom ('deg.f') needs to be specified.",
+      call. = FALSE
+    )
     return(invisible(NULL))
   }
   # --------------------------------------
@@ -505,20 +510,18 @@ dist_t <- function(t = NULL,
   if (is.null(xmax)) {
     if (is.null(t)) {
       t.max <- stats::qt(0.00001, deg.f, lower.tail = FALSE)
-    }
-    # --------------------------------------
-    # else, if we have a t-value, take into
-    # account all possible t-values that would lead
-    # to a theoretical p-value of 0.00001.
-    # --------------------------------------
-    else {
+    } else {
+      # --------------------------------------
+      # else, if we have a t-value, take into
+      # account all possible t-values that would lead
+      # to a theoretical p-value of 0.00001.
+      # --------------------------------------
       t.max <- t
       while (stats::pt(t.max, deg.f, lower.tail = FALSE) > 0.00001) {
         t.max <- t.max + 1
       }
     }
-  }
-  else {
+  } else {
     t.max <- xmax
   }
   # --------------------------------------
@@ -528,45 +531,60 @@ dist_t <- function(t = NULL,
   # density distribution of t
   mydat$y <- stats::dt(mydat$x, deg.f)
   # base plot with t-distribution
-  gp <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$x, y = .data$y)) + ggplot2::geom_line()
+  gp <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$x, y = .data$y)) +
+    ggplot2::geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated t-value...
     sub.df <- mydat[mydat$x > stats::qt(p, deg.f, lower.tail = FALSE), ]
-  }
-  else if (!is.null(t)) {
+  } else if (!is.null(t)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > t, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > stats::qt(0.05, deg.f, lower.tail = FALSE), "sig", "non-sig")
+    sub.df$p.level <- ifelse(
+      sub.df$x > stats::qt(0.05, deg.f, lower.tail = FALSE),
+      "sig",
+      "non-sig"
+    )
     tv <- stats::qt(0.05, deg.f, lower.tail = FALSE)
     gp <- gp +
-      ggplot2::geom_ribbon(data = sub.df,
-                  ggplot2::aes(ymax = .data$y, fill = .data$p.level),
-                  ymin = 0,
-                  alpha = geom.alpha) +
-      ggplot2::annotate("text",
-               label = sprintf("t = %.2f", tv),
-               x = tv,
-               y = 0,
-               vjust = 1.3)
+      ggplot2::geom_ribbon(
+        data = sub.df,
+        ggplot2::aes(ymax = .data$y, fill = .data$p.level),
+        ymin = 0,
+        alpha = geom.alpha
+      ) +
+      ggplot2::annotate(
+        "text",
+        label = sprintf("t = %.2f", tv),
+        x = tv,
+        y = 0,
+        vjust = 1.3
+      )
     # add limit of p-value
     if (!is.null(t)) {
       pv <- stats::pt(t, deg.f, lower.tail = FALSE)
       if (pv >= 0.05) {
         gp <- gp +
-          ggplot2::annotate("text",
-                   label = sprintf("p = %.2f", pv),
-                   x = TRUE,
-                   y = 0,
-                   hjust = -0.1,
-                   vjust = -0.5,
-                   angle = 90)
+          ggplot2::annotate(
+            "text",
+            label = sprintf("p = %.2f", pv),
+            x = t,
+            y = 0,
+            hjust = -0.1,
+            vjust = -0.5,
+            angle = 90
+          )
       }
     }
   }
-  gp <- sj.setGeomColors(gp, geom.colors, pal.len = 2, labels = c("p > 5%", "p < 0.05"))
+  gp <- sj.setGeomColors(
+    gp,
+    geom.colors,
+    pal.len = 2,
+    labels = c("p > 5%", "p < 0.05")
+  )
   gp <- gp + ggplot2::ylab(NULL) + ggplot2::xlab("t-value")
   print(gp)
 }
