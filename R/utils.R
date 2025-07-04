@@ -113,6 +113,7 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
 
     axis.title <- dplyr::case_when(
       !is.null(transform) && transform == "plogis" ~ "Probabilities",
+      is.null(transform) && fitfam$is_probit ~ "Z-Scores",
       is.null(transform) && fitfam$is_binomial ~ "Log-Odds",
       is.null(transform) && fitfam$is_ordinal ~ "Log-Odds",
       is.null(transform) && fitfam$is_multinomial ~ "Log-Odds",
@@ -122,6 +123,7 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
       fitfam$is_ordinal ~ "Odds Ratios",
       fitfam$is_multinomial ~ "Odds Ratios",
       fitfam$is_categorical ~ "Odds Ratios",
+      fitfam$is_Probit ~ "Coefficients",
       fitfam$is_binomial && !fitfam$is_logit ~ "Risk Ratios",
       fitfam$is_binomial ~ "Odds Ratios",
       TRUE ~ "Estimates"
