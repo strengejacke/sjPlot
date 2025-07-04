@@ -332,18 +332,23 @@ dist_chisq <- function(
 #' dist_f(p = 0.2, deg.f1 = 6, deg.f2 = 45)
 #'
 #' @export
-dist_f <- function(f = NULL,
-                  deg.f1 = NULL,
-                  deg.f2 = NULL,
-                  p = NULL,
-                  xmax = NULL,
-                  geom.colors = NULL,
-                  geom.alpha = 0.7) {
+dist_f <- function(
+  f = NULL,
+  deg.f1 = NULL,
+  deg.f2 = NULL,
+  p = NULL,
+  xmax = NULL,
+  geom.colors = NULL,
+  geom.alpha = 0.7
+) {
   # --------------------------------------
   # check parameters
   # --------------------------------------
   if (is.null(deg.f1) || is.null(deg.f2)) {
-    warning("Both degrees of freedom ('deg.f1' and 'deg.f2') needs to be specified.", call. = FALSE)
+    warning(
+      "Both degrees of freedom ('deg.f1' and 'deg.f2') needs to be specified.",
+      call. = FALSE
+    )
     return(invisible(NULL))
   }
   # --------------------------------------
@@ -355,14 +360,16 @@ dist_f <- function(f = NULL,
   if (is.null(xmax)) {
     if (is.null(f)) {
       f.max <- stats::qf(0.00001, deg.f1, deg.f2, lower.tail = FALSE)
-    # --------------------------------------
-    # else, if we have a f-value, take into
-    # account all possible f-values that would lead
-    # to a theoretical p-value of 0.00001.
-    # --------------------------------------
+      # --------------------------------------
+      # else, if we have a f-value, take into
+      # account all possible f-values that would lead
+      # to a theoretical p-value of 0.00001.
+      # --------------------------------------
     } else {
       f.max <- f
-      while (stats::pf(f.max, deg.f1, deg.f2, lower.tail = FALSE) > 0.00001) f.max <- f.max + 1
+      while (stats::pf(f.max, deg.f1, deg.f2, lower.tail = FALSE) > 0.00001) {
+        f.max <- f.max + 1
+      }
     }
   } else {
     f.max <- xmax
@@ -374,44 +381,62 @@ dist_f <- function(f = NULL,
   # density distribution of f
   mydat$y <- stats::df(mydat$x, deg.f1, deg.f2)
   # base plot with f-distribution
-  gp <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$x, y = .data$y)) + ggplot2::geom_line()
+  gp <- ggplot2::ggplot(mydat, ggplot2::aes(x = .data$x, y = .data$y)) +
+    ggplot2::geom_line()
   sub.df <- NULL
   if (!is.null(p)) {
     # plot area for indicated f-value...
-    sub.df <- mydat[mydat$x > stats::qf(p, deg.f1, deg.f2, lower.tail = FALSE), ]
+    sub.df <- mydat[
+      mydat$x > stats::qf(p, deg.f1, deg.f2, lower.tail = FALSE),
+    ]
   } else if (!is.null(f)) {
     # resp. for p-value...
     sub.df <- mydat[mydat$x > f, ]
   }
   if (!is.null(sub.df)) {
-    sub.df$p.level  <- ifelse(sub.df$x > stats::qf(0.05, deg.f1, deg.f2, lower.tail = FALSE), "sig", "non-sig")
+    sub.df$p.level <- ifelse(
+      sub.df$x > stats::qf(0.05, deg.f1, deg.f2, lower.tail = FALSE),
+      "sig",
+      "non-sig"
+    )
     fv <- stats::qf(0.05, deg.f1, deg.f2, lower.tail = FALSE)
     gp <- gp +
-      ggplot2::geom_ribbon(data = sub.df,
-                  ggplot2::aes(ymax = .data$y, fill = .data$p.level),
-                  ymin = 0,
-                  alpha = geom.alpha) +
-      ggplot2::annotate("text",
-               label = sprintf("F = %.2f", fv),
-               x = fv,
-               y = 0,
-               vjust = 1.3)
+      ggplot2::geom_ribbon(
+        data = sub.df,
+        ggplot2::aes(ymax = .data$y, fill = .data$p.level),
+        ymin = 0,
+        alpha = geom.alpha
+      ) +
+      ggplot2::annotate(
+        "text",
+        label = sprintf("F = %.2f", fv),
+        x = fv,
+        y = 0,
+        vjust = 1.3
+      )
     # add limit of p-value
     if (!is.null(f)) {
       pv <- stats::pf(f, deg.f1, deg.f2, lower.tail = FALSE)
       if (pv >= 0.05) {
         gp <- gp +
-          ggplot2::annotate("text",
-                   label = sprintf("p = %.2f", pv),
-                   x = FALSE,
-                   y = 0,
-                   hjust = -0.1,
-                   vjust = -0.5,
-                   angle = 90)
+          ggplot2::annotate(
+            "text",
+            label = sprintf("p = %.2f", pv),
+            x = f,
+            y = 0,
+            hjust = -0.1,
+            vjust = -0.5,
+            angle = 90
+          )
       }
     }
   }
-  gp <- sj.setGeomColors(gp, geom.colors, pal.len = 2, labels = c("p > 5%", "p < 0.05"))
+  gp <- sj.setGeomColors(
+    gp,
+    geom.colors,
+    pal.len = 2,
+    labels = c("p > 5%", "p < 0.05")
+  )
   gp <- gp + ggplot2::ylab(NULL) + ggplot2::xlab("F-value")
   print(gp)
 }
