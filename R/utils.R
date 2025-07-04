@@ -123,7 +123,7 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
       fitfam$is_ordinal ~ "Odds Ratios",
       fitfam$is_multinomial ~ "Odds Ratios",
       fitfam$is_categorical ~ "Odds Ratios",
-      fitfam$is_Probit ~ "Coefficients",
+      fitfam$is_probit ~ "Coefficients",
       fitfam$is_binomial && !fitfam$is_logit ~ "Risk Ratios",
       fitfam$is_binomial ~ "Odds Ratios",
       TRUE ~ "Estimates"
