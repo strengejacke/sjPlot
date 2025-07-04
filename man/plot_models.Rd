@@ -174,7 +174,7 @@ is \code{FALSE}.}
 annotating p-values with asterisks. Only applies if
 \code{p.style = "asterisk"}.}
 
-\item{p.adjust}{Character vector, if not \code{NULL}, indicates the method
+\item{p.adjust}{String value, if not \code{NULL}, indicates the method
 to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals (error bars).

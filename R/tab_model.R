@@ -92,7 +92,7 @@
 #' @param string.se Character vector, used for the column heading of standard error values. Default is \code{"std. Error"}.
 #' @param string.std_se Character vector, used for the column heading of standard error of standardized coefficients. Default is \code{"standardized std. Error"}.
 #' @param string.std_ci Character vector, used for the column heading of confidence intervals of standardized coefficients. Default is \code{"standardized std. Error"}.
-#' @param string.p Character vector, used for the column heading of p values. Default is \code{"p"}.
+#' @param string.p String value, used for the column heading of p values. Default is \code{"p"}.
 #' @param string.std.p Character vector, used for the column heading of p values. Default is \code{"std. p"}.
 #' @param string.df Character vector, used for the column heading of degrees of freedom. Default is \code{"df"}.
 #' @param string.stat Character vector, used for the test statistic. Default is \code{"Statistic"}.

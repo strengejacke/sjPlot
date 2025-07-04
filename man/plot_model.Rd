@@ -362,7 +362,7 @@ annotating p-values with asterisks. Only applies if
 \item{p.val}{Character specifying method to be used to calculate p-values.
 Defaults to "profile" for glm/polr models, otherwise "wald".}
 
-\item{p.adjust}{Character vector, if not \code{NULL}, indicates the method
+\item{p.adjust}{String value, if not \code{NULL}, indicates the method
 to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
 
 \item{grid}{Logical, if \code{TRUE}, multiple plots are plotted as grid

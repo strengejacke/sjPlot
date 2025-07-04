@@ -269,7 +269,7 @@
 #'   will be occupied by the jittered values.
 #' @param digits Numeric, amount of digits after decimal point when rounding
 #'   estimates or values.
-#' @param p.adjust Character vector, if not \code{NULL}, indicates the method
+#' @param p.adjust String value, if not \code{NULL}, indicates the method
 #'   to adjust p-values. See \code{\link[stats]{p.adjust}} for details.
 #' @param value.size Numeric, indicates the size of value labels. Can be used
 #'   for all plot types where the argument \code{show.values} is applicable,

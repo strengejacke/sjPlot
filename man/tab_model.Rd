@@ -261,7 +261,7 @@ Default is based on the response scale, e.g. for logistic regression models,
 
 \item{string.std_ci}{Character vector, used for the column heading of confidence intervals of standardized coefficients. Default is \code{"standardized std. Error"}.}
 
-\item{string.p}{Character vector, used for the column heading of p values. Default is \code{"p"}.}
+\item{string.p}{String value, used for the column heading of p values. Default is \code{"p"}.}
 
 \item{string.std.p}{Character vector, used for the column heading of p values. Default is \code{"std. p"}.}
 
@@ -336,7 +336,7 @@ combined with "stars", e.g. \code{"numeric_stars"}}
 annotating p-values with asterisks. Only applies if
 \code{p.style = "asterisk"}.}
 
-\item{p.adjust}{Character vector, if not \code{NULL}, indicates the method
+\item{p.adjust}{String value, if not \code{NULL}, indicates the method
 to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
 
 \item{case}{Desired target case. Labels will automatically converted into the
