@@ -158,6 +158,7 @@ This function performs an item analysis with certain statistics that are
        }
 }
 \examples{
+\dontshow{if (insight::check_if_installed("performance", minimum_version = "0.14.1", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 # Data from the EUROFAMCARE sample dataset
 library(sjmisc)
 library(sjlabelled)
@@ -190,6 +191,7 @@ if (interactive()) {
   # or, equivalent
   tab_itemscale(mydf, factor.groups = "auto")
 }}
+\dontshow{\}) # examplesIf}
 }
 \references{
 \itemize{

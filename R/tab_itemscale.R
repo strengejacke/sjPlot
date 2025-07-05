@@ -88,7 +88,7 @@
 #'              \item Trochim WMK (2008) Types of Reliability.
 #'             }
 #'
-#' @examples
+#' @examplesIf insight::check_if_installed("performance", minimum_version = "0.14.1", quietly = TRUE)
 #' # Data from the EUROFAMCARE sample dataset
 #' library(sjmisc)
 #' library(sjlabelled)
@@ -230,8 +230,8 @@ tab_itemscale <- function(df,
     # check if we have valid return values from reliability test.
     # In case df had less than 3 columns, NULL is returned
     if (!is.null(reli)) {
-      alpha <- reli$alpha_if_deleted
-      itemdis <- reli$item_discrimination
+      alpha <- reli$Alpha_if_deleted
+      itemdis <- reli$Discrimination
     } else {
       alpha <- as.factor(NA)
       itemdis <- as.factor(NA)
