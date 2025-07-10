@@ -8,9 +8,9 @@
 <title>Summary of Bayesian Models as HTML Table • sjPlot</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/JetBrains_Mono-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Roboto_Slab-0.4.9/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Summary of Bayesian Models as HTML Table">
@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sjPlot</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.17</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,7 +88,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-11-29</h4>
+            <h4 data-toc-skip class="date">2025-07-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/tab_bayes.Rmd" class="external-link"><code>vignettes/tab_bayes.Rmd</code></a></small>
       <div class="d-none name"><code>tab_bayes.Rmd</code></div>
@@ -102,7 +102,6 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 -->
-<pre><code><span><span class="co">## Install package "strengejacke" from GitHub (`devtools::install_github("strengejacke/strengejacke")`) to load all sj-packages at once!</span></span></code></pre>
 <pre><code><span><span class="co">## Loading required package: Rcpp</span></span></code></pre>
 <pre><code><span><span class="co">## Loading 'brms' package (version 2.22.0). Useful instructions</span></span>
 <span><span class="co">## can be found by typing help('brms'). A more detailed introduction</span></span>
@@ -117,7 +116,7 @@ create HTML tables for mixed models. Basically, <code><a href="../reference/tab_
 behaves in a very similar way for mixed models as for other, simple
 regression models, as shown <a href="tab_model_estimates.html">in this
 vignette</a>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load required packages</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://strengejacke.github.io/sjPlot/">sjPlot</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/paul-buerkner/brms" class="external-link">brms</a></span><span class="op">)</span></span>
@@ -148,7 +147,7 @@ output from <a href="tab_model_estimates.html">simple models</a> or <a href="tab
 the use of <em>Highest Density Intervals</em> instead of confidence
 intervals, the Bayes-R-squared values, and a different “point estimate”
 (which is, by default, the median from the posterior draws).</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
@@ -267,7 +266,7 @@ Random Effects
 σ<sup>2</sup>
 </td>
 <td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">
-5.21
+5.22
 </td>
 </tr>
 <tr>
@@ -318,7 +317,7 @@ Marginal R<sup>2</sup> / Conditional R<sup>2</sup>
 <p>For multivariate response models, like mediator-analysis-models, it
 is recommended to print just one model in the table, as each regression
 is displayed as own “model” in the output.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
@@ -464,7 +463,7 @@ Observations
 <h2 id="show-two-credible-interval-column">Show two Credible Interval-column<a class="anchor" aria-label="anchor" href="#show-two-credible-interval-column"></a>
 </h2>
 <p>To show a second CI-column, use <code>show.ci50 = TRUE</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m2</span>, show.ci50 <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
@@ -640,7 +639,7 @@ Observations
 <p>When both multivariate and univariate response models are displayed
 in one table, a column <em>Response</em> is added for the multivariate
 response model, to indicate the different outcomes.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_model.html">tab_model</a></span><span class="op">(</span><span class="va">m1</span>, <span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <tr>
@@ -977,7 +976,7 @@ NA
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>

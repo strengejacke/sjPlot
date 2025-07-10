@@ -8,9 +8,9 @@
 <title>Item Analysis of a Scale or an Index • sjPlot</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/JetBrains_Mono-0.4.9/font.css" rel="stylesheet">
-<link href="../deps/Roboto_Slab-0.4.9/font.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet">
+<link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Item Analysis of a Scale or an Index">
@@ -23,7 +23,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">sjPlot</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.8.17</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -88,7 +88,7 @@
                         <h4 data-toc-skip class="author">Daniel
 Lüdecke</h4>
             
-            <h4 data-toc-skip class="date">2024-11-29</h4>
+            <h4 data-toc-skip class="date">2025-07-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/strengejacke/sjPlot/blob/master/vignettes/sjtitemanalysis.Rmd" class="external-link"><code>vignettes/sjtitemanalysis.Rmd</code></a></small>
       <div class="d-none name"><code>sjtitemanalysis.Rmd</code></div>
@@ -138,7 +138,9 @@ represent a scale or index score.</p>
 argument. In this case, the function assumes that all variables of the
 data frame belong to one factor only.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Some of the values are negative. Maybe affected items need to be</span></span>
+<span><span class="co">#&gt;   reverse-coded, e.g. using `datawizard::reverse()`.</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <caption style="font-weight: bold; text-align:left;">
 Component 1
@@ -437,7 +439,7 @@ the components specified by <code>factor.groups</code>, and each
 component (or factor) is analysed.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://easystats.github.io/parameters/" class="external-link">parameters</a></span><span class="op">)</span></span>
-<span><span class="co"># Compute PCA on Cope-Index, and retrieve </span></span>
+<span><span class="co"># Compute PCA on Cope-Index, and retrieve</span></span>
 <span><span class="co"># factor indices for each COPE index variable</span></span>
 <span><span class="va">pca</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html" class="external-link">principal_components</a></span><span class="op">(</span><span class="va">mydf</span><span class="op">)</span></span>
 <span><span class="va">factor.groups</span> <span class="op">&lt;-</span> <span class="fu">parameters</span><span class="fu">::</span><span class="fu"><a href="https://easystats.github.io/parameters/reference/principal_components.html" class="external-link">closest_component</a></span><span class="op">(</span><span class="va">pca</span><span class="op">)</span></span></code></pre></div>
@@ -453,6 +455,8 @@ not.</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="va">factor.groups</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Some of the values are negative. Maybe affected items need to be</span></span>
+<span><span class="co">#&gt;   reverse-coded, e.g. using `datawizard::reverse()`.</span></span>
 <span><span class="co">#&gt; Warning: Data frame needs at least three columns for reliability-test.</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <caption style="font-weight: bold; text-align:left;">
@@ -814,6 +818,8 @@ Computed correlation used pearson-method with listwise-deletion.
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tab_itemscale.html">tab_itemscale</a></span><span class="op">(</span><span class="va">mydf</span>, <span class="va">factor.groups</span>, show.shapiro <span class="op">=</span> <span class="cn">TRUE</span>, show.kurtosis <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Some of the values are negative. Maybe affected items need to be</span></span>
+<span><span class="co">#&gt;   reverse-coded, e.g. using `datawizard::reverse()`.</span></span>
 <span><span class="co">#&gt; Warning: Data frame needs at least three columns for reliability-test.</span></span></code></pre></div>
 <table style="border-collapse:collapse; border:none;" class="table">
 <caption style="font-weight: bold; text-align:left;">
@@ -1247,7 +1253,7 @@ Computed correlation used pearson-method with listwise-deletion.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
