@@ -1,4 +1,3 @@
-#' @importFrom utils browseURL
 #' @export
 print.sjTable <- function(x, ...) {
   # check if we have filename specified
@@ -19,7 +18,6 @@ print.sjTable <- function(x, ...) {
     }
   }
 }
-
 
 #' @importFrom knitr knit_print asis_output
 #' @export
@@ -209,7 +207,6 @@ pgrpmean <- function(x, ...) {
 }
 
 
-#' @importFrom purrr map_chr
 pgrpmeans <- function(x, ...) {
   uv <- attr(x, "print", exact = TRUE) == "viewer"
   enc <- attr(x, "encoding", exact = TRUE)
@@ -221,7 +218,7 @@ pgrpmeans <- function(x, ...) {
     "Mean for %s by %s<br><span class=\"subtitle\">grouped by %s</span>",
     attr(.x, "dv.label", exact = TRUE),
     attr(.x, "grp.label", exact = TRUE),
-    gsub(pattern = "\n", replacement = "<br>", attr(.x, "group", exact = TRUE), fixed = T)
+    gsub(pattern = "\n", replacement = "<br>", attr(.x, "group", exact = TRUE), fixed = TRUE)
   ))
 
   footnotes <- purrr::map_chr(x, ~ sprintf(
@@ -343,13 +340,11 @@ preliab <- function(x, ...) {
 }
 
 
-#' @importFrom purrr map_if
-#' @importFrom sjmisc is_float
 pdescr <- function(x, ...) {
   digits <- 2
 
   # do we have digits argument?
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
   if ("digits" %in% names(add.args)) digits <- eval(add.args[["digits"]])
 
   uv <- attr(x, "print", exact = TRUE) == "viewer"
@@ -376,8 +371,8 @@ pdescr <- function(x, ...) {
   present_columns <- c("var", "type", "label", "n", "NA.prc", "mean", "sd", "se", "md", "trimmed", "range", "skew")
   chead <- chead[which(present_columns %in% colnames(x))]
 
-  x <- x %>%
-    purrr::map_if(sjmisc::is_float, ~ round(.x, digits)) %>%
+  x <- x |>
+    purrr::map_if(sjmisc::is_float, ~ round(.x, digits)) |>
     as.data.frame()
 
   tab_df(
@@ -404,18 +399,16 @@ pdescr <- function(x, ...) {
 }
 
 
-#' @importFrom purrr map_if map_chr map
-#' @importFrom sjmisc is_float
 pgdescr <- function(x, ...) {
   titles <- purrr::map_chr(x, ~ sprintf(
     "Basic descriptives<br><span class=\"subtitle\"><em>grouped by</em> %s</span>",
-    gsub(pattern = "\n", replacement = "<br>", attr(.x, "group", exact = TRUE), fixed = T)
+    gsub(pattern = "\n", replacement = "<br>", attr(.x, "group", exact = TRUE), fixed = TRUE)
   ))
 
   digits <- 2
 
   # do we have digits argument?
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
   if ("digits" %in% names(add.args)) digits <- eval(add.args[["digits"]])
 
   uv <- attr(x, "print", exact = TRUE) == "viewer"
@@ -439,12 +432,12 @@ pgdescr <- function(x, ...) {
     "Skewness"
   )
 
-  x <- x %>%
+  x <- x |>
     purrr::map(~ purrr::map_if(
       .x,
       sjmisc::is_float,
       ~ round(.x, digits)
-    ) %>% as.data.frame())
+    ) |> as.data.frame())
 
   tab_dfs(
     x = x,
@@ -468,9 +461,6 @@ pgdescr <- function(x, ...) {
 }
 
 
-#' @importFrom purrr map_if map_chr map
-#' @importFrom dplyr n_distinct select
-#' @importFrom sjmisc is_empty
 pfrq <- function(x, ...) {
 
   uv <- attr(x, "print", exact = TRUE) == "viewer"
@@ -485,8 +475,8 @@ pfrq <- function(x, ...) {
     ret <- ""
 
     # get variable label
-    lab <- attr(i, "label", exact = T)
-    vt <- attr(i, "vartype", exact = T)
+    lab <- attr(i, "label", exact = TRUE)
+    vt <- attr(i, "vartype", exact = TRUE)
 
     # fix variable type string
     if (!sjmisc::is_empty(vt))
@@ -497,12 +487,12 @@ pfrq <- function(x, ...) {
     if (!is.null(lab)) ret <- sprintf("%s%s", lab, vt)
 
     # get grouping title label
-    grp <- attr(i, "group", exact = T)
+    grp <- attr(i, "group", exact = TRUE)
 
     if (!is.null(grp))
       ret <- sprintf("%s<br><span class=\"subtitle\"><em>grouped by:</em><br>%s</span>", ret, grp)
 
-    gsub(pattern = "\n", replacement = "<br>", x = ret, fixed = T)
+    gsub(pattern = "\n", replacement = "<br>", x = ret, fixed = TRUE)
   })
 
 
@@ -510,8 +500,8 @@ pfrq <- function(x, ...) {
     "total N=%i &middot; valid N=%i &middot; x&#772;=%.2f &middot; &sigma;=%.2f\n",
     sum(.x$frq, na.rm = TRUE),
     sum(.x$frq[1:(nrow(.x) - 1)], na.rm = TRUE),
-    attr(.x, "mean", exact = T),
-    attr(.x, "sd", exact = T)
+    attr(.x, "mean", exact = TRUE),
+    attr(.x, "sd", exact = TRUE)
   )
   )
 
@@ -549,7 +539,6 @@ pfrq <- function(x, ...) {
 }
 
 
-#' @importFrom stats na.omit kruskal.test
 pmwu <- function(x, ...) {
   fn <- NULL
 

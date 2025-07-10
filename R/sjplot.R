@@ -27,9 +27,6 @@
 #'
 #' @details Following \code{fun}-values are currently supported:
 #'          \describe{
-#'             \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first
-#'             two variables in \code{data} are used (and required) to create the plot.
-#'             }
 #'             \item{\code{"grpfrq"}}{calls \code{\link{plot_grpfrq}}. The first
 #'             two variables in \code{data} are used (and required) to create the plot.
 #'             }
@@ -50,28 +47,23 @@
 #' data(efc)
 #'
 #' # Grouped frequencies
-#' efc %>% sjplot(e42dep, c172code, fun = "grpfrq")
+#' efc |> sjplot(e42dep, c172code, fun = "grpfrq")
 #'
 #' # Grouped frequencies, as box plots
-#' efc %>% sjplot(e17age, c172code, fun = "grpfrq",
+#' efc |> sjplot(e17age, c172code, fun = "grpfrq",
 #'                type = "box", geom.colors = "Set1")
 #'
 #' \dontrun{
 #' # table output of grouped data frame
-#' efc %>%
-#'   group_by(e16sex, c172code) %>%
-#'   select(e42dep, n4pstu, e16sex, c172code) %>%
-#'   sjtab(fun = "xtab", use.viewer = FALSE) # open all tables in browser}
-#'
-#' @importFrom sjmisc is_empty
-#' @importFrom sjlabelled copy_labels get_label get_labels
-#' @importFrom dplyr filter
-#' @importFrom tidyr nest
-#' @importFrom stats complete.cases
+#' efc |>
+#'   group_by(e16sex, c172code) |>
+#'   select(e42dep, n4pstu, e16sex, c172code) |>
+#'   sjtab(fun = "xtab", use.viewer = FALSE) # open all tables in browser
+#'}
 #' @export
 sjplot <- function(data, ..., fun = c("grpfrq", "xtab", "aov1", "likert")) {
   # check if x is a data frame
-  if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
+  if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = FALSE)
 
   # match arguments
   fun <- match.arg(fun)
@@ -129,7 +121,7 @@ sjplot <- function(data, ..., fun = c("grpfrq", "xtab", "aov1", "likert")) {
 #' @export
 sjtab <- function(data, ..., fun = c("xtab", "stackfrq")) {
   # check if x is a data frame
-  if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = F)
+  if (!is.data.frame(data)) stop("`data` must be a data frame.", call. = FALSE)
 
   # match fun-arguments
   fun <- match.arg(fun)
@@ -233,7 +225,6 @@ get_grouped_title <- function(x, grps, args, i, sep = "\n") {
 }
 
 
-#' @importFrom sjlabelled get_values get_label get_labels
 get_title_part <- function(x, grps, level, i) {
   # prepare title for group
   var.name <- colnames(grps)[level]
@@ -258,13 +249,11 @@ get_title_part <- function(x, grps, level, i) {
 
 
 #' @importFrom rlang .data
-#' @importFrom dplyr select filter group_modify group_vars
-#' @importFrom stats complete.cases
 #'
 get_grouped_data <- function(x) {
   # retain observations that are complete wrt grouping vars, then nest
-  grps <- x %>%
-    dplyr::group_modify(~ dplyr::filter(.x, stats::complete.cases(.y))) %>%
+  grps <- x |>
+    dplyr::group_modify(~ dplyr::filter(.x, stats::complete.cases(.y))) |>
     tidyr::nest()
 
   # arrange data
@@ -290,8 +279,6 @@ plot_sj <- function(x, fun, args) {
       p <- plot_likert(x)
     } else if (fun  == "xtab") {
       p <- plot_xtab(x[[1]], x[[2]])
-    } else if (fun  == "aov1") {
-      p <- sjp.aov1(x[[1]], x[[2]])
     }
   } else {
     if (fun  == "grpfrq") {
@@ -300,8 +287,6 @@ plot_sj <- function(x, fun, args) {
       p <- do.call(plot_likert, args = c(list(items = x), args))
     } else if (fun  == "xtab") {
       p <- do.call(plot_xtab, args = c(list(x = x[[1]], grp = x[[2]]), args))
-    } else if (fun  == "aov1") {
-      p <- do.call(sjp.aov1, args = c(list(var.dep = x[[1]], var.grp = x[[2]]), args))
     }
   }
 

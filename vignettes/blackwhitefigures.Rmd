@@ -60,9 +60,9 @@ fit <- glm(y ~., data = df, family = binomial(link = "logit"))
 
 # plot marginal effects
 plot_model(
-  fit, 
-  type = "pred", 
-  terms = c("barthel", "sex","dep"), 
+  fit,
+  type = "pred",
+  terms = c("barthel", "sex","dep"),
   colors = "bw",
   ci.lvl = NA
 )

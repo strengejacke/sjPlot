@@ -17,7 +17,6 @@ check_css_param <- function(CSS) {
 # This functions creates the body of the HTML page, i.e. it puts
 # the content of a data frame into a HTML table that is returned.
 
-#' @importFrom sjmisc is_empty var_type is_even trim
 tab_df_content <- function(
   mydf,
   title,

@@ -32,7 +32,6 @@ reference:
 
 - title: "Plotting Regression Model Diagnostics"
   contents:
-  - plot_kfold_cv
   - plot_model
   - plot_residuals
   - sjp.poly
@@ -47,8 +46,6 @@ reference:
   - plot_grpfrq
   - plot_xtab
   - sjp.chi2
-  - sjp.aov1
-  - sjp.corr
   - sjplot
 
 - title: "Descriptive Statistics Tables"

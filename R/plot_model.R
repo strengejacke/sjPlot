@@ -191,9 +191,8 @@
 #'   \code{...}-argument for more details.
 #' @param se Logical, if \code{TRUE}, the standard errors are
 #'   also printed. If robust standard errors are required, use arguments
-#'   \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
-#'   \code{\link[parameters]{standard_error}} for details), or use argument
-#'   \code{robust} as shortcut. \code{se} overrides
+#'   \code{vcov.fun} and \code{vcov.args} (see
+#'   \code{\link[parameters]{standard_error}} for details). \code{se} overrides
 #'   \code{ci.lvl}: if not \code{NULL}, arguments \code{ci.lvl} and \code{transform}
 #'   will be ignored. Currently, \code{se} only applies to \emph{Coefficients} plots.
 #' @param show.intercept Logical, if \code{TRUE}, the intercept of the fitted
@@ -209,15 +208,11 @@
 #'   legend.
 #' @param show.zeroinf Logical, if \code{TRUE}, shows the zero-inflation part of
 #'   hurdle- or zero-inflated models.
-#' @param robust Deprecated. Please use \code{vcov.fun} directly to specify
-#'   the estimation of the variance-covariance matrix.
 #' @param vcov.fun Variance-covariance matrix used to compute uncertainty
 #'   estimates (e.g., for robust standard errors). This argument accepts a
 #'   covariance matrix, a function which returns a covariance matrix, or a
 #'   string which identifies the function to be used to compute the covariance
 #'   matrix. See \code{\link[parameters:model_parameters]{model_parameters()}}.
-#' @param vcov.type Deprecated. The \code{type}-argument is now included in
-#'   \code{vcov.args}.
 #' @param vcov.args List of arguments to be passed to the function identified by
 #'   the \code{vcov.fun} argument. This function is typically supplied by the
 #'   \pkg{sandwich} or \pkg{clubSandwich} packages. Please refer to their
@@ -274,7 +269,7 @@
 #'   will be occupied by the jittered values.
 #' @param digits Numeric, amount of digits after decimal point when rounding
 #'   estimates or values.
-#' @param p.adjust Character vector, if not \code{NULL}, indicates the method
+#' @param p.adjust String value, if not \code{NULL}, indicates the method
 #'   to adjust p-values. See \code{\link[stats]{p.adjust}} for details.
 #' @param value.size Numeric, indicates the size of value labels. Can be used
 #'   for all plot types where the argument \code{show.values} is applicable,
@@ -316,7 +311,7 @@
 #'       removes the inner probability regions.
 #'     }
 #'     \item{\code{width}, \code{alpha}, and \code{scale}}{Passed
-#'       down to \code{geom_errorbar()} or \code{geom_density_ridges()}, for
+#'       down to \code{ggplot2::geom_errorbar()} or \code{geom_density_ridges()}, for
 #'       forest or diagnostic plots.
 #'     }
 #'     \item{\code{width}, \code{alpha}, \code{dot.alpha}, \code{dodge} and \code{log.y}}{Passed
@@ -494,9 +489,7 @@ plot_model <- function(model,
                        grid.breaks = NULL,
                        ci.lvl = NULL,
                        se = NULL,
-                       robust = FALSE,
                        vcov.fun = NULL,
-                       vcov.type = NULL,
                        vcov.args = NULL,
                        colors = "Set1",
                        show.intercept = FALSE,
@@ -540,10 +533,6 @@ plot_model <- function(model,
       case <- "parsed"
     else
       case <- NULL
-  }
-
-  if (isTRUE(robust)) {
-    vcov.fun <- "HC3"
   }
 
   # get info on model family
@@ -659,7 +648,6 @@ plot_model <- function(model,
       p.threshold = p.threshold,
       p.val = p.val,
       vcov.fun = vcov.fun,
-      vcov.type = vcov.type,
       vcov.args = vcov.args,
       ci.style = ci.style,
       p_adjust = p.adjust,
@@ -809,7 +797,6 @@ plot_model <- function(model,
 }
 
 
-#' @importFrom purrr map
 #' @rdname plot_model
 #' @export
 get_model_data <- function(model,
@@ -856,7 +843,6 @@ get_model_data <- function(model,
 }
 
 
-#' @importFrom insight has_intercept
 one_par <- function(model) {
   tryCatch(
     {

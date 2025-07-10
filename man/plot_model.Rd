@@ -28,9 +28,7 @@ plot_model(
   grid.breaks = NULL,
   ci.lvl = NULL,
   se = NULL,
-  robust = FALSE,
   vcov.fun = NULL,
-  vcov.type = NULL,
   vcov.args = NULL,
   colors = "Set1",
   show.intercept = FALSE,
@@ -287,23 +285,16 @@ such cases. See \code{prob.inner} and \code{prob.outer} under the
 
 \item{se}{Logical, if \code{TRUE}, the standard errors are
 also printed. If robust standard errors are required, use arguments
-\code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
-\code{\link[parameters]{standard_error}} for details), or use argument
-\code{robust} as shortcut. \code{se} overrides
+\code{vcov.fun} and \code{vcov.args} (see
+\code{\link[parameters]{standard_error}} for details). \code{se} overrides
 \code{ci.lvl}: if not \code{NULL}, arguments \code{ci.lvl} and \code{transform}
 will be ignored. Currently, \code{se} only applies to \emph{Coefficients} plots.}
-
-\item{robust}{Deprecated. Please use \code{vcov.fun} directly to specify
-the estimation of the variance-covariance matrix.}
 
 \item{vcov.fun}{Variance-covariance matrix used to compute uncertainty
 estimates (e.g., for robust standard errors). This argument accepts a
 covariance matrix, a function which returns a covariance matrix, or a
 string which identifies the function to be used to compute the covariance
 matrix. See \code{\link[parameters:model_parameters]{model_parameters()}}.}
-
-\item{vcov.type}{Deprecated. The \code{type}-argument is now included in
-\code{vcov.args}.}
 
 \item{vcov.args}{List of arguments to be passed to the function identified by
 the \code{vcov.fun} argument. This function is typically supplied by the
@@ -371,7 +362,7 @@ annotating p-values with asterisks. Only applies if
 \item{p.val}{Character specifying method to be used to calculate p-values.
 Defaults to "profile" for glm/polr models, otherwise "wald".}
 
-\item{p.adjust}{Character vector, if not \code{NULL}, indicates the method
+\item{p.adjust}{String value, if not \code{NULL}, indicates the method
 to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
 
 \item{grid}{Logical, if \code{TRUE}, multiple plots are plotted as grid
@@ -443,7 +434,7 @@ of supported arguments and their description in detail.
     removes the inner probability regions.
   }
   \item{\code{width}, \code{alpha}, and \code{scale}}{Passed
-    down to \code{geom_errorbar()} or \code{geom_density_ridges()}, for
+    down to \code{ggplot2::geom_errorbar()} or \code{geom_density_ridges()}, for
     forest or diagnostic plots.
   }
   \item{\code{width}, \code{alpha}, \code{dot.alpha}, \code{dodge} and \code{log.y}}{Passed

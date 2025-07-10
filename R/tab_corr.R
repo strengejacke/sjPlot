@@ -88,26 +88,27 @@
 #'   tab_corr(efc[, c(start:end)], triangle = "lower",val.rm = 0.3,
 #'            CSS = list(css.valueremove = 'color:blue;'))
 #' }}
-#' @importFrom stats na.omit cor cor.test
 #' @export
-tab_corr <- function(data,
-                     na.deletion = c("listwise", "pairwise"),
-                     corr.method = c("pearson", "spearman", "kendall"),
-                     title = NULL,
-                     var.labels = NULL,
-                     wrap.labels = 40,
-                     show.p = TRUE,
-                     p.numeric = FALSE,
-                     fade.ns = TRUE,
-                     val.rm = NULL,
-                     digits = 3,
-                     triangle = "both",
-                     string.diag = NULL,
-                     CSS = NULL,
-                     encoding = NULL,
-                     file = NULL,
-                     use.viewer = TRUE,
-                     remove.spaces = TRUE) {
+tab_corr <- function(
+  data,
+  na.deletion = c("listwise", "pairwise"),
+  corr.method = c("pearson", "spearman", "kendall"),
+  title = NULL,
+  var.labels = NULL,
+  wrap.labels = 40,
+  show.p = TRUE,
+  p.numeric = FALSE,
+  fade.ns = TRUE,
+  val.rm = NULL,
+  digits = 3,
+  triangle = "both",
+  string.diag = NULL,
+  CSS = NULL,
+  encoding = NULL,
+  file = NULL,
+  use.viewer = TRUE,
+  remove.spaces = TRUE
+) {
   # --------------------------------------------------------
   # check p-value-style option
   # --------------------------------------------------------
@@ -135,7 +136,9 @@ tab_corr <- function(data,
     triangle <- "upper"
   } else if (triangle == "l" || triangle == "lower") {
     triangle <- "lower"
-  } else triangle <- "both"
+  } else {
+    triangle <- "both"
+  }
   # --------------------------------------------------------
   # try to automatically set labels is not passed as argument
   # --------------------------------------------------------
@@ -145,7 +148,11 @@ tab_corr <- function(data,
   # ----------------------------
   # check for valid argument
   # ----------------------------
-  if (corr.method != "pearson" && corr.method != "spearman" && corr.method != "kendall") {
+  if (
+    corr.method != "pearson" &&
+      corr.method != "spearman" &&
+      corr.method != "kendall"
+  ) {
     stop("argument 'corr.method' must be one of: pearson, spearman or kendall")
   }
   # ----------------------------
@@ -164,9 +171,11 @@ tab_corr <- function(data,
     } else {
       # missing deletion corresponds to
       # SPSS pairwise
-      corr <- stats::cor(data,
-                  method = corr.method,
-                  use = "pairwise.complete.obs")
+      corr <- stats::cor(
+        data,
+        method = corr.method,
+        use = "pairwise.complete.obs"
+      )
     }
     #---------------------------------------
     # if we have a data frame as argument,
@@ -219,17 +228,18 @@ tab_corr <- function(data,
         round(x, digits)
       }
     }
-    cpvalues <- apply(cpvalues, c(1,2), fun.star)
+    cpvalues <- apply(cpvalues, c(1, 2), fun.star)
     if (p.numeric) {
       cpvalues <-
         apply(
           cpvalues,
-          c(1,2),
+          c(1, 2),
           function(x) {
-            if (x < 0.001)
+            if (x < 0.001) {
               x <- sprintf("&lt;%s.001", p_zero)
-            else
+            } else {
               x <- sub("0", p_zero, sprintf("%.*f", digits, x))
+            }
           }
         )
     }
@@ -248,7 +258,10 @@ tab_corr <- function(data,
   # -------------------------------------
   # init header
   # -------------------------------------
-  toWrite <- table.header <- sprintf("<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n", encoding)
+  toWrite <- table.header <- sprintf(
+    "<html>\n<head>\n<meta http-equiv=\"Content-type\" content=\"text/html;charset=%s\">\n",
+    encoding
+  )
   # -------------------------------------
   # init style sheet and tags used for css-definitions
   # we can use these variables for string-replacement
@@ -274,34 +287,110 @@ tab_corr <- function(data,
   css.notsig <- "color:#999999;"
   css.summary <- "border-bottom:double black; border-top:1px solid black; font-style:italic; font-size:0.9em; text-align:right;"
   css.pval <- "vertical-align:super;font-size:0.8em;"
-  if (p.numeric) css.pval <- "font-style:italic;"
+  if (p.numeric) {
+    css.pval <- "font-style:italic;"
+  }
   # ------------------------
   # check user defined style sheets
   # ------------------------
   if (!is.null(CSS)) {
-    if (!is.null(CSS[['css.table']])) css.table <- ifelse(substring(CSS[['css.table']], 1, 1) == '+', paste0(css.table, substring(CSS[['css.table']], 2)), CSS[['css.table']])
-    if (!is.null(CSS[['css.thead']])) css.thead <- ifelse(substring(CSS[['css.thead']], 1, 1) == '+', paste0(css.thead, substring(CSS[['css.thead']], 2)), CSS[['css.thead']])
-    if (!is.null(CSS[['css.tdata']])) css.tdata <- ifelse(substring(CSS[['css.tdata']], 1, 1) == '+', paste0(css.tdata, substring(CSS[['css.tdata']], 2)), CSS[['css.tdata']])
-    if (!is.null(CSS[['css.caption']])) css.caption <- ifelse(substring(CSS[['css.caption']], 1, 1) == '+', paste0(css.caption, substring(CSS[['css.caption']], 2)), CSS[['css.caption']])
-    if (!is.null(CSS[['css.summary']])) css.summary <- ifelse(substring(CSS[['css.summary']], 1, 1) == '+', paste0(css.summary, substring(CSS[['css.summary']], 2)), CSS[['css.summary']])
-    if (!is.null(CSS[['css.centeralign']])) css.centeralign <- ifelse(substring(CSS[['css.centeralign']], 1, 1) == '+', paste0(css.centeralign, substring(CSS[['css.centeralign']], 2)), CSS[['css.centeralign']])
-    if (!is.null(CSS[['css.firsttablecol']])) css.firsttablecol <- ifelse(substring(CSS[['css.firsttablecol']], 1, 1) == '+', paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']], 2)), CSS[['css.firsttablecol']])
-    if (!is.null(CSS[['css.notsig']])) css.notsig <- ifelse(substring(CSS[['css.notsig']], 1, 1) == '+', paste0(css.notsig, substring(CSS[['css.notsig']], 2)), CSS[['css.notsig']])
-    if (!is.null(CSS[['css.pval']])) css.pval <- ifelse(substring(CSS[['css.pval']], 1, 1) == '+', paste0(css.pval, substring(CSS[['css.pval']], 2)), CSS[['css.pval']])
-    if (!is.null(CSS[['css.valueremove']])) css.valueremove <- ifelse(substring(CSS[['css.valueremove']], 1, 1) == '+', paste0(css.valueremove, substring(CSS[['css.valueremove']], 2)), CSS[['css.valueremove']])
+    if (!is.null(CSS[['css.table']])) {
+      css.table <- ifelse(
+        substring(CSS[['css.table']], 1, 1) == '+',
+        paste0(css.table, substring(CSS[['css.table']], 2)),
+        CSS[['css.table']]
+      )
+    }
+    if (!is.null(CSS[['css.thead']])) {
+      css.thead <- ifelse(
+        substring(CSS[['css.thead']], 1, 1) == '+',
+        paste0(css.thead, substring(CSS[['css.thead']], 2)),
+        CSS[['css.thead']]
+      )
+    }
+    if (!is.null(CSS[['css.tdata']])) {
+      css.tdata <- ifelse(
+        substring(CSS[['css.tdata']], 1, 1) == '+',
+        paste0(css.tdata, substring(CSS[['css.tdata']], 2)),
+        CSS[['css.tdata']]
+      )
+    }
+    if (!is.null(CSS[['css.caption']])) {
+      css.caption <- ifelse(
+        substring(CSS[['css.caption']], 1, 1) == '+',
+        paste0(css.caption, substring(CSS[['css.caption']], 2)),
+        CSS[['css.caption']]
+      )
+    }
+    if (!is.null(CSS[['css.summary']])) {
+      css.summary <- ifelse(
+        substring(CSS[['css.summary']], 1, 1) == '+',
+        paste0(css.summary, substring(CSS[['css.summary']], 2)),
+        CSS[['css.summary']]
+      )
+    }
+    if (!is.null(CSS[['css.centeralign']])) {
+      css.centeralign <- ifelse(
+        substring(CSS[['css.centeralign']], 1, 1) == '+',
+        paste0(css.centeralign, substring(CSS[['css.centeralign']], 2)),
+        CSS[['css.centeralign']]
+      )
+    }
+    if (!is.null(CSS[['css.firsttablecol']])) {
+      css.firsttablecol <- ifelse(
+        substring(CSS[['css.firsttablecol']], 1, 1) == '+',
+        paste0(css.firsttablecol, substring(CSS[['css.firsttablecol']], 2)),
+        CSS[['css.firsttablecol']]
+      )
+    }
+    if (!is.null(CSS[['css.notsig']])) {
+      css.notsig <- ifelse(
+        substring(CSS[['css.notsig']], 1, 1) == '+',
+        paste0(css.notsig, substring(CSS[['css.notsig']], 2)),
+        CSS[['css.notsig']]
+      )
+    }
+    if (!is.null(CSS[['css.pval']])) {
+      css.pval <- ifelse(
+        substring(CSS[['css.pval']], 1, 1) == '+',
+        paste0(css.pval, substring(CSS[['css.pval']], 2)),
+        CSS[['css.pval']]
+      )
+    }
+    if (!is.null(CSS[['css.valueremove']])) {
+      css.valueremove <- ifelse(
+        substring(CSS[['css.valueremove']], 1, 1) == '+',
+        paste0(css.valueremove, substring(CSS[['css.valueremove']], 2)),
+        CSS[['css.valueremove']]
+      )
+    }
   }
   # ------------------------
   # set page style
   # ------------------------
-  page.style <-  sprintf("<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
-                         tag.table, css.table, tag.caption, css.caption,
-                         tag.thead, css.thead, tag.tdata, css.tdata,
-                         tag.firsttablecol, css.firsttablecol,
-                         tag.centeralign, css.centeralign,
-                         tag.notsig, css.notsig,
-                         tag.pval, css.pval,
-                         tag.summary, css.summary,
-                         tag.valueremove, css.valueremove)
+  page.style <- sprintf(
+    "<style>\nhtml, body { background-color: white; }\n%s { %s }\n%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n.%s { %s }\n</style>",
+    tag.table,
+    css.table,
+    tag.caption,
+    css.caption,
+    tag.thead,
+    css.thead,
+    tag.tdata,
+    css.tdata,
+    tag.firsttablecol,
+    css.firsttablecol,
+    tag.centeralign,
+    css.centeralign,
+    tag.notsig,
+    css.notsig,
+    tag.pval,
+    css.pval,
+    tag.summary,
+    css.summary,
+    tag.valueremove,
+    css.valueremove
+  )
   # ------------------------
   # start content
   # ------------------------
@@ -314,7 +403,12 @@ tab_corr <- function(data,
   # -------------------------------------
   # table caption, variable label
   # -------------------------------------
-  if (!is.null(title)) page.content <- paste0(page.content, sprintf("  <caption>%s</caption>\n", title))
+  if (!is.null(title)) {
+    page.content <- paste0(
+      page.content,
+      sprintf("  <caption>%s</caption>\n", title)
+    )
+  }
   # -------------------------------------
   # header row
   # -------------------------------------
@@ -324,7 +418,10 @@ tab_corr <- function(data,
   page.content <- paste0(page.content, "    <th class=\"thead\">&nbsp;</th>\n")
   # iterate columns
   for (i in 1:ncol(corr)) {
-    page.content <- paste0(page.content, sprintf("    <th class=\"thead\">%s</th>\n", var.labels[i]))
+    page.content <- paste0(
+      page.content,
+      sprintf("    <th class=\"thead\">%s</th>\n", var.labels[i])
+    )
   }
   # close table row
   page.content <- paste0(page.content, "  </tr>\n")
@@ -336,7 +433,10 @@ tab_corr <- function(data,
     # write tr-tag
     page.content <- paste0(page.content, "  <tr>\n")
     # print first table cell
-    page.content <- paste0(page.content, sprintf("    <td class=\"firsttablecol\">%s</td>\n", var.labels[i]))
+    page.content <- paste0(
+      page.content,
+      sprintf("    <td class=\"firsttablecol\">%s</td>\n", var.labels[i])
+    )
     # --------------------------------------------------------
     # iterate all columns
     # --------------------------------------------------------
@@ -346,17 +446,29 @@ tab_corr <- function(data,
       # --------------------------------------------------------
       if (j == i) {
         if (is.null(string.diag) || length(string.diag) > ncol(corr)) {
-          page.content <- paste0(page.content, "    <td class=\"tdata centeralign\">&nbsp;</td>\n")
+          page.content <- paste0(
+            page.content,
+            "    <td class=\"tdata centeralign\">&nbsp;</td>\n"
+          )
         } else {
-          page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign\">%s</td>\n",
-                                                       string.diag[j]))
+          page.content <- paste0(
+            page.content,
+            sprintf(
+              "    <td class=\"tdata centeralign\">%s</td>\n",
+              string.diag[j]
+            )
+          )
         }
       } else {
         # --------------------------------------------------------
         # check whether only lower or upper triangle of correlation
         # table should be printed
         # --------------------------------------------------------
-        if ((triangle == "upper" && j > i) || (triangle == "lower" && i > j) || triangle == "both") {
+        if (
+          (triangle == "upper" && j > i) ||
+            (triangle == "lower" && i > j) ||
+            triangle == "both"
+        ) {
           # --------------------------------------------------------
           # print table-cell-data (cor-value)
           # --------------------------------------------------------
@@ -369,12 +481,20 @@ tab_corr <- function(data,
               # --------------------------------------------------------
               # if we have p-values as number, print them in new row
               # --------------------------------------------------------
-              cellval <- sprintf("%s<br><span class=\"pval\">(%s)</span>", cellval, cpvalues[i, j])
+              cellval <- sprintf(
+                "%s<br><span class=\"pval\">(%s)</span>",
+                cellval,
+                cpvalues[i, j]
+              )
             } else {
               # --------------------------------------------------------
               # if we have p-values as "*", add them
               # --------------------------------------------------------
-              cellval <- sprintf("%s<span class=\"pval\">%s</span>", cellval, cpvalues[i, j])
+              cellval <- sprintf(
+                "%s<span class=\"pval\">%s</span>",
+                cellval,
+                cpvalues[i, j]
+              )
             }
           }
           # --------------------------------------------------------
@@ -400,12 +520,20 @@ tab_corr <- function(data,
           if (!is.null(val.rm) && abs(corr[i, j]) < abs(val.rm)) {
             value.remove <- " valueremove"
           }
-          page.content <- paste0(page.content, sprintf("    <td class=\"tdata centeralign%s%s\">%s</td>\n",
-                                                       notsig,
-                                                       value.remove,
-                                                       cellval))
+          page.content <- paste0(
+            page.content,
+            sprintf(
+              "    <td class=\"tdata centeralign%s%s\">%s</td>\n",
+              notsig,
+              value.remove,
+              cellval
+            )
+          )
         } else {
-          page.content <- paste0(page.content, "    <td class=\"tdata centeralign\">&nbsp;</td>\n")
+          page.content <- paste0(
+            page.content,
+            "    <td class=\"tdata centeralign\">&nbsp;</td>\n"
+          )
         }
       }
     }
@@ -416,8 +544,18 @@ tab_corr <- function(data,
   # feedback...
   # -------------------------------------
   page.content <- paste0(page.content, "  <tr>\n")
-  page.content <- paste0(page.content, sprintf("    <td colspan=\"%i\" class=\"summary\">", ncol(corr) + 1))
-  page.content <- paste0(page.content, sprintf("Computed correlation used %s-method with %s-deletion.", corr.method, na.deletion))
+  page.content <- paste0(
+    page.content,
+    sprintf("    <td colspan=\"%i\" class=\"summary\">", ncol(corr) + 1)
+  )
+  page.content <- paste0(
+    page.content,
+    sprintf(
+      "Computed correlation used %s-method with %s-deletion.",
+      corr.method,
+      na.deletion
+    )
+  )
   page.content <- paste0(page.content, "</td>\n  </tr>\n")
   # -------------------------------------
   # finish table
@@ -439,19 +577,49 @@ tab_corr <- function(data,
   # set style attributes for main table tags
   # -------------------------------------
   knitr <- gsub("class=", "style=", knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub("<caption", sprintf("<caption style=\"%s\"", css.caption), knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(
+    "<table",
+    sprintf("<table style=\"%s\"", css.table),
+    knitr,
+    fixed = TRUE,
+    useBytes = TRUE
+  )
+  knitr <- gsub(
+    "<caption",
+    sprintf("<caption style=\"%s\"", css.caption),
+    knitr,
+    fixed = TRUE,
+    useBytes = TRUE
+  )
   # -------------------------------------
   # replace class-attributes with inline-style-definitions
   # -------------------------------------
   knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.centeralign, css.centeralign, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(
+    tag.centeralign,
+    css.centeralign,
+    knitr,
+    fixed = TRUE,
+    useBytes = TRUE
+  )
   knitr <- gsub(tag.notsig, css.notsig, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.pval, css.pval, knitr, fixed = TRUE, useBytes = TRUE)
   knitr <- gsub(tag.summary, css.summary, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.firsttablecol, css.firsttablecol, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.valueremove, css.valueremove, knitr, fixed = TRUE, useBytes = TRUE)
+  knitr <- gsub(
+    tag.firsttablecol,
+    css.firsttablecol,
+    knitr,
+    fixed = TRUE,
+    useBytes = TRUE
+  )
+  knitr <- gsub(
+    tag.valueremove,
+    css.valueremove,
+    knitr,
+    fixed = TRUE,
+    useBytes = TRUE
+  )
   # -------------------------------------
   # remove spaces?
   # -------------------------------------

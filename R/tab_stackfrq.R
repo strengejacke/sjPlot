@@ -145,7 +145,7 @@ tab_stackfrq <- function(items,
   if (is.null(value.labels)) {
     value.labels <- sjlabelled::get_labels(
       items[[1]],
-      attr.only = F,
+      attr.only = FALSE,
       values = "n",
       non.labelled = T
     )

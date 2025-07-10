@@ -53,7 +53,7 @@ get_dplyr_dot_data <- function(x, qs) {
       x.x <- -Inf
     }
     baseplot <- baseplot +
-      annotate(
+      ggplot2::annotate(
         "text",
         label = modsum,
         parse = TRUE,
@@ -81,13 +81,13 @@ get_var_name <- function(x) {
 
 # Create frequency data frame of a variable
 # for sjp and sjt frq functions
-#' @importFrom stats na.omit ftable na.pass
-#' @importFrom tidyr spread
-create.xtab.df <- function(x,
-                           grp,
-                           round.prz = 2,
-                           na.rm = FALSE,
-                           weight.by = NULL) {
+create.xtab.df <- function(
+  x,
+  grp,
+  round.prz = 2,
+  na.rm = FALSE,
+  weight.by = NULL
+) {
   # ------------------------------
   # convert to labels
   # ------------------------------
@@ -104,12 +104,21 @@ create.xtab.df <- function(x,
       mydat <- stats::ftable(table(x_full, grp_full, useNA = "always"))
     }
   } else {
-    if (na.rm)
-      mydat <- stats::ftable(round(stats::xtabs(weight.by ~ x_full + grp_full)), 0)
-    else
-      mydat <- stats::ftable(round(stats::xtabs(weight.by ~ x_full + grp_full,
-                                                exclude = NULL,
-                                                na.action = stats::na.pass)), 0)
+    if (na.rm) {
+      mydat <- stats::ftable(
+        round(stats::xtabs(weight.by ~ x_full + grp_full)),
+        0
+      )
+    } else {
+      mydat <- stats::ftable(
+        round(stats::xtabs(
+          weight.by ~ x_full + grp_full,
+          exclude = NULL,
+          na.action = stats::na.pass
+        )),
+        0
+      )
+    }
   }
 
   # create proportional tables, cell values
@@ -123,7 +132,9 @@ create.xtab.df <- function(x,
   )
 
   rownames(proptab.row)[nrow(proptab.row)] <- "total"
-  proptab.row <- as.data.frame(apply(proptab.row, c(1, 2), function(x) if (is.na(x)) x <- 0 else x))
+  proptab.row <- as.data.frame(apply(proptab.row, c(1, 2), function(x) {
+    if (is.na(x)) x <- 0 else x
+  }))
 
   # create proportional tables, column  percentages, including total row
   proptab.col <- cbind(
@@ -132,7 +143,9 @@ create.xtab.df <- function(x,
   )
 
   colnames(proptab.col)[ncol(proptab.col)] <- "total"
-  proptab.col <- as.data.frame(apply(proptab.col, c(1, 2), function(x) if (is.na(x)) x <- 0 else x))
+  proptab.col <- as.data.frame(apply(proptab.col, c(1, 2), function(x) {
+    if (is.na(x)) x <- 0 else x
+  }))
 
   # add total row and column to cell percentages afterwards
   proptab.cell <- rbind(
@@ -171,12 +184,14 @@ create.xtab.df <- function(x,
   labels.grp <- colnames(mydat)[-1]
 
   # return result
-  invisible(structure(list(mydat = mydat,
-                           proptab.cell = proptab.cell,
-                           proptab.col = proptab.col,
-                           proptab.row = proptab.row,
-                           labels.cnt = labels.cnt,
-                           labels.grp = labels.grp)))
+  invisible(structure(list(
+    mydat = mydat,
+    proptab.cell = proptab.cell,
+    proptab.col = proptab.col,
+    proptab.row = proptab.row,
+    labels.cnt = labels.cnt,
+    labels.grp = labels.grp
+  )))
 }
 
 
@@ -209,8 +224,6 @@ get.encoding <- function(encoding, data = NULL) {
 
 
 # Calculate statistics of cross tabs
-#' @importFrom sjstats cramer phi table_values
-#' @importFrom stats chisq.test fisher.test xtabs
 crosstabsum <- function(x, grp, weight.by) {
   # --------------------------------------------------------
   # check p-value-style option
@@ -231,17 +244,23 @@ crosstabsum <- function(x, grp, weight.by) {
   p.value <- chsq$p.value
   tab <- sjstats::table_values(ftab)
   # do we have cells with less than 5 observations?
-  if (min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)) {
-    fish <- stats::fisher.test(ftab, simulate.p.value = (nrow(ftab) > 2 || ncol(ftab) > 2))
+  if (
+    min(tab$expected) < 5 || (min(tab$expected) < 10 && chsq$parameter == 1)
+  ) {
+    fish <- stats::fisher.test(
+      ftab,
+      simulate.p.value = (nrow(ftab) > 2 || ncol(ftab) > 2)
+    )
     p.value <- fish$p.value
   } else {
     fish <- NULL
   }
   # pvalue in string
-  if (p.value < 0.001)
+  if (p.value < 0.001) {
     pvas <- sprintf("%s.001", p_zero)
-  else
+  } else {
     pvas <- sub("0", p_zero, sprintf("%.3f", p.value))
+  }
   # check whether variables are dichotome or if they have more
   # than two categories. if they have more, use Cramer's V to calculate
   # the contingency coefficient
@@ -249,39 +268,66 @@ crosstabsum <- function(x, grp, weight.by) {
     # check whether fisher's test or chi-squared should be printed
     if (is.null(fish)) {
       modsum <- as.character(as.expression(
-        substitute("N" == tn * "," ~~ chi^2 == c2 * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "p" == pva,
-                   list(tn = summary(ftab)$n.cases,
-                        c2 = sprintf("%.2f", chsq$statistic),
-                        dft = c(chsq$parameter),
-                        kook = sprintf("%.2f", sjstats::cramer(ftab)),
-                        pva = pvas))))
+        substitute(
+          "N" == tn * "," ~ ~ chi^2 == c2 * "," ~ ~ "df" == dft * "," ~
+            ~ phi[c] == kook * "," ~
+            ~ "p" == pva,
+          list(
+            tn = summary(ftab)$n.cases,
+            c2 = sprintf("%.2f", chsq$statistic),
+            dft = c(chsq$parameter),
+            kook = sprintf("%.2f", sjstats::cramer(ftab)),
+            pva = pvas
+          )
+        )
+      ))
     } else {
       modsum <- as.character(as.expression(
-        substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi[c] == kook * "," ~~ "Fisher's p" == pva,
-                   list(tn = summary(ftab)$n.cases,
-                        dft = c(chsq$parameter),
-                        kook = sprintf("%.2f", sjstats::cramer(ftab)),
-                        pva = pvas))))
+        substitute(
+          "N" == tn * "," ~ ~ "df" == dft * "," ~ ~ phi[c] == kook * "," ~
+            ~ "Fisher's p" == pva,
+          list(
+            tn = summary(ftab)$n.cases,
+            dft = c(chsq$parameter),
+            kook = sprintf("%.2f", sjstats::cramer(ftab)),
+            pva = pvas
+          )
+        )
+      ))
     }
-  # if variables have two categories (2x2 table), use phi to calculate
-  # the degree of association
+    # if variables have two categories (2x2 table), use phi to calculate
+    # the degree of association
   } else {
+    insight::check_if_installed("MASS")
     # check whether fisher's test or chi-squared should be printed
     if (is.null(fish)) {
       modsum <- as.character(as.expression(
-        substitute("N" == tn * "," ~~ chi^2 == c2 * "," ~~ "df" == dft * "," ~~ phi == kook * "," ~~ "p" == pva,
-                   list(tn = summary(ftab)$n.cases,
-                        c2 = sprintf("%.2f", chsq$statistic),
-                        dft = c(chsq$parameter),
-                        kook = sprintf("%.2f", sjstats::phi(ftab)),
-                        pva = pvas))))
+        substitute(
+          "N" == tn * "," ~ ~ chi^2 == c2 * "," ~ ~ "df" == dft * "," ~
+            ~ phi == kook * "," ~
+            ~ "p" == pva,
+          list(
+            tn = summary(ftab)$n.cases,
+            c2 = sprintf("%.2f", chsq$statistic),
+            dft = c(chsq$parameter),
+            kook = sprintf("%.2f", sjstats::phi(ftab)),
+            pva = pvas
+          )
+        )
+      ))
     } else {
       modsum <- as.character(as.expression(
-        substitute("N" == tn * "," ~~ "df" == dft * "," ~~ phi == kook * "," ~~ "Fisher's p" == pva,
-                   list(tn = summary(ftab)$n.cases,
-                        dft = c(chsq$parameter),
-                        kook = sprintf("%.2f", sjstats::phi(ftab)),
-                        pva = pvas))))
+        substitute(
+          "N" == tn * "," ~ ~ "df" == dft * "," ~ ~ phi == kook * "," ~
+            ~ "Fisher's p" == pva,
+          list(
+            tn = summary(ftab)$n.cases,
+            dft = c(chsq$parameter),
+            kook = sprintf("%.2f", sjstats::phi(ftab)),
+            pva = pvas
+          )
+        )
+      ))
     }
   }
   return(modsum)

@@ -30,13 +30,13 @@
 #'   )
 #'
 #'   # plot marginal effects for each predictor, each as single plot
-#'   p1 <- ggpredict(fit, "c12hour") %>%
+#'   p1 <- ggpredict(fit, "c12hour") |>
 #'     plot(show_y_title = FALSE, show_title = FALSE)
-#'   p2 <- ggpredict(fit, "e17age") %>%
+#'   p2 <- ggpredict(fit, "e17age") |>
 #'     plot(show_y_title = FALSE, show_title = FALSE)
-#'   p3 <- ggpredict(fit, "e42dep") %>%
+#'   p3 <- ggpredict(fit, "e42dep") |>
 #'     plot(show_y_title = FALSE, show_title = FALSE)
-#'   p4 <- ggpredict(fit, "neg_c_7") %>%
+#'   p4 <- ggpredict(fit, "neg_c_7") |>
 #'     plot(show_y_title = FALSE, show_title = FALSE)
 #'
 #'   # plot grid
@@ -49,7 +49,7 @@
 plot_grid <- function(x, margin = c(1, 1, 1, 1), tags = NULL) {
   # check package availability -----
   if (!requireNamespace("gridExtra", quietly = TRUE)) {
-    stop("Package `gridExtra` needed for this function to work. Please install it.", call. = F)
+    stop("Package `gridExtra` needed for this function to work. Please install it.", call. = FALSE)
   }
 
   # if user did not pass plot.list value, but the complete object returned
@@ -58,7 +58,7 @@ plot_grid <- function(x, margin = c(1, 1, 1, 1), tags = NULL) {
 
   # add margin to each plot, so no axis labels are cropped
   x <- lapply(x, function(pl) {
-    pl + theme(plot.margin = unit(margin, "cm"))
+    pl + ggplot2::theme(plot.margin = ggplot2::unit(margin, "cm"))
   })
 
   tags_labels <- NULL
@@ -75,7 +75,7 @@ plot_grid <- function(x, margin = c(1, 1, 1, 1), tags = NULL) {
 
   if (!is.null(tags_labels)) {
     for (i in 1:length(x)) {
-      x[[i]] <- x[[i]] + labs(tag = tags_labels[i])
+      x[[i]] <- x[[i]] + ggplot2::labs(tag = tags_labels[i])
     }
   }
 

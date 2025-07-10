@@ -5,7 +5,7 @@
 \title{Set global theme options for sjp-functions}
 \usage{
 set_theme(
-  base = theme_grey(),
+  base = ggplot2::theme_grey(),
   theme.font = NULL,
   title.color = "black",
   title.size = 1.2,

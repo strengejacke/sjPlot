@@ -16,7 +16,7 @@ if (suppressWarnings(
 
   efc <- to_factor(efc, e42dep, c172code, c161sex)
 
-  m1 <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy, REML = F)
+  m1 <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy, REML = FALSE)
   m2 <- lmer(Sepal.Length ~ Sepal.Width + Petal.Length + (1 | Species), data = iris)
   m3 <- lm(neg_c_7 ~ e42dep + barthtot + c161sex, data = efc)
 

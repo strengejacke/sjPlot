@@ -15,7 +15,9 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 if (!requireNamespace("dplyr", quietly = TRUE) ||
     !requireNamespace("sjmisc", quietly = TRUE) ||
     !requireNamespace("parameters", quietly = TRUE) ||
-    !requireNamespace("psych", quietly = TRUE)) {
+    !requireNamespace("performance", quietly = TRUE) ||
+    !requireNamespace("psych", quietly = TRUE) ||
+    packageVersion("performance") <= "0.14.0") {
   knitr::opts_chunk$set(eval = FALSE)
 } else {
   knitr::opts_chunk$set(eval = TRUE)
@@ -75,7 +77,7 @@ The items of the COPE index used for our example do not represent a single facto
 
 ```{r}
 library(parameters)
-# Compute PCA on Cope-Index, and retrieve 
+# Compute PCA on Cope-Index, and retrieve
 # factor indices for each COPE index variable
 pca <- parameters::principal_components(mydf)
 factor.groups <- parameters::closest_component(pca)
@@ -96,4 +98,3 @@ tab_itemscale(mydf, factor.groups)
 ```{r}
 tab_itemscale(mydf, factor.groups, show.shapiro = TRUE, show.kurtosis = TRUE)
 ```
-

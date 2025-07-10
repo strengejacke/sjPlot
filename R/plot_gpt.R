@@ -54,7 +54,6 @@ utils::globalVariables("n")
 #'   # care levels
 #'   plot_gpt(efc, c172code, e42dep, n4pstu)
 #' }
-#' @import ggplot2
 #' @export
 plot_gpt <- function(
   data,
@@ -111,10 +110,31 @@ plot_gpt <- function(
       # plot
 
       plots <- gpt_helper(
-        x, y, grp, colors, geom.size, shape.fill.color, shapes, title = tmp.title,
-        axis.labels, axis.titles, legend.title, legend.labels, wrap.title,
-        wrap.labels, wrap.legend.title, wrap.legend.labels, axis.lim,
-        grid.breaks, show.total, annotate.total, show.p, show.n, name.x, name.y, name.grp
+        x,
+        y,
+        grp,
+        colors,
+        geom.size,
+        shape.fill.color,
+        shapes,
+        title = tmp.title,
+        axis.labels,
+        axis.titles,
+        legend.title,
+        legend.labels,
+        wrap.title,
+        wrap.labels,
+        wrap.legend.title,
+        wrap.legend.labels,
+        axis.lim,
+        grid.breaks,
+        show.total,
+        annotate.total,
+        show.p,
+        show.n,
+        name.x,
+        name.y,
+        name.grp
       )
 
       # add plots, check for NULL results
@@ -129,10 +149,31 @@ plot_gpt <- function(
     # plot
 
     pl <- gpt_helper(
-      x, y, grp, colors, geom.size, shape.fill.color, shapes, title,
-      axis.labels, axis.titles, legend.title, legend.labels, wrap.title,
-      wrap.labels, wrap.legend.title, wrap.legend.labels, axis.lim,
-      grid.breaks, show.total, annotate.total, show.p, show.n, name.x, name.y, name.grp
+      x,
+      y,
+      grp,
+      colors,
+      geom.size,
+      shape.fill.color,
+      shapes,
+      title,
+      axis.labels,
+      axis.titles,
+      legend.title,
+      legend.labels,
+      wrap.title,
+      wrap.labels,
+      wrap.legend.title,
+      wrap.legend.labels,
+      axis.lim,
+      grid.breaks,
+      show.total,
+      annotate.total,
+      show.p,
+      show.n,
+      name.x,
+      name.y,
+      name.grp
     )
   }
 
@@ -141,16 +182,43 @@ plot_gpt <- function(
 
 
 gpt_helper <- function(
-  x, y, grp, colors, geom.size, shape.fill.color, shapes, title,
-  axis.labels, axis.titles, legend.title, legend.labels, wrap.title,
-  wrap.labels, wrap.legend.title, wrap.legend.labels, axis.lim,
-  grid.breaks, show.total, annotate.total, show.p, show.n, name.x, name.y, name.grp
+  x,
+  y,
+  grp,
+  colors,
+  geom.size,
+  shape.fill.color,
+  shapes,
+  title,
+  axis.labels,
+  axis.titles,
+  legend.title,
+  legend.labels,
+  wrap.title,
+  wrap.labels,
+  wrap.legend.title,
+  wrap.legend.labels,
+  axis.lim,
+  grid.breaks,
+  show.total,
+  annotate.total,
+  show.p,
+  show.n,
+  name.x,
+  name.y,
+  name.grp
 ) {
   # any missing names?
 
-  if (is.null(name.x) || name.x == "NULL") name.x <- ""
-  if (is.null(name.y) || name.y == "NULL") name.y <- ""
-  if (is.null(name.grp) || name.grp == "NULL") name.grp <- ""
+  if (is.null(name.x) || name.x == "NULL") {
+    name.x <- ""
+  }
+  if (is.null(name.y) || name.y == "NULL") {
+    name.y <- ""
+  }
+  if (is.null(name.grp) || name.grp == "NULL") {
+    name.grp <- ""
+  }
 
   # copy titles
   if (is.null(axis.titles)) {
@@ -158,10 +226,11 @@ gpt_helper <- function(
     axisTitle.y <- NULL
   } else {
     axisTitle.x <- axis.titles[1]
-    if (length(axis.titles) > 1)
+    if (length(axis.titles) > 1) {
       axisTitle.y <- axis.titles[2]
-    else
+    } else {
       axisTitle.y <- NULL
+    }
   }
 
   # try to automatically set labels if not passed as argument
@@ -169,9 +238,9 @@ gpt_helper <- function(
   ylabels <-
     sjlabelled::get_labels(
       y,
-      attr.only = F,
+      attr.only = FALSE,
       values = NULL,
-      non.labelled = T
+      non.labelled = TRUE
     )
 
   # get only value label for hightest category
@@ -180,9 +249,9 @@ gpt_helper <- function(
     axis.labels <-
       sjlabelled::get_labels(
         grp,
-        attr.only = F,
+        attr.only = FALSE,
         values = NULL,
-        non.labelled = T
+        non.labelled = TRUE
       )
   }
 
@@ -207,22 +276,36 @@ gpt_helper <- function(
     legend.labels <-
       sjlabelled::get_labels(
         x,
-        attr.only = F,
+        attr.only = FALSE,
         values = NULL,
-        non.labelled = T
+        non.labelled = TRUE
       )
   }
 
   # set labels that are still missing, but which need values
-  if (is.null(axis.labels)) axis.labels <- as.character(seq_len(length(grp)))
+  if (is.null(axis.labels)) {
+    axis.labels <- as.character(seq_len(length(grp)))
+  }
 
   # wrap titles and labels
-  if (!is.null(legend.labels)) legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
-  if (!is.null(legend.title)) legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
-  if (!is.null(title)) title <- sjmisc::word_wrap(title, wrap.title)
-  if (!is.null(axisTitle.x)) axisTitle.x <- sjmisc::word_wrap(axisTitle.x, wrap.title)
-  if (!is.null(axisTitle.y)) axisTitle.y <- sjmisc::word_wrap(axisTitle.y, wrap.title)
-  if (!is.null(axis.labels)) axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
+  if (!is.null(legend.labels)) {
+    legend.labels <- sjmisc::word_wrap(legend.labels, wrap.legend.labels)
+  }
+  if (!is.null(legend.title)) {
+    legend.title <- sjmisc::word_wrap(legend.title, wrap.legend.title)
+  }
+  if (!is.null(title)) {
+    title <- sjmisc::word_wrap(title, wrap.title)
+  }
+  if (!is.null(axisTitle.x)) {
+    axisTitle.x <- sjmisc::word_wrap(axisTitle.x, wrap.title)
+  }
+  if (!is.null(axisTitle.y)) {
+    axisTitle.y <- sjmisc::word_wrap(axisTitle.y, wrap.title)
+  }
+  if (!is.null(axis.labels)) {
+    axis.labels <- sjmisc::word_wrap(axis.labels, wrap.labels)
+  }
 
   # final data frame for plot
   newdf <- data.frame()
@@ -232,9 +315,9 @@ gpt_helper <- function(
   # create data frame, for dplyr-chain
   mydf <-
     stats::na.omit(data.frame(
-      grp = sjlabelled::as_numeric(grp, keep.labels = F),
+      grp = sjlabelled::as_numeric(grp, keep.labels = FALSE),
       xpos = x,
-      dep = sjlabelled::as_numeric(y, keep.labels = F)
+      dep = sjlabelled::as_numeric(y, keep.labels = FALSE)
     ))
 
   # recode dependent variable's categorues
@@ -245,35 +328,48 @@ gpt_helper <- function(
   # group data by grouping variable, and inside
   # groups, group the x-variable
 
-  newdf <- mydf %>%
-    dplyr::group_by(.data$grp, .data$xpos) %>%
+  newdf <- mydf |>
+    dplyr::group_by(.data$grp, .data$xpos) |>
     dplyr::summarise(ypos = mean(.data$dep))
 
   # group data by grouping variable,
   # and summarize N per group and chisq.test
   # of grp and x within each group
 
-  pvals <- mydf %>%
-    dplyr::group_by(.data$grp) %>%
-    dplyr::summarise(N = dplyr::n(), p = suppressWarnings(stats::chisq.test(table(.data$xpos, .data$dep))$p.value))
+  pvals <- mydf |>
+    dplyr::group_by(.data$grp) |>
+    dplyr::summarise(
+      N = dplyr::n(),
+      p = suppressWarnings(
+        stats::chisq.test(table(.data$xpos, .data$dep))$p.value
+      )
+    )
 
   # copy p values
-  for (i in seq_len(length(pvals$grp))) group.p[i] <- get_p_stars(pvals$p[i])
+  for (i in seq_len(length(pvals$grp))) {
+    group.p[i] <- get_p_stars(pvals$p[i])
+  }
 
   # copy N
-  for (i in seq_len(length(pvals$grp)))
-    group.n[i] <- prettyNum(pvals$N[i], big.mark = ",", scientific = F)
+  for (i in seq_len(length(pvals$grp))) {
+    group.n[i] <- prettyNum(pvals$N[i], big.mark = ",", scientific = FALSE)
+  }
 
   # if we want total line, repeat all for
   # complete data frame
   if (show.total) {
-    tmp <- mydf %>%
-      dplyr::group_by(.data$xpos) %>%
+    tmp <- mydf |>
+      dplyr::group_by(.data$xpos) |>
       dplyr::summarise(ypos = mean(.data$dep))
 
     # pvalues and N
-    pvals <- mydf %>%
-      dplyr::summarise(N = dplyr::n(), p = suppressWarnings(stats::chisq.test(table(.data$xpos, .data$dep))$p.value))
+    pvals <- mydf |>
+      dplyr::summarise(
+        N = dplyr::n(),
+        p = suppressWarnings(
+          stats::chisq.test(table(.data$xpos, .data$dep))$p.value
+        )
+      )
 
     # bind total row to final df
     newdf <- dplyr::bind_rows(newdf, tmp)
@@ -281,7 +377,10 @@ gpt_helper <- function(
     # copy p values
     group.p <- c(group.p, get_p_stars(pvals$p))
     # copy N
-    group.n <- c(group.n, prettyNum(pvals$N, big.mark = ",", scientific = F))
+    group.n <- c(
+      group.n,
+      prettyNum(pvals$N, big.mark = ",", scientific = FALSE)
+    )
     # add "total" to axis labels
     axis.labels <- c(axis.labels, "Total")
   }
@@ -291,38 +390,74 @@ gpt_helper <- function(
   newdf$xpos <- suppressMessages(sjmisc::to_factor(newdf$xpos))
 
   # proportion needs to be numeric
-  newdf$ypos <- sjlabelled::as_numeric(newdf$ypos, keep.labels = F)
+  newdf$ypos <- sjlabelled::as_numeric(newdf$ypos, keep.labels = FALSE)
 
   # add N and p-values to axis labels?
-  if (show.n) axis.labels <- paste0(axis.labels, " (n=", group.n, ")")
-  if (show.p) axis.labels <- paste0(axis.labels, " ", group.p)
+  if (show.n) {
+    axis.labels <- paste0(axis.labels, " (n=", group.n, ")")
+  }
+  if (show.p) {
+    axis.labels <- paste0(axis.labels, " ", group.p)
+  }
 
   # Set up axis limits
-  if (is.null(axis.lim)) axis.lim <- c(0, max(pretty(max(newdf$ypos, na.rm = TRUE), 10)))
+  if (is.null(axis.lim)) {
+    axis.lim <- c(0, max(pretty(max(newdf$ypos, na.rm = TRUE), 10)))
+  }
 
   # Set up grid breaks
-  if (is.null(grid.breaks))
-    gridbreaks <- waiver()
-  else
+  if (is.null(grid.breaks)) {
+    gridbreaks <- ggplot2::waiver()
+  } else {
     gridbreaks <- seq(axis.lim[1], axis.lim[2], by = grid.breaks)
+  }
 
   # Set up geom colors
   pal.len <- length(legend.labels)
   geom.colors <- col_check2(colors, pal.len)
 
   # Set up plot
-  p <- ggplot(newdf, aes(x = rev(.data$grp), y = .data$ypos, colour = .data$xpos, shape = .data$xpos)) +
-    geom_point(size = geom.size, fill = shape.fill.color) +
-    scale_y_continuous(labels = scales::percent, breaks = gridbreaks, limits = axis.lim) +
-    scale_x_discrete(labels = rev(axis.labels)) +
-    scale_shape_manual(name = legend.title, labels = legend.labels, values = shapes[1:pal.len]) +
-    scale_colour_manual(name = legend.title, labels = legend.labels, values = geom.colors) +
-    labs(x = axisTitle.x, y = axisTitle.y, title = title) +
-    coord_flip()
+  p <- ggplot2::ggplot(
+    newdf,
+    ggplot2::aes(
+      x = rev(.data$grp),
+      y = .data$ypos,
+      colour = .data$xpos,
+      shape = .data$xpos
+    )
+  ) +
+    ggplot2::geom_point(size = geom.size, fill = shape.fill.color) +
+    ggplot2::scale_y_continuous(
+      labels = scales::percent,
+      breaks = gridbreaks,
+      limits = axis.lim
+    ) +
+    ggplot2::scale_x_discrete(labels = rev(axis.labels)) +
+    ggplot2::scale_shape_manual(
+      name = legend.title,
+      labels = legend.labels,
+      values = shapes[1:pal.len]
+    ) +
+    ggplot2::scale_colour_manual(
+      name = legend.title,
+      labels = legend.labels,
+      values = geom.colors
+    ) +
+    ggplot2::labs(x = axisTitle.x, y = axisTitle.y, title = title) +
+    ggplot2::coord_flip()
 
   # Annotate total line?
-  if (show.total && annotate.total)
-    p <- p + annotate("rect", xmin = 0.5,  xmax = 1.5, ymin = -Inf, ymax = Inf, alpha = 0.15)
+  if (show.total && annotate.total) {
+    p <- p +
+      ggplot2::annotate(
+        "rect",
+        xmin = 0.5,
+        xmax = 1.5,
+        ymin = -Inf,
+        ymax = Inf,
+        alpha = 0.15
+      )
+  }
 
   p
 }

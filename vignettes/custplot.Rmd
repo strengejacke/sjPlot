@@ -27,7 +27,7 @@ The examples refer to `plot_grpfrq()`, but most arguments are similar across all
 
 ## Tweaking plot appearance
 
-The base function to globally change theme option for all sjp-function is `set_theme()`. Except for geom-colors and geom-sizes, all theme-options can be set via this function. This new theme will be applied to all following plots created with the **sjPlot** package.
+The base function to globally change theme option for all sjp-function is `sjPlot::set_theme()`. Except for geom-colors and geom-sizes, all theme-options can be set via this function. This new theme will be applied to all following plots created with the **sjPlot** package.
 
 There are various arguments to change colors, sizes, angles etc. of labels. Following example show changes to colors, sizes, angles, geom-outlines and theme.
 
@@ -40,23 +40,23 @@ library(ggplot2) # to access ggplot-themes
 # load sample data set
 data(efc)
 
-set_theme(
-  geom.outline.color = "antiquewhite4", 
-  geom.outline.size = 1, 
+sjPlot::set_theme(
+  geom.outline.color = "antiquewhite4",
+  geom.outline.size = 1,
   geom.label.size = 2,
   geom.label.color = "grey50",
-  title.color = "red", 
-  title.size = 1.5, 
-  axis.angle.x = 45, 
-  axis.textcolor = "blue", 
+  title.color = "red",
+  title.size = 1.5,
+  axis.angle.x = 45,
+  axis.textcolor = "blue",
   base = theme_bw()
 )
 
 plot_grpfrq(
-  efc$e42dep, 
-  efc$e16sex, 
-  title = NULL, 
-  geom.colors = c("cadetblue", "coral"), 
+  efc$e42dep,
+  efc$e16sex,
+  title = NULL,
+  geom.colors = c("cadetblue", "coral"),
   geom.size = 0.4
 )
 ```
@@ -67,7 +67,7 @@ All plotting functions support the usage of the [Colorbrewer]( https://colorbrew
 
 ```{r}
 # blank theme
-set_theme(
+sjPlot::set_theme(
   base = theme_blank(),
   axis.title.size = .9,
   axis.textsize = .9,
@@ -77,9 +77,9 @@ set_theme(
 )
 
 plot_grpfrq(
-  efc$e42dep, 
-  efc$e15relat, 
-  geom.colors = "PuRd", 
+  efc$e42dep,
+  efc$e15relat,
+  geom.colors = "PuRd",
   show.values = FALSE
 )
 ```
@@ -96,7 +96,7 @@ display.brewer.all()
 The plot's axes can be flipped using `coord.flip = TRUE`. If needed, labels can be placed inside the bars with the `vjust` or `hjust` arguments. In such cases, you might need to adjust the label colors with `geom.label.color = "white"`.
 
 ```{r}
-set_theme(geom.label.color = "white", geom.label.size = 3)
+sjPlot::set_theme(geom.label.color = "white", geom.label.size = 3)
 
 # labels appear very large due to export metrics
 plot_grpfrq(efc$e42dep, efc$e16sex, coord.flip = TRUE)
@@ -107,7 +107,7 @@ plot_grpfrq(efc$e42dep, efc$e16sex, coord.flip = TRUE)
 Plots with no margins towards the axes may look strange to some people (not to me, though). To restore the ggplot-default behaviour, use the `expand.grid` argument:
 
 ```{r results='hide', echo=FALSE}
-set_theme(
+sjPlot::set_theme(
   axis.title.size = .9,
   axis.textsize = .9,
   legend.size = .7,
@@ -125,7 +125,7 @@ plot_grpfrq(efc$e42dep, efc$e16sex, expand.grid = TRUE)
 You can use any pre-defined theme from ggplot, like `theme_bw()`, `theme_classic()` or `theme_minimal()` as default theme.
 
 ```{r}
-set_theme(base = theme_light())
+sjPlot::set_theme(base = theme_light())
 plot_frq(efc$e42dep)
 ```
 
@@ -140,7 +140,7 @@ efc <- to_factor(efc, e42dep, c172code)
 m <- lm(neg_c_7 ~ pos_v_4 + c12hour + e42dep + c172code, data = efc)
 
 # reset theme
-set_theme(base = theme_grey())
+sjPlot::set_theme(base = theme_grey())
 
 # forest plot of regression model
 p <- plot_model(m)
@@ -153,11 +153,11 @@ p + theme_sjplot()
 
 ## Pre-defined scales
 
-There is also a new scale for **ggplot**-objects, `scale_color_sjplot()` and `scale_fill_sjplot()`. 
+There is also a new scale for **ggplot**-objects, `scale_color_sjplot()` and `scale_fill_sjplot()`.
 
 ```{r}
-p + 
-  theme_sjplot2() + 
+p +
+  theme_sjplot2() +
   scale_color_sjplot("simply")
 ```
 
@@ -171,7 +171,7 @@ show_sjplot_pals()
 
 If you want to use a specific theme as base for building your own theme, use the `base` argument. When using `base` instead of `theme`, further arguments for settings colors etc. are not ignored.
 ```{r}
-set_theme(base = theme_bw(), axis.linecolor = "darkgreen")
+sjPlot::set_theme(base = theme_bw(), axis.linecolor = "darkgreen")
 plot_frq(efc$e42dep)
 ```
 
@@ -181,7 +181,7 @@ plot_frq(efc$e42dep)
 Each plotting function invisibly returns the ggplot-object. You can further add options to customize the appearance of the plot, like in the following example, where the count axis is hidden (color set to white):
 
 ```{r}
-set_theme(
+sjPlot::set_theme(
   base = theme_classic(),
   axis.tickslen = 0, # hides tick marks
   axis.title.size = .9,
@@ -190,7 +190,7 @@ set_theme(
   legend.title.size = .8,
   geom.label.size = 3.5
 )
-  
+
 plot_grpfrq(
   efc$e42dep,
   efc$e16sex,
@@ -205,8 +205,8 @@ plot_grpfrq(
 The plot's legend can be customized via various `legend.`-arguments, see following examples:
 
 ```{r}
-set_theme(
-  base = theme_classic(), 
+sjPlot::set_theme(
+  base = theme_classic(),
   legend.title.face = "italic", # title font face
   legend.inside = TRUE,         # legend inside plot
   legend.color = "grey50",      # legend label color
@@ -223,8 +223,8 @@ plot_grpfrq(efc$e42dep, efc$e16sex, coord.flip = TRUE)
 
 
 ```{r}
-set_theme(
-  base = theme_classic(), 
+sjPlot::set_theme(
+  base = theme_classic(),
   axis.linecolor = "white",     # "remove" axis lines
   axis.textcolor.y = "darkred", # set axis label text only for y axis
   axis.tickslen = 0,            # "remove" tick marks
@@ -240,4 +240,3 @@ set_theme(
 
 plot_grpfrq(efc$e42dep, efc$e16sex)
 ```
-

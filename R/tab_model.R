@@ -71,7 +71,7 @@
 #' @param show.p Logical, if \code{TRUE}, p-values are also printed.
 #' @param show.se Logical, if \code{TRUE}, the standard errors are
 #'   also printed. If robust standard errors are required, use arguments
-#'   \code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
+#'   \code{vcov.fun}, and \code{vcov.args} (see
 #'   \code{\link[parameters]{standard_error}} for details).
 #' @param show.r2 Logical, if \code{TRUE}, the r-squared value is also printed.
 #'    Depending on the model, these might be pseudo-r-squared values, or Bayesian
@@ -92,7 +92,7 @@
 #' @param string.se Character vector, used for the column heading of standard error values. Default is \code{"std. Error"}.
 #' @param string.std_se Character vector, used for the column heading of standard error of standardized coefficients. Default is \code{"standardized std. Error"}.
 #' @param string.std_ci Character vector, used for the column heading of confidence intervals of standardized coefficients. Default is \code{"standardized std. Error"}.
-#' @param string.p Character vector, used for the column heading of p values. Default is \code{"p"}.
+#' @param string.p String value, used for the column heading of p values. Default is \code{"p"}.
 #' @param string.std.p Character vector, used for the column heading of p values. Default is \code{"std. p"}.
 #' @param string.df Character vector, used for the column heading of degrees of freedom. Default is \code{"df"}.
 #' @param string.stat Character vector, used for the test statistic. Default is \code{"Statistic"}.
@@ -273,9 +273,7 @@ tab_model <- function(
   iterations = 1000,
   seed = NULL,
 
-  robust = FALSE,
   vcov.fun = NULL,
-  vcov.type = NULL,
   vcov.args = NULL,
 
   string.pred = "Predictors",
@@ -361,11 +359,6 @@ tab_model <- function(
   }
 
   if (p.style == "stars") show.p <- FALSE
-
-  # default robust?
-  if (isTRUE(robust)) {
-    vcov.fun <- "HC3"
-  }
 
   models <- list(...)
 
@@ -458,7 +451,7 @@ tab_model <- function(
         tf = transform,
         type = "est",
         bpe = bpe,
-        robust = list(vcov.fun = vcov.fun, vcov.type = vcov.type, vcov.args = vcov.args),
+        robust = list(vcov.fun = vcov.fun, vcov.args = vcov.args),
         facets = FALSE,
         show.zeroinf = show.zeroinf,
         p.val = p.val,
@@ -485,7 +478,7 @@ tab_model <- function(
       # merge CI columns
 
       if (all(c("conf.low", "conf.high") %in% names(dat))) {
-        dat <- dat %>%
+        dat <- dat |>
           dplyr::mutate(conf.int = sprintf(
             "%.*f%s%.*f",
             digits,
@@ -493,15 +486,15 @@ tab_model <- function(
             ci.hyphen,
             digits,
             .data$conf.high
-          )) %>%
+          )) |>
           dplyr::select(-.data$conf.low, -.data$conf.high)
       }
 
       # get inner probability (i.e. 2nd CI for Stan-models) ----
 
       if (is.stan(model)) {
-        dat <- dat %>%
-          sjmisc::var_rename(conf.int = "ci.outer") %>%
+        dat <- dat |>
+          sjmisc::var_rename(conf.int = "ci.outer") |>
           dplyr::mutate(ci.inner = sprintf(
             "%.*f%s%.*f",
             digits,
@@ -509,7 +502,7 @@ tab_model <- function(
             ci.hyphen,
             digits,
             .data$conf.high50
-          )) %>%
+          )) |>
             dplyr::select(-.data$conf.low50, -.data$conf.high50)
       }
 
@@ -523,7 +516,7 @@ tab_model <- function(
           tf = transform,
           type = "est",
           bpe = bpe,
-          robust = list(vcov.fun = vcov.fun, vcov.type = vcov.type, vcov.args = vcov.args),
+          robust = list(vcov.fun = vcov.fun, vcov.args = vcov.args),
           facets = FALSE,
           show.zeroinf = show.zeroinf,
           p.val = p.val,
@@ -535,8 +528,8 @@ tab_model <- function(
           keep = keep,
           drop = drop,
           std.response = std.response
-        ) %>%
-          format_p_values(p.style, digits.p, emph.p, p.threshold) %>%
+        ) |>
+          format_p_values(p.style, digits.p, emph.p, p.threshold) |>
           sjmisc::var_rename(
             estimate = "std.estimate",
             std.error = "std.se",
@@ -545,7 +538,7 @@ tab_model <- function(
             p.value = "std.p.value",
             statistic = "std.statistic",
             p.stars = "std.p.stars"
-          ) %>%
+          ) |>
           dplyr::select(-1)
 
         # transform estimates
@@ -558,8 +551,8 @@ tab_model <- function(
           tmp_dat[["std.se"]] <- tmp_dat[["std.se"]] * tmp_dat[["std.estimate"]]
         }
 
-        dat <- tmp_dat %>%
-          sjmisc::add_columns(dat) %>%
+        dat <- tmp_dat |>
+          sjmisc::add_columns(dat) |>
           dplyr::mutate(std.conf.int = sprintf(
             "%.*f%s%.*f",
             digits,
@@ -567,12 +560,12 @@ tab_model <- function(
             ci.hyphen,
             digits,
             .data$std.conf.high
-          )) %>%
+          )) |>
           dplyr::select(-.data$std.conf.low, -.data$std.conf.high)
         # if t-statistic is the same for standardized and unstandardized model
         # remove standardized; ignore intercept
         if (all(round(dat$statistic[-1], 3) == round(dat$std.statistic[-1], 3))) {
-          dat <- dat %>%
+          dat <- dat |>
             dplyr::select(-.data$std.statistic, -.data$std.p.value)
         }
       }
@@ -609,8 +602,8 @@ tab_model <- function(
 
       # for HTML, convert numerics to character ----
 
-      dat <- dat %>%
-        purrr::map_if(is.numeric, ~ sprintf("%.*f", digits, .x)) %>%
+      dat <- dat |>
+        purrr::map_if(is.numeric, ~ sprintf("%.*f", digits, .x)) |>
         as.data.frame(stringsAsFactors = FALSE)
 
 
@@ -684,8 +677,8 @@ tab_model <- function(
         zi <- which(dat[[wf]] %in% c("Zero-Inflated Model", "Zero Inflation Model", "zero_inflated", "zi"))
 
         if (show.zeroinf && !sjmisc::is_empty(zi)) {
-          zidat <- dat %>%
-            dplyr::slice(!! zi) %>%
+          zidat <- dat |>
+            dplyr::slice(!! zi) |>
             dplyr::select(!! -wf)
         }
 
@@ -953,8 +946,8 @@ tab_model <- function(
 
   # Join all models into one data frame, and replace NA by empty strings
 
-  dat <- model.data %>%
-    purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) %>%
+  dat <- model.data |>
+    purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) |>
     purrr::map_df(~ dplyr::if_else(.x %in% na.vals | is.na(.x), "", .x))
 
   # remove unwanted columns and rows ----
@@ -980,8 +973,8 @@ tab_model <- function(
 
   zeroinf <- NULL
   if (!sjmisc::is_empty(zeroinf.data)) {
-    zeroinf <- zeroinf.data %>%
-      purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) %>%
+    zeroinf <- zeroinf.data |>
+      purrr::reduce(~ dplyr::full_join(.x, .y, by = "term")) |>
       purrr::map_df(~ dplyr::if_else(.x %in% na.vals | is.na(.x), "", .x))
 
     zeroinf <-
@@ -1127,7 +1120,7 @@ tab_model <- function(
       linesep = "<br>"
     )
   } else if (is.null(dv.labels)) {
-    dv.labels <- purrr::map(models, insight::find_response) %>% purrr::flatten_chr()
+    dv.labels <- purrr::map(models, insight::find_response) |> purrr::flatten_chr()
   }
 
 
@@ -1268,7 +1261,6 @@ tab_model <- function(
 }
 
 
-#' @importFrom stats na.omit
 sort_columns <- function(x, is.stan, col.order) {
   ## TODO check code for multiple response models
   ## TODO allow custom sorting
@@ -1305,19 +1297,20 @@ sort_columns <- function(x, is.stan, col.order) {
 }
 
 
-#' @importFrom dplyr select slice
-remove_unwanted <- function(dat,
-                            show.intercept,
-                            show.est,
-                            show.std,
-                            show.ci,
-                            show.se,
-                            show.stat,
-                            show.p,
-                            show.df,
-                            show.response,
-                            terms,
-                            rm.terms) {
+remove_unwanted <- function(
+  dat,
+  show.intercept,
+  show.est,
+  show.std,
+  show.ci,
+  show.se,
+  show.stat,
+  show.p,
+  show.df,
+  show.response,
+  terms,
+  rm.terms
+) {
   if (!show.intercept) {
     ints1 <- string_contains("(Intercept", x = dat$term)
     ints2 <- string_contains("b_Intercept", x = dat$term)
@@ -1326,8 +1319,9 @@ remove_unwanted <- function(dat,
 
     ints <- c(ints1, ints2, ints3, ints4)
 
-    if (!sjmisc::is_empty(ints))
-      dat <- dplyr::slice(dat, !! -ints)
+    if (!sjmisc::is_empty(ints)) {
+      dat <- dplyr::slice(dat, !!-ints)
+    }
   }
 
   if (show.est == FALSE) {
@@ -1340,7 +1334,10 @@ remove_unwanted <- function(dat,
   }
 
   if (is.null(show.std) || show.std == FALSE) {
-    dat <- dplyr::select(dat, -string_starts_with("std.estimate", x = colnames(dat)))
+    dat <- dplyr::select(
+      dat,
+      -string_starts_with("std.estimate", x = colnames(dat))
+    )
   }
 
   if (is.null(show.ci) || show.ci == FALSE) {
@@ -1361,17 +1358,26 @@ remove_unwanted <- function(dat,
   }
 
   if (show.stat == FALSE) {
-    dat <- dplyr::select(dat, -string_starts_with("statistic", x = colnames(dat)),
-                         -string_starts_with("std.statistic", x = colnames(dat)))
+    dat <- dplyr::select(
+      dat,
+      -string_starts_with("statistic", x = colnames(dat)),
+      -string_starts_with("std.statistic", x = colnames(dat))
+    )
   }
 
   if (show.response == FALSE) {
-    dat <- dplyr::select(dat, -string_starts_with("response.level", x = colnames(dat)))
+    dat <- dplyr::select(
+      dat,
+      -string_starts_with("response.level", x = colnames(dat))
+    )
   }
 
   if (show.p == FALSE) {
-    dat <- dplyr::select(dat, -string_starts_with("p.value", x = colnames(dat)),
-                         -string_starts_with("std.p.value", x = colnames(dat)))
+    dat <- dplyr::select(
+      dat,
+      -string_starts_with("p.value", x = colnames(dat)),
+      -string_starts_with("std.p.value", x = colnames(dat))
+    )
   }
 
   if (show.df == FALSE) {
@@ -1381,13 +1387,13 @@ remove_unwanted <- function(dat,
   if (!is.null(terms)) {
     terms <- parse_terms(terms)
     keep_terms <- which(dat$term %in% terms)
-    dat <- dplyr::slice(dat, !! keep_terms)
+    dat <- dplyr::slice(dat, !!keep_terms)
   }
 
   if (!is.null(rm.terms)) {
     rm.terms <- parse_terms(rm.terms)
     keep_terms <- which(!(dat$term %in% rm.terms))
-    dat <- dplyr::slice(dat, !! keep_terms)
+    dat <- dplyr::slice(dat, !!keep_terms)
   }
 
   dat
@@ -1430,11 +1436,11 @@ format_p_values <- function(dat, p.style, digits.p, emph.p, p.threshold) {
     return(dat)
   }
 
-  dat <- dat %>%
+  dat <- dat |>
     dplyr::mutate(
-    p.stars = get_p_stars(.data$p.value, p.threshold),
-    p.sig = .data$p.value < .05
-  )
+      p.stars = get_p_stars(.data$p.value, p.threshold),
+      p.sig = .data$p.value < .05
+    )
 
   # scientific notation ----
 
@@ -1446,15 +1452,33 @@ format_p_values <- function(dat, p.style, digits.p, emph.p, p.threshold) {
 
   # emphasize p-values ----
 
-  if (emph.p && !all(dat$p.value == "NA")) dat$p.value[which(dat$p.sig)] <- sprintf("<strong>%s</strong>", dat$p.value[which(dat$p.sig)])
+  if (emph.p && !all(dat$p.value == "NA")) {
+    dat$p.value[which(dat$p.sig)] <- sprintf(
+      "<strong>%s</strong>",
+      dat$p.value[which(dat$p.sig)]
+    )
+  }
   dat <- dplyr::select(dat, -.data$p.sig)
 
   # indicate p <0.001 ----
 
   pv <- paste0("0.", paste(rep("0", digits.p), collapse = ""))
-  dat$p.value[dat$p.value == pv] <- paste("&lt;", format(10^(-digits.p), scientific = FALSE), sep = "")
+  dat$p.value[dat$p.value == pv] <- paste(
+    "&lt;",
+    format(10^(-digits.p), scientific = FALSE),
+    sep = ""
+  )
 
-  pv <- paste0("<strong>0.", paste(rep("0", digits.p), collapse = ""), "</strong>")
-  dat$p.value[dat$p.value == pv] <- paste("<strong>&lt;", format(10^(-digits.p), scientific = FALSE), "</strong>", sep = "")
+  pv <- paste0(
+    "<strong>0.",
+    paste(rep("0", digits.p), collapse = ""),
+    "</strong>"
+  )
+  dat$p.value[dat$p.value == pv] <- paste(
+    "<strong>&lt;",
+    format(10^(-digits.p), scientific = FALSE),
+    "</strong>",
+    sep = ""
+  )
   dat
 }

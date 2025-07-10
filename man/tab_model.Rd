@@ -41,9 +41,7 @@ tab_model(
   bootstrap = FALSE,
   iterations = 1000,
   seed = NULL,
-  robust = FALSE,
   vcov.fun = NULL,
-  vcov.type = NULL,
   vcov.args = NULL,
   string.pred = "Predictors",
   string.est = "Estimate",
@@ -112,7 +110,7 @@ credible interval is added to the table output.}
 
 \item{show.se}{Logical, if \code{TRUE}, the standard errors are
 also printed. If robust standard errors are required, use arguments
-\code{vcov.fun}, \code{vcov.type} and \code{vcov.args} (see
+\code{vcov.fun}, and \code{vcov.args} (see
 \code{\link[parameters]{standard_error}} for details).}
 
 \item{show.std}{Indicates whether standardized beta-coefficients should
@@ -233,17 +231,11 @@ or axis labels are displayed in one line and when a line break is inserted.}
 
 \item{seed}{Numeric, the number of the seed to replicate bootstrapped estimates. If \code{NULL}, uses random seed.}
 
-\item{robust}{Deprecated. Please use \code{vcov.fun} directly to specify
-the estimation of the variance-covariance matrix.}
-
 \item{vcov.fun}{Variance-covariance matrix used to compute uncertainty
 estimates (e.g., for robust standard errors). This argument accepts a
 covariance matrix, a function which returns a covariance matrix, or a
 string which identifies the function to be used to compute the covariance
 matrix. See \code{\link[parameters:model_parameters]{model_parameters()}}.}
-
-\item{vcov.type}{Deprecated. The \code{type}-argument is now included in
-\code{vcov.args}.}
 
 \item{vcov.args}{List of arguments to be passed to the function identified by
 the \code{vcov.fun} argument. This function is typically supplied by the
@@ -269,7 +261,7 @@ Default is based on the response scale, e.g. for logistic regression models,
 
 \item{string.std_ci}{Character vector, used for the column heading of confidence intervals of standardized coefficients. Default is \code{"standardized std. Error"}.}
 
-\item{string.p}{Character vector, used for the column heading of p values. Default is \code{"p"}.}
+\item{string.p}{String value, used for the column heading of p values. Default is \code{"p"}.}
 
 \item{string.std.p}{Character vector, used for the column heading of p values. Default is \code{"std. p"}.}
 
@@ -344,7 +336,7 @@ combined with "stars", e.g. \code{"numeric_stars"}}
 annotating p-values with asterisks. Only applies if
 \code{p.style = "asterisk"}.}
 
-\item{p.adjust}{Character vector, if not \code{NULL}, indicates the method
+\item{p.adjust}{String value, if not \code{NULL}, indicates the method
 to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
 
 \item{case}{Desired target case. Labels will automatically converted into the

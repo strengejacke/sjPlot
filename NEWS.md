@@ -1,3 +1,15 @@
+# sjPlot 2.9.0
+
+* Fix namespace clash with new ggplot2 version.
+
+* Fix confusing warning message.
+
+* Fix incorrect labeling of coefficients when `transform = NULL` with a probit
+  model.
+
+* Corrected documentation for `tab_model()` and `plot_model()` regarding the
+  `p.adjust` argument.
+
 # sjPlot 2.8.17
 
 ## Bug fixes

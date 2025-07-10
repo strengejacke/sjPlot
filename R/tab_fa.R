@@ -110,7 +110,7 @@ tab_fa <- function(data,
 
     if (is.null(nmbr.fctr)) {
       nr_factors <- psych::fa.parallel(data, fa = "fa", fm = method)$nfact
-      dev.off()
+      grDevices::dev.off()
       fadata <- psych::fa(data, nfactors = nr_factors, fm = method, rotate = rotation)
       if (sort == TRUE) {
         fadata <- psych::fa.sort(fadata) #resort loadings

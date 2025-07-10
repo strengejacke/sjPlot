@@ -33,9 +33,6 @@ This function has a pipe-friendly argument-structure, with the
 \details{
 Following \code{fun}-values are currently supported:
          \describe{
-            \item{\code{"aov1"}}{calls \code{\link{sjp.aov1}}. The first
-            two variables in \code{data} are used (and required) to create the plot.
-            }
             \item{\code{"grpfrq"}}{calls \code{\link{plot_grpfrq}}. The first
             two variables in \code{data} are used (and required) to create the plot.
             }
@@ -65,17 +62,17 @@ library(dplyr)
 data(efc)
 
 # Grouped frequencies
-efc \%>\% sjplot(e42dep, c172code, fun = "grpfrq")
+efc |> sjplot(e42dep, c172code, fun = "grpfrq")
 
 # Grouped frequencies, as box plots
-efc \%>\% sjplot(e17age, c172code, fun = "grpfrq",
+efc |> sjplot(e17age, c172code, fun = "grpfrq",
                type = "box", geom.colors = "Set1")
 
 \dontrun{
 # table output of grouped data frame
-efc \%>\%
-  group_by(e16sex, c172code) \%>\%
-  select(e42dep, n4pstu, e16sex, c172code) \%>\%
-  sjtab(fun = "xtab", use.viewer = FALSE) # open all tables in browser}
-
+efc |>
+  group_by(e16sex, c172code) |>
+  select(e42dep, n4pstu, e16sex, c172code) |>
+  sjtab(fun = "xtab", use.viewer = FALSE) # open all tables in browser
+}
 }

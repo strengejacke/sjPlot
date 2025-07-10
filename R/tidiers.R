@@ -56,9 +56,6 @@ tidy_model <- function(
     }
 
     if (!insight::is_empty_object(insight::compact_list(robust))) {
-      if (!is.null(robust$vcov.type)) {
-        robust$vcov.args[["type"]] <- robust$vcov.type
-      }
       model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, vcov = robust$vcov.fun, vcov_args = robust$vcov.args, ci_method = ci_method, p_adjust = p_adjust, effects = "fixed", keep = keep, drop = drop, verbose = FALSE)
     } else {
       model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, ci_method = ci_method, p_adjust = p_adjust, effects = "fixed", keep = keep, drop = drop, verbose = FALSE)
@@ -124,7 +121,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     modfam <- modfam[[1]]
 
   # additional arguments for 'effects()'-function?
-  add.args <- lapply(match.call(expand.dots = F)$`...`, function(x) x)
+  add.args <- lapply(match.call(expand.dots = FALSE)$`...`, function(x) x)
 
   # check whether we have "prob.inner" and "prob.outer" argument
   # and if so, use these for CI and Bayesian point estimate
@@ -154,11 +151,11 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
   # bind columns, so we have inner and outer hdi interval
 
-  dat <- d2 %>%
-    dplyr::select(.data$CI_low, .data$CI_high) %>%
-    sjmisc::var_rename(CI_low = "conf.low50", CI_high = "conf.high50") %>%
-    sjmisc::add_columns(d1) %>%
-    sjmisc::var_rename(CI_low = "conf.low", CI_high = "conf.high", Parameter = "term") %>%
+  dat <- d2 |>
+    dplyr::select(.data$CI_low, .data$CI_high) |>
+    sjmisc::var_rename(CI_low = "conf.low50", CI_high = "conf.high50") |>
+    sjmisc::add_columns(d1) |>
+    sjmisc::var_rename(CI_low = "conf.low", CI_high = "conf.high", Parameter = "term") |>
     dplyr::select(-.data$CI, -.data$Effects, -.data$Component)
 
   # for brmsfit models, we need to remove some columns here to
@@ -209,7 +206,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     estimate = est,
     p.value = 0,
     std.error = purrr::map_dbl(mod.dat, stats::mad)
-  ) %>%
+  ) |>
     dplyr::inner_join(
       dat,
       by = "term"
@@ -409,7 +406,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
 
   # do we have a zero-inflation model?
 
-  if (modfam$is_zero_inflated || sjmisc::str_contains(dat$term, "b_zi_", ignore.case = T)) {
+  if (modfam$is_zero_inflated || sjmisc::str_contains(dat$term, "b_zi_", ignore.case = TRUE)) {
     dat$wrap.facet <- "Conditional Model"
 
     # zero-inflated part
@@ -418,7 +415,7 @@ tidy_stan_model <- function(model, ci.lvl, tf, type, bpe, show.zeroinf, facets, 
     # check if zero-inflated part should be shown or removed
     if (show.zeroinf) {
       dat$wrap.facet[zi] <- "Zero-Inflated Model"
-      dat$term[zi] <- sub(pattern = "b_zi_", replacement = "b_", x = dat$term[zi], fixed = T)
+      dat$term[zi] <- sub(pattern = "b_zi_", replacement = "b_", x = dat$term[zi], fixed = TRUE)
     } else {
       if (!sjmisc::is_empty(zi)) dat <- dplyr::slice(dat, !! -zi)
     }

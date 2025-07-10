@@ -26,15 +26,13 @@
 #'         \cr \cr
 #'         For adjusting plot appearance, see also \code{\link{sjPlot-themes}}.
 #'
-#' @import ggplot2
-#' @importFrom grDevices png jpeg tiff dev.off cm svg
 #' @export
 save_plot <- function(filename,
-                      fig = last_plot(),
+                      fig = ggplot2::last_plot(),
                       width = 12,
                       height = 9,
                       dpi = 300,
-                      theme = theme_get(),
+                      theme = ggplot2::theme_get(),
                       label.color = "black",
                       label.size = 2.4,
                       axis.textsize = .8,
@@ -49,12 +47,12 @@ save_plot <- function(filename,
 
   # valid file ytpe?
   if (!ext %in% c("png", "jpg", "tif", "svg"))
-    stop("filetype must be one of `.png`, `.jpg`, '.svg' or `.tif`.", call. = F)
+    stop("filetype must be one of `.png`, `.jpg`, '.svg' or `.tif`.", call. = FALSE)
 
   # set printable theme, adjust font sizes.
   # this is the most critical point...
 
-  set_theme(
+  sjPlot::set_theme(
     base = theme,
     geom.label.color = label.color,
     axis.title.color = label.color,

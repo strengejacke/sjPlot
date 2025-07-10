@@ -34,9 +34,7 @@ plot_models(
   p.threshold = c(0.05, 0.01, 0.001),
   p.adjust = NULL,
   ci.lvl = 0.95,
-  robust = FALSE,
   vcov.fun = NULL,
-  vcov.type = c("HC3", "const", "HC", "HC0", "HC1", "HC2", "HC4", "HC4m", "HC5"),
   vcov.args = NULL,
   vline.color = NULL,
   digits = 2,
@@ -176,7 +174,7 @@ is \code{FALSE}.}
 annotating p-values with asterisks. Only applies if
 \code{p.style = "asterisk"}.}
 
-\item{p.adjust}{Character vector, if not \code{NULL}, indicates the method
+\item{p.adjust}{String value, if not \code{NULL}, indicates the method
 to adjust p-values. See \code{\link[stats]{p.adjust}} for details.}
 
 \item{ci.lvl}{Numeric, the level of the confidence intervals (error bars).
@@ -189,17 +187,11 @@ defaults to the 89\%-CI. \code{ci.lvl} affects only the outer interval in
 such cases. See \code{prob.inner} and \code{prob.outer} under the
 \code{...}-argument for more details.}
 
-\item{robust}{Deprecated. Please use \code{vcov.fun} directly to specify
-the estimation of the variance-covariance matrix.}
-
 \item{vcov.fun}{Variance-covariance matrix used to compute uncertainty
 estimates (e.g., for robust standard errors). This argument accepts a
 covariance matrix, a function which returns a covariance matrix, or a
 string which identifies the function to be used to compute the covariance
 matrix. See \code{\link[parameters:model_parameters]{model_parameters()}}.}
-
-\item{vcov.type}{Deprecated. The \code{type}-argument is now included in
-\code{vcov.args}.}
 
 \item{vcov.args}{List of arguments to be passed to the function identified by
 the \code{vcov.fun} argument. This function is typically supplied by the

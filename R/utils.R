@@ -8,8 +8,6 @@ data_frame <- function(...) {
 is.stan <- function(x) inherits(x, c("stanreg", "stanfit", "brmsfit"))
 
 
-#' @importFrom sjmisc is_empty
-#' @importFrom dplyr n_distinct
 stan.has.multiranef <- function(x) {
   if (obj_has_name(x, "facet")) {
     ri <- string_starts_with("(Intercept", x = x$facet)
@@ -21,13 +19,10 @@ stan.has.multiranef <- function(x) {
 }
 
 has_value_labels <- function(x) {
-  !(is.null(attr(x, "labels", exact = T)) && is.null(attr(x, "value.labels", exact = T)))
+  !(is.null(attr(x, "labels", exact = TRUE)) && is.null(attr(x, "value.labels", exact = TRUE)))
 }
 
 
-#' @importFrom grDevices axisTicks
-#' @importFrom dplyr if_else
-#' @importFrom sjmisc is_empty
 axis_limits_and_ticks <- function(axis.lim, min.val, max.val, grid.breaks, exponentiate, min.est, max.est) {
 
   # factor to multiply the axis limits. for exponentiated scales,
@@ -118,6 +113,7 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
 
     axis.title <- dplyr::case_when(
       !is.null(transform) && transform == "plogis" ~ "Probabilities",
+      is.null(transform) && fitfam$is_probit ~ "Z-Scores",
       is.null(transform) && fitfam$is_binomial ~ "Log-Odds",
       is.null(transform) && fitfam$is_ordinal ~ "Log-Odds",
       is.null(transform) && fitfam$is_multinomial ~ "Log-Odds",
@@ -127,6 +123,7 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
       fitfam$is_ordinal ~ "Odds Ratios",
       fitfam$is_multinomial ~ "Odds Ratios",
       fitfam$is_categorical ~ "Odds Ratios",
+      fitfam$is_probit ~ "Coefficients",
       fitfam$is_binomial && !fitfam$is_logit ~ "Risk Ratios",
       fitfam$is_binomial ~ "Odds Ratios",
       TRUE ~ "Estimates"
@@ -145,7 +142,6 @@ estimate_axis_title <- function(fit, axis.title, type, transform = NULL, multi.r
 }
 
 
-#' @importFrom dplyr case_when
 get_p_stars <- function(pval, thresholds = NULL) {
 
   if (is.null(thresholds)) thresholds <- c(.05, .01, .001)
@@ -171,7 +167,6 @@ is_brms_mixed <- function(fit) {
 
 
 # short checker so we know if we need more summary statistics like ICC
-#' @importFrom insight model_info is_multivariate
 is_mixed_model <- function(fit) {
   mi <- insight::model_info(fit)
   if (is.null(mi)) {
@@ -196,14 +191,19 @@ nulldef <- function(x, y, z = NULL) {
 
 
 geom_intercept_line <- function(yintercept, axis.scaling, vline.color) {
-  if (yintercept > axis.scaling$axis.lim[1] && yintercept < axis.scaling$axis.lim[2]) {
-    t <- theme_get()
-    if (is.null(t$panel.grid.major)) t$panel.grid.major <- t$panel.grid
+  if (
+    yintercept > axis.scaling$axis.lim[1] &&
+      yintercept < axis.scaling$axis.lim[2]
+  ) {
+    t <- ggplot2::theme_get()
+    if (is.null(t$panel.grid.major)) {
+      t$panel.grid.major <- t$panel.grid
+    }
     color <- nulldef(vline.color, t$panel.grid.major$colour, "grey90")
     minor_size <- nulldef(t$panel.grid.minor$size, .125)
     major_size <- nulldef(t$panel.grid.major$size, minor_size * 1.5)
     size <- major_size * 1.5
-    geom_hline(yintercept = yintercept, color = color, size = size)
+    ggplot2::geom_hline(yintercept = yintercept, color = color, size = size)
   } else {
     NULL
   }
@@ -211,13 +211,15 @@ geom_intercept_line <- function(yintercept, axis.scaling, vline.color) {
 
 # same as above, but no check if intercept is within boundaries or not
 geom_intercept_line2 <- function(yintercept, vline.color) {
-  t <- theme_get()
-  if (is.null(t$panel.grid.major)) t$panel.grid.major <- t$panel.grid
+  t <- ggplot2::theme_get()
+  if (is.null(t$panel.grid.major)) {
+    t$panel.grid.major <- t$panel.grid
+  }
   color <- nulldef(vline.color, t$panel.grid.major$colour, "grey90")
   minor_size <- nulldef(t$panel.grid.minor$size, .125)
   major_size <- nulldef(t$panel.grid.major$size, minor_size * 1.5)
   size <- major_size * 1.5
-  geom_hline(yintercept = yintercept, color = color, size = size)
+  ggplot2::geom_hline(yintercept = yintercept, color = color, size = size)
 }
 
 
@@ -246,8 +248,6 @@ list.depth <- function(this, thisdepth = 0) {
 }
 
 
-#' @importFrom purrr map flatten_chr
-#' @importFrom sjmisc is_empty trim
 parse_terms <- function(x) {
   if (sjmisc::is_empty(x)) return(x)
 
@@ -280,17 +280,16 @@ parse_terms <- function(x) {
   tmp <- gsub("(\\[*)(\\]*)", "", tmp)
 
   # see if we have multiple values, split at comma
-  tmp <- sjmisc::trim(strsplit(tmp, ",", fixed = T))
+  tmp <- sjmisc::trim(strsplit(tmp, ",", fixed = TRUE))
 
-  parsed.terms <- seq_len(length(tmp)) %>%
-    purrr::map(~ sprintf("%s%s", vars.names[.x], tmp[[.x]])) %>%
+  parsed.terms <- seq_len(length(tmp)) |>
+    purrr::map(~ sprintf("%s%s", vars.names[.x], tmp[[.x]])) |>
     purrr::flatten_chr()
 
   c(x[-vars.pos], parsed.terms)
 }
 
 
-#' @importFrom sjmisc trim
 clear_terms <- function(x) {
   # get positions of variable names and see if we have
   # a suffix for certain values
@@ -306,8 +305,6 @@ clear_terms <- function(x) {
 }
 
 
-#' @importFrom purrr map_lgl
-#' @importFrom sjmisc is_empty
 is_empty_list <- function(x) {
   all(purrr::map_lgl(x, sjmisc::is_empty))
 }
@@ -323,13 +320,11 @@ model_deviance <- function(x) {
 }
 
 
-#' @importFrom performance performance_aic
 model_aic <- function(x) {
   performance::performance_aic(x)
 }
 
 
-#' @importFrom performance performance_aicc
 model_aicc <- function(x) {
   tryCatch(
     {
@@ -340,7 +335,6 @@ model_aicc <- function(x) {
 }
 
 
-#' @importFrom stats logLik
 model_loglik <- function(x) {
   tryCatch(
     {
@@ -351,7 +345,6 @@ model_loglik <- function(x) {
 }
 
 
-#' @importFrom stats deviance
 m_deviance <- function(x) {
   if (is_merMod(x)) {
     if (!requireNamespace("lme4", quietly = TRUE)) {
@@ -367,14 +360,13 @@ m_deviance <- function(x) {
 }
 
 
-#' @importFrom purrr map as_vector
 tidy_label <- function(labs, sep = ".") {
   # create table, and check if any value label is duplicated
   duped.val <- names(which(table(labs) > 1))
 
   # find position of duplicated labels
-  dupes <- duped.val %>%
-    purrr::map(~which(labs == .x)) %>%
+  dupes <- duped.val |>
+    purrr::map(~which(labs == .x)) |>
     purrr::as_vector(.type = "double")
 
   # prefix labels with value

@@ -68,20 +68,20 @@ The simplest function call is just passing the model object as argument. By defa
 
 ```{r}
 plot_model(m1)
-``` 
+```
 
 The "neutral" line, i.e. the vertical intercept that indicates no effect (x-axis position 1 for most glm's and position 0 for most linear models), is drawn slightly thicker than the other grid lines. You can change the line color with the `vline.color`-argument.
 
 ```{r}
 plot_model(m1, vline.color = "red")
-``` 
+```
 
 ## Sorting estimates
 
 By default, the estimates are sorted in the same order as they were introduced into the model. Use `sort.est = TRUE` to sort estimates in descending order, from highest to lowest value.
 ```{r}
 plot_model(m1, sort.est = TRUE)
-``` 
+```
 
 Another way to sort estimates is to use the `order.terms`-argument. This is a numeric vector, indicating the order of estimates in the plot. In the summary, we see that "sex2" is the first term, followed by the three dependency-categories (position 2-4), the Barthel-Index (5) and two levels for intermediate and high level of education (6 and 7).
 
@@ -93,16 +93,16 @@ Now we want the educational levels (6 and 7) first, than gender (1), followed by
 
 ```{r}
 plot_model(m1, order.terms = c(6, 7, 1, 2, 3, 4, 5))
-``` 
+```
 
-## Estimates on the untransformed scale 
+## Estimates on the untransformed scale
 
 By default, `plot_model()` automatically exponentiates coefficients, if appropriate (e.g. for models with log or logit link). You can explicitley prevent transformation by setting the `transform`-argument to `NULL`, or apply any transformation by using a character vector with the function name.
 
 ```{r}
 plot_model(m1, transform = NULL)
 plot_model(m1, transform = "plogis")
-``` 
+```
 
 ## Showing value labels
 
@@ -110,7 +110,7 @@ By default, just the dots and error bars are plotted. Use `show.values = TRUE` t
 
 ```{r}
 plot_model(m1, show.values = TRUE, value.offset = .3)
-``` 
+```
 
 ## Labelling the plot
 
@@ -163,16 +163,16 @@ if (require("rstanarm", quietly = TRUE)) {
   # make sure we apply a nice theme
   library(ggplot2)
   theme_set(theme_sjplot())
-  
+
   data(mtcars)
   m <- stan_glm(mpg ~ wt + am + cyl + gear, data = mtcars, chains = 1)
-  
+
   # default model
   plot_model(m)
   # same model, with mean point estimate, dot-style for point estimate
   # and different inner/outer probabilities of the HDI
   plot_model(
-    m, 
+    m,
     bpe = "mean",
     bpe.style = "dot",
     prob.inner = .4,
@@ -193,8 +193,8 @@ There are several options to customize the plot appearance:
 
 ```{r}
 plot_model(
-  m1, 
-  colors = "Accent", 
+  m1,
+  colors = "Accent",
   show.values = TRUE,
   value.offset = .4,
   value.size = 4,

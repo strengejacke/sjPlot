@@ -57,7 +57,7 @@ get_sjplot_colorpalette <- function(pal, len) {
   col <- sjplot_colors[[pal]]
 
   if (len > length(col)) {
-    warning("More colors requested than length of color palette.", call. = F)
+    warning("More colors requested than length of color palette.", call. = FALSE)
     len <- length(col)
   }
 

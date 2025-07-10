@@ -82,20 +82,19 @@
 #' sjplot_pal(pal = "breakfast club")
 #' }
 #'
-#' @import ggplot2
 #' @rdname sjPlot-themes
 #' @export
 theme_sjplot <- function(base_size = 12, base_family = "") {
-  (theme_minimal(base_size = base_size, base_family = base_family) +
-     theme(
-       axis.line.x      = element_line(colour = "grey80"),
-       axis.line.y      = element_line(colour = "grey80"),
-       axis.text        = element_text(colour = "grey50"),
-       axis.title       = element_text(colour = "grey30"),
-       strip.background = element_rect(colour = "grey70", fill = "grey90"),
-       strip.text       = element_text(colour = "grey30"),
-       legend.title     = element_text(colour = "grey30"),
-       legend.text      = element_text(colour = "grey30")
+  (ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
+     ggplot2::theme(
+       axis.line.x      = ggplot2::element_line(colour = "grey80"),
+       axis.line.y      = ggplot2::element_line(colour = "grey80"),
+       axis.text        = ggplot2::element_text(colour = "grey50"),
+       axis.title       = ggplot2::element_text(colour = "grey30"),
+       strip.background = ggplot2::element_rect(colour = "grey70", fill = "grey90"),
+       strip.text       = ggplot2::element_text(colour = "grey30"),
+       legend.title     = ggplot2::element_text(colour = "grey30"),
+       legend.text      = ggplot2::element_text(colour = "grey30")
      ))
 }
 
@@ -103,16 +102,16 @@ theme_sjplot <- function(base_size = 12, base_family = "") {
 #' @rdname sjPlot-themes
 #' @export
 theme_sjplot2 <- function(base_size = 12, base_family = "") {
-  (theme_minimal(base_size = base_size, base_family = base_family) +
-     theme(
-       axis.line.x      = element_line(colour = "grey50"),
-       axis.line.y      = element_line(colour = "grey50"),
-       axis.text        = element_text(colour = "grey10"),
-       axis.title       = element_text(colour = "black"),
-       strip.background = element_rect(colour = "grey50", fill = "grey70"),
-       strip.text       = element_text(colour = "grey20"),
-       legend.title     = element_text(colour = "grey10"),
-       legend.text      = element_text(colour = "grey20")
+  (ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
+     ggplot2::theme(
+       axis.line.x      = ggplot2::element_line(colour = "grey50"),
+       axis.line.y      = ggplot2::element_line(colour = "grey50"),
+       axis.text        = ggplot2::element_text(colour = "grey10"),
+       axis.title       = ggplot2::element_text(colour = "black"),
+       strip.background = ggplot2::element_rect(colour = "grey50", fill = "grey70"),
+       strip.text       = ggplot2::element_text(colour = "grey20"),
+       legend.title     = ggplot2::element_text(colour = "grey10"),
+       legend.text      = ggplot2::element_text(colour = "grey20")
      ))
 }
 
@@ -120,14 +119,14 @@ theme_sjplot2 <- function(base_size = 12, base_family = "") {
 #' @rdname sjPlot-themes
 #' @export
 theme_blank <- function(base_size = 12, base_family = "") {
-  (theme_minimal(base_size = base_size, base_family = base_family) +
-     theme(
-       axis.line.x      = element_line(colour = "white"),
-       axis.line.y      = element_line(colour = "white"),
-       axis.text        = element_text(colour = "grey50"),
-       axis.title       = element_text(colour = "grey30"),
-       panel.grid.minor = element_line(colour = "white", linetype = 1),
-       panel.grid.major = element_line(colour = "white", linetype = 1)
+  (ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
+     ggplot2::theme(
+       axis.line.x      = ggplot2::element_line(colour = "white"),
+       axis.line.y      = ggplot2::element_line(colour = "white"),
+       axis.text        = ggplot2::element_text(colour = "grey50"),
+       axis.title       = ggplot2::element_text(colour = "grey30"),
+       panel.grid.minor = ggplot2::element_line(colour = "white", linetype = 1),
+       panel.grid.major = ggplot2::element_line(colour = "white", linetype = 1)
      ))
 }
 
@@ -135,63 +134,73 @@ theme_blank <- function(base_size = 12, base_family = "") {
 #' @rdname sjPlot-themes
 #' @export
 theme_538 <- function(base_size = 12, base_family = "") {
-  (theme_minimal(base_size = base_size, base_family = base_family) +
-     theme(
-       axis.line.x        = element_line(colour = "#F0F0F0"),
-       axis.line.y        = element_line(colour = "#F0F0F0"),
-       axis.text          = element_text(colour = "#737373"),
-       axis.title         = element_text(colour = "#525252"),
-       plot.background    = element_rect(colour = "#F0F0F0", fill = "#F0F0F0"),
-       panel.grid.minor.x = element_line(colour = "#F0F0F0", linetype = 1),
-       panel.grid.major   = element_line(colour = "#BDBDBD", linetype = 1),
-       panel.grid.major.y = element_line(colour = "#F0F0F0", linetype = 1),
-       panel.grid.minor.y = element_line(colour = "#F0F0F0", linetype = 1)
+  (ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
+     ggplot2::theme(
+       axis.line.x        = ggplot2::element_line(colour = "#F0F0F0"),
+       axis.line.y        = ggplot2::element_line(colour = "#F0F0F0"),
+       axis.text          = ggplot2::element_text(colour = "#737373"),
+       axis.title         = ggplot2::element_text(colour = "#525252"),
+       plot.background    = ggplot2::element_rect(colour = "#F0F0F0", fill = "#F0F0F0"),
+       panel.grid.minor.x = ggplot2::element_line(colour = "#F0F0F0", linetype = 1),
+       panel.grid.major   = ggplot2::element_line(colour = "#BDBDBD", linetype = 1),
+       panel.grid.major.y = ggplot2::element_line(colour = "#F0F0F0", linetype = 1),
+       panel.grid.minor.y = ggplot2::element_line(colour = "#F0F0F0", linetype = 1)
      ))
 }
 
 
 #' @rdname sjPlot-themes
 #' @export
-font_size <- function(title, axis_title.x, axis_title.y, labels.x, labels.y, offset.x, offset.y, base.theme) {
+font_size <- function(
+  title,
+  axis_title.x,
+  axis_title.y,
+  labels.x,
+  labels.y,
+  offset.x,
+  offset.y,
+  base.theme
+) {
   # get current theme
-  if (!missing(base.theme))
+  if (!missing(base.theme)) {
     cur.theme <- base.theme
-  else
-    cur.theme <- theme_get()
+  } else {
+    cur.theme <- ggplot2::theme_get()
+  }
 
   if (!missing(title)) {
     cur.theme <- cur.theme +
-      theme(title = element_text(size = title))
+      ggplot2::theme(title = ggplot2::element_text(size = title))
   }
 
   if (!missing(axis_title.x)) {
     cur.theme <- cur.theme +
-      theme(axis.title.x = element_text(size = axis_title.x))
+      ggplot2::theme(axis.title.x = ggplot2::element_text(size = axis_title.x))
   }
 
   if (!missing(axis_title.y)) {
     cur.theme <- cur.theme +
-      theme(axis.title.y = element_text(size = axis_title.y))
+      ggplot2::theme(axis.title.y = ggplot2::element_text(size = axis_title.y))
   }
 
   if (!missing(labels.x)) {
     cur.theme <- cur.theme +
-      theme(axis.text.x =  element_text(size = labels.x))
+      ggplot2::theme(axis.text.x = ggplot2::element_text(size = labels.x))
   }
 
   if (!missing(labels.y)) {
     cur.theme <- cur.theme +
-      theme(axis.text.y =  element_text(size = labels.y))
+      ggplot2::theme(axis.text.y = ggplot2::element_text(size = labels.y))
   }
 
   if (!missing(offset.x)) {
     cur.theme <- cur.theme +
-      theme(axis.title.x = element_text(vjust = offset.x))
+      ggplot2::theme(axis.title.x = ggplot2::element_text(vjust = offset.x))
   }
 
   if (!missing(offset.y)) {
     cur.theme <- cur.theme +
-      theme(axis.title.y = element_text(vjust = offset.y))
+      ggplot2::theme(axis.title.y = ggplot2::element_text(vjust = offset.y))
   }
 
   cur.theme
@@ -202,19 +211,20 @@ font_size <- function(title, axis_title.x, axis_title.y, labels.x, labels.y, off
 #' @export
 label_angle <- function(angle.x, angle.y, base.theme) {
   # get current theme
-  if (!missing(base.theme))
+  if (!missing(base.theme)) {
     cur.theme <- base.theme
-  else
-    cur.theme <- theme_get()
+  } else {
+    cur.theme <- ggplot2::theme_get()
+  }
 
   if (!missing(angle.x)) {
     cur.theme <- cur.theme +
-      theme(axis.text.x = element_text(angle = angle.x))
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = angle.x))
   }
 
   if (!missing(angle.y)) {
     cur.theme <- cur.theme +
-      theme(axis.text.y = element_text(angle = angle.y))
+      ggplot2::theme(axis.text.y = ggplot2::element_text(angle = angle.y))
   }
 
   cur.theme
@@ -222,14 +232,14 @@ label_angle <- function(angle.x, angle.y, base.theme) {
 
 
 #' @rdname sjPlot-themes
-#' @importFrom dplyr case_when
 #' @export
 legend_style <- function(inside, pos, justify, base.theme) {
   # get current theme
-  if (!missing(base.theme))
+  if (!missing(base.theme)) {
     cur.theme <- base.theme
-  else
-    cur.theme <- theme_get()
+  } else {
+    cur.theme <- ggplot2::theme_get()
+  }
 
   # convert legend position from character to numeric index
   if (!missing(inside) && inside) {
@@ -247,11 +257,13 @@ legend_style <- function(inside, pos, justify, base.theme) {
   }
 
   # set default justification
-  if (missing(justify)) justify <- "center"
+  if (missing(justify)) {
+    justify <- "center"
+  }
 
   if (!missing(pos)) {
     cur.theme <- cur.theme +
-      theme(
+      ggplot2::theme(
         legend.position = pos,
         legend.justification = justify
       )
@@ -289,9 +301,9 @@ scale_color_sjplot <- function(palette = "metro", discrete = TRUE, reverse = FAL
   pal <- get_sjplot_pal(palette = palette, reverse = reverse)
 
   if (discrete) {
-    discrete_scale("colour", paste0("sjplot_pal_", palette), palette = pal, ...)
+    ggplot2::discrete_scale("colour", paste0("sjplot_pal_", palette), palette = pal, ...)
   } else {
-    scale_color_gradientn(colours = pal(256), ...)
+    ggplot2::scale_color_gradientn(colours = pal(256), ...)
   }
 }
 
@@ -302,14 +314,13 @@ scale_fill_sjplot <- function(palette = "metro", discrete = TRUE, reverse = FALS
   pal <- get_sjplot_pal(palette = palette, reverse = reverse)
 
   if (discrete) {
-    discrete_scale("fill", paste0("sjplot_pal_", palette), palette = pal, ...)
+    ggplot2::discrete_scale("fill", paste0("sjplot_pal_", palette), palette = pal, ...)
   } else {
-    scale_fill_gradientn(colours = pal(256), ...)
+    ggplot2::scale_fill_gradientn(colours = pal(256), ...)
   }
 }
 
 
-#' @importFrom stats quantile
 #' @rdname sjPlot-themes
 #' @export
 sjplot_pal <- function(palette = "metro", n = NULL) {
@@ -333,9 +344,6 @@ sjplot_pal <- function(palette = "metro", n = NULL) {
 
 
 #' @rdname sjPlot-themes
-#' @importFrom purrr map_df
-#' @importFrom tidyr gather
-#' @importFrom dplyr arrange mutate
 #' @importFrom rlang .data
 #' @export
 show_sjplot_pals <- function() {
@@ -349,10 +357,10 @@ show_sjplot_pals <- function() {
   })
 
   x <- suppressWarnings(
-    sjpc %>%
-      as.data.frame() %>%
-      purrr::map_df(~ .x[length(.x):1]) %>%
-      tidyr::gather() %>%
+    sjpc |>
+      as.data.frame() |>
+      purrr::map_df(~ .x[length(.x):1]) |>
+      tidyr::gather() |>
       dplyr::arrange(.data$key)
   )
 
@@ -365,19 +373,18 @@ show_sjplot_pals <- function() {
   x$group[.is_cont_scale(x$key)] <- "Continuous Palettes"
   x$group[x$key %in% c("breakfast.club", "flat", "metro", "quadro", "set1", "simply", "social")] <- "Red-Blue-Green Palettes"
 
-  ggplot(x, aes_string(x = "key", fill = "cols")) +
-    geom_bar(width = .7) +
-    scale_fill_manual(values = x$value) +
-    scale_y_continuous(breaks = NULL, labels = NULL) +
-    guides(fill = "none") +
-    coord_flip() +
-    theme_minimal() +
-    labs(x = NULL, y = NULL) +
-    facet_wrap(~group, ncol = 1, scales = "free")
+  ggplot2::ggplot(x, ggplot2::aes(x = .data$key, fill = .data$cols)) +
+    ggplot2::geom_bar(width = .7) +
+    ggplot2::scale_fill_manual(values = x$value) +
+    ggplot2::scale_y_continuous(breaks = NULL, labels = NULL) +
+    ggplot2::guides(fill = "none") +
+    ggplot2::coord_flip() +
+    ggplot2::theme_minimal() +
+    ggplot2::labs(x = NULL, y = NULL) +
+    ggplot2::facet_wrap(~group, ncol = 1, scales = "free")
 }
 
 
-#' @importFrom grDevices colorRampPalette
 get_sjplot_pal <- function(palette = "metro", reverse = FALSE, ...) {
   pal <- sjplot_colors[[palette]]
   if (reverse) pal <- rev(pal)

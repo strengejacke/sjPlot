@@ -101,7 +101,7 @@ the plot function and type), used as title(s) for the x and y axis.
 If not specified, a default labelling  is chosen.
 \strong{Note:} Some plot types do not support this argument. In such
 cases, use the return value and add axis titles manually with
-\code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + labs(x = ...)}}
+\code{\link[ggplot2]{labs}}, e.g.: \code{$plot.list[[1]] + ggplot2::labs(x = ...)}}
 
 \item{axis.labels}{character vector with labels used as axis labels. Optional
 argument, since in most cases, axis labels are set automatically.}
@@ -234,8 +234,8 @@ plot_frq(efc$e17age, type = "box")
 
 if (require("dplyr")) {
   # histogram, pipe-workflow
-  efc \%>\%
-    dplyr::select(e17age, c160age) \%>\%
+  efc |>
+    dplyr::select(e17age, c160age) |>
     plot_frq(type = "hist", show.mean = TRUE)
 
   # bar plot(s)
@@ -244,9 +244,9 @@ if (require("dplyr")) {
 
 if (require("dplyr") && require("gridExtra")) {
   # grouped data frame, all panels in one plot
-  efc \%>\%
-    group_by(e42dep) \%>\%
-    plot_frq(c161sex) \%>\%
+  efc |>
+    group_by(e42dep) |>
+    plot_frq(c161sex) |>
     plot_grid()
 }
 
