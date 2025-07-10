@@ -722,12 +722,12 @@ of supported arguments and their description in detail.</p><dl><dt><code>prob.in
 <p>Default standardization is done by completely refitting the model on the
   standardized data. Hence, this approach is equal to standardizing the
   variables before fitting the model, which is particularly recommended for
-  complex models that include interactions or transformations (e.g., polynomial
-  or spline terms). When <code>type = "std2"</code>, standardization of estimates
-  follows <a href="http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf" class="external-link">Gelman's (2008)</a>
-  suggestion, rescaling the estimates by dividing them by two standard deviations
-  instead of just one. Resulting coefficients are then directly comparable for
-  untransformed binary predictors.</p>
+  complex models that include interactions or transformations (e.g.,
+  polynomial or spline terms). When <code>type = "std2"</code>, standardization of
+  estimates follows Gelman's (2008) suggestion, rescaling the estimates by
+  dividing them by two standard deviations instead of just one. Resulting
+  coefficients are then directly comparable for untransformed binary
+  predictors.</p>
 </div>
 
     </div>
@@ -735,7 +735,6 @@ of supported arguments and their description in detail.</p><dl><dt><code>prob.in
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Gelman A (2008) "Scaling regression inputs by dividing by two
   standard deviations." <em>Statistics in Medicine 27: 2865-2873.</em>
-  <a href="http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf" class="external-link">http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf</a>
   <br><br>
   Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.</p>
     </div>
