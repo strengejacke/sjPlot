@@ -196,16 +196,15 @@
 #'   Default standardization is done by completely refitting the model on the
 #'   standardized data. Hence, this approach is equal to standardizing the
 #'   variables before fitting the model, which is particularly recommended for
-#'   complex models that include interactions or transformations (e.g., polynomial
-#'   or spline terms). When \code{show.std = "std2"}, standardization of estimates
-#'   follows \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
-#'   suggestion, rescaling the estimates by dividing them by two standard deviations
-#'   instead of just one. Resulting coefficients are then directly comparable for
-#'   untransformed binary predictors. For backward compatibility reasons,
-#'   \code{show.std} also may be a logical value; if \code{TRUE}, normal standardized
-#'   estimates are printed (same effect as \code{show.std = "std"}). Use
-#'   \code{show.std = NULL} (default) or \code{show.std = FALSE}, if no standardization
-#'   is required.
+#'   complex models that include interactions or transformations (e.g.,
+#'   polynomial or spline terms). When \code{show.std = "std2"}, standardization
+#'   of estimates follows Gelman's (2008) suggestion, rescaling the estimates by
+#'   dividing them by two standard deviations instead of just one. Resulting
+#'   coefficients are then directly comparable for untransformed binary
+#'   predictors. For backward compatibility reasons, \code{show.std} also may be
+#'   a logical value; if \code{TRUE}, normal standardized estimates are printed
+#'   (same effect as \code{show.std = "std"}). Use \code{show.std = NULL}
+#'   (default) or \code{show.std = FALSE}, if no standardization is required.
 #' }
 #' \subsection{How do I use \code{CSS}-argument?}{
 #'    With the \code{CSS}-argument, the visual appearance of the tables

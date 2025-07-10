@@ -520,12 +520,12 @@ Depending on the plot-type, \code{plot_model()} returns a
   Default standardization is done by completely refitting the model on the
   standardized data. Hence, this approach is equal to standardizing the
   variables before fitting the model, which is particularly recommended for
-  complex models that include interactions or transformations (e.g., polynomial
-  or spline terms). When \code{type = "std2"}, standardization of estimates
-  follows \href{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}{Gelman's (2008)}
-  suggestion, rescaling the estimates by dividing them by two standard deviations
-  instead of just one. Resulting coefficients are then directly comparable for
-  untransformed binary predictors.
+  complex models that include interactions or transformations (e.g.,
+  polynomial or spline terms). When \code{type = "std2"}, standardization of
+  estimates follows Gelman's (2008) suggestion, rescaling the estimates by
+  dividing them by two standard deviations instead of just one. Resulting
+  coefficients are then directly comparable for untransformed binary
+  predictors.
 }
 }
 \examples{
@@ -591,7 +591,6 @@ if (require("rstanarm")) {
 \references{
 Gelman A (2008) "Scaling regression inputs by dividing by two
   standard deviations." \emph{Statistics in Medicine 27: 2865-2873.}
-  \url{http://www.stat.columbia.edu/~gelman/research/published/standardizing7.pdf}
   \cr \cr
   Aiken and West (1991). Multiple Regression: Testing and Interpreting Interactions.
 }
