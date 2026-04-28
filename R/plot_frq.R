@@ -794,7 +794,7 @@ plot_frq_helper <- function(
             sd = stats::sd(hist.dat$xv)
           ),
           colour = normal.curve.color,
-          size = normal.curve.size,
+          linewidth = normal.curve.size,
           alpha = normal.curve.alpha
         )
     }
@@ -838,7 +838,7 @@ plot_frq_helper <- function(
             )
           ),
           colour = normal.curve.color,
-          size = normal.curve.size,
+          linewidth = normal.curve.size,
           alpha = normal.curve.alpha
         )
     }
@@ -849,7 +849,7 @@ plot_frq_helper <- function(
         ggplot2::geom_vline(
           xintercept = mittelwert,
           linetype = mean.line.type,
-          size = mean.line.size
+          linewidth = mean.line.size
         )
       # check whether meanvalue should be shown.
       if (show.mean.val) {
@@ -887,13 +887,13 @@ plot_frq_helper <- function(
           ggplot2::geom_vline(
             xintercept = mittelwert - stddev,
             linetype = 3,
-            size = mean.line.size,
+            linewidth = mean.line.size,
             alpha = 0.7
           ) +
           ggplot2::geom_vline(
             xintercept = mittelwert + stddev,
             linetype = 3,
-            size = mean.line.size,
+            linewidth = mean.line.size,
             alpha = 0.7
           )
       }

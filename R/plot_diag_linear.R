@@ -47,7 +47,7 @@ diag_ncv <- function(model, dot.size, line.size) {
   ggplot2::ggplot(dat, ggplot2::aes(x = .data$fitted, y = .data$res)) +
     geom_intercept_line2(0, NULL) +
     ggplot2::geom_point(size = dot.size) +
-    ggplot2::geom_smooth(method = "loess", se = FALSE, size = line.size) +
+    ggplot2::geom_smooth(method = "loess", se = FALSE, linewidth = line.size) +
     ggplot2::labs(
       x = "Fitted values",
       y = "Residuals",
@@ -70,7 +70,7 @@ diag_norm <- function(model, geom.colors) {
         sd = stats::sd(unname(stats::residuals(model)), na.rm = TRUE)
       ),
       colour = geom.colors[2],
-      size = 0.8
+      linewidth = 0.8
     ) +
     ggplot2::labs(
       x = "Residuals",
@@ -108,7 +108,7 @@ diag_qq <- function(model, geom.colors, dot.size, line.size, ...) {
   ggplot2::ggplot(mydf, ggplot2::aes(x = .data$x, y = .data$y)) +
     ggplot2::geom_point(size = dot.size) +
     ggplot2::scale_colour_manual(values = geom.colors) +
-    ggplot2::stat_smooth(method = "lm", se = FALSE, size = line.size) +
+    ggplot2::stat_smooth(method = "lm", se = FALSE, linewidth = line.size) +
     ggplot2::labs(
       title = "Non-normality of residuals and outliers",
       subtitle = "Dots should be plotted along the line",
