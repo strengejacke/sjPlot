@@ -37,7 +37,7 @@ plot_type_ranef <- function(model,
     if (!requireNamespace("glmmTMB", quietly = TRUE)) {
       stop("Package 'glmmTMB' required for this function to work, please install it.")
     }
-    rand.ef <- glmmTMB::ranef(model)[[1]]
+    rand.ef <- glmmTMB::ranef(model, condVar = TRUE)$cond
   } else {
     rand.ef <- lme4::ranef(model)
     if (inherits(model, "MixMod")) {
@@ -52,20 +52,17 @@ plot_type_ranef <- function(model,
   if (inherits(model, "clmm"))
     rand.se <- NULL
   else if (inherits(model, "glmmTMB")) {
-    if (requireNamespace("TMB", quietly = TRUE)) {
-      s1 <- TMB::sdreport(model$obj, getJointPrecision = TRUE)
-      s2 <- sqrt(s1$diag.cov.random)
-      rand.se <- purrr::map(rand.ef, function(.x) {
-        cnt <- nrow(.x) * ncol(.x)
-        s3 <- s2[1:cnt]
-        s2 <- s2[-(1:cnt)]
-        as.data.frame(matrix(sqrt(s3), ncol = ncol(.x), byrow = TRUE))
-      })
-    } else {
-      se <- FALSE
-      ci.lvl <- NA
-      rand.se <- NULL
-    }
+    rand.se <- purrr::map(rand.ef, function(effects) {
+      variances <- attr(effects, "condVar")
+      if (!is.list(variances)) {
+        variances <- list(variances)
+      }
+      # A grouping factor can contain several random-effect terms.
+      sd <- unlist(lapply(variances, function(block) {
+        lapply(seq_len(dim(block)[1L]), function(i) sqrt(block[i, i, ]))
+      }))
+      as.data.frame(matrix(sd, nrow = nrow(effects), ncol = ncol(effects)))
+    })
   } else
     rand.se <- se_ranef(model)
 

@@ -1,5 +1,7 @@
 # sjPlot 2.9.0
 
+* Fixed random-effect intervals in `plot_model()` for `glmmTMB` models with one or more grouping factors (#978).
+
 * Fix namespace clash with new ggplot2 version.
 
 * Fix confusing warning message.
