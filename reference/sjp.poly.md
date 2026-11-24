@@ -208,7 +208,7 @@ plot_model(fit, type = "slope")
 #> `geom_smooth()` using formula = 'y ~ x'
 #> Warning: pseudoinverse used at 4.015
 #> Warning: neighborhood radius 2.015
-#> Warning: reciprocal condition number  1.5462e-16
+#> Warning: reciprocal condition number  6.6914e-17
 #> Warning: There are other near singularities as well. 1
 
 # "e17age" does not seem to be linear correlated to response

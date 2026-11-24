@@ -4,6 +4,11 @@
 
 CRAN release: 2025-07-10
 
+- Fixed random-effect intervals in
+  [`plot_model()`](https://strengejacke.github.io/sjPlot/reference/plot_model.md)
+  for `glmmTMB` models with one or more grouping factors
+  ([\#978](https://github.com/strengejacke/sjPlot/issues/978)).
+
 - Fixed corrupted labels in the inline HTML output of
   [`view_df()`](https://strengejacke.github.io/sjPlot/reference/view_df.md)
   ([\#953](https://github.com/strengejacke/sjPlot/issues/953)).
