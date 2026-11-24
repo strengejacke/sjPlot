@@ -1,5 +1,7 @@
 # sjPlot 2.9.0
 
+* Fixed random-effect intervals in `plot_model()` for `glmmTMB` models with one or more grouping factors (#978).
+
 * Fixed corrupted labels in the inline HTML output of `view_df()` (#953).
 
 * Fix namespace clash with new ggplot2 version.
