@@ -460,18 +460,18 @@ view_df <- function(x,
   page.content <- paste(page.content, "</table>", sep = "\n")
   toWrite <- paste0(toWrite, sprintf("%s\n</body></html>", page.content))
 
-  # replace class attributes with inline style,
-  # useful for knitr
+  # Apply inline styles to the generated opening tags.
+  inline_tags <- c(
+    "<table>" = sprintf('<table style="%s">', css.table),
+    '<th class="thead"' = sprintf('<th style="%s"', css.thead),
+    '<td class="tdata"' = sprintf('<td style="%s"', css.tdata),
+    '<td class="tdata arc"' = sprintf('<td style="%s %s"', css.tdata, css.arc),
+    '<span class="omit"' = sprintf('<span style="%s"', css.omit)
+  )
   knitr <- page.content
-
-  # set style attributes for main table tags
-  knitr <- gsub("class=", "style=", knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub("<table", sprintf("<table style=\"%s\"", css.table), knitr, fixed = TRUE, useBytes = TRUE)
-
-  # replace class-attributes with inline-style-definitions
-  knitr <- gsub(tag.tdata, css.tdata, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.thead, css.thead, knitr, fixed = TRUE, useBytes = TRUE)
-  knitr <- gsub(tag.arc, css.arc, knitr, fixed = TRUE, useBytes = TRUE)
+  for (tag in names(inline_tags)) {
+    knitr <- gsub(tag, inline_tags[[tag]], knitr, fixed = TRUE, useBytes = TRUE)
+  }
 
   # remove spaces?
   if (remove.spaces) {
