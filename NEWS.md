@@ -1,5 +1,7 @@
 # sjPlot 2.9.0
 
+* Fixed corrupted labels in the inline HTML output of `view_df()` (#953).
+
 * Fix namespace clash with new ggplot2 version.
 
 * Fix confusing warning message.
