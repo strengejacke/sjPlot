@@ -1,0 +1,79 @@
+# Black & White Figures for Print Journals
+
+This document shows examples how to create b/w figures, e.g. if you
+don’t want colored figures for print-journals.
+
+## Barplots in grey-scaled colors
+
+There are two ways to create plots in black and white or greyscale. For
+bar plots, `geom.colors = "gs"` creates a plot using a greyscale (based
+on
+[`scales::grey_pal()`](https://scales.r-lib.org/reference/pal_grey.html)).
+
+``` r
+
+library(sjPlot)
+library(sjmisc)
+library(sjlabelled)
+library(ggplot2)
+theme_set(theme_bw())
+data(efc)
+plot_grpfrq(efc$e42dep, efc$c172code, geom.colors = "gs")
+```
+
+![](blackwhitefigures_files/figure-html/unnamed-chunk-2-1.png)
+
+## Lineplots in b/w with different linetypes
+
+Similar to barplots, lineplots - mostly from
+[`plot_model()`](https://strengejacke.github.io/sjPlot/reference/plot_model.md) -
+can be plotted in greyscale as well (with `colors = "gs"`). However, in
+most cases lines colored in greyscale are difficult to distinguish. In
+this case,
+[`plot_model()`](https://strengejacke.github.io/sjPlot/reference/plot_model.md)
+supports black & white figures with different linetypes. Use
+`colors = "bw"` to create a b/w-plot.
+
+``` r
+
+# create binrary response
+y <- ifelse(efc$neg_c_7 < median(na.omit(efc$neg_c_7)), 0, 1)
+
+# create data frame for fitting model
+df <- data.frame(
+  y = to_factor(y),
+  sex = to_factor(efc$c161sex),
+  dep = to_factor(efc$e42dep),
+  barthel = efc$barthtot,
+  education = to_factor(efc$c172code)
+)
+
+# set variable label for response
+set_label(df$y) <- "High Negative Impact"
+
+# fit model
+fit <- glm(y ~., data = df, family = binomial(link = "logit"))
+
+# plot marginal effects
+plot_model(
+  fit,
+  type = "pred",
+  terms = c("barthel", "sex","dep"),
+  colors = "bw",
+  ci.lvl = NA
+)
+```
+
+![](blackwhitefigures_files/figure-html/unnamed-chunk-3-1.png)
+
+Different linetypes do not apply to all linetyped plots, if these
+usually only plot a single line - so there’s no need for different
+linetypes, and you can just set `colors = "black"` (or `colors = "bw"`).
+
+``` r
+
+# plot coefficients
+plot_model(fit, colors = "black")
+```
+
+![](blackwhitefigures_files/figure-html/unnamed-chunk-4-1.png)

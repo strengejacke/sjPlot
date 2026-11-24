@@ -1,0 +1,108 @@
+# Summary of Mixed Models as HTML Table
+
+This vignette shows examples for using
+[`tab_model()`](https://strengejacke.github.io/sjPlot/reference/tab_model.md)
+to create HTML tables for mixed models. Basically,
+[`tab_model()`](https://strengejacke.github.io/sjPlot/reference/tab_model.md)
+behaves in a very similar way for mixed models as for other, simple
+regression models, as shown [in this
+vignette](https://strengejacke.github.io/sjPlot/articles/tab_model_estimates.md).
+
+``` r
+
+# load required packages
+library(sjPlot)
+library(lme4)
+data("sleepstudy")
+data("efc")
+efc$cluster <- as.factor(efc$e15relat)
+```
+
+## Mixed models summaries as HTML table
+
+Unlike tables for [non-mixed
+models](https://strengejacke.github.io/sjPlot/articles/tab_model_estimates.md),
+`tab_models()` adds additional information on the random effects to the
+table output for mixed models. You can hide these information with
+`show.icc = FALSE` and `show.re.var = FALSE`. Furthermore, the R-squared
+values are marginal and conditional R-squared statistics, based on
+*Nakagawa et al. 2017*.
+
+``` r
+
+m1 <- lmer(neg_c_7 ~ c160age + c161sex + e42dep + (1 | cluster), data = efc)
+m2 <- lmer(Reaction ~ Days + (1 + Days | Subject), data = sleepstudy)
+
+tab_model(m1, m2)
+```
+
+[TABLE]
+
+The marginal R-squared considers only the variance of the fixed effects,
+while the conditional R-squared takes both the fixed and random effects
+into account.
+
+The p-value is a simple approximation, based on the t-statistics and
+using the normal distribution function. A more precise p-value can be
+computed using `p.val = "kr"`. In this case, which only applies to
+linear mixed models, the computation of p-values is based on conditional
+F-tests with Kenward-Roger approximation for the degrees of freedom
+(using the using the **pbkrtest**-package). Note that here the
+computation is more time consuming and thus not used as default. You can
+also display the approximated degrees of freedom with `show.df`.
+
+``` r
+
+tab_model(m1, p.val = "kr", show.df = TRUE)
+```
+
+[TABLE]
+
+## Generalized linear mixed models
+
+[`tab_model()`](https://strengejacke.github.io/sjPlot/reference/tab_model.md)
+can also print and combine models with different link-functions.
+
+``` r
+
+data("efc")
+efc$neg_c_7d <- ifelse(efc$neg_c_7 < median(efc$neg_c_7, na.rm = TRUE), 0, 1)
+efc$cluster <- as.factor(efc$e15relat)
+m3 <- glmer(
+  neg_c_7d ~ c160age + c161sex + e42dep + (1 | cluster),
+  data = efc, 
+  family = binomial(link = "logit")
+)
+
+tab_model(m1, m3)
+```
+
+[TABLE]
+
+## More complex models
+
+Finally, an example from the **glmmTMB**-package to show how easy it is
+to print zero-inflated generalized linear mixed models as HTML table.
+
+``` r
+
+library(glmmTMB)
+data("Salamanders")
+m4 <- glmmTMB(
+  count ~ spp + mined + (1 | site),
+  ziformula = ~ spp + mined, 
+  family = truncated_poisson(link = "log"), 
+  data = Salamanders
+)
+
+tab_model(m1, m3, m4, show.ci = FALSE)
+```
+
+[TABLE]
+
+## References
+
+Nakagawa S, Johnson P, Schielzeth H (2017) *The coefficient of
+determination R2 and intra-class correlation coefficient from
+generalized linear mixed-effects models revisted and expanded.* J. R.
+Soc. Interface 14. doi: 10.1098/rsif.2017.0213
