@@ -321,7 +321,7 @@ plot_models <- function(
       ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
       position = ggplot2::position_dodge(spacing),
       width = 0,
-      size = line.size
+      linewidth = line.size
     ) +
     ggplot2::coord_flip() +
     ggplot2::guides(colour = ggplot2::guide_legend(reverse = TRUE))

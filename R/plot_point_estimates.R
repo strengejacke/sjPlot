@@ -129,7 +129,7 @@ plot_point_estimates <- function(
       p <- p +
         ggplot2::geom_errorbar(
           ggplot2::aes(ymin = .data$conf.low, ymax = .data$conf.high),
-          size = line.size,
+          linewidth = line.size,
           width = width
         )
     } else {
@@ -174,7 +174,7 @@ plot_point_estimates <- function(
               y = .data$estimate,
               yend = .data$estimate
             ),
-            size = geom.size * .9
+            linewidth = geom.size * .9
           )
       } else {
         p <- p +
@@ -186,7 +186,7 @@ plot_point_estimates <- function(
               yend = .data$estimate
             ),
             colour = bpe.color,
-            size = geom.size * .9
+            linewidth = geom.size * .9
           )
       }
     } else if (is.null(bpe.color)) {

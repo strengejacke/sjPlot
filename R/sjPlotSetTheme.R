@@ -422,7 +422,7 @@ set_theme <- function(base = ggplot2::theme_grey(),
         ggplot2::theme(
           axis.line = ggplot2::element_line(
             colour = axis.linecolor,
-            size = axis.line.size
+            linewidth = axis.line.size
           ),
           axis.line.x = ggplot2::element_line(colour = axis.linecolor.x),
           axis.line.y = ggplot2::element_line(colour = axis.linecolor.y)
@@ -449,11 +449,11 @@ set_theme <- function(base = ggplot2::theme_grey(),
     }
     if (!is.null(axis.ticksize.x)) {
       sjtheme <- sjtheme +
-        ggplot2::theme(axis.ticks.x = ggplot2::element_line(size = axis.ticksize.x))
+        ggplot2::theme(axis.ticks.x = ggplot2::element_line(linewidth = axis.ticksize.x))
     }
     if (!is.null(axis.ticksize.y)) {
       sjtheme <- sjtheme +
-        ggplot2::theme(axis.ticks.y = ggplot2::element_line(size = axis.ticksize.y))
+        ggplot2::theme(axis.ticks.y = ggplot2::element_line(linewidth = axis.ticksize.y))
     }
     # ----------------------------------------
     # set plot colors, if defined
@@ -640,7 +640,7 @@ sj.theme_geoms <- function(
   ggplot2::update_geom_defaults(
     'boxplot',
     list(
-      size = geom.boxoutline.size,
+      linewidth = geom.boxoutline.size,
       colour = geom.boxoutline.color,
       alpha = geom.alpha
     )
@@ -652,7 +652,7 @@ sj.theme_geoms <- function(
   ggplot2::update_geom_defaults('line', list(linetype = geom.linetype))
   updateGeoms(
     c('errorbar', 'errorbarh'),
-    list(size = geom.errorbar.size, linetype = geom.errorbar.linetype)
+    list(linewidth = geom.errorbar.size, linetype = geom.errorbar.linetype)
   )
 }
 
