@@ -28,8 +28,10 @@ tidy_model <- function(
       component <- "conditional"
     }
 
+    has_robust <- !insight::is_empty_object(insight::compact_list(robust))
+
     if (is.null(p.val)) {
-      if (inherits(model, c("glm", "polr")) && !inherits(model, "svyglm")) {
+      if (!has_robust && inherits(model, c("glm", "polr")) && !inherits(model, "svyglm")) {
         p.val <- "profile"
       } else {
         p.val <- "wald"
@@ -55,7 +57,7 @@ tidy_model <- function(
       ci_method <- "eti"
     }
 
-    if (!insight::is_empty_object(insight::compact_list(robust))) {
+    if (has_robust) {
       model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, vcov = robust$vcov.fun, vcov_args = robust$vcov.args, ci_method = ci_method, p_adjust = p_adjust, effects = "fixed", keep = keep, drop = drop, verbose = FALSE)
     } else {
       model_params <- parameters::model_parameters(model, ci = ci.lvl, component = component, bootstrap = bootstrap, iterations = iterations, ci_method = ci_method, p_adjust = p_adjust, effects = "fixed", keep = keep, drop = drop, verbose = FALSE)
